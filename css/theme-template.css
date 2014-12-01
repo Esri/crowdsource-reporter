@@ -1,0 +1,38 @@
+﻿
+body
+{
+    color: ${SelectedThemeColor};
+}
+
+.esriCTApplicationColor
+{
+    color: ${SelectedThemeColor};
+}
+
+.esriCTBGColor
+{
+    background-color: ${SelectedThemeColor};
+}
+
+.esriCTBorder, .esriCTBorderLeft, .esriCTBorderTop, .esriCTBorderRight, .esriCTBorderBottom
+{
+    border-color: ${SelectedThemeColor};
+}
+
+/* Overriden Styles */
+.esriSimpleSliderDecrementButton, .esriSimpleSliderIncrementButton
+{
+    background-color:${SelectedThemeColor}  !important;
+    border:#fff solid 1 !important;
+}
+
+.esriSimpleSlider
+{
+    background-color: transparent !important;
+    color: #fff !important;
+    border: #fff solid 0 !important;
+}
+/* End of Overriden Styles */
+
+
+

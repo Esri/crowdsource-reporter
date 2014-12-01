@@ -18,7 +18,42 @@ define({
     root: ({
         map: {
             error: "Unable to create map"
+        },
+        main: {
+            anonymousUserName: "Anonymous",
+            noGroup: "No Group configured"
+        },
+        signin: {
+            guestSigninText: "Proceed as Guest",
+            signinOptionsText: "Sign in with:",
+            noGroupNameText: "Please Sign in"
+        },
+        webMapList: {
+            owner: "Owner",
+            created: "Created",
+            modified: "Modified",
+            description: "Description",
+            snippet: "Summary",
+            licenseInfo: "Access and use constraints",
+            accessInformation: "Credits",
+            tags: "Tags",
+            numViews: "Number of views",
+            avgRating: "Rating",
+            noWebMapInGroup: "No maps found."
+        },
+        issueWall: {
+            noResultsFound: "No issues found in the current extent"
+        },
+        mobileMenu: {
+            home: "Home",
+            mapView: "Map View",
+            listView: "List View",
+            reportIt: "Report It",
+            signIn: "Sign in",
+            signOut: "Sign out",
+            loggedInAs: "Logged in as"
         }
+
     }),
     "fr": 1
 });

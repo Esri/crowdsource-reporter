@@ -17,9 +17,9 @@
  */
 define({
     // When true, the template will query arcgis.com for the webmap item.
-    "queryForWebmap": true,
+    "queryForWebmap": false,
     // When true, the template will query arcgis.com for the group's information.
-    "queryForGroupInfo": false,
+    "queryForGroupInfo": true,
     // When true, the template will query arcgis.com for the items contained within the group
     "queryForGroupItems": false,
     //When true the template will query arcgis.com for default settings for helper services, units etc. If you
@@ -35,6 +35,7 @@ define({
     "queryForCommonConfig": false,
     // These are the options specified for querying items within the group. Modify these to get more items. You can also call the public template.queryGroupItems() method with these options as a parameter.
     "groupParams": {
+        "q": "group:\"${groupid}\" AND type:\"Web Map\" AND -type:\"Web Mapping Application\" AND -type:\"Code Attachment\"",
         "sortField": "modified",
         "sortOrder": "desc",
         "num": 9,
