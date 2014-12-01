@@ -1,0 +1,190 @@
+﻿/* CSS for Mobiles */
+@media only screen and (max-width: 767px)
+{
+    .esriCTMainContainer
+    {
+        height: calc(100% - 61px);
+    }
+
+    .esriCTLeftContainer, .esriCTCenterContainer, .esriCTSlideContainer
+    {
+        width: 100% !important;
+        border-width:0px;
+    }
+
+    .esriCTCenterContainer, .esriCTSlideContainer
+    {
+        display: none;
+    }
+
+    .esriCTIssueWallContainer
+    {
+        display: block !important;
+    }
+
+    /* App header icons */
+
+    .esriCTHeaderIcons
+    {
+        height: 44px !important;
+        width: 44px !important;
+        background-size: 44px !important;
+    }
+
+    .esriCTDesktopIcons
+    {
+        display: none;
+    }
+
+    .esriCTMobileIcons
+    {
+        display: block;
+    }
+
+    .esriCTHeaderContainer
+    {
+        height: 60px;
+    }
+
+    .esriCTMenuTabLeft
+    {
+        line-height: 50px;
+    }
+
+    .esriCTApplicationIcon
+    {
+        height: 60px;
+    }
+    /* End of App header icons */
+}
+
+/* CSS for MiniTablets */
+
+@media only screen and (min-width: 480px) and (max-width:767px)
+{
+    .esriCTHeaderIcons
+    {
+        height: 44px !important;
+        width: 44px !important;
+        background-size: 44px !important;
+    }
+
+    .esriCTHeaderContainer
+    {
+        height: 60px;
+    }
+
+    .esriCTApplicationIcon
+    {
+        height: 60px;
+    }
+
+    .esriCTMainContainer
+    {
+        height: calc(100% - 61px);
+    }
+
+    .esriCTMenuTabLeft
+    {
+        line-height: 50px;
+    }
+}
+
+/* CSS for Tablet and iPad */
+@media only screen and (min-width: 767px) and (max-width:1024px)
+{
+
+}
+
+/* CSS for Devices other than desktop browser*/
+@media screen and (max-width:1024px)
+{
+    html, body
+    {
+        font-size: 15px;
+    }
+
+    .esriCTSigninAppCaptionDiv
+    {
+        height: 45px;
+    }
+
+    .esriCTHeaderIcons
+    {
+        height: 44px !important;
+        width: 44px !important;
+        background-size: 44px !important;
+    }
+
+    .esriCTBurgerButton
+    {
+        background-image: url(../images/burger-44.png);
+    }
+
+    .esriCTSignInButton
+    {
+        background-image: url(../images/sign-in-44.png);
+    }
+
+    .esriCTReportIssueButton
+    {
+        background-image: url(../images/report-issue-44.png);
+    }
+
+    .esriCTHeaderContainer
+    {
+        height: 60px;
+    }
+
+    .esriCTApplicationIcon
+    {
+        height: 60px;
+    }
+
+    .esriCTMainContainer
+    {
+        height: calc(100% - 61px);
+    }
+
+    .esriCTMenuTabLeft
+    {
+        line-height: 50px;
+    }
+
+    .esriCTMobileMenuContainer
+    {
+        height: calc(100% - 59px);
+        top: 59px;
+    }
+    .esriCTHeaderIcons
+    {
+        margin:6px 12px;
+        }
+}
+
+/* CSS for Devices other than mobile*/
+@media screen and (min-width: 768px)
+{
+    #mobilemenu
+    {
+        display: none !important;
+    }
+
+    .esriCTLeftContainer
+    {
+        width: 30%;
+        display: block !important;
+    }
+
+    .esriCTCenterContainer
+    {
+        width: 40%;
+        display: block !important;
+    }
+
+    .esriCTSlideContainer
+    {
+        width: 30%;
+        display: block !important;
+    }
+}
