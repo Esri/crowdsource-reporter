@@ -37,7 +37,7 @@ define([
     "dijit/_WidgetsInTemplateMixin",
     "esri/IdentityManager"
 
-], function (templateConfig, mainTemplate, Main, ApplicationUtils, declare, domConstruct, domStyle, domAttr, domClass, lang, on, Deferred, all, esriPortal, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, IdentityManager) {
+], function (templateConfig, MainTemplate, Main, ApplicationUtils, declare, domConstruct, domStyle, domAttr, domClass, lang, on, Deferred, all, esriPortal, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, IdentityManager) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         _config: null,
@@ -74,6 +74,7 @@ define([
             domStyle.set(this.signinBgImage, "backgroundImage", 'url(' + dojoConfig.baseURL + this._config.signInBackgroundImage + ')');
             this.own(on(this.signinGuestButton, "click", lang.hitch(this, this._guestButtonClicked)));
             this.own(on(this.signinEsriButton, "click", lang.hitch(this, this._esriButtonClicked)));
+
             this.own(on(this.signinFBButton, "click", lang.hitch(this, this._fbButtonClicked)));
             this.own(on(this.signinTwitterButton, "click", lang.hitch(this, this._twitterButtonClicked)));
             this.own(on(this.signinGPlusButton, "click", lang.hitch(this, this._gpButtonClicked)));
@@ -98,7 +99,26 @@ define([
         * @memberOf widgets/sign-in/sign-in
         */
         _esriButtonClicked: function () {
-            alert("Coming soon...");
+            this.hideSignInDialog();
+            this.portal = new esriPortal.Portal(this._config.sharinghost);
+            this.portal.on("load", lang.hitch(this, function () {
+                this.portal.signIn().then(lang.hitch(this, function (loggedInUser) {
+                    var myTemplate, myApp;
+                    myTemplate = new MainTemplate(templateConfig);
+                    dojo.boilerPlateTemplate = myTemplate;
+                    myApp = new Main();
+                    myTemplate.startup().then(lang.hitch(this, function (newConfig) {
+                        newConfig.portalObject = this.portal;
+                        myApp.startup(newConfig, loggedInUser);
+                    }), function (error) {
+                        dojo.applicationUtils.showError(error);
+                    });
+                }), function (e) {
+                    if (e.message !== "ABORTED") {
+                        dojo.applicationUtils.showError(e.message);
+                    }
+                });
+            }));
         },
 
         /**

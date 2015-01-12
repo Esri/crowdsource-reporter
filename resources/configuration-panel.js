@@ -86,15 +86,15 @@
                     "tooltip": "Application title displayed in header"
                 },
                 {
-                    "label": "Icon URL",
-                    "fieldName": "applicationIcon",
                     "type": "string",
+                    "fieldName": "applicationIcon",
+                    "label": "Icon URL",
                     "tooltip": "Icon in top left corner of application. Icon should be 48px high."
                 },
                 {
-                    "label": "Favicon URL",
-                    "fieldName": "applicationFavicon",
                     "type": "string",
+                    "fieldName": "applicationFavicon",
+                    "label": "Favicon URL",
                     "tooltip": "Application favicon."
                 }
             ]
@@ -164,7 +164,82 @@
                     "type": "boolean",
                     "fieldName": "webMapInfoAvgRating",
                     "label": "Show average rating",
-                    "tooltip": "Enable to show webmap avgerage rating"
+                    "tooltip": "Enable to show webmap average rating"
+                }
+            ]
+        },
+        {
+            "category": "<b>General Settings</b>",
+            "fields": [
+                {
+                    "type": "paragraph",
+                    "value": "Configure General fields settings."
+                },
+                {
+                    "type": "string",
+                    "fieldName": "likeField",
+                    "label": "Like field",
+                    "tooltip": "Configure like field"
+                },
+                {
+                    "type": "string",
+                    "fieldName": "commentField",
+                    "label": "Comment field",
+                    "tooltip": "Configure comment field"
+                },
+                {
+                    "type": "string",
+                    "fieldName": "reportedByField",
+                    "label": "Reported by field",
+                    "tooltip": "Configure reported by field"
+                },
+                {
+                    "type": "string",
+                    "fieldName": "zoomLevel",
+                    "label": "Zoom Level",
+                    "tooltip": "Configure zoom level"
+                }
+            ]
+        },
+        {
+            "category": "<b>Geoform Settings</b>",
+            "fields": [
+                {
+                    "type": "paragraph",
+                    "value": "Configure Geoform settings."
+                },
+                {
+                    "type": "string",
+                    "fieldName": "submitMessage",
+                    "label": "Submit Message",
+                    "tooltip": "Configure message to be displayed when a geoform is submitted successfully"
+                }
+            ]
+        },
+        {
+            "category": "<b>Locator Settings</b>",
+            "fields": [
+                {
+                    "type": "paragraph",
+                    "value": "Configure Locator settings."
+                },
+                {
+                    "type": "boolean",
+                    "fieldName": "enableUSNGSearch",
+                    "label": "Enable USNG Search",
+                    "tooltip": "Enable USNG Search"
+                },
+                {
+                    "type": "boolean",
+                    "fieldName": "enableMGRSSearch",
+                    "label": "Enable MGRS Search",
+                    "tooltip": "Enable MGRS Search"
+                },
+                {
+                    "type": "boolean",
+                    "fieldName": "enableLatLongSearch",
+                    "label": "Enable Latitude Longitude Search",
+                    "tooltip": "Enable Latitude Longitude Search"
                 }
             ]
         }
@@ -189,6 +264,14 @@
         "webMapInfoAccessInformation": false,
         "webMapInfoTags": false,
         "webMapInfoNumViews": false,
-        "webMapInfoAvgRating": false
+        "webMapInfoAvgRating": false,
+        "submitMessage": "Thank you, Your report has been submitted.",
+        "likeField": "VOTES",
+        "commentField": "FEEDBACK",
+        "reportedByField": "REPORTEDBY",
+        "zoomLevel": 12,
+        "enableUSNGSearch": true,
+        "enableMGRSSearch": true,
+        "enableLatLongSearch": true
     }
 }

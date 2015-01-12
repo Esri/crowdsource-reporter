@@ -70,6 +70,9 @@ define([
             document.title = applicationName;
             domAttr.set(this.applicationHeaderName, "innerHTML", applicationName);
 
+            // if application icon is configured, display the configured icon in application header
+            // else if group logo is present, display group logo in application header
+            // if both the above mentioned icons are not present, display default icon in application header
             if (dojo.configData.applicationIcon && lang.trim(dojo.configData.applicationIcon).length !== 0) {
                 if (dojo.configData.applicationIcon.indexOf("http") === 0) {
                     domAttr.set(this.applicationHeaderIcon, "src", dojo.configData.applicationIcon);
@@ -86,19 +89,31 @@ define([
                 domAttr.set(this.applicationHeaderIcon, "src", dojoConfig.baseURL + "/images/app-icon.png");
             }
             applicationIcon = domAttr.get(this.applicationHeaderIcon, "src");
+            // load application shortcut icons
             this._loadIcons("apple-touch-icon-precomposed", applicationIcon);
             this._loadIcons("apple-touch-icon", applicationIcon);
             this._setApplicationShortcutIcon();
 
+            // create mobile menu
             this.mobileMenu = new MobileMenu(this._config, domConstruct.create("div", {}, dom.byId("mobilemenu")));
             this.mobileMenu.hideMobileMenu = lang.hitch(this, this._animateMenuContainer);
             this.mobileMenu.reportItClicked = lang.hitch(this, this._reportIssueClicked);
 
             on(this.mobileMenuBurger, "click", lang.hitch(this, this._animateMenuContainer));
             on(this.reportIssueButton, "click", lang.hitch(this, this._reportIssueClicked));
+            on(this.signOutButton, "click", lang.hitch(this, this._signOutClicked));
             this._showHideMenus();
         },
 
+        _signOutClicked: function () {
+            if (this._config.portalObject.getPortalUser()) {
+                this._config.portalObject.signOut().then(lang.hitch(this, function () {
+                    location.reload();
+                }));
+            } else {
+                location.reload();
+            }
+        },
         /**
         * Show or hide menu items based on configuration settings
         * @memberOf widgets/app-header/app-header
@@ -106,20 +121,18 @@ define([
         _showHideMenus: function () {
             if (this._config.reportIt) {
                 domClass.remove(this.reportIssueButton, "esriCTHidden");
-            }
-            else {
+            } else {
                 domClass.add(this.reportIssueButton, "esriCTHidden");
             }
             if (this._config.signIn) {
                 domClass.remove(this.signInButton, "esriCTHidden");
-            }
-            else {
+            } else {
                 domClass.add(this.signInButton, "esriCTHidden");
             }
             if (this._config.signOut) {
                 domClass.remove(this.signOutButton, "esriCTHidden");
-            }
-            else {
+                domClass.remove(this.myIssueButton, "esriCTHidden");
+            } else {
                 domClass.add(this.signOutButton, "esriCTHidden");
             }
         },
@@ -159,8 +172,12 @@ define([
             document.getElementsByTagName('head')[0].appendChild(icon);
         },
 
-        _reportIssueClicked: function () {
-            alert("Coming soon...");
+        _reportIssueClicked: function (evt) {
+            this.reportIssue(evt);
+        },
+
+        reportIssue: function (evt) {
+            return evt;
         },
 
         /**
@@ -168,11 +185,9 @@ define([
         * @memberOf widgets/app-header/app-header
         */
         _animateMenuContainer: function () {
-            if (domStyle.get(dom.byId('mobilemenu'), "display") === "none") {
-                domStyle.set(dom.byId('mobilemenu'), "display", "block");
-            } else {
-                domStyle.set(dom.byId('mobilemenu'), "display", "none");
-            }
+            domClass.toggle(this.mobileMenuBurger, "active");
+            domClass.toggle(dom.byId('mobileMenuFooter'), "esriCTHidden");
+            domClass.toggle(dom.byId('mobilemenu'), "esriCTHideMobileMenu");
         }
     });
 });

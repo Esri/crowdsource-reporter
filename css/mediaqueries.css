@@ -9,7 +9,7 @@
     .esriCTLeftContainer, .esriCTCenterContainer, .esriCTSlideContainer
     {
         width: 100% !important;
-        border-width:0px;
+        border-width: 0px;
     }
 
     .esriCTCenterContainer, .esriCTSlideContainer
@@ -56,6 +56,19 @@
         height: 60px;
     }
     /* End of App header icons */
+
+    /* GeoForm Styles */
+
+    .esriCTGeoFormParentContainer
+    {
+        width: 100%;
+        left: 0;
+    }
+    /* End of GeoForm Styles */
+
+    .esriCTCloseButton{
+        margin-right:24px;
+    }
 }
 
 /* CSS for MiniTablets */
@@ -96,12 +109,17 @@
 
 }
 
-/* CSS for Devices other than desktop browser*/
+/* CSS for Devices other than desktop browser */
 @media screen and (max-width:1024px)
 {
-    html, body
+    html, body, .form-control, .btn
     {
         font-size: 15px;
+    }
+
+    .esriCTHeaderFont
+    {
+        font-size: 17px;
     }
 
     .esriCTSigninAppCaptionDiv
@@ -114,21 +132,6 @@
         height: 44px !important;
         width: 44px !important;
         background-size: 44px !important;
-    }
-
-    .esriCTBurgerButton
-    {
-        background-image: url(../images/burger-44.png);
-    }
-
-    .esriCTSignInButton
-    {
-        background-image: url(../images/sign-in-44.png);
-    }
-
-    .esriCTReportIssueButton
-    {
-        background-image: url(../images/report-issue-44.png);
     }
 
     .esriCTHeaderContainer
@@ -151,18 +154,22 @@
         line-height: 50px;
     }
 
-    .esriCTMobileMenuContainer
-    {
-        height: calc(100% - 59px);
-        top: 59px;
-    }
     .esriCTHeaderIcons
     {
-        margin:6px 12px;
-        }
+        margin: 8px 24px;
+    }
+
+    /* GeoForm Styles */
+
+    .esriCTAttachmentSelectedCount
+    {
+        top: 38px;
+    }
+    /* End of GeoForm Styles */
+
 }
 
-/* CSS for Devices other than mobile*/
+/* CSS for Devices other than mobile */
 @media screen and (min-width: 768px)
 {
     #mobilemenu
@@ -187,4 +194,35 @@
         width: 30%;
         display: block !important;
     }
+
+    .esriCTCloseButton{
+        margin-right:30px;
+    }
 }
+
+/* CSS for retina images for retina devices like ipad / tablets etc. */
+@media only screen and (min-device-width : 319px) and (max-device-width : 1024px) and (-webkit-min-device-pixel-ratio: 2)
+{
+
+    .esriCTSigninOrDiv
+    {
+        background-image: url('../images/seperator-2x.png') !important;
+    }
+
+    .esriCTSlideInButton
+    {
+        background-image: url('../images/slide-in-2x.png') !important;
+    }
+
+    .esriCTSlideOutButton
+    {
+        background-image: url('../images/slide-out-2x.png') !important;
+    }
+
+    .esriCTLocationButton
+    {
+        background-image: url(../images/curent-location-2x.png) !important;
+        background-size: 32px;
+    }
+}
+

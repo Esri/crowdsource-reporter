@@ -1,5 +1,5 @@
 ﻿<div data-dojo-attach-point="applicationHeaderParentContainer">
-    <div class="esriCTApplicationHeader esriCTBGColor">
+    <div class="esriCTApplicationHeader esriCTBGColor esriCTBorderBottom">
         <div class="esriCTHomeIcon">
             <img data-dojo-attach-point="applicationHeaderIcon" class="esriCTApplicationIcon"
                 alt="" />
@@ -7,15 +7,18 @@
         <div class="esriCTMenuTabRight">
             <div data-dojo-attach-point="applicationHeaderWidgetsContainer">
                 <div class="esriCTDesktopIcons">
+                    <div data-dojo-attach-point="myIssueButton" onclick="alert('Coming soon...');" class="esriCTHidden esriCTHeaderIcons esriCTMyIssuesButton esriCTPointerCursor">
+                    </div>
                     <div data-dojo-attach-point="reportIssueButton" class="esriCTHidden esriCTHeaderIcons esriCTReportIssueButton esriCTPointerCursor">
                     </div>
                     <div data-dojo-attach-point="signInButton" onclick="location.reload();" class="esriCTHidden esriCTHeaderIcons esriCTSignInButton esriCTPointerCursor">
                     </div>
-                    <div data-dojo-attach-point="signOutButton" onclick="location.reload();" class="esriCTHidden esriCTHeaderIcons esriCTSignInButton esriCTPointerCursor">
+                    <div data-dojo-attach-point="signOutButton" class="esriCTHidden esriCTHeaderIcons esriCTSignOutButton esriCTPointerCursor">
                     </div>
                 </div>
                 <div class="esriCTMobileIcons">
-                 <div data-dojo-attach-point="mobileMenuBurger" class="esriCTHeaderIcons esriCTBurgerButton esriCTPointerCursor">
+                    <div data-dojo-attach-point="mobileMenuBurger" class="esriCTMobileBurgerIcon">
+                        <span></span>
                     </div>
                 </div>
             </div>

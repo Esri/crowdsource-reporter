@@ -20,7 +20,6 @@ define({
             error: "Unable to create map"
         },
         main: {
-            anonymousUserName: "Anonymous",
             noGroup: "No Group configured"
         },
         signin: {
@@ -39,19 +38,57 @@ define({
             tags: "Tags",
             numViews: "Number of views",
             avgRating: "Rating",
-            noWebMapInGroup: "No maps found."
+            noWebMapInGroup: "Configured group is invalid or no items have been shared with this group yet."
         },
         issueWall: {
-            noResultsFound: "No issues found in the current extent"
+            noResultsFound: "No issues found in the current extent",
+            photoAttachmentHeader: "Photo",
+            votesUpdateFailure: "Unable to update"
         },
         mobileMenu: {
             home: "Home",
+            myIssuesView: "My Issues",
             mapView: "Map View",
             listView: "List View",
             reportIt: "Report It",
             signIn: "Sign in",
             signOut: "Sign out",
             loggedInAs: "Logged in as"
+        },
+        geoform: {
+            enterInformation: "1. Enter Information",
+            selectAttachments: "Attachments",
+            selectFileText: "Select File",
+            enterLocation: "2. Select Location",
+            completeForm: "3. Complete Form",
+            reportItButton: "Report It",
+            uploadPhoto: "Upload Photo",
+            requiredField: "(required)",
+            selectDefaultText: "Select&hellip;",
+            invalidString: "Please enter valid value.",
+            noLayerConfiguredMessage: "Layer fields are not configured to capture data",
+            invalidSmallNumber: "Please enter valid ${openStrong}integer${closeStrong} value between -32768 and 32767.",
+            invalidNumber: "Please enter valid ${openStrong}integer${closeStrong} value between -2147483648 and 2147483647.",
+            invalidFloat: "Please enter valid ${openStrong}floating point${closeStrong} value between -3.4E38 and 1.2E38 ",
+            invalidDouble: "Please enter valid ${openStrong}double${closeStrong} value between -2.2E308 and 1.8E308",
+            requiredFields: "Please enter all the required fields.",
+            selectLocation: "Please select a location for your submission.",
+            textRangeHintMessage: "${openStrong}Hint:${closeStrong} Minimum value ${minValue} and Maximum value ${maxValue}",
+            dateRangeHintMessage: "${openStrong}Hint:${closeStrong} Minimum Date ${minValue} and Maximum Date ${maxValue}",
+            remainingCharactersHintMessage: "${value} characters remaining",
+            errorsInApplyEdits: "Issue could not be reported.",
+            attachmentSelectedMsg: "Attachment(s) selected",
+            selectLocationTitleText: "(Tap/Click on map to select location)",
+            geoLocationError: "Current location not available",
+            geoLocationOutOfExtent: "Current location is out of basemap extent"
+        },
+        locator: {
+            addressText: "Address",
+            usngText: "USNG",
+            mgrsText: "MGRS",
+            latLongText: "LatLong",
+            invalidSearch: "No results found",
+            locatorPlaceholder: "Enter address to search"
         }
 
     }),
