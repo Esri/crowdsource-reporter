@@ -1,4 +1,4 @@
-﻿/*global define,dojo */
+﻿/*global define,dojo,alert */
 /*jslint browser:true,sloppy:true,nomen:true,unparam:true,plusplus:true,indent:4 */
 /** @license
 | Copyright 2013 Esri
@@ -22,9 +22,11 @@ define([
     "application/main",
     "dojo/_base/declare",
     "dojo/dom-construct",
+    "dojo/dom-geometry",
     "dojo/dom-style",
     "dojo/dom-attr",
     "dojo/dom-class",
+    "dojo/dom",
     "dojo/_base/lang",
     "dojo/topic",
     "dojo/on",
@@ -36,7 +38,7 @@ define([
     "dijit/_TemplatedMixin",
     "dijit/_WidgetsInTemplateMixin"
 
-], function (templateConfig, mainTemplate, Main, declare, domConstruct, domStyle, domAttr, domClass, lang, topic, on, Deferred, all, esriPortal, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin) {
+], function (templateConfig, mainTemplate, Main, declare, domConstruct, domGeom, domStyle, domAttr, domClass, dom, lang, topic, on, Deferred, all, esriPortal, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         _lastSelectedView: null,
@@ -51,11 +53,13 @@ define([
 
         nls: {
             home: "Home",
+            myIssuesView: "My Issues",
             mapView: "Map View",
             listView: "List View",
             reportIt: "Report It",
             signIn: "Sign in",
-            signOut: "Sign out"
+            signOut: "Sign out",
+            loggedInAs: "Logged in as"
         },
 
         loggedInUser: "",
@@ -66,6 +70,7 @@ define([
         * @memberOf widgets/mobile-menu/mobile-menu
         */
         constructor: function (configData) {
+            // check if configurable text is present in nls for webmaplist widget, merge it with local nls object
             if (dojo.configData.i18n.webMapList) {
                 lang.mixin(this.nls, dojo.configData.i18n.mobileMenu);
             }
@@ -83,6 +88,7 @@ define([
             //by default select home(left container)
             this._lastSelectedView = dojo.byId("LeftContainer");
             this._showHideMenus();
+
         },
 
         hideMobileMenu: function (evt) {
@@ -130,10 +136,19 @@ define([
             }
 
             if (this._config.signOut) {
+                var menuContainerHeight;
                 domClass.remove(this.signOut, "esriCTHidden");
                 this.own(on(this.signOut, "click", lang.hitch(this, this._signOutClicked)));
+                domClass.remove(this.myIssuesView, "esriCTHidden");
+                this.own(on(this.myIssuesView, "click", lang.hitch(this, this._myIssuesClicked)));
+                domAttr.set(this.loggedinUserNameDiv, "innerHTML", dojo.configData.logInDetails.userName);
+                domClass.remove(this.loggedinUserNameDiv, "esriCTHidden");
+                domClass.remove(this.loggedinAsDiv, "esriCTHidden");
+                menuContainerHeight = (window.innerHeight - 110) + "px";
+                domStyle.set(this.mainMenuContainer, "height", menuContainerHeight);
             } else {
                 domClass.add(this.signOut, "esriCTHidden");
+                domStyle.set(this.mainMenuContainer, "height", "100%");
             }
         },
 
@@ -153,6 +168,7 @@ define([
         * @memberOf widgets/mobile-menu/mobile-menu
         */
         _homeMenuClicked: function () {
+            domClass.replace(dom.byId('geoformContainerDiv'), "esriCTHidden", "esriCTVisible");
             this._lastSelectedView.style.display = "none";
             this._lastSelectedView = dojo.byId("LeftContainer");
             dojo.byId("LeftContainer").style.display = "block";
@@ -160,14 +176,27 @@ define([
         },
 
         /**
+        * Executed when user clicks on My issues option
+        * @memberOf widgets/mobile-menu/mobile-menu
+        */
+        _myIssuesClicked: function () {
+            alert("Coming soon...");
+        },
+
+        /**
         * Executed when user clicks on Map view option
         * @memberOf widgets/mobile-menu/mobile-menu
         */
         _mapViewClicked: function () {
+            domClass.replace(dom.byId('geoformContainerDiv'), "esriCTHidden", "esriCTVisible");
+            this.showMapView();
+            this.hideMobileMenu();
+        },
+
+        showMapView: function () {
             this._lastSelectedView.style.display = "none";
             this._lastSelectedView = dojo.byId("CenterContainer");
             dojo.byId("CenterContainer").style.display = "block";
-            this.hideMobileMenu();
             topic.publish("resizeMap");
         },
 
@@ -176,6 +205,7 @@ define([
         * @memberOf widgets/mobile-menu/mobile-menu
         */
         _listViewClicked: function () {
+            domClass.replace(dom.byId('geoformContainerDiv'), "esriCTHidden", "esriCTVisible");
             this.showListView();
             this.hideMobileMenu();
         },
@@ -224,7 +254,6 @@ define([
             location.reload();
             this.hideMobileMenu();
         }
-
 
     });
 });

@@ -17,15 +17,13 @@
  */
 define({
     //Default configuration settings for the application. This is where you'll define things like a bing maps key,
-    //default web map, default app color theme and more. These values can be overwritten by template configuration settings and url parameters.
+    //default group, default app color theme and more. These values can be overwritten by template configuration settings and url parameters.
     "appid": "",
-    "webmap": "",
     "oauthappid": null,
     //Group templates must support a group url parameter. This will contain the id of the group.
     "group": "e96bd5b249a04235bcd7399cb80ee3cf",
-    //Enter the url to the proxy if needed by the application. See the 'Using the proxy page' help topic for details
-    //http://developers.arcgis.com/en/javascript/jshelp/ags_proxy.html
-    "proxyurl": "",
+    //Enter the url to the proxy if needed by the application
+    "proxyurl": "proxy.ashx",
     //Example of a template specific property. If your template had several color schemes
     //you could define the default here and setup configuration settings to allow users to choose a different
     //color theme.
@@ -33,18 +31,9 @@ define({
     "bingKey": "", //Enter the url to your organizations bing maps key if you want to use bing basemaps
     //Defaults to arcgis.com. Set this value to your portal or organization host name.
     "sharinghost": location.protocol + "//" + "localgovdev.mapsdevext.arcgis.com/",
-    "units": null,
-    //If your applcation needs to edit feature layer fields set this value to true. When false the map will
-    //be treated with layers that are not set to editable which allows the FeatureLayer to load features optimally.
-    "editable": false,
+    //HelperServices url
     "helperServices": {
         "geometry": {
-            "url": null
-        },
-        "printTask": {
-            "url": null
-        },
-        "elevationSync": {
             "url": null
         },
         "geocode": [{
@@ -63,8 +52,9 @@ define({
     "enableTwitter": true,
     "enableGoogleplus": true,
 
-    "showNullValueAs": "N/A",
+    "showNullValueAs": "",
     "noThumbnailIcon": "/images/no-thumbnail.png",
+    "noImageIcon": "/images/attachment-file.png",
 
     "webMapInfoDescription": true,
     "webMapInfoSnippet": true,
@@ -75,5 +65,15 @@ define({
     "webMapInfoAccessInformation": false,
     "webMapInfoTags": false,
     "webMapInfoNumViews": false,
-    "webMapInfoAvgRating": false
+    "webMapInfoAvgRating": false,
+
+    "submitMessage": "Thank you, Your report has been submitted.",
+    "likeField": "VOTES",
+    "commentField": "FEEDBACK",
+    "reportedByField": "REPORTEDBY",
+
+    "zoomLevel": 16,
+    "enableUSNGSearch": true,
+    "enableMGRSSearch": true,
+    "enableLatLongSearch": true
 });

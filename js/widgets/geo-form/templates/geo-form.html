@@ -1,0 +1,48 @@
+﻿<div class="esriCTGeoFormContainer">
+    <div class="esriCTListHeader esriCTBorderBottom">
+        <div data-dojo-attach-point="layerTitleDiv" class="esriCTListHeaderText esriCTHeaderFont">
+        </div>
+        <span class="esriCTCloseButton esriCTBGColor esriCTPointerCursor" data-dojo-attach-point="closeButton">
+        </span>
+    </div>
+    <div class="esriCTGeoFormBody" id="geoFormBody">
+        <div data-dojo-attach-point="headerMessageDiv" class="esriCTHidden">
+            <div data-dojo-attach-point="headerMessageType" class="esriCTSuccessMsg alert alert-success">
+                <span class="close" data-dojo-attach-point="headerMessageButton">&times;</span>
+                <span data-dojo-attach-point="headerMessageContent"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-8 esriCTFullWidth">
+                    <div class="esriCTGeoFormTitles esriCTHeaderFont" data-dojo-attach-point="enter_Information">
+                    </div>
+                    <form role="form" data-dojo-attach-point="userForm">
+                    </form>
+                    <div class="esriCTGeoFormTitles esriCTHeaderFont" data-dojo-attach-point="select_location">
+                    </div>
+                    <div data-dojo-attach-point="location_panel_body" class="esriCTlocationPanel">
+                    </div>
+                    <div class="gf-map panel panel-default" data-dojo-attach-point="map_container">
+                        <div id="gf-mapDiv" class="map-div">
+                        </div>
+                    </div>
+                    <div class="esriCTGeoFormTitles esriCTHeaderFont" data-dojo-attach-point="complete_Form">
+                    </div>
+                    <div class="clearfix">
+                    </div>
+                    <div class="form-group">
+                        <div class="submit-area">
+                            <div data-dojo-attach-point="submitButton" class="esriCTGeoFormButton esriCTBGColor btn btn-primary">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix">
+            </div>
+        </div>
+    </div>
+    <div data-dojo-attach-point="geoFormLoader" class="esriCTGeoFormLoader">
+    </div>
+</div>

@@ -1,8 +1,4 @@
 ﻿
-body
-{
-    color: ${SelectedThemeColor};
-}
 
 .esriCTApplicationColor
 {
@@ -31,6 +27,10 @@ body
     background-color: transparent !important;
     color: #fff !important;
     border: #fff solid 0 !important;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:focus, .btn-primary:active
+{
+    background-color: ${SelectedThemeColor};
 }
 /* End of Overriden Styles */
 

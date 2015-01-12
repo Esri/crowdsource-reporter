@@ -12,23 +12,20 @@
     <title>Constituent Engagement</title>
     <!-- Latest compiled and minified CSS -->
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" type="text/css" href="js/vendor/bootstrap-3.3.0-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="js/vendor/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" type="text/css" href="js/vendor/bootstrap-3.3.0-dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="js/vendor/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" type="text/css" href="js/vendor/touch-spinner/jquery.bootstrap-touchspin.min.css" />
     <!--Dojo and Esri CSS-->
-    <link rel="stylesheet" href="//js.arcgis.com/3.11//dijit/themes/claro/claro.css" />
-    <link rel="stylesheet" href="//js.arcgis.com/3.11/esri/css/esri.css" />
+    <link rel="stylesheet" href="//js.arcgis.com/3.12/dijit/themes/claro/claro.css" />
+    <link rel="stylesheet" href="//js.arcgis.com/3.12/esri/css/esri.css" />
     <!-- Load any application specific styles -->
     <link rel="stylesheet" href="css/main.css" type="text/css" />
     <link rel="stylesheet" href="css/common.css" type="text/css" />
     <link rel="stylesheet" href="css/mediaqueries.css" type="text/css" />
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- Add Legacy browsers css -->
     <!--[if lt IE 9]>
-    <script src="js/vendor/html5shiv.min.js"></script>
-    <script src="js/vendor/respond.min.js"></script>
+    <link rel="stylesheet"  type="text/css" href="css/legacy-browsers.css" />
   <![endif]-->
-    <style type="text/css">
-
-    </style>
 </head>
 <body class="claro app-loading">
     <div class="loading-indicator">
@@ -55,7 +52,9 @@
                 </div>
             </div>
         </div>
-        <div id="mobilemenu" class="esriCTMobileMenuContainer">
+        <div id="geoformContainerDiv" class="esriCTHidden esriCTGeoFormParentContainer">
+        </div>
+        <div id="mobilemenu" class="esriCTMobileMenuContainer esriCTHideMobileMenu">
         </div>
     </div>
     <!-- Load dojo configuration -->
@@ -65,44 +64,44 @@
     <script type="text/javascript" src="js/vendor/moment-with-langs.min.js"></script>
     <script type="text/javascript" src="js/vendor/bootstrap-3.3.0-dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/vendor/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
-    <script type="text/javascript" src="//js.arcgis.com/3.11/"></script>
+    <script type="text/javascript" src="js/vendor/touch-spinner/jquery.bootstrap-touchspin.min.js"></script>
+    <script type="text/javascript" src="//js.arcgis.com/3.12/"></script>
     <script type="text/javascript">
         require([
             "application/template-options",
             "application/template",
             "widgets/sign-in/sign-in",
             "application/utils/utils",
-            "dojo/dom",
-            "dojo/dom-attr",
-            "dojo/dom-class",
-            "dijit/layout/ContentPane"
+            "dojo/_base/lang"
         ], function (
-            templateConfig,
+            TemplateConfig,
             Template,
             ApplicationSignIn,
             ApplicationUtils,
-            dom,
-            domAttr,
-            domClass
+            lang
         ) {
             // create the template. This will take care of all the logic required for template applications
-            var myTemplate = new Template(templateConfig), myApp;
+            var myTemplate = new Template(TemplateConfig), myApp;
             dojo.BoilerPlateTemplate = myTemplate;
             // create application signin.
             myApp = new ApplicationSignIn();
             myTemplate.startup().then(function (config) {
                 // The config object contains the following properties: helper services, (optionally)
                 // i18n, appid, webmap and any custom values defined by the application.
-                myApp.startup(config);
+                // Load Application if valid group-id is configured, if not show error message.
+                if (lang.trim(config.group) !== "") {
+                    myApp.startup(config);
+                } else {
+                    ApplicationUtils.showErrorScreen(dojo.BoilerPlateTemplate.config.i18n.main.noGroup);
+                    ApplicationUtils.hideLoadingIndicator();
+                }
             }, function (error) {
                 var message = error.message;
-                domClass.add(dom.byId("layoutContainer"), "esriCTHidden");
-                domClass.remove(dom.byId("esriCTNoWebMapParentDiv"), "esriCTHidden");
                 // handle error when group is not configured
                 if (message.toLowerCase() === "group undefined.") {
                     message = dojo.BoilerPlateTemplate.config.i18n.main.noGroup;
                 }
-                domAttr.set(dom.byId("esriCTNoWebMapChildDiv"), "innerHTML", message);
+                ApplicationUtils.showErrorScreen(message);
                 ApplicationUtils.hideLoadingIndicator();
             });
         });
