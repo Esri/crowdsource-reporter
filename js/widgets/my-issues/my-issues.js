@@ -18,6 +18,7 @@
 //============================================================================================================================//
 define([
     "dojo/_base/declare",
+    "dojo/Deferred",
     "dojo/dom",
     "dojo/dom-construct",
     "dojo/dom-style",
@@ -27,12 +28,14 @@ define([
     "dojo/on",
     "dojo/string",
     "dojo/query",
-    "dojo/text!./templates/issue-wall.html",
-    "dojo/text!./templates/issue-item-template.html",
-    "dojo/text!./templates/issue-details-template.html",
+    "dojo/text!./templates/my-issues.html",
+    "dojo/text!./templates/my-issues-item-template.html",
+    "dojo/text!./templates/my-issues-details-template.html",
+    "dojo/promise/all",
     "dijit/_WidgetBase",
     "dijit/_TemplatedMixin",
     "dijit/_WidgetsInTemplateMixin",
+    "esri/arcgis/utils",
     "esri/Color",
     "esri/graphic",
     "esri/geometry/Point",
@@ -40,57 +43,96 @@ define([
     "esri/geometry/Polygon",
     "esri/layers/FeatureLayer",
     "esri/layers/GraphicsLayer",
+    "esri/tasks/QueryTask",
     "esri/symbols/SimpleMarkerSymbol",
     "esri/symbols/SimpleLineSymbol",
     "esri/symbols/SimpleFillSymbol",
     "esri/tasks/query",
     "widgets/issue-comments/issue-comments"
-
-], function (declare, dom, domConstruct, domStyle, domAttr, domClass, lang, on, string, query, template, issueItemTemplate, issueDetailsTemplate, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, Color, Graphic, Point, Polyline, Polygon, FeatureLayer, GraphicsLayer, SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol, Query, IssueComments) {
+], function (declare, Deferred, dom, domConstruct, domStyle, domAttr, domClass, lang, on, string, query, template, issueItemTemplate, issueDetailsTemplate, all, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, arcgisUtils, Color, Graphic, Point, Polyline, Polygon, FeatureLayer, GraphicsLayer, QueryTask, SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol, Query, IssueComments) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         extentChangeHandler: null,
-        /**
-        * This function is called when widget is constructed.
-        * @param{object} config to be mixed
-        * @memberOf widgets/issue-wall/issue-wall
-        */
-        constructor: function (config) {
-            lang.mixin({}, this, config);
-        },
-
+        opLayersArr: [],
+        isNoFeatureFound: null,
         /**
         * Initialize widget
-        * @memberOf widgets/issue-wall/issue-wall
+        * @memberOf widgets/my-issues/my-issues
         */
         postCreate: function () {
-            if (this.map) {
-                this.issueCommentWidget = new IssueComments({ "parentContainer": this.domNode });
-                this.CreateIssueList();
-            }
+
+            //attach event on close button of my issues container.
+            on(this.closeButton, "click", lang.hitch(this, function () {
+                this.onHideMyIssuesContainer();
+                this.hideMyIssuesContainer();
+            }));
+            this.issueCommentWidget = new IssueComments({ "parentContainer": this.domNode });
+            this.CreateMyIssuesList();
         },
 
         /**
-        * Create Issue Wall
-        * @param{object} config to be mixed
-        * @memberOf widgets/issue-wall/issue-wall
+        * display My issues list container
+        * @memberOf widgets/my-issues/my-issues
         */
-        CreateIssueList: function (config) {
-            var operationalLayer, extentChangeFlag = false;
-            if (config) {
-                lang.mixin(this, config);
-            }
-            operationalLayer = this.map.getLayer(this.operationalLayerId);
+        showMyIssuesContainer: function () {
+            domStyle.set(this.domNode, "display", "block");
+        },
+
+        /**
+        * hide My issues list container
+        * @memberOf widgets/my-issues/my-issues
+        */
+        hideMyIssuesContainer: function () {
+            domStyle.set(this.domNode, "display", "none");
+        },
+
+        /**
+        * Create My issues list
+        * @param{object} config to be mixed
+        * @memberOf widgets/my-issues/my-issues
+        */
+        CreateMyIssuesList: function () {
+            var webmapOpLayerArr, layerResponseDef = [], i, j, index = 0;
+            this.isNoFeatureFound = true;
+            this.opLayersArr = [];
+            this.listContainerTitle.innerHTML = dojo.configData.i18n.myIssues.title;
+            domStyle.set(this.listLoadingIndicator, "display", "block");
+            domConstruct.empty(this.listContainer);
             this.selectedGraphicsLayer = this.map.getLayer("selectionGraphicsLayer");
-            this._loadFeatureLayer(operationalLayer, extentChangeFlag);
-            if (this.extentChangeHandler) {
-                this.extentChangeHandler.remove();
+            domConstruct.empty(this.listDetailedContainer);
+            for (i = 0; i < this.webmapList.length; i++) {
+                webmapOpLayerArr = this.webmapList[i][1].itemInfo.itemData.operationalLayers;
+                for (j = 0; j < webmapOpLayerArr.length; j++) {
+                    if (this._isFieldAvailable(webmapOpLayerArr[j].layerObject, dojo.configData.reportedByField)) {
+                        webmapOpLayerArr[j].webmapId = this.webmapList[i][1].itemInfo.item.id;
+                        webmapOpLayerArr[j].layerIndex = index;
+                        webmapOpLayerArr[j].webmapTitle = this.webmapList[i][1].itemInfo.item.title;
+                        index++;
+                        this.opLayersArr.push(webmapOpLayerArr[j]);
+                        layerResponseDef.push(this._queryOnLayer(webmapOpLayerArr[j]));
+                    }
+                }
             }
-            this.extentChangeHandler = this.map.on("extent-change", lang.hitch(this, function () {
-                extentChangeFlag = true;
-                this._loadFeatureLayer(operationalLayer, extentChangeFlag);
+            if (!this.opLayersArr.length) {
+                domConstruct.create("div", {
+                    "innerHTML": dojo.configData.i18n.myIssues.noResultsFound,
+                    "class": "esriCTNoIssuesDiv"
+                }, this.listContainer);
+                domStyle.set(this.listLoadingIndicator, "display", "none");
+            }
+            all(layerResponseDef).then(lang.hitch(this, function (featureSet) {
+                var layerIssuesResponseDef = [];
+                for (i = 0; i < featureSet.length; i++) {
+                    if (featureSet[i]) {
+                        this.opLayersArr[i].layerObject.graphics = featureSet[i];
+                        layerIssuesResponseDef.push(this._fetchIssueListData(this.opLayersArr[i]));
+                    }
+                }
+                all(layerIssuesResponseDef).then(lang.hitch(this, function (results) {
+                    this._fetchIssueDetailsFromLayers(results);
+                }));
             }));
-            //on window resize update the height of issue details based on screen size and headers and footers.
+            //on window resize update the height of issue list based on screen size and headers and footers.
             // As in case of long header title, header height need to be adjusted.
             on(window, "resize", lang.hitch(this, function () {
                 var detailDiv, detailHeaderDiv, detailFooterDiv, detailBodyheight, listDetailsData;
@@ -113,33 +155,135 @@ define([
         },
 
         /**
+        * update my issue list when new issue is added
+        * @param{object} data contains layer info, on which new issue has reported
+        * @param{object} updatedIssue contains details of feature, which has been updated.
+        * @memberOf widgets/my-issues/my-issues
+        */
+        updateIssueList: function (data, updatedIssue) {
+            var layerIndex = this._getSelectedLayer(data.webMapId, data.operationalLayerId, data.operationalLayerDetails.title);
+            if (layerIndex || layerIndex === 0) {
+                if (updatedIssue) {
+                    //check if updated issue is reported b logged in user
+                    if (updatedIssue.attributes[dojo.configData.reportedByField] !== dojo.configData.logInDetails.processedUserName) {
+                        return;
+                    }
+                }
+
+                if (this._isFieldAvailable(this.opLayersArr[layerIndex].layerObject, dojo.configData.reportedByField)) {
+                    domStyle.set(this.listLoadingIndicator, "display", "block");
+                    domConstruct.empty(this.listContainer);
+                    this._queryOnLayer(this.opLayersArr[layerIndex]).then(lang.hitch(this, function (result) {
+                        if (result) {
+                            //update graphics array
+                            this.opLayersArr[layerIndex].layerObject.graphics = result;
+                        }
+                        this._fetchIssueListData(this.opLayersArr[layerIndex]).then(lang.hitch(this, function (response) {
+                            this.opLayersArr[layerIndex].relatedTable = response.relatedTable;
+                            this._fetchIssueDetailsFromLayers(this.opLayersArr);
+                        }));
+
+                    }));
+                }
+            }
+        },
+
+        /**
+        * check if configured field is available in layer
+        * @param{object} layerObject is operational layer object
+        * @param{object} fieldName is field name
+        * @memberOf widgets/my-issues/my-issues
+        */
+        _isFieldAvailable: function (layerObject, fieldName) {
+            var i, isFieldAvl = false;
+            for (i = 0; i < layerObject.fields.length; i++) {
+                if (layerObject.fields[i].name === fieldName) {
+                    isFieldAvl = true;
+                    break;
+                }
+            }
+            return isFieldAvl;
+        },
+
+        /**
+        * query on layer to get updated issue list
+        * @param{object} layerObject is operational layer object
+        * @memberOf widgets/my-issues/my-issues
+        */
+        _queryOnLayer: function (opLayer) {
+            var queryTask, deferred, parameters, dateobj = new Date().getTime().toString();
+            deferred = new Deferred();
+            parameters = new Query();
+            parameters.where = dojo.configData.reportedByField + "='" + dojo.configData.logInDetails.processedUserName + "' AND " + dateobj + "=" + dateobj;
+            parameters.outFields = ["*"];
+            queryTask = new QueryTask(opLayer.url);
+            queryTask.execute(parameters, function (response) {
+                deferred.resolve(response.features);
+            }, function (err) {
+                deferred.resolve();
+            });
+            return deferred;
+        },
+        /**
+        * get instance of layer
+        * @param{object} webmapId is the id of selected webmap for reported issue
+        * @param{object} layerId is the id of layer on which issue has reported
+        * @param{object} layerTitle is the title of layer on which issue has reported
+        * @memberOf widgets/my-issues/my-issues
+        */
+        _getSelectedLayer: function (webmapId, layerId, layerTitle) {
+            var opLayerIndex, i;
+            for (i = 0; i < this.opLayersArr.length; i++) {
+                if (this.opLayersArr[i].webmapId === webmapId && this.opLayersArr[i].layerObject.id === layerId && this.opLayersArr[i].title === layerTitle) {
+                    opLayerIndex = this.opLayersArr[i].layerIndex;
+                    break;
+                }
+            }
+            return opLayerIndex;
+        },
+        /**
+        * fetch issue details from all layers
+        * @param{object} layerObject is operational layer object
+        * @memberOf widgets/my-issues/my-issues
+        */
+        _fetchIssueDetailsFromLayers: function (oplayersArr) {
+            var i;
+            for (i = 0; i < oplayersArr.length; i++) {
+                if (oplayersArr[i]) {
+                    this._fetchIssueDetails(oplayersArr[i]);
+                }
+            }
+        },
+
+        /**
         * Load feature layer and fetch the graphics from that layer
         * @param{object} operationalLayer
-        * @memberOf widgets/issue-wall/issue-wall
+        * @memberOf widgets/my-issues/my-issues
         */
-        _loadFeatureLayer: function (operationalLayer, extentChangeFlag) {
-            var featureLayer;
-            domStyle.set(this.listLoadingIndicator, "display", "block");
-            this.featureLayer = new FeatureLayer(operationalLayer.url);
-            on(this.featureLayer, "load", lang.hitch(this, function (evt) {
+        _loadFeatureLayer: function (operationalLayer) {
+            var featureLayer, deferred = new Deferred();
+            featureLayer = new FeatureLayer(operationalLayer.url);
+            on(featureLayer, "load", lang.hitch(this, function (evt) {
                 setTimeout(lang.hitch(this, function () {
-                    this._fetchIssueListData(operationalLayer, extentChangeFlag);
+                    deferred.resolve(operationalLayer);
                 }), 1000);
             }));
+            return deferred;
         },
 
         /**
         * Fetch feature layer graphics and info popup header fields to be displayed in the list
         * @param{object} operationalLayer details
-        * @memberOf widgets/issue-wall/issue-wall
+        * @memberOf widgets/my-issues/my-issues
         */
-        _fetchIssueListData: function (operationalLayer, extentChangeFlag) {
-            var k, relatedTable, layerId, lastIndex, relatedTableURL, layer, commentIconFlag = false;
+        _fetchIssueListData: function (operationalLayer) {
+            var operationalLayerObj = operationalLayer.layerObject, k, relatedTable, layerId,
+                lastIndex, relatedTableURL, layer, commentIconFlag = false, deferred = new Deferred();
             // if comment field is present in config file and the layer contains related table, fetch the first related table URL
-            if (dojo.configData.commentField && operationalLayer.relationships.length > 0) {
-                layerId = operationalLayer.relationships[0].relatedTableId;
-                lastIndex = operationalLayer.url.lastIndexOf('/');
-                layer = operationalLayer.url.substr(0, lastIndex + 1);
+            if (dojo.configData.commentField && operationalLayerObj.relationships.length > 0) {
+                layerId = operationalLayerObj.relationships[0].relatedTableId;
+                lastIndex = operationalLayerObj.url.lastIndexOf('/');
+                layer = operationalLayerObj.url.substr(0, lastIndex + 1);
                 relatedTableURL = layer + layerId;
                 relatedTable = new FeatureLayer(relatedTableURL);
                 on(relatedTable, "load", lang.hitch(this, function (evt) {
@@ -150,11 +294,15 @@ define([
                             break;
                         }
                     }
-                    this._fetchIssueDetails(operationalLayer, commentIconFlag, extentChangeFlag, relatedTable);
+                    operationalLayer.commentFlag = commentIconFlag;
+                    operationalLayer.relatedTable = relatedTable;
+                    deferred.resolve(operationalLayer);
                 }));
             } else {
-                this._fetchIssueDetails(operationalLayer, commentIconFlag, extentChangeFlag, relatedTable);
+                operationalLayer.commentFlag = commentIconFlag;
+                deferred.resolve(operationalLayer);
             }
+            return deferred;
         },
 
         /**
@@ -163,7 +311,7 @@ define([
         * @param{object} object id field from the layer
         * @param{object} parentDiv, container in which the icon would be inserted
         * @param{object} commentIconFlag
-        * @memberOf widgets/issue-wall/issue-wall
+        * @memberOf widgets/my-issues/my-issues
         */
         _showHideCommentIcon: function (commentParams, issueTitle) {
             var commentIcon, commentIconContent;
@@ -181,63 +329,59 @@ define([
         },
 
         _handleCommentsIconClick: function (commentIcon, commentParams, issueTitle) {
+            var issueCommentWidget;
             on(commentIcon, "click", lang.hitch(this, function (evt) {
                 dojo.applicationUtils.showLoadingIndicator();
                 commentParams.objectId = domAttr.get(evt.currentTarget, "objId");
                 commentParams.issueTitle = issueTitle;
-                commentParams.globalIdField = domAttr.get(evt.currentTarget, "globalID");
                 this.issueCommentWidget._fetchComments(commentParams);
+                commentParams.globalIdField = domAttr.get(evt.currentTarget, "globalID");
 
             }));
         },
-
         /**
         * Fetch feature layer graphics and info popup header fields to be displayed in the list
         * @param{object} operationalLayer details
-        * @param{object} URL for the comments related table
-        * @param{object} key field for the relationship
-        * @param{object} flag to determine if comment icon should be displayed or hidden
-        * @memberOf widgets/issue-wall/issue-wall
+        * @memberOf widgets/my-issues/my-issues
         */
-        _fetchIssueDetails: function (operationalLayer, commentIconFlag, extentChangeFlag, relatedTable) {
-            var i, j, x, featureArray = [],
-                fieldName, likeFlag = false,
+        _fetchIssueDetails: function (operationalLayer) {
+            var i, j, x, featureArray = [], operationalLayerObj = operationalLayer.layerObject, fieldName, likeFlag = false,
                 fields, fieldValue, attributes, objectIdFieldName, objectIdFieldValue, flagObject = {};
-            for (j = 0; j < operationalLayer.graphics.length; j++) {
-                // fetch only the features present in current map extent
-                if (this.map.extent.intersects(operationalLayer.graphics[j].geometry)) {
-                    for (fields in operationalLayer.graphics[j].attributes) {
-                        if (operationalLayer.graphics[j].attributes.hasOwnProperty(fields)) {
-                            if (operationalLayer.graphics[j].attributes[fields] === null || operationalLayer.graphics[j].attributes[fields] === "") {
-                                operationalLayer.graphics[j].attributes[fields] = dojo.configData.showNullValueAs;
+            this.operationalLayerDetails = operationalLayer;
+            for (j = operationalLayerObj.graphics.length - 1; j >= 0; j--) {
+                if (dojo.configData.logInDetails.processedUserName === operationalLayerObj.graphics[j].attributes[dojo.configData.reportedByField]) {
+                    for (fields in operationalLayerObj.graphics[j].attributes) {
+                        if (operationalLayerObj.graphics[j].attributes.hasOwnProperty(fields)) {
+                            if (!operationalLayerObj.graphics[j].attributes[fields]) {
+                                operationalLayerObj.graphics[j].attributes[fields] = dojo.configData.showNullValueAs;
                             }
                         }
                     }
                     // check if edit date field is available in the layer for sorting the issue list
-                    if (this.operationalLayerDetails.layerObject && this.operationalLayerDetails.layerObject.editFieldsInfo && this.operationalLayerDetails.layerObject.editFieldsInfo.editDateField) {
-                        fieldName = this.operationalLayerDetails.layerObject.editFieldsInfo.editDateField;
-                        fieldValue = operationalLayer.graphics[j].attributes[fieldName];
+                    if (operationalLayerObj && operationalLayerObj.editFieldsInfo && this.operationalLayerDetails.layerObject.editFieldsInfo.editDateField) {
+                        fieldName = operationalLayerObj.editFieldsInfo.editDateField;
+                        fieldValue = operationalLayerObj.graphics[j].attributes[fieldName];
                     }
-                    attributes = operationalLayer.graphics[j].attributes;
-                    for (x = 0; x < operationalLayer.fields.length; x++) {
-                        if (operationalLayer.fields[x].type === "esriFieldTypeDate") {
+                    attributes = operationalLayerObj.graphics[j].attributes;
+                    for (x = 0; x < operationalLayerObj.fields.length; x++) {
+                        if (operationalLayerObj.fields[x].type === "esriFieldTypeDate") {
                             // format editor date field according to the format received from  info popup
-                            if (Number(attributes[operationalLayer.fields[x].name])) {
-                                for (i = 0; i < this.operationalLayerDetails.popupInfo.fieldInfos.length; i++) {
-                                    if (this.operationalLayerDetails.popupInfo.fieldInfos[i].fieldName === operationalLayer.fields[x].name) {
-                                        attributes[operationalLayer.fields[x].name] = moment(attributes[operationalLayer.fields[x].name]).format(dojo.applicationUtils.getDateFormat(this.operationalLayerDetails.popupInfo.fieldInfos[i].format.dateFormat));
+                            if (Number(attributes[operationalLayerObj.fields[x].name])) {
+                                for (i = 0; i < operationalLayer.popupInfo.fieldInfos.length; i++) {
+                                    if (operationalLayer.popupInfo.fieldInfos[i].fieldName === operationalLayerObj.fields[x].name) {
+                                        attributes[operationalLayerObj.fields[x].name] = moment(attributes[operationalLayerObj.fields[x].name]).format(dojo.applicationUtils.getDateFormat(operationalLayer.popupInfo.fieldInfos[i].format.dateFormat));
                                     }
                                 }
                             }
                         }
                         // get object id field from the layer
-                        if (operationalLayer.fields[x].type === "esriFieldTypeOID") {
-                            objectIdFieldName = operationalLayer.fields[x].name;
-                            objectIdFieldValue = operationalLayer.graphics[j].attributes[objectIdFieldName];
+                        if (operationalLayerObj.fields[x].type === "esriFieldTypeOID") {
+                            objectIdFieldName = operationalLayerObj.fields[x].name;
+                            objectIdFieldValue = operationalLayerObj.graphics[j].attributes[objectIdFieldName];
                         }
 
                         // if like field is present in the config file and the layer contains like field, set the flag to true
-                        if (dojo.configData.likeField && (operationalLayer.fields[x].name === dojo.configData.likeField)) {
+                        if (dojo.configData.likeField && (operationalLayerObj.fields[x].name === dojo.configData.likeField)) {
                             likeFlag = true;
                         }
                     }
@@ -252,11 +396,10 @@ define([
                 }
             }
             // Sort feature array
-            featureArray.sort(this._sortFeatureArray);
+            // featureArray.sort(this._sortFeatureArray);
             flagObject.like = likeFlag;
-            flagObject.comment = commentIconFlag;
-            flagObject.extentChange = extentChangeFlag;
-            this._displayIssueList(featureArray, operationalLayer, objectIdFieldName, flagObject, relatedTable);
+            flagObject.comment = operationalLayer.commentFlag;
+            this._displayIssueList(featureArray, operationalLayer, objectIdFieldName, flagObject);
 
         },
 
@@ -266,94 +409,95 @@ define([
         * @param{object} operationalLayer details
         * @param{object} objectId Field
         * @param{object} flagObject for like icon,comments icon, extent change
-        * @memberOf widgets/issue-wall/issue-wall
+        * @memberOf widgets/my-issues/my-issues
         */
-        _displayIssueList: function (featureSet, operationalLayer, objectIdField, flagObject, relatedTable) {
-            var i, issueListTemplateString, parentDiv, issueTitleName, statusParamObj = {
+        _displayIssueList: function (featureSet, operationalLayer, objectIdField, flagObject) {
+            var i, parentDiv, statusParamObj = {
                 likeStatus: flagObject.like,
                 commentStatus: flagObject.comment,
                 objField: objectIdField,
-                layerField: operationalLayer
-            }, setIssueObj;
-            // if extent change is not fired, clear list container and refresh issue list
-            if (!flagObject.extentChange) {
-                domConstruct.empty(this.listDetailedContainer);
-                domClass.add(this.listDetailedContainer, "esriCTHidden");
-                domClass.remove(this.listContainer, "esriCTHidden");
-                flagObject.extentChange = false;
-            }
-            domConstruct.empty(this.listContainer);
-            domAttr.set(this.listContainerTitle, "innerHTML", this.operationalLayerDetails.title);
+                layerField: operationalLayer.layerObject
+            };
             // check if details exist in info popup
-            if (this.operationalLayerDetails.popupInfo && featureSet.length > 0) {
+            if (operationalLayer.popupInfo && featureSet.length > 0) {
+                this.isNoFeatureFound = false;
                 // loop through the features to get feature details
                 for (i = 0; i < featureSet.length; i++) {
-                    // get header title of each issue details
-                    issueTitleName = this._getIssueDetailsTitle(featureSet[i].attributes);
-                    issueListTemplateString = string.substitute(issueItemTemplate, {
-                        IssueTitle: issueTitleName
-                    });
-                    // Checking if IE Version is less than 9
-                    if (dojo.isIE < 9) {
-                        parentDiv = domConstruct.toDom(issueListTemplateString);
-                    } else {
-                        parentDiv = domConstruct.toDom(issueListTemplateString).childNodes[0];
+                    if (dojo.configData.logInDetails.processedUserName === featureSet[i].attributes[dojo.configData.reportedByField]) {
+                        // get header title of each issue details
+                        this._createIssueTemplate(featureSet[i], statusParamObj, operationalLayer);
                     }
-                    setIssueObj = query('.esriCTDownArrowIcon', parentDiv)[0];
-                    // if down arrow found for issue detail
-                    if (setIssueObj) {
-                        domAttr.set(setIssueObj, "objId", featureSet[i].attributes[objectIdField]);
-                    }
-                    this.listContainer.appendChild(parentDiv);
-                    this._showHideLikeIcon(statusParamObj, featureSet[i].attributes, parentDiv);
-                    commentParams = {
-                        "attributes": featureSet[i].attributes,
-                        "objectId": objectIdField,
-                        "parentNode": parentDiv,
-                        "commentFlag": statusParamObj.commentStatus,
-                        "layer": operationalLayer,
-                        "relatedTable": relatedTable
-                    };
-                    this._showHideCommentIcon(commentParams, issueTitleName);
-                    this._locateIssueOnMap(featureSet[i].attributes, objectIdField, parentDiv, operationalLayer);
-                    // show issue details on down arrow click
-                    this._handleDownArrowClick(parentDiv, featureSet[i].attributes, statusParamObj, issueTitleName, relatedTable);
                 }
                 // show issue details on click of feature on map
-                this._attachFeatureClickEvent(parentDiv, statusParamObj);
-            } else {
+                this._showFeatureIssueDetails(parentDiv, statusParamObj);
+            } else if (this.isNoFeatureFound && operationalLayer.layerIndex === this.opLayersArr.length - 1) {
                 domConstruct.create("div", {
-                    "innerHTML": dojo.configData.i18n.issueWall.noResultsFound,
+                    "innerHTML": dojo.configData.i18n.myIssues.noResultsFound,
                     "class": "esriCTNoIssuesDiv"
                 }, this.listContainer);
+
             }
             domStyle.set(this.listLoadingIndicator, "display", "none");
         },
 
+        /**
+        * create feature template in my issue list
+        * @param{array} featureSet
+        * @param{object} statusParamObj contains votes and comment details
+        * @param{object} operationalLayer details
+        * @memberOf widgets/my-issues/my-issues
+        */
+        _createIssueTemplate: function (feature, statusParamObj, operationalLayer) {
+            var issueTitleName, issueListTemplateString, parentDiv, setIssueObj, commentParams;
+            issueTitleName = this._getIssueDetailsTitle(feature.attributes, operationalLayer);
+            issueListTemplateString = string.substitute(issueItemTemplate, {
+                IssueTitle: issueTitleName.issueTitle,
+                LayerTitle: issueTitleName.layerTitle
+            });
+            // Checking if IE Version is less than 9
+            if (dojo.isIE < 9) {
+                parentDiv = domConstruct.toDom(issueListTemplateString);
+            } else {
+                parentDiv = domConstruct.toDom(issueListTemplateString).childNodes[0];
+            }
+            setIssueObj = query('.esriCTDownArrowIcon', parentDiv)[0];
+            // if down arrow found for issue detail
+            if (setIssueObj) {
+                domAttr.set(setIssueObj, "objId", feature.attributes[statusParamObj.objField]);
+                domAttr.set(setIssueObj, "layerIndex", operationalLayer.layerIndex);
+            }
+            this.listContainer.appendChild(parentDiv);
+            this._showHideLikeIcon(statusParamObj, feature.attributes, parentDiv, operationalLayer.layerIndex);
+            commentParams = {
+                "attributes": feature.attributes,
+                "objectId": statusParamObj.objField,
+                "parentNode": parentDiv,
+                "commentFlag": statusParamObj.commentStatus,
+                "layer": statusParamObj.layerField,
+                "relatedTable": operationalLayer.relatedTable
+            };
+            this._showHideCommentIcon(commentParams, issueTitleName.issueTitle);
+            this._locateIssueOnMap(feature.attributes, statusParamObj.objField, parentDiv, operationalLayer);
+            // show issue details on down arrow click
+            this._handleDownArrowClick(parentDiv, feature.attributes, statusParamObj, operationalLayer.relatedTable);
+
+        },
         /*
         * Sets the info popup header for each issue
         * @param{array} featureSet
-        * @memberOf widgets/issue-wall/issue-wall
+        * @memberOf widgets/my-issues/my-issues
         */
-        _getIssueDetailsTitle: function (featureSet) {
-            var titleField, i, j, popupTitle, headerValue, headerFieldArray, panelHeaderValue, issueDetailsTitleName;
+        _getIssueDetailsTitle: function (featureSet, operationalLayer) {
+            var i, j, popupTitle, headerValue, headerFieldArray, panelHeaderValue, issueDetailsTitleName, issueTemplateHeader, layerTitle;
             // split info popup header fields
-            popupTitle = this.operationalLayerDetails.popupInfo.title.split("{");
-
+            popupTitle = operationalLayer.popupInfo.title.split("{");
             headerFieldArray = [];
             // if header contains more than 1 fields
             if (popupTitle.length > 1) {
                 // get strings from header
-                titleField = lang.trim(popupTitle[0]) + " ";
 
                 for (i = 1; i < popupTitle.length; i++) {
-                    if (i === 1) {
-                        // concatenate string and first field from the header and insert in an array
-                        headerFieldArray.push(titleField + string.substitute("${" + lang.trim(popupTitle[i]), featureSet));
-                    } else {
-                        // insert remaining fields in an array
-                        headerFieldArray.push(string.substitute("${" + lang.trim(popupTitle[i]), featureSet));
-                    }
+                    headerFieldArray.push(string.substitute("${" + lang.trim(popupTitle[i]), featureSet));
                 }
                 headerValue = null;
                 // form a string from the headerFieldArray array, to display in header
@@ -375,7 +519,13 @@ define([
                 }
                 issueDetailsTitleName = panelHeaderValue;
             }
-            return issueDetailsTitleName;
+
+            layerTitle = operationalLayer.webmapTitle + ": " + operationalLayer.title;
+            issueTemplateHeader = {
+                "layerTitle": layerTitle,
+                "issueTitle": issueDetailsTitleName
+            };
+            return issueTemplateHeader;
         },
 
         /**
@@ -383,17 +533,19 @@ define([
         * @param{array} featureSet
         * @param{object} statusParamObj
         * @param{string} issueTitleName,parentDiv
-        * @memberOf widgets/issue-wall/issue-wall
+        * @memberOf widgets/my-issues/my-issues
         */
-        _handleDownArrowClick: function (parentDiv, featureSet, statusParamObj, issueTitleName, relatedTable) {
-            var downArrowIcon, getIssueObj;
+        _handleDownArrowClick: function (parentDiv, featureSet, statusParamObj, relatedTable) {
+            var downArrowIcon, getIssueObj, getIssueLayerObj;
             // click event for opening the issue detailed view
             downArrowIcon = query('.esriCTDownArrowIcon', parentDiv)[0];
             // binding event only if the queried node found
             if (downArrowIcon) {
                 on(downArrowIcon, "click", lang.hitch(this, function (evt) {
                     getIssueObj = domAttr.get(downArrowIcon, "objId");
-                    // if issue object id found
+                    getIssueLayerObj = domAttr.get(downArrowIcon, "layerIndex");
+                    this.operationalLayerDetails = this.opLayersArr[parseInt(getIssueLayerObj, 10)];
+                    // if issue object id foundopLayersArr
                     if (getIssueObj) {
                         this._getIssueFeatureSet(parentDiv, getIssueObj, statusParamObj, relatedTable);
                     }
@@ -405,27 +557,28 @@ define([
         * Get feature from layer and Display selected issue details of right panel
         * @param{object} statusParamObj
         * @param{string} parentDiv, getIssueObj
-        * @memberOf widgets/issue-wall/issue-wall
+        * @memberOf widgets/my-issues/my-issues
         */
         _getIssueFeatureSet: function (parentDiv, getIssueObj, statusParamObj, relatedTable) {
-            var issueTitleName, featureLayerQuery;
+            var issueTitleName, featureLayerQuery, queryTask;
             featureLayerQuery = new Query();
-            featureLayerQuery.outSpatialReference = this.map.spatialReference;
             featureLayerQuery.objectIds = [getIssueObj];
-            statusParamObj.layerField.queryFeatures(featureLayerQuery, lang.hitch(this, function (attr) {
+            featureLayerQuery.outFields = ["*"];
+
+            queryTask = new QueryTask(statusParamObj.layerField.url);
+            queryTask.execute(featureLayerQuery, lang.hitch(this, function (response) {
                 var keyfield;
                 // loop for Assigning null ('') for null valued features attributes
-                for (keyfield in attr.features[0].attributes) {
+                for (keyfield in response.features[0].attributes) {
                     // Check if features attributes value is null
-                    if (attr.features[0].attributes.hasOwnProperty(keyfield)) {
-                        if (attr.features[0].attributes[keyfield] === null || attr.features[0].attributes[keyfield] === "") {
-                            attr.features[0].attributes[keyfield] = dojo.configData.showNullValueAs;
+                    if (response.features[0].attributes.hasOwnProperty(keyfield)) {
+                        if (!response.features[0].attributes[keyfield]) {
+                            response.features[0].attributes[keyfield] = dojo.configData.showNullValueAs;
                         }
                     }
                 }
-                this._highLightFeatureOnClick(statusParamObj.layerField, getIssueObj);
-                issueTitleName = this._getIssueDetailsTitle(attr.features[0].attributes);
-                this._showIssueDetails(parentDiv, attr.features[0].attributes, statusParamObj, issueTitleName, relatedTable);
+                issueTitleName = this._getIssueDetailsTitle(response.features[0].attributes, this.operationalLayerDetails);
+                this._showIssueDetails(parentDiv, response.features[0].attributes, statusParamObj, issueTitleName, relatedTable);
             }), function (err) {
                 dojo.applicationUtils.showError(err.message);
             });
@@ -435,17 +588,17 @@ define([
         * @param{array} featureSet
         * @param{object} statusParamObj
         * @param{string} titleName,parentDiv
-        * @memberOf widgets/issue-wall/issue-wall
+        * @memberOf widgets/my-issues/my-issues
         */
         _showIssueDetails: function (parentDiv, featureSet, statusParamObj, issueTitleName, relatedTable) {
-            var issueDetailsTemplateString, container, detailsData, x, j, fieldHeader, fieldContent, fieldValue, objectID, upArrowIcon, popupInfoValue, key,
-                detailDivheight, detailHeaderDiv, detailFooterDiv, detailBodyheight, listDetailsData, fieldLabel, domainValue;
+            var issueDetailsTemplateString, container, detailsData, x, fieldHeader, fieldContent, fieldValue, objectID, upArrowIcon, popupInfoValue, key,
+                detailDivheight, detailHeaderDiv, detailFooterDiv, detailBodyheight, listDetailsData, fieldLabel, domainValue, commentParams;
             domClass.add(this.listContainer, "esriCTHidden");
             domClass.remove(this.listDetailedContainer, "esriCTHidden");
             issueDetailsTemplateString = string.substitute(issueDetailsTemplate, {
-                IssueTitle: issueTitleName
+                IssueTitle: issueTitleName.issueTitle
             });
-            domConstruct.empty(this.listDetailedContainer);
+            // domConstruct.empty(this.listDetailedContainer);
             domClass.remove(this.listDetailedContainer, "esriCTHidden");
             // Checking if IE Version is less than 9
             if (dojo.isIE < 9) {
@@ -487,10 +640,17 @@ define([
                         }, container);
                         popupInfoValue = this.operationalLayerDetails.popupInfo.fieldInfos[x];
                         // loop for Assigning N/A for null valued features attributes
-
+                        for (key in featureSet) {
+                            // Check if features attributes value is null
+                            if (featureSet.hasOwnProperty(key)) {
+                                if (!featureSet[key]) {
+                                    featureSet[key] = dojo.configData.showNullValueAs;
+                                }
+                            }
+                        }
                         fieldValue = dojo.configData.showNullValueAs;
 
-                        if (featureSet[popupInfoValue.fieldName] !== null && featureSet[popupInfoValue.fieldName] !== "") {
+                        if (featureSet[popupInfoValue.fieldName]) {
                             fieldValue = string.substitute("${" + popupInfoValue.fieldName + "}", featureSet);
                         }
 
@@ -516,19 +676,18 @@ define([
                         domAttr.set(fieldContent, "innerHTML", fieldValue);
                     }
                 }
-                // Get object id for the feature
-                objectID = featureSet[statusParamObj.objField];
-                // Check if attachments found and show attachment flag is true
-                if (statusParamObj.layerField.hasAttachments && this.operationalLayerDetails.popupInfo.showAttachments) {
-                    this._showAttachments(statusParamObj.layerField, parentDiv, objectID);
-                }
             } else {
                 domConstruct.create("div", {
-                    "innerHTML": dojo.configData.i18n.issueWall.noResultsFound,
+                    "innerHTML": dojo.configData.i18n.myIssues.noResultsFound,
                     "class": "esriCTNoIssuesDiv"
                 }, detailsData);
             }
-
+            // Get object id for the feature
+            objectID = featureSet[statusParamObj.objField];
+            // Check if attachments found and show attachment flag is true
+            if (statusParamObj.layerField.hasAttachments && this.operationalLayerDetails.popupInfo.showAttachments) {
+                this._showAttachments(statusParamObj.layerField, parentDiv, objectID);
+            }
 
             detailDivheight = query(".esriCTListDetails", this.listDetailedContainer);
             detailHeaderDiv = query(".esriCTIssueHeaderHeight", this.listDetailedContainer);
@@ -542,24 +701,24 @@ define([
                     query(listDetailsData).style("max-height", detailBodyheight + "px");
                 }
             }
-            this._showHideLikeIcon(statusParamObj, featureSet, parentDiv);
+            this._showHideLikeIcon(statusParamObj, featureSet, parentDiv, this.operationalLayerDetails.layerIndex);
             commentParams = {
                 "attributes": featureSet,
                 "objectId": statusParamObj.objField,
                 "parentNode": parentDiv,
                 "commentFlag": statusParamObj.commentStatus,
                 "layer": statusParamObj.layerField,
-                "relatedTable": relatedTable
+                "relatedTable": this.operationalLayerDetails.relatedTable
             };
-            this._showHideCommentIcon(commentParams, issueTitleName);
-            this._locateIssueOnMap(featureSet, statusParamObj.objField, parentDiv, statusParamObj.layerField);
+            this._showHideCommentIcon(commentParams, issueTitleName.issueTitle);
+            this._locateIssueOnMap(featureSet, statusParamObj.objField, parentDiv, this.operationalLayerDetails);
         },
 
         /**
         * Format number value based on the format received from info popup
         * @param{object} popupInfoValue
         * @param{string} fieldValue
-        * @memberOf widgets/issue-wall/issue-wall
+        * @memberOf widgets/my-issues/my-issues
         */
         _numberFormatCorverter: function (popupInfoValue, fieldValue) {
             if ((popupInfoValue.format) && (popupInfoValue.format.digitSeparator) && (popupInfoValue.format.places)) {
@@ -577,12 +736,11 @@ define([
         /**
         * @param{object} popupInfoValue, operationalLayerDetails
         * @param{string} fieldValue
-        * @memberOf widgets/issue-wall/issue-wall
+        * @memberOf widgets/my-issues/my-issues
         */
         _domainCodedValues: function (operationalLayerDetails, popupInfoValue, fieldValue) {
-            var k, codedValues
-            domainValueObj = { domainCodedValue: dojo.configData.showNullValueAs };
-            codedValues = operationalLayerDetails.domain.codedValues;
+            var k, codedValues = operationalLayerDetails.domain.codedValues,
+                domainValueObj = { domainCodedValue: dojo.configData.showNullValueAs };
             // Loop for codedValue
             for (k = 0; k < codedValues.length; k++) {
                 // Check if the value is string or number
@@ -606,7 +764,7 @@ define([
         * Show attached images in the issue details
         * @param{array} operationalLayer
         * @param{string} objectID, parentDiv
-        * @memberOf widgets/issue-wall/issue-wall
+        * @memberOf widgets/my-issues/my-issues
         */
         _showAttachments: function (operationalLayer, parentDiv, objectID) {
             var container, detailsData, fieldContent, i, imageContent, imagePath, imageDiv = [];
@@ -619,7 +777,7 @@ define([
                         "class": "esriCTDetailsContainer"
                     }, detailsData);
                     domConstruct.create("div", {
-                        "innerHTML": dojo.configData.i18n.issueWall.photoAttachmentHeader,
+                        "innerHTML": dojo.configData.i18n.myIssues.photoAttachmentHeader,
                         "class": "esriCTListItemHeader"
                     }, container);
                     fieldContent = domConstruct.create("div", {
@@ -655,7 +813,7 @@ define([
         /**
         * Show attachments in new window when user clicks on the attachment thumbnail
         * @param{object} evt
-        * @memberOf widgets/issue-wall/issue-wall
+        * @memberOf widgets/my-issues/my-issues
         */
         _showAttachements: function (evt) {
             window.open(evt.target.alt);
@@ -665,7 +823,7 @@ define([
         * Callback handler for image loaded event.
         * hide the image loader once the image is loaded, and set the image dimensions so that complete image will be shown in thumbnail.
         * @param{object} evt
-        * @memberOf widgets/issue-wall/issue-wall
+        * @memberOf widgets/my-issues/my-issues
         */
         _onImageLoad: function (evt) {
             domClass.remove(evt.target.parentNode, "esriCTImageLoader");
@@ -676,12 +834,12 @@ define([
         * Set the images dimensions so that the complete image will be shown in thumbnail
         * @param{object} imgModule - Image object
         * @param{Boolean} isOnLoad - set this flag this function is called after image load.
-        * @memberOf widgets/issue-wall/issue-wall
+        * @memberOf widgets/my-issues/my-issues
         */
         _setImageDimensions: function (imgModule, isOnLoad) {
             var aspectRatio, newWidth, newHeight, imgWidth, imgContainer = imgModule.parentElement;
             if (isOnLoad && imgModule && imgModule.offsetHeight > 0) {
-                //set original dimensions of image as it max dimensions.
+                //set original dimensions of image as it's max dimensions.
                 domAttr.set(imgModule, "originalWidth", imgModule.offsetWidth);
                 domStyle.set(imgModule, "maxHeight", imgModule.offsetHeight + 'px');
                 domStyle.set(imgModule, "maxWidth", imgModule.offsetWidth + 'px');
@@ -706,18 +864,17 @@ define([
         * Show issue details on click of feature on map
         * @param{string} parentDiv
         * @param{object} statusParamObj
-        * @memberOf widgets/issue-wall/issue-wall
+        * @memberOf widgets/my-issues/my-issues
         */
-        _attachFeatureClickEvent: function (parentDiv, statusParamObj) {
+        _showFeatureIssueDetails: function (parentDiv, statusParamObj) {
             var featureObjId;
             if (statusParamObj.layerField) {
                 on(statusParamObj.layerField, "click", lang.hitch(this, function (evt) {
                     featureObjId = evt.graphic.attributes[statusParamObj.objField];
-                    this._highLightFeatureOnClick(statusParamObj.layerField, featureObjId);
+                    //  this._highLightFeatureOnClick(statusParamObj.layerField, featureObjId);
                     if (query('.esriCTListDetails')[0]) {
                         domConstruct.destroy(query('.esriCTListDetails')[0]);
                     }
-                    this.featureSelectedOnMapClick();
                     // if the layer has object id and query success for feature
                     if (featureObjId) {
                         this._getIssueFeatureSet(parentDiv, featureObjId, statusParamObj);
@@ -727,31 +884,25 @@ define([
         },
 
         /**
-        * Show issue details on click of feature on map
-        * @memberOf widgets/issue-wall/issue-wall
-        */
-        featureSelectedOnMapClick: function () {
-            return;
-        },
-
-        /**
         * Update votes for issue when user clicks on the like button
         * @param{object} statusParamObj
         * @param{array} featureSet
         * @param{string} parentDiv
         */
         _issueVotesClick: function (statusParamObj, featureSet, parentDiv) {
-            var likeIcon, likeCount, count, graphic, attr = {}, getObjVal, i, likeIconDiv;
+            var likeIcon, likeCount, count, graphic, queryTask, attr = {};
             likeIcon = query('.esriCTLikeIcon', parentDiv)[0];
             // Like is enabled on popup or not
             if (likeIcon) {
                 // on click of like icon
                 on(likeIcon, "click", lang.hitch(this, function (evt) {
                     var featureLayerQuery = new Query();
-                    featureLayerQuery.outSpatialReference = this.map.spatialReference;
+                    //   featureLayerQuery.outSpatialReference = this.map.spatialReference;
                     featureLayerQuery.objectIds = [parseInt(featureSet[statusParamObj.objField], 10)];
                     featureLayerQuery.returnGeometry = true;
-                    statusParamObj.layerField.queryFeatures(featureLayerQuery, lang.hitch(this, function (featureSet) {
+                    featureLayerQuery.outFields = ["*"];
+                    queryTask = new QueryTask(statusParamObj.layerField.url);
+                    queryTask.execute(featureLayerQuery, lang.hitch(this, function (featureSet) {
                         // if number of votes is zero or not available then initialize the counter
                         count = (featureSet.features[0].attributes[dojo.configData.likeField] === dojo.configData.showNullValueAs) ? 0 : featureSet.features[0].attributes[dojo.configData.likeField];
                         attr[dojo.configData.likeField] = count + 1;
@@ -761,30 +912,14 @@ define([
                         statusParamObj.layerField.applyEdits(null, [graphic], null, lang.hitch(this, function (adds, updates, deletes) {
                             // if number of votes is updated on layer
                             if (updates[0].success) {
+                                this._updateVotesInIssueList(statusParamObj.layerField.id, featureSet.features[0], attr[statusParamObj.objField], likeCount);
                                 domAttr.set(query(".esriCTLikeCount", parentDiv)[0], "innerHTML", likeCount);
-                                // Check issue list container
-                                if (this.listContainer.children.length) {
-                                    // loop for updating issue list votes count
-                                    for (i = 0; i < this.listContainer.children.length; i++) {
-                                        likeIconDiv = query('.esriCTLikeIcon', this.listContainer.children[i])[0];
-                                        if (likeIconDiv) {
-                                            getObjVal = domAttr.get(likeIconDiv, "objId");
-                                            getObjVal = parseInt(getObjVal, 10);
-                                            // if object id of the issue details and issue list is same, update the vote count field
-                                            if (getObjVal === attr[statusParamObj.objField]) {
-                                                domAttr.set(query(".esriCTLikeCount", this.listContainer.children[i])[0], "innerHTML", likeCount);
-                                                break;
-                                            }
-                                        }
-                                    }
-                                }
-                                this.issueUpdated(featureSet.features[0]);
                                 statusParamObj.layerField.refresh();
                             } else {
-                                dojo.applicationUtils.showError(dojo.configData.i18n.issueWall.votesUpdateFailure);
+                                dojo.applicationUtils.showError(dojo.configData.i18n.myIssues.votesUpdateFailure);
                             }
                         }), function (err) {
-                            dojo.applicationUtils.showError(dojo.configData.i18n.issueWall.votesUpdateFailure);
+                            dojo.applicationUtils.showError(dojo.configData.i18n.myIssues.votesUpdateFailure);
                         });
                     }), function (err) {
                         dojo.applicationUtils.showError(err.message);
@@ -793,20 +928,53 @@ define([
             }
         },
 
+        _updateVotesInIssueList: function (opLayerId, updatedFeature, featureObjId, likeCount) {
+            var likeIconDiv, getObjVal, getlayerId, i, opLayerIndex;
+            if (this.listContainer.children.length) {
+                // loop for updating issue list votes count
+                for (i = 0; i < this.listContainer.children.length; i++) {
+                    likeIconDiv = query('.esriCTLikeIcon', this.listContainer.children[i])[0];
+                    if (likeIconDiv) {
+                        getObjVal = domAttr.get(likeIconDiv, "objId");
+                        if (getObjVal) {
+                            getObjVal = parseInt(getObjVal, 10);
+                            getlayerId = domAttr.get(likeIconDiv, "layerId");
+
+                            if ((featureObjId === getObjVal) && (getlayerId === opLayerId)) {
+                                opLayerIndex = domAttr.get(likeIconDiv, "layerIndex");
+                                opLayerIndex = parseInt(opLayerIndex, 10);
+                                domAttr.set(query(".esriCTLikeCount", this.listContainer.children[i])[0], "innerHTML", likeCount);
+                                this._updateLayerObject(opLayerIndex);
+                            }
+                        }
+                    }
+                }
+            }
+        },
+
+        _updateLayerObject: function (opLayerIndex) {
+            this._queryOnLayer(this.opLayersArr[opLayerIndex]).then(lang.hitch(this, function (response) {
+                this.opLayersArr[opLayerIndex].layerObject.graphics = response;
+            }));
+            this.onIssueUpdated(this.opLayersArr[opLayerIndex]);
+        },
         /**
         * Show or hide like icon
         * @param{object} likeFlag
         * @param{array} attributes
         * @param{object} object id field from the layer
         * @param{object} parentDiv, container in which the icon would be inserted
-        * @memberOf widgets/issue-wall/issue-wall
+        * @memberOf widgets/my-issues/my-issues
         */
-        _showHideLikeIcon: function (statusParamObj, attributes, parentDiv) {
+        _showHideLikeIcon: function (statusParamObj, attributes, parentDiv, layerIndex) {
             var likeIcon, likeCount, likeIconContent;
             // if like field is present in the layer, show like icon else hide the icon
             if (statusParamObj.likeStatus) {
                 likeIcon = query('.esriCTLikeIcon', parentDiv)[0];
                 domAttr.set(likeIcon, "objId", attributes[statusParamObj.objField]);
+                //binding layer id to identify which issue from which layer has to be updated
+                domAttr.set(likeIcon, "layerId", statusParamObj.layerField.id);
+                domAttr.set(likeIcon, "layerIndex", layerIndex);
                 likeCount = attributes[dojo.configData.likeField];
                 // if like count is not 0, display like count, else don't display anything for like count
                 if (likeCount !== dojo.configData.showNullValueAs) {
@@ -820,41 +988,66 @@ define([
             }
         },
 
+
         /**
-        * Locate issue on map when user clicks on the 'map it' button
+        * Show or hide like icon
         * @param{array} attributes
         * @param{object} object id field from the layer
         * @param{object} parentDiv, container in which the icon would be inserted
         * @param{object} operationalLayer
-        * @memberOf widgets/issue-wall/issue-wall
+        * @memberOf widgets/my-issues/my-issues
         */
         _locateIssueOnMap: function (attributes, objectIdField, parentDiv, operationalLayer) {
-            var locateOnMapIcon, target, objectId;
+            var locateOnMapIcon, target, objectId, webmapInstanceId, layerIndex;
             locateOnMapIcon = query('.esriCTMapIcon', parentDiv)[0];
             domAttr.set(locateOnMapIcon, "objId", attributes[objectIdField]);
+            domAttr.set(locateOnMapIcon, "webmapInstanceId", operationalLayer.webmapId);
+            domAttr.set(locateOnMapIcon, "layerIndex", operationalLayer.layerIndex);
+
             on(locateOnMapIcon, "click", lang.hitch(this, function (evt) {
-                // show map view on click of icon in mobile view
-                this.showMapViewOnLocate();
-                if (evt.currentTarget) {
-                    target = evt.currentTarget;
-                } else {
-                    target = evt.srcElement;
-                }
+
+                target = evt.currentTarget || evt.srcElement;
                 objectId = domAttr.get(target, "objId");
-                this._highLightFeatureOnClick(operationalLayer, objectId);
+                layerIndex = domAttr.get(target, "layerIndex");
+                webmapInstanceId = domAttr.get(target, "webmapInstanceId");
+                var param = {
+                    "webMapId": webmapInstanceId,
+                    "operationalLayerId": operationalLayer.layerObject.id,
+                    "operationalLayerDetails": operationalLayer,
+                    "itemInfo": null
+                };
+                this.featureObjectId = objectId;
+                // show map view on click of icon in mobile view
+                this.loadSelectedWebmap(param);
             }));
+        },
+
+        /**
+        * clear graphic layer on map if exists else, add new graphic layer
+        * @memberOf widgets/my-issues/my-issues
+        */
+        _clearGraphicsLayer: function (map) {
+            this.selectedGraphicsLayer = map.getLayer("selectionGraphicsLayer");
+            if (this.selectedGraphicsLayer) {
+                this.selectedGraphicsLayer.clear();
+            } else {
+                this.selectedGraphicsLayer = new GraphicsLayer();
+                this.selectedGraphicsLayer.id = "selectionGraphicsLayer";
+                map.addLayer(this.selectedGraphicsLayer);
+            }
         },
 
         /**
         * This function is used to highlight feature.
         * @param{object} layer
         * @param{object} objectId
-        * @memberOf widgets/issue-wall/issue-wall
+        * @memberOf widgets/my-issues/my-issues
         */
-        _highLightFeatureOnClick: function (layer, objectId) {
+        highLightFeature: function (map, layer, objectId) {
             var esriQuery, highlightSymbol;
+            this.featureObjectId = null;
             // clear graphics layer
-            this.selectedGraphicsLayer.clear();
+            this._clearGraphicsLayer(map);
             esriQuery = new Query();
             esriQuery.objectIds = [parseInt(objectId, 10)];
             esriQuery.returnGeometry = true;
@@ -871,7 +1064,7 @@ define([
         * Create crosshair symbol to highlight point feature
         * @param{object} symbol path
         * @param{object} symbol size
-        * @memberOf widgets/issue-wall/issue-wall
+        * @memberOf widgets/my-issues/my-issues
         */
         _createSVGSymbol: function (path, size) {
             var sls = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 255]), 4),
@@ -888,7 +1081,7 @@ define([
         * This function is used to get symbol used for highlighting feature.
         * @param{string} graphic
         * @param{string} layer
-        * @memberOf widgets/issue-wall/issue-wall
+        * @memberOf widgets/my-issues/my-issues
         */
         _getHighLightSymbol: function (graphic, layer) {
             var i, symbol, path, symbolHeight, symbolWidth, size, symbolSize, polylineSymbol, polygonSymbol;
@@ -929,7 +1122,7 @@ define([
         * Sort issue array
         * @param{object} a
         * @param{object} b
-        * @memberOf widgets/issue-wall/issue-wall
+        * @memberOf widgets/my-issues/my-issues
         */
         _sortFeatureArray: function (a, b) {
             if (a.sortValue > b.sortValue) {
@@ -943,7 +1136,7 @@ define([
 
         /**
         * Show map view when user clicks on go to map icon in mobile view
-        * @memberOf widgets/issue-wall/issue-wall
+        * @memberOf widgets/my-issues/my-issues
         */
         showMapViewOnLocate: function (evt) {
             return evt;
@@ -951,11 +1144,10 @@ define([
 
         /**
         * Destroy instance
-        * @memberOf widgets/issue-wall/issue-wall
+        * @memberOf widgets/my-issues/my-issues
         */
         destroyInstance: function () {
             this.destroy();
         }
-
     });
 });

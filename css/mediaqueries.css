@@ -66,8 +66,9 @@
     }
     /* End of GeoForm Styles */
 
-    .esriCTCloseButton{
-        margin-right:24px;
+    .esriCTCloseButton
+    {
+        margin-right: 24px;
     }
 }
 
@@ -195,8 +196,9 @@
         display: block !important;
     }
 
-    .esriCTCloseButton{
-        margin-right:30px;
+    .esriCTCloseButton
+    {
+        margin-right: 10px;
     }
 }
 

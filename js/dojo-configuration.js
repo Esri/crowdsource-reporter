@@ -20,7 +20,7 @@
 /**
 * initialize default dojo configuration attributes by creating a dojoConfig object
 */
-var root = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
+var root = location.href.slice(0, location.href.lastIndexOf('/'));
 dojoConfig = {
     parseOnLoad: true,
     async: true,

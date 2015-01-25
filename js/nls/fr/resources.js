@@ -41,7 +41,8 @@ define(({
     },
     issueWall: {
         noResultsFound: "@fr@ No issues found in the current extent",
-        photoAttachmentHeader: "@fr@ Photo"
+        photoAttachmentHeader: "@fr@ Photo",
+        votesUpdateFailure: "@fr@ Unable to update"
     },
     mobileMenu: {
         home: "@fr@ Home",
@@ -81,11 +82,22 @@ define(({
         geoLocationOutOfExtent: "@fr@ Current location is out of basemap extent"
     },
     locator: {
-        addressText: "@fr@ Address",
+        addressText: "@fr@ Address:",
         usngText: "@fr@ USNG",
         mgrsText: "@fr@ MGRS",
         latLongText: "@fr@ LatLong",
         invalidSearch: "@fr@ No results found",
         locatorPlaceholder: "@fr@ Enter address to search"
+    },
+    myIssues: {
+        title: "@fr@ My Issues",
+        noResultsFound: "@fr@ No issues found",
+        photoAttachmentHeader: "@fr@ Photo",
+        votesUpdateFailure: "@fr@ Unable to update"
+    },
+    comment: {
+        emptyCommentMessage: "@fr@ Please enter comment.",
+        placeHolderText: "@fr@ Write a comment",
+        noCommentsAvailableText: "@fr@ No comments available"
     }
 }));

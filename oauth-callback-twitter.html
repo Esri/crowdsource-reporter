@@ -1,0 +1,39 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>OAuth Popup Callback</title>
+    <style type="text/css">
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            margin: 0px;
+            padding: 0px;
+            font-family: Verdana;
+            font-size: 14px;
+        }
+        .esriCTCallBackMessage
+        {
+            float:left;
+            width:98%;
+            margin-left:5px;   
+        }
+    </style>
+    <script type="text/javascript" src="//js.arcgis.com/3.12/init.js"></script>
+    <script type="text/javascript">
+        require([
+            "dojo/domReady!"
+        ], function () {
+            window.opener.oAuthCallback();
+            window.close();
+            self.close();
+        });
+    </script>
+</head>
+<body>
+    <div class="esriCTCallBackMessage">
+    Please close this window if it does not close automatically.
+    </div>
+</body>
+</html>

@@ -10,6 +10,7 @@ html, body
     max-width: 100%;
     background: #EDEDED;
     color: #555;
+    overflow: hidden;
 }
 
 .esriCTHeaderFont
@@ -184,6 +185,10 @@ html, body
     background-repeat: no-repeat;
 }
 
+.signin-loading-indicator
+{
+    z-index: 9999;
+}
 /* End of Loading Indicator */
 
 /* SignIn */
@@ -520,7 +525,7 @@ html, body
     line-height: 18px;
     overflow: hidden;
     position: relative;
-    max-height: 36px;
+    max-height: 40px;
     max-width: 100%;
     word-break: break-word;
 }
@@ -547,6 +552,11 @@ html, body
 {
     padding-bottom: 5px;
     border-bottom: 1px solid #dfdfdf;
+}
+
+.esriCTSelectedItem
+{
+    font-weight: bold;
 }
 
 /* End of Web Map List */
@@ -635,14 +645,22 @@ html, body
     background-size: 24px;
     background-position: center center;
 }
-
+.esriCTCommentsPanel
+{
+    height: 100%;
+}
 .esriCTIssueListContainer
 {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     height: calc(100% - 35px);
 }
-
+.esriCTCommentsContainer
+{
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    height: calc(100% - 55px);
+}
 .esriCTListHeader
 {
     height: 35px;
@@ -666,7 +684,7 @@ html, body
     margin-bottom: 0px;
 }
 
-.esriCTListContent .esriCTDownArrowIcon
+.esriCTListContent .esriCTDownArrowIcon, .esriCTCommentCloseButton
 {
     float: right;
     margin-top: -4px;
@@ -747,9 +765,9 @@ html, body
 
 .esriCTListData
 {
-   width: 100% !important;
-   padding-bottom: 5px;
-   border-bottom: 1px solid #dfdfdf;
+    width: 100% !important;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #dfdfdf;
 }
 
 .esriCTListItemHeader
@@ -1032,7 +1050,7 @@ label
 .esriCTCloseButton
 {
     float: right;
-    background-image: url(../images/close.png  );
+    background-image: url(../images/close-24.png  );
     height: 24px;
     width: 24px;
     margin-right: 24px;
@@ -1269,3 +1287,139 @@ label
 }
 
 /* End of Address container Styles */
+
+/* Comment Styles */
+
+.esriCTCloseButtonComment
+{
+    float: right;
+    background-image: url(../images/close-24.png  );
+    height: 24px;
+    width: 24px;
+    background-size: 24px;
+    background-repeat: no-repeat;
+    margin-top: -4px;
+}
+
+.esriCTCommentContent .panel-heading
+{
+    background: #fff;
+    padding-right: 0px;
+    border: none !important;
+}
+
+.esriCTTextAreaContainer
+{
+    clear: both;
+    width: 100%;
+    height: 50px;
+    background: #fff;
+}
+
+.textAreaContent
+{
+    width: 100%;
+    border: solid 1px #DFDFDF;
+    padding: 8px 5px;
+    margin: 8px 5px;
+    resize: none;
+    clear: both;
+    height: 34px;
+}
+/* End of Address container Styles */
+
+
+
+/* My issues container styles */
+
+.esriCTMyIssuesContainer
+{
+    position: absolute;
+    background-color: #EDEDED;
+    width: 100%;
+    top: 0px;
+    right: 0px;
+    display: none;
+}
+
+.esriCTMyIssuesContainer .esriCTInfoLoader
+{
+    margin: -4px 25px 0 0;
+}
+
+.esriCTMyIssuesContainer .esriCTCloseButton
+{
+    margin-right: 1px;
+}
+
+
+
+/* End of My issues container styles */
+
+/* Comment  container styles */
+.esriCTCommentsPanel
+{
+    position: absolute;
+    width:100%;
+    background:#EDEDED;
+    top:0px;
+}
+.esriCTCommentIcon
+{
+    float: left;
+    background-image: url('../images/comment.png');
+    background-repeat: no-repeat;
+    background-size: 24px;
+    background-position: center center;
+    margin: 14px 0 0 7px;
+}
+
+.esriCTEnterComment
+{
+    float: left; /* Firefox */
+    width: -moz-calc(100% - 72px); /* WebKit */
+    width: -webkit-calc(100% - 72px); /* Opera */
+    width: -o-calc(100% - 72px); /* Standard */
+    width: calc(100% - 72px);
+}
+.esriCTPostCommentButton
+{
+    float: left;
+    background-image: url('../images/addComment-22.png');
+    background-repeat: no-repeat;
+    background-size: 24px;
+    background-position: center center;
+    margin: 14px 0 0 10px;
+}
+
+.esricommentTitleDivHeader
+{
+    float: left;
+}
+
+.esriPanelMargin
+{
+    margin: 5px;
+}
+
+.esriCTCommentsContent
+{
+    margin: 2px 0 0 0;
+    float: left;
+    width: 100%;
+}
+.esriIssueComment
+{
+    clear: both;
+    margin: 10px 15px;
+}
+.esriCTCommentHeader
+{
+    margin: 10px 6px 10px 20px;
+}
+
+.esriCTNoCommentsDiv
+{
+    margin: 5px;
+}
+/* End of Comment  container styles */

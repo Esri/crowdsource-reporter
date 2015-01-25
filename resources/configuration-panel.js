@@ -41,18 +41,16 @@
                     "value": "<b>Social media signin settings:</b>"
                 },
                 {
-                    "type": "paragraph",
-                    "value": "Facebook:"
-                },
-                {
                     "type": "boolean",
                     "fieldName": "enableFacebook",
-                    "label": "Enable",
+                    "label": "Enable Facebook",
                     "tooltip": "Enable to show facebook login"
                 },
-                {
-                    "type": "paragraph",
-                    "value": "Twitter:"
+				{
+                    "type": "string",
+                    "fieldName": "facebookAppId",
+                    "label": "Facebook AppId",
+                    "tooltip": "Facebook AppId"
                 },
                 {
                     "type": "boolean",
@@ -60,15 +58,35 @@
                     "label": "Enable twitter",
                     "tooltip": "Enable to show twitter login"
                 },
-                {
-                    "type": "paragraph",
-                    "value": "Google+:"
+				{
+                    "type": "string",
+                    "fieldName": "twitterSigninUrl",
+                    "label": "Twitter Signin Url",
+                    "value": "//utility.arcgis.com/tproxy/signin"
+                },
+				{
+                    "type": "string",
+                    "fieldName": "twitterUserUrl",
+                    "label": "Twitter User Url",
+                    "value": "//utility.arcgis.com/tproxy/proxy/1.1/account/verify_credentials.json?q=&include_entities=true&skip_status=true&locale=en"
                 },
                 {
                     "type": "boolean",
                     "fieldName": "enableGoogleplus",
                     "label": "Enable googleplus",
                     "tooltip": "Enable to show googleplus login"
+                },
+				{
+                    "type": "string",
+                    "fieldName": "googleplusClientId",
+                    "label": "Googleplus ClientId",
+                    "value": "20592238920-s7s85lv2miqmbkjph2fjs3tua57ogbha.apps.googleusercontent.com"
+                },
+				{
+                    "type": "string",
+                    "fieldName": "googleplusScope",
+                    "label": "Googleplus Scope",
+                    "value": "https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email"
                 }
             ]
         },
@@ -198,21 +216,12 @@
                     "fieldName": "zoomLevel",
                     "label": "Zoom Level",
                     "tooltip": "Configure zoom level"
-                }
-            ]
-        },
-        {
-            "category": "<b>Geoform Settings</b>",
-            "fields": [
-                {
-                    "type": "paragraph",
-                    "value": "Configure Geoform settings."
                 },
                 {
                     "type": "string",
                     "fieldName": "submitMessage",
-                    "label": "Submit Message",
-                    "tooltip": "Configure message to be displayed when a geoform is submitted successfully"
+                    "label": "Submission Success Message",
+                    "tooltip": "Configure message to be displayed when an issue is submitted successfully"
                 }
             ]
         },
@@ -238,8 +247,8 @@
                 {
                     "type": "boolean",
                     "fieldName": "enableLatLongSearch",
-                    "label": "Enable Latitude Longitude Search",
-                    "tooltip": "Enable Latitude Longitude Search"
+                    "label": "Enable Latitude/Longitude Search",
+                    "tooltip": "Enable Latitude/Longitude Search"
                 }
             ]
         }

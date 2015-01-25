@@ -50,7 +50,6 @@ define([
             "signIn": false,
             "signOut": false
         },
-
         nls: {
             home: "Home",
             myIssuesView: "My Issues",
@@ -62,18 +61,17 @@ define([
             loggedInAs: "Logged in as"
         },
 
-        loggedInUser: "",
-
         /**
         * This function is called when widget is constructed.
         * @param{object} configData to be mixed
         * @memberOf widgets/mobile-menu/mobile-menu
         */
         constructor: function (configData) {
-            // check if configurable text is present in nls for webmaplist widget, merge it with local nls object
-            if (dojo.configData.i18n.webMapList) {
+            // check if configurable text is present in nls for webmaplist widget, then merge it with local nls object
+            if (dojo.configData.i18n.mobileMenu) {
                 lang.mixin(this.nls, dojo.configData.i18n.mobileMenu);
             }
+            // check if configData is present, then merge it with _config object
             if (configData) {
                 lang.mixin(this._config, configData);
             }
@@ -88,18 +86,18 @@ define([
             //by default select home(left container)
             this._lastSelectedView = dojo.byId("LeftContainer");
             this._showHideMenus();
-
-        },
-
-        hideMobileMenu: function (evt) {
-            return evt;
+            //Handle Window Resize
+            on(window, "resize", lang.hitch(this, function () {
+                this._setMenuContainerHeight();
+            }));
         },
 
         /**
-        * Show or hide menu
+        * Show or hide menu in the menu list depending on the configuration
         * @memberOf widgets/mobile-menu/mobile-menu
         */
         _showHideMenus: function () {
+            // check if homemenu is to be shown in list and accordingly set it's display and handle it's click
             if (this._config.homeMenu) {
                 domClass.remove(this.homeMenu, "esriCTHidden");
                 this.own(on(this.homeMenu, "click", lang.hitch(this, this._homeMenuClicked)));
@@ -107,6 +105,7 @@ define([
                 domClass.add(this.homeMenu, "esriCTHidden");
             }
 
+            // check if mapView is to be shown in list and accordingly set it's display and handle it's click
             if (this._config.mapView) {
                 domClass.remove(this.mapView, "esriCTHidden");
                 this.own(on(this.mapView, "click", lang.hitch(this, this._mapViewClicked)));
@@ -114,6 +113,7 @@ define([
                 domClass.add(this.mapView, "esriCTHidden");
             }
 
+            // check if listView is to be shown in list and accordingly set it's display and handle it's click
             if (this._config.listView) {
                 domClass.remove(this.listView, "esriCTHidden");
                 this.own(on(this.listView, "click", lang.hitch(this, this._listViewClicked)));
@@ -121,6 +121,7 @@ define([
                 domClass.add(this.listView, "esriCTHidden");
             }
 
+            // check if reportIt is to be shown in list and accordingly set it's display and handle it's click
             if (this._config.reportIt) {
                 domClass.remove(this.reportIt, "esriCTHidden");
                 this.own(on(this.reportIt, "click", lang.hitch(this, this._reportItClicked)));
@@ -128,6 +129,7 @@ define([
                 domClass.add(this.reportIt, "esriCTHidden");
             }
 
+            // check if signIn is to be shown in list and accordingly set it's display and handle it's click
             if (this._config.signIn) {
                 domClass.remove(this.signIn, "esriCTHidden");
                 this.own(on(this.signIn, "click", lang.hitch(this, this._signInClicked)));
@@ -135,8 +137,10 @@ define([
                 domClass.add(this.signIn, "esriCTHidden");
             }
 
+            // check if signout is to be shown in list and accordingly set it's display and handle it's click
+            // if signout is to be shown then also show the myIssues in list and handel its click,
+            // since signout will be shown only ones user is logged in with any of the logins provided.
             if (this._config.signOut) {
-                var menuContainerHeight;
                 domClass.remove(this.signOut, "esriCTHidden");
                 this.own(on(this.signOut, "click", lang.hitch(this, this._signOutClicked)));
                 domClass.remove(this.myIssuesView, "esriCTHidden");
@@ -144,8 +148,7 @@ define([
                 domAttr.set(this.loggedinUserNameDiv, "innerHTML", dojo.configData.logInDetails.userName);
                 domClass.remove(this.loggedinUserNameDiv, "esriCTHidden");
                 domClass.remove(this.loggedinAsDiv, "esriCTHidden");
-                menuContainerHeight = (window.innerHeight - 110) + "px";
-                domStyle.set(this.mainMenuContainer, "height", menuContainerHeight);
+                this._setMenuContainerHeight();
             } else {
                 domClass.add(this.signOut, "esriCTHidden");
                 domStyle.set(this.mainMenuContainer, "height", "100%");
@@ -153,14 +156,74 @@ define([
         },
 
         /**
-        * Update menu list
+        * Set MenuContainer Height according to window height
+        * @memberOf widgets/mobile-menu/mobile-menu
+        */
+        _setMenuContainerHeight: function () {
+            // check if logged in details are shown then only reset the height subtracting height of login-details from window.
+            if (!domClass.contains(this.loggedinUserNameDiv, "esriCTHidden")) {
+                var menuContainerHeight;
+                menuContainerHeight = (window.innerHeight - 125) + "px";
+                domStyle.set(this.mainMenuContainer, "height", menuContainerHeight);
+            }
+        },
+
+        /**
+        * Updates menu list based on the
+        * @param{object} menuList to be updated
         * @memberOf widgets/mobile-menu/mobile-menu
         */
         updateMenuList: function (menuList) {
+            // mix-in the new menu list and show hide menus based on new config
             if (menuList) {
                 lang.mixin(this._config, menuList);
             }
             this._showHideMenus();
+        },
+
+        /**
+        * Event which will be generated when mobile menu is set to hidden
+        * @memberOf widgets/mobile-menu/mobile-menu
+        */
+        hideMobileMenu: function (evt) {
+            return evt;
+        },
+
+        /**
+        * Event which will be generated when user clicks report-it option
+        * @memberOf widgets/mobile-menu/mobile-menu
+        */
+        reportItClicked: function (evt) {
+            return evt;
+        },
+
+        /**
+        * Event which will be generated when user clicks my-issues option
+        * @memberOf widgets/mobile-menu/mobile-menu
+        */
+        myIssuesClicked: function (evt) {
+            return evt;
+        },
+
+        /**
+        * Shows map-view and hide the previous view, also resizes the map container.
+        * @memberOf widgets/mobile-menu/mobile-menu
+        */
+        showMapView: function () {
+            this._lastSelectedView.style.display = "none";
+            this._lastSelectedView = dojo.byId("CenterContainer");
+            dojo.byId("CenterContainer").style.display = "block";
+            topic.publish("resizeMap");
+        },
+
+        /**
+        * Shows list view container and hide the previous vie.
+        * @memberOf widgets/mobile-menu/mobile-menu
+        */
+        showListView: function () {
+            this._lastSelectedView.style.display = "none";
+            this._lastSelectedView = dojo.byId("SlideContainermain");
+            dojo.byId("SlideContainermain").style.display = "block";
         },
 
         /**
@@ -179,8 +242,10 @@ define([
         * Executed when user clicks on My issues option
         * @memberOf widgets/mobile-menu/mobile-menu
         */
-        _myIssuesClicked: function () {
-            alert("Coming soon...");
+        _myIssuesClicked: function (evt) {
+            this.showListView();
+            this.hideMobileMenu();
+            this.myIssuesClicked(evt);
         },
 
         /**
@@ -193,12 +258,6 @@ define([
             this.hideMobileMenu();
         },
 
-        showMapView: function () {
-            this._lastSelectedView.style.display = "none";
-            this._lastSelectedView = dojo.byId("CenterContainer");
-            dojo.byId("CenterContainer").style.display = "block";
-            topic.publish("resizeMap");
-        },
 
         /**
         * Executed when user clicks on List view option
@@ -208,24 +267,7 @@ define([
             domClass.replace(dom.byId('geoformContainerDiv'), "esriCTHidden", "esriCTVisible");
             this.showListView();
             this.hideMobileMenu();
-        },
-
-        /**
-        * Executed when user clicks on Report it option
-        * @memberOf widgets/mobile-menu/mobile-menu
-        */
-        reportItClicked: function (evt) {
-            return evt;
-        },
-
-        /**
-        * Show list view container
-        * @memberOf widgets/mobile-menu/mobile-menu
-        */
-        showListView: function () {
-            this._lastSelectedView.style.display = "none";
-            this._lastSelectedView = dojo.byId("SlideContainermain");
-            dojo.byId("SlideContainermain").style.display = "block";
+            this.listViewClicked();
         },
 
         /**

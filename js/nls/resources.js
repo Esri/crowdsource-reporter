@@ -83,14 +83,24 @@ define({
             geoLocationOutOfExtent: "Current location is out of basemap extent"
         },
         locator: {
-            addressText: "Address",
+            addressText: "Address:",
             usngText: "USNG",
             mgrsText: "MGRS",
             latLongText: "LatLong",
             invalidSearch: "No results found",
             locatorPlaceholder: "Enter address to search"
+        },
+        myIssues: {
+            title: "My Issues",
+            noResultsFound: "No issues found",
+            photoAttachmentHeader: "Photo",
+            votesUpdateFailure: "Unable to update"
+        },
+        comment: {
+            emptyCommentMessage: "Please enter comment.",
+            placeHolderText: "Write a comment",
+            noCommentsAvailableText: "No comments available"
         }
-
     }),
     "ar": 1,
     "cs": 1,

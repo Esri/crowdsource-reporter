@@ -52,9 +52,18 @@ define({
     "enableTwitter": true,
     "enableGoogleplus": true,
 
+    "facebookAppId":"1494893020783511",
+
+    "twitterSigninUrl": location.protocol + "//utility.arcgis.com/tproxy/signin",
+    "twitterUserUrl": location.protocol + "//utility.arcgis.com/tproxy/proxy/1.1/account/verify_credentials.json?q=&include_entities=true&skip_status=true&locale=en",
+    "twitterCallbackUrl": "/oauth-callback-twitter.html",
+
+    "googleplusClientId": "20592238920-s7s85lv2miqmbkjph2fjs3tua57ogbha.apps.googleusercontent.com",
+    "googleplusScope": "https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email",
+
     "showNullValueAs": "",
     "noThumbnailIcon": "/images/no-thumbnail.png",
-    "noImageIcon": "/images/attachment-file.png",
+    "noAttachmentIcon": "/images/no-attachment.png",
 
     "webMapInfoDescription": true,
     "webMapInfoSnippet": true,

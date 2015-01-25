@@ -1,4 +1,4 @@
-/*global define,dojo,alert,moment */
+/*global define,dojo,alert,moment,$ */
 /*jslint browser:true,sloppy:true,nomen:true,unparam:true,plusplus:true,indent:4 */
 /*
  | Copyright 2014 Esri
@@ -35,8 +35,11 @@ define([
     "widgets/webmap-list/webmap-list",
     "widgets/issue-wall/issue-wall",
     "widgets/geo-form/geo-form",
+    "widgets/my-issues/my-issues",
     "application/utils/utils",
+    "esri/dijit/LocateButton",
     "application/template-options",
+    "dojo/query",
     "dojo/domReady!"
 ], function (
     declare,
@@ -58,8 +61,11 @@ define([
     WebMapList,
     IssueWall,
     GeoForm,
+    MyIssues,
     ApplicationUtils,
-    TemplateConfig
+    LocateButton,
+    TemplateConfig,
+    query
 ) {
     return declare(null, {
         config: {},
@@ -87,14 +93,16 @@ define([
                 if (loggedInUser) {
                     this.config.logInDetails = {
                         "userName": loggedInUser.fullName,
-                        "token": loggedInUser.credential.token
+                        "token": loggedInUser.credential.token,
+                        "processedUserName": loggedInUser.processedUserName
                     };
                     this._menusList.signOut = true;
                     this._menusList.signIn = false;
                 } else {
                     this.config.logInDetails = {
                         "userName": "",
-                        "token": ""
+                        "token": "",
+                        "processedUserName": ""
                     };
                     this._menusList.signIn = true;
                     this._menusList.signOut = false;
@@ -274,6 +282,107 @@ define([
             this.appHeader.reportIssue = lang.hitch(this, function () {
                 this._createGeoForm();
             });
+
+            //on my issue button clicked display my issues list
+            this.appHeader.showMyIssues = lang.hitch(this, function () {
+                if (this._myIssuesWidget) {
+                    this._myIssuesWidget.showMyIssuesContainer();
+                } else {
+                    this._createMyIssuesList(this._selectedMapDetails);
+                }
+            });
+
+            this.appHeader.showIssueList = lang.hitch(this, function () {
+                if (this._myIssuesWidget) {
+                    this._myIssuesWidget.hideMyIssuesContainer();
+                }
+            });
+        },
+
+        /**
+        * instantiate My issue widget
+        * @memberOf main
+        */
+        _createMyIssuesList: function (data) {
+            if (!this._myIssuesWidget) {
+                this._myIssuesWidget = new MyIssues(data, domConstruct.create("div", {}, dom.byId('SlideContainer')));
+                this._myIssuesWidget.showMyIssuesContainer();
+
+                //on clicking of close btn in My issue container
+                this._myIssuesWidget.onHideMyIssuesContainer = lang.hitch(this, function () {
+                    if (dojowindow.getBox().w < 768) {
+                        this.appHeader.mobileMenu.showMapView();
+                    }
+                });
+                this._myIssuesWidget.onIssueUpdated = lang.hitch(this, function (data) {
+                    if (this._issueWallWidget) {
+                        if ((data.webmapId === this._selectedMapDetails.webMapId) && (data.id === this._selectedMapDetails.operationalLayerDetails.id)) {
+                            var layer = this._selectedMapDetails.map.getLayer(this._selectedMapDetails.operationalLayerDetails.id);
+                            layer.refresh();
+                            layer.on("update-end", lang.hitch(this, function () {
+                                this._issueWallWidget.CreateIssueList(this._selectedMapDetails);
+                            }));
+                        }
+                    }
+                });
+
+                //on clicking of map-it button from my issue list, create webmap if issue is not belongs to selected webmap
+                this._myIssuesWidget.loadSelectedWebmap = lang.hitch(this, function (data) {
+                    dojo.applicationUtils.showLoadingIndicator();
+                    if (data.webMapId !== this._selectedMapDetails.webMapId) {
+                        //create webmap if selected feature is not belongs to selected map
+                        this._webMapListWidget._createMap(data.webMapId, this._webMapListWidget.mapDivID).then(lang.hitch(this, function (response) {
+                            this._webMapListWidget.lastSelectedWebMapExtent = response.map.extent;
+                            this._webMapListWidget.lastSelectedWebMapItemInfo = response.itemInfo;
+                            data.itemInfo = response.itemInfo;
+                            this._addFeatureLayerOnMap(data, true);
+                        }));
+                    } else if (data.operationalLayerDetails.id !== this._selectedMapDetails.operationalLayerDetails.id) {
+                        //add layer to map if feature is not belongs to selected layer of selected map
+                        this._addFeatureLayerOnMap(data, true);
+                    } else {
+                        dojo.applicationUtils.hideLoadingIndicator();
+                        //highlight feature on map it belongs to selected layer of selected map
+                        this._myIssuesWidget.highLightFeature(this._selectedMapDetails.map, this._selectedMapDetails.operationalLayerDetails.layerObject, this._myIssuesWidget.featureObjectId);
+                    }
+                    if (dojowindow.getBox().w < 768) {
+                        this.appHeader.mobileMenu.showMapView();
+                    }
+                });
+            }
+        },
+
+        /**
+        * add layer to map when an issue is selected to locate on map
+        * @memberOf main
+        */
+        _addFeatureLayerOnMap: function (data) {
+            var webmapTemplateNode;
+            this._webMapListWidget._displaySelectedOperationalLayer(data);
+            //highlight selected webmap template item in webmap list
+            this._webMapListWidget._selectWebMapItem(data.webMapId);
+            webmapTemplateNode = this._getSeletedWebmapTemplate(data.webMapId);
+            if (webmapTemplateNode) {
+                //display layer list of selected map
+                if (domStyle.get(dom.byId(data.webMapId), "display") === "none") {
+                    this._webMapListWidget._handleWebmapToggling(webmapTemplateNode, data.operationalLayerDetails);
+                }
+            }
+        },
+
+        /**
+        * get all webmap template item
+        * @memberOf main
+        */
+        _getSeletedWebmapTemplate: function (webMapId) {
+            var nodeWebmapId, i, webmapTempNodeArr = $('.esriCTDisplayWebMapTemplate');
+            for (i = 0; i < webmapTempNodeArr.length; i++) {
+                nodeWebmapId = domAttr.get(webmapTempNodeArr[i], "webMapId");
+                if (nodeWebmapId === webMapId) {
+                    break;
+                }
+            }
+            return webmapTempNodeArr[i];
         },
 
         /**
@@ -282,7 +391,7 @@ define([
         */
         _createWebMapList: function () {
             try {
-                var webMapDescriptionFields, webMapListConfigData;
+                var webMapDescriptionFields, webMapListConfigData, isCreateGeoLocation;
                 //construct json data for the fields to be shown in descriptions, based on the configuration
                 webMapDescriptionFields = {
                     "description": dojo.configData.webMapInfoDescription,
@@ -321,6 +430,19 @@ define([
                     }
                     //destroy previous geoform instance
                     this._destroyGeoForm();
+                    isCreateGeoLocation = false;
+                    //create geo-location when new map is selected
+                    if (!this._selectedMapDetails || (details.webMapId !== this._selectedMapDetails.webMapId)) {
+                        isCreateGeoLocation = true;
+                    }
+                    //Close the Comments container if it is open
+                    if (query(".esriCTCommentsPanel")[0]) {
+                        if (domStyle.get(query(".esriCTCommentsPanel")[0], "display") === "block") {
+                            domClass.replace(query(".esriCTCommentsPanel")[0], "esriCTHidden", "esriCTVisible");
+
+                        }
+                    }
+
                     this._selectedMapDetails = details;
                     // Highlight feature when user clicks on locate issue on map icon from issue wall
                     // If graphics layer is already added on the map, clear it else add a graphic layer on map
@@ -333,9 +455,16 @@ define([
                     }
                     //create or update issuelist
                     this._createIssueWall(details);
+                    if (isCreateGeoLocation) {
+                        this._createGeoLocationButton();
+                    }
+                    this._selectedMapDetails.webmapList = this._webMapListWidget.filteredWebMapResponseArr;
                     //show listview on webmap selected in mobile view
                     if (this._isWebMapListLoaded && dojowindow.getBox().w < 768) {
                         this.appHeader.mobileMenu.showListView();
+                    }
+                    if (this._myIssuesWidget && this._myIssuesWidget.featureObjectId) {
+                        this._myIssuesWidget.highLightFeature(details.map, details.operationalLayerDetails.layerObject, this._myIssuesWidget.featureObjectId);
                     }
                     /*by default _isWebMapListLoaded will be false and will be set to true once onOperationalLayerSelected
                     //set this flag to true after the if condition for checking if mobile and _isWebMapListLoaded,
@@ -361,6 +490,17 @@ define([
             //Create IssueWall widget if not present
             if (!this._issueWallWidget) {
                 this._issueWallWidget = new IssueWall(data, domConstruct.create("div", {}, dom.byId('SlideContainer')));
+                //on updating any issue from issue wall, update My issue list
+                this._issueWallWidget.issueUpdated = lang.hitch(this, function (updatedIssue) {
+                    if (this._myIssuesWidget) {
+                        this._myIssuesWidget.updateIssueList(this._selectedMapDetails, updatedIssue, true);
+                    }
+                });
+                this._issueWallWidget.featureSelectedOnMapClick = lang.hitch(this, function () {
+                    if (!this._isSliderOpen) {
+                        this._animateSliderConatainer();
+                    }
+                });
             } else {
                 this._issueWallWidget.CreateIssueList(data);
             }
@@ -371,7 +511,6 @@ define([
                     this.appHeader.mobileMenu.showMapView();
                 }
             });
-
         },
 
         /**
@@ -405,6 +544,10 @@ define([
                             this._selectedMapDetails.map.getLayer(this._selectedMapDetails.operationalLayerId).refresh();
                             //create or update issue-list
                             this._createIssueWall(this._selectedMapDetails);
+                            //update my issue list when new issue is added
+                            if (this._myIssuesWidget) {
+                                this._myIssuesWidget.updateIssueList(this._selectedMapDetails, null, true);
+                            }
                         } catch (ex) {
                             dojo.applicationUtils.showError(ex.message);
                         }
@@ -412,6 +555,56 @@ define([
                     this.geoformInstance.startup();
                 }
             }
+        },
+
+        /**
+        * Create geolocation button on the map
+        * @memberOf main
+        */
+        _createGeoLocationButton: function () {
+            var createLocationDiv, basemapExtent;
+            // create geo location div
+            if (this.currentLocation) {
+                this.currentLocation.destroy();
+            }
+            createLocationDiv = domConstruct.create("div", { "class": "esriCTBGColor esriCTLocationButton" });
+            domConstruct.place(createLocationDiv, dojo.query(".esriSimpleSliderDecrementButton", dom.byId("mapDiv"))[0], "after");
+            // initialize object of locate button
+            this.currentLocation = new LocateButton({
+                map: this._selectedMapDetails.map,
+                highlightLocation: false,
+                setScale: false
+            }, domConstruct.create('div'));
+            this.currentLocation.startup();
+            // get basemap extent for the layer
+            basemapExtent = this._selectedMapDetails.map.getLayer(this._selectedMapDetails.itemInfo.itemData.baseMap.baseMapLayers[0].id).fullExtent;
+            // set location on the map
+            // handle click event of geolocate button
+            on(createLocationDiv, 'click', lang.hitch(this, function (evt) {
+                this.currentExtent = this._selectedMapDetails.map.extent;
+                // widget locate
+                this.currentLocation.locate();
+            }));
+            // event on locate
+            on(this.currentLocation, "locate", lang.hitch(this, function (evt) {
+                // if error found on locating point show error message, else check located point match the extent of layer then center at geolocation point else show error massage
+                if (evt.error) {
+                    // set map extent
+                    this._selectedMapDetails.map.setExtent(this.currentExtent);
+                    // show error
+                    dojo.applicationUtils.showError(dojo.configData.i18n.geoform.geoLocationError);
+                } else if (basemapExtent.contains(evt.graphic.geometry)) {
+                    //center the map at device geolocation point
+                    this._selectedMapDetails.map.centerAt(evt.graphic.geometry);
+                    //zoom the map to configured zzoom level
+                    this._selectedMapDetails.map.setLevel(dojo.configData.zoomLevel);
+                } else {
+                    // set map extent
+                    this._selectedMapDetails.map.setExtent(this.currentExtent);
+                    // show error
+                    dojo.applicationUtils.showError(dojo.configData.i18n.geoform.geoLocationOutOfExtent);
+                }
+            }));
         },
 
         /**
