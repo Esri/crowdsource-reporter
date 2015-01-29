@@ -154,6 +154,9 @@ define([
         */
         _createMap: function (webMapID, mapDivID) {
             try {
+                if (this.map) {
+                    this.map.destroy();
+                }
                 domConstruct.empty(mapDivID);
                 var webMapInstance = BootstrapMap.createWebMap(webMapID, mapDivID, {
                     ignorePopups: true,
@@ -187,7 +190,7 @@ define([
                         // if not then it will remove that layer from array
                         for (j = 0; j < operationalLayerCount; j++) {
                             removeLayerFromList = true;
-                            if (response[i][1].itemInfo.itemData.operationalLayers[j].resourceInfo) {
+                            if (response[i][1].itemInfo.itemData.operationalLayers[j].resourceInfo && response[i][1].itemInfo.itemData.operationalLayers[j].layerObject) {
                                 // check if layer is having valid capabilities and valid popupinfo
                                 if (this._validateLayerCapabilities(response[i][1].itemInfo.itemData.operationalLayers[j].resourceInfo.capabilities)) {
                                     if (this._validatePopupFields(response[i][1].itemInfo.itemData.operationalLayers[j].popupInfo, response[i][1].itemInfo.itemData.operationalLayers[j].layerObject.fields)) {
@@ -236,12 +239,12 @@ define([
                     if (this.webMapDescriptionFields[field]) {
                         // to display date field
                         if (field === "created" || field === "modified") {
-                            value = webMapItem.itemInfo.item[field] ? (moment(webMapItem.itemInfo.item[field])).format('MM-DD-YYYY') : this.configData.showNullValueAs;
+                            value = webMapItem.itemInfo.item[field] ? ((moment(webMapItem.itemInfo.item[field]).toDate()).toLocaleDateString()) : this.configData.showNullValueAs;
+                            if (lang.trim(value) === "") {
+                                value = "<br/>";
+                            }
                         } else {
-                            value = webMapItem.itemInfo.item[field] || "";
-                        }
-                        if (lang.trim(value) === "") {
-                            value = "<br/>";
+                            value = webMapItem.itemInfo.item[field] || "<br/>";
                         }
                         descriptionInfo += "<div class='esriCTDetailsContainer'><div class='esriCTInfoHeader'>" + this.configData.i18n.webMapList[field] + "</div><div class='esriCTInfoDetails'>" + value + "</div></div>";
                     }
@@ -399,6 +402,23 @@ define([
         },
 
         /**
+        * This function is used to highlight(change font to bold) the selected webmap item and selected layer
+        * @param{string} web map ID
+        * @param{string} operational layer ID
+        * @memberOf widgets/webmap-list/webmap-list
+        */
+        _highlightSelectedItem: function (webMapID, layerID) {
+            //Remove Selected class from previously selected WebMap and Layer
+            query(".esriCTSelectedItem").removeClass("esriCTSelectedItem");
+            //Add Selected Class to WebMap Item
+            query(".esriCTMediaBody", $('div[webMapID="' + webMapID + '"]', this.domNode)[0]).addClass("esriCTSelectedItem");
+            //Add Selected Class to Layer in that webmap only if exist
+            if ($('div[operationalLayerID="' + layerID + '"]', $('div[webMapID="' + webMapID + '"]', this.domNode)[0]).length > 0) {
+                domClass.add($('div[operationalLayerID="' + layerID + '"]', $('div[webMapID="' + webMapID + '"]', this.domNode)[0])[0], "esriCTSelectedItem");
+            }
+        },
+
+        /**
         * This function is used to process execution on load of feature layer
         * @param{object} feature layer to attach on-load event
         * @param{string} web map ID
@@ -409,6 +429,8 @@ define([
         _onFeatureLayerLoad: function (featureLayer, webMapID, layerID, layerDetails, itemInfo) {
             try {
                 on(featureLayer, "load", lang.hitch(this, function () {
+                    //Highlight the Selected Item in webmap list
+                    this._highlightSelectedItem(webMapID, layerID);
                     setTimeout(lang.hitch(this, function () {
                         this.onOperationalLayerSelected({
                             "map": this.map,
@@ -437,61 +459,84 @@ define([
         _handleWebMapClick: function (parentDiv, operationalLayerDetails) {
             try {
                 dojo.applicationUtils.showLoadingIndicator();
-                var webMapId, selectedWebMapList, operationalLayerId, descriptionDiv;
-                on(parentDiv, "click", lang.hitch(this, function (evt) {
-                    dojo.applicationUtils.showLoadingIndicator();
-                    webMapId = domAttr.get(evt.currentTarget, "webMapID");
-                    // to display operational layer list if web-map contains more than 1 layer
-                    if (domAttr.get(evt.currentTarget, "displayOperationalLayerList") === true) {
-                        selectedWebMapList = dom.byId(webMapId);
-                        // if operational layer list is visible than hide it
-                        // & if it is hidden than display it
-                        if (domClass.contains(selectedWebMapList, "esriCTDisplayList")) {
-                            $("#" + webMapId).slideUp({
-                                duration: 500,
-                                easing: "linear"
-                            });
-                            setTimeout(lang.hitch(this, function () {
-                                domClass.replace(selectedWebMapList, "esriCTHidden", "esriCTDisplayList");
-                            }), 500);
-
-                        } else {
-                            descriptionDiv = query('.esriCTDescription', selectedWebMapList.parentElement.parentElement)[0];
-                            if (descriptionDiv) {
-                                $('.esriCTDescription', selectedWebMapList.parentElement.parentElement).slideUp(0);
-                                domClass.replace(descriptionDiv, "esriCTHidden", "esriCTDisplayList");
-                            }
-                            $("#" + webMapId).slideDown({
-                                duration: 500,
-                                easing: "linear"
-                            });
-                            setTimeout(lang.hitch(this, function () {
-                                domClass.replace(selectedWebMapList, "esriCTDisplayList", "esriCTHidden");
-                            }), 500);
-
-                        }
-                        dojo.applicationUtils.hideLoadingIndicator();
-                    } else {
-                        if (this.lastWebMapSelected !== webMapId) {
-                            this._selectWebMapItem(webMapId);
-                            operationalLayerId = domAttr.get(evt.currentTarget, "operationalLayerID");
-                            this._createMap(webMapId, this.mapDivID).then(lang.hitch(this, function (evt) {
-                                var obj = {
-                                    "webMapId": webMapId,
-                                    "operationalLayerId": operationalLayerId,
-                                    "operationalLayerDetails": operationalLayerDetails,
-                                    "itemInfo": evt.itemInfo
-                                };
-                                this._displaySelectedOperationalLayer(obj);
-                            }));
-                        } else {
-                            dojo.applicationUtils.hideLoadingIndicator();
-                        }
-                    }
+                on($(".esriCTMediaBody", parentDiv)[0], "click", lang.hitch(this, function (evt) {
+                    this._handleWebmapToggling(parentDiv, operationalLayerDetails);
+                }));
+                on($(".esriCTWebMapImg", parentDiv)[0], "click", lang.hitch(this, function (evt) {
+                    this._handleWebmapToggling(parentDiv, operationalLayerDetails);
                 }));
             } catch (err) {
                 dojo.applicationUtils.showError(err.message);
             }
+        },
+
+        /**
+        * This function is used to handle web map Toggling
+        * @param{object} parent div container in which web-map list will be added
+        * @param{object} details of operational layer
+        * @memberOf widgets/webmap-list/webmap-list
+        */
+        _handleWebmapToggling: function (node, operationalLayerDetails) {
+            var webMapId, selectedWebMapList, operationalLayerId, descriptionDiv;
+            dojo.applicationUtils.showLoadingIndicator();
+            webMapId = domAttr.get(node, "webMapID");
+            // to display operational layer list if web-map contains more than 1 layer
+            if (domAttr.get(node, "displayOperationalLayerList") === true) {
+                selectedWebMapList = dom.byId(webMapId);
+                // if operational layer list is visible than hide it
+                // & if it is hidden than display it
+                if (domClass.contains(selectedWebMapList, "esriCTDisplayList")) {
+                    $("#" + webMapId).slideUp({
+                        duration: 500,
+                        easing: "linear"
+                    });
+                    setTimeout(lang.hitch(this, function () {
+                        domClass.replace(selectedWebMapList, "esriCTHidden", "esriCTDisplayList");
+                    }), 500);
+
+                } else {
+                    descriptionDiv = query('.esriCTDescription', selectedWebMapList.parentElement.parentElement)[0];
+                    if (descriptionDiv) {
+                        $('.esriCTDescription', selectedWebMapList.parentElement.parentElement).slideUp(0);
+                        domClass.replace(descriptionDiv, "esriCTHidden", "esriCTDisplayList");
+                    }
+                    $("#" + webMapId).slideDown({
+                        duration: 500,
+                        easing: "linear"
+                    });
+                    setTimeout(lang.hitch(this, function () {
+                        domClass.replace(selectedWebMapList, "esriCTDisplayList", "esriCTHidden");
+                    }), 500);
+
+                }
+                dojo.applicationUtils.hideLoadingIndicator();
+            } else {
+                if (this.lastWebMapSelected !== webMapId) {
+                    this.setDefaultHeightOfContainers();
+                    this._selectWebMapItem(webMapId);
+                    operationalLayerId = domAttr.get(node, "operationalLayerID");
+                    this._createMap(webMapId, this.mapDivID).then(lang.hitch(this, function (evt) {
+                        var obj = {
+                            "webMapId": webMapId,
+                            "operationalLayerId": operationalLayerId,
+                            "operationalLayerDetails": operationalLayerDetails,
+                            "itemInfo": evt.itemInfo
+                        };
+                        this._displaySelectedOperationalLayer(obj);
+                    }));
+                } else {
+                    this.onSelectedWebMapClicked(webMapId);
+                    dojo.applicationUtils.hideLoadingIndicator();
+                }
+            }
+        },
+
+        /**
+        * This function is used to generate event on all-ready selected webmap clicked
+        * @memberOf widgets/webmap-list/webmap-list
+        */
+        onSelectedWebMapClicked: function (webMapId) {
+            return webMapId;
         },
 
         /**
@@ -569,6 +614,7 @@ define([
                     // if other layer of same web-map is clicked than just display it
                     // & if other layer of other web-map is clicked than do create map
                     if (this.lastWebMapSelected !== webMapId) {
+                        this.setDefaultHeightOfContainers();
                         this._selectWebMapItem(webMapId);
                         this._createMap(webMapId, this.mapDivID).then(lang.hitch(this, function (response) {
                             this.lastSelectedWebMapExtent = response.map.extent;
@@ -600,6 +646,14 @@ define([
         },
 
         /**
+        * This function is used to set default height of upper and lower container
+        * @memberOf widgets/webmap-list/webmap-list
+        */
+        setDefaultHeightOfContainers: function () {
+            return;
+        },
+
+        /**
         * This function is used to handle information click
         * @param{object} information of web map
         * @param{object} web-map item div container
@@ -612,10 +666,6 @@ define([
                 on(infoIcon, "click", function (evt) {
                     event.stop(evt);
                     descriptionDiv = query('.esriCTDescription', this.parentElement.parentElement)[0];
-                    // stop event propogation so that no other event gets executed
-                    on(descriptionDiv, "click", function (e) {
-                        event.stop(e);
-                    });
                     webMapId = domAttr.get(this.parentElement.parentElement, "webMapID");
                     layerList = dom.byId(webMapId);
                     // if description div is hidden than display it &

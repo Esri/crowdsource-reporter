@@ -1,4 +1,4 @@
-﻿/*global define,dojo,alert */
+﻿/*global define,dojo,alert,$ */
 /*jslint browser:true,sloppy:true,nomen:true,unparam:true,plusplus:true,indent:4 */
 define([
     "dojo/_base/declare",
@@ -39,6 +39,8 @@ define([
         usngValue: null,
         mgrsValue: null,
         latLongValue: null,
+        searchedGroups: [], //will  contain the locator-names/layer-name for which the search is complete.
+        isPerformingSearch: false,
 
         /**
         * This function is called when widget is constructed.
@@ -56,6 +58,7 @@ define([
         postCreate: function () {
             var graphicsLayer;
             domConstruct.place(this.divLocateContainer, query(".esriCTlocationPanel")[0]);
+            // add placeholder in textbox
             domAttr.set(this.txtSearch, "placeholder", dojo.configData.i18n.locator.locatorPlaceholder);
             this._attachLocatorEvents();
             // add graphics layer to map
@@ -93,7 +96,7 @@ define([
         },
 
         /**
-        * search address on every key press
+        * Search address on every key press
         * @memberOf widgets/locator/locator
         * @param {object} evt Keyup event
         * @param {} locatorText
@@ -106,7 +109,7 @@ define([
                 return;
             }
             if (evt) {
-            // Perform search when user hits ENTER key
+                // Perform search when user hits ENTER key
                 if (evt.keyCode === dojo.keys.ENTER) {
                     if (this.txtSearch.value !== '') {
                         this._toggleTexBoxControls(true);
@@ -176,37 +179,54 @@ define([
         * @method widgets/locator/locator
         */
         _performUnifiedSearch: function () {
-            var layer, deferred, deferredArray = [], i, address, options, locator, locatorDef;
+            var deferredArray = [],
+                i,
+                address = {},
+                options,
+                locator,
+                locatorDef;
             this.usngValue = null;
             this.mgrsValue = null;
             this.latLongValue = null;
+            this.resultLength = 0;
             this._toggleTexBoxControls(true);
+            this.searchedGroups = [];
+            // clear previous result
+            domConstruct.empty(this.divResultContainer);
+
+            // show loading indicator in textbox
+            this._toggleTexBoxControls(true);
+            this.isPerformingSearch = true;
             // fetch the geocode URL from portal organization, and if the URL is unavailable disable address search
             if (dojo.configData.helperServices.geocode.length > 0) {
-                locator = new Locator(dojo.configData.helperServices.geocode[0].url);
-                locator.outSpatialReference = this.map.spatialReference;
-                address = {
-                    SingleLine: this.txtSearch.value
-                };
-                options = {
-                    address: address,
-                    outFields: ["*"]
-                };
-                // optionally return the out fields if you need to calculate the extent of the geocoded point
-                locatorDef = locator.addressToLocations(options);
-                locator.on("address-to-locations-complete", lang.hitch(this, function (evt) {
-                    deferred = new Deferred();
-                    deferred.resolve(evt.addresses);
-                    return deferred.promise;
-                }));
-                deferredArray.push(locatorDef);
+
+                for (i = 0; i < dojo.configData.helperServices.geocode.length; i++) {
+                    locator = new Locator(dojo.configData.helperServices.geocode[i].url);
+                    locator.outSpatialReference = this.map.spatialReference;
+                    locator.name = dojo.configData.helperServices.geocode[i].name;
+                    if (dojo.configData.helperServices.geocode[i].singleLineFieldName) {
+                        address[dojo.configData.helperServices.geocode[i].singleLineFieldName] = this.txtSearch.value;
+                    } else {
+                        address = {
+                            SingleLine: this.txtSearch.value
+                        };
+                    }
+
+                    options = {
+                        address: address,
+                        outFields: ["*"]
+                    };
+                    // optionally return the out fields if you need to calculate the extent of the geocoded point
+                    locatorDef = locator.addressToLocations(options);
+                    this._onAddressToLocateComplete(locator);
+                    deferredArray.push(locatorDef);
+                }
             }
             // check if layer search is enabled in the webmap and layer is configured for search
             if (this.itemInfo.applicationProperties.viewing.search && this.itemInfo.applicationProperties.viewing.search.enabled) {
                 for (i = 0; i < this.itemInfo.applicationProperties.viewing.search.layers.length; i++) {
                     if (this.layerId === this.itemInfo.applicationProperties.viewing.search.layers[i].id) {
                         this.searchField = this.itemInfo.applicationProperties.viewing.search.layers[i].field.name;
-                        layer = this.map.getLayer(this.itemInfo.applicationProperties.viewing.search.layers[i].id);
                         this._layerSearchResults(this.itemInfo.applicationProperties.viewing.search.layers[i], deferredArray);
                     }
                 }
@@ -224,7 +244,32 @@ define([
                 this._getLatLongValue();
             }
             // get results for both address and layer search
-            this._getAddressResults(deferredArray, layer);
+            this._getAddressResults(deferredArray);
+        },
+
+        /**
+        * This function is used when address is located
+        * @param {Object} to locate address
+        * @memberOf widgets/locator/locator
+        */
+        _onAddressToLocateComplete: function (locator) {
+            locator.on("address-to-locations-complete", lang.hitch(this, function (evt) {
+                var locatorName, nameArray = {},
+                    deferred;
+                deferred = new Deferred();
+                deferred.resolve({
+                    "addresses": evt.addresses,
+                    "target": evt.target
+                });
+                if (evt.addresses.length > 0 && !nameArray[dojo.configData.i18n.locator.addressText + " " + evt.target.name]) {
+                    locatorName = dojo.configData.i18n.locator.addressText + " " + evt.target.name;
+                    nameArray[locatorName] = this._addressResult(evt.addresses, locatorName);
+                    if (nameArray[locatorName].length > 0) {
+                        this._showLocatedAddress(nameArray);
+                    }
+                }
+                return deferred.promise;
+            }));
         },
 
         /**
@@ -252,6 +297,15 @@ define([
                 queryLayer.outFields = ["*"];
                 deferred = new Deferred();
                 queryTask.execute(queryLayer, lang.hitch(this, function (featureSet) {
+                    var resultArray, resultObject = {};
+                    if (featureSet) {
+                        // store search results in an array
+                        resultArray = this._displayLayerSearchResults(featureSet);
+                        if (resultArray.length > 0) {
+                            resultObject[this._getLayerTitle(layerObject.id)] = resultArray;
+                            this._showLocatedAddress(resultObject);
+                        }
+                    }
                     deferred.resolve(featureSet);
                 }), function (err) {
                     alert(err.message);
@@ -262,33 +316,32 @@ define([
         },
 
         /**
+        * Get layer title according to webmap list
+        * @param {} layerID for which layer-title needs to be derived
+        * @method widgets/locator/locator
+        */
+        _getLayerTitle: function (layerID) {
+            var i;
+            for (i = 0; i < this.itemInfo.operationalLayers.length; i++) {
+                if (this.itemInfo.operationalLayers[i].id === layerID) {
+                    return this.itemInfo.operationalLayers[i].title;
+                }
+            }
+            return layerID;
+        },
+
+        /**
         * Fetch results for both address and layer search
         * @method widgets/locator/locator
         * @param {} deferredArray
         * @param {} layer on which search is performed
         */
-        _getAddressResults: function (deferredArray, layer) {
-            var deferredListResult, nameArray, num;
-            this.resultLength = 0;
+        _getAddressResults: function (deferredArray) {
+            var deferredListResult, nameArray;
             deferredListResult = new DeferredList(deferredArray);
             deferredListResult.then(lang.hitch(this, function (result) {
                 nameArray = {};
                 domClass.remove(this.divResultContainer, "esriCTHidden");
-                if (result) {
-                    if (result.length > 0) {
-                        for (num = 0; num < result.length; num++) {
-                            if (result[num][0] === true) {
-                                if (result[num][1].features) {
-                                    this._displayLayerSearchResults(result[num][1], nameArray, layer);
-                                } else {
-                                    nameArray[dojo.configData.i18n.locator.addressText] = [];
-                                    this._addressResult(result[num][1], nameArray);
-                                }
-
-                            }
-                        }
-                    }
-                }
                 // push USNG value into address array
                 if (this.usngValue && this.usngValue.value) {
                     nameArray[dojo.configData.i18n.locator.usngText] = [];
@@ -304,10 +357,15 @@ define([
                 // push lat long value into address array
                 if (this.latLongValue && this.latLongValue.value) {
                     nameArray[dojo.configData.i18n.locator.latLongText] = [];
-                    nameArray[dojo.configData.i18n.locator.latLongText].push({ LatLong: this.latLongValue });
+                    nameArray[dojo.configData.i18n.locator.latLongText].push({
+                        LatLong: this.latLongValue
+                    });
                     this.resultLength++;
                 }
                 this._showLocatedAddress(nameArray);
+                //hide loader started on unified search
+                this.isPerformingSearch = false;
+                this._toggleTexBoxControls(false);
             }));
         },
 
@@ -316,17 +374,19 @@ define([
         * @param {} candidates
         * @memberOf widgets/locator/locator
         */
-        _addressResult: function (candidates, nameArray) {
-            var order;
+        _addressResult: function (candidates) {
+            var order, nameArray = [];
+            // Loop through the results and store results of type LatLong in an array
             for (order = 0; order < candidates.length; order++) {
                 if (candidates[order].attributes.Addr_type !== "LatLong") {
-                    nameArray.Address.push({
+                    nameArray.push({
                         name: candidates[order].address,
                         attributes: candidates[order]
                     });
                     this.resultLength++;
                 }
             }
+            return nameArray;
         },
 
         /**
@@ -334,10 +394,8 @@ define([
         * @param {} candidates
         * @memberOf widgets/locator/locator
         */
-        _displayLayerSearchResults: function (results, nameArray, layer) {
-            var key, i, index, resultAttributes;
-            key = layer.name;
-            nameArray[key] = [];
+        _displayLayerSearchResults: function (results) {
+            var i, index, resultAttributes, returnArray = [];
             for (i = 0; i < results.features.length; i++) {
                 resultAttributes = results.features[i].attributes;
                 for (index in resultAttributes) {
@@ -347,7 +405,7 @@ define([
                         }
                     }
                 }
-                nameArray[key].push({
+                returnArray.push({
                     name: resultAttributes[this.searchField],
                     attributes: resultAttributes,
                     fields: results.fields,
@@ -355,6 +413,7 @@ define([
                 });
                 this.resultLength++;
             }
+            return returnArray;
         },
 
         /**
@@ -363,9 +422,8 @@ define([
         * @memberOf widgets/locator/locator
         */
         _showLocatedAddress: function (candidates) {
-            var addrListCount = 0, addrList = [], candidateArray, divAddressContainer, candidate, addressListContainer, i, divAddressSearchCell;
-            domConstruct.empty(this.divResultContainer);
-
+            var candidateArray, divAddressContainer, candidate, addressListContainer, i, divAddressSearchCell;
+            // if searched value is empty, clear address container and do not perform search
             if (lang.trim(this.txtSearch.value) === "") {
                 this.txtSearch.focus();
                 this._toggleTexBoxControls(false);
@@ -373,8 +431,6 @@ define([
                 domClass.add(this.divResultContainer, "esriCTHidden");
                 return;
             }
-
-
             // display all the located address in the address container
             // 'this.divResultContainer' div dom element contains located addresses, created in widget template
             // if results count is greater than 1, populate it in list else show no result message
@@ -383,21 +439,31 @@ define([
                 domClass.remove(this.divResultContainer, "esriCTHidden");
                 for (candidateArray in candidates) {
                     if (candidates.hasOwnProperty(candidateArray)) {
-                        if (candidates[candidateArray].length > 0) {
-                            divAddressContainer = domConstruct.create("div", {
-                                "class": "esriCTSearchGroupRow esriCTContentBottomBorder esriCTPointerCursor esriCTHeaderFont"
-                            }, this.divResultContainer);
-                            divAddressSearchCell = domConstruct.create("div", { "class": "esriCTSearchGroupCell" }, divAddressContainer);
-                            candidate = candidateArray + " (" + candidates[candidateArray].length + ")";
-                            domConstruct.create("span", { "innerHTML": "+", "class": "esriCTPlusMinus" }, divAddressSearchCell);
-                            domConstruct.create("span", { "innerHTML": candidate, "class": "esriCTGroupList" }, divAddressSearchCell);
-                            addrList.push(divAddressSearchCell);
-                            this._toggleAddressList(addrList, addrListCount);
-                            addrListCount++;
-                            addressListContainer = domConstruct.create("div", { "class": "esriCTAddressListContainer esriCTHideAddressList" }, this.divResultContainer);
-
-                            for (i = 0; i < candidates[candidateArray].length; i++) {
-                                this._displayValidLocations(candidates[candidateArray][i], i, candidates[candidateArray], addressListContainer);
+                        if ($.inArray(candidateArray, this.searchedGroups) === -1) {
+                            if (candidates[candidateArray].length > 0) {
+                                divAddressContainer = domConstruct.create("div", {
+                                    "class": "esriCTSearchGroupRow esriCTContentBottomBorder esriCTPointerCursor esriCTHeaderFont"
+                                }, this.divResultContainer);
+                                divAddressSearchCell = domConstruct.create("div", {
+                                    "class": "esriCTSearchGroupCell"
+                                }, divAddressContainer);
+                                candidate = candidateArray + " (" + candidates[candidateArray].length + ")";
+                                domConstruct.create("span", {
+                                    "innerHTML": "+",
+                                    "class": "esriCTPlusMinus"
+                                }, divAddressSearchCell);
+                                domConstruct.create("span", {
+                                    "innerHTML": candidate,
+                                    "class": "esriCTGroupList"
+                                }, divAddressSearchCell);
+                                this._toggleAddressList(divAddressSearchCell, this.searchedGroups.length);
+                                this.searchedGroups.push(candidateArray);
+                                addressListContainer = domConstruct.create("div", {
+                                    "class": "esriCTAddressListContainer esriCTHideAddressList"
+                                }, this.divResultContainer);
+                                for (i = 0; i < candidates[candidateArray].length; i++) {
+                                    this._displayValidLocations(candidates[candidateArray][i], i, candidates[candidateArray], addressListContainer);
+                                }
                             }
                         }
                     }
@@ -418,14 +484,21 @@ define([
         */
         _displayValidLocations: function (candidate, index, candidateArray, addressListContainer) {
             var candidateAddress, divAddressRow;
-            divAddressRow = domConstruct.create("div", { "class": "esriCTCandidateList" }, addressListContainer);
-            candidateAddress = domConstruct.create("div", { "class": "esriCTCandidateField esriCTContentBottomBorder esriCTPointerCursor" }, divAddressRow);
+            divAddressRow = domConstruct.create("div", {
+                "class": "esriCTCandidateList"
+            }, addressListContainer);
+            candidateAddress = domConstruct.create("div", {
+                "class": "esriCTCandidateField esriCTContentBottomBorder esriCTPointerCursor"
+            }, divAddressRow);
             domAttr.set(candidateAddress, "index", index);
             try {
+                // show address value in the list
                 if (candidate.name) {
                     domAttr.set(candidateAddress, "innerHTML", candidate.name);
+                    // show latitude longitude value in the list
                 } else if (candidate.LatLong) {
                     domAttr.set(candidateAddress, "innerHTML", candidate.LatLong.coords);
+                    // show USNG and MGRS value in the list
                 } else if (candidate.value) {
                     domAttr.set(candidateAddress, "innerHTML", candidate.value);
                 }
@@ -447,7 +520,7 @@ define([
         * @memberOf widgets/locator/locator
         */
         _toggleAddressList: function (addressList, idx) {
-            on(addressList[idx], "click", lang.hitch(this, function (evt) {
+            on(addressList, "click", lang.hitch(this, function (evt) {
                 var addressListContainer, listStatusSymbol;
                 addressListContainer = query(".esriCTAddressListContainer", this.divResultContainer)[idx];
                 if (domClass.contains(addressListContainer, "esriCTShowAddressList")) {
@@ -469,7 +542,10 @@ define([
             domConstruct.empty(this.divResultContainer);
             domClass.remove(this.divResultContainer, "esriCTHidden");
             this._toggleTexBoxControls(false);
-            domConstruct.create("div", { "class": "esriCTDivNoResultFound", "innerHTML": dojo.configData.i18n.locator.invalidSearch }, this.divResultContainer);
+            domConstruct.create("div", {
+                "class": "esriCTDivNoResultFound",
+                "innerHTML": dojo.configData.i18n.locator.invalidSearch
+            }, this.divResultContainer);
         },
 
         /**
@@ -651,7 +727,7 @@ define([
                 }, function (error) {
                     def.reject(error);
                 });
-            } else {// cant do anything, leave lat/long
+            } else { // cant do anything, leave lat/long
                 def.resolve(geometry);
             }
             return def;
@@ -662,13 +738,15 @@ define([
         * @param {} isShow
         * @memberOf widgets/locator/locator
         */
-        _toggleTexBoxControls: function (isShow) {
-            if (isShow) {
+        _toggleTexBoxControls: function (showLoader) {
+            if (showLoader) {
                 domStyle.set(this.imgSearchLoader, "display", "block");
                 domStyle.set(this.close, "display", "none");
             } else {
-                domStyle.set(this.imgSearchLoader, "display", "none");
-                domStyle.set(this.close, "display", "block");
+                if (!this.isPerformingSearch) {
+                    domStyle.set(this.imgSearchLoader, "display", "none");
+                    domStyle.set(this.close, "display", "block");
+                }
             }
         },
 
@@ -686,4 +764,3 @@ define([
 
     });
 });
-

@@ -49,6 +49,7 @@
 {
     height: 96.5%;
 }
+
 .form-control
 {
     max-width: 100%;
@@ -70,13 +71,17 @@
 }
 
 /* Issue Wall */
+
 .esriCTDetailsData
 {
-   min-height: 500px;
-   max-height:500px;
+    min-height: 500px;
+    max-height: 500px;
 }
+
 /* Issue Wall */
+
 /* App Header Icons*/
+
 .esriCTHeaderIcons
 {
     height: 24px !important;
@@ -101,6 +106,7 @@
 {
     background-image: url(../images/my-issues-24.png);
 }
+
 /* App Header Icons*/
 
 /* Web map list Icons */
@@ -121,59 +127,74 @@
 {
     background-image: url(../images/close-24.png  );
 }
- /* Issue wall Icons */
 
-    .esriCTCommentsIcon
-    {
-        background-image: url('../images/comment-24.png');
-    }
-    .esriCTMapIcon
-    {
-        background-image: url('../images/map-view-24.png');
-    }
+/* Issue wall Icons */
 
-    .esriCTLikeIcon
-    {
-        background-image: url('../images/like-24.png');
-    }
+.esriCTCommentsIcon
+{
+    background-image: url('../images/comment-24.png');
+}
+.esriCTMapIcon
+{
+    background-image: url('../images/map-view-24.png');
+}
 
-    .esriCTDownArrowIcon
-    {
-        background-image: url('../images/down-arrow-24.png');
-    }
+.esriCTLikeIcon
+{
+    background-image: url('../images/like-24.png');
+}
 
-    .esriCTUpArrowIcon
-    {
-        background-image: url('../images/up-arrow-24.png');
-    }
-  /* Issue wall Icons */
-  /* Sign In Icons */
+.esriCTDownArrowIcon
+{
+    background-image: url('../images/down-arrow-24.png');
+}
 
+.esriCTUpArrowIcon
+{
+    background-image: url('../images/up-arrow-24.png');
+}
 
-    .esriCTSigninGuestBtn
-    {
-        background-image: url('../images/guest-user-24.png');
-    }
+/* Issue wall Icons */
 
+/* Sign In Icons */
 
-    .esriCTSigninEsriButton
-    {
-        background-image: url('../images/esri-24.png');
-    }
+.esriCTSigninGuestBtn
+{
+    background-image: url('../images/guest-user-24.png');
+}
 
-    .esriCTSigninFBButton
-    {
-        background-image: url('../images/facebook-24.png');
-    }
+.esriCTSigninEsriButton
+{
+    background-image: url('../images/esri-24.png');
+}
 
-    .esriCTSigninTwitterButton
-    {
-        background-image: url(../images/twitter-24.png);
-    }
+.esriCTSigninFBButton
+{
+    background-image: url('../images/facebook-24.png');
+}
 
-    .esriCTSigninGPlusButton
-    {
-        background-image: url('../images/googleplus-24.png');
-    }
+.esriCTSigninTwitterButton
+{
+    background-image: url(../images/twitter-24.png);
+}
 
-  /* Sign In Icons */
+.esriCTSigninGPlusButton
+{
+    background-image: url('../images/googleplus-24.png');
+}
+
+/* Sign In Icons */
+
+/* Comment container CSS*/
+
+.esriCTEnterComment
+{
+    width: 82%;
+}
+
+.esriCTCommentsContainer
+{
+    height: 76%;
+}
+
+/*End of comment container CSS*/

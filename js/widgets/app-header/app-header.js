@@ -25,12 +25,13 @@ define([
     "dojo/dom-class",
     "dojo/dom-style",
     "dojo/on",
+    "dojo/window",
     "dojo/text!./templates/app-header.html",
     "widgets/mobile-menu/mobile-menu",
     "dijit/_WidgetBase",
     "dijit/_TemplatedMixin",
     "dijit/_WidgetsInTemplateMixin"
-], function (declare, domConstruct, lang, dom, domAttr, domClass, domStyle, on, template, MobileMenu, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin) {
+], function (declare, domConstruct, lang, dom, domAttr, domClass, domStyle, on, dojowindow, template, MobileMenu, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         mobileMenu: null,
@@ -89,6 +90,11 @@ define([
                 domAttr.set(this.applicationHeaderIcon, "src", dojoConfig.baseURL + "/images/app-icon.png");
             }
             applicationIcon = domAttr.get(this.applicationHeaderIcon, "src");
+
+            //On application icon/name click navigate to home screen in Desktop
+            on(this.applicationHeaderIcon, "click", lang.hitch(this, this._navigateToHome));
+            on(this.applicationHeaderName, "click", lang.hitch(this, this._navigateToHome));
+
             // load application shortcut icons
             this._loadIcons("apple-touch-icon-precomposed", applicationIcon);
             this._loadIcons("apple-touch-icon", applicationIcon);
@@ -98,18 +104,37 @@ define([
             this.mobileMenu = new MobileMenu(this._config, domConstruct.create("div", {}, dom.byId("mobilemenu")));
             this.mobileMenu.hideMobileMenu = lang.hitch(this, this._animateMenuContainer);
             this.mobileMenu.reportItClicked = lang.hitch(this, this._reportIssueClicked);
+            this.mobileMenu.myIssuesClicked = lang.hitch(this, this._showMyIssuesClicked);
+            this.mobileMenu.listViewClicked = lang.hitch(this, this._showIssueListClicked);
 
             on(this.mobileMenuBurger, "click", lang.hitch(this, this._animateMenuContainer));
+            on(this.myIssueButton, "click", lang.hitch(this, this._showMyIssuesClicked));
             on(this.reportIssueButton, "click", lang.hitch(this, this._reportIssueClicked));
             on(this.signOutButton, "click", lang.hitch(this, this._signOutClicked));
             this._showHideMenus();
         },
 
+        /**
+        * This function will navigate the view to home screen.
+        * @memberOf widgets/app-header/app-header
+        */
+        _navigateToHome: function () {
+            //Check if application is in mobile view and mobile-menu exist
+            if (dojowindow.getBox().w < 768 && this.mobileMenu) {
+                this.mobileMenu.homeMenuClicked(false);
+            }
+        },
+
         _signOutClicked: function () {
-            if (this._config.portalObject.getPortalUser()) {
-                this._config.portalObject.signOut().then(lang.hitch(this, function () {
+            // user is logged in via AGOL portal login
+            if (this._config.portalObject) {
+                if (this._config.portalObject.getPortalUser()) {
+                    this._config.portalObject.signOut().then(lang.hitch(this, function () {
+                        location.reload();
+                    }));
+                } else {
                     location.reload();
-                }));
+                }
             } else {
                 location.reload();
             }
@@ -168,7 +193,11 @@ define([
             icon = domConstruct.create("link");
             icon.rel = rel;
             icon.type = "image/x-icon";
-            icon.href = dojoConfig.baseURL + iconPath;
+            if (iconPath.indexOf("http") === 0) {
+                icon.href = iconPath;
+            } else {
+                icon.href = dojoConfig.baseURL + iconPath;
+            }
             document.getElementsByTagName('head')[0].appendChild(icon);
         },
 
@@ -180,6 +209,21 @@ define([
             return evt;
         },
 
+        _showMyIssuesClicked: function (evt) {
+            this.showMyIssues(evt);
+        },
+
+        showMyIssues: function (evt) {
+            return evt;
+        },
+
+        _showIssueListClicked: function (evt) {
+            this.showIssueList(evt);
+        },
+
+        showIssueList: function (evt) {
+            return evt;
+        },
         /**
         * Show or hide mobile menu container
         * @memberOf widgets/app-header/app-header

@@ -1,4 +1,4 @@
-﻿/*global define,dojo,alert,dojoConfig,$ */
+﻿/*global define,dojo,alert,dojoConfig,console,$, gapi*/
 /*jslint browser:true,sloppy:true,nomen:true,unparam:true,plusplus:true,indent:4 */
 /** @license
 | Copyright 2013 Esri
@@ -35,13 +35,19 @@ define([
     "dijit/_WidgetBase",
     "dijit/_TemplatedMixin",
     "dijit/_WidgetsInTemplateMixin",
-    "esri/IdentityManager"
+    "esri/IdentityManager",
+    "widgets/sign-in/facebook-helper",
+    "widgets/sign-in/twitter-helper",
+    "dojo/query"
 
-], function (templateConfig, MainTemplate, Main, ApplicationUtils, declare, domConstruct, domStyle, domAttr, domClass, lang, on, Deferred, all, esriPortal, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, IdentityManager) {
+], function (templateConfig, MainTemplate, Main, ApplicationUtils, declare, domConstruct, domStyle, domAttr, domClass, lang, on, Deferred, all, esriPortal, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, IdentityManager, FBHelper, TWHelper, query) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         _config: null,
-
+        userDetails: { fullName: null, firstName: null, lastName: null, uniqueID: null, emailID: null, socialMediaType: null },
+        isUserLoggedIn: false,
+        fbHelperObject: null,
+        twHelperObject: null,
         /**
         * This function is called on startup of widget.
         * @param{object} config to be used
@@ -54,7 +60,6 @@ define([
             this.inherited(arguments);
             this.domNode = domConstruct.create("div", {}, dojo.body());
             this.domNode.appendChild(this.signinOuterContainer);
-
             if (this._config.applicationName && lang.trim(this._config.applicationName).length !== 0) {
                 applicationName = this._config.applicationName;
             } else if (this._config.groupInfo.results.length > 0 && this._config.groupInfo.results[0].title) {
@@ -94,6 +99,27 @@ define([
             }
         },
 
+        onLogIn: function (loggedInUser) {
+            var myTemplate, myApp;
+            myTemplate = new MainTemplate(templateConfig);
+            dojo.boilerPlateTemplate = myTemplate;
+            myApp = new Main();
+            myTemplate.startup().then(lang.hitch(this, function (newConfig) {
+                if (this.portal) {
+                    newConfig.portalObject = this.portal;
+                }
+                // In case of social media login set the token and hide the landing page,
+                // as in case of AGOL login landing page is closed as soon as identity manager is shown.
+                if (!loggedInUser.credential) {
+                    loggedInUser.credential = { "token": "" };
+                    this.hideSignInDialog();
+                }
+                myApp.startup(newConfig, loggedInUser);
+            }), function (error) {
+                dojo.applicationUtils.showError(error);
+            });
+        },
+
         /**
         * This function is executed when user clicks on ESRI button
         * @memberOf widgets/sign-in/sign-in
@@ -102,18 +128,7 @@ define([
             this.hideSignInDialog();
             this.portal = new esriPortal.Portal(this._config.sharinghost);
             this.portal.on("load", lang.hitch(this, function () {
-                this.portal.signIn().then(lang.hitch(this, function (loggedInUser) {
-                    var myTemplate, myApp;
-                    myTemplate = new MainTemplate(templateConfig);
-                    dojo.boilerPlateTemplate = myTemplate;
-                    myApp = new Main();
-                    myTemplate.startup().then(lang.hitch(this, function (newConfig) {
-                        newConfig.portalObject = this.portal;
-                        myApp.startup(newConfig, loggedInUser);
-                    }), function (error) {
-                        dojo.applicationUtils.showError(error);
-                    });
-                }), function (e) {
+                this.portal.signIn().then(lang.hitch(this, this.processUserDetails), function (e) {
                     if (e.message !== "ABORTED") {
                         dojo.applicationUtils.showError(e.message);
                     }
@@ -122,11 +137,40 @@ define([
         },
 
         /**
+        * Process the login action using user login credentials
+        * @param{object} userDetails to be used
+        * @memberOf widgets/sign-in/sign-in
+        */
+        processUserDetails: function (userDetails) {
+            //if user already not logged in and user information's not exist
+            if (!this.isUserLoggedIn) {
+                //Check if it is AGOL Login or Social Media Login
+                //In Case of AGOL Login construct uniqueId with OrgID + UserID
+                if (!userDetails.credential) {
+                    userDetails.processedUserName = userDetails.socialMediaType + "$" + userDetails.uniqueID + "$" + userDetails.fullName;
+                } else {
+                    userDetails.processedUserName = "AGOL" + "$" + userDetails.orgId + userDetails.credential.userId + "$" + userDetails.fullName;
+                }
+                this.onLogIn(userDetails);
+                this.isUserLoggedIn = true;
+            }
+        },
+
+        /**
         * This function is executed when user clicks on facebook button
         * @memberOf widgets/sign-in/sign-in
         */
         _fbButtonClicked: function () {
-            alert("Coming soon...");
+            var facebookConfig;
+            // if facebook login occurred first time/login instance not created
+            if (!this.fbHelperObject) {
+                facebookConfig = { "facebookAppId": this._config.facebookAppId };
+                this.fbHelperObject = new FBHelper(facebookConfig);
+                this.fbHelperObject.onFaceBookLogIn = lang.hitch(this, this.processUserDetails);
+            } else {
+                this.fbHelperObject.FBLoggedIn = false;
+                this.fbHelperObject.facebookLoginHandler();
+            }
         },
 
         /**
@@ -134,7 +178,19 @@ define([
         * @memberOf widgets/sign-in/sign-in
         */
         _twitterButtonClicked: function () {
-            alert("Coming soon...");
+            var twitterConfig;
+            // if twitter login occurred first time/login instance not created
+            if (!this.twHelperObject) {
+                twitterConfig = {
+                    "twitterSigninUrl": this._config.twitterSigninUrl,
+                    "twitterUserUrl": this._config.twitterUserUrl,
+                    "twitterCallbackUrl": this._config.twitterCallbackUrl
+                };
+                this.twHelperObject = new TWHelper(twitterConfig);
+                this.twHelperObject.onTwitterLogIn = lang.hitch(this, this.processUserDetails);
+            } else {
+                this.twHelperObject.twitterLoginHandler();
+            }
         },
 
         /**
@@ -142,7 +198,50 @@ define([
         * @memberOf widgets/sign-in/sign-in
         */
         _gpButtonClicked: function () {
-            alert("Coming soon...");
+            var googleplusConfig;
+            // if google api sdk is loaded
+            if (gapi && gapi.auth) {
+                googleplusConfig = {
+                    "clientid": this._config.googleplusClientId,
+                    "scope": this._config.googleplusScope,
+                    "callback": lang.hitch(this, this._gpsigninCallback)
+                };
+                gapi.auth.signIn(googleplusConfig);
+            }
+        },
+
+        /**
+        * Callback function when user logged In
+        * @param{object} authResult to be used
+        * @memberOf widgets/sign-in/sign-in
+        */
+        _gpsigninCallback: function (authResult) {
+            // if api authentication is true and user is signed in
+            if (authResult && authResult.status.signed_in) {
+                // if user is already logged in google plus and trying to logn via googleplus in our app
+                //  then only on "PROMPT" method invoke let him login to our app
+                if (authResult.status.method === 'PROMPT') {
+                    gapi.client.load('plus', 'v1', lang.hitch(this, function () {
+                        var request = gapi.client.plus.people.get({
+                            'userId': 'me'
+                        });
+                        request.execute(lang.hitch(this, function (resp) {
+                            // if emails exist in response object
+                            if (resp.emails) {
+                                this.userDetails.fullName = resp.displayName;
+                                this.userDetails.firstName = resp.name.givenName;
+                                this.userDetails.lastName = resp.name.familyName;
+                                this.userDetails.emailID = resp.emails[0].value;
+                                this.userDetails.uniqueID = resp.id;
+                                this.userDetails.socialMediaType = "Googleplus";
+                                this.processUserDetails(this.userDetails);
+                            }
+                        }));
+                    }));
+                } else {
+                    console.log(authResult.status.method);
+                }
+            }
         },
 
         /**
@@ -150,8 +249,11 @@ define([
         * @memberOf widgets/sign-in/sign-in
         */
         _guestButtonClicked: function () {
-            this.hideSignInDialog();
-            this.loadApplication(this._config);
+            if (!this.isUserLoggedIn) {
+                this.hideSignInDialog();
+                this.loadApplication(this._config);
+                this.isUserLoggedIn = true;
+            }
         },
 
         showSignInDialog: function () {

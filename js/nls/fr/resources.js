@@ -41,7 +41,8 @@ define(({
     },
     issueWall: {
         noResultsFound: "@fr@ No issues found in the current extent",
-        photoAttachmentHeader: "@fr@ Photo"
+        photoAttachmentHeader: "@fr@ Photo",
+        votesUpdateFailure: "@fr@ Unable to update"
     },
     mobileMenu: {
         home: "@fr@ Home",
@@ -76,16 +77,31 @@ define(({
         remainingCharactersHintMessage: "@fr@ ${value} characters remaining",
         errorsInApplyEdits: "@fr@ Issue could not be reported.",
         attachmentSelectedMsg: "@fr@ Attachment(s) selected",
+        attachmentFailedMsg: "@fr@ ${failed} of ${total} Attachment(s) failed to upload.",
         selectLocationTitleText: "@fr@ (Tap/Click on map to select location)",
         geoLocationError: "@fr@ Current location not available",
         geoLocationOutOfExtent: "@fr@ Current location is out of basemap extent"
     },
     locator: {
-        addressText: "@fr@ Address",
+        addressText: "@fr@ Address:",
         usngText: "@fr@ USNG",
         mgrsText: "@fr@ MGRS",
         latLongText: "@fr@ LatLong",
         invalidSearch: "@fr@ No results found",
         locatorPlaceholder: "@fr@ Enter address to search"
+    },
+    myIssues: {
+        title: "@fr@ My Issues",
+        noResultsFound: "@fr@ No issues found",
+        photoAttachmentHeader: "@fr@ Photo",
+        votesUpdateFailure: "@fr@ Unable to update"
+    },
+    comment: {
+        errorInSubmmitingComment: "@fr Comment could not be submitted.",
+        emptyCommentMessage: "@fr@ Please enter comment.",
+        placeHolderText: "@fr@ Write a comment",
+        noCommentsAvailableText: "@fr@ No comments available",
+        remainingTextCount: "@fr@ ${0} character(s) remain",
+        showNoText: "@fr@ No"
     }
 }));
