@@ -5,7 +5,6 @@
     {
         height: calc(100% - 61px);
     }
-
     .esriCTLeftContainer, .esriCTCenterContainer, .esriCTSlideContainer
     {
         width: 100% !important;
@@ -54,6 +53,9 @@
     .esriCTApplicationIcon
     {
         height: 60px;
+        width: 60px;
+        max-width: 60px;
+        max-height: 60px;
     }
     /* End of App header icons */
 
@@ -66,8 +68,9 @@
     }
     /* End of GeoForm Styles */
 
-    .esriCTCloseButton{
-        margin-right:24px;
+    .esriCTCloseButton
+    {
+        margin-right: 24px;
     }
 }
 
@@ -163,7 +166,9 @@
 
     .esriCTAttachmentSelectedCount
     {
-        top: 38px;
+        margin-top: 38px;
+        float: none;
+        margin-left: 0px;
     }
     /* End of GeoForm Styles */
 
@@ -195,15 +200,20 @@
         display: block !important;
     }
 
-    .esriCTCloseButton{
-        margin-right:30px;
+    .esriCTCloseButton
+    {
+        margin-right: 24px;
+    }
+
+    .esriCTCommentsContent
+    {
+        height: 91%;
     }
 }
 
 /* CSS for retina images for retina devices like ipad / tablets etc. */
 @media only screen and (min-device-width : 319px) and (max-device-width : 1024px) and (-webkit-min-device-pixel-ratio: 2)
 {
-
     .esriCTSigninOrDiv
     {
         background-image: url('../images/seperator-2x.png') !important;

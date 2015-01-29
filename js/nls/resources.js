@@ -78,19 +78,33 @@ define({
             remainingCharactersHintMessage: "${value} characters remaining",
             errorsInApplyEdits: "Issue could not be reported.",
             attachmentSelectedMsg: "Attachment(s) selected",
+            attachmentFailedMsg: "${failed} of ${total} Attachment(s) failed to upload.",
             selectLocationTitleText: "(Tap/Click on map to select location)",
             geoLocationError: "Current location not available",
             geoLocationOutOfExtent: "Current location is out of basemap extent"
         },
         locator: {
-            addressText: "Address",
+            addressText: "Address:",
             usngText: "USNG",
             mgrsText: "MGRS",
             latLongText: "LatLong",
             invalidSearch: "No results found",
             locatorPlaceholder: "Enter address to search"
+        },
+        myIssues: {
+            title: "My Issues",
+            noResultsFound: "No issues found",
+            photoAttachmentHeader: "Photo",
+            votesUpdateFailure: "Unable to update"
+        },
+        comment: {
+            errorInSubmmitingComment: "Comment could not be submitted.",
+            emptyCommentMessage: "Please enter comment.",
+            placeHolderText: "Write a comment",
+            noCommentsAvailableText: "No comments available",
+            remainingTextCount: "${0} character(s) remain",
+            showNoText: "No"
         }
-
     }),
     "ar": 1,
     "cs": 1,
