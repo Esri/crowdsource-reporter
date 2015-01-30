@@ -130,9 +130,9 @@
                     "label": "Zoom Level",
                     "tooltip": "Configure zoom level"
                 },
-                                {
+                {
                     "type": "paragraph",
-                    "value": "Choose the map settings to display:"
+                    "value": "Choose the map information to display:"
                 },
                 {
                     "type": "boolean",
