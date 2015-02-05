@@ -21,7 +21,7 @@ define({
     "appid": "",
     "oauthappid": null,
     //Group templates must support a group url parameter. This will contain the id of the group.
-    "group": "e96bd5b249a04235bcd7399cb80ee3cf",
+    "group": "",
     //Enter the url to the proxy if needed by the application
     "proxyurl": "proxy.ashx",
     //Example of a template specific property. If your template had several color schemes
@@ -45,20 +45,20 @@ define({
     "applicationIcon": "/images/app-icon.png",
     "applicationFavicon": "/images/favicon.ico",
 
-    "signInSubtitle": "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "signInSubtitle": "",
     "signInBackgroundImage": "/images/signinbg.png",
 
     "enableFacebook": true,
     "enableTwitter": true,
     "enableGoogleplus": true,
 
-    "facebookAppId": "1494893020783511",
+    "facebookAppId": "",
 
     "twitterSigninUrl": location.protocol + "//utility.arcgis.com/tproxy/signin",
     "twitterUserUrl": location.protocol + "//utility.arcgis.com/tproxy/proxy/1.1/account/verify_credentials.json?q=&include_entities=true&skip_status=true&locale=en",
     "twitterCallbackUrl": "/oauth-callback-twitter.html",
 
-    "googleplusClientId": "20592238920-s7s85lv2miqmbkjph2fjs3tua57ogbha.apps.googleusercontent.com",
+    "googleplusClientId": "",
     "googleplusScope": "https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email",
 
     "showNullValueAs": "",
@@ -76,13 +76,13 @@ define({
     "webMapInfoNumViews": false,
     "webMapInfoAvgRating": false,
 
-    "submitMessage": "Thank you. Your report has been submitted.",
-    "likeField": "VOTES",
-    "commentField": "FEEDBACK",
-    "reportedByField": "REPORTEDBY",
+    "submitMessage": "Thank you! Your report has been submitted.",
+    "likeField": "",
+    "commentField": "",
+    "reportedByField": "",
 
-    "zoomLevel": 16,
-    "enableUSNGSearch": true,
-    "enableMGRSSearch": true,
-    "enableLatLongSearch": true
+    "zoomLevel": 12,
+    "enableUSNGSearch": false,
+    "enableMGRSSearch": false,
+    "enableLatLongSearch": false
 });
