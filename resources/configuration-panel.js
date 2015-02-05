@@ -39,19 +39,19 @@
                     "type": "string",
                     "fieldName": "applicationName",
                     "label": "Title",
-                    "tooltip": "Application title"
+                    "tooltip": "Application title (max 34 chars)"
                 },
                 {
                     "type": "string",
                     "stringFieldOption": "textarea",
                     "fieldName": "signInSubtitle",
                     "label": "Subtitle",
-                    "tooltip": "text displayed below title on splash page"
+                    "tooltip": "Text displayed below title on splash page (max 36 chars)"
                 },
                 {
                     "type": "string",
                     "fieldName": "signInBackgroundImage",
-                    "tooltip": "Background image for login screen",
+                    "tooltip": "Background image for login screen. Recommended 640x960.",
                     "label": "Splash Screen Image"
                 },
                 {
