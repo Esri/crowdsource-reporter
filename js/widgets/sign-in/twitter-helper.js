@@ -29,7 +29,7 @@ define([
             firstName: null,
             lastName: null,
             uniqueID: null,
-            emailID: null,
+            email: null,
             socialMediaType: null
         },
         /**
@@ -108,11 +108,11 @@ define([
                 }
                 if (this.TWLoggedIn) {
                     this.userDetails = {
-                        fullName: response.name,
+                        fullName: response.name || "",
                         firstName: null,
                         lastName: null,
                         uniqueID: response.id_str,
-                        emailID: null,
+                        email: null,
                         socialMediaType: "Twitter"
                     };
                     this.onTwitterLogIn(this.userDetails);
@@ -125,7 +125,7 @@ define([
                     firstName: null,
                     lastName: null,
                     uniqueID: null,
-                    emailID: null,
+                    email: null,
                     socialMediaType: null
                 };
                 this.onTwitterLogIn(this.userDetails);

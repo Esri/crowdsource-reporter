@@ -17,9 +17,6 @@
 */
 //============================================================================================================================//
 define([
-    "application/template-options",
-    "application/template",
-    "application/main",
     "dojo/_base/declare",
     "dojo/dom-construct",
     "dojo/dom-geometry",
@@ -39,7 +36,7 @@ define([
     "dijit/_TemplatedMixin",
     "dijit/_WidgetsInTemplateMixin"
 
-], function (templateConfig, mainTemplate, Main, declare, domConstruct, domGeom, win, domStyle, domAttr, domClass, dom, lang, topic, on, Deferred, all, esriPortal, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin) {
+], function (declare, domConstruct, domGeom, win, domStyle, domAttr, domClass, dom, lang, topic, on, Deferred, all, esriPortal, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         _lastSelectedView: null,

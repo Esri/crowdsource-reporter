@@ -5,11 +5,9 @@
                 <div class="input-group">
                     <input data-dojo-attach-point="txtSearch" type="text" class="form-control esriCTTxtSearch">
                     <div class="input-group-btn" data-dojo-attach-point="geocoder_buttons">
-                        <button data-dojo-attach-point="searchSubmit" class="btn btn-default esriCTLocatorSearchButton"
-                            type="button">
-                            <span data-dojo-attach-point="geocoder_spinner" class="glyphicon glyphicon-search">
-                            </span>
-                        </button>
+                        <div class="esriCTSearchButton esriCTBGColor esriCTPointerCursor esriCTLocatorSearchButton "
+                            data-dojo-attach-point="searchSubmit">
+                        </div>
                     </div>
                     <div class="esriCTSearchClose" data-dojo-attach-point="clearhide">
                         <span class="esriCTClearInput" data-dojo-attach-point="close"></span><span data-dojo-attach-point="imgSearchLoader"

@@ -36,20 +36,12 @@ define([
     "dijit/_TemplatedMixin",
     "dijit/_WidgetsInTemplateMixin",
     "esri/arcgis/utils",
-    "esri/Color",
     "esri/graphic",
-    "esri/geometry/Point",
-    "esri/geometry/Polyline",
-    "esri/geometry/Polygon",
     "esri/layers/FeatureLayer",
-    "esri/layers/GraphicsLayer",
     "esri/tasks/QueryTask",
-    "esri/symbols/SimpleMarkerSymbol",
-    "esri/symbols/SimpleLineSymbol",
-    "esri/symbols/SimpleFillSymbol",
     "esri/tasks/query",
     "widgets/issue-comments/issue-comments"
-], function (declare, Deferred, dom, domConstruct, domStyle, domAttr, domClass, lang, on, string, query, template, issueItemTemplate, issueDetailsTemplate, all, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, arcgisUtils, Color, Graphic, Point, Polyline, Polygon, FeatureLayer, GraphicsLayer, QueryTask, SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol, Query, IssueComments) {
+], function (declare, Deferred, dom, domConstruct, domStyle, domAttr, domClass, lang, on, string, query, template, issueItemTemplate, issueDetailsTemplate, all, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, arcgisUtils, Graphic, FeatureLayer, QueryTask, Query, IssueComments) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         opLayersArr: [],
@@ -66,7 +58,7 @@ define([
             }));
             //initialize issue comment widget
             this.issueCommentWidget = new IssueComments({ "parentContainer": this.domNode });
-            this.CreateMyIssuesList();
+            this._createMyIssuesLayerList();
         },
 
         /**
@@ -75,7 +67,7 @@ define([
         */
         showMyIssuesContainer: function () {
             domStyle.set(this.domNode, "display", "block");
-            this.resizeContainer();
+            this.issueDetailsHelper.resizeIssuesContainer(this.listDetailedContainer);
         },
 
         /**
@@ -93,10 +85,9 @@ define([
 
         /**
         * Create My issues list
-        * @param{object} config to be mixed
         * @memberOf widgets/my-issues/my-issues
         */
-        CreateMyIssuesList: function () {
+        _createMyIssuesLayerList: function () {
             var webmapOpLayerArr, layerResponseDef = [], i, j, index = 0;
             this.isNoFeatureFound = true;
             this.opLayersArr = [];
@@ -105,7 +96,7 @@ define([
             domConstruct.empty(this.listContainer);
             this.selectedGraphicsLayer = this.map.getLayer("selectionGraphicsLayer");
             domConstruct.empty(this.listDetailedContainer);
-            //get all operational layer from all webmaps
+            // get all operational layer from all webmaps
             for (i = 0; i < this.webmapList.length; i++) {
                 webmapOpLayerArr = this.webmapList[i][1].itemInfo.itemData.operationalLayers;
                 for (j = 0; j < webmapOpLayerArr.length; j++) {
@@ -141,33 +132,11 @@ define([
                     this._fetchIssueDetailsFromLayers(results);
                 }));
             }));
-            //on window resize update the height of issue list based on screen size and headers and footers.
+            // on window resize update the height of issue list based on screen size and headers and footers.
             // As in case of long header title, header height need to be adjusted.
-            on(window, "resize", lang.hitch(this, this.resizeContainer));
-        },
-
-        /**
-        * Resizes the Container according to screen height
-        * @param{object} config to be mixed
-        * @memberOf widgets/my-issues/my-issues
-        */
-        resizeContainer: function () {
-            var detailDiv, detailHeaderDiv, detailFooterDiv, detailBodyheight, listDetailsData;
-            //check if issue details div is open,then adjust the detailed container height
-            if (!domClass.contains(this.listDetailedContainer, "esriCTHidden")) {
-                detailDiv = query(".esriCTListDetails", this.listDetailedContainer);
-                detailHeaderDiv = query(".esriCTIssueHeaderHeight", this.listDetailedContainer);
-                detailFooterDiv = query(".esriCTIssueFooterHeight", this.listDetailedContainer);
-                detailBodyheight = parseInt(detailDiv[0].clientHeight - (detailHeaderDiv[0].clientHeight + detailFooterDiv[0].clientHeight + 17), 10);
-                listDetailsData = query(".esriCTDetailsData")[0];
-                if (listDetailsData) {
-                    query(listDetailsData).style("height", detailBodyheight + "px");
-                    if ((dojo.isIE < 9) && detailBodyheight < 500) {
-                        query(listDetailsData).style("min-height", detailBodyheight + "px");
-                        query(listDetailsData).style("max-height", detailBodyheight + "px");
-                    }
-                }
-            }
+            on(window, "resize", lang.hitch(this, function () {
+                this.issueDetailsHelper.resizeIssuesContainer(this.listDetailedContainer);
+            }));
         },
 
         /**
@@ -180,7 +149,7 @@ define([
             var layerIndex = this._getSelectedLayer(data.webMapId, data.operationalLayerId, data.operationalLayerDetails.title);
             if (layerIndex || layerIndex === 0) {
                 if (updatedIssue) {
-                    //check if updated issue is reported b logged in user
+                    //check if updated issue is reported by logged in user
                     if (updatedIssue.attributes[dojo.configData.reportedByField] !== dojo.configData.logInDetails.processedUserName) {
                         return;
                     }
@@ -223,11 +192,15 @@ define([
         * @memberOf widgets/my-issues/my-issues
         */
         _queryOnLayer: function (opLayer) {
-            var queryTask, deferred, parameters, dateobj = new Date().getTime().toString();
+            var queryTask, deferred, parameters, queryString, dateobj = new Date().getTime().toString();
             deferred = new Deferred();
             parameters = new Query();
             //query with configured reported by field to get list of issues reported by logged in user
-            parameters.where = dojo.configData.reportedByField + "='" + dojo.configData.logInDetails.processedUserName + "' AND " + dateobj + "=" + dateobj;
+            queryString = dojo.configData.reportedByField + "='" + dojo.configData.logInDetails.processedUserName + "' AND " + dateobj + "=" + dateobj;
+            if (opLayer.layerObject.defaultDefinitionExpression) {
+                queryString += " AND " + opLayer.layerObject.defaultDefinitionExpression;
+            }
+            parameters.where = queryString;
             parameters.outFields = ["*"];
             queryTask = new QueryTask(opLayer.url);
             queryTask.execute(parameters, function (response) {
@@ -237,6 +210,7 @@ define([
             });
             return deferred;
         },
+
         /**
         * get instance of layer
         * @param{object} webmapId is the id of selected webmap for reported issue
@@ -254,6 +228,7 @@ define([
             }
             return opLayerIndex;
         },
+
         /**
         * fetch issue details from all layers
         * @param{object} layerObject is operational layer object
@@ -261,27 +236,12 @@ define([
         */
         _fetchIssueDetailsFromLayers: function (oplayersArr) {
             var i;
+            domConstruct.empty(this.listContainer);
             for (i = 0; i < oplayersArr.length; i++) {
                 if (oplayersArr[i]) {
                     this._fetchIssueDetails(oplayersArr[i]);
                 }
             }
-        },
-
-        /**
-        * Load feature layer and fetch the graphics from that layer
-        * @param{object} operationalLayer
-        * @memberOf widgets/my-issues/my-issues
-        */
-        _loadFeatureLayer: function (operationalLayer) {
-            var featureLayer, deferred = new Deferred();
-            featureLayer = new FeatureLayer(operationalLayer.url);
-            on(featureLayer, "load", lang.hitch(this, function (evt) {
-                setTimeout(lang.hitch(this, function () {
-                    deferred.resolve(operationalLayer);
-                }), 1000);
-            }));
-            return deferred;
         },
 
         /**
@@ -319,103 +279,26 @@ define([
         },
 
         /**
-        * Show or hide comment icon
-        * @param{array} attributes
-        * @param{object} object id field from the layer
-        * @param{object} parentDiv, container in which the icon would be inserted
-        * @param{object} commentIconFlag
-        * @memberOf widgets/my-issues/my-issues
-        */
-        _showHideCommentIcon: function (commentParams, issueTitle) {
-            var commentIcon, commentIconContent;
-            // if the layer contains a related table and the related table has a field for comments, show comment icon else hide the icon
-            if (commentParams.commentFlag) {
-                commentIcon = query('.esriCTCommentsIcon', commentParams.parentNode)[0];
-                domAttr.set(commentIcon, "objId", commentParams.attributes[commentParams.objectId]);
-                domAttr.set(commentIcon, "globalID", commentParams.attributes[commentParams.layer.globalIdField]);
-                this._handleCommentsIconClick(commentIcon, commentParams, issueTitle);
-            } else {
-                // hide comment icon
-                commentIconContent = query('.esriCTCommentsIcon', commentParams.parentNode)[0].parentElement;
-                domStyle.set(commentIconContent, "visibility", "hidden");
-            }
-        },
-
-        _handleCommentsIconClick: function (commentIcon, commentParams, issueTitle) {
-            var commentIconTarget;
-            on(commentIcon, "click", lang.hitch(this, function (evt) {
-                commentIconTarget = evt.currentTarget || evt.srcElement;
-                dojo.applicationUtils.showLoadingIndicator();
-                commentParams.objectId = domAttr.get(commentIconTarget, "objId");
-                commentParams.issueTitle = issueTitle;
-                this.issueCommentWidget._fetchComments(commentParams);
-                commentParams.globalIdField = domAttr.get(commentIconTarget, "globalID");
-
-            }));
-        },
-        /**
         * Fetch feature layer graphics and info popup header fields to be displayed in the list
         * @param{object} operationalLayer details
         * @memberOf widgets/my-issues/my-issues
         */
         _fetchIssueDetails: function (operationalLayer) {
-            var i, j, x, featureArray = [], operationalLayerObj = operationalLayer.layerObject, fieldName, likeFlag = false,
-                fields, fieldValue, attributes, objectIdFieldName, objectIdFieldValue, flagObject = {};
+            var i, featureArray = [], operationalLayerObj = operationalLayer.layerObject, likeFlag = false,
+                attributes, flagObject = {};
             this.operationalLayerDetails = operationalLayer;
-            for (j = operationalLayerObj.graphics.length - 1; j >= 0; j--) {
-                if (dojo.configData.logInDetails.processedUserName === operationalLayerObj.graphics[j].attributes[dojo.configData.reportedByField]) {
-                    for (fields in operationalLayerObj.graphics[j].attributes) {
-                        if (operationalLayerObj.graphics[j].attributes.hasOwnProperty(fields)) {
-                            if (operationalLayerObj.graphics[j].attributes[fields] === null || operationalLayerObj.graphics[j].attributes[fields] === "") {
-                                operationalLayerObj.graphics[j].attributes[fields] = dojo.configData.showNullValueAs;
-                            }
-                        }
-                    }
-                    // check if edit date field is available in the layer for sorting the issue list
-                    if (operationalLayerObj && operationalLayerObj.editFieldsInfo && this.operationalLayerDetails.layerObject.editFieldsInfo.editDateField) {
-                        fieldName = operationalLayerObj.editFieldsInfo.editDateField;
-                        fieldValue = operationalLayerObj.graphics[j].attributes[fieldName];
-                    }
-                    attributes = operationalLayerObj.graphics[j].attributes;
-                    for (x = 0; x < operationalLayerObj.fields.length; x++) {
-                        if (operationalLayerObj.fields[x].type === "esriFieldTypeDate") {
-                            // format editor date field according to the format received from  info popup
-                            if (Number(attributes[operationalLayerObj.fields[x].name])) {
-                                for (i = 0; i < operationalLayer.popupInfo.fieldInfos.length; i++) {
-                                    if (operationalLayer.popupInfo.fieldInfos[i].fieldName === operationalLayerObj.fields[x].name) {
-                                        if (operationalLayer.popupInfo.fieldInfos[i].format.dateFormat) {
-                                            attributes[operationalLayerObj.fields[x].name] = moment(attributes[operationalLayerObj.fields[x].name]).format(dojo.applicationUtils.getDateFormat(operationalLayer.popupInfo.fieldInfos[i].format.dateFormat).dateFormat);
-                                        } else {
-                                            attributes[operationalLayerObj.fields[x].name] = moment(attributes[operationalLayerObj.fields[x].name]).format('MM-DD-YYYY');
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        // get object id field from the layer
-                        if (operationalLayerObj.fields[x].type === "esriFieldTypeOID") {
-                            objectIdFieldName = operationalLayerObj.fields[x].name;
-                            objectIdFieldValue = operationalLayerObj.graphics[j].attributes[objectIdFieldName];
-                        }
-
-                        // if like field is present in the config file and the layer contains like field, set the flag to true
-                        if (dojo.configData.likeField && (operationalLayerObj.fields[x].name === dojo.configData.likeField)) {
-                            likeFlag = true;
-                        }
-                    }
-                    if (!fieldName) {
-                        // if edit date field is not available in the layer, perform sorting based on object id
-                        fieldValue = objectIdFieldValue;
-                    }
-                    featureArray.push({
-                        "attributes": attributes,
-                        "sortValue": fieldValue
-                    });
-                }
+            for (i = operationalLayerObj.graphics.length - 1; i >= 0; i--) {
+                attributes = operationalLayerObj.graphics[i].attributes;
+                featureArray.push({
+                    "attributes": attributes
+                });
+            }
+            if (dojo.configData.likeField && this._isFieldAvailable(operationalLayerObj, dojo.configData.likeField)) {
+                likeFlag = true;
             }
             flagObject.like = likeFlag;
             flagObject.comment = operationalLayer.commentFlag;
-            this._displayIssueList(featureArray, operationalLayer, objectIdFieldName, flagObject);
+            this._displayIssueList(featureArray, operationalLayer, flagObject);
         },
 
         /**
@@ -426,11 +309,11 @@ define([
         * @param{object} flagObject for like icon,comments icon, extent change
         * @memberOf widgets/my-issues/my-issues
         */
-        _displayIssueList: function (featureSet, operationalLayer, objectIdField, flagObject) {
+        _displayIssueList: function (featureSet, operationalLayer, flagObject) {
             var i, statusParamObj = {
                 likeStatus: flagObject.like,
                 commentStatus: flagObject.comment,
-                objField: objectIdField,
+                objField: operationalLayer.layerObject.objectIdField,
                 layerField: operationalLayer.layerObject
             };
             // check if details exist in info popup
@@ -438,10 +321,8 @@ define([
                 this.isNoFeatureFound = false;
                 // loop through the features to get feature details
                 for (i = 0; i < featureSet.length; i++) {
-                    if (dojo.configData.logInDetails.processedUserName === featureSet[i].attributes[dojo.configData.reportedByField]) {
-                        // get header title of each issue details
-                        this._createIssueTemplate(featureSet[i], statusParamObj, operationalLayer);
-                    }
+                    // get header title of each issue details
+                    this._createIssueTemplate(featureSet[i], statusParamObj, operationalLayer);
                 }
             } else if (this.isNoFeatureFound && operationalLayer.layerIndex === this.opLayersArr.length - 1) {
                 //display message in my issues panel if no layer has any issue reported by logged in user
@@ -449,7 +330,6 @@ define([
                     "innerHTML": dojo.configData.i18n.myIssues.noResultsFound,
                     "class": "esriCTNoIssuesDiv"
                 }, this.listContainer);
-
             }
             domStyle.set(this.listLoadingIndicator, "display", "none");
         },
@@ -462,12 +342,12 @@ define([
         * @memberOf widgets/my-issues/my-issues
         */
         _createIssueTemplate: function (feature, statusParamObj, operationalLayer) {
-            var issueTitleName, issueListTemplateString, parentDiv, setIssueObj, commentParams;
-            issueTitleName = this._getIssueDetailsTitle(feature.attributes, operationalLayer);
+            var issueTitleName, issueListTemplateString, parentDiv, setIssueObj, commentParams, issueDetailsParam;
+            issueTitleName = this.issueDetailsHelper.getIssueDetailsTitle(feature.attributes, operationalLayer, true);
             issueListTemplateString = string.substitute(issueItemTemplate, {
-                IssueTitle: issueTitleName.issueTitle,
-                LayerTitle: issueTitleName.layerTitle,
-                WebMapTitle: issueTitleName.webMapTitle
+                IssueTitle: issueTitleName,
+                LayerTitle: operationalLayer.title,
+                WebMapTitle: operationalLayer.webmapTitle
             });
             // Checking if IE Version is less than 9
             if (dojo.isIE < 9) {
@@ -475,136 +355,58 @@ define([
             } else {
                 parentDiv = domConstruct.toDom(issueListTemplateString).childNodes[0];
             }
-            setIssueObj = query('.esriCTDownArrowIcon', parentDiv)[0];
-            // if down arrow found for issue detail
+            setIssueObj = query('.esriCTIssueListHeader', parentDiv)[0];
+            // bind objectid to issue header panel
             if (setIssueObj) {
                 domAttr.set(setIssueObj, "objId", feature.attributes[statusParamObj.objField]);
                 domAttr.set(setIssueObj, "layerIndex", operationalLayer.layerIndex);
             }
             this.listContainer.appendChild(parentDiv);
             this._showHideLikeIcon(statusParamObj, feature.attributes, parentDiv, operationalLayer.layerIndex);
+
+            domAttr.set(query('.esriCTLikeIcon', parentDiv)[0], "title", dojo.configData.i18n.issueDetailsHelper.likeTooltip);
+            domAttr.set(query('.esriCTCommentsIcon', parentDiv)[0], "title", dojo.configData.i18n.issueDetailsHelper.commentTooltip);
+            domAttr.set(query('.esriCTMapIcon', parentDiv)[0], "title", dojo.configData.i18n.issueDetailsHelper.viewOnMapTooltip);
+
             commentParams = {
                 "attributes": feature.attributes,
                 "objectId": statusParamObj.objField,
                 "parentNode": parentDiv,
                 "commentFlag": statusParamObj.commentStatus,
                 "layer": statusParamObj.layerField,
-                "relatedTable": operationalLayer.relatedTable
+                "relatedTable": operationalLayer.relatedTable,
+                "issueTitle": issueTitleName
             };
-            this._showHideCommentIcon(commentParams, issueTitleName.issueTitle);
+            issueDetailsParam = {
+                "issueCommentWidget": this.issueCommentWidget,
+                "isHighlightFeature": false
+            };
+            this.issueDetailsHelper.showHideCommentIcon(commentParams, issueDetailsParam);
             this._locateIssueOnMap(feature.attributes, statusParamObj.objField, parentDiv, operationalLayer);
             // show issue details on down arrow click
-            this._handleDownArrowClick(parentDiv, feature.attributes, statusParamObj, operationalLayer.relatedTable);
-
+            this._handleDownArrowClick(parentDiv, statusParamObj);
         },
-        /*
-        * Sets the info popup header for each issue
-        * @param{array} featureSet
-        * @memberOf widgets/my-issues/my-issues
-        */
-        _getIssueDetailsTitle: function (featureSet, operationalLayer) {
-            var i, j, titleField, value, popupTitle, titleArray, headerValue, headerFieldArray, panelHeaderValue, issueTemplateHeader, fieldInfo, dateFieldInfo, dateFieldValue;
-            // split info popup header fields
-            popupTitle = operationalLayer.popupInfo.title.split("{");
-            headerFieldArray = [];
-            // if header contains more than 1 fields
-            if (popupTitle.length > 1) {
-                // get strings from header
-                titleField = lang.trim(popupTitle[0]) + " ";
 
-                for (i = 0; i < popupTitle.length; i++) {
-                    // insert remaining fields in an array
-                    titleArray = popupTitle[i].split("}");
-                    if (i === 0) {
-                        if (featureSet.hasOwnProperty(titleArray[0])) {
-                            value = featureSet[titleArray[0]];
-                            // concatenate string and first field from the header and insert in an array
-                            headerFieldArray.push(value);
-                        } else {
-                            headerFieldArray.push(titleField);
-                        }
-                    } else {
-                        for (j = 0; j < titleArray.length; j++) {
-                            if (featureSet.hasOwnProperty(titleArray[j])) {
-                                fieldInfo = this._isDateField(titleArray[j], operationalLayer.layerObject);
-                                if (fieldInfo) {
-                                    dateFieldInfo = this._getDateInfo(titleArray[j], operationalLayer.popupInfo);
-                                    if (dateFieldInfo.format && dateFieldInfo.format.dateFormat) {
-                                        dateFieldValue = moment(featureSet[titleArray[j]]).format(dojo.applicationUtils.getDateFormat(dateFieldInfo.format.dateFormat).dateFormat);
-                                    } else {
-                                        dateFieldValue = (moment(featureSet[titleArray[j]]).toDate()).toLocaleDateString();
-                                    }
-                                    headerFieldArray.push(dateFieldValue);
-                                } else {
-                                    headerFieldArray.push(featureSet[lang.trim(titleArray[j])]);
-                                }
-                            } else {
-                                headerFieldArray.push(titleArray[j]);
-                            }
-                        }
-                    }
-                }
-                headerValue = null;
-                // form a string from the headerFieldArray array, to display in header
-                for (j = 0; j < headerFieldArray.length; j++) {
-                    if (headerValue) {
-                        headerValue = headerValue + headerFieldArray[j];
-                    } else {
-                        headerValue = headerFieldArray[j];
-                    }
-                }
-                panelHeaderValue = headerValue;
-            } else {
-                // if popup title is not empty, display popup field headerValue else display a configurable text
-                if (lang.trim(operationalLayer.popupInfo.title) !== "") {
-                    headerValue = lang.trim(this.operationalLayerDetails.popupInfo.title);
-                    panelHeaderValue = featureSet[headerValue];
-                    if (panelHeaderValue) {
-                        fieldInfo = this._isDateField(headerValue, operationalLayer.layerObject);
-                        if (fieldInfo) {
-                            dateFieldInfo = this._getDateInfo(titleArray[j], operationalLayer.popupInfo);
-                            if (dateFieldInfo.format && dateFieldInfo.format.dateFormat) {
-                                dateFieldValue = moment(featureSet[headerValue]).format(dojo.applicationUtils.getDateFormat(dateFieldInfo.format.dateFormat).dateFormat);
-                            } else {
-                                dateFieldValue = (moment(featureSet[headerValue]).toDate()).toLocaleDateString();
-                            }
-                            panelHeaderValue = dateFieldValue;
-                        }
-                    }
-                }
-                if (panelHeaderValue) {
-                    panelHeaderValue = dojo.configData.showNullValueAs;
-                }
-            }
-
-            issueTemplateHeader = {
-                "webMapTitle": operationalLayer.webmapTitle,
-                "layerTitle": operationalLayer.title,
-                "issueTitle": panelHeaderValue
-            };
-            return issueTemplateHeader;
-        },
 
         /**
         * click event for Display selected issue details of right panel
-        * @param{array} featureSet
         * @param{object} statusParamObj
-        * @param{string} issueTitleName,parentDiv
+        * @param{object} parentDiv
         * @memberOf widgets/my-issues/my-issues
         */
-        _handleDownArrowClick: function (parentDiv, featureSet, statusParamObj, relatedTable) {
-            var downArrowIcon, getIssueObj, getIssueLayerObj;
+        _handleDownArrowClick: function (parentDiv, statusParamObj) {
+            var issueDetailsHeader, getIssueObj, getIssueLayerObj;
             // click event for opening the issue detailed view
-            downArrowIcon = query('.esriCTDownArrowIcon', parentDiv)[0];
+            issueDetailsHeader = query('.esriCTIssueListHeader', parentDiv)[0];
             // binding event only if the queried node found
-            if (downArrowIcon) {
-                on(downArrowIcon, "click", lang.hitch(this, function (evt) {
-                    getIssueObj = domAttr.get(downArrowIcon, "objId");
-                    getIssueLayerObj = domAttr.get(downArrowIcon, "layerIndex");
+            if (issueDetailsHeader) {
+                on(issueDetailsHeader, "click", lang.hitch(this, function (evt) {
+                    getIssueObj = domAttr.get(issueDetailsHeader, "objId");
+                    getIssueLayerObj = domAttr.get(issueDetailsHeader, "layerIndex");
                     this.operationalLayerDetails = this.opLayersArr[parseInt(getIssueLayerObj, 10)];
-                    // if issue object id foundopLayersArr
+                    // if issue object id found
                     if (getIssueObj) {
-                        this._getIssueFeatureSet(parentDiv, getIssueObj, statusParamObj, relatedTable);
+                        this._getIssueFeatureSet(parentDiv, getIssueObj, statusParamObj);
                     }
                 }));
             }
@@ -616,7 +418,7 @@ define([
         * @param{string} parentDiv, getIssueObj
         * @memberOf widgets/my-issues/my-issues
         */
-        _getIssueFeatureSet: function (parentDiv, getIssueObj, statusParamObj, relatedTable) {
+        _getIssueFeatureSet: function (parentDiv, getIssueObj, statusParamObj) {
             var issueTitleName, featureLayerQuery, queryTask;
             featureLayerQuery = new Query();
             featureLayerQuery.objectIds = [getIssueObj];
@@ -634,12 +436,13 @@ define([
                         }
                     }
                 }
-                issueTitleName = this._getIssueDetailsTitle(response.features[0].attributes, this.operationalLayerDetails);
-                this._showIssueDetails(parentDiv, response.features[0].attributes, statusParamObj, issueTitleName, relatedTable);
+                issueTitleName = this.issueDetailsHelper.getIssueDetailsTitle(response.features[0].attributes, this.operationalLayerDetails, true);
+                this._showIssueDetails(parentDiv, response.features[0].attributes, statusParamObj, issueTitleName);
             }), function (err) {
                 dojo.applicationUtils.showError(err.message);
             });
         },
+
         /**
         * Display selected issue details of right panel
         * @param{array} featureSet
@@ -647,15 +450,13 @@ define([
         * @param{string} titleName,parentDiv
         * @memberOf widgets/my-issues/my-issues
         */
-        _showIssueDetails: function (parentDiv, featureSet, statusParamObj, issueTitleName, relatedTable) {
-            var issueDetailsTemplateString, container, detailsData, x, fieldHeader, fieldContent, fieldValue, objectID, upArrowIcon, popupInfoValue, key,
-                detailDivheight, detailHeaderDiv, detailFooterDiv, detailBodyheight, listDetailsData, fieldLabel, domainValue, commentParams, fieldInfo;
+        _showIssueDetails: function (parentDiv, featureSet, statusParamObj, issueTitleName) {
+            var issueDetailsTemplateString, detailsData, objectID, issueDetailsHeader, commentParams, descriptionValue, issueDetailsParam, displayPopupParam;
             domClass.add(this.listContainer, "esriCTHidden");
             domClass.remove(this.listDetailedContainer, "esriCTHidden");
             issueDetailsTemplateString = string.substitute(issueDetailsTemplate, {
-                IssueTitle: issueTitleName.issueTitle
+                IssueTitle: issueTitleName
             });
-            // domConstruct.empty(this.listDetailedContainer);
             domClass.remove(this.listDetailedContainer, "esriCTHidden");
             // Checking if IE Version is less than 9
             if (dojo.isIE < 9) {
@@ -664,109 +465,49 @@ define([
                 parentDiv = domConstruct.toDom(issueDetailsTemplateString).childNodes[0];
             }
             this.listDetailedContainer.appendChild(parentDiv);
-            // click event for closing the issue detail
-            upArrowIcon = query('.esriCTUpArrowIcon', parentDiv)[0];
+            // Click event for closing the issue detail
+            issueDetailsHeader = query('.esriCTIssueDetailsHeader', parentDiv)[0];
             // binding event if only the queried node found
-            if (upArrowIcon) {
-                on(upArrowIcon, "click", lang.hitch(this, function (evt) {
-                    domConstruct.empty(this.listDetailedContainer);
-                    domClass.add(this.listDetailedContainer, "esriCTHidden");
-                    domClass.remove(this.listContainer, "esriCTHidden");
+            if (issueDetailsHeader) {
+                on(issueDetailsHeader, "click", lang.hitch(this, function (evt) {
+                    this.issueDetailsHelper.hideIssueDetailsPanel(this.listDetailedContainer, this.listContainer);
                 }));
             }
 
+            domAttr.set(query('.esriCTLikeIcon', parentDiv)[0], "title", dojo.configData.i18n.issueDetailsHelper.likeTooltip);
+            domAttr.set(query('.esriCTCommentsIcon', parentDiv)[0], "title", dojo.configData.i18n.issueDetailsHelper.commentTooltip);
+            domAttr.set(query('.esriCTMapIcon', parentDiv)[0], "title", dojo.configData.i18n.issueDetailsHelper.viewOnMapTooltip);
+
             // issueDetails values start
             detailsData = query('.esriCTDetailsData', parentDiv)[0];
-            if (this.operationalLayerDetails.popupInfo && this.operationalLayerDetails.popupInfo.fieldInfos && this.operationalLayerDetails.popupInfo.fieldInfos.length > 0) {
-                // loop for field data in info popup
-                for (x = 0; x < this.operationalLayerDetails.popupInfo.fieldInfos.length; x++) {
-                    if (this.operationalLayerDetails.popupInfo.fieldInfos[x].visible) {
-                        container = domConstruct.create("div", {
-                            "class": "esriCTDetailsContainer"
-                        }, detailsData);
-                        fieldHeader = domConstruct.create("div", {
-                            "class": "esriCTListItemHeader"
-                        }, container);
-                        fieldLabel = this.operationalLayerDetails.popupInfo.fieldInfos[x].label;
-                        if (lang.trim(fieldLabel) === "") {
-                            fieldLabel = this.operationalLayerDetails.popupInfo.fieldInfos[x].fieldName;
-                        }
-                        domAttr.set(fieldHeader, "innerHTML", fieldLabel);
-                        fieldContent = domConstruct.create("div", {
-                            "class": "esriCTListData"
-                        }, container);
-                        popupInfoValue = this.operationalLayerDetails.popupInfo.fieldInfos[x];
-                        // loop for Assigning N/A for null valued features attributes
-                        for (key in featureSet) {
-                            // Check if features attributes value is null
-                            if (featureSet.hasOwnProperty(key)) {
-                                if (featureSet[key] === null || featureSet[key] === "") {
-                                    featureSet[key] = dojo.configData.showNullValueAs;
-                                }
-                            }
-                        }
-                        fieldValue = dojo.configData.showNullValueAs;
-
-                        if (featureSet.hasOwnProperty(popupInfoValue.fieldName)) {
-                            fieldInfo = this._isDateField(popupInfoValue.fieldName, statusParamObj.layerField);
-                            if (fieldInfo) {
-                                if (popupInfoValue.format && popupInfoValue.format.dateFormat) {
-                                    fieldValue = moment(featureSet[fieldInfo.name]).format(dojo.applicationUtils.getDateFormat(popupInfoValue.format.dateFormat).dateFormat);
-                                } else {
-                                    fieldValue = (moment(featureSet[fieldInfo.name]).toDate()).toLocaleDateString();
-                                }
-                            } else {
-                                fieldValue = featureSet[popupInfoValue.fieldName];
-                            }
-                        }
-
-                        // Check if field value is null
-                        if (fieldValue && fieldValue !== "" && (popupInfoValue.format)) {
-                            // Check whether format for digit separator is required
-                            fieldValue = this._numberFormatCorverter(popupInfoValue, fieldValue);
-                        }
-
-                        if (statusParamObj.layerField.fields[x].domain && statusParamObj.layerField.fields[x].domain.codedValues) {
-                            if (fieldValue === null || lang.trim(String(fieldValue)) === "") {
-                                fieldValue = "<br/>";
-                            } else {
-                                domainValue = this._domainCodedValues(statusParamObj.layerField.fields[x], popupInfoValue, fieldValue);
-                                fieldValue = domainValue.domainCodedValue;
-                            }
-                        }
-
-                        if (fieldValue === null || lang.trim(String(fieldValue)) === "") {
-                            fieldValue = "<br/>";
-                        }
-
-                        domAttr.set(fieldContent, "innerHTML", fieldValue);
-                    }
-                }
+            if (this.operationalLayerDetails.popupInfo && this.operationalLayerDetails.popupInfo.description) {
+                descriptionValue = this.issueDetailsHelper.getDescription(featureSet, this.operationalLayerDetails);
+                //create a div with popup info description and add it to details div
+                domConstruct.create("div", {
+                    "innerHTML": descriptionValue,
+                    "class": "esriCTCustomPopupDiv"
+                }, detailsData);
+            } else if (this.operationalLayerDetails.popupInfo && this.operationalLayerDetails.popupInfo.fieldInfos && this.operationalLayerDetails.popupInfo.fieldInfos.length > 0) {
+                displayPopupParam = {
+                    "detailsData": detailsData,
+                    "featureSet": featureSet,
+                    "operationalLayer": this.operationalLayerDetails,
+                    "isSetDateFormat": true
+                };
+                this.issueDetailsHelper.displayPopupFields(displayPopupParam);
             } else {
                 domConstruct.create("div", {
                     "innerHTML": dojo.configData.i18n.myIssues.noResultsFound,
                     "class": "esriCTNoIssuesDiv"
                 }, detailsData);
             }
-            // Get object id for the feature
-            objectID = featureSet[statusParamObj.objField];
-            // Check if attachments found and show attachment flag is true
+            //Create Attachments if layer has attachments and showAttachments is set to true in pop-up configuration.
             if (statusParamObj.layerField.hasAttachments && this.operationalLayerDetails.popupInfo.showAttachments) {
-                this._showAttachments(statusParamObj.layerField, parentDiv, objectID);
+                // Get object id for the feature
+                objectID = featureSet[statusParamObj.objField];
+                this.issueDetailsHelper.showAttachments(statusParamObj.layerField, parentDiv, objectID, dojo.configData.i18n.issueDetailsHelper.photoAttachmentHeader);
             }
-
-            detailDivheight = query(".esriCTListDetails", this.listDetailedContainer);
-            detailHeaderDiv = query(".esriCTIssueHeaderHeight", this.listDetailedContainer);
-            detailFooterDiv = query(".esriCTIssueFooterHeight", this.listDetailedContainer);
-            detailBodyheight = parseInt(detailDivheight[0].clientHeight - (detailHeaderDiv[0].clientHeight + detailFooterDiv[0].clientHeight + 17), 10);
-            listDetailsData = query(".esriCTDetailsData")[0];
-            if (listDetailsData) {
-                query(listDetailsData).style("height", detailBodyheight + "px");
-                if ((dojo.isIE < 9) && detailBodyheight < 500) {
-                    query(listDetailsData).style("min-height", detailBodyheight + "px");
-                    query(listDetailsData).style("max-height", detailBodyheight + "px");
-                }
-            }
+            this.issueDetailsHelper.resizeIssuesContainer(this.listDetailedContainer);
             this._showHideLikeIcon(statusParamObj, featureSet, parentDiv, this.operationalLayerDetails.layerIndex);
             commentParams = {
                 "attributes": featureSet,
@@ -774,189 +515,15 @@ define([
                 "parentNode": parentDiv,
                 "commentFlag": statusParamObj.commentStatus,
                 "layer": statusParamObj.layerField,
-                "relatedTable": this.operationalLayerDetails.relatedTable
+                "relatedTable": this.operationalLayerDetails.relatedTable,
+                "issueTitle": issueTitleName
             };
-            this._showHideCommentIcon(commentParams, issueTitleName.issueTitle);
+            issueDetailsParam = {
+                "issueCommentWidget": this.issueCommentWidget,
+                "isHighlightFeature": false
+            };
+            this.issueDetailsHelper.showHideCommentIcon(commentParams, issueDetailsParam);
             this._locateIssueOnMap(featureSet, statusParamObj.objField, parentDiv, this.operationalLayerDetails);
-        },
-
-        /**
-        * check if field type is date
-        * @param{object} layerObj is layer Object
-        * @param{string} fieldName
-        * @memberOf widgets/my-issues/my-issues
-        */
-        _isDateField: function (fieldName, layerObj) {
-            var i, isDateField = null;
-            for (i = 0; i < layerObj.fields.length; i++) {
-                if (layerObj.fields[i].name === fieldName && layerObj.fields[i].type === "esriFieldTypeDate") {
-                    isDateField = layerObj.fields[i];
-                    break;
-                }
-            }
-            return isDateField;
-        },
-
-        /**
-        * check if field type is date
-        * @param{object} popupInfo is operational layer popupInfo object
-        * @param{string} fieldName
-        * @memberOf widgets/my-issues/my-issues
-        */
-        _getDateInfo: function (fieldName, popupInfo) {
-            var i, dateInfo;
-            for (i = 0; i < popupInfo.fieldInfos.length; i++) {
-                if (popupInfo.fieldInfos[i].fieldName === fieldName) {
-                    dateInfo = popupInfo.fieldInfos[i];
-                    break;
-                }
-            }
-            return dateInfo;
-        },
-
-        /**
-        * Format number value based on the format received from info popup
-        * @param{object} popupInfoValue
-        * @param{string} fieldValue
-        * @memberOf widgets/my-issues/my-issues
-        */
-        _numberFormatCorverter: function (popupInfoValue, fieldValue) {
-            if (popupInfoValue.format && popupInfoValue.format.digitSeparator && popupInfoValue.format.places !== null && popupInfoValue.format.places !== "" && !isNaN(parseFloat(fieldValue))) {
-                // Check if digit separator is available
-                if (popupInfoValue.format.digitSeparator) {
-                    fieldValue = parseFloat(fieldValue).toFixed(popupInfoValue.format.places);
-                    fieldValue = dojo.applicationUtils.convertNumberToThousandSeperator(fieldValue);
-                } else {
-                    fieldValue = fieldValue.toFixed(popupInfoValue.format.places);
-                }
-            }
-            return fieldValue;
-        },
-
-        /**
-        * @param{object} popupInfoValue, operationalLayerDetails
-        * @param{string} fieldValue
-        * @memberOf widgets/my-issues/my-issues
-        */
-        _domainCodedValues: function (operationalLayerDetails, popupInfoValue, fieldValue) {
-            var k, codedValues = operationalLayerDetails.domain.codedValues,
-                domainValueObj = { domainCodedValue: dojo.configData.showNullValueAs };
-            // Loop for codedValue
-            for (k = 0; k < codedValues.length; k++) {
-                // Check if the value is string or number
-                if (isNaN(codedValues[k].code)) {
-                    // Check if the fieldValue and codedValue is equal
-                    if (codedValues[k].code === fieldValue) {
-                        fieldValue = codedValues[k].name;
-                    }
-                } else {
-                    if (codedValues[k].code === parseInt(fieldValue, 10)) {
-                        fieldValue = codedValues[k].name;
-                    }
-                }
-            }
-
-            domainValueObj.domainCodedValue = fieldValue;
-            return domainValueObj;
-        },
-
-        /**
-        * Show attached images in the issue details
-        * @param{array} operationalLayer
-        * @param{string} objectID, parentDiv
-        * @memberOf widgets/my-issues/my-issues
-        */
-        _showAttachments: function (operationalLayer, parentDiv, objectID) {
-            var container, detailsData, fieldContent, i, imageContent, imagePath, imageDiv = [];
-            detailsData = query('.esriCTDetailsData', parentDiv)[0];
-            // Query attachments in layer
-            operationalLayer.queryAttachmentInfos(objectID, lang.hitch(this, function (infos) {
-                // If attachments found
-                if (infos && infos.length > 0) {
-                    container = domConstruct.create("div", {
-                        "class": "esriCTDetailsContainer"
-                    }, detailsData);
-                    domConstruct.create("div", {
-                        "innerHTML": dojo.configData.i18n.myIssues.photoAttachmentHeader,
-                        "class": "esriCTListItemHeader"
-                    }, container);
-                    fieldContent = domConstruct.create("div", {
-                        "class": "container esriCTListData row"
-                    }, container);
-                    // Display all attached images in thumbnails
-                    for (i = 0; i < infos.length; i++) {
-                        imagePath = dojoConfig.baseURL + dojo.configData.noAttachmentIcon;
-                        if (infos[i].contentType.indexOf("image") > -1) {
-                            imagePath = infos[i].url;
-                        }
-                        imageContent = domConstruct.create("span", {
-                            "class": "esriCTIssueImgSpan col"
-                        }, fieldContent);
-                        domClass.add(imageContent, "esriCTImageLoader");
-                        imageDiv[i] = domConstruct.create("img", {
-                            "alt": infos[i].url,
-                            "class": "esriCTIssueDetailImg esriCTPointerCursor",
-                            "src": imagePath
-                        }, imageContent);
-                        // Hide loader Image after image loaded
-                        on(imageDiv[i], "load", lang.hitch(this, this._onImageLoad));
-                        // Show image in new tab on click of the image thumbnail
-                        on(imageDiv[i], "click", lang.hitch(this, this._showAttachements));
-                    }
-
-                }
-            }), function (err) {
-                dojo.applicationUtils.showError(err.message);
-            });
-        },
-
-        /**
-        * Show attachments in new window when user clicks on the attachment thumbnail
-        * @param{object} evt
-        * @memberOf widgets/my-issues/my-issues
-        */
-        _showAttachements: function (evt) {
-            window.open(evt.target.alt);
-        },
-
-        /**
-        * Callback handler for image loaded event.
-        * hide the image loader once the image is loaded, and set the image dimensions so that complete image will be shown in thumbnail.
-        * @param{object} evt
-        * @memberOf widgets/my-issues/my-issues
-        */
-        _onImageLoad: function (evt) {
-            domClass.remove(evt.target.parentNode, "esriCTImageLoader");
-            this._setImageDimensions(evt.target, true);
-        },
-
-        /**
-        * Set the images dimensions so that the complete image will be shown in thumbnail
-        * @param{object} imgModule - Image object
-        * @param{Boolean} isOnLoad - set this flag this function is called after image load.
-        * @memberOf widgets/my-issues/my-issues
-        */
-        _setImageDimensions: function (imgModule, isOnLoad) {
-            var aspectRatio, newWidth, newHeight, imgWidth, imgContainer = imgModule.parentElement;
-            if (isOnLoad && imgModule && imgModule.offsetHeight > 0) {
-                //set original dimensions of image as it's max dimensions.
-                domAttr.set(imgModule, "originalWidth", imgModule.offsetWidth);
-                domStyle.set(imgModule, "maxHeight", imgModule.offsetHeight + 'px');
-                domStyle.set(imgModule, "maxWidth", imgModule.offsetWidth + 'px');
-            }
-            imgWidth = parseFloat(domAttr.get(imgModule, "originalWidth"));
-            if ((imgContainer.offsetWidth > 0) && (imgContainer.offsetWidth < imgModule.offsetWidth || imgWidth > imgContainer.offsetWidth)) {
-                //change dimensions of image if it is larger/smaller than its parent container.
-                //calculate aspect ratio of image.
-                aspectRatio = imgModule.offsetWidth / imgModule.offsetHeight;
-                //calculate new dimensions according to aspect ratio of image.
-                newWidth = imgContainer.offsetWidth - 2;
-                newHeight = Math.floor(newWidth / aspectRatio);
-                domClass.remove(imgModule, "esriAutoWidth");
-                //set new dimensions to image.
-                domStyle.set(imgModule, "width", newWidth + 'px');
-                domStyle.set(imgModule, "height", newHeight + 'px');
-            }
         },
 
         /**
@@ -988,14 +555,14 @@ define([
                         statusParamObj.layerField.applyEdits(null, [graphic], null, lang.hitch(this, function (adds, updates, deletes) {
                             // if number of votes is updated on layer
                             if (updates[0].success) {
-                                this._updateVotesInIssueList(statusParamObj.layerField.id, featureSet.features[0], attr[statusParamObj.objField], likeCount);
+                                this._updateVotesInIssueList(statusParamObj.layerField.id, attr[statusParamObj.objField], likeCount);
                                 domAttr.set(query(".esriCTLikeCount", parentDiv)[0], "innerHTML", likeCount);
                                 statusParamObj.layerField.refresh();
                             } else {
-                                dojo.applicationUtils.showError(dojo.configData.i18n.myIssues.votesUpdateFailure);
+                                dojo.applicationUtils.showError(dojo.configData.i18n.issueDetailsHelper.votesUpdateFailure);
                             }
                         }), function (err) {
-                            dojo.applicationUtils.showError(dojo.configData.i18n.myIssues.votesUpdateFailure);
+                            dojo.applicationUtils.showError(dojo.configData.i18n.issueDetailsHelper.votesUpdateFailure);
                         });
                     }), function (err) {
                         dojo.applicationUtils.showError(err.message);
@@ -1004,7 +571,7 @@ define([
             }
         },
 
-        _updateVotesInIssueList: function (opLayerId, updatedFeature, featureObjId, likeCount) {
+        _updateVotesInIssueList: function (opLayerId, featureObjId, likeCount) {
             var likeIconDiv, getObjVal, getlayerId, i, opLayerIndex;
             if (this.listContainer.children.length) {
                 // loop for updating issue list votes count
@@ -1036,8 +603,8 @@ define([
         _updateLayerObject: function (opLayerIndex) {
             this._queryOnLayer(this.opLayersArr[opLayerIndex]).then(lang.hitch(this, function (response) {
                 this.opLayersArr[opLayerIndex].layerObject.graphics = response;
+                this.onIssueUpdated(this.opLayersArr[opLayerIndex]);
             }));
-            this.onIssueUpdated(this.opLayersArr[opLayerIndex]);
         },
 
         /**
@@ -1059,7 +626,7 @@ define([
                 domAttr.set(likeIcon, "layerIndex", layerIndex);
                 likeCount = attributes[dojo.configData.likeField];
                 // if like count is not 0, display like count, else don't display anything for like count
-                if (likeCount !== null || likeCount !== "") {
+                if (likeCount !== null && likeCount !== "") {
                     domAttr.set(query(".esriCTLikeCount", parentDiv)[0], "innerHTML", likeCount);
                 }
                 this._issueVotesClick(statusParamObj, attributes, parentDiv);
@@ -1069,7 +636,6 @@ define([
                 domStyle.set(likeIconContent, "visibility", "hidden");
             }
         },
-
 
         /**
         * Show or hide like icon
@@ -1102,146 +668,15 @@ define([
         },
 
         /**
-        * clear graphic layer on map if exists else, add new graphic layer
-        * @memberOf widgets/my-issues/my-issues
-        */
-        _clearGraphicsLayer: function (map) {
-            this.selectedGraphicsLayer = map.getLayer("selectionGraphicsLayer");
-            if (this.selectedGraphicsLayer) {
-                this.selectedGraphicsLayer.clear();
-            } else {
-                this.selectedGraphicsLayer = new GraphicsLayer();
-                this.selectedGraphicsLayer.id = "selectionGraphicsLayer";
-                map.addLayer(this.selectedGraphicsLayer);
-            }
-        },
-
-        /**
         * This function is used to highlight feature.
+        * @param{object} map
         * @param{object} layer
         * @param{object} objectId
         * @memberOf widgets/my-issues/my-issues
         */
         highLightFeature: function (map, layer, objectId) {
-            var esriQuery, highlightSymbol;
-            this.featureObjectId = null;
-            // clear graphics layer
-            this._clearGraphicsLayer(map);
-            esriQuery = new Query();
-            esriQuery.objectIds = [parseInt(objectId, 10)];
-            esriQuery.returnGeometry = true;
-            layer.queryFeatures(esriQuery, lang.hitch(this, function (featureSet) {
-                if (featureSet.features[0]) {
-                    highlightSymbol = this._getHighLightSymbol(featureSet.features[0], layer);
-                    // add highlight symbol to graphics layer
-                    this.selectedGraphicsLayer.add(highlightSymbol);
-                }
-            }), function (err) {
-                dojo.applicationUtils.showError(err.message);
-            });
-        },
-
-        /**
-        * Create crosshair symbol to highlight point feature
-        * @param{object} symbol path
-        * @param{object} symbol size
-        * @memberOf widgets//my-issues/my-issues
-        */
-        _createSVGSymbol: function (path, size, offset) {
-            var sls = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 255]), 4),
-                markerSymbol;
-            markerSymbol = new SimpleMarkerSymbol();
-            markerSymbol.setPath(path);
-            markerSymbol.setOutline(sls);
-            markerSymbol.setSize(size + 20);
-            markerSymbol.setColor(null);
-            if (offset.hasOwnProperty("xoffset") && offset.hasOwnProperty("yoffset")) {
-                markerSymbol.xoffset = offset.xoffset;
-                markerSymbol.yoffset = offset.yoffset;
-            }
-            return markerSymbol;
-        },
-
-        /**
-        * This function is used to get symbol used for highlighting feature.
-        * @param{string} graphic
-        * @param{string} layer
-        * @memberOf widgets//my-issues/my-issues
-        */
-        _getHighLightSymbol: function (graphic, layer) {
-            var i, symbol, path, symbolHeight, symbolWidth, size, symbolSize, polylineSymbol, polygonSymbol, offset = {},
-                graphicInfoValue, layerInfoValue;
-            switch (graphic.geometry.type) {
-            case "point":
-                path = "M 1784,238 1805,238 1805,259 1784,259 1784,238 M 1777,248 1784,248 M 1794,231 1794,238 M 1812,248 1805,248 M 1794,266 1794,259";
-                if (layer.renderer.symbol) {
-                    if (layer.renderer.symbol.hasOwnProperty("height") && layer.renderer.symbol.hasOwnProperty("width")) {
-                        symbolHeight = layer.renderer.symbol.height;
-                        symbolWidth = layer.renderer.symbol.width;
-                        size = (symbolHeight > symbolWidth) ? symbolHeight : symbolWidth;
-                        symbolSize = size;
-                    }
-                    if (layer.renderer.symbol.hasOwnProperty("size")) {
-                        if (!symbolSize || symbolSize < layer.renderer.symbol.size) {
-                            symbolSize = layer.renderer.symbol.size;
-                        }
-                    }
-                    if (layer.renderer.symbol.hasOwnProperty("xoffset") && layer.renderer.symbol.hasOwnProperty("yoffset")) {
-                        offset.xoffset = layer.renderer.symbol.xoffset;
-                        offset.yoffset = layer.renderer.symbol.yoffset;
-                    }
-                } else if ((layer.renderer.infos) && (layer.renderer.infos.length > 1)) {
-                    for (i = 0; i < layer.renderer.infos.length; i++) {
-                        graphicInfoValue = graphic.attributes[layer.typeIdField];
-                        layerInfoValue = layer.renderer.infos[i].value;
-                        if (graphicInfoValue.toString() === layerInfoValue.toString()) {
-                            if (layer.renderer.infos[i].symbol.hasOwnProperty("height") && layer.renderer.infos[i].symbol.hasOwnProperty("width")) {
-                                symbolHeight = layer.renderer.infos[i].symbol.height;
-                                symbolWidth = layer.renderer.infos[i].symbol.width;
-                                // to display cross-hair symbol properly around feature
-                                size = (symbolHeight > symbolWidth) ? symbolHeight : symbolWidth;
-                                symbolSize = size;
-                            }
-                            if (layer.renderer.infos[i].symbol.hasOwnProperty("size")) {
-                                if (!symbolSize || symbolSize < layer.renderer.infos[i].symbol.size) {
-                                    symbolSize = layer.renderer.infos[i].symbol.size;
-                                }
-                            }
-                            if (layer.renderer.infos[i].symbol.hasOwnProperty("xoffset") && layer.renderer.infos[i].symbol.hasOwnProperty("yoffset")) {
-                                offset.xoffset = layer.renderer.infos[i].symbol.xoffset;
-                                offset.yoffset = layer.renderer.infos[i].symbol.yoffset;
-                            }
-                        }
-                    }
-                }
-                symbol = new Graphic(new Point([graphic.geometry.x, graphic.geometry.y], this.map.spatialReference), this._createSVGSymbol(path, symbolSize, offset));
-                return symbol;
-            case "polyline":
-                polylineSymbol = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 255, 1]), 4);
-                symbol = new Graphic(new Polyline(graphic.geometry), polylineSymbol);
-                return symbol;
-            case "polygon":
-                polygonSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 255, 1]), 4), null);
-                symbol = new Graphic(new Polygon(graphic.geometry), polygonSymbol);
-                return symbol;
-            }
-        },
-
-
-        /**
-        * Sort issue array
-        * @param{object} a
-        * @param{object} b
-        * @memberOf widgets/my-issues/my-issues
-        */
-        _sortFeatureArray: function (a, b) {
-            if (a.sortValue > b.sortValue) {
-                return -1;
-            }
-            if (a.sortValue < b.sortValue) {
-                return 1;
-            }
-            return 0;
+            this.selectedGraphicsLayer = map.getLayer("selectionGraphicsLayer");
+            this.issueDetailsHelper.highLightFeatureOnClick(layer, objectId, this.selectedGraphicsLayer, map);
         },
 
         /**
@@ -1252,6 +687,9 @@ define([
             return param;
         },
 
+        onIssueUpdated: function (updatedLayer) {
+            return updatedLayer;
+        },
         /**
         * Destroy instance
         * @memberOf widgets/my-issues/my-issues

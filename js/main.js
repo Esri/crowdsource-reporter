@@ -37,8 +37,8 @@ define([
     "widgets/geo-form/geo-form",
     "widgets/my-issues/my-issues",
     "application/utils/utils",
-    "esri/dijit/LocateButton",
-    "application/template-options",
+    "application/utils/issue-details-helper",
+    "config/template-config",
     "dojo/query",
     "dojo/domReady!"
 ], function (
@@ -63,12 +63,13 @@ define([
     GeoForm,
     MyIssues,
     ApplicationUtils,
-    LocateButton,
+    IssueDetailsHelper,
     TemplateConfig,
     query
 ) {
     return declare(null, {
         config: {},
+        boilerPlateTemplate: null,
         _groupItems: [],
         _isSliderOpen: true,
         _isWebMapListLoaded: false,
@@ -79,15 +80,15 @@ define([
             "listView": true,
             "reportIt": true
         },
-
-        startup: function (config, loggedInUser) {
+        startup: function (boilerPlateTemplateObject, loggedInUser) {
             // config will contain application and user defined info for the template such as i18n strings, the web map id
             // and application id
             // any url parameters and any application specific configuration information.
             var error, queryParams = {};
             dojo.applicationUtils = ApplicationUtils;
-            if (config) {
-                this.config = config;
+            if (boilerPlateTemplateObject) {
+                this.boilerPlateTemplate = boilerPlateTemplateObject;
+                this.config = boilerPlateTemplateObject.config;
                 //if login details are not available set it to anonymousUserName
                 //based on login info if user is logged in set menu's for signin and signout
                 if (loggedInUser) {
@@ -111,16 +112,16 @@ define([
                 //since it was getting group items for the group configured in default.js only,
                 //and not honoring group-id configured in appconfig.
                 //Enable queryForGroupItems in templateconfig
-                dojo.BoilerPlateTemplate.templateConfig.queryForGroupItems = true;
+                this.boilerPlateTemplate.templateConfig.queryForGroupItems = true;
 
                 //construct the queryparams if found in group info
-                if (config.groupInfo.results && config.groupInfo.results.length > 0) {
-                    lang.mixin(queryParams, dojo.BoilerPlateTemplate.templateConfig.groupParams);
-                    if (config.groupInfo.results[0].sortField) {
-                        queryParams.sortField = config.groupInfo.results[0].sortField;
+                if (this.config.groupInfo.results && this.config.groupInfo.results.length > 0) {
+                    lang.mixin(queryParams, this.boilerPlateTemplate.templateConfig.groupParams);
+                    if (this.config.groupInfo.results[0].sortField) {
+                        queryParams.sortField = this.config.groupInfo.results[0].sortField;
                     }
-                    if (config.groupInfo.results[0].sortOrder) {
-                        queryParams.sortOrder = config.groupInfo.results[0].sortOrder;
+                    if (this.config.groupInfo.results[0].sortOrder) {
+                        queryParams.sortOrder = this.config.groupInfo.results[0].sortOrder;
                     }
                 }
                 if (loggedInUser) {
@@ -141,7 +142,7 @@ define([
         * @memberOf main
         */
         _loadGroupItems: function (queryParams) {
-            dojo.BoilerPlateTemplate.queryGroupItems(queryParams).then(lang.hitch(this, this._groupItemsLoaded));
+            this.boilerPlateTemplate.queryGroupItems(queryParams).then(lang.hitch(this, this._groupItemsLoaded));
         },
 
         /**
@@ -150,12 +151,15 @@ define([
         * @memberOf main
         */
         _groupItemsLoaded: function (response) {
-            this._groupItems.push.apply(this._groupItems, response.results);
-            if (response.nextQueryParams.start < 0) {
+            this._groupItems.push.apply(this._groupItems, response.groupItems.results);
+            if (response.groupItems.nextQueryParams.start < 0) {
+                if (!this.config.groupItems) {
+                    this.config.groupItems = {};
+                }
                 this.config.groupItems.results = this._groupItems;
                 this._loadApplication();
             } else {
-                this._loadGroupItems(response.nextQueryParams);
+                this._loadGroupItems(response.groupItems.nextQueryParams);
             }
         },
 
@@ -302,7 +306,6 @@ define([
                 } else {
                     this._createMyIssuesList(this._selectedMapDetails);
                 }
-
             });
 
             this.appHeader.showIssueList = lang.hitch(this, function () {
@@ -311,7 +314,7 @@ define([
                     this._myIssuesWidget.hideMyIssuesContainer();
                 }
                 if (this._issueWallWidget) {
-                    this._issueWallWidget.resizeIssueWallContainer();
+                    IssueDetailsHelper.resizeIssuesContainer(this._issueWallWidget.listDetailedContainer);
                 }
             });
         },
@@ -322,6 +325,7 @@ define([
         */
         _createMyIssuesList: function (data) {
             if (!this._myIssuesWidget) {
+                data.issueDetailsHelper = IssueDetailsHelper;
                 this._myIssuesWidget = new MyIssues(data, domConstruct.create("div", {}, dom.byId('SlideContainer')));
                 this._myIssuesWidget.showMyIssuesContainer();
                 this._myIssuesWidget.onIssueUpdated = lang.hitch(this, function (data) {
@@ -402,7 +406,7 @@ define([
         */
         _createWebMapList: function () {
             try {
-                var webMapDescriptionFields, webMapListConfigData, isCreateGeoLocation;
+                var webMapDescriptionFields, webMapListConfigData, isCreateGeoLocation, zoomInBtn, zoomOutBtn, basemapExtent;
                 //construct json data for the fields to be shown in descriptions, based on the configuration
                 webMapDescriptionFields = {
                     "description": dojo.configData.webMapInfoDescription,
@@ -428,6 +432,17 @@ define([
                 //handel on map updated event
                 this._webMapListWidget.mapUpdated = lang.hitch(this, function (mapObject) {
                     this._selectedMapDetails.map = mapObject;
+                });
+                this._webMapListWidget.onMapLoaded = lang.hitch(this, function (webmap) {
+                    // tooltip for zoom in and zoom out button
+                    zoomInBtn = query('.esriSimpleSliderIncrementButton', dom.byId(webmap.id))[0];
+                    zoomOutBtn = query('.esriSimpleSliderDecrementButton', dom.byId(webmap.id))[0];
+                    if (zoomInBtn) {
+                        domAttr.set(zoomInBtn, "title", dojo.configData.i18n.map.zoomInTooltip);
+                    }
+                    if (zoomOutBtn) {
+                        domAttr.set(zoomOutBtn, "title", dojo.configData.i18n.map.zoomOutTooltip);
+                    }
                 });
                 this._webMapListWidget.onSelectedWebMapClicked = lang.hitch(this, function () {
                     //show listview on webmap selected in mobile view
@@ -469,10 +484,11 @@ define([
                         selectedGraphics.id = "selectionGraphicsLayer";
                         this._selectedMapDetails.map.addLayer(selectedGraphics);
                     }
-                    //create or update issuelist
+                    //create or update issue list
                     this._createIssueWall(details);
                     if (isCreateGeoLocation) {
-                        this._createGeoLocationButton();
+                        dojo.applicationUtils.createGeoLocationButton(details.itemInfo.itemData.baseMap.baseMapLayers, this._selectedMapDetails.map, dom.byId("mapDiv"), false);
+                        basemapExtent = dojo.applicationUtils.getBasemapExtent(details.itemInfo.itemData.baseMap.baseMapLayers);
                     }
                     this._selectedMapDetails.webmapList = this._webMapListWidget.filteredWebMapResponseArr;
                     //show listview on webmap selected in mobile view
@@ -495,6 +511,27 @@ define([
                     this._isWebMapListLoaded = true;
                 });
 
+                dojo.applicationUtils.onGeolocationComplete = lang.hitch(this, function (evt, addGraphic) {
+                    // if error found on locating point show error message, else check if located point falls within the basemap extent then locate feature on map else show error message
+                    if (evt.error) {
+                        // show error
+                        dojo.applicationUtils.showError(dojo.configData.i18n.geoform.geoLocationError);
+                    } else if (basemapExtent.contains(evt.graphic.geometry)) {
+                        // add graphics on map if geolocation is called from geoform widget
+                        if (addGraphic) {
+                            this.geoformInstance._locateSelectedAddress(evt.graphic.geometry);
+                        } else {
+                            // zoom the map to configured zoom level
+                            this._selectedMapDetails.map.setLevel(dojo.configData.zoomLevel);
+                            // center the map at geolocation point
+                            this._selectedMapDetails.map.centerAt(evt.graphic.geometry);
+                        }
+                    } else {
+                        // show error
+                        dojo.applicationUtils.showError(dojo.configData.i18n.geoform.geoLocationOutOfExtent);
+                    }
+                });
+
                 this._webMapListWidget.noMapsFound = lang.hitch(this, function () {
                     this._handleNoWebMapToDsiplay();
                 });
@@ -512,6 +549,7 @@ define([
         _createIssueWall: function (data) {
             //Create IssueWall widget if not present
             if (!this._issueWallWidget) {
+                data.issueDetailsHelper = IssueDetailsHelper;
                 this._issueWallWidget = new IssueWall(data, domConstruct.create("div", {}, dom.byId('SlideContainer')));
                 //on updating any issue from issue wall, update My issue list
                 this._issueWallWidget.onIssueUpdated = lang.hitch(this, function (updatedIssue) {
@@ -585,56 +623,6 @@ define([
                     this.geoformInstance.startup();
                 }
             }
-        },
-
-        /**
-        * Create geolocation button on the map
-        * @memberOf main
-        */
-        _createGeoLocationButton: function () {
-            var createLocationDiv, basemapExtent;
-            // create geo location div
-            if (this.currentLocation) {
-                this.currentLocation.destroy();
-            }
-            createLocationDiv = domConstruct.create("div", { "class": "esriCTBGColor esriCTLocationButton" });
-            domConstruct.place(createLocationDiv, dojo.query(".esriSimpleSliderDecrementButton", dom.byId("mapDiv"))[0], "after");
-            // initialize object of locate button
-            this.currentLocation = new LocateButton({
-                map: this._selectedMapDetails.map,
-                highlightLocation: false,
-                setScale: false
-            }, domConstruct.create('div'));
-            this.currentLocation.startup();
-            // get basemap extent for the layer
-            basemapExtent = this._selectedMapDetails.map.getLayer(this._selectedMapDetails.itemInfo.itemData.baseMap.baseMapLayers[0].id).fullExtent;
-            // set location on the map
-            // handle click event of geolocate button
-            on(createLocationDiv, 'click', lang.hitch(this, function (evt) {
-                this.currentExtent = this._selectedMapDetails.map.extent;
-                // widget locate
-                this.currentLocation.locate();
-            }));
-            // event on locate
-            on(this.currentLocation, "locate", lang.hitch(this, function (evt) {
-                // if error found on locating point show error message, else check located point match the extent of layer then center at geolocation point else show error massage
-                if (evt.error) {
-                    // set map extent
-                    this._selectedMapDetails.map.setExtent(this.currentExtent);
-                    // show error
-                    dojo.applicationUtils.showError(dojo.configData.i18n.geoform.geoLocationError);
-                } else if (basemapExtent.contains(evt.graphic.geometry)) {
-                    //center the map at device geolocation point
-                    this._selectedMapDetails.map.centerAt(evt.graphic.geometry);
-                    //zoom the map to configured zzoom level
-                    this._selectedMapDetails.map.setLevel(dojo.configData.zoomLevel);
-                } else {
-                    // set map extent
-                    this._selectedMapDetails.map.setExtent(this.currentExtent);
-                    // show error
-                    dojo.applicationUtils.showError(dojo.configData.i18n.geoform.geoLocationOutOfExtent);
-                }
-            }));
         },
 
         /**

@@ -18,15 +18,25 @@
 define([
     "dojo/dom",
     "dojo/_base/fx",
+    "dojo/_base/lang",
+    "dojo/dom-construct",
     "dojo/dom-geometry",
     "dojo/dom-class",
-    "dojo/dom-attr"
+    "dojo/dom-attr",
+    "dojo/on",
+    "dojo/query",
+    "esri/dijit/LocateButton"
 ], function (
     dom,
     coreFx,
+    lang,
+    domConstruct,
     domGeometry,
     domClass,
-    domAttr
+    domAttr,
+    on,
+    query,
+    LocateButton
 ) {
     return {
         showLoadingIndicator: function () {
@@ -52,7 +62,7 @@ define([
         },
 
         /**
-        * Get date format based on format received from webmap info popup
+        * This function is used to convert ArcGIS date format constants to readable date formats
         * @memberOf utils/utils
         */
         getDateFormat: function (type) {
@@ -67,7 +77,7 @@ define([
                 obj.showTime = false;
                 return obj;
             case "longMonthDayYear":
-                obj.dateFormat = "MMMM DD,YYYY";
+                obj.dateFormat = "MMMM DD, YYYY";
                 obj.showTime = false;
                 return obj;
             case "dayShortMonthYear":
@@ -115,7 +125,7 @@ define([
                 obj.showTime = false;
                 return obj;
             default:
-                obj.dateFormat = "MMMM DD,YYYY";
+                obj.dateFormat = "MMMM DD, YYYY";
                 obj.showTime = false;
                 return obj;
             }
@@ -127,6 +137,61 @@ define([
         */
         convertNumberToThousandSeperator: function (number) {
             return number.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+        },
+
+        /**
+        * Create geolocation button on the map
+        * @memberOf utils/utils
+        */
+        createGeoLocationButton: function (basemapLayers, map, mapId, addGraphic) {
+            var currentLocation, createLocationDiv;
+            // create geolocation div
+            createLocationDiv = domConstruct.create("div", { "class": "esriCTBGColor esriCTLocationButton" });
+            domConstruct.place(createLocationDiv, query(".esriSimpleSliderDecrementButton", mapId)[0], "after");
+            domAttr.set(createLocationDiv, "title", dojo.configData.i18n.map.geolocationTooltip);
+            // initialize object of locate button
+            currentLocation = new LocateButton({
+                map: map,
+                highlightLocation: false,
+                setScale: false,
+                centerAt: false
+            }, domConstruct.create('div'));
+            currentLocation.startup();
+            // handle click event of geolocate button
+            on(createLocationDiv, 'click', lang.hitch(this, function (evt) {
+                // trigger locate method of locate button widget
+                currentLocation.locate();
+            }));
+            // event on locate
+            on(currentLocation, "locate", lang.hitch(this, function (evt) {
+                this.onGeolocationComplete(evt, addGraphic);
+            }));
+        },
+
+        /**
+        * Fetch the basemap extent
+        * @memberOf utils/utils
+        */
+        getBasemapExtent: function (baseMapLayers) {
+            var basemapExtent, i;
+            /* If map contains a single basemap layer, consider full extent of that basemap
+            If map contains multiple basemap layers, union the full extent of all the basemaps */
+            for (i = 0; i < baseMapLayers.length; i++) {
+                if (i === 0) {
+                    basemapExtent = baseMapLayers[i].layerObject.fullExtent;
+                } else {
+                    basemapExtent = basemapExtent.union(baseMapLayers[i].layerObject.fullExtent);
+                }
+            }
+            return basemapExtent;
+        },
+
+        /**
+        * Invoked when geolocation is complete
+        * @memberOf utils/utils
+        */
+        onGeolocationComplete: function (event, addGraphic) {
+            return event;
         }
     };
 });
