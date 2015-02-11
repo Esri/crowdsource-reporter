@@ -1,265 +1,14 @@
 {
-    "configurationSettings": [
-        {
-            "category": "<b>Configure template</b>",
-            "fields": [
-                {
-                    "type": "group",
-                    "label": "Select group",
-                    "tooltip": "Group displayed in the application"
-                },
-                {
-                    "type": "color",
-                    "fieldName": "theme",
-                    "tooltip": "Color theme to use",
-                    "label": "Color Scheme"
-                }
-            ]
-        },
-        {
-            "category": "<b>Login screen</b>",
-            "fields": [
-                {
-                    "type": "paragraph",
-                    "value": "Configure login screen settings."
-                },
-                {
-                    "type": "string",
-                    "stringFieldOption": "textarea",
-                    "fieldName": "signInSubtitle",
-                    "label": "Caption",
-                    "tooltip": "Caption to display"
-                },
-                {
-                    "type": "string",
-                    "fieldName": "signInBackgroundImage",
-                    "tooltip": "Background image for login screen",
-                    "label": "Background image for login screen"
-                },
-                {
-                    "type": "paragraph",
-                    "value": "<b>Social media signin settings:</b>"
-                },
-                {
-                    "type": "boolean",
-                    "fieldName": "enableFacebook",
-                    "label": "Enable Facebook",
-                    "tooltip": "Enable to show facebook login"
-                },
-                {
-                    "type": "string",
-                    "fieldName": "facebookAppId",
-                    "label": "Facebook AppId",
-                    "tooltip": "Facebook AppId"
-                },
-                {
-                    "type": "boolean",
-                    "fieldName": "enableTwitter",
-                    "label": "Enable twitter",
-                    "tooltip": "Enable to show twitter login"
-                },
-                {
-                    "type": "string",
-                    "fieldName": "twitterSigninUrl",
-                    "label": "Twitter Signin URL",
-                    "tooltip": "Twitter Signin URL"
-                },
-                {
-                    "type": "string",
-                    "fieldName": "twitterUserUrl",
-                    "label": "Twitter User URL",
-                    "tooltip": "Twitter User URL"
-                },
-                {
-                    "type": "boolean",
-                    "fieldName": "enableGoogleplus",
-                    "label": "Enable googleplus",
-                    "tooltip": "Enable to show googleplus login"
-                },
-                {
-                    "type": "string",
-                    "fieldName": "googleplusClientId",
-                    "label": "Googleplus ClientId",
-                    "tooltip": "Googleplus ClientId"
-                },
-                {
-                    "type": "string",
-                    "fieldName": "googleplusScope",
-                    "label": "Googleplus Scope",
-                    "tooltip": "Googleplus Scope"
-                }
-            ]
-        },
-        {
-            "category": "<b>Application header</b>",
-            "fields": [
-                {
-                    "type": "paragraph",
-                    "value": "Configure Application header settings."
-                },
-                {
-                    "type": "string",
-                    "fieldName": "applicationName",
-                    "label": "Title",
-                    "tooltip": "Application title displayed in header"
-                },
-                {
-                    "type": "string",
-                    "fieldName": "applicationIcon",
-                    "label": "Icon URL",
-                    "tooltip": "Icon in top left corner of application. Icon should be 48px high."
-                }
-            ]
-        },
-        {
-            "category": "<b>Webmap information settings</b>",
-            "fields": [
-                {
-                    "type": "paragraph",
-                    "value": "Configure settings for details that are shown when info icon is clicked in the list of maps."
-                },
-                {
-                    "type": "boolean",
-                    "fieldName": "webMapInfoDescription",
-                    "label": "Show description",
-                    "tooltip": "Enable to show webmap description"
-                },
-                {
-                    "type": "boolean",
-                    "fieldName": "webMapInfoSnippet",
-                    "label": "Show snippet",
-                    "tooltip": "Enable to show webmap snippet"
-                },
-                {
-                    "type": "boolean",
-                    "fieldName": "webMapInfoOwner",
-                    "label": "Show owner",
-                    "tooltip": "Enable to show webmap owner"
-                },
-                {
-                    "type": "boolean",
-                    "fieldName": "webMapInfoCreated",
-                    "label": "Show created date",
-                    "tooltip": "Enable to show webmap created date"
-                },
-                {
-                    "type": "boolean",
-                    "fieldName": "webMapInfoModified",
-                    "label": "Show modified date",
-                    "tooltip": "Enable to show webmap modified date"
-                },
-                {
-                    "type": "boolean",
-                    "fieldName": "webMapInfoLicenseInfo",
-                    "label": "Show license information",
-                    "tooltip": "Enable to show webmap license information"
-                },
-                {
-                    "type": "boolean",
-                    "fieldName": "webMapInfoAccessInformation",
-                    "label": "Show access information",
-                    "tooltip": "Enable to show webmap access information"
-                },
-                {
-                    "type": "boolean",
-                    "fieldName": "webMapInfoTags",
-                    "label": "Show tags",
-                    "tooltip": "Enable to show webmap tags"
-                },
-                {
-                    "type": "boolean",
-                    "fieldName": "webMapInfoNumViews",
-                    "label": "Show number of views",
-                    "tooltip": "Enable to show webmap number of views"
-                },
-                {
-                    "type": "boolean",
-                    "fieldName": "webMapInfoAvgRating",
-                    "label": "Show average rating",
-                    "tooltip": "Enable to show webmap average rating"
-                }
-            ]
-        },
-        {
-            "category": "<b>General Settings</b>",
-            "fields": [
-                {
-                    "type": "paragraph",
-                    "value": "Configure General fields settings."
-                },
-                {
-                    "type": "string",
-                    "fieldName": "likeField",
-                    "label": "Like field",
-                    "tooltip": "Configure like field"
-                },
-                {
-                    "type": "string",
-                    "fieldName": "commentField",
-                    "label": "Comment field",
-                    "tooltip": "Configure comment field"
-                },
-                {
-                    "type": "string",
-                    "fieldName": "reportedByField",
-                    "label": "Reported by field",
-                    "tooltip": "Configure reported by field"
-                },
-                {
-                    "type": "string",
-                    "fieldName": "zoomLevel",
-                    "label": "Zoom Level",
-                    "tooltip": "Configure zoom level"
-                },
-                {
-                    "type": "string",
-                    "fieldName": "submitMessage",
-                    "label": "Submission Success Message",
-                    "tooltip": "Configure message to be displayed when an issue is submitted successfully"
-                }
-            ]
-        },
-        {
-            "category": "<b>Locator Settings</b>",
-            "fields": [
-                {
-                    "type": "paragraph",
-                    "value": "Configure Locator settings."
-                },
-                {
-                    "type": "boolean",
-                    "fieldName": "enableUSNGSearch",
-                    "label": "Enable USNG Search",
-                    "tooltip": "Enable USNG Search"
-                },
-                {
-                    "type": "boolean",
-                    "fieldName": "enableMGRSSearch",
-                    "label": "Enable MGRS Search",
-                    "tooltip": "Enable MGRS Search"
-                },
-                {
-                    "type": "boolean",
-                    "fieldName": "enableLatLongSearch",
-                    "label": "Enable Latitude/Longitude Search",
-                    "tooltip": "Enable Latitude/Longitude Search"
-                }
-            ]
-        }
-    ],
     "values": {
         "group": "e96bd5b249a04235bcd7399cb80ee3cf",
         "theme": "#d15706",
-        "signInSubtitle": "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "signInSubtitle": "",
         "signInBackgroundImage": "/images/signinbg.png",
         "enableFacebook": true,
+        "facebookAppId": "",
         "enableTwitter": true,
         "enableGoogleplus": true,
-        "facebookAppId": "806211049453816",
-        "twitterSigninUrl": "//utility.arcgis.com/tproxy/signin",
-        "twitterUserUrl": "//utility.arcgis.com/tproxy/proxy/1.1/account/verify_credentials.json?q=&include_entities=true&skip_status=true&locale=en",
-        "googleplusClientId": "102941076536-qbdhd57sod109vbj89ueok3aj0tdc71h.apps.googleusercontent.com",
-        "googleplusScope": "https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email",
+        "googleplusClientId": "",
         "applicationName": "",
         "applicationIcon": "/images/app-icon.png",
         "applicationFavicon": "/images/favicon.ico",
@@ -273,13 +22,221 @@
         "webMapInfoTags": false,
         "webMapInfoNumViews": false,
         "webMapInfoAvgRating": false,
-        "submitMessage": "Thank you. Your report has been submitted.",
-        "likeField": "VOTES",
-        "commentField": "FEEDBACK",
-        "reportedByField": "REPORTEDBY",
-        "zoomLevel": 16,
-        "enableUSNGSearch": true,
-        "enableMGRSSearch": true,
-        "enableLatLongSearch": true
-    }
+        "submitMessage": "Thank you! Your report has been submitted.",
+        "likeField": "",
+        "commentField": "",
+        "reportedByField": "",
+        "zoomLevel": 12,
+        "enableUSNGSearch": false,
+        "enableMGRSSearch": false,
+        "enableLatLongSearch": false
+    },
+    "configurationSettings": [
+        {
+            "category": "<b>Splash Page Settings</b>",
+            "fields": [
+                {
+                    "type": "string",
+                    "fieldName": "applicationName",
+                    "label": "Title",
+                    "tooltip": "Application title (max 34 chars)"
+                },
+                {
+                    "type": "string",
+                    "stringFieldOption": "textarea",
+                    "fieldName": "signInSubtitle",
+                    "label": "Subtitle",
+                    "tooltip": "Text displayed below title on splash page (max 36 chars)"
+                },
+                {
+                    "type": "string",
+                    "fieldName": "signInBackgroundImage",
+                    "tooltip": "Background image for login screen. Recommended 640x960.",
+                    "label": "Splash Screen Image"
+                },
+                {
+                    "type": "boolean",
+                    "fieldName": "enableTwitter",
+                    "label": "Allow users to sign in using Twitter",
+                    "tooltip": "Enable to allow users to sign in using their Twitter credentials"
+                },
+                {
+                    "type": "boolean",
+                    "fieldName": "enableFacebook",
+                    "label": "Allow users to sign in using Facebook",
+                    "tooltip": "Enable to allow users to sign in using their Facebook credentials"
+                },
+                {
+                    "type": "string",
+                    "fieldName": "facebookAppId",
+                    "label": "Facebook AppId",
+                    "tooltip": "Facebook AppId"
+                },
+
+                {
+                    "type": "boolean",
+                    "fieldName": "enableGoogleplus",
+                    "label": "Allow users to sign in using Google+",
+                    "tooltip": "Enable to allow users to sign in using their Google+ credentials"
+                },
+                {
+                    "type": "string",
+                    "fieldName": "googleplusClientId",
+                    "label": "Google+ Client ID",
+                    "tooltip": "Google+ ClientId"
+                }
+            ]
+        },
+        {
+            "category": "<b>Application Settings</b>",
+            "fields": [
+
+                {
+                    "type": "string",
+                    "fieldName": "applicationIcon",
+                    "label": "Icon URL",
+                    "tooltip": "URL to a 48px high graphic to display in the top left corner of application."
+                },
+                {
+                    "type": "color",
+                    "fieldName": "theme",
+                    "tooltip": "Color theme to use",
+                    "label": "Color Scheme"
+                },
+                {
+                    "type": "string",
+                    "stringFieldOption": "textarea",
+                    "fieldName": "submitMessage",
+                    "label": "Submit Message",
+                    "tooltip": "Message displayed when a report is submitted successfully"
+                }
+            ]
+        },
+        {
+            "category": "<b>Content Settings</b>",
+            "fields": [
+                {
+                    "type": "group",
+                    "label": "Select Group",
+                    "tooltip": "Group displayed in the application"
+                },
+                {
+                    "type": "string",
+                    "fieldName": "reportedByField",
+                    "label": "Reporter Name Field (optional)",
+                    "tooltip": "Text field that stores the username of the person who created the feature. Field name must be the same across all layers and maps."
+                },
+                {
+                    "type": "string",
+                    "fieldName": "likeField",
+                    "label": "Vote Field (optional)",
+                    "tooltip": "Integer field that stores the vote count. Field name must be the same across all layers and maps."
+                },
+                {
+                    "type": "string",
+                    "fieldName": "commentField",
+                    "label": "Comment Field (optional)",
+                    "tooltip": "Text field in the comments tables that stores feedback. Field name must be the same across all layers and maps."
+                },
+
+                {
+                    "type": "string",
+                    "fieldName": "zoomLevel",
+                    "label": "Zoom Level",
+                    "tooltip": "Configure zoom level"
+                },
+                {
+                    "type": "paragraph",
+                    "value": "Choose the map information to display:"
+                },
+                {
+                    "type": "boolean",
+                    "fieldName": "webMapInfoDescription",
+                    "label": "Description",
+                    "tooltip": "Enable to show webmap description"
+                },
+                {
+                    "type": "boolean",
+                    "fieldName": "webMapInfoSnippet",
+                    "label": "Short Summary",
+                    "tooltip": "Enable to show webmap summary"
+                },
+                {
+                    "type": "boolean",
+                    "fieldName": "webMapInfoOwner",
+                    "label": "Owner Name",
+                    "tooltip": "Enable to show webmap owner"
+                },
+                {
+                    "type": "boolean",
+                    "fieldName": "webMapInfoCreated",
+                    "label": "Creation Date",
+                    "tooltip": "Enable to show webmap created date"
+                },
+                {
+                    "type": "boolean",
+                    "fieldName": "webMapInfoModified",
+                    "label": "Modification Date",
+                    "tooltip": "Enable to show webmap modified date"
+                },
+                {
+                    "type": "boolean",
+                    "fieldName": "webMapInfoLicenseInfo",
+                    "label": "Access and Use Constraints",
+                    "tooltip": "Enable to show webmap licensing information"
+                },
+                {
+                    "type": "boolean",
+                    "fieldName": "webMapInfoAccessInformation",
+                    "label": "Credits",
+                    "tooltip": "Enable to show webmap credits"
+                },
+                {
+                    "type": "boolean",
+                    "fieldName": "webMapInfoTags",
+                    "label": "Tags",
+                    "tooltip": "Enable to show webmap tags"
+                },
+                {
+                    "type": "boolean",
+                    "fieldName": "webMapInfoNumViews",
+                    "label": "Number of Views",
+                    "tooltip": "Enable to show webmap number of views"
+                },
+                {
+                    "type": "boolean",
+                    "fieldName": "webMapInfoAvgRating",
+                    "label": "Average Rating",
+                    "tooltip": "Enable to show webmap average rating"
+                }
+            ]
+        },
+        {
+            "category": "<b>Search Settings</b>",
+            "fields": [
+                {
+                    "type": "paragraph",
+                    "value": "By default the application search will use the locators configured in your organization settings. Additionally, the following search types can be enabled:"
+                },
+                {
+                    "type": "boolean",
+                    "fieldName": "enableUSNGSearch",
+                    "label": "USNG",
+                    "tooltip": "Enable USNG Search"
+                },
+                {
+                    "type": "boolean",
+                    "fieldName": "enableMGRSSearch",
+                    "label": "MGRS",
+                    "tooltip": "Enable MGRS Search"
+                },
+                {
+                    "type": "boolean",
+                    "fieldName": "enableLatLongSearch",
+                    "label": "Latitude/Longitude",
+                    "tooltip": "Enable Latitude Longitude Search"
+                }
+            ]
+        }
+    ]
 }
