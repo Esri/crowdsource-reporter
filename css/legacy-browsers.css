@@ -24,6 +24,11 @@
     height: 94.3%;
 }
 
+.esriCTListPanelHeader
+{
+    width: 85%;
+}
+
 .esriCTSlidderButton
 {
     top: 44%;
@@ -45,11 +50,6 @@
     height: 97.8%;
 }
 
-.esriCTGeoFormBody
-{
-    height: 96.5%;
-}
-
 .form-control
 {
     max-width: 100%;
@@ -68,6 +68,12 @@
 .esriCTHideMobileMenu
 {
     display: none;
+}
+
+.esriCTSearchButton
+{
+    background: url('../images/address-search-24.png') no-repeat center;
+    background-size: 24px;
 }
 
 /* Issue Wall */
@@ -194,7 +200,8 @@
 
 .esriCTCommentsContainer
 {
-    height: 76%;
+    min-height: 468px;
+    max-height: 500px;
 }
 
 /*End of comment container CSS*/

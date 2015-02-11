@@ -25,7 +25,7 @@ define([
     return declare(null, {
         _config: null,
         FBLoggedIn: false,
-        userDetails: { fullName: null, firstName: null, lastName: null, uniqueID: null, emailID: null, socialMediaType: null },
+        userDetails: { fullName: null, firstName: null, lastName: null, uniqueID: null, email: null, socialMediaType: null },
         /**
         * This function is called when widget is constructed.
         * @param{object} config to be used
@@ -87,17 +87,17 @@ define([
             // If logged in, show some info from the account
             if (this.FBLoggedIn) {
                 FB.api("/me", lang.hitch(this, function (response) {
-                    this.userDetails.fullName = response.name;
+                    this.userDetails.fullName = response.name || "";
                     this.userDetails.firstName = response.first_name;
                     this.userDetails.lastName = response.last_name;
                     this.userDetails.uniqueID = response.id;
-                    this.userDetails.emailID = response.email;
-                    this.userDetails.socialMediaType = "FaceBook";
+                    this.userDetails.email = response.email;
+                    this.userDetails.socialMediaType = "facebook";
                     this.onFaceBookLogIn(this.userDetails);
                 }));
             } else {
                 // Report not-logged-in state
-                this.userDetails = { fullName: null, firstName: null, lastName: null, uniqueID: null, emailID: null, socialMediaType: null };
+                this.userDetails = { fullName: null, firstName: null, lastName: null, uniqueID: null, email: null, socialMediaType: null };
                 this.onFaceBookLogOut(this.userDetails);
             }
         },

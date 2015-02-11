@@ -34,7 +34,6 @@ define([
     "dojo/date/locale",
     "esri/layers/GraphicsLayer",
     "esri/graphic",
-    "esri/dijit/LocateButton",
     "esri/toolbars/draw",
     "esri/symbols/SimpleLineSymbol",
     "esri/symbols/SimpleFillSymbol",
@@ -43,7 +42,7 @@ define([
     "esri/arcgis/utils",
     "widgets/locator/locator",
     "widgets/bootstrapmap/bootstrapmap"
-], function (declare, lang, _WidgetBase, _TemplatedMixin, domConstruct, domClass, on, domAttr, array, dom, domStyle, query, dijitTemplate, string, locale, GraphicsLayer, Graphic, LocateButton, Draw, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Polygon, arcgisUtils, Locator, BootstrapMap) {
+], function (declare, lang, _WidgetBase, _TemplatedMixin, domConstruct, domClass, on, domAttr, array, dom, domStyle, query, dijitTemplate, string, locale, GraphicsLayer, Graphic, Draw, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Polygon, arcgisUtils, Locator, BootstrapMap) {
     return declare([_WidgetBase, _TemplatedMixin], {
         templateString: dijitTemplate,
         lastWebMapSelected: "",
@@ -60,7 +59,6 @@ define([
         _totalFileAttachedCounter: 0,
         _fileAttachedCounter: 0,
         _fileFailedCounter: 0,
-
 
         /**
         * This function is called when widget is constructed.
@@ -102,8 +100,23 @@ define([
                 scrollWheelZoom: true,
                 editable: false
             }).then(lang.hitch(this, function (response) {
+                var zoomInBtn, zoomOutBtn;
+                // Scroll geoform to top
+                $('#geoFormBody').animate({
+                    scrollTop: 0
+                }, 1000);
                 // Once the map is created we get access to the response which provides map, operational layers, popup info.
                 this.map = response.map;
+                // tooltip for zoom in and zoom out button
+                zoomInBtn = query('.esriSimpleSliderIncrementButton', dom.byId(this.map.id))[0];
+                zoomOutBtn = query('.esriSimpleSliderDecrementButton', dom.byId(this.map.id))[0];
+                if (zoomInBtn) {
+                    domAttr.set(zoomInBtn, "title", dojo.configData.i18n.map.zoomInTooltip);
+                }
+                if (zoomOutBtn) {
+                    domAttr.set(zoomOutBtn, "title", dojo.configData.i18n.map.zoomOutTooltip);
+                }
+
                 // store default map extent
                 this.defaultExtent = this.map.extent;
                 // show only selected layer and remove other layer from Webmap
@@ -115,8 +128,12 @@ define([
                 // Create graphics layer to draw graphics
                 this._graphicsLayer = new GraphicsLayer();
                 this.map.addLayer(this._graphicsLayer);
+
+                this.basemapExtent = dojo.applicationUtils.getBasemapExtent(response.itemInfo.itemData.baseMap.baseMapLayers);
+
                 // create geoLocation Button
-                this._createGeoLocationButton();
+                dojo.applicationUtils.createGeoLocationButton(response.itemInfo.itemData.baseMap.baseMapLayers, this.map, dom.byId("gf-mapDiv"), true);
+
                 // Create instance of Draw tool to draw the graphics on graphics layer
                 this.toolbar = new Draw(this.map);
                 // activate draw tool
@@ -137,7 +154,7 @@ define([
                 // Initialize locator widget
                 this.locator = new Locator({ "map": this.map, "itemInfo": response.itemInfo.itemData, "layerId": this.layerId });
                 // function call on selection of search result
-                this.locator.onLocationCompleted = lang.hitch(this, this._locateSelectedAddress);
+                this.locator.onLocationCompleted = lang.hitch(this, this._validateAddress);
                 // function call on map resize
                 on(window, 'resize', lang.hitch(this, function () {
                     this._resizeMap(true);
@@ -156,12 +173,32 @@ define([
             }));
         },
 
+        /**
+        * This function is called on Scroll.
+        * @memberOf widgets/geo-form/geo-form
+        */
         _onGeoformScroll: function () {
             //close the datePicker pop-ups
             $(".hasDatetimepicker").blur();
             $(".bootstrap-datetimepicker-widget").datetimepicker().hide();
+            $(".popover.top.fade.in").each(function () {
+                domClass.remove(this, "in");
+            });
             //resize the map
             this._resizeMap();
+        },
+
+        /**
+        * check if located address is in basemap extent
+        * @param{object} geometry of located point on the map
+        * @memberOf widgets/geo-form/geo-form
+        */
+        _validateAddress: function (geometry) {
+            if (this.basemapExtent.contains(geometry)) {
+                this._locateSelectedAddress(geometry);
+            } else {
+                dojo.applicationUtils.showError(dojo.configData.i18n.locator.locationOutOfExtent);
+            }
         },
 
         /**
@@ -190,54 +227,12 @@ define([
                 // else remove that layer form map, so that only selected layer is visible on map.
                 if (opLayers[i].id === this.layerId) {
                     this.layer = this.map.getLayer(opLayers[i].id);
-                    this.layer.show();
                 } else {
                     if (this.map.getLayer(opLayers[i].id)) {
                         this.map.removeLayer(this.map.getLayer(opLayers[i].id));
                     }
                 }
             }
-        },
-
-        /**
-        * Create geolocation button on the map
-        * @memberOf widgets/geo-form/geo-form
-        */
-        _createGeoLocationButton: function () {
-            var createLocationDiv, basemapExtent;
-            // create geo location div
-            createLocationDiv = domConstruct.create("div", { "class": "esriCTBGColor esriCTLocationButton" });
-            domConstruct.place(createLocationDiv, query(".esriSimpleSliderDecrementButton", dom.byId("gf-mapDiv"))[0], "after");
-            // initialize object of locate button
-            this.currentLocation = new LocateButton({
-                map: this.map,
-                highlightLocation: false,
-                setScale: false
-            }, domConstruct.create('div'));
-            this.currentLocation.startup();
-            // get basemap extent for the layer
-            basemapExtent = this.map.getLayer(this.basemapId).fullExtent;
-            // set location on the map
-            // handle click event of geolocate button
-            on(createLocationDiv, 'click', lang.hitch(this, function (evt) {
-                this.currentExtent = this.map.extent;
-                // widget locate
-                this.currentLocation.locate();
-            }));
-            // event on locate
-            on(this.currentLocation, "locate", lang.hitch(this, function (evt) {
-                // if error found on locating point show error message, else check located point match the extent of layer then locate feature else show error massage
-                if (evt.error) {
-                    dojo.applicationUtils.showError(dojo.configData.i18n.geoform.geoLocationError);
-                } else if (basemapExtent.contains(evt.graphic.geometry)) {
-                    this._locateSelectedAddress(evt.graphic.geometry);
-                } else {
-                    // set map extent
-                    this.map.setExtent(this.currentExtent);
-                    // show error
-                    dojo.applicationUtils.showError(dojo.configData.i18n.geoform.geoLocationOutOfExtent);
-                }
-            }));
         },
 
         /**
@@ -308,7 +303,7 @@ define([
             domAttr.set(this.submitButton, "innerHTML", dojo.configData.i18n.geoform.reportItButton);
             // If sorted field array length is zero
             if (this.sortedFields.length === 0) {
-                this._showErrorMessageDiv(dojo.configData.i18n.geoform.noLayerConfiguredMessage, this.headerMessageDiv);
+                this._showErrorMessageDiv(dojo.configData.i18n.geoform.noFieldsConfiguredMessage, this.headerMessageDiv);
             }
             // Sort fields array by type
             this._sortedTypeFormElement();
@@ -413,7 +408,7 @@ define([
                 // Show photo selected count
                 domConstruct.create("div", {
                     "id": "attachmentSelectedCount",
-                    "class": "esriCTHidden esriCTAttachmentSelectedCount"
+                    "class": "esriCTAttachmentSelectedCount"
                 }, formContent);
                 fileAttachmentContainer = domConstruct.create("div", {
                     "class": "container esriCTAttachmentContainer"
@@ -424,12 +419,12 @@ define([
                 // Create input container for attachments
                 fileInput = domConstruct.create("input", {
                     "type": "file",
-                    "id": "geoFormAttachment" + this._fileAttachmentCounter++,
                     "accept": "image/*",
                     "name": "attachment",
-                    "class": "esriCTHideFileInputUI",
                     "style": { "height": dojo.coords(this._fileInputIcon).h + "px", "width": dojo.coords(this._fileInputIcon).w + "px" }
-                }, fileContainer);
+                }, domConstruct.create("form", { "id": "geoFormAttachment" + this._fileAttachmentCounter++, "class": "esriCTHideFileInputUI" }, fileContainer));
+                domClass.add(fileInput, "esriCTPointerCursor");
+
                 // Handle change event for file control
                 fileChange = on(fileInput, "change", lang.hitch(this, function (evt) {
                     fileChange.remove();
@@ -444,7 +439,7 @@ define([
         * @memberOf widgets/geo-form/geo-form
         */
         _onFileSelected: function (evt) {
-            var fileInput, fileName, fileChange, alertHtml, target = evt.currentTarget || evt.srcElement;
+            var newFormControl, fileInput, fileName, fileChange, alertHtml, target = evt.currentTarget || evt.srcElement;
             if (target && target.value) {
                 fileName = target.value;
                 fileName = fileName.split("\\")[fileName.split("\\").length - 1];
@@ -452,43 +447,42 @@ define([
                 fileName = "";
             }
             //once file is selected change class so that the selected file will be added as attachment
-            domClass.replace(target, "esriCTFileToSubmit", "esriCTHideFileInputUI");
-            domStyle.set(target, "display", "none");
+            domClass.replace(target.parentNode, "esriCTFileToSubmit", "esriCTHideFileInputUI");
+            domStyle.set(target.parentNode, "display", "none");
             //Add dismiss-able alert for each file, and show file name and file size in it.
 
-            alertHtml = "<div id=" + target.id + "_Close" + " class=\"esriCTFileAlert alert alert-dismissable alert-success\">";
+            alertHtml = "<div id=" + target.parentNode.id + "_Close" + " class=\"esriCTFileAlert alert alert-dismissable alert-success\">";
             alertHtml += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">" + "X" + "</button>";
             alertHtml += "<span>" + fileName + "</span>";
             alertHtml += "</div>";
             alertHtml = domConstruct.place(alertHtml, this.fileAttachmentList, "last");
             //if file is removed then
             //replace the class from esriCTFileToSubmit to esriCTHideFileInputUI and update the file selected count
-            $('#' + target.id + "_Close").bind('closed.bs.alert', lang.hitch(this, function (evt) {
+            $('#' + target.parentNode.id + "_Close").bind('closed.bs.alert', lang.hitch(this, function (evt) {
                 domClass.replace(dom.byId(evt.target.id.split("_")[0]), "esriCTHideFileInputUI", "esriCTFileToSubmit");
                 this._updateAttachmentCount();
             }));
 
             //once filename is shown, update file attachments count
             this._updateAttachmentCount();
-
-            //create new file input control so that multiple files can be attached
-            fileInput = domConstruct.create("input", {
-                "type": "file",
-                "id": "geoFormAttachment" + this._fileAttachmentCounter++,
-                "accept": "image/*",
-                "name": "attachment",
-                "class": "esriCTHideFileInputUI",
-                "style": { "height": dojo.coords(this._fileInputIcon).h + "px", "width": dojo.coords(this._fileInputIcon).w + "px" }
-            }, null);
-            //update for attribute for file-input icon so that same icon can be used to select file for new file-input control.
-            domAttr.set(this._fileInputIcon, "for", fileInput.id);
-            //place the newly created file-input control after file selection icon
-            domConstruct.place(fileInput, this._fileInputIcon, "after");
-            //handle change event for file control if file size is
-            fileChange = on(fileInput, "change", lang.hitch(this, function (evt) {
-                fileChange.remove();
-                this._onFileSelected(evt);
-            }));
+            //Check if file input container is present
+            if ($(".hasAttachment")[0]) {
+                newFormControl = domConstruct.create("form", { "id": "geoFormAttachment" + this._fileAttachmentCounter++, "class": "esriCTHideFileInputUI" }, $(".hasAttachment")[0]);
+                //create new file input control so that multiple files can be attached
+                fileInput = domConstruct.create("input", {
+                    "type": "file",
+                    "accept": "image/*",
+                    "name": "attachment",
+                    "style": { "height": dojo.coords(this._fileInputIcon).h + "px", "width": dojo.coords(this._fileInputIcon).w + "px" }
+                }, newFormControl);
+                //place the newly created file-input control after file selection icon
+                domConstruct.place(newFormControl, this._fileInputIcon, "after");
+                //handle change event for file control if file size is
+                fileChange = on(fileInput, "change", lang.hitch(this, function (evt) {
+                    fileChange.remove();
+                    this._onFileSelected(evt);
+                }));
+            }
         },
 
         /**
@@ -498,13 +492,11 @@ define([
         _updateAttachmentCount: function () {
             var photoSelectedDiv = dom.byId("attachmentSelectedCount"), selectedAttachmentsCount;
             if (photoSelectedDiv) {
-                domClass.remove(photoSelectedDiv, "esriCTHidden");
                 selectedAttachmentsCount = query(".alert-dismissable", this.fileAttachmentList).length;
-                domAttr.set(photoSelectedDiv, "innerHTML", selectedAttachmentsCount + " " + dojo.configData.i18n.geoform.attachmentSelectedMsg);
                 if (selectedAttachmentsCount > 0) {
-                    domClass.remove(photoSelectedDiv, "esriCTHidden");
+                    domAttr.set(photoSelectedDiv, "innerHTML", selectedAttachmentsCount + " " + dojo.configData.i18n.geoform.attachmentSelectedMsg);
                 } else {
-                    domClass.add(photoSelectedDiv, "esriCTHidden");
+                    domAttr.set(photoSelectedDiv, "innerHTML", "");
                 }
             }
             this._resizeMap();
@@ -565,7 +557,9 @@ define([
                 for (fieldAttribute in this.layer.templates[0].prototype.attributes) {
                     if (this.layer.templates[0].prototype.attributes.hasOwnProperty(fieldAttribute)) {
                         if (fieldAttribute.toLowerCase() === fieldname.toLowerCase()) {
-                            currentField.defaultValue = this.layer.templates[0].prototype.attributes[fieldAttribute];
+                            if (this.layer.templates[0].prototype.attributes[fieldAttribute] !== null && lang.trim(this.layer.templates[0].prototype.attributes[fieldAttribute].toString()) !== "") {
+                                currentField.defaultValue = this.layer.templates[0].prototype.attributes[fieldAttribute];
+                            }
                         }
                     }
                 }
@@ -749,65 +743,65 @@ define([
             var inputDateGroupContainer;
             // Create field controls on basis of their type
             switch (currentField.type) {
-            case "esriFieldTypeString":
-                if (currentField.stringFieldOption === "textbox") {
+                case "esriFieldTypeString":
+                    if (currentField.stringFieldOption === "textbox") {
+                        this.inputContent = domConstruct.create("input", {
+                            type: "text",
+                            className: "form-control",
+                            "data-input-type": "String",
+                            "maxLength": currentField.length,
+                            "id": fieldname
+                        }, formContent);
+                    } else {
+                        this.inputContent = domConstruct.create("textarea", {
+                            className: "form-control",
+                            "data-input-type": "String",
+                            "rows": 4,
+                            "maxLength": currentField.length,
+                            "id": fieldname
+                        }, formContent);
+                    }
+                    break;
+                case "esriFieldTypeSmallInteger":
                     this.inputContent = domConstruct.create("input", {
                         type: "text",
                         className: "form-control",
-                        "data-input-type": "String",
-                        "maxLength": currentField.length,
-                        "id": fieldname
+                        "data-input-type": "SmallInteger",
+                        "id": fieldname,
+                        "pattern": "[0-9]*"
                     }, formContent);
-                } else {
-                    this.inputContent = domConstruct.create("textarea", {
+                    break;
+                case "esriFieldTypeInteger":
+                    this.inputContent = domConstruct.create("input", {
+                        type: "text",
                         className: "form-control",
-                        "data-input-type": "String",
-                        "rows": 4,
-                        "maxLength": currentField.length,
+                        "data-input-type": "Integer",
+                        "id": fieldname,
+                        "pattern": "[0-9]*"
+                    }, formContent);
+                    break;
+                case "esriFieldTypeSingle":
+                    this.inputContent = domConstruct.create("input", {
+                        type: "text",
+                        className: "form-control",
+                        "data-input-type": "Single",
                         "id": fieldname
                     }, formContent);
-                }
-                break;
-            case "esriFieldTypeSmallInteger":
-                this.inputContent = domConstruct.create("input", {
-                    type: "text",
-                    className: "form-control",
-                    "data-input-type": "SmallInteger",
-                    "id": fieldname,
-                    "pattern": "[0-9]*"
-                }, formContent);
-                break;
-            case "esriFieldTypeInteger":
-                this.inputContent = domConstruct.create("input", {
-                    type: "text",
-                    className: "form-control",
-                    "data-input-type": "Integer",
-                    "id": fieldname,
-                    "pattern": "[0-9]*"
-                }, formContent);
-                break;
-            case "esriFieldTypeSingle":
-                this.inputContent = domConstruct.create("input", {
-                    type: "text",
-                    className: "form-control",
-                    "data-input-type": "Single",
-                    "id": fieldname
-                }, formContent);
-                break;
-            case "esriFieldTypeDouble":
-                this.inputContent = domConstruct.create("input", {
-                    type: "text",
-                    className: "form-control",
-                    "data-input-type": "Double",
-                    "id": fieldname,
-                    step: ".1"
-                }, formContent);
-                break;
-            case "esriFieldTypeDate":
-                // add notation icon for calendar
-                inputDateGroupContainer = this._addNotationIcon(formContent, "glyphicon-calendar");
-                this.inputContent = this._createDateField(inputDateGroupContainer, false, fieldname, currentField);
-                break;
+                    break;
+                case "esriFieldTypeDouble":
+                    this.inputContent = domConstruct.create("input", {
+                        type: "text",
+                        className: "form-control",
+                        "data-input-type": "Double",
+                        "id": fieldname,
+                        step: ".1"
+                    }, formContent);
+                    break;
+                case "esriFieldTypeDate":
+                    // add notation icon for calendar
+                    inputDateGroupContainer = this._addNotationIcon(formContent, "glyphicon-calendar");
+                    this.inputContent = this._createDateField(inputDateGroupContainer, false, fieldname, currentField);
+                    break;
             }
             // add default values to the fields
             this._addInputElementsValue(currentField, formContent, inputDateGroupContainer);
@@ -910,7 +904,7 @@ define([
             // Touch Spinner on keyup event
             this._inputTouchspinOnKeyup(inputcontentSpinner, currentField);
             // Set minimum and maximum value to the rangeHelpText
-            rangeHelpText = string.substitute(dojo.configData.i18n.geoform.textRangeHintMessage, {
+            rangeHelpText = string.substitute(dojo.configData.i18n.geoform.numericRangeHintMessage, {
                 minValue: currentField.domain.minValue.toString(),
                 maxValue: currentField.domain.maxValue.toString(),
                 openStrong: "<strong>",
@@ -1000,9 +994,11 @@ define([
                         for (fieldAttribute in selectedType.templates[0].prototype.attributes) {
                             if (selectedType.templates[0].prototype.attributes.hasOwnProperty(fieldAttribute)) {
                                 if (fieldAttribute.toLowerCase() === field.name.toLowerCase()) {
-                                    defaultValue = selectedType.templates[0].prototype.attributes[fieldAttribute];
-                                    field.defaultValue = defaultValue;
-                                    break;
+                                    if (selectedType.templates[0].prototype.attributes[fieldAttribute] !== null && lang.trim(selectedType.templates[0].prototype.attributes[fieldAttribute].toString()) !== "") {
+                                        defaultValue = selectedType.templates[0].prototype.attributes[fieldAttribute];
+                                        field.defaultValue = defaultValue;
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -1032,22 +1028,22 @@ define([
                     if (i === field.name) {
                         switchDomainType = selectedType.domains[i].type || "codedValue";
                         switch (switchDomainType) {
-                        case "inherited":
-                            break;
-                        case "codedValue":
-                            if (!field.domain) {
-                                field.domain = {};
-                            }
-                            field.domain.codedValues = selectedType.domains[i].codedValues;
-                            break;
-                        case "range":
-                            // Condition to change the range domain values of field already having domain.
-                            if (!field.domain) {
-                                field.domain = {};
-                            }
-                            field.domain.minValue = selectedType.domains[i].minValue;
-                            field.domain.maxValue = selectedType.domains[i].maxValue;
-                            break;
+                            case "inherited":
+                                break;
+                            case "codedValue":
+                                if (!field.domain) {
+                                    field.domain = {};
+                                }
+                                field.domain.codedValues = selectedType.domains[i].codedValues;
+                                break;
+                            case "range":
+                                // Condition to change the range domain values of field already having domain.
+                                if (!field.domain) {
+                                    field.domain = {};
+                                }
+                                field.domain.minValue = selectedType.domains[i].minValue;
+                                field.domain.maxValue = selectedType.domains[i].maxValue;
+                                break;
                         }
                     }
                 }
@@ -1091,73 +1087,73 @@ define([
             }
             // Set validation on the field by their types
             switch (inputType) {
-            case "String":
-                if (inputValue.length !== 0) {
-                    this._validateUserInput(false, node, inputValue, iskeyPress);
-                } else {
-                    error = string.substitute(dojo.configData.i18n.geoform.invalidString, {
-                        openStrong: "<strong>",
-                        closeStrong: "</strong>"
-                    });
-                    this._validateUserInput(error, node, inputValue, iskeyPress);
-                }
-                break;
-            case "SmallInteger":
-                typeCastedInputValue = parseInt(inputValue, 10);
-                if ((inputValue.match(decimal) && typeCastedInputValue >= -32768 && typeCastedInputValue <= 32767) && inputValue.length !== 0) {
-                    this._validateUserInput(false, node, inputValue);
-                    this._setFormatToValue(currentField, typeCastedInputValue, currentNode.target);
-                } else {
-                    error = string.substitute(dojo.configData.i18n.geoform.invalidSmallNumber, {
-                        openStrong: "<strong>",
-                        closeStrong: "</strong>"
-                    });
-                    this._validateUserInput(error, node, inputValue, iskeyPress);
-                }
-                break;
-            case "Integer":
-                typeCastedInputValue = parseInt(inputValue, 10);
-                if ((inputValue.match(decimal) && typeCastedInputValue >= -2147483648 && typeCastedInputValue <= 2147483647) && inputValue.length !== 0) {
-                    this._validateUserInput(false, node, inputValue, iskeyPress);
-                    this._setFormatToValue(currentField, typeCastedInputValue, currentNode.target);
-                } else {
-                    error = string.substitute(dojo.configData.i18n.geoform.invalidNumber, {
-                        openStrong: "<strong>",
-                        closeStrong: "</strong>"
-                    });
-                    this._validateUserInput(error, node, inputValue, iskeyPress);
-                }
-                break;
-            case "Single":
-                // zero or more occurrence of (+-) at the start of expression
-                // at least one occurrence of digits between o-9
-                // occurrence of .
-                // at least one occurrence of digits between o-9 in the end
-                typeCastedInputValue = parseFloat(inputValue);
-                if (((inputValue.match(decimal) || inputValue.match(float)) && typeCastedInputValue >= -3.4 * Math.pow(10, 38) && typeCastedInputValue <= 1.2 * Math.pow(10, 38)) && inputValue.length !== 0) {
-                    this._validateUserInput(false, node, inputValue, iskeyPress);
-                    this._setFormatToValue(currentField, typeCastedInputValue, currentNode.target);
-                } else {
-                    error = string.substitute(dojo.configData.i18n.geoform.invalidFloat, {
-                        openStrong: "<strong>",
-                        closeStrong: "</strong>"
-                    });
-                    this._validateUserInput(error, node, inputValue, iskeyPress);
-                }
-                break;
-            case "Double":
-                typeCastedInputValue = parseFloat(inputValue);
-                if (((inputValue.match(decimal) || inputValue.match(float)) && typeCastedInputValue >= -2.2 * Math.pow(10, 308) && typeCastedInputValue <= 1.8 * Math.pow(10, 38)) && inputValue.length !== 0) {
-                    this._validateUserInput(false, node, inputValue, iskeyPress);
-                    this._setFormatToValue(currentField, typeCastedInputValue, currentNode.target);
-                } else {
-                    error = string.substitute(dojo.configData.i18n.geoform.invalidDouble, {
-                        openStrong: "<strong>",
-                        closeStrong: "</strong>"
-                    });
-                    this._validateUserInput(error, node, inputValue, iskeyPress);
-                }
-                break;
+                case "String":
+                    if (inputValue.length !== 0) {
+                        this._validateUserInput(false, node, inputValue, iskeyPress);
+                    } else {
+                        error = string.substitute(dojo.configData.i18n.geoform.invalidInputValue, {
+                            openStrong: "<strong>",
+                            closeStrong: "</strong>"
+                        });
+                        this._validateUserInput(error, node, inputValue, iskeyPress);
+                    }
+                    break;
+                case "SmallInteger":
+                    typeCastedInputValue = parseInt(inputValue, 10);
+                    if ((inputValue.match(decimal) && typeCastedInputValue >= -32768 && typeCastedInputValue <= 32767) && inputValue.length !== 0) {
+                        this._validateUserInput(false, node, inputValue);
+                        this._setFormatToValue(currentField, typeCastedInputValue, currentNode.target);
+                    } else {
+                        error = string.substitute(dojo.configData.i18n.geoform.invalidSmallNumber, {
+                            openStrong: "<strong>",
+                            closeStrong: "</strong>"
+                        });
+                        this._validateUserInput(error, node, inputValue, iskeyPress);
+                    }
+                    break;
+                case "Integer":
+                    typeCastedInputValue = parseInt(inputValue, 10);
+                    if ((inputValue.match(decimal) && typeCastedInputValue >= -2147483648 && typeCastedInputValue <= 2147483647) && inputValue.length !== 0) {
+                        this._validateUserInput(false, node, inputValue, iskeyPress);
+                        this._setFormatToValue(currentField, typeCastedInputValue, currentNode.target);
+                    } else {
+                        error = string.substitute(dojo.configData.i18n.geoform.invalidNumber, {
+                            openStrong: "<strong>",
+                            closeStrong: "</strong>"
+                        });
+                        this._validateUserInput(error, node, inputValue, iskeyPress);
+                    }
+                    break;
+                case "Single":
+                    // zero or more occurrence of (+-) at the start of expression
+                    // at least one occurrence of digits between o-9
+                    // occurrence of .
+                    // at least one occurrence of digits between o-9 in the end
+                    typeCastedInputValue = parseFloat(inputValue);
+                    if (((inputValue.match(decimal) || inputValue.match(float)) && typeCastedInputValue >= -3.4 * Math.pow(10, 38) && typeCastedInputValue <= 1.2 * Math.pow(10, 38)) && inputValue.length !== 0) {
+                        this._validateUserInput(false, node, inputValue, iskeyPress);
+                        this._setFormatToValue(currentField, typeCastedInputValue, currentNode.target);
+                    } else {
+                        error = string.substitute(dojo.configData.i18n.geoform.invalidFloat, {
+                            openStrong: "<strong>",
+                            closeStrong: "</strong>"
+                        });
+                        this._validateUserInput(error, node, inputValue, iskeyPress);
+                    }
+                    break;
+                case "Double":
+                    typeCastedInputValue = parseFloat(inputValue);
+                    if (((inputValue.match(decimal) || inputValue.match(float)) && typeCastedInputValue >= -2.2 * Math.pow(10, 308) && typeCastedInputValue <= 1.8 * Math.pow(10, 38)) && inputValue.length !== 0) {
+                        this._validateUserInput(false, node, inputValue, iskeyPress);
+                        this._setFormatToValue(currentField, typeCastedInputValue, currentNode.target);
+                    } else {
+                        error = string.substitute(dojo.configData.i18n.geoform.invalidDouble, {
+                            openStrong: "<strong>",
+                            closeStrong: "</strong>"
+                        });
+                        this._validateUserInput(error, node, inputValue, iskeyPress);
+                    }
+                    break;
             }
         },
 
@@ -1488,7 +1484,7 @@ define([
         * @memberOf widgets/geo-form/geo-form
         */
         _addFeatureToLayer: function () {
-            var userFormNode = this.userForm, featureData, key, value, datePicker, picker, fileList, formElement, i;
+            var userFormNode = this.userForm, featureData, key, value, datePicker, picker, fileList, i;
             // show loading indicator
             dojo.applicationUtils.showLoadingIndicator();
             // Create instance of graphic
@@ -1536,19 +1532,17 @@ define([
                         //set total file attached counter
                         this._totalFileAttachedCounter = fileList.length;
                         for (i = 0; i < fileList.length; i++) {
-                            formElement = domConstruct.create("form", {}, null);
-                            formElement.appendChild(fileList[i]);
                             //handle success and error callback for add attachments
-                            this.layer.addAttachment(addResults[0].objectId, formElement, lang.hitch(this, this._onAttachmentUploadComplete), lang.hitch(this, this._onAttachmentUploadFailed));
+                            this.layer.addAttachment(addResults[0].objectId, fileList[i], lang.hitch(this, this._onAttachmentUploadComplete), lang.hitch(this, this._onAttachmentUploadFailed));
                         }
                     } else {
                         //hide loading indicator started in _addFeatureToLayer method
                         dojo.applicationUtils.hideLoadingIndicator();
+                        // reset form
+                        this._clearFormFields();
                     }
                     // remove graphic
                     this._clearSubmissionGraphic();
-                    // reset form
-                    this._clearFormFields();
                     //reset to default extent
                     if (this.defaultExtent) {
                         this.map.setExtent(this.defaultExtent);
@@ -1601,8 +1595,10 @@ define([
             if (this._totalFileAttachedCounter === (this._fileAttachedCounter + this._fileFailedCounter)) {
                 //hide loading indicator started in _addFeatureToLayer method
                 dojo.applicationUtils.hideLoadingIndicator();
+                // reset form
+                this._clearFormFields();
                 if (this._fileFailedCounter > 0) {
-                    attachmentFailedMsg = string.substitute(dojo.configData.i18n.geoform.attachmentFailedMsg, {
+                    attachmentFailedMsg = string.substitute(dojo.configData.i18n.geoform.attachmentUploadStatus, {
                         "failed": this._fileFailedCounter,
                         "total": this._totalFileAttachedCounter
                     });
@@ -1713,15 +1709,15 @@ define([
             var type;
             //set type for selected geometry type of the layer
             switch (this.layer.geometryType) {
-            case "esriGeometryPoint":
-                type = "point";
-                break;
-            case "esriGeometryPolyline":
-                type = "polyline";
-                break;
-            case "esriGeometryPolygon":
-                type = "polygon";
-                break;
+                case "esriGeometryPoint":
+                    type = "point";
+                    break;
+                case "esriGeometryPolyline":
+                    type = "polyline";
+                    break;
+                case "esriGeometryPolygon":
+                    type = "polygon";
+                    break;
             }
             // return Value
             return type;
@@ -1760,8 +1756,8 @@ define([
             var centerPoint;
             // check for geometry type of different layer
             if (geometry.type === "point") {
-                this.map.centerAt(geometry);
                 this.map.setLevel(dojo.configData.zoomLevel);
+                this.map.centerAt(geometry);
             } else if (geometry.type === "polyline") {
                 this.map.setLevel(dojo.configData.zoomLevel);
                 centerPoint = geometry.getExtent();
@@ -1801,15 +1797,15 @@ define([
             var symbol;
             //set symbol for selected geometry type of the layer
             switch (geometryType) {
-            case "point":
-                symbol = new SimpleMarkerSymbol();
-                break;
-            case "polyline":
-                symbol = new SimpleLineSymbol();
-                break;
-            case "polygon":
-                symbol = new SimpleFillSymbol();
-                break;
+                case "point":
+                    symbol = new SimpleMarkerSymbol();
+                    break;
+                case "polyline":
+                    symbol = new SimpleLineSymbol();
+                    break;
+                case "polygon":
+                    symbol = new SimpleFillSymbol();
+                    break;
             }
             //return symbol
             return symbol;

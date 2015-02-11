@@ -42,7 +42,7 @@ define([
         /**
         * This function is called when widget is constructed.
         * @param{object} config to be mixed
-        *  @memberOf widgets/issue-comments/issue-comments
+        * @memberOf widgets/issue-comments/issue-comments
         */
         constructor: function (config) {
             lang.mixin({}, this, config);
@@ -65,46 +65,83 @@ define([
                 this._submitComment(this.commentsContainerBox);
             }));
 
-            // change event on text Area
+            // change event on textarea
             on(this.commentsContainerBox, "change", lang.hitch(this, function (evt) {
                 this._calculateCharactersCount();
             }));
 
-            // keyup event on text Area
+            // keyup event on textarea
             on(this.commentsContainerBox, "keyup", lang.hitch(this, function (evt) {
                 this._calculateCharactersCount();
             }));
 
-            // paste event on text Area
+            // paste event on textarea
             on(this.commentsContainerBox, "paste", lang.hitch(this, function (evt) {
                 this._calculateCharactersCount();
             }));
 
-            // cut event on text Area
+            // cut event on textarea
             on(this.commentsContainerBox, "cut", lang.hitch(this, function (evt) {
                 this._calculateCharactersCount();
+            }));
+
+            //on window resize update the height of comment details based on screen size and headers and footers.
+            // As in case of long header title, header height need to be adjusted.
+            on(window, "resize", lang.hitch(this, function () {
+                this.resizeCommentContainer();
             }));
         },
 
         /**
-        * This function is called for calculating character count of text area
+        * This function is called for calculating height of comment panel
         * @memberOf widgets/issue-comments/issue-comments
         */
-        _calculateCharactersCount: function () {
-            var count = this.characterLength - this.commentsContainerBox.value.length;
-            // Checking the character count and if it equal to max length then set no comment available text
-            if (this.characterLength === this.commentsContainerBox.value.length) {
-                count = dojo.configData.i18n.comment.showNoText;
+        resizeCommentContainer: function () {
+            var commentHeaderDiv, commentFooterDiv, commentsBodyheight, CommentsDetailsData;
+            //check if comment details div is open,then adjust the detailed container height
+            if (!domClass.contains(this.commentsContainer, "esriCTHidden")) {
+                commentHeaderDiv = query(".esriCTCommentHeader", this.commentsContainer);
+                commentFooterDiv = query(".esriCTCommentFooterHeight", this.commentsContainer);
+                if (commentHeaderDiv.length > 0 && commentFooterDiv.length > 0) {
+                    commentsBodyheight = parseInt(this.commentsContainer.clientHeight - (commentHeaderDiv[0].clientHeight + commentFooterDiv[0].clientHeight + 17), 10);
+                }
+                CommentsDetailsData = query(".esriCTCommentsContainer")[0];
+                if (CommentsDetailsData) {
+                    query(CommentsDetailsData).style("height", commentsBodyheight + "px");
+                    if ((dojo.isIE < 9) && commentsBodyheight < 500) {
+                        query(CommentsDetailsData).style("min-height", commentsBodyheight + "px");
+                        query(CommentsDetailsData).style("max-height", commentsBodyheight + "px");
+                    }
+                }
             }
-            this.countLabel.innerHTML = string.substitute(dojo.configData.i18n.comment.remainingTextCount, [count]);
         },
 
         /**
-        * This function is called for fetching comments from layer
+        * Calculating character count of text area
+        * @memberOf widgets/issue-comments/issue-comments
+        */
+        _calculateCharactersCount: function () {
+            var count;
+            // Checking for comment container box value with character limit of layer in comment feedback key
+            if (this.commentsContainerBox.value.length >= this.characterLength) {
+                this.commentsContainerBox.value = this.commentsContainerBox.value.substring(0, this.characterLength);
+                this.commentsContainerBox.blur();
+                // Setting the count to "No" if character limit is fulfilled
+                count = dojo.configData.i18n.comment.showNoText;
+                this.countLabel.innerHTML = string.substitute(dojo.configData.i18n.comment.remainingTextCount, [count]);
+            } else {
+                // Setting the count and innerHTML with the typed characters.
+                count = this.characterLength - this.commentsContainerBox.value.length;
+                this.countLabel.innerHTML = string.substitute(dojo.configData.i18n.comment.remainingTextCount, [count]);
+            }
+        },
+
+        /**
+        * Fetch comments from layer
         * @param{object} attributes contains layer attribute
         * @memberOf widgets/issue-comments/issue-comments
         */
-        _fetchComments: function (paramsObj) {
+        fetchComments: function (paramsObj) {
             this.params = paramsObj;
             var divHeaderContent, currentID, i, relatedQuery, g;
             // Removing no comment available from div
@@ -130,7 +167,7 @@ define([
                     }
                 }
             }
-            // Assiging the maxLength for Text area
+            // Assigning maxLength for textarea
             this._setTextAreaMaxLength();
             // Query for related features and showing comments
             this.params.layer.queryRelatedFeatures(relatedQuery, lang.hitch(this, function (relatedRecords) {
@@ -149,12 +186,13 @@ define([
                 dojo.applicationUtils.hideLoadingIndicator();
                 alert(err);
             });
+            this.resizeCommentContainer();
         },
 
         /**
-        * This function is called for showing comments
+        * Show comments in comment panel
         * @param{object} attributes contains layer attribute
-        * @param{bool} IschildNode contains bool value for child node
+        * @param{boolean} IschildNode contains Boolean value for child node
         * @memberOf widgets/issue-comments/issue-comments
         */
         _showComments: function (attributes, IschildNode) {
@@ -178,17 +216,16 @@ define([
         },
 
         /**
-        * This function sets the text area and count label text
+        * Display character count
         * @memberOf widgets/issue-comments/issue-comments
         */
         _setTextAreaMaxLength: function () {
-            this.commentsContainerBox.maxLength = Number(this.characterLength);
-            this.countLabel.innerHTML = string.substitute(dojo.configData.i18n.comment.remainingTextCount, [this.commentsContainerBox.maxLength]);
+            this.countLabel.innerHTML = string.substitute(dojo.configData.i18n.comment.remainingTextCount, [this.characterLength]);
         },
 
         /**
-        * This function is called for submiting comment on click of submit button
-        * @param{object} commentsContainer contains the comments Container object
+        * Submit comment on click of submit button
+        * @param{object} commentsContainer contains the comments container object
         * @memberOf widgets/issue-comments/issue-comments
         */
         _submitComment: function (commentsContainer) {
@@ -208,31 +245,37 @@ define([
                         domConstruct.empty(divHeaderContent[0]);
                     }
                     this.params.relatedTable.applyEdits([featureData], null, null, lang.hitch(this, function (result) {
-                        if (result[0].success) {
+                        if (result[0].success && commentsContainer.value !== "") {
                             this._showComments(featureData.attributes, false);
-                            // Assiging the maxLength for Text area
+                            // Assigning the maxLength for Text area
                             this._setTextAreaMaxLength();
                             commentsContainer.value = "";
                         } else {
-                            // Assiging the maxLength for Text area
+                            // Checking if comment container has no comment then set then show message and set the remaining text
+                            if (commentsContainer.value === "") {
+                                this._setTextAreaMaxLength();
+                                dojo.applicationUtils.showError(dojo.configData.i18n.comment.emptyCommentMessage);
+                                return;
+                            }
+                            // Assigning maxLength for textarea
                             this._setTextAreaMaxLength();
                             commentsContainer.value = "";
                             dojo.applicationUtils.showError(dojo.configData.i18n.comment.errorInSubmmitingComment);
                         }
                     }), function (err) {
-                        // Assiging the maxLength for Text area
+                        // Assigning maxLength for textarea
                         this._setTextAreaMaxLength();
                         commentsContainer.value = "";
                         dojo.applicationUtils.showError(dojo.configData.i18n.comment.errorInSubmmitingComment);
                     });
                 } else {
-                    // Assiging the maxLength for Text area
+                    // Assigning  maxLength for textarea
                     this._setTextAreaMaxLength();
                     commentsContainer.value = "";
                     dojo.applicationUtils.showError(dojo.configData.i18n.comment.emptyCommentMessage);
                 }
             } else {
-                // Assiging the maxLength for Text area
+                // Assigning the maxLength for textarea
                 this._setTextAreaMaxLength();
                 commentsContainer.value = "";
                 dojo.applicationUtils.showError(dojo.configData.i18n.comment.errorInSubmmitingComment);

@@ -21,7 +21,7 @@ define({
     "appid": "",
     "oauthappid": null,
     //Group templates must support a group url parameter. This will contain the id of the group.
-    "group": "",
+    "group": "e96bd5b249a04235bcd7399cb80ee3cf",
     //Enter the url to the proxy if needed by the application
     "proxyurl": "proxy.ashx",
     //Example of a template specific property. If your template had several color schemes
@@ -30,7 +30,7 @@ define({
     "theme": "#d15706",
     "bingKey": "", //Enter the url to your organizations bing maps key if you want to use bing basemaps
     //Defaults to arcgis.com. Set this value to your portal or organization host name.
-    "sharinghost": location.protocol + "//" + "arcgis.com/",
+    "sharinghost": location.protocol + "//" + "localgovdev.mapsdevext.arcgis.com/",
     //HelperServices url
     "helperServices": {
         "geometry": {
@@ -45,20 +45,20 @@ define({
     "applicationIcon": "/images/app-icon.png",
     "applicationFavicon": "/images/favicon.ico",
 
-    "signInSubtitle": "",
+    "signInSubtitle": "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     "signInBackgroundImage": "/images/signinbg.png",
 
     "enableFacebook": true,
     "enableTwitter": true,
     "enableGoogleplus": true,
 
-    "facebookAppId": "",
+    "facebookAppId": "806211049453816",
 
     "twitterSigninUrl": location.protocol + "//utility.arcgis.com/tproxy/signin",
     "twitterUserUrl": location.protocol + "//utility.arcgis.com/tproxy/proxy/1.1/account/verify_credentials.json?q=&include_entities=true&skip_status=true&locale=en",
     "twitterCallbackUrl": "/oauth-callback-twitter.html",
 
-    "googleplusClientId": "",
+    "googleplusClientId": "102941076536-qbdhd57sod109vbj89ueok3aj0tdc71h.apps.googleusercontent.com",
     "googleplusScope": "https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email",
 
     "showNullValueAs": "",
@@ -76,13 +76,13 @@ define({
     "webMapInfoNumViews": false,
     "webMapInfoAvgRating": false,
 
-    "submitMessage": "Thank you! Your report has been submitted.",
-    "likeField": "",
-    "commentField": "",
-    "reportedByField": "",
+    "submitMessage": "Thank you. Your report has been submitted.",
+    "likeField": "VOTES",
+    "commentField": "FEEDBACK",
+    "reportedByField": "REPORTEDBY",
 
-    "zoomLevel": 12,
-    "enableUSNGSearch": false,
-    "enableMGRSSearch": false,
-    "enableLatLongSearch": false
+    "zoomLevel": 16,
+    "enableUSNGSearch": true,
+    "enableMGRSSearch": true,
+    "enableLatLongSearch": true
 });

@@ -5,9 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Responsive -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, height=device-height, user-scalable=no, target-densityDpi=device-dpi">-->
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <!-- End Responsive -->
     <title>Constituent Engagement</title>
     <!-- Latest compiled and minified CSS -->
@@ -73,45 +72,16 @@
     <meta name="google-signin-cookiepolicy" content="single_host_origin" />
     <script src="https://apis.google.com/js/client:platform.js?onload=render" async defer></script>
     <!-- google plus -->
+
     <script type="text/javascript">
         require([
-            "application/template-options",
-            "application/template",
-            "widgets/sign-in/sign-in",
-            "application/utils/utils",
-            "dojo/_base/lang"
-        ], function (
-            TemplateConfig,
-            Template,
-            ApplicationSignIn,
-            ApplicationUtils,
-            lang
-        ) {
-            // create the template. This will take care of all the logic required for template applications
-            var myTemplate = new Template(TemplateConfig), myApp;
-            dojo.BoilerPlateTemplate = myTemplate;
-            // create application signin.
-            myApp = new ApplicationSignIn();
-            myTemplate.startup().then(function (config) {
-                // The config object contains the following properties: helper services, (optionally)
-                // i18n, appid, webmap and any custom values defined by the application.
-                // Load Application if valid group-id is configured, if not show error message.
-                if (lang.trim(config.group) !== "") {
-                    myApp.startup(config);
-                } else {
-                    ApplicationUtils.showErrorScreen(dojo.BoilerPlateTemplate.config.i18n.main.noGroup);
-                    ApplicationUtils.hideLoadingIndicator();
-                }
-            }, function (error) {
-                var message = error.message;
-                // handle error when group is not configured
-                if (message.toLowerCase() === "group undefined.") {
-                    message = dojo.BoilerPlateTemplate.config.i18n.main.noGroup;
-                }
-                ApplicationUtils.showErrorScreen(message);
-                ApplicationUtils.hideLoadingIndicator();
+                "application/bootstrapper"
+            ], function (
+                BootStrapper
+            ) {
+                var bootStrapperObj = new BootStrapper();
+                bootStrapperObj.startup();
             });
-        });
     </script>
 </body>
 </html>

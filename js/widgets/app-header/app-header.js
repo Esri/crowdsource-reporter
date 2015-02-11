@@ -112,6 +112,11 @@ define([
             on(this.reportIssueButton, "click", lang.hitch(this, this._reportIssueClicked));
             on(this.signOutButton, "click", lang.hitch(this, this._signOutClicked));
             this._showHideMenus();
+
+            domAttr.set(this.myIssueButton, "title", dojo.configData.i18n.myIssues.myIssuesTooltip);
+            domAttr.set(this.reportIssueButton, "title", dojo.configData.i18n.geoform.geoformTooltip);
+            domAttr.set(this.signInButton, "title", dojo.configData.i18n.signin.signInTooltip);
+            domAttr.set(this.signOutButton, "title", dojo.configData.i18n.signin.signOutTooltip);
         },
 
         /**

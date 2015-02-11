@@ -93,6 +93,9 @@
     .esriCTApplicationIcon
     {
         height: 60px;
+        width:60px;
+        max-height:60px;
+        max-width:60px;
     }
 
     .esriCTMainContainer
@@ -145,6 +148,9 @@
     .esriCTApplicationIcon
     {
         height: 60px;
+        width:60px;
+        max-height:60px;
+        max-width:60px;
     }
 
     .esriCTMainContainer
@@ -204,11 +210,6 @@
     {
         margin-right: 24px;
     }
-
-    .esriCTCommentsContent
-    {
-        height: 91%;
-    }
 }
 
 /* CSS for retina images for retina devices like ipad / tablets etc. */
@@ -234,5 +235,6 @@
         background-image: url(../images/curent-location-2x.png) !important;
         background-size: 32px;
     }
+
 }
 

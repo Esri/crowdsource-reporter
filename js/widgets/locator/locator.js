@@ -84,6 +84,9 @@ define([
             on(this.txtSearch, "keyup", lang.hitch(this, function (evt) {
                 this._submitAddress(evt);
             }));
+            on(this.txtSearch, "input", lang.hitch(this, function (evt) {
+                this._submitAddress(evt);
+            }));
             on(this.txtSearch, "paste", lang.hitch(this, function (evt) {
                 this._submitAddress(evt, true);
             }));
@@ -132,7 +135,7 @@ define([
                 * numbers,numpad keys,comma,ctl+v,ctrl +x,delete or
                 * backspace is pressed
                 */
-                if ((!((evt.keyCode >= 46 && evt.keyCode < 58) || (evt.keyCode > 64 && evt.keyCode < 91) || (evt.keyCode > 95 && evt.keyCode < 106) || evt.keyCode === 8 || evt.keyCode === 110 || evt.keyCode === 188)) || (evt.keyCode === 86 && evt.ctrlKey) || (evt.keyCode === 88 && evt.ctrlKey)) {
+                if ((!((evt.keyCode >= 46 && evt.keyCode < 58) || (evt.keyCode > 64 && evt.keyCode < 91) || (evt.keyCode > 95 && evt.keyCode < 106) || evt.keyCode === 8 || evt.keyCode === 110 || evt.keyCode === 188)) || (evt.keyCode === 86 && evt.ctrlKey) || (evt.keyCode === 88 && evt.ctrlKey) || evt.keyCode === 229) {
                     evt.cancelBubble = true;
                     if (evt.stopPropagation) {
                         evt.stopPropagation();
@@ -378,7 +381,7 @@ define([
             var order, nameArray = [];
             // Loop through the results and store results of type LatLong in an array
             for (order = 0; order < candidates.length; order++) {
-                if (candidates[order].attributes.Addr_type !== "LatLong") {
+                if (candidates[order].attributes.Addr_type !== "LatLong" && (!(isNaN(candidates[order].location.x) && isNaN(candidates[order].location.y)))) {
                     nameArray.push({
                         name: candidates[order].address,
                         attributes: candidates[order]

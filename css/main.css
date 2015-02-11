@@ -105,6 +105,7 @@ html, body
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     padding: 5px;
+    overflow-x:hidden;
 }
 
 .esriCTCenterContainer
@@ -384,9 +385,9 @@ html, body
 .esriCTApplicationIcon
 {
     height: 48px;
-    width:48px;
-    max-width:48px;
-    max-height:48px;
+    width: 48px;
+    max-width: 48px;
+    max-height: 48px;
 }
 
 .esriCTHeaderIcons
@@ -562,6 +563,23 @@ html, body
     font-weight: bold;
 }
 
+.esriCTDetailsContainerParent
+{
+    display: table;
+    width: 100%;
+}
+
+.esriCTDetailsContainerRow
+{
+    display: table-row;
+}
+
+.esriCTDetailsContainerCell
+{
+    display: table-cell;
+    width: 100%;
+}
+
 /* End of Web Map List */
 
 /* Issue wall*/
@@ -665,7 +683,8 @@ html, body
 {
     -webkit-overflow-scrolling: touch;
     height: calc(100% - 150px);
-    overflow:auto;
+    overflow: auto;
+    width:100%;
 }
 
 .esriCTListHeader
@@ -738,6 +757,24 @@ html, body
     margin: 5px 5px 5px 15px;
 }
 
+.esriCTCustomPopupDiv
+{
+    margin: 5px 15px 5px 0px;
+}
+
+.esriCTInfoLink
+{
+    color: blue;
+    text-decoration: underline;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+.esriCTIssueListHeader, .esriCTIssueDetailsHeader
+{
+    cursor: pointer;
+}
+
 /* End of Issue wall*/
 
 /* Start of issue details */
@@ -789,6 +826,11 @@ html, body
     height: calc(100% - 70px);
     -webkit-overflow-scrolling: touch;
     padding: 0px 0px 0px 15px;
+}
+
+.esriCTDetailsData .esriCTNoIssuesDiv
+{
+    margin: 5px 15px 5px 0px;
 }
 
 .esriCTIssueImgSpan
@@ -856,7 +898,7 @@ html, body
 {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    height:80% !important;
+    height: 80% !important;
 }
 
 .esriCTMobileMenuFooter
@@ -1157,11 +1199,6 @@ label
     background-image: url(../images/curent-location.png);
 }
 
-.esriCTLocationButton
-{
-    background-image: url(../images/curent-location.png);
-}
-
 .esriCTGeoFormLoader
 {
     top: 1px;
@@ -1171,21 +1208,34 @@ label
     z-index: 102;
     background: #EDEDED;
 }
+
 .esriCTLocateContainer div.input-group
 {
     width: 100%;
 }
+
 .esriCTLocateContainer div.input-group-btn
 {
     position: absolute;
     right: 30px;
     z-index: 100;
-    border-left: 1px solid #ccc;
 }
 
-esriCTTxtSearch
+.esriCTTxtSearch
 {
-    padding-right: 80px;
+    padding-right: 70px;
+}
+
+.esriCTmapContainer
+{
+    height: 280px !important;
+    width: 100% !important;
+}
+
+.esriCTmapParentContainer
+{
+    width: 94%;
+    margin: 0 3% 0 3%;
 }
 
 /* End of geo-form styles*/
@@ -1273,11 +1323,6 @@ esriCTTxtSearch
     background-image: url('../images/list-loader.gif');
 }
 
-.esriCTTxtSearch
-{
-    padding-right: 33px;
-}
-
 .esriCTTxtSearch::-ms-clear
 {
     display: none;
@@ -1300,7 +1345,7 @@ esriCTTxtSearch
 .esriCTSearchClose
 {
     position: absolute;
-    right: 70px;
+    right: 66px;
     top: 6px;
     z-index: 2;
 }
@@ -1309,6 +1354,15 @@ esriCTTxtSearch
 {
     border-left-width: 0px;
     font-size: 14px !important;
+}
+
+.esriCTSearchButton
+{
+    background: url('../images/address-search.png') no-repeat center;
+    height: 34px;
+    width: 34px;
+    margin-left: 4px;
+    background-size: 24px;
 }
 
 /* End of Address container Styles */
@@ -1338,7 +1392,7 @@ esriCTTxtSearch
 {
     clear: both;
     width: 100%;
-    height: 110px;
+    height: 115px;
     background: #fff;
 }
 
@@ -1400,7 +1454,7 @@ esriCTTxtSearch
 .esriCTPostCommentButton
 {
     float: left;
-    background-image: url('../images/addComment-22.png');
+    background-image: url('../images/add-comment-24.png');
     background-repeat: no-repeat;
     background-size: 24px;
     background-position: center center;
@@ -1410,7 +1464,10 @@ esriCTTxtSearch
 .esriCTCommentTitleDivHeader
 {
     text-align: justify;
-    padding-right: 30px;
+    word-wrap: break-word;
+    padding-right :60px;
+    min-height:15px;
+
 }
 
 .esriCTPanelMargin
@@ -1433,12 +1490,12 @@ esriCTTxtSearch
 
 .esriCTCommentHeader
 {
-    margin: 10px 6px 10px 20px;
+    margin: 5px 5px 12px 15px;
 }
 
 .esriCTNoCommentsDiv
 {
-    margin: 5px;
+    margin: 5px 5px 5px 15px;
 }
 
 .esriCTCountLabel

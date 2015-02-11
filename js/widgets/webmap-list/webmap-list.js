@@ -166,11 +166,20 @@ define([
                 });
                 webMapInstance.then(lang.hitch(this, function (response) {
                     this.map = response.map;
+                    this.onMapLoaded(response.map);
                 }));
                 return webMapInstance;
             } catch (err) {
                 dojo.applicationUtils.showError(err.message);
             }
+        },
+
+        /**
+        * This function is used to indicate that map is loaded
+        * @param{object} response of web-map created
+        */
+        onMapLoaded: function (webmapResponse) {
+            return;
         },
 
         /**
@@ -190,7 +199,7 @@ define([
                         // if not then it will remove that layer from array
                         for (j = 0; j < operationalLayerCount; j++) {
                             removeLayerFromList = true;
-                            if (response[i][1].itemInfo.itemData.operationalLayers[j].resourceInfo && response[i][1].itemInfo.itemData.operationalLayers[j].layerObject) {
+                            if (response[i][1].itemInfo.itemData.operationalLayers[j].visibility && response[i][1].itemInfo.itemData.operationalLayers[j].resourceInfo && response[i][1].itemInfo.itemData.operationalLayers[j].layerObject) {
                                 // check if layer is having valid capabilities and valid popupinfo
                                 if (this._validateLayerCapabilities(response[i][1].itemInfo.itemData.operationalLayers[j].resourceInfo.capabilities)) {
                                     if (this._validatePopupFields(response[i][1].itemInfo.itemData.operationalLayers[j].popupInfo, response[i][1].itemInfo.itemData.operationalLayers[j].layerObject.fields)) {
@@ -239,14 +248,14 @@ define([
                     if (this.webMapDescriptionFields[field]) {
                         // to display date field
                         if (field === "created" || field === "modified") {
-                            value = webMapItem.itemInfo.item[field] ? ((moment(webMapItem.itemInfo.item[field]).toDate()).toLocaleDateString()) : this.configData.showNullValueAs;
+                            value = webMapItem.itemInfo.item[field] ? ((moment(webMapItem.itemInfo.item[field]).toDate()).toLocaleDateString()) : this.configData.showNullValueAs + "<br/>";
                             if (lang.trim(value) === "") {
-                                value = "<br/>";
+                                value = this.configData.showNullValueAs + "<br/>";
                             }
                         } else {
-                            value = webMapItem.itemInfo.item[field] || "<br/>";
+                            value = webMapItem.itemInfo.item[field] || this.configData.showNullValueAs + "<br/>";
                         }
-                        descriptionInfo += "<div class='esriCTDetailsContainer'><div class='esriCTInfoHeader'>" + this.configData.i18n.webMapList[field] + "</div><div class='esriCTInfoDetails'>" + value + "</div></div>";
+                        descriptionInfo += "<div class='esriCTDetailsContainerRow'><div class='esriCTDetailsContainerCell'><div class='esriCTInfoHeader'>" + this.configData.i18n.webMapList[field] + "</div><div class='esriCTInfoDetails'>" + value + "</div></div></div>";
                     }
                 }
             }
@@ -324,6 +333,9 @@ define([
                     }
                     $(parentDiv).addClass("esriCTDisplayWebMapTemplate esriCTWebMapBorder");
                     domAttr.set(parentDiv, "webMapID", this.filteredWebMapResponseArr[i][1].itemInfo.item.id);
+                    if (query('.esriCTInfoImg', parentDiv).length > 0) {
+                        domAttr.set(query('.esriCTInfoImg', parentDiv)[0], "title", dojo.configData.i18n.webMapList.infoBtnToolTip);
+                    }
                     if ((this.filteredWebMapResponseArr[i][1].itemInfo.itemData.operationalLayers.length > 1) && (editCapabilityLayerCount > 1)) {
                         domAttr.set(parentDiv, "displayOperationalLayerList", true);
                         this._handleWebMapClick(parentDiv, null);
