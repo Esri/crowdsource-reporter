@@ -52,7 +52,7 @@ define([
         */
         postCreate: function () {
 
-            //attach event on close button of my issues container.
+            // Attach event on close button of my issues container.
             on(this.closeButton, "click", lang.hitch(this, function (evt) {
                 this.hideMyIssuesContainer(evt);
             }));
@@ -71,7 +71,7 @@ define([
         },
 
         /**
-        * hide My issues list container
+        * Hide my issues list container
         * @memberOf widgets/my-issues/my-issues
         */
         hideMyIssuesContainer: function (evt) {
@@ -79,6 +79,10 @@ define([
             this.onHideMyIssuesContainer();
         },
 
+        /**
+        * Event on hiding my issues container
+        * @memberOf widgets/my-issues/my-issues
+        */
         onHideMyIssuesContainer: function (evt) {
             return evt;
         },
@@ -100,10 +104,10 @@ define([
             for (i = 0; i < this.webmapList.length; i++) {
                 webmapOpLayerArr = this.webmapList[i][1].itemInfo.itemData.operationalLayers;
                 for (j = 0; j < webmapOpLayerArr.length; j++) {
-                    //add layer to opLayersArr, if it has configured reported by field to identify creator of issue
-                    if (this._isFieldAvailable(webmapOpLayerArr[j].layerObject, dojo.configData.reportedByField)) {
+                    // add layer to opLayersArr array, if it has configured reported by field to identify creator of issue
+                    if (this.issueDetailsHelper.isFieldAvailable(webmapOpLayerArr[j].layerObject, dojo.configData.reportedByField)) {
                         webmapOpLayerArr[j].webmapId = this.webmapList[i][1].itemInfo.item.id;
-                        //add layer index to identify layer in opLayersArr
+                        // add layer index to identify layer in opLayersArr array
                         webmapOpLayerArr[j].layerIndex = index;
                         webmapOpLayerArr[j].webmapTitle = this.webmapList[i][1].itemInfo.item.title;
                         index++;
@@ -112,26 +116,27 @@ define([
                     }
                 }
             }
-            //display message if no layer has configured reported by field
+            // display message if no layer has configured reported by field
             if (!this.opLayersArr.length) {
                 domConstruct.create("div", {
                     "innerHTML": dojo.configData.i18n.myIssues.noResultsFound,
                     "class": "esriCTNoIssuesDiv"
                 }, this.listContainer);
                 domStyle.set(this.listLoadingIndicator, "display", "none");
-            }
-            all(layerResponseDef).then(lang.hitch(this, function (featureSet) {
-                var layerIssuesResponseDef = [];
-                for (i = 0; i < featureSet.length; i++) {
-                    if (featureSet[i]) {
-                        this.opLayersArr[i].layerObject.graphics = featureSet[i];
-                        layerIssuesResponseDef.push(this._fetchIssueListData(this.opLayersArr[i]));
+            } else {
+                all(layerResponseDef).then(lang.hitch(this, function (featureSet) {
+                    var layerIssuesResponseDef = [];
+                    for (i = 0; i < featureSet.length; i++) {
+                        if (featureSet[i]) {
+                            this.opLayersArr[i].layerObject.graphics = featureSet[i];
+                            layerIssuesResponseDef.push(this._fetchIssueListData(this.opLayersArr[i]));
+                        }
                     }
-                }
-                all(layerIssuesResponseDef).then(lang.hitch(this, function (results) {
-                    this._fetchIssueDetailsFromLayers(results);
+                    all(layerIssuesResponseDef).then(lang.hitch(this, function (results) {
+                        this._fetchIssueDetailsFromLayers(results);
+                    }));
                 }));
-            }));
+            }
             // on window resize update the height of issue list based on screen size and headers and footers.
             // As in case of long header title, header height need to be adjusted.
             on(window, "resize", lang.hitch(this, function () {
@@ -140,7 +145,7 @@ define([
         },
 
         /**
-        * update my issue list when new issue is added
+        * Update my issue list when new issue is added
         * @param{object} data contains layer info, on which new issue has reported
         * @param{object} updatedIssue contains details of feature, which has been updated.
         * @memberOf widgets/my-issues/my-issues
@@ -149,18 +154,18 @@ define([
             var layerIndex = this._getSelectedLayer(data.webMapId, data.operationalLayerId, data.operationalLayerDetails.title);
             if (layerIndex || layerIndex === 0) {
                 if (updatedIssue) {
-                    //check if updated issue is reported by logged in user
+                    // check if updated issue is reported by logged in user
                     if (updatedIssue.attributes[dojo.configData.reportedByField] !== dojo.configData.logInDetails.processedUserName) {
                         return;
                     }
                 }
-                //query on layer to get updated feature array, if layer has configured reported by field
-                if (this._isFieldAvailable(this.opLayersArr[layerIndex].layerObject, dojo.configData.reportedByField)) {
+                // query on layer to get updated feature array, if layer has configured reported by field
+                if (this.issueDetailsHelper.isFieldAvailable(this.opLayersArr[layerIndex].layerObject, dojo.configData.reportedByField)) {
                     domStyle.set(this.listLoadingIndicator, "display", "block");
                     domConstruct.empty(this.listContainer);
                     this._queryOnLayer(this.opLayersArr[layerIndex]).then(lang.hitch(this, function (result) {
                         if (result) {
-                            //update graphics array
+                            // update graphics array
                             this.opLayersArr[layerIndex].layerObject.graphics = result;
                         }
                         this._fetchIssueDetailsFromLayers(this.opLayersArr);
@@ -170,24 +175,7 @@ define([
         },
 
         /**
-        * check if configured field is available in layer
-        * @param{object} layerObject is operational layer object
-        * @param{object} fieldName is field name
-        * @memberOf widgets/my-issues/my-issues
-        */
-        _isFieldAvailable: function (layerObject, fieldName) {
-            var i, isFieldAvl = false;
-            for (i = 0; i < layerObject.fields.length; i++) {
-                if (layerObject.fields[i].name === fieldName) {
-                    isFieldAvl = true;
-                    break;
-                }
-            }
-            return isFieldAvl;
-        },
-
-        /**
-        * query on layer to get updated issue list
+        * Query layer to get updated issue list
         * @param{object} layerObject is operational layer object
         * @memberOf widgets/my-issues/my-issues
         */
@@ -195,14 +183,16 @@ define([
             var queryTask, deferred, parameters, queryString, dateobj = new Date().getTime().toString();
             deferred = new Deferred();
             parameters = new Query();
-            //query with configured reported by field to get list of issues reported by logged in user
+            // query with configured reported by field to get list of issues reported by logged in user
             queryString = dojo.configData.reportedByField + "='" + dojo.configData.logInDetails.processedUserName + "' AND " + dateobj + "=" + dateobj;
+            // add layer definition in query parameters if it is available in layer object
             if (opLayer.layerObject.defaultDefinitionExpression) {
                 queryString += " AND " + opLayer.layerObject.defaultDefinitionExpression;
             }
             parameters.where = queryString;
             parameters.outFields = ["*"];
             queryTask = new QueryTask(opLayer.url);
+            // query on layer to get all issue reported by logged in user
             queryTask.execute(parameters, function (response) {
                 deferred.resolve(response.features);
             }, function (err) {
@@ -212,7 +202,7 @@ define([
         },
 
         /**
-        * get instance of layer
+        * Get instance of layer
         * @param{object} webmapId is the id of selected webmap for reported issue
         * @param{object} layerId is the id of layer on which issue has reported
         * @param{object} layerTitle is the title of layer on which issue has reported
@@ -230,7 +220,7 @@ define([
         },
 
         /**
-        * fetch issue details from all layers
+        * Fetch issue details from all layers
         * @param{object} layerObject is operational layer object
         * @memberOf widgets/my-issues/my-issues
         */
@@ -250,8 +240,8 @@ define([
         * @memberOf widgets/my-issues/my-issues
         */
         _fetchIssueListData: function (operationalLayer) {
-            var operationalLayerObj = operationalLayer.layerObject, k, relatedTable, layerId,
-                lastIndex, relatedTableURL, layer, commentIconFlag = false, deferred = new Deferred();
+            var operationalLayerObj = operationalLayer.layerObject, relatedTable, layerId,
+                lastIndex, relatedTableURL, layer, deferred = new Deferred();
             // if comment field is present in config file and the layer contains related table, fetch the first related table URL
             if (dojo.configData.commentField && operationalLayerObj.relationships.length > 0) {
                 layerId = operationalLayerObj.relationships[0].relatedTableId;
@@ -259,23 +249,39 @@ define([
                 layer = operationalLayerObj.url.substr(0, lastIndex + 1);
                 relatedTableURL = layer + layerId;
                 relatedTable = new FeatureLayer(relatedTableURL);
-                on(relatedTable, "load", lang.hitch(this, function (evt) {
-                    // if the related table contains comment field set commentIconFlag to true
-                    for (k = 0; k < relatedTable.fields.length; k++) {
-                        if (relatedTable.fields[k].name === dojo.configData.commentField) {
-                            commentIconFlag = true;
-                            break;
-                        }
-                    }
-                    operationalLayer.commentFlag = commentIconFlag;
-                    operationalLayer.relatedTable = relatedTable;
-                    deferred.resolve(operationalLayer);
-                }));
+                if (!relatedTable.loaded) {
+                    on(relatedTable, "load", lang.hitch(this, function (evt) {
+                        this._relatedTableLoaded(relatedTable, operationalLayer, deferred);
+                    }));
+                } else {
+                    this._relatedTableLoaded(relatedTable, operationalLayer, deferred);
+                }
             } else {
-                operationalLayer.commentFlag = commentIconFlag;
+                operationalLayer.commentFlag = false;
                 deferred.resolve(operationalLayer);
             }
             return deferred;
+        },
+
+        /**
+        * Check if field for comments is present in the related table
+        * @param{object} relatedTable details
+        * @param{object} operationalLayer details
+        * @param{object} deferred
+        * @memberOf widgets/my-issues/my-issues
+        */
+        _relatedTableLoaded: function (relatedTable, operationalLayer, deferred) {
+            var commentIconFlag = false, k;
+            // if the related table contains comment field set commentIconFlag to true
+            for (k = 0; k < relatedTable.fields.length; k++) {
+                if (relatedTable.fields[k].name === dojo.configData.commentField) {
+                    commentIconFlag = true;
+                    break;
+                }
+            }
+            operationalLayer.commentFlag = commentIconFlag;
+            operationalLayer.relatedTable = relatedTable;
+            deferred.resolve(operationalLayer);
         },
 
         /**
@@ -286,14 +292,15 @@ define([
         _fetchIssueDetails: function (operationalLayer) {
             var i, featureArray = [], operationalLayerObj = operationalLayer.layerObject, likeFlag = false,
                 attributes, flagObject = {};
-            this.operationalLayerDetails = operationalLayer;
+            // push layer features in featureArray
             for (i = operationalLayerObj.graphics.length - 1; i >= 0; i--) {
                 attributes = operationalLayerObj.graphics[i].attributes;
                 featureArray.push({
                     "attributes": attributes
                 });
             }
-            if (dojo.configData.likeField && this._isFieldAvailable(operationalLayerObj, dojo.configData.likeField)) {
+            // check if configured like/vote field is available in layer
+            if (dojo.configData.likeField && this.issueDetailsHelper.isFieldAvailable(operationalLayerObj, dojo.configData.likeField)) {
                 likeFlag = true;
             }
             flagObject.like = likeFlag;
@@ -305,7 +312,6 @@ define([
         * Display list of issues in right panel
         * @param{array} featureSet
         * @param{object} operationalLayer details
-        * @param{object} objectId Field
         * @param{object} flagObject for like icon,comments icon, extent change
         * @memberOf widgets/my-issues/my-issues
         */
@@ -325,7 +331,7 @@ define([
                     this._createIssueTemplate(featureSet[i], statusParamObj, operationalLayer);
                 }
             } else if (this.isNoFeatureFound && operationalLayer.layerIndex === this.opLayersArr.length - 1) {
-                //display message in my issues panel if no layer has any issue reported by logged in user
+                // display message in my issues panel if no layer has any issue reported by logged in user
                 domConstruct.create("div", {
                     "innerHTML": dojo.configData.i18n.myIssues.noResultsFound,
                     "class": "esriCTNoIssuesDiv"
@@ -384,17 +390,17 @@ define([
             this.issueDetailsHelper.showHideCommentIcon(commentParams, issueDetailsParam);
             this._locateIssueOnMap(feature.attributes, statusParamObj.objField, parentDiv, operationalLayer);
             // show issue details on down arrow click
-            this._handleDownArrowClick(parentDiv, statusParamObj);
+            this._handleIssueHeaderClick(parentDiv, statusParamObj);
         },
 
 
         /**
-        * click event for Display selected issue details of right panel
+        * Event to display selected issue details in right panel when issue header is clicked
         * @param{object} statusParamObj
         * @param{object} parentDiv
         * @memberOf widgets/my-issues/my-issues
         */
-        _handleDownArrowClick: function (parentDiv, statusParamObj) {
+        _handleIssueHeaderClick: function (parentDiv, statusParamObj) {
             var issueDetailsHeader, getIssueObj, getIssueLayerObj;
             // click event for opening the issue detailed view
             issueDetailsHeader = query('.esriCTIssueListHeader', parentDiv)[0];
@@ -413,7 +419,7 @@ define([
         },
 
         /**
-        * Get feature from layer and Display selected issue details of right panel
+        * Get feature from layer and display selected issue details in right panel
         * @param{object} statusParamObj
         * @param{string} parentDiv, getIssueObj
         * @memberOf widgets/my-issues/my-issues
@@ -427,7 +433,7 @@ define([
             queryTask = new QueryTask(statusParamObj.layerField.url);
             queryTask.execute(featureLayerQuery, lang.hitch(this, function (response) {
                 var keyfield;
-                // loop for Assigning null ('') for null valued features attributes
+                // loop through the attributes and assign configured value to attributes with null values
                 for (keyfield in response.features[0].attributes) {
                     // Check if features attributes value is null
                     if (response.features[0].attributes.hasOwnProperty(keyfield)) {
@@ -444,7 +450,7 @@ define([
         },
 
         /**
-        * Display selected issue details of right panel
+        * Display selected issue details in right panel
         * @param{array} featureSet
         * @param{object} statusParamObj
         * @param{string} titleName,parentDiv
@@ -465,7 +471,7 @@ define([
                 parentDiv = domConstruct.toDom(issueDetailsTemplateString).childNodes[0];
             }
             this.listDetailedContainer.appendChild(parentDiv);
-            // Click event for closing the issue detail
+            // Click event for closing the issue details panel
             issueDetailsHeader = query('.esriCTIssueDetailsHeader', parentDiv)[0];
             // binding event if only the queried node found
             if (issueDetailsHeader) {
@@ -478,7 +484,6 @@ define([
             domAttr.set(query('.esriCTCommentsIcon', parentDiv)[0], "title", dojo.configData.i18n.issueDetailsHelper.commentTooltip);
             domAttr.set(query('.esriCTMapIcon', parentDiv)[0], "title", dojo.configData.i18n.issueDetailsHelper.viewOnMapTooltip);
 
-            // issueDetails values start
             detailsData = query('.esriCTDetailsData', parentDiv)[0];
             if (this.operationalLayerDetails.popupInfo && this.operationalLayerDetails.popupInfo.description) {
                 descriptionValue = this.issueDetailsHelper.getDescription(featureSet, this.operationalLayerDetails);
@@ -501,7 +506,7 @@ define([
                     "class": "esriCTNoIssuesDiv"
                 }, detailsData);
             }
-            //Create Attachments if layer has attachments and showAttachments is set to true in pop-up configuration.
+            // Show Attachments if layer has attachments and showAttachments is set to true in pop-up configuration.
             if (statusParamObj.layerField.hasAttachments && this.operationalLayerDetails.popupInfo.showAttachments) {
                 // Get object id for the feature
                 objectID = featureSet[statusParamObj.objField];
@@ -527,7 +532,7 @@ define([
         },
 
         /**
-        * Update votes for issue when user clicks on the like button
+        * Update votes field for issue when user clicks on the like button
         * @param{object} statusParamObj
         * @param{array} featureSet
         * @param{string} parentDiv
@@ -540,7 +545,6 @@ define([
                 // on click of like icon
                 on(likeIcon, "click", lang.hitch(this, function (evt) {
                     var featureLayerQuery = new Query();
-                    //   featureLayerQuery.outSpatialReference = this.map.spatialReference;
                     featureLayerQuery.objectIds = [parseInt(featureSet[statusParamObj.objField], 10)];
                     featureLayerQuery.returnGeometry = true;
                     featureLayerQuery.outFields = ["*"];
@@ -571,6 +575,13 @@ define([
             }
         },
 
+        /**
+        * Update like count in issue list
+        * @param{int} opLayerId is layer id
+        * @param{int} featureObjId is feature id
+        * @param{int} likeCount is current value of like field of feature
+        * @memberOf widgets/my-issues/my-issues
+        */
         _updateVotesInIssueList: function (opLayerId, featureObjId, likeCount) {
             var likeIconDiv, getObjVal, getlayerId, i, opLayerIndex;
             if (this.listContainer.children.length) {
@@ -582,7 +593,6 @@ define([
                         if (getObjVal) {
                             getObjVal = parseInt(getObjVal, 10);
                             getlayerId = domAttr.get(likeIconDiv, "layerId");
-
                             if ((featureObjId === getObjVal) && (getlayerId === opLayerId)) {
                                 opLayerIndex = domAttr.get(likeIconDiv, "layerIndex");
                                 opLayerIndex = parseInt(opLayerIndex, 10);
@@ -596,7 +606,7 @@ define([
         },
 
         /**
-        * update graphics array in operational layer object
+        * Update graphics array in operational layer object
         * @param{int} opLayerIndex is index of layer in opLayerArr
         * @memberOf widgets/my-issues/my-issues
         */
@@ -668,7 +678,7 @@ define([
         },
 
         /**
-        * This function is used to highlight feature.
+        * Highlight feature on map
         * @param{object} map
         * @param{object} layer
         * @param{object} objectId
@@ -687,9 +697,14 @@ define([
             return param;
         },
 
+        /**
+        * Issue is updated
+        * @memberOf widgets/my-issues/my-issues
+        */
         onIssueUpdated: function (updatedLayer) {
             return updatedLayer;
         },
+
         /**
         * Destroy instance
         * @memberOf widgets/my-issues/my-issues

@@ -82,7 +82,7 @@ define({
     "reportedByField": "",
 
     "zoomLevel": 12,
-    "enableUSNGSearch": false
+    "enableUSNGSearch": false,
     "enableMGRSSearch": false,
     "enableLatLongSearch": false
 });

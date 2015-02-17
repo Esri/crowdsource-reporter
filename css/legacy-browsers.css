@@ -78,10 +78,9 @@
 
 /* Issue Wall */
 
-.esriCTDetailsData
+.esriCTlistDetailedContainer
 {
-    min-height: 500px;
-    max-height: 500px;
+    height:92%;
 }
 
 /* Issue Wall */

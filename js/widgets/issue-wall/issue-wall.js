@@ -80,36 +80,45 @@ define([
 
         /**
         * Method will get related table info and check if any relationship exist for comments.
-        * If Comments relationship exist as per the configured field then it will get the related table info for further use.
-        * Now only  considering for first related table only although the layer has many related table
+        * If Comments relationship exist as per the configured field then it will get the related table info for further use
+        * Considering only the first related table although the layer has many related table
         * @memberOf widgets/issue-wall/issue-wall
         */
         _getRelatedTableInfo: function () {
-            var k, relatedTableURL, operationalLayer;
+            var relatedTableURL, operationalLayer;
             operationalLayer = this.map.getLayer(this.operationalLayerId);
             // if comment field is present in config file and the layer contains related table, fetch the first related table URL
             if (dojo.configData.commentField && operationalLayer.relationships.length > 0) {
-                //Construct the related table URL form operational layer URL and the related table id
-                //We are considering for only first related table only although the layer has many related table.
-                //that's why accessing relatedTableId is hard-coded for relationships[0] ie:"operationalLayer.relationships[0].relatedTableId"
+                // Construct the related table URL form operational layer URL and the related table id
+                // We are considering only first related table although the layer has many related table.
+                // Hence, we are fetching relatedTableId from relationships[0] ie:"operationalLayer.relationships[0].relatedTableId"
                 relatedTableURL = operationalLayer.url.substr(0, operationalLayer.url.lastIndexOf('/') + 1) + operationalLayer.relationships[0].relatedTableId;
                 this._commentsTable = new FeatureLayer(relatedTableURL);
-                on(this._commentsTable, "load", lang.hitch(this, function (evt) {
-                    // if the related table contains comment field set commentIconFlag to true
-                    for (k = 0; k < this._commentsTable.fields.length; k++) {
-                        if (this._commentsTable.fields[k].name === dojo.configData.commentField) {
-                            this._hasCommentsTable = true;
-                            break;
-                        }
-                    }
-                    if (!this._hasCommentsTable) {
-                        this._commentsTable = null;
-                    }
-                    this._createIssueList();
-                }));
+                if (!this._commentsTable.loaded) {
+                    on(this._commentsTable, "load", lang.hitch(this, function (evt) {
+                        this._commentsTableLoaded();
+                    }));
+                } else {
+                    this._commentsTableLoaded();
+                }
             } else {
                 this._createIssueList();
             }
+        },
+
+        _commentsTableLoaded: function () {
+            var k;
+            // if the related table contains comment field set commentIconFlag to true
+            for (k = 0; k < this._commentsTable.fields.length; k++) {
+                if (this._commentsTable.fields[k].name === dojo.configData.commentField) {
+                    this._hasCommentsTable = true;
+                    break;
+                }
+            }
+            if (!this._hasCommentsTable) {
+                this._commentsTable = null;
+            }
+            this._createIssueList();
         },
 
         /**
@@ -128,7 +137,7 @@ define([
                 extentChangeFlag = true;
                 this._loadFeatureLayer(operationalLayer, extentChangeFlag);
             }));
-            //on window resize update the height of issue details based on screen size and headers and footers.
+            // On window resize update the height of issue details based on screen size and headers and footers.
             // As in case of long header title, header height need to be adjusted.
             on(window, "resize", lang.hitch(this, function () {
                 this.issueDetailsHelper.resizeIssuesContainer(this.listDetailedContainer);
@@ -143,40 +152,52 @@ define([
         _loadFeatureLayer: function (operationalLayer, extentChangeFlag) {
             domStyle.set(this.listLoadingIndicator, "display", "block");
             this.featureLayer = new FeatureLayer(operationalLayer.url);
-            on(this.featureLayer, "load", lang.hitch(this, function (evt) {
-                setTimeout(lang.hitch(this, function () {
-                    //If the layer is not visible at map scale the features might be loaded at previous scale,
-                    //so check if layer is visible at map scale then only update issue wall or else show no issues found message.
-                    if (operationalLayer.visibleAtMapScale) {
-                        this._fetchIssueDetails(operationalLayer, extentChangeFlag);
-                    } else {
-                        domConstruct.empty(this.listContainer);
-                        domConstruct.create("div", {
-                            "innerHTML": dojo.configData.i18n.issueWall.noResultsFound,
-                            "class": "esriCTNoIssuesDiv"
-                        }, this.listContainer);
-                        domStyle.set(this.listLoadingIndicator, "display", "none");
-                        if (!extentChangeFlag) {
-                            domConstruct.empty(this.listDetailedContainer);
-                            domClass.add(this.listDetailedContainer, "esriCTHidden");
-                            domClass.remove(this.listContainer, "esriCTHidden");
-                        }
-                    }
-                    domAttr.set(this.listContainerTitle, "innerHTML", this.operationalLayerDetails.title);
-                }), 1000);
-            }));
+            if (!this.featureLayer.loaded) {
+                on(this.featureLayer, "load", lang.hitch(this, function (evt) {
+                    setTimeout(lang.hitch(this, function () {
+                        this._featureLayerLoaded(operationalLayer, extentChangeFlag);
+                    }), 1000);
+                }));
+            } else {
+                this._featureLayerLoaded(operationalLayer, extentChangeFlag);
+            }
+        },
+
+        /**
+        * Fetch issue details from the feature layer after the layer is loaded
+        * @param{object} operationalLayer
+        * @param{boolean} extentChangeFlag
+        * @memberOf widgets/issue-wall/issue-wall
+        */
+        _featureLayerLoaded: function (operationalLayer, extentChangeFlag) {
+            //If the layer is not visible at map scale the features might be loaded at previous scale,
+            //so check if layer is visible at map scale then only update issue wall or else show no issues found message.
+            if (operationalLayer.visibleAtMapScale) {
+                this._fetchIssueDetails(operationalLayer, extentChangeFlag);
+            } else {
+                domConstruct.empty(this.listContainer);
+                domConstruct.create("div", {
+                    "innerHTML": dojo.configData.i18n.issueWall.noResultsFound,
+                    "class": "esriCTNoIssuesDiv"
+                }, this.listContainer);
+                domStyle.set(this.listLoadingIndicator, "display", "none");
+                if (!extentChangeFlag) {
+                    domConstruct.empty(this.listDetailedContainer);
+                    domClass.add(this.listDetailedContainer, "esriCTHidden");
+                    domClass.remove(this.listContainer, "esriCTHidden");
+                }
+            }
+            domAttr.set(this.listContainerTitle, "innerHTML", this.operationalLayerDetails.title);
         },
 
         /**
         * Fetch feature layer graphics and info popup header fields to be displayed in the list
         * @param{object} operationalLayer details
-        * @param{object} URL for the comments related table
-        * @param{object} key field for the relationship
-        * @param{object} flag to determine if comment icon should be displayed or hidden
+        * @param{object} extentChangeFlag - indicates if map extent has been changed
         * @memberOf widgets/issue-wall/issue-wall
         */
         _fetchIssueDetails: function (operationalLayer, extentChangeFlag) {
-            var i, j, x, featureArray = [], likeFlag = false, fields, fieldValue, attributes, objectIdFieldValue, flagObject = {};
+            var j, x, featureArray = [], likeFlag = false, fields, fieldValue, attributes, objectIdFieldValue, flagObject = {};
             for (j = 0; j < operationalLayer.graphics.length; j++) {
                 // fetch only the features present in current map extent
                 if (this.map.extent.intersects(operationalLayer.graphics[j].geometry)) {
@@ -189,16 +210,6 @@ define([
                     }
                     attributes = operationalLayer.graphics[j].attributes;
                     for (x = 0; x < operationalLayer.fields.length; x++) {
-                        if (operationalLayer.fields[x].type === "esriFieldTypeDate") {
-                            // format editor date field according to the format received from  info popup
-                            if (Number(attributes[operationalLayer.fields[x].name])) {
-                                for (i = 0; i < this.operationalLayerDetails.popupInfo.fieldInfos.length; i++) {
-                                    if (this.operationalLayerDetails.popupInfo.fieldInfos[i].fieldName === operationalLayer.fields[x].name) {
-                                        attributes[operationalLayer.fields[x].name] = this.issueDetailsHelper.setDateFormat(this.operationalLayerDetails.popupInfo.fieldInfos[i], attributes[operationalLayer.fields[x].name]);
-                                    }
-                                }
-                            }
-                        }
                         // get object id field from the layer
                         objectIdFieldValue = operationalLayer.graphics[j].attributes[operationalLayer.objectIdField];
                         // if like field is present in the config file and the layer contains like field, set the flag to true
@@ -207,7 +218,7 @@ define([
                         }
                     }
 
-                    // if edit date field is not available in the layer, perform sorting based on object id
+                    // perform sorting based on object id field
                     if (objectIdFieldValue) {
                         fieldValue = objectIdFieldValue;
                     }
@@ -229,8 +240,8 @@ define([
         * Display list of issues in right panel
         * @param{array} featureSet
         * @param{object} operationalLayer details
-        * @param{object} objectId Field
         * @param{object} flagObject for like icon,comments icon, extent change
+        * @param{object} relatedTable - related table data
         * @memberOf widgets/issue-wall/issue-wall
         */
         _displayIssueList: function (featureSet, operationalLayer, flagObject, relatedTable) {
@@ -253,7 +264,7 @@ define([
                 // loop through the features to get feature details
                 for (i = 0; i < featureSet.length; i++) {
                     // get header title of each issue details
-                    issueTitleName = this.issueDetailsHelper.getIssueDetailsTitle(featureSet[i].attributes, this.operationalLayerDetails, false);
+                    issueTitleName = this.issueDetailsHelper.getIssueDetailsTitle(featureSet[i].attributes, this.operationalLayerDetails, true);
                     issueListTemplateString = string.substitute(issueItemTemplate, {
                         IssueTitle: issueTitleName
                     });
@@ -265,13 +276,13 @@ define([
                         parentDiv = domConstruct.toDom(issueListTemplateString).childNodes[0];
                     }
                     setIssueObj = query('.esriCTIssueListHeader', parentDiv)[0];
-                    // if down arrow found for issue detail
+                    // bind object id field to the issue header
                     if (setIssueObj) {
                         domAttr.set(setIssueObj, "objId", featureSet[i].attributes[statusParamObj.objField]);
                     }
                     this.listContainer.appendChild(parentDiv);
                     this._showHideLikeIcon(statusParamObj, featureSet[i].attributes, parentDiv);
-
+                    // add tooltips to like, comment and view on map icon
                     domAttr.set(query('.esriCTLikeIcon', parentDiv)[0], "title", dojo.configData.i18n.issueDetailsHelper.likeTooltip);
                     domAttr.set(query('.esriCTCommentsIcon', parentDiv)[0], "title", dojo.configData.i18n.issueDetailsHelper.commentTooltip);
                     domAttr.set(query('.esriCTMapIcon', parentDiv)[0], "title", dojo.configData.i18n.issueDetailsHelper.viewOnMapTooltip);
@@ -294,7 +305,7 @@ define([
                     this.issueDetailsHelper.showHideCommentIcon(commentParams, issueDetailsParam);
                     this._locateIssueOnMap(featureSet[i].attributes, parentDiv, operationalLayer);
                     // show issue details on down arrow click
-                    this._handleDownArrowClick(parentDiv, statusParamObj);
+                    this._handleIssueHeaderClick(parentDiv, statusParamObj);
                 }
                 // show issue details on click of feature on map
                 this._attachFeatureClickEvent(parentDiv, statusParamObj);
@@ -309,12 +320,12 @@ define([
         },
 
         /**
-        * click event for Display selected issue details of right panel
-        * @param{object} statusParamObj
+        * Click event to display selected issue details in the right panel
         * @param{object} parentDiv
+        * @param{object} statusParamObj
         * @memberOf widgets/issue-wall/issue-wall
         */
-        _handleDownArrowClick: function (parentDiv, statusParamObj) {
+        _handleIssueHeaderClick: function (parentDiv, statusParamObj) {
             var issueItemHeader, getIssueObj;
             // click event for opening the issue detailed view
             issueItemHeader = query('.esriCTIssueListHeader', parentDiv)[0];
@@ -332,8 +343,9 @@ define([
 
         /**
         * Get feature from layer and Display selected issue details of right panel
+        * @param{string} parentDiv
+        * @param{string} getIssueObj
         * @param{object} statusParamObj
-        * @param{string} parentDiv, getIssueObj
         * @memberOf widgets/issue-wall/issue-wall
         */
         _getIssueFeatureSet: function (parentDiv, getIssueObj, statusParamObj) {
@@ -343,9 +355,9 @@ define([
             featureLayerQuery.objectIds = [getIssueObj];
             statusParamObj.layerField.queryFeatures(featureLayerQuery, lang.hitch(this, function (attr) {
                 var keyfield;
-                // loop for Assigning null ('') for null valued features attributes
+                // loop through the attributes and assign configured null value to attributes with null values
                 for (keyfield in attr.features[0].attributes) {
-                    // Check if features attributes value is null
+                    // Check if feature attributes value is null
                     if (attr.features[0].attributes.hasOwnProperty(keyfield)) {
                         if (attr.features[0].attributes[keyfield] === null || attr.features[0].attributes[keyfield] === "") {
                             attr.features[0].attributes[keyfield] = dojo.configData.showNullValueAs;
@@ -353,7 +365,7 @@ define([
                     }
                 }
                 this.issueDetailsHelper.highLightFeatureOnClick(statusParamObj.layerField, getIssueObj, this.selectedGraphicsLayer, this.map);
-                issueTitleName = this.issueDetailsHelper.getIssueDetailsTitle(attr.features[0].attributes, this.operationalLayerDetails, false);
+                issueTitleName = this.issueDetailsHelper.getIssueDetailsTitle(attr.features[0].attributes, this.operationalLayerDetails, true);
                 this._showIssueDetails(parentDiv, attr.features[0].attributes, statusParamObj, issueTitleName, this._commentsTable);
             }), function (err) {
                 dojo.applicationUtils.showError(err.message);
@@ -361,10 +373,10 @@ define([
         },
 
         /**
-        * Display selected issue details of right panel
+        * Display selected issue details in right panel
         * @param{array} featureSet
         * @param{object} statusParamObj
-        * @param{string} titleName,parentDiv
+        * @param{string} issueTitleName,parentDiv
         * @memberOf widgets/issue-wall/issue-wall
         */
         _showIssueDetails: function (parentDiv, featureSet, statusParamObj, issueTitleName, relatedTable) {
@@ -390,8 +402,6 @@ define([
                     this.issueDetailsHelper.hideIssueDetailsPanel(this.listDetailedContainer, this.listContainer);
                 }));
             }
-
-            // issueDetails values start
             detailsData = query('.esriCTDetailsData', parentDiv)[0];
             if (this.operationalLayerDetails.popupInfo && this.operationalLayerDetails.popupInfo.description) {
                 descriptionValue = this.issueDetailsHelper.getDescription(featureSet, this.operationalLayerDetails);
@@ -405,7 +415,7 @@ define([
                     "detailsData": detailsData,
                     "featureSet": featureSet,
                     "operationalLayer": this.operationalLayerDetails,
-                    "isSetDateFormat": false
+                    "isSetDateFormat": true
                 };
                 this.issueDetailsHelper.displayPopupFields(displayPopupParam);
             } else {
@@ -455,7 +465,7 @@ define([
         _attachFeatureClickEvent: function (parentDiv, statusParamObj) {
             var featureObjId, issueDetailsPanel;
             if (statusParamObj.layerField) {
-                //Remove the layer click handler if all-ready exist.
+                // Remove the layer click handler if it already exists
                 if (this._layerClickHandler) {
                     this._layerClickHandler.remove();
                 }
@@ -467,7 +477,7 @@ define([
                         domConstruct.destroy(issueDetailsPanel);
                     }
                     this.featureSelectedOnMapClick();
-                    // if the layer has object id and query success for feature
+                    // If object id of the issue is retrieved successfully
                     if (featureObjId) {
                         this._getIssueFeatureSet(parentDiv, featureObjId, statusParamObj);
                     }
@@ -492,9 +502,9 @@ define([
         _issueVotesClick: function (statusParamObj, featureSet, parentDiv) {
             var likeIcon, likeCount, count, graphic, attr = {}, getObjVal, i, likeIconDiv;
             likeIcon = query('.esriCTLikeIcon', parentDiv)[0];
-            // Like is enabled on popup or not
+            // If like icon is available or not
             if (likeIcon) {
-                // on click of like icon
+                // Attach click event on like icon
                 on(likeIcon, "click", lang.hitch(this, function (evt) {
                     var featureLayerQuery = new Query();
                     featureLayerQuery.outSpatialReference = this.map.spatialReference;
@@ -544,10 +554,9 @@ define([
 
         /**
         * Show or hide like icon
-        * @param{object} likeFlag
+        * @param{object} statusParamObj
         * @param{array} attributes
-        * @param{object} object id field from the layer
-        * @param{object} parentDiv, container in which the icon would be inserted
+        * @param{object} parentDiv - container in which the icon would be inserted
         * @memberOf widgets/issue-wall/issue-wall
         */
         _showHideLikeIcon: function (statusParamObj, attributes, parentDiv) {
@@ -572,8 +581,7 @@ define([
         /**
         * Locate issue on map when user clicks on the 'map it' button
         * @param{array} attributes
-        * @param{object} object id field from the layer
-        * @param{object} parentDiv, container in which the icon would be inserted
+        * @param{object} parentDiv - container in which the icon is present
         * @param{object} operationalLayer
         * @memberOf widgets/issue-wall/issue-wall
         */

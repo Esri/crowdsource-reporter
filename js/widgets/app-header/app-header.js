@@ -45,7 +45,7 @@ define([
         },
 
         /**
-        * This function is called when widget is constructed.
+        * Widget is constructed.
         * @param{object} configData to be mixed
         * @memberOf widgets/app-header/app-header
         */
@@ -56,7 +56,7 @@ define([
         },
 
         /**
-        * This function is called when widget is initialized.
+        * Widget is initialized.
         * @memberOf widgets/app-header/app-header
         */
         postCreate: function () {
@@ -91,7 +91,7 @@ define([
             }
             applicationIcon = domAttr.get(this.applicationHeaderIcon, "src");
 
-            //On application icon/name click navigate to home screen in Desktop
+            // On application icon/name click navigate to home screen on mobile devices
             on(this.applicationHeaderIcon, "click", lang.hitch(this, this._navigateToHome));
             on(this.applicationHeaderName, "click", lang.hitch(this, this._navigateToHome));
 
@@ -120,7 +120,7 @@ define([
         },
 
         /**
-        * This function will navigate the view to home screen.
+        * Navigate the view to home screen.
         * @memberOf widgets/app-header/app-header
         */
         _navigateToHome: function () {
@@ -130,6 +130,10 @@ define([
             }
         },
 
+        /**
+        * Sign out of AGOL
+        * @memberOf widgets/app-header/app-header
+        */
         _signOutClicked: function () {
             // user is logged in via AGOL portal login
             if (this._config.portalObject) {
@@ -144,6 +148,7 @@ define([
                 location.reload();
             }
         },
+
         /**
         * Show or hide menu items based on configuration settings
         * @memberOf widgets/app-header/app-header
@@ -229,6 +234,7 @@ define([
         showIssueList: function (evt) {
             return evt;
         },
+
         /**
         * Show or hide mobile menu container
         * @memberOf widgets/app-header/app-header

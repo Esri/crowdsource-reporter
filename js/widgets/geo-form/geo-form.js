@@ -743,65 +743,65 @@ define([
             var inputDateGroupContainer;
             // Create field controls on basis of their type
             switch (currentField.type) {
-                case "esriFieldTypeString":
-                    if (currentField.stringFieldOption === "textbox") {
-                        this.inputContent = domConstruct.create("input", {
-                            type: "text",
-                            className: "form-control",
-                            "data-input-type": "String",
-                            "maxLength": currentField.length,
-                            "id": fieldname
-                        }, formContent);
-                    } else {
-                        this.inputContent = domConstruct.create("textarea", {
-                            className: "form-control",
-                            "data-input-type": "String",
-                            "rows": 4,
-                            "maxLength": currentField.length,
-                            "id": fieldname
-                        }, formContent);
-                    }
-                    break;
-                case "esriFieldTypeSmallInteger":
+            case "esriFieldTypeString":
+                if (currentField.stringFieldOption === "textbox") {
                     this.inputContent = domConstruct.create("input", {
                         type: "text",
                         className: "form-control",
-                        "data-input-type": "SmallInteger",
-                        "id": fieldname,
-                        "pattern": "[0-9]*"
-                    }, formContent);
-                    break;
-                case "esriFieldTypeInteger":
-                    this.inputContent = domConstruct.create("input", {
-                        type: "text",
-                        className: "form-control",
-                        "data-input-type": "Integer",
-                        "id": fieldname,
-                        "pattern": "[0-9]*"
-                    }, formContent);
-                    break;
-                case "esriFieldTypeSingle":
-                    this.inputContent = domConstruct.create("input", {
-                        type: "text",
-                        className: "form-control",
-                        "data-input-type": "Single",
+                        "data-input-type": "String",
+                        "maxLength": currentField.length,
                         "id": fieldname
                     }, formContent);
-                    break;
-                case "esriFieldTypeDouble":
-                    this.inputContent = domConstruct.create("input", {
-                        type: "text",
+                } else {
+                    this.inputContent = domConstruct.create("textarea", {
                         className: "form-control",
-                        "data-input-type": "Double",
-                        "id": fieldname,
-                        step: ".1"
+                        "data-input-type": "String",
+                        "rows": 4,
+                        "maxLength": currentField.length,
+                        "id": fieldname
                     }, formContent);
-                    break;
-                case "esriFieldTypeDate":
-                    // add notation icon for calendar
-                    inputDateGroupContainer = this._addNotationIcon(formContent, "glyphicon-calendar");
-                    this.inputContent = this._createDateField(inputDateGroupContainer, false, fieldname, currentField);
-                    break;
+                }
+                break;
+            case "esriFieldTypeSmallInteger":
+                this.inputContent = domConstruct.create("input", {
+                    type: "text",
+                    className: "form-control",
+                    "data-input-type": "SmallInteger",
+                    "id": fieldname,
+                    "pattern": "[0-9]*"
+                }, formContent);
+                break;
+            case "esriFieldTypeInteger":
+                this.inputContent = domConstruct.create("input", {
+                    type: "text",
+                    className: "form-control",
+                    "data-input-type": "Integer",
+                    "id": fieldname,
+                    "pattern": "[0-9]*"
+                }, formContent);
+                break;
+            case "esriFieldTypeSingle":
+                this.inputContent = domConstruct.create("input", {
+                    type: "text",
+                    className: "form-control",
+                    "data-input-type": "Single",
+                    "id": fieldname
+                }, formContent);
+                break;
+            case "esriFieldTypeDouble":
+                this.inputContent = domConstruct.create("input", {
+                    type: "text",
+                    className: "form-control",
+                    "data-input-type": "Double",
+                    "id": fieldname,
+                    step: ".1"
+                }, formContent);
+                break;
+            case "esriFieldTypeDate":
+                // add notation icon for calendar
+                inputDateGroupContainer = this._addNotationIcon(formContent, "glyphicon-calendar");
+                this.inputContent = this._createDateField(inputDateGroupContainer, false, fieldname, currentField);
+                break;
             }
             // add default values to the fields
             this._addInputElementsValue(currentField, formContent, inputDateGroupContainer);
@@ -1028,22 +1028,22 @@ define([
                     if (i === field.name) {
                         switchDomainType = selectedType.domains[i].type || "codedValue";
                         switch (switchDomainType) {
-                            case "inherited":
-                                break;
-                            case "codedValue":
-                                if (!field.domain) {
-                                    field.domain = {};
-                                }
-                                field.domain.codedValues = selectedType.domains[i].codedValues;
-                                break;
-                            case "range":
-                                // Condition to change the range domain values of field already having domain.
-                                if (!field.domain) {
-                                    field.domain = {};
-                                }
-                                field.domain.minValue = selectedType.domains[i].minValue;
-                                field.domain.maxValue = selectedType.domains[i].maxValue;
-                                break;
+                        case "inherited":
+                            break;
+                        case "codedValue":
+                            if (!field.domain) {
+                                field.domain = {};
+                            }
+                            field.domain.codedValues = selectedType.domains[i].codedValues;
+                            break;
+                        case "range":
+                            // Condition to change the range domain values of field already having domain.
+                            if (!field.domain) {
+                                field.domain = {};
+                            }
+                            field.domain.minValue = selectedType.domains[i].minValue;
+                            field.domain.maxValue = selectedType.domains[i].maxValue;
+                            break;
                         }
                     }
                 }
@@ -1087,73 +1087,73 @@ define([
             }
             // Set validation on the field by their types
             switch (inputType) {
-                case "String":
-                    if (inputValue.length !== 0) {
-                        this._validateUserInput(false, node, inputValue, iskeyPress);
-                    } else {
-                        error = string.substitute(dojo.configData.i18n.geoform.invalidInputValue, {
-                            openStrong: "<strong>",
-                            closeStrong: "</strong>"
-                        });
-                        this._validateUserInput(error, node, inputValue, iskeyPress);
-                    }
-                    break;
-                case "SmallInteger":
-                    typeCastedInputValue = parseInt(inputValue, 10);
-                    if ((inputValue.match(decimal) && typeCastedInputValue >= -32768 && typeCastedInputValue <= 32767) && inputValue.length !== 0) {
-                        this._validateUserInput(false, node, inputValue);
-                        this._setFormatToValue(currentField, typeCastedInputValue, currentNode.target);
-                    } else {
-                        error = string.substitute(dojo.configData.i18n.geoform.invalidSmallNumber, {
-                            openStrong: "<strong>",
-                            closeStrong: "</strong>"
-                        });
-                        this._validateUserInput(error, node, inputValue, iskeyPress);
-                    }
-                    break;
-                case "Integer":
-                    typeCastedInputValue = parseInt(inputValue, 10);
-                    if ((inputValue.match(decimal) && typeCastedInputValue >= -2147483648 && typeCastedInputValue <= 2147483647) && inputValue.length !== 0) {
-                        this._validateUserInput(false, node, inputValue, iskeyPress);
-                        this._setFormatToValue(currentField, typeCastedInputValue, currentNode.target);
-                    } else {
-                        error = string.substitute(dojo.configData.i18n.geoform.invalidNumber, {
-                            openStrong: "<strong>",
-                            closeStrong: "</strong>"
-                        });
-                        this._validateUserInput(error, node, inputValue, iskeyPress);
-                    }
-                    break;
-                case "Single":
-                    // zero or more occurrence of (+-) at the start of expression
-                    // at least one occurrence of digits between o-9
-                    // occurrence of .
-                    // at least one occurrence of digits between o-9 in the end
-                    typeCastedInputValue = parseFloat(inputValue);
-                    if (((inputValue.match(decimal) || inputValue.match(float)) && typeCastedInputValue >= -3.4 * Math.pow(10, 38) && typeCastedInputValue <= 1.2 * Math.pow(10, 38)) && inputValue.length !== 0) {
-                        this._validateUserInput(false, node, inputValue, iskeyPress);
-                        this._setFormatToValue(currentField, typeCastedInputValue, currentNode.target);
-                    } else {
-                        error = string.substitute(dojo.configData.i18n.geoform.invalidFloat, {
-                            openStrong: "<strong>",
-                            closeStrong: "</strong>"
-                        });
-                        this._validateUserInput(error, node, inputValue, iskeyPress);
-                    }
-                    break;
-                case "Double":
-                    typeCastedInputValue = parseFloat(inputValue);
-                    if (((inputValue.match(decimal) || inputValue.match(float)) && typeCastedInputValue >= -2.2 * Math.pow(10, 308) && typeCastedInputValue <= 1.8 * Math.pow(10, 38)) && inputValue.length !== 0) {
-                        this._validateUserInput(false, node, inputValue, iskeyPress);
-                        this._setFormatToValue(currentField, typeCastedInputValue, currentNode.target);
-                    } else {
-                        error = string.substitute(dojo.configData.i18n.geoform.invalidDouble, {
-                            openStrong: "<strong>",
-                            closeStrong: "</strong>"
-                        });
-                        this._validateUserInput(error, node, inputValue, iskeyPress);
-                    }
-                    break;
+            case "String":
+                if (inputValue.length !== 0) {
+                    this._validateUserInput(false, node, inputValue, iskeyPress);
+                } else {
+                    error = string.substitute(dojo.configData.i18n.geoform.invalidInputValue, {
+                        openStrong: "<strong>",
+                        closeStrong: "</strong>"
+                    });
+                    this._validateUserInput(error, node, inputValue, iskeyPress);
+                }
+                break;
+            case "SmallInteger":
+                typeCastedInputValue = parseInt(inputValue, 10);
+                if ((inputValue.match(decimal) && typeCastedInputValue >= -32768 && typeCastedInputValue <= 32767) && inputValue.length !== 0) {
+                    this._validateUserInput(false, node, inputValue);
+                    this._setFormatToValue(currentField, typeCastedInputValue, currentNode.target);
+                } else {
+                    error = string.substitute(dojo.configData.i18n.geoform.invalidSmallNumber, {
+                        openStrong: "<strong>",
+                        closeStrong: "</strong>"
+                    });
+                    this._validateUserInput(error, node, inputValue, iskeyPress);
+                }
+                break;
+            case "Integer":
+                typeCastedInputValue = parseInt(inputValue, 10);
+                if ((inputValue.match(decimal) && typeCastedInputValue >= -2147483648 && typeCastedInputValue <= 2147483647) && inputValue.length !== 0) {
+                    this._validateUserInput(false, node, inputValue, iskeyPress);
+                    this._setFormatToValue(currentField, typeCastedInputValue, currentNode.target);
+                } else {
+                    error = string.substitute(dojo.configData.i18n.geoform.invalidNumber, {
+                        openStrong: "<strong>",
+                        closeStrong: "</strong>"
+                    });
+                    this._validateUserInput(error, node, inputValue, iskeyPress);
+                }
+                break;
+            case "Single":
+                // zero or more occurrence of (+-) at the start of expression
+                // at least one occurrence of digits between o-9
+                // occurrence of .
+                // at least one occurrence of digits between o-9 in the end
+                typeCastedInputValue = parseFloat(inputValue);
+                if (((inputValue.match(decimal) || inputValue.match(float)) && typeCastedInputValue >= -3.4 * Math.pow(10, 38) && typeCastedInputValue <= 1.2 * Math.pow(10, 38)) && inputValue.length !== 0) {
+                    this._validateUserInput(false, node, inputValue, iskeyPress);
+                    this._setFormatToValue(currentField, typeCastedInputValue, currentNode.target);
+                } else {
+                    error = string.substitute(dojo.configData.i18n.geoform.invalidFloat, {
+                        openStrong: "<strong>",
+                        closeStrong: "</strong>"
+                    });
+                    this._validateUserInput(error, node, inputValue, iskeyPress);
+                }
+                break;
+            case "Double":
+                typeCastedInputValue = parseFloat(inputValue);
+                if (((inputValue.match(decimal) || inputValue.match(float)) && typeCastedInputValue >= -2.2 * Math.pow(10, 308) && typeCastedInputValue <= 1.8 * Math.pow(10, 38)) && inputValue.length !== 0) {
+                    this._validateUserInput(false, node, inputValue, iskeyPress);
+                    this._setFormatToValue(currentField, typeCastedInputValue, currentNode.target);
+                } else {
+                    error = string.substitute(dojo.configData.i18n.geoform.invalidDouble, {
+                        openStrong: "<strong>",
+                        closeStrong: "</strong>"
+                    });
+                    this._validateUserInput(error, node, inputValue, iskeyPress);
+                }
+                break;
             }
         },
 
@@ -1484,7 +1484,7 @@ define([
         * @memberOf widgets/geo-form/geo-form
         */
         _addFeatureToLayer: function () {
-            var userFormNode = this.userForm, featureData, key, value, datePicker, picker, fileList, i;
+            var userFormNode = this.userForm, featureData, key, value, datePicker, picker, fileList, i, type, editedFields = [];
             // show loading indicator
             dojo.applicationUtils.showLoadingIndicator();
             // Create instance of graphic
@@ -1509,12 +1509,31 @@ define([
                     }
                     // Assign value to the attributes
                     featureData.attributes[key] = value;
+                    editedFields.push(key);
                 }
             });
+
             // If layer has ReportedBy Field then Add logged in username in it
+            // Add ReportedBy field to editedFields array so that it will not get the default value from template
             if (this._layerHasReportedByField) {
                 featureData.attributes[this.config.reportedByField] = this.config.logInDetails.processedUserName;
+                editedFields.push(key);
             }
+            //Check if layer has typeID field, then add the default values for the field from selected typeID field template
+            if (this.layer.typeIdField && this.layer.typeIdField !== "") {
+                for (type in this.layer.types) {
+                    if (this.layer.types.hasOwnProperty(type)) {
+                        if (this.layer.types[type].id === featureData.attributes[this.layer.typeIdField]) {
+                            this._addValuesFromTemplate(this.layer.types[type].templates[0], editedFields, featureData);
+                        }
+                    }
+                }
+            }
+            //Check if layer has template, then add the Default values from template of the layer, for the fields which are not editable(not available in geoform to edit)
+            if (this.layer.templates && this.layer.templates.length > 0) {
+                this._addValuesFromTemplate(this.layer.templates[0], editedFields, featureData);
+            }
+
             featureData.geometry = {};
             // Assign feature geometry
             featureData.geometry = this.addressGeometry;
@@ -1566,6 +1585,31 @@ define([
                 //hide loading indicator started in _addFeatureToLayer method
                 dojo.applicationUtils.hideLoadingIndicator();
             }));
+        },
+
+        /**
+        * Add fields and values to feature data to be submitted, from template
+        * @param{object} template object returned from layer info
+        * @param{array} editedFields, fields which are edited and needs to be skipped for considering their default values
+        * @param{object} featureData,Feature object to be submitted
+        * @memberOf widgets/geo-form/geo-form
+        */
+        _addValuesFromTemplate: function (template, editedFields, featureData) {
+            var fieldAttribute;
+            //loop through all the fields in Templates and if the field has some value add that field to feature
+            for (fieldAttribute in template.prototype.attributes) {
+                if (template.prototype.attributes.hasOwnProperty(fieldAttribute)) {
+                    //skip the fields which are edited using geoform
+                    if ($.inArray(fieldAttribute, editedFields) === -1) {
+                        //check if their is valid value for the field in template and add that value in feature-data to be submitted
+                        //also add that field in edited array since same field can have default values in template for layer and template for typeIdFielf
+                        if (template.prototype.attributes[fieldAttribute]) {
+                            featureData.attributes[fieldAttribute] = template.prototype.attributes[fieldAttribute];
+                            editedFields.push(fieldAttribute);
+                        }
+                    }
+                }
+            }
         },
 
         /**
@@ -1709,15 +1753,15 @@ define([
             var type;
             //set type for selected geometry type of the layer
             switch (this.layer.geometryType) {
-                case "esriGeometryPoint":
-                    type = "point";
-                    break;
-                case "esriGeometryPolyline":
-                    type = "polyline";
-                    break;
-                case "esriGeometryPolygon":
-                    type = "polygon";
-                    break;
+            case "esriGeometryPoint":
+                type = "point";
+                break;
+            case "esriGeometryPolyline":
+                type = "polyline";
+                break;
+            case "esriGeometryPolygon":
+                type = "polygon";
+                break;
             }
             // return Value
             return type;
@@ -1797,15 +1841,15 @@ define([
             var symbol;
             //set symbol for selected geometry type of the layer
             switch (geometryType) {
-                case "point":
-                    symbol = new SimpleMarkerSymbol();
-                    break;
-                case "polyline":
-                    symbol = new SimpleLineSymbol();
-                    break;
-                case "polygon":
-                    symbol = new SimpleFillSymbol();
-                    break;
+            case "point":
+                symbol = new SimpleMarkerSymbol();
+                break;
+            case "polyline":
+                symbol = new SimpleLineSymbol();
+                break;
+            case "polygon":
+                symbol = new SimpleFillSymbol();
+                break;
             }
             //return symbol
             return symbol;
