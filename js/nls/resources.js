@@ -23,17 +23,17 @@ define({
             geolocationTooltip: "Geolocation"  // Command button to navigate to the current geographical position
         },
         main: {
-            noGroup: "No Group configured" // Shown when no group is configured in the configuration file
+            noGroup: "No group configured" // Shown when no group is configured in the configuration file
         },
         signin: {
             guestSigninText: "Proceed as Guest", // Shown in the 'Sign in' page below the icon for accessing application as an anonymous user
             signinOptionsText: "Sign in with:", // Shown in the 'Sign in' page above the icons for social media sign in
-            noGroupNameText: "Please Sign in", // Shown when the group title is not available or the group is private
-            guestLoginTooltip: "Guest Login", // Command button to access the application as an anonymous user
-            facebookLoginTooltip: "Facebook Login", // Command button to access the application via Facebook login
-            twitterLoginTooltip: "Twitter Login", // Command button to access the application via Twitter login
-            googlePlusLoginTooltip: "Google+ Login", // Command button to access the application via Google+ login
-            agolLoginTooltip: "AGOL Login", // Command button to access the application via AGOL login
+            noGroupNameText: "Please sign in", // Shown when the group title is not available or the group is private
+            guestLoginTooltip: "Sign in as a guest", // Command button to access the application as an anonymous user
+            facebookLoginTooltip: "Sign in with Facebook", // Command button to access the application via Facebook login
+            twitterLoginTooltip: "Sign in with Twitter", // Command button to access the application via Twitter login
+            googlePlusLoginTooltip: "Sign in with Google+", // Command button to access the application via Google+ login
+            agolLoginTooltip: "Sign in with ArcGIS", // Command button to access the application via AGOL login
             signInTooltip: "Sign In", // Command button to 'Sign in' to the application
             signOutTooltip: "Sign Out" // Command button to 'Sign out' of the application
         },
@@ -52,7 +52,7 @@ define({
             infoBtnToolTip: "Map Information" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "No issues found in the current extent" // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "No reports found in the current map area" // Shown in the issue wall when no issues are present in the current map extent
         },
         mobileMenu: {
             home: "Home", // Shown in menu container of mobile devices to navigate to the home screen
@@ -60,9 +60,9 @@ define({
             mapView: "Map View", // Shown in menu container of mobile devices to navigate to map view of the selected webmap
             listView: "List View", // Shown in menu container of mobile devices to navigate to the issue 'List view' of the selected webmap
             reportIt: "Report It", // Shown in menu container of mobile devices to open the geoform
-            signIn: "Sign in", // Shown in menu container of mobile devices to 'Sign in' to the application
-            signOut: "Sign out", // Shown in menu container of mobile devices to 'Sign out' of the application
-            loggedInAs: "Logged in as" // Shown at the bottom of menu container in the mobile devices indicating the name of the logged in user
+            signIn: "Sign In", // Shown in menu container of mobile devices to 'Sign in' to the application
+            signOut: "Sign Out", // Shown in menu container of mobile devices to 'Sign out' of the application
+            loggedInAs: "Signed in as" // Shown at the bottom of menu container in the mobile devices indicating the name of the logged in user
         },
         geoform: {
             enterInformation: "1. Enter Information", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -85,8 +85,8 @@ define({
             dateRangeHintMessage: "${openStrong}Hint:${closeStrong} Minimum Date ${minValue} and Maximum Date ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
             errorsInApplyEdits: "Issue could not be reported.", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "Attachment(s) selected", // Shown besides the select file button indicating the number of files attached
-            attachmentUploadStatus: "${failed} of ${total} Attachment(s) failed to upload.", // Shown when there is error while uploading the attachment, while submitting the geoform
-            selectLocationTitleText: "(Tap/Click on map to select location)", // Appears besides the select location section of the geoform indicating option to select location on the map
+            attachmentUploadStatus: "${failed} of ${total} attachment(s) failed to upload.", // Shown when there is error while uploading the attachment, while submitting the geoform
+            selectLocationTitleText: "(Tap/click on map to select location)", // Appears besides the select location section of the geoform indicating option to select location on the map
             geoLocationError: "Current location not available",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "Current location is out of basemap extent",  // Shown when the current geographical position is out of the basemap extent
             geoformTooltip: "Report It" // Command button to open the geoform
@@ -95,20 +95,20 @@ define({
             addressText: "Address:", // Shown as a title for a group of addresses returned on performing unified search
             usngText: "USNG", // Shown as a title for a group of USNG values returned on performing unified search
             mgrsText: "MGRS", // Shown as a title for a group of MGRS values returned on performing unified search
-            latLongText: "LatLong", // Shown as a title for a group of latitude longitude values returned on performing unified search
+            latLongText: "Latitude/Longitude", // Shown as a title for a group of latitude longitude values returned on performing unified search
             invalidSearch: "No results found", // Shown in the address container when no results are returned on performing unified search
             locatorPlaceholder: "Enter address to search", // Shown in the address container textbox as a placeholder
             locationOutOfExtent: "Located address is out of basemap extent" // Shown as an alert when the selected address in the search result is out of basemap extent
         },
         myIssues: {
-            title: "My Issues", // Shown as a title in 'My issues' panel
-            myIssuesTooltip: "My Issues", // Command button to access issues reported by the logged in user
-            noResultsFound: "No issues found" // Shown when no issues are reported by the logged in user
+            title: "My Reports", // Shown as a title in 'My issues' panel
+            myIssuesTooltip: "My Reports", // Command button to access issues reported by the logged in user
+            noResultsFound: "No reports found" // Shown when no issues are reported by the logged in user
         },
         comment: {
             errorInSubmmitingComment: "Comment could not be submitted.", // Shown when user is unable to add comments
             emptyCommentMessage: "Please enter comment.", // Shown when user submits a comment without any text/character
-            placeHolderText: "Write a comment", // Shown as a placeholder in comments textbox
+            placeHolderText: "Type a comment", // Shown as a placeholder in comments textbox
             noCommentsAvailableText: "No comments available", // Shown when no comments are available for the selected issue
             remainingTextCount: "${0} character(s) remain", // Shown below the comments textbox indicating the number of characters that can be added
             showNoText: "No" // Shown when comments character limit is exceeded

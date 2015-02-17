@@ -13,7 +13,7 @@
         "applicationIcon": "/images/app-icon.png",
         "applicationFavicon": "/images/favicon.ico",
         "webMapInfoDescription": true,
-        "webMapInfoSnippet": true,
+        "webMapInfoSnippet": false,
         "webMapInfoOwner": true,
         "webMapInfoCreated": false,
         "webMapInfoModified": false,
