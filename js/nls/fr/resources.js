@@ -27,12 +27,12 @@ define(({
     signin: {
         guestSigninText: "@fr@ Proceed as Guest",
         signinOptionsText: "@fr@ Sign in with:",
-        noGroupNameText: "@fr@ Please Sign in",
-        guestLoginTooltip: "@fr@ Guest Login",
-        facebookLoginTooltip: "@fr@ Facebook Login",
-        twitterLoginTooltip: "@fr@ Twitter Login",
-        googlePlusLoginTooltip: "@fr@ Google+ Login",
-        agolLoginTooltip: "@fr@ AGOL Login",
+        noGroupNameText: "@fr@ Please sign in",
+        guestLoginTooltip: "@fr@ Sign in as a guest",
+        facebookLoginTooltip: "@fr@ Sign in with Facebook",
+        twitterLoginTooltip: "@fr@ Sign in with Twitter",
+        googlePlusLoginTooltip: "@fr@ Sign in with Google+",
+        agolLoginTooltip: "@fr@ Sign in with ArcGIS",
         signInTooltip: "@fr@ Sign In",
         signOutTooltip: "@fr@ Sign Out"
     },
@@ -51,7 +51,7 @@ define(({
         infoBtnToolTip: "@fr@ Map Information"
     },
     issueWall: {
-        noResultsFound: "@fr@ No issues found in the current extent"
+        noResultsFound: "@fr@ No reports found in the current map area"
     },
     mobileMenu: {
         home: "@fr@ Home",
@@ -59,9 +59,9 @@ define(({
         mapView: "@fr@ Map View",
         listView: "@fr@ List View",
         reportIt: "@fr@ Report It",
-        signIn: "@fr@ Sign in",
-        signOut: "@fr@ Sign out",
-        loggedInAs: "@fr@ Logged in as"
+        signIn: "@fr@ Sign In",
+        signOut: "@fr@ Sign Out",
+        loggedInAs: "@fr@ Signed in as"
     },
     geoform: {
         enterInformation: "@fr@ 1. Enter Information",
@@ -84,8 +84,8 @@ define(({
         dateRangeHintMessage: "@fr@ ${openStrong}Hint:${closeStrong} Minimum Date ${minValue} and Maximum Date ${maxValue}",
         errorsInApplyEdits: "@fr@ Issue could not be reported.",
         attachmentSelectedMsg: "@fr@ Attachment(s) selected",
-        attachmentUploadStatus: "@fr@ ${failed} of ${total} Attachment(s) failed to upload.",
-        selectLocationTitleText: "@fr@ (Tap/Click on map to select location)",
+        attachmentUploadStatus: "@fr@ ${failed} of ${total} attachment(s) failed to upload.",
+        selectLocationTitleText: "@fr@ (Tap/click on map to select location)",
         geoLocationError: "@fr@ Current location not available",
         geoLocationOutOfExtent: "@fr@ Current location is out of basemap extent",
         geoformTooltip: "@fr@ Report It"
@@ -94,20 +94,20 @@ define(({
         addressText: "@fr@ Address:",
         usngText: "@fr@ USNG",
         mgrsText: "@fr@ MGRS",
-        latLongText: "@fr@ LatLong",
+        latLongText: "@fr@ Latitude/Longitude",
         invalidSearch: "@fr@ No results found",
         locatorPlaceholder: "@fr@ Enter address to search",
         locationOutOfExtent: "@fr@ Located address is out of basemap extent"
     },
     myIssues: {
-        title: "@fr@ My Issues",
-        myIssuesTooltip: "@fr@ My Issues",
-        noResultsFound: "@fr@ No issues found"
+        title: "@fr@ My Reports",
+        myIssuesTooltip: "@fr@ My Reports",
+        noResultsFound: "@fr@ No reports found"
     },
     comment: {
-        errorInSubmmitingComment: "@fr@ Comment could not be submitted.",
+        errorInSubmittingComment: "@fr@ Comment could not be submitted.",
         emptyCommentMessage: "@fr@ Please enter comment.",
-        placeHolderText: "@fr@ Write a comment",
+        placeHolderText: "@fr@ Type a comment",
         noCommentsAvailableText: "@fr@ No comments available",
         remainingTextCount: "@fr@ ${0} character(s) remain",
         showNoText: "@fr@ No"

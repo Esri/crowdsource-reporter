@@ -53,9 +53,9 @@ define([
     Query
 ) {
     return {
-
         /*
-        *Resize issue container
+        * Resize issue details container
+        * @param{object} listContainer - issue details container
         */
         resizeIssuesContainer: function (listContainer) {
             var detailDiv, detailHeaderDiv, detailFooterDiv, detailBodyheight, listDetailsData;
@@ -67,18 +67,19 @@ define([
                 detailBodyheight = parseInt(detailDiv[0].clientHeight - (detailHeaderDiv[0].clientHeight + detailFooterDiv[0].clientHeight + 17), 10);
                 listDetailsData = query(".esriCTDetailsData")[0];
                 if (listDetailsData) {
-                    query(listDetailsData).style("height", detailBodyheight + "px");
+                    domStyle.set(listDetailsData, "height", detailBodyheight + "px");
                     if ((dojo.isIE < 9) && detailBodyheight < 500) {
-                        query(listDetailsData).style("min-height", detailBodyheight + "px");
-                        query(listDetailsData).style("max-height", detailBodyheight + "px");
+                        domStyle.set(listDetailsData, "min-height", detailBodyheight + "px");
+                        domStyle.set(listDetailsData, "max-height", detailBodyheight + "px");
                     }
                 }
             }
         },
 
         /**
-        * hide issue details panel
-        * @param{object} displayPopupParam 
+        * Hide issue details container and show issue list container
+        * @param{object} listDetailedContainer - issue details container
+        * @param{object} listContainer - issue list container
         */
         hideIssueDetailsPanel: function (listDetailedContainer, listContainer) {
             domConstruct.empty(listDetailedContainer);
@@ -87,78 +88,94 @@ define([
         },
 
         /**
-        * display popup fields in issue details panel
-        * @param{object} displayPopupParam 
+        * Display popup fields in issue details panel
+        * @param{object} displayPopupParam - layer and popup details
         */
         displayPopupFields: function (displayPopupParam) {
             var x, container, fieldContent, fieldLabel, fieldValue, popupInfoValue, fieldInfo, domainValue, isLink, spanLink, urlRegex;
             // loop for field data in info popup
             for (x = 0; x < displayPopupParam.operationalLayer.popupInfo.fieldInfos.length; x++) {
                 if (displayPopupParam.operationalLayer.popupInfo.fieldInfos[x].visible) {
-                    isLink = false;
-                    container = domConstruct.create("div", {
-                        "class": "esriCTDetailsContainer"
-                    }, displayPopupParam.detailsData);
-                    fieldLabel = displayPopupParam.operationalLayer.popupInfo.fieldInfos[x].label;
-                    if (lang.trim(fieldLabel) === "") {
-                        fieldLabel = displayPopupParam.operationalLayer.popupInfo.fieldInfos[x].fieldName;
-                    }
-                    domConstruct.create("div", {
-                        "class": "esriCTListItemHeader",
-                        "innerHTML": fieldLabel
-                    }, container);
-                    fieldContent = domConstruct.create("div", {
-                        "class": "esriCTListData"
-                    }, container);
-                    popupInfoValue = displayPopupParam.operationalLayer.popupInfo.fieldInfos[x];
-                    fieldValue = "";
-                    // Assigning the selected attribute value from popup info to fieldValue
-                    if (displayPopupParam.featureSet[popupInfoValue.fieldName] !== null && displayPopupParam.featureSet[popupInfoValue.fieldName] !== "") {
-                        fieldValue = displayPopupParam.featureSet[popupInfoValue.fieldName];
-                    }
-                    urlRegex = new RegExp("^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
-                    if ((!fieldValue && fieldValue !== 0) || lang.trim(String(fieldValue)) === "") {
-                        // Assigning N/A for null valued attributes
-                        fieldValue = dojo.configData.showNullValueAs + "<br/>";
-                    } else if (fieldValue.toString().match(urlRegex)) {
-                        isLink = true;
-                        //Check if url is of image then create image in Infopopup
-                        spanLink = domConstruct.create("span", { "class": " esriCTInfoLink", "innerHTML": dojo.configData.i18n.issueDetailsHelper.link }, fieldContent);
-                        on(spanLink, "click", lang.hitch(this, this.openWindowHandler(fieldValue)));
-                    } else {
-                        fieldInfo = this.isDateField(popupInfoValue.fieldName, displayPopupParam.operationalLayer.layerObject);
-                        if (fieldInfo && displayPopupParam.isSetDateFormat) {
-                            fieldValue = this.setDateFormat(popupInfoValue, displayPopupParam.featureSet[fieldInfo.name]);
+                    if (this.isFieldAvailable(displayPopupParam.operationalLayer.layerObject, displayPopupParam.operationalLayer.popupInfo.fieldInfos[x].fieldName)) {
+                        isLink = false;
+                        container = domConstruct.create("div", {
+                            "class": "esriCTDetailsContainer"
+                        }, displayPopupParam.detailsData);
+                        fieldLabel = displayPopupParam.operationalLayer.popupInfo.fieldInfos[x].label;
+                        if (lang.trim(fieldLabel) === "") {
+                            fieldLabel = displayPopupParam.operationalLayer.popupInfo.fieldInfos[x].fieldName;
+                        }
+                        domConstruct.create("div", {
+                            "class": "esriCTListItemHeader",
+                            "innerHTML": fieldLabel
+                        }, container);
+                        fieldContent = domConstruct.create("div", {
+                            "class": "esriCTListData"
+                        }, container);
+                        popupInfoValue = displayPopupParam.operationalLayer.popupInfo.fieldInfos[x];
+                        fieldValue = "";
+                        // Assigning the selected attribute value from popup info to fieldValue
+                        if (displayPopupParam.featureSet[popupInfoValue.fieldName] !== null && displayPopupParam.featureSet[popupInfoValue.fieldName] !== "") {
+                            fieldValue = displayPopupParam.featureSet[popupInfoValue.fieldName];
+                        }
+                        urlRegex = new RegExp("^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
+                        if ((!fieldValue && fieldValue !== 0) || lang.trim(String(fieldValue)) === "") {
+                            // Assigning empty string to attributes with null value
+                            fieldValue = dojo.configData.showNullValueAs + "<br/>";
+                        } else if (fieldValue.toString().match(urlRegex)) {
+                            isLink = true;
+                            // If the attribute contains a URL, display link text and open the URL on click of the text
+                            spanLink = domConstruct.create("span", { "class": " esriCTInfoLink", "innerHTML": dojo.configData.i18n.issueDetailsHelper.link }, fieldContent);
+                            on(spanLink, "click", lang.hitch(this, this.openWindowHandler(fieldValue)));
                         } else {
-                            fieldInfo = this.hasDomainCodedValue(popupInfoValue.fieldName, displayPopupParam.featureSet, displayPopupParam.operationalLayer.layerObject);
-                            if (fieldInfo) {
-                                if (fieldValue === null || lang.trim(String(fieldValue)) === "") {
-                                    fieldValue = "<br/>";
-                                } else if (fieldInfo.isTypeIdField) {
-                                    fieldValue = fieldInfo.name;
-                                } else {
-                                    domainValue = this.domainCodedValues(fieldInfo, fieldValue);
-                                    fieldValue = domainValue.domainCodedValue;
+                            fieldInfo = this.isDateField(popupInfoValue.fieldName, displayPopupParam.operationalLayer.layerObject);
+                            if (fieldInfo && displayPopupParam.isSetDateFormat) {
+                                fieldValue = this.setDateFormat(popupInfoValue, displayPopupParam.featureSet[fieldInfo.name]);
+                            } else {
+                                fieldInfo = this.hasDomainCodedValue(popupInfoValue.fieldName, displayPopupParam.featureSet, displayPopupParam.operationalLayer.layerObject);
+                                if (fieldInfo) {
+                                    if (fieldValue === null || lang.trim(String(fieldValue)) === "") {
+                                        fieldValue = "<br/>";
+                                    } else if (fieldInfo.isTypeIdField) {
+                                        fieldValue = fieldInfo.name;
+                                    } else {
+                                        domainValue = this.domainCodedValues(fieldInfo, fieldValue);
+                                        fieldValue = domainValue.domainCodedValue;
+                                    }
                                 }
                             }
+                            if (popupInfoValue.format) {
+                                // Check whether format for digit separator is required
+                                fieldValue = this.numberFormatCorverter(popupInfoValue, fieldValue);
+                            }
                         }
-                        if (popupInfoValue.format) {
-                            // Check whether format for digit separator is required
-                            fieldValue = this.numberFormatCorverter(popupInfoValue, fieldValue);
+                        if (!isLink) {
+                            domAttr.set(fieldContent, "innerHTML", fieldValue);
                         }
-                    }
-                    if (!isLink) {
-                        domAttr.set(fieldContent, "innerHTML", fieldValue);
                     }
                 }
             }
+        },
 
+        /**
+        * Check if configured field is available in layer
+        * @param{object} layerObject is operational layer object
+        * @param{object} fieldName is field name
+        */
+        isFieldAvailable: function (layerObject, fieldName) {
+            var i, isFieldAvl = false;
+            for (i = 0; i < layerObject.fields.length; i++) {
+                if (layerObject.fields[i].name === fieldName) {
+                    isFieldAvl = true;
+                    break;
+                }
+            }
+            return isFieldAvl;
         },
 
         /**
         * open link in a new window
-        * @param {url} get link url
-        * @memberOf widgets/issue-wall/issue-wall
+        * @param {url} get link URL
         */
         openWindowHandler: function (link) {
             return function () {
@@ -168,8 +185,8 @@ define([
 
         /**
         * check if field type is date
-        * @param{object} layerObj is layer Object
-        * @param{string} fieldName
+        * @param{object} layerObj - layer data
+        * @param{string} fieldName - current field
         */
         isDateField: function (fieldName, layerObj) {
             var i, isDateField = null;
@@ -183,9 +200,9 @@ define([
         },
 
         /**
-        * check if field type is date
-        * @param{string} fieldName
-        * @param{object} popupInfo is operational layer popupInfo object
+        * Fetch field from popup info
+        * @param{string} fieldName - current field
+        * @param{object} popupInfo - operational layer popupInfo object
         */
         getPopupInfo: function (fieldName, popupInfo) {
             var i, fieldInfo;
@@ -198,11 +215,11 @@ define([
             return fieldInfo;
         },
 
-        /*
-        * Sets the info popup header for each issue
+        /**
+        * Sets the info popup header for each issue in the issue list
         * @param{array} featureSet
-        * @param{object} operationalLayer
-        * @param{boolean} isSetDateFormat
+        * @param{object} operationalLayer - operational layer data
+        * @param{boolean} isSetDateFormat - indicates whether date field should be formatted or not
         */
         getIssueDetailsTitle: function (featureSet, operationalLayer, isSetDateFormat) {
             var i, j, titleField, fieldValue, domainValue, popupTitle, titleArray, headerValue, headerFieldArray, fieldInfo, popupInfoValue;
@@ -233,22 +250,24 @@ define([
                                     fieldInfo = this.isDateField(titleArray[j], operationalLayer.layerObject);
                                     popupInfoValue = this.getPopupInfo(titleArray[j], operationalLayer.popupInfo);
                                     fieldValue = featureSet[lang.trim(titleArray[j])];
-                                    if (fieldInfo && isSetDateFormat) {
-                                        //set date format
-                                        fieldValue = this.setDateFormat(popupInfoValue, fieldValue);
-                                    } else {
-                                        fieldInfo = this.hasDomainCodedValue(titleArray[j], featureSet, operationalLayer.layerObject);
-                                        if (fieldInfo) {
-                                            if (fieldInfo.isTypeIdField) {
-                                                fieldValue = fieldInfo.name;
-                                            } else if (fieldValue !== null && lang.trim(String(fieldValue)) !== "") {
-                                                domainValue = this.domainCodedValues(fieldInfo, fieldValue);
-                                                fieldValue = domainValue.domainCodedValue;
+                                    if (fieldValue !== null && lang.trim(String(fieldValue)) !== "") {
+                                        if (fieldInfo && isSetDateFormat) {
+                                            //set date format
+                                            fieldValue = this.setDateFormat(popupInfoValue, fieldValue);
+                                        } else {
+                                            fieldInfo = this.hasDomainCodedValue(titleArray[j], featureSet, operationalLayer.layerObject);
+                                            if (fieldInfo) {
+                                                if (fieldInfo.isTypeIdField) {
+                                                    fieldValue = fieldInfo.name;
+                                                } else {
+                                                    domainValue = this.domainCodedValues(fieldInfo, fieldValue);
+                                                    fieldValue = domainValue.domainCodedValue;
+                                                }
                                             }
                                         }
                                     }
                                     if (popupInfoValue.format) {
-                                        // Check whether format for digit separator is required
+                                        // Check whether format for digit separator is available
                                         fieldValue = this.numberFormatCorverter(popupInfoValue, fieldValue);
                                     }
                                     headerFieldArray.push(fieldValue);
@@ -304,7 +323,7 @@ define([
         },
 
         /**
-        * attach click event on comment icon
+        * Attach click event to comment icon
         * @param{object} commentIcon
         * @param{object} commentParams
         * @param{object} issueDetailsParam
@@ -324,7 +343,8 @@ define([
             }));
         },
 
-        /* Show attached images in the issue details
+        /**
+        * Show attached images in the issue details
         * @param{array} operationalLayer
         * @param{object} parentDiv
         * @param{string} objectID
@@ -362,7 +382,7 @@ define([
                             "class": "esriCTIssueDetailImg esriCTPointerCursor",
                             "src": imagePath
                         }, imageContent);
-                        // Hide loader Image after image loaded
+                        // Hide loader image after image is loaded
                         on(imageDiv[i], "load", lang.hitch(this, this.onImageLoad));
                         // Show image in new tab on click of the image thumbnail
                         on(imageDiv[i], "click", lang.hitch(this, this.openAttachments));
@@ -373,7 +393,8 @@ define([
             });
         },
 
-        /* highlight feature on map
+        /**
+        * Highlight feature on map
         * @param{object} layer
         * @param{string} objectId
         * @param{object} selectedGraphicsLayer
@@ -398,50 +419,76 @@ define([
         },
 
         /**
-        * get description from layer popup info
+        * Get description from layer popup info
         * @param{object} featureSet is feature object
         * @param{object} operationalLayerDetails
         */
         getDescription: function (featureSet, operationalLayerDetails) {
-            var descriptionValue, i, field, splittedArrayForClosingBraces;
-            //Assuming Fields will be configure within the curly braces'{}'
-            //check if Custom Configuration has any fields Configured in it.
+            var descriptionValue, i, field, splittedArrayForClosingBraces, fieldInfo, popupInfoValue, domainValue, fieldValue;
+            // Assuming Fields will be configure within the curly braces'{}'
+            // check if Custom Configuration has any fields Configured in it.
             if (operationalLayerDetails.popupInfo.description.split("{").length > 0) {
-                //Add the data before 1st instance on curly '{' braces
+                // Add the data before 1st instance on curly '{' braces
                 descriptionValue = operationalLayerDetails.popupInfo.description.split("{")[0];
                 // Loop through the possible number of configured fields
                 for (i = 1; i < operationalLayerDetails.popupInfo.description.split("{").length; i++) {
-                    //check if string is having closing curly braces '}'. i.e. it has some field
+                    // check if string is having closing curly braces '}'. i.e. it has some field
                     if (operationalLayerDetails.popupInfo.description.split("{")[i].indexOf("}") !== -1) {
                         splittedArrayForClosingBraces = operationalLayerDetails.popupInfo.description.split("{")[i].split("}");
                         field = string.substitute(splittedArrayForClosingBraces[0]);
-                        //Check if the field is valid field or not, if it valid then substitute its value.
-                        if (featureSet[field] || featureSet[field] === 0) {
-                            descriptionValue += featureSet[field];
-                        } else if (field === "") {
-                            //if field is empty means only curly braces are configured in pop-up
-                            descriptionValue += "{}";
+                        fieldInfo = this.isDateField(field, operationalLayerDetails.layerObject);
+                        popupInfoValue = this.getPopupInfo(field, operationalLayerDetails.popupInfo);
+                        if (fieldInfo && featureSet[lang.trim(field)] !== null && lang.trim(String(featureSet[lang.trim(field)])) !== "") {
+                            //set date format
+                            fieldValue = this.setDateFormat(popupInfoValue, featureSet[lang.trim(field)]);
+                            if (popupInfoValue.format) {
+                                // Check whether format for digit separator is available
+                                fieldValue = this.numberFormatCorverter(popupInfoValue, fieldValue);
+                            }
+                            descriptionValue += fieldValue;
+                        } else {
+                            fieldInfo = this.hasDomainCodedValue(field, featureSet, operationalLayerDetails.layerObject);
+                            if (fieldInfo) {
+                                if (fieldInfo.isTypeIdField) {
+                                    descriptionValue += fieldInfo.name;
+                                } else {
+                                    domainValue = this.domainCodedValues(fieldInfo, featureSet[lang.trim(field)]);
+                                    descriptionValue += domainValue.domainCodedValue;
+                                }
+                            } else if (featureSet[field] || featureSet[field] === 0) {
+                                // Check if the field is valid field or not, if it is valid then substitute its value.
+                                fieldValue = featureSet[field];
+                                if (popupInfoValue.format) {
+                                    // Check whether format for digit separator is available
+                                    fieldValue = this.numberFormatCorverter(popupInfoValue, fieldValue);
+                                }
+                                descriptionValue += fieldValue;
+                            } else if (field === "") {
+                                // if field is empty means only curly braces are configured in pop-up
+                                descriptionValue += "{}";
+                            }
                         }
                         splittedArrayForClosingBraces.shift();
-                        //if splittedArrayForClosingBraces length is more than 1, then there are more closing braces in the string, so join the array with }
+                        // If splittedArrayForClosingBraces length is more than 1, then there are more closing braces in the string, so join the array with }
                         if (splittedArrayForClosingBraces.length > 1) {
                             descriptionValue += splittedArrayForClosingBraces.join("}");
                         } else {
                             descriptionValue += splittedArrayForClosingBraces.join("");
                         }
                     } else {
-                        //if there is no closing bracket then add the rest of the string preponding with '{' as we have split it with '{'
+                        // If there is no closing bracket then add the rest of the string prefixed with '{' as we have split it with '{'
                         descriptionValue += "{" + operationalLayerDetails.popupInfo.description.split("{")[i];
                     }
                 }
             } else {
-                //no '{' braces means no field has been configured only Custom description is present in pop-up
+                // No '{' braces means no field has been configured only Custom description is present in pop-up
                 descriptionValue = operationalLayerDetails.popupInfo.description;
             }
             return descriptionValue;
         },
 
-        /* Format number value based on the format received from info popup
+        /**
+        * Format number value based on the format received from info popup
         * @param{object} popupInfoValue
         * @param{string} fieldValue
         */
@@ -458,7 +505,8 @@ define([
             return fieldValue;
         },
 
-        /*Format date value based on the format received from info popup
+        /**
+        * Format date value based on the format received from info popup
         * @param{object} dateFieldInfo
         * @param{string} dataFieldValue
         */
@@ -472,7 +520,7 @@ define([
         },
 
         /**
-        * check if field has domain coded values       
+        * Check if field has domain coded values
         * @param{string} fieldName
         * @param{object} feature
         * @param{object} layerObject
@@ -484,21 +532,21 @@ define([
                     if (layerObject.fields[i].domain && layerObject.fields[i].domain.codedValues) {
                         fieldInfo = layerObject.fields[i];
                     } else if (layerObject.typeIdField) {
-                        //get types from layer object,if typeIdField is available
+                        // get types from layer object, if typeIdField is available
                         for (j = 0; j < layerObject.types.length; j++) {
-                            if (layerObject.types[j].id === feature[layerObject.typeIdField]) {
+                            if (String(layerObject.types[j].id) === String(feature[layerObject.typeIdField])) {
                                 fieldInfo = layerObject.types[j];
                                 break;
                             }
                         }
-                        //if types info is found for current value of typeIdField then break the outer loop
+                        // if types info is found for current value of typeIdField then break the outer loop
                         if (fieldInfo) {
                             break;
                         }
                     }
                 }
             }
-            //get domain values from layer types object according to the value of typeIdfield 
+            // get domain values from layer types object according to the value of typeIdfield
             if (fieldInfo && fieldInfo.domains) {
                 if (layerObject.typeIdField && layerObject.typeIdField !== fieldName) {
                     fieldInfo.isTypeIdField = false;
@@ -509,7 +557,7 @@ define([
                         fieldInfo = null;
                     }
                 } else {
-                    //set isTypeIdField to true if current field is typeIdField
+                    // Set isTypeIdField to true if current field is typeIdField
                     fieldInfo.isTypeIdField = true;
                 }
             }
@@ -553,16 +601,16 @@ define([
 
         /**
         * Callback handler for image loaded event.
-        * hide the image loader once the image is loaded, and set the image dimensions so that complete image will be shown in thumbnail.
         * @param{object} evt
         */
         onImageLoad: function (evt) {
-            // if event target found then only
+            // if event target is available
             if (evt && evt.target && evt.target.parentNode) {
+                // hide the image loader once the image is loaded, and set the image dimensions so that complete image will be shown in thumbnail.
                 domClass.remove(evt.target.parentNode, "esriCTImageLoader");
             }
 
-            // if event target found then only
+            // if event target is available
             if (evt && evt.target) {
                 this.setImageDimensions(evt.target, true);
             }
@@ -617,13 +665,17 @@ define([
         },
 
         /**
-        * This function is used to get symbol used for highlighting feature.
-        * @param{string} graphic
-        * @param{string} layer
+        * Get symbol used for highlighting feature
+        * @param{string} graphic - graphic of the selected feature
+        * @param{string} layer - layer details
+        * @param{string} map
         */
         getHighLightSymbol: function (graphic, layer, map) {
             var i, symbol, path, symbolHeight, symbolWidth, size, symbolSize, polylineSymbol, polygonSymbol, offset = {},
                 graphicInfoValue, layerInfoValue;
+            /* If feature geometry is of type point, add a crosshair symbol
+            If feature geometry is of type polyline, highlight the line
+            If feature geometry is of type polygon, highlight the boundary of the polygon */
             switch (graphic.geometry.type) {
             case "point":
                 path = "M 1784,238 1805,238 1805,259 1784,259 1784,238 M 1777,248 1784,248 M 1794,231 1794,238 M 1812,248 1805,248 M 1794,266 1794,259";

@@ -436,30 +436,47 @@ define([
         * @param{string} web map ID
         * @param{string} operational layer ID
         * @param{object} operational layer details
+        * @param{object} web-map item info
         * @memberOf widgets/webmap-list/webmap-list
         */
         _onFeatureLayerLoad: function (featureLayer, webMapID, layerID, layerDetails, itemInfo) {
             try {
-                on(featureLayer, "load", lang.hitch(this, function () {
-                    //Highlight the Selected Item in webmap list
-                    this._highlightSelectedItem(webMapID, layerID);
-                    setTimeout(lang.hitch(this, function () {
-                        this.onOperationalLayerSelected({
-                            "map": this.map,
-                            "webMapId": webMapID,
-                            "operationalLayerId": layerID,
-                            "operationalLayerDetails": layerDetails,
-                            "itemInfo": itemInfo
-                        });
-                        dojo.applicationUtils.hideLoadingIndicator();
-                    }), 500);
-                }));
+                if (!featureLayer.loaded) {
+                    on(featureLayer, "load", lang.hitch(this, function () {
+                        this._featureLayerLoaded(webMapID, layerID, layerDetails, itemInfo);
+                    }));
+                } else {
+                    this._featureLayerLoaded(webMapID, layerID, layerDetails, itemInfo);
+                }
                 on(featureLayer, "error", lang.hitch(this, function (evt) {
                     dojo.applicationUtils.showError(evt.error.message);
                 }));
             } catch (err) {
                 dojo.applicationUtils.showError(err.message);
             }
+        },
+
+        /**
+        * This function is used to process execution after the feature layer is loaded
+        * @param{string} web map ID
+        * @param{string} operational layer ID
+        * @param{object} operational layer details
+        * @param{object} web-map item info
+        * @memberOf widgets/webmap-list/webmap-list
+        */
+        _featureLayerLoaded: function (webMapID, layerID, layerDetails, itemInfo) {
+            //Highlight the Selected Item in webmap list
+            this._highlightSelectedItem(webMapID, layerID);
+            setTimeout(lang.hitch(this, function () {
+                this.onOperationalLayerSelected({
+                    "map": this.map,
+                    "webMapId": webMapID,
+                    "operationalLayerId": layerID,
+                    "operationalLayerDetails": layerDetails,
+                    "itemInfo": itemInfo
+                });
+                dojo.applicationUtils.hideLoadingIndicator();
+            }), 500);
         },
 
         /**
@@ -528,6 +545,7 @@ define([
                     this._selectWebMapItem(webMapId);
                     operationalLayerId = domAttr.get(node, "operationalLayerID");
                     this._createMap(webMapId, this.mapDivID).then(lang.hitch(this, function (evt) {
+                        this.lastSelectedWebMapExtent = evt.map.extent;
                         var obj = {
                             "webMapId": webMapId,
                             "operationalLayerId": operationalLayerId,

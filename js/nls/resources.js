@@ -106,7 +106,7 @@ define({
             noResultsFound: "No reports found" // Shown when no issues are reported by the logged in user
         },
         comment: {
-            errorInSubmmitingComment: "Comment could not be submitted.", // Shown when user is unable to add comments
+            errorInSubmittingComment: "Comment could not be submitted.", // Shown when user is unable to add comments
             emptyCommentMessage: "Please enter comment.", // Shown when user submits a comment without any text/character
             placeHolderText: "Type a comment", // Shown as a placeholder in comments textbox
             noCommentsAvailableText: "No comments available", // Shown when no comments are available for the selected issue

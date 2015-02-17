@@ -105,7 +105,6 @@ html, body
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     padding: 5px;
-    overflow-x:hidden;
 }
 
 .esriCTCenterContainer
@@ -684,7 +683,7 @@ html, body
     -webkit-overflow-scrolling: touch;
     height: calc(100% - 150px);
     overflow: auto;
-    width:100%;
+    width: 100%;
 }
 
 .esriCTListHeader
@@ -1465,9 +1464,8 @@ label
 {
     text-align: justify;
     word-wrap: break-word;
-    padding-right :60px;
-    min-height:15px;
-
+    padding-right: 60px;
+    min-height: 15px;
 }
 
 .esriCTPanelMargin

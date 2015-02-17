@@ -85,7 +85,7 @@ define([
                 this._calculateCharactersCount();
             }));
 
-            //on window resize update the height of comment details based on screen size and headers and footers.
+            // On window resize update the height of comment details based on screen size and headers and footers.
             // As in case of long header title, header height need to be adjusted.
             on(window, "resize", lang.hitch(this, function () {
                 this.resizeCommentContainer();
@@ -93,24 +93,24 @@ define([
         },
 
         /**
-        * This function is called for calculating height of comment panel
+        * Calculating height of comments container
         * @memberOf widgets/issue-comments/issue-comments
         */
         resizeCommentContainer: function () {
-            var commentHeaderDiv, commentFooterDiv, commentsBodyheight, CommentsDetailsData;
-            //check if comment details div is open,then adjust the detailed container height
+            var commentHeaderDiv, commentFooterDiv, commentsContainerHeight, commentsDetailsData;
+            // If comments container is open, adjust the container height on window resize
             if (!domClass.contains(this.commentsContainer, "esriCTHidden")) {
                 commentHeaderDiv = query(".esriCTCommentHeader", this.commentsContainer);
                 commentFooterDiv = query(".esriCTCommentFooterHeight", this.commentsContainer);
                 if (commentHeaderDiv.length > 0 && commentFooterDiv.length > 0) {
-                    commentsBodyheight = parseInt(this.commentsContainer.clientHeight - (commentHeaderDiv[0].clientHeight + commentFooterDiv[0].clientHeight + 17), 10);
+                    commentsContainerHeight = parseInt(this.commentsContainer.clientHeight - (commentHeaderDiv[0].clientHeight + commentFooterDiv[0].clientHeight + 17), 10);
                 }
-                CommentsDetailsData = query(".esriCTCommentsContainer")[0];
-                if (CommentsDetailsData) {
-                    query(CommentsDetailsData).style("height", commentsBodyheight + "px");
-                    if ((dojo.isIE < 9) && commentsBodyheight < 500) {
-                        query(CommentsDetailsData).style("min-height", commentsBodyheight + "px");
-                        query(CommentsDetailsData).style("max-height", commentsBodyheight + "px");
+                commentsDetailsData = query(".esriCTCommentsContainer")[0];
+                if (commentsDetailsData) {
+                    domStyle.set(commentsDetailsData, "height", commentsContainerHeight + "px");
+                    if ((dojo.isIE < 9) && commentsContainerHeight < 500) {
+                        domStyle.set(commentsDetailsData, "min-height", commentsContainerHeight + "px");
+                        domStyle.set(commentsDetailsData, "max-height", commentsContainerHeight + "px");
                     }
                 }
             }
@@ -122,15 +122,17 @@ define([
         */
         _calculateCharactersCount: function () {
             var count;
-            // Checking for comment container box value with character limit of layer in comment feedback key
+            /* Check if the number of characters entered in the comment textarea exceeds the character limit
+             If it exceeds the limit do not allow the user to add more characters
+             Else, accept the added character and decrease the character count */
             if (this.commentsContainerBox.value.length >= this.characterLength) {
                 this.commentsContainerBox.value = this.commentsContainerBox.value.substring(0, this.characterLength);
                 this.commentsContainerBox.blur();
-                // Setting the count to "No" if character limit is fulfilled
+                // Setting the count to "No" if character limit is exceeded
                 count = dojo.configData.i18n.comment.showNoText;
                 this.countLabel.innerHTML = string.substitute(dojo.configData.i18n.comment.remainingTextCount, [count]);
             } else {
-                // Setting the count and innerHTML with the typed characters.
+                // Decreasing the count and displaying the entered character in the textarea
                 count = this.characterLength - this.commentsContainerBox.value.length;
                 this.countLabel.innerHTML = string.substitute(dojo.configData.i18n.comment.remainingTextCount, [count]);
             }
@@ -150,17 +152,17 @@ define([
                 domConstruct.empty(divHeaderContent[0]);
             }
             domClass.replace(this.commentsContainer, "esriCTVisible", "esriCTHidden");
-            // Setting comment for comment title header
             domConstruct.empty(this.commentsContent);
+            // Setting title in header of comments container
             this.commentTitleDivHeader.innerHTML = this.params.issueTitle;
             relatedQuery = new RelationshipQuery();
             relatedQuery.outFields = ["*"];
             relatedQuery.relationshipId = this.params.layer.relationships[0].id;
             relatedQuery.objectIds = [this.params.objectId];
             currentID = this.params.objectId;
-            // Getting character length from comment table
+            // Getting character length from comments table
             if (this.params.relatedTable && this.params.relatedTable.fields) {
-                // Looping for related table for getting character length
+                // Looping through the fields present in the related table for getting character length
                 for (g = 0; g < this.params.relatedTable.fields.length; g++) {
                     if (this.params.relatedTable.fields[g].name === dojo.configData.commentField) {
                         this.characterLength = this.params.relatedTable.fields[g].length;
@@ -190,12 +192,12 @@ define([
         },
 
         /**
-        * Show comments in comment panel
+        * Show comments in comments panel
         * @param{object} attributes contains layer attribute
-        * @param{boolean} IschildNode contains Boolean value for child node
+        * @param{boolean} isChildNode contains Boolean value for child node
         * @memberOf widgets/issue-comments/issue-comments
         */
-        _showComments: function (attributes, IschildNode) {
+        _showComments: function (attributes, isChildNode) {
             var commentTemplateString, parentDiv, commentText;
             commentText = attributes[dojo.configData.commentField].replace(/(?:\r\n|\r|\n)/g, '<br />');
             commentTemplateString = string.substitute(issueCommentTemplate, {
@@ -208,7 +210,7 @@ define([
                 parentDiv = domConstruct.toDom(commentTemplateString).childNodes[0];
             }
             // Checking for child node
-            if (IschildNode) {
+            if (isChildNode) {
                 this.commentsContent.appendChild(parentDiv);
             } else {
                 domConstruct.place(parentDiv, this.commentsContent, "first");
@@ -239,7 +241,7 @@ define([
                     attributes[dojo.configData.commentField] = lang.trim(commentsContainer.value);
                     attributes[this.params.relatedTable.relationships[0].keyField] = this.params.globalIdField;
                     featureData.setAttributes(attributes);
-                    // Removing no comment available from div
+                    // Removing no comment available message from div
                     divHeaderContent = query('.esriCTNoCommentsDiv');
                     if (divHeaderContent.length > 0) {
                         domConstruct.empty(divHeaderContent[0]);
@@ -247,11 +249,11 @@ define([
                     this.params.relatedTable.applyEdits([featureData], null, null, lang.hitch(this, function (result) {
                         if (result[0].success && commentsContainer.value !== "") {
                             this._showComments(featureData.attributes, false);
-                            // Assigning the maxLength for Text area
+                            // Assigning maxLength for Text area
                             this._setTextAreaMaxLength();
                             commentsContainer.value = "";
                         } else {
-                            // Checking if comment container has no comment then set then show message and set the remaining text
+                            // If comment container has no comment then show message and set the remaining text
                             if (commentsContainer.value === "") {
                                 this._setTextAreaMaxLength();
                                 dojo.applicationUtils.showError(dojo.configData.i18n.comment.emptyCommentMessage);
@@ -260,13 +262,13 @@ define([
                             // Assigning maxLength for textarea
                             this._setTextAreaMaxLength();
                             commentsContainer.value = "";
-                            dojo.applicationUtils.showError(dojo.configData.i18n.comment.errorInSubmmitingComment);
+                            dojo.applicationUtils.showError(dojo.configData.i18n.comment.errorInSubmittingComment);
                         }
                     }), function (err) {
                         // Assigning maxLength for textarea
                         this._setTextAreaMaxLength();
                         commentsContainer.value = "";
-                        dojo.applicationUtils.showError(dojo.configData.i18n.comment.errorInSubmmitingComment);
+                        dojo.applicationUtils.showError(dojo.configData.i18n.comment.errorInSubmittingComment);
                     });
                 } else {
                     // Assigning  maxLength for textarea
@@ -275,10 +277,10 @@ define([
                     dojo.applicationUtils.showError(dojo.configData.i18n.comment.emptyCommentMessage);
                 }
             } else {
-                // Assigning the maxLength for textarea
+                // Assigning maxLength for textarea
                 this._setTextAreaMaxLength();
                 commentsContainer.value = "";
-                dojo.applicationUtils.showError(dojo.configData.i18n.comment.errorInSubmmitingComment);
+                dojo.applicationUtils.showError(dojo.configData.i18n.comment.errorInSubmittingComment);
             }
         }
     });
