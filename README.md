@@ -42,7 +42,7 @@ Learn more about Esri's [ArcGIS for Local Government maps and apps][].
 
 Show me a list of other [Local Government GitHub repositories][].
 
-This application uses the 3.12 version of [Esri's ArcGIS API for JavaScript][]; see the site for concepts, samples, and a reference for using the API to create mapping web sites.
+This application uses the 3.13 version of [Esri's ArcGIS API for JavaScript][]; see the site for concepts, samples, and a reference for using the API to create mapping web sites.
 
 [Esri's ArcGIS Online Help][] site describes how to create web maps and web map applications in the ArcGIS Online ecosystem.
 
