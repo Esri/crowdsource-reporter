@@ -21,7 +21,7 @@ define({
     "appid": "",
     "oauthappid": null,
     //Group templates must support a group url parameter. This will contain the id of the group.
-    "group": "e96bd5b249a04235bcd7399cb80ee3cf",
+    "group": "758a315597a6461fbe2430a9e1828c6f",
     //Enter the url to the proxy if needed by the application
     "proxyurl": "proxy.ashx",
     //Example of a template specific property. If your template had several color schemes
@@ -48,9 +48,9 @@ define({
     "signInSubtitle": "",
     "signInBackgroundImage": "/images/signinbg.png",
 
-    "enableFacebook": true,
-    "enableTwitter": true,
-    "enableGoogleplus": true,
+    "enableFacebook": false,
+    "enableTwitter": false,
+    "enableGoogleplus": false,
 
     "facebookAppId": "",
 
@@ -77,9 +77,9 @@ define({
     "webMapInfoAvgRating": false,
 
     "submitMessage": "Thank you! Your report has been submitted.",
-    "likeField": "",
-    "commentField": "",
-    "reportedByField": "",
+    "likeField": "NUMVOTES",
+    "commentField": "COMMENTS",
+    "reportedByField": "USERID",
 
     "zoomLevel": 12,
     "enableUSNGSearch": false,
