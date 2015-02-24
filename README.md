@@ -29,12 +29,6 @@ The Crowdsource Reporter application presents one, or more, maps that can be use
 * Users can access the content anonymously, or authenticate using their Facebook, Google+, Twitter, or ArcGIS credentials. Authenticated users gain access to additional functionality, such as My Issues - a list of all reports they have submitted.
 * The application has been optimized for smartphones but is responsively designed and can also be used in browsers on smartphones, tablets, and desktops using [all browsers supported by ArcGIS Online][supported browsers]. 
 
-## Instructions
-
-### General Help
-* [New to Github? Get started here.][]
-* [Want more info on this app? Check out the documentation.][]
-
 ## Requirements
 
 ### Experience
@@ -47,17 +41,14 @@ The Crowdsource Reporter application presents one, or more, maps that can be use
 
 ### Browser Compatibility
 * The application is optimized for display on smarthones, desktops, and tablets using [all browsers supported by ArcGIS Online][supported browsers]. 
-## Resources
 
-Learn more about Esri's [ArcGIS for Local Government maps and apps][].
+## Instructions
 
-Show me a list of other [Local Government GitHub repositories][].
+### General Help
+* [New to Github? Get started here.][]
+* [Want more info on this app? Check out the documentation.][]
 
-This application uses the 3.13 version of [Esri's ArcGIS API for JavaScript][]; see the site for concepts, samples, and a reference for using the API to create mapping web sites.
-
-[Esri's ArcGIS Online Help][] site describes how to create web maps and web map applications in the ArcGIS Online ecosystem.
-
-## Deploying
+### Deploying
 
 1. To deploy this application, download the template from Portal/ArcGIS Online and unzip it.
 2. Copy the unzipped folder containing the web app template files, such as index.html, to your web server. You can rename the folder to change the URL through which users will access the application. By default the URL to the app will be `http://<Your Web Server>/<app folder name>/index.html`
@@ -70,6 +61,15 @@ This application uses the 3.13 version of [Esri's ArcGIS API for JavaScript][]; 
 
 > **Note:** If your application edits features in a feature service, contains secure services or web maps that aren't shared publicly, or generate requests that exceed 200 characters, you may need to set up and use a proxy page. Common situations where you may exceed the URL length are using complex polygons as input to a task or specifying a spatial reference using well-known text (WKT). For details on installing and configuring a proxy page see [Using the proxy](https://developers.arcgis.com/javascript/jshelp/ags_proxy.html). If you do not have an Internet connection, you will need to access and deploy the ArcGIS API for JavaScript documentation from [developers.arcgis.com](https://developers.arcgis.com/).
 
+## Resources
+
+Learn more about Esri's [ArcGIS for Local Government maps and apps][].
+
+Show me a list of other [Local Government GitHub repositories][].
+
+This application uses the 3.13 version of [Esri's ArcGIS API for JavaScript][]; see the site for concepts, samples, and a reference for using the API to create mapping web sites.
+
+[Esri's ArcGIS Online Help][] site describes how to create web maps and web map applications in the ArcGIS Online ecosystem.
 
 ## Issues
 
