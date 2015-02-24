@@ -1,0 +1,80 @@
+﻿/*Common*/
+.esriCTEllipsis
+{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.esriCTDefaultCursor
+{
+    cursor: default;
+}
+
+.esriCTPointerCursor
+{
+    cursor: pointer;
+}
+
+.esriCTHidden
+{
+    display: none;
+}
+
+.esriCTVisible
+{
+    display: block;
+}
+
+.esriCTFullHeightWidth
+{
+    height: 100%;
+    width: 100%;
+}
+
+.esriCTFullHeight
+{
+    height: 100%;
+}
+
+.esriCTFullWidth
+{
+    width: 100%;
+}
+
+.esriCTFontGrayColor
+{
+    color: #696969;
+}
+
+.esriCTBorderWhite
+{
+    border: 1px solid #EDEDED;
+}
+
+.esriCTBorder
+{
+    border: 1px solid #EDEDED;
+}
+
+.esriCTBorderLeft
+{
+    border-left: 1px solid #EDEDED;
+}
+
+.esriCTBorderTop
+{
+    border-top: 1px solid #EDEDED;
+}
+
+.esriCTBorderRight
+{
+    border-right: 1px solid #EDEDED;
+}
+
+.esriCTBorderBottom
+{
+    border-bottom: 1px solid #EDEDED;
+}
+
+/*common*/

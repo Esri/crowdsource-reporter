@@ -1,0 +1,240 @@
+﻿/* CSS for Mobiles */
+@media only screen and (max-width: 767px)
+{
+    .esriCTMainContainer
+    {
+        height: calc(100% - 61px);
+    }
+    .esriCTLeftContainer, .esriCTCenterContainer, .esriCTSlideContainer
+    {
+        width: 100% !important;
+        border-width: 0px;
+    }
+
+    .esriCTCenterContainer, .esriCTSlideContainer
+    {
+        display: none;
+    }
+
+    .esriCTIssueWallContainer
+    {
+        display: block !important;
+    }
+
+    /* App header icons */
+
+    .esriCTHeaderIcons
+    {
+        height: 44px !important;
+        width: 44px !important;
+        background-size: 44px !important;
+    }
+
+    .esriCTDesktopIcons
+    {
+        display: none;
+    }
+
+    .esriCTMobileIcons
+    {
+        display: block;
+    }
+
+    .esriCTHeaderContainer
+    {
+        height: 60px;
+    }
+
+    .esriCTMenuTabLeft
+    {
+        line-height: 50px;
+    }
+
+    .esriCTApplicationIcon
+    {
+        height: 60px;
+        width: 60px;
+        max-width: 60px;
+        max-height: 60px;
+    }
+    /* End of App header icons */
+
+    /* GeoForm Styles */
+
+    .esriCTGeoFormParentContainer
+    {
+        width: 100%;
+        left: 0;
+    }
+    /* End of GeoForm Styles */
+
+    .esriCTCloseButton
+    {
+        margin-right: 24px;
+    }
+}
+
+/* CSS for MiniTablets */
+
+@media only screen and (min-width: 480px) and (max-width:767px)
+{
+    .esriCTHeaderIcons
+    {
+        height: 44px !important;
+        width: 44px !important;
+        background-size: 44px !important;
+    }
+
+    .esriCTHeaderContainer
+    {
+        height: 60px;
+    }
+
+    .esriCTApplicationIcon
+    {
+        height: 60px;
+        width: 60px;
+        max-height: 60px;
+        max-width: 60px;
+    }
+
+    .esriCTMainContainer
+    {
+        height: calc(100% - 61px);
+    }
+
+    .esriCTMenuTabLeft
+    {
+        line-height: 50px;
+    }
+}
+
+/* CSS for Tablet and iPad */
+@media only screen and (min-width: 767px) and (max-width:1024px)
+{
+
+}
+
+/* CSS for Devices other than desktop browser */
+@media screen and (max-width:1024px)
+{
+    html, body, .form-control, .btn
+    {
+        font-size: 15px;
+    }
+
+    .esriCTHeaderFont
+    {
+        font-size: 17px;
+    }
+
+    .esriCTSigninAppCaptionDiv
+    {
+        height: 45px;
+    }
+
+    .esriCTHeaderIcons
+    {
+        height: 44px !important;
+        width: 44px !important;
+        background-size: 44px !important;
+    }
+
+    .esriCTHeaderContainer
+    {
+        height: 60px;
+    }
+
+    .esriCTApplicationIcon
+    {
+        height: 60px;
+        width: 60px;
+        max-height: 60px;
+        max-width: 60px;
+    }
+
+    .esriCTMainContainer
+    {
+        height: calc(100% - 61px);
+    }
+
+    .esriCTMenuTabLeft
+    {
+        line-height: 50px;
+    }
+
+    .esriCTHeaderIcons
+    {
+        margin: 8px 24px;
+    }
+
+    /* GeoForm Styles */
+
+    .esriCTAttachmentSelectedCount
+    {
+        margin-top: 38px;
+        float: none;
+        margin-left: 0px;
+    }
+    /* End of GeoForm Styles */
+
+}
+
+/* CSS for Devices other than mobile */
+@media screen and (min-width: 768px)
+{
+    #mobilemenu
+    {
+        display: none !important;
+    }
+
+    .esriCTLeftContainer
+    {
+        width: 30%;
+        display: block !important;
+    }
+
+    .esriCTCenterContainer
+    {
+        width: 40%;
+        display: block !important;
+    }
+
+    .esriCTSlideContainer
+    {
+        width: 30%;
+        display: block !important;
+    }
+
+    .esriCTCloseButton
+    {
+        margin-right: 24px;
+    }
+}
+
+/* CSS for retina images for retina devices like ipad / tablets etc. */
+@media only screen and (min-device-width : 319px) and (max-device-width : 1024px) and (-webkit-min-device-pixel-ratio: 2)
+{
+    .esriCTSigninOrDiv
+    {
+        background-image: url('../images/seperator-2x.png') !important;
+    }
+
+    .esriCTSlideInButton
+    {
+        background-image: url('../images/slide-in-2x.png') !important;
+    }
+
+    .esriCTSlideOutButton
+    {
+        background-image: url('../images/slide-out-2x.png') !important;
+    }
+
+    .esriCTLocationButton
+    {
+        background-image: url(../images/curent-location-2x.png) !important;
+        background-size: 32px;
+    }
+
+}
+
