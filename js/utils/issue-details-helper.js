@@ -679,6 +679,7 @@ define([
             switch (graphic.geometry.type) {
             case "point":
                 path = "M 1784,238 1805,238 1805,259 1784,259 1784,238 M 1777,248 1784,248 M 1794,231 1794,238 M 1812,248 1805,248 M 1794,266 1794,259";
+                symbolSize = 50; //set default Symbol size which will be used in case symbol not found.
                 if (layer.renderer.symbol) {
                     if (layer.renderer.symbol.hasOwnProperty("height") && layer.renderer.symbol.hasOwnProperty("width")) {
                         symbolHeight = layer.renderer.symbol.height;
@@ -697,7 +698,12 @@ define([
                     }
                 } else if ((layer.renderer.infos) && (layer.renderer.infos.length > 1)) {
                     for (i = 0; i < layer.renderer.infos.length; i++) {
-                        graphicInfoValue = graphic.attributes[layer.typeIdField];
+                        if (layer.typeIdField) {
+                            graphicInfoValue = graphic.attributes[layer.typeIdField];
+                        }
+                        else if (layer.renderer.attributeField) {
+                            graphicInfoValue = graphic.attributes[layer.renderer.attributeField];
+                        }
                         layerInfoValue = layer.renderer.infos[i].value;
                         if (graphicInfoValue.toString() === layerInfoValue.toString()) {
                             if (layer.renderer.infos[i].symbol.hasOwnProperty("height") && layer.renderer.infos[i].symbol.hasOwnProperty("width")) {
