@@ -5,22 +5,37 @@
     {
         height: calc(100% - 61px);
     }
-    .esriCTLeftContainer, .esriCTCenterContainer, .esriCTSlideContainer
+
+    #mapContainer
     {
-        width: 100% !important;
-        border-width: 0px;
+        height: calc(100% - 49px);
     }
 
-    .esriCTCenterContainer, .esriCTSlideContainer
+    #mapParentContainer .esriCTReportButton, #mapParentContainer .esriCTListHeader
+    {
+        display: block;
+    }
+
+    #mapParentContainer, #sideContainer
+    {
+        width: 100% !important;
+        border-width: 0px; /* To remove the left border of the containers */
+    }
+
+    #mapParentContainer
     {
         display: none;
     }
 
-    .esriCTIssueWallContainer
+    #sideContainer
     {
         display: block !important;
     }
 
+    .esriCTLoaderParent
+    {
+        width: 100%;
+    }
     /* App header icons */
 
     .esriCTHeaderIcons
@@ -52,10 +67,8 @@
 
     .esriCTApplicationIcon
     {
-        height: 60px;
-        width: 60px;
-        max-width: 60px;
-        max-height: 60px;
+        height: 59px;
+        max-height: 59px;
     }
     /* End of App header icons */
 
@@ -71,6 +84,15 @@
     .esriCTCloseButton
     {
         margin-right: 24px;
+    }
+
+    .esriCTIssueWallMapItButton
+    {
+        display: block;
+    }
+    .esriCTListHeaderText
+    {
+        width: calc(100% - 85px);
     }
 }
 
@@ -92,10 +114,8 @@
 
     .esriCTApplicationIcon
     {
-        height: 60px;
-        width: 60px;
-        max-height: 60px;
-        max-width: 60px;
+        height: 59px; /*  width: 60px; max-width: 60px;*/
+        max-height: 59px;
     }
 
     .esriCTMainContainer
@@ -140,17 +160,15 @@
         background-size: 44px !important;
     }
 
-    .esriCTHeaderContainer
+    .esriCTHeaderContainer, .esriCTApplicationHeader
     {
         height: 60px;
     }
 
     .esriCTApplicationIcon
     {
-        height: 60px;
-        width: 60px;
-        max-height: 60px;
-        max-width: 60px;
+        height: 59px;
+        max-height: 59px;
     }
 
     .esriCTMainContainer
@@ -178,29 +196,41 @@
     }
     /* End of GeoForm Styles */
 
+    /* Start New app header */
+    .esriCTLoginUserNameDiv
+    {
+        margin-top: 23px;
+    }
+    .esriCTCaretIcon
+    {
+        margin-top: 26px;
+    }
+    .esriCTOptions
+    {
+        top: 60px;
+    }
+    .esriCTHelpIcon
+    {
+        margin-top: 21px;
+    }
+    /* End New app header */
 }
 
 /* CSS for Devices other than mobile */
 @media screen and (min-width: 768px)
 {
-    #mobilemenu
+    #mobileMenuContainer
     {
         display: none !important;
     }
 
-    .esriCTLeftContainer
+    #mapParentContainer
     {
-        width: 30%;
+        width: 70%;
         display: block !important;
     }
 
-    .esriCTCenterContainer
-    {
-        width: 40%;
-        display: block !important;
-    }
-
-    .esriCTSlideContainer
+    #sideContainer
     {
         width: 30%;
         display: block !important;
@@ -220,21 +250,4 @@
         background-image: url('../images/seperator-2x.png') !important;
     }
 
-    .esriCTSlideInButton
-    {
-        background-image: url('../images/slide-in-2x.png') !important;
-    }
-
-    .esriCTSlideOutButton
-    {
-        background-image: url('../images/slide-out-2x.png') !important;
-    }
-
-    .esriCTLocationButton
-    {
-        background-image: url(../images/curent-location-2x.png) !important;
-        background-size: 32px;
-    }
-
 }
-

@@ -1,25 +1,16 @@
 ﻿<div data-dojo-attach-point="mobileMenuMainContainer" class="esriCTBGColor esriCTMobilemenu">
-    <div class="esriCTBurgermenu" data-dojo-attach-point="mainMenuContainer">
-        <div data-dojo-attach-point="homeMenu" class="esriCTHidden esriCTBurgermenuStyle esriCTPointerCursor">
-            ${nls.home}</div>
-        <div data-dojo-attach-point="myIssuesView" class="esriCTHidden esriCTBurgermenuStyle esriCTPointerCursor">
-            ${nls.myIssuesView}</div>
-        <div data-dojo-attach-point="mapView" class="esriCTHidden esriCTBurgermenuStyle esriCTPointerCursor">
-            ${nls.mapView}</div>
-        <div data-dojo-attach-point="listView" class="esriCTHidden esriCTBurgermenuStyle esriCTPointerCursor">
-            ${nls.listView}</div>
-        <div data-dojo-attach-point="reportIt" class="esriCTHidden esriCTBurgermenuStyle esriCTPointerCursor">
-            ${nls.reportIt}</div>
-        <div data-dojo-attach-point="signIn" class="esriCTHidden esriCTBurgermenuStyle esriCTPointerCursor">
-            ${nls.signIn}</div>
-        <div data-dojo-attach-point="signOut" class="esriCTHidden esriCTBurgermenuStyle esriCTPointerCursor">
-            ${nls.signOut}</div>
+    <div data-dojo-attach-point="mobileMenuHeader" class="esriCTMobileMenuHeader esriCTHidden">
+        <div class="esriCTUserImg"></div>
+        <div class="esriCTLoggedinUserName esriCTEllipsis" data-dojo-attach-point="loggedinUserNameDiv"></div>
     </div>
-    <div id="mobileMenuFooter" class="esriCTEllipsis esriCTMobileMenuFooter esriCTHidden">
-        <div class="esriCTLoginUserNameDiv esriCTHidden" data-dojo-attach-point="loggedinAsDiv">
-            ${nls.loggedInAs}
-        </div>
-        <div class="esriCTBurgerMenuBottom esriCTHidden" data-dojo-attach-point="loggedinUserNameDiv">
-        </div>
+    <div class="esriCTBurgermenu" data-dojo-attach-point="mainMenuContainer">
+        <div data-dojo-attach-point="myReport" class="esriCTHidden esriCTBurgermenuStyle esriCTPointerCursor">
+            ${i18n.myReport}</div>
+        <div data-dojo-attach-point="signIn" class="esriCTHidden esriCTBurgermenuStyle esriCTPointerCursor">
+            ${i18n.signIn}</div>
+        <div data-dojo-attach-point="signOut" class="esriCTHidden esriCTBurgermenuStyle esriCTPointerCursor">
+            ${i18n.signOut}</div>
+        <div data-dojo-attach-point="help" class="esriCTHidden esriCTBurgermenuStyle esriCTPointerCursor">
+            ${i18n.help}</div>
     </div>
 </div>

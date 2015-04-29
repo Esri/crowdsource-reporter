@@ -35,13 +35,17 @@ define([
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         mobileMenu: null,
-        _config: {
-            "homeMenu": false,
-            "mapView": false,
-            "listView": false,
-            "reportIt": false,
+        config: {
+            "help": false,
             "signIn": false,
             "signOut": false
+        },
+        //fallback string if missing in nls
+        i18n: {
+            myReport: "My Reports",
+            signIn: "Sign in",
+            signOut: "Sign out",
+            help: "Help"
         },
 
         /**
@@ -50,8 +54,13 @@ define([
         * @memberOf widgets/app-header/app-header
         */
         constructor: function (configData) {
+            // check if configData is present, then merge it with config object
             if (configData) {
-                lang.mixin(this._config, configData);
+                lang.mixin(this, configData);
+            }
+            // check if configurable text is present in nls for app-header widget, then merge it with local nls object
+            if (this.appConfig.i18n.appHeader) {
+                lang.mixin(this.i18n, this.appConfig.i18n.appHeader);
             }
         },
 
@@ -60,32 +69,81 @@ define([
         * @memberOf widgets/app-header/app-header
         */
         postCreate: function () {
-            var applicationName, applicationIcon;
-            if (dojo.configData.applicationName && lang.trim(dojo.configData.applicationName).length !== 0) {
-                applicationName = dojo.configData.applicationName;
-            } else if (dojo.configData.groupInfo.results.length > 0 && dojo.configData.groupInfo.results[0].title) {
-                applicationName = dojo.configData.groupInfo.results[0].title;
+            //set application title
+            this._setApplicationTitle();
+            //set application logo
+            this._setApplicationLogo();
+
+            // create mobile menu
+            this.mobileMenu = new MobileMenu({ "config": this.config, "appConfig": this.appConfig }, domConstruct.create("div", {}, dom.byId("mobileMenuContainer")));
+            this.mobileMenu.onMyIssuesClicked = lang.hitch(this, function () { this._animateMenuContainer(); this._showMyIssuesClicked(); });
+            this.mobileMenu.onSignInClicked = lang.hitch(this, function () { this._animateMenuContainer(); this._signInClicked(); });
+            this.mobileMenu.onSignOutClicked = lang.hitch(this, function () { this._animateMenuContainer(); this._signOutClicked(); });
+            this.mobileMenu.onHelpClicked = lang.hitch(this, function () { this._animateMenuContainer(); this._helpClicked(); });
+
+
+            //handle mobile menu events
+            on(this.mobileMenuBurger, "click", lang.hitch(this, this._animateMenuContainer));
+            on(this.myIssueButton, "click", lang.hitch(this, this._showMyIssuesClicked));
+            on(this.signOutButton, "click", lang.hitch(this, this._signOutClicked));
+            on(this.helpButton, "click", lang.hitch(this, this._helpClicked));
+
+            domAttr.set(this.myIssueButton, "title", this.appConfig.i18n.myIssues.myIssuesTooltip);
+            domAttr.set(this.signOutButton, "title", this.appConfig.i18n.signin.signOutTooltip);
+
+            //set header menus based on configuration
+            this._setAppHeaderMenu();
+
+            //TODO : sprint2
+            //handel signin/logged_in_userName clicked
+            on(this.esriCTLoginCredentialsDiv, "click", lang.hitch(this, this._toggleLoginOptionsVisibility));
+        },
+
+        /**
+        * This function is used to set the application title
+        * First priority is given to name configured in configuration Panel
+        * Second priority is given to group name
+        * if both of the above cases failed noGroupNameText configured in nls will be shown as Application title.
+        * @memberOf widgets/app-header/app-header
+        */
+        _setApplicationTitle: function () {
+            var applicationName = "";
+            if (this.appConfig.applicationName && lang.trim(this.appConfig.applicationName).length !== 0) {
+                applicationName = this.appConfig.applicationName;
+            } else if (this.appConfig.groupInfo.results.length > 0 && this.appConfig.groupInfo.results[0].title) {
+                applicationName = this.appConfig.groupInfo.results[0].title;
             } else {
-                applicationName = dojo.configData.i18n.signin.noGroupNameText;
+                applicationName = this.appConfig.i18n.signin.noGroupNameText;
             }
             document.title = applicationName;
             domAttr.set(this.applicationHeaderName, "innerHTML", applicationName);
+            //if application name is empty stretch the app icon container to fit in the app titlebar
+            if (applicationName === "") {
+                domClass.add(this.applicationIconContainer, "esriCTHomeIconStreched");
+            }
+        },
 
+        /**
+        * This function is used to set the application logo
+        * @memberOf widgets/app-header/app-header
+        */
+        _setApplicationLogo: function () {
+            var applicationIcon;
             // if application icon is configured, display the configured icon in application header
             // else if group logo is present, display group logo in application header
             // if both the above mentioned icons are not present, display default icon in application header
-            if (dojo.configData.applicationIcon && lang.trim(dojo.configData.applicationIcon).length !== 0) {
-                if (dojo.configData.applicationIcon.indexOf("http") === 0) {
-                    domAttr.set(this.applicationHeaderIcon, "src", dojo.configData.applicationIcon);
+            if (this.appConfig.applicationIcon && lang.trim(this.appConfig.applicationIcon).length !== 0) {
+                if (this.appConfig.applicationIcon.indexOf("http") === 0) {
+                    domAttr.set(this.applicationHeaderIcon, "src", this.appConfig.applicationIcon);
                 } else {
-                    if (dojo.configData.applicationIcon.indexOf("/") === 0) {
-                        domAttr.set(this.applicationHeaderIcon, "src", dojoConfig.baseURL + dojo.configData.applicationIcon);
+                    if (this.appConfig.applicationIcon.indexOf("/") === 0) {
+                        domAttr.set(this.applicationHeaderIcon, "src", dojoConfig.baseURL + this.appConfig.applicationIcon);
                     } else {
-                        domAttr.set(this.applicationHeaderIcon, "src", dojoConfig.baseURL + "/" + dojo.configData.applicationIcon);
+                        domAttr.set(this.applicationHeaderIcon, "src", dojoConfig.baseURL + "/" + this.appConfig.applicationIcon);
                     }
                 }
-            } else if (dojo.configData.groupInfo.results.length > 0 && dojo.configData.groupInfo.results[0].thumbnailUrl) {
-                domAttr.set(this.applicationHeaderIcon, "src", dojo.configData.groupInfo.results[0].thumbnailUrl);
+            } else if (this.appConfig.groupInfo.results.length > 0 && this.appConfig.groupInfo.results[0].thumbnailUrl) {
+                domAttr.set(this.applicationHeaderIcon, "src", this.appConfig.groupInfo.results[0].thumbnailUrl);
             } else {
                 domAttr.set(this.applicationHeaderIcon, "src", dojoConfig.baseURL + "/images/app-icon.png");
             }
@@ -96,92 +154,10 @@ define([
             on(this.applicationHeaderName, "click", lang.hitch(this, this._navigateToHome));
 
             // load application shortcut icons
+            this._setApplicationShortcutIcon();
             this._loadIcons("apple-touch-icon-precomposed", applicationIcon);
             this._loadIcons("apple-touch-icon", applicationIcon);
-            this._setApplicationShortcutIcon();
 
-            // create mobile menu
-            this.mobileMenu = new MobileMenu(this._config, domConstruct.create("div", {}, dom.byId("mobilemenu")));
-            this.mobileMenu.hideMobileMenu = lang.hitch(this, this._animateMenuContainer);
-            this.mobileMenu.reportItClicked = lang.hitch(this, this._reportIssueClicked);
-            this.mobileMenu.myIssuesClicked = lang.hitch(this, this._showMyIssuesClicked);
-            this.mobileMenu.listViewClicked = lang.hitch(this, this._showIssueListClicked);
-
-            on(this.mobileMenuBurger, "click", lang.hitch(this, this._animateMenuContainer));
-            on(this.myIssueButton, "click", lang.hitch(this, this._showMyIssuesClicked));
-            on(this.reportIssueButton, "click", lang.hitch(this, this._reportIssueClicked));
-            on(this.signOutButton, "click", lang.hitch(this, this._signOutClicked));
-            this._showHideMenus();
-
-            domAttr.set(this.myIssueButton, "title", dojo.configData.i18n.myIssues.myIssuesTooltip);
-            domAttr.set(this.reportIssueButton, "title", dojo.configData.i18n.geoform.geoformTooltip);
-            domAttr.set(this.signInButton, "title", dojo.configData.i18n.signin.signInTooltip);
-            domAttr.set(this.signOutButton, "title", dojo.configData.i18n.signin.signOutTooltip);
-        },
-
-        /**
-        * Navigate the view to home screen.
-        * @memberOf widgets/app-header/app-header
-        */
-        _navigateToHome: function () {
-            //Check if application is in mobile view and mobile-menu exist
-            if (dojowindow.getBox().w < 768 && this.mobileMenu) {
-                this.mobileMenu.homeMenuClicked(false);
-            }
-        },
-
-        /**
-        * Sign out of AGOL
-        * @memberOf widgets/app-header/app-header
-        */
-        _signOutClicked: function () {
-            // user is logged in via AGOL portal login
-            if (this._config.portalObject) {
-                if (this._config.portalObject.getPortalUser()) {
-                    this._config.portalObject.signOut().then(lang.hitch(this, function () {
-                        location.reload();
-                    }));
-                } else {
-                    location.reload();
-                }
-            } else {
-                location.reload();
-            }
-        },
-
-        /**
-        * Show or hide menu items based on configuration settings
-        * @memberOf widgets/app-header/app-header
-        */
-        _showHideMenus: function () {
-            if (this._config.reportIt) {
-                domClass.remove(this.reportIssueButton, "esriCTHidden");
-            } else {
-                domClass.add(this.reportIssueButton, "esriCTHidden");
-            }
-            if (this._config.signIn) {
-                domClass.remove(this.signInButton, "esriCTHidden");
-            } else {
-                domClass.add(this.signInButton, "esriCTHidden");
-            }
-            if (this._config.signOut) {
-                domClass.remove(this.signOutButton, "esriCTHidden");
-                domClass.remove(this.myIssueButton, "esriCTHidden");
-            } else {
-                domClass.add(this.signOutButton, "esriCTHidden");
-            }
-        },
-
-        /**
-        * Update menu list
-        * @memberOf widgets/app-header/app-header
-        */
-        updateMenuList: function (menuList) {
-            if (menuList) {
-                lang.mixin(this._config, menuList);
-            }
-            this._showHideMenus();
-            this.mobileMenu.updateMenuList(menuList);
         },
 
         /**
@@ -189,8 +165,8 @@ define([
         * @memberOf widgets/app-header/app-header
         */
         _setApplicationShortcutIcon: function () {
-            if (dojo.configData.applicationFavicon && lang.trim(dojo.configData.applicationFavicon).length !== 0) {
-                this._loadIcons("shortcut icon", dojo.configData.applicationFavicon);
+            if (this.appConfig.applicationFavicon && lang.trim(this.appConfig.applicationFavicon).length !== 0) {
+                this._loadIcons("shortcut icon", this.appConfig.applicationFavicon);
             }
         },
 
@@ -211,28 +187,95 @@ define([
             document.getElementsByTagName('head')[0].appendChild(icon);
         },
 
-        _reportIssueClicked: function (evt) {
-            this.reportIssue(evt);
+
+        /**
+        * This function is used to display option available on click of login options arrow.
+        * @memberOf widgets/app-header/app-header
+        */
+        _setAppHeaderMenu: function () {
+            if (this.appConfig && this.appConfig.logInDetails && this.appConfig.logInDetails.userName) {
+                domAttr.set(this.esriCTLoginUserNameDiv, "innerHTML", this.appConfig.logInDetails.userName);
+                domClass.remove(this.signOutButton, "esriCTHidden");
+                domClass.remove(this.caretIcon, "esriCTHidden");
+            }
+            if (this.config.help) {
+                domClass.remove(this.helpButton, "esriCTHidden");
+            }
         },
 
-        reportIssue: function (evt) {
-            return evt;
+        /**
+        * This function is used to show/hide login option's list also
+        * in case of Proceed as guest, signin will be shown instead of username
+        * and clicking on it reload the app so that user can sign in using different options from the landing page.
+        * @memberOf widgets/app-header/app-header
+        */
+        _toggleLoginOptionsVisibility: function () {
+            //if user is not signed in and clicked on sign in text load the application again.
+            if (this.config.signIn) {
+                this._signInClicked();
+            } else {
+                domClass.toggle(this.esriCTLoginOptionsDiv, "esriCTHidden");
+            }
         },
+
+        /**
+        * Navigate the view to home screen.
+        * @memberOf widgets/app-header/app-header
+        */
+        _navigateToHome: function () {
+            this.navigateToHome();
+        },
+
+        /**
+        * This function is used to Sign out of the application
+        * @memberOf widgets/app-header/app-header
+        */
+        _signOutClicked: function () {
+            // user is logged in via AGOL portal login
+            if (this.config.portalObject) {
+                if (this.config.portalObject.getPortalUser()) {
+                    this.config.portalObject.signOut().then(lang.hitch(this, function () {
+                        location.reload();
+                    }));
+                } else {
+                    location.reload();
+                }
+            } else {
+                location.reload();
+            }
+        },
+
+        /**
+        * This function is used to load application again on sign in click.
+        * @memberOf widgets/app-header/app-header
+        */
+        _signInClicked: function () {
+            window.location.reload();
+        },
+
+        /**
+        * This function is used to show the configured help text.
+        * @memberOf widgets/app-header/app-header
+        */
+        _helpClicked: function () {
+            alert("Comming Soon"); //TODO: in sprint3
+        },
+
+        /**
+        * Update menu list
+        * @memberOf widgets/app-header/app-header
+        */
+        updateMenuList: function (menuList) {
+            if (menuList) {
+                lang.mixin(this.config, menuList);
+            }
+            this._setAppHeaderMenu();
+            this.mobileMenu.updateMenuList(menuList);
+        },
+
 
         _showMyIssuesClicked: function (evt) {
             this.showMyIssues(evt);
-        },
-
-        showMyIssues: function (evt) {
-            return evt;
-        },
-
-        _showIssueListClicked: function (evt) {
-            this.showIssueList(evt);
-        },
-
-        showIssueList: function (evt) {
-            return evt;
         },
 
         /**
@@ -241,8 +284,16 @@ define([
         */
         _animateMenuContainer: function () {
             domClass.toggle(this.mobileMenuBurger, "active");
-            domClass.toggle(dom.byId('mobileMenuFooter'), "esriCTHidden");
-            domClass.toggle(dom.byId('mobilemenu'), "esriCTHideMobileMenu");
+            domClass.toggle(dom.byId('mobileMenuContainer'), "esriCTHideMobileMenu");
+        },
+
+        //Events Generated from App Header
+        showMyIssues: function (evt) {
+            return evt;
+        },
+
+        navigateToHome: function (evt) {
+            return evt;
         }
     });
 });

@@ -40,23 +40,16 @@ define([
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         _lastSelectedView: null,
-        _config: {
-            "homeMenu": false,
-            "mapView": false,
-            "listView": false,
-            "reportIt": false,
+        config: {
+            "help": false,
             "signIn": false,
             "signOut": false
         },
-        nls: {
-            home: "Home",
-            myIssuesView: "My Issues",
-            mapView: "Map View",
-            listView: "List View",
-            reportIt: "Report It",
+        i18n: {
+            myReport: "My Reports",
+            help: "Help",
             signIn: "Sign in",
-            signOut: "Sign out",
-            loggedInAs: "Logged in as"
+            signOut: "Sign out"
         },
 
         /**
@@ -65,13 +58,13 @@ define([
         * @memberOf widgets/mobile-menu/mobile-menu
         */
         constructor: function (configData) {
-            // check if configurable text is present in nls for webmaplist widget, then merge it with local nls object
-            if (dojo.configData.i18n.mobileMenu) {
-                lang.mixin(this.nls, dojo.configData.i18n.mobileMenu);
-            }
-            // check if configData is present, then merge it with _config object
+            // check if configData is present, then merge it with config object
             if (configData) {
-                lang.mixin(this._config, configData);
+                lang.mixin(this, configData);
+            }
+            // check if configurable text is present in nls for app-header widget, then merge it with local nls object
+            if (this.appConfig.i18n.appHeader) {
+                lang.mixin(this.i18n, this.appConfig.i18n.appHeader);
             }
         },
 
@@ -81,8 +74,6 @@ define([
         * @memberOf widgets/mobile-menu/mobile-menu
         */
         postCreate: function () {
-            //by default select home(left container)
-            this._lastSelectedView = dojo.byId("LeftContainer");
             this._showHideMenus();
             //Handle Window Resize
             on(window, "resize", lang.hitch(this, function () {
@@ -94,46 +85,25 @@ define([
         },
 
         /**
+        * Updates menu list based on the
+        * @param{object} menuList to be updated
+        * @memberOf widgets/mobile-menu/mobile-menu
+        */
+        updateMenuList: function (menuList) {
+            // mix-in the new menu list and show hide menus based on new config
+            if (menuList) {
+                lang.mixin(this.config, menuList);
+            }
+            this._showHideMenus();
+        },
+
+        /**
         * Show or hide menu in the menu list depending on the configuration
         * @memberOf widgets/mobile-menu/mobile-menu
         */
         _showHideMenus: function () {
-            // check if homemenu is to be shown in list and accordingly set it's display and handle it's click
-            if (this._config.homeMenu) {
-                domClass.remove(this.homeMenu, "esriCTHidden");
-                this.own(on(this.homeMenu, "click", lang.hitch(this, function () {
-                    this.homeMenuClicked(true);
-                })));
-            } else {
-                domClass.add(this.homeMenu, "esriCTHidden");
-            }
-
-            // check if mapView is to be shown in list and accordingly set it's display and handle it's click
-            if (this._config.mapView) {
-                domClass.remove(this.mapView, "esriCTHidden");
-                this.own(on(this.mapView, "click", lang.hitch(this, this._mapViewClicked)));
-            } else {
-                domClass.add(this.mapView, "esriCTHidden");
-            }
-
-            // check if listView is to be shown in list and accordingly set it's display and handle it's click
-            if (this._config.listView) {
-                domClass.remove(this.listView, "esriCTHidden");
-                this.own(on(this.listView, "click", lang.hitch(this, this._listViewClicked)));
-            } else {
-                domClass.add(this.listView, "esriCTHidden");
-            }
-
-            // check if reportIt is to be shown in list and accordingly set it's display and handle it's click
-            if (this._config.reportIt) {
-                domClass.remove(this.reportIt, "esriCTHidden");
-                this.own(on(this.reportIt, "click", lang.hitch(this, this._reportItClicked)));
-            } else {
-                domClass.add(this.reportIt, "esriCTHidden");
-            }
-
             // check if signIn is to be shown in list and accordingly set it's display and handle it's click
-            if (this._config.signIn) {
+            if (this.config.signIn) {
                 domClass.remove(this.signIn, "esriCTHidden");
                 this.own(on(this.signIn, "click", lang.hitch(this, this._signInClicked)));
             } else {
@@ -143,18 +113,32 @@ define([
             // check if signout is to be shown in list and accordingly set it's display and handle it's click
             // if signout is to be shown then also show the myIssues in list and handel its click,
             // since signout will be shown only ones user is logged in with any of the logins provided.
-            if (this._config.signOut) {
+            if (this.config.signOut) {
+                //show signout option and handle its click event
                 domClass.remove(this.signOut, "esriCTHidden");
                 this.own(on(this.signOut, "click", lang.hitch(this, this._signOutClicked)));
-                domClass.remove(this.myIssuesView, "esriCTHidden");
-                this.own(on(this.myIssuesView, "click", lang.hitch(this, this._myIssuesClicked)));
-                domAttr.set(this.loggedinUserNameDiv, "innerHTML", dojo.configData.logInDetails.userName);
-                domClass.remove(this.loggedinUserNameDiv, "esriCTHidden");
-                domClass.remove(this.loggedinAsDiv, "esriCTHidden");
+
+                //show my issues and handle it click event
+                this.own(on(this.myReport, "click", lang.hitch(this, this._myIssuesClicked)));
+
+                //set logged in user name
+                domAttr.set(this.loggedinUserNameDiv, "innerHTML", this.appConfig.logInDetails.userName);
+
+                //show Mobile Header consisting logged in user name
+                domClass.remove(this.mobileMenuHeader, "esriCTHidden");
+
                 this._setMenuContainerHeight();
             } else {
                 domClass.add(this.signOut, "esriCTHidden");
                 domStyle.set(this.mainMenuContainer, "height", "100%");
+            }
+
+            // check if help is to be shown in list and accordingly set it's display and handle it's click
+            if (this.config.help) {
+                domClass.remove(this.help, "esriCTHidden");
+                this.own(on(this.help, "click", lang.hitch(this, this._helpClicked)));
+            } else {
+                domClass.add(this.help, "esriCTHidden");
             }
         },
 
@@ -172,116 +156,11 @@ define([
         },
 
         /**
-        * Updates menu list based on the
-        * @param{object} menuList to be updated
-        * @memberOf widgets/mobile-menu/mobile-menu
-        */
-        updateMenuList: function (menuList) {
-            // mix-in the new menu list and show hide menus based on new config
-            if (menuList) {
-                lang.mixin(this._config, menuList);
-            }
-            this._showHideMenus();
-        },
-
-        /**
-        * Event which will be generated when mobile menu is set to hidden
-        * @memberOf widgets/mobile-menu/mobile-menu
-        */
-        hideMobileMenu: function (evt) {
-            return evt;
-        },
-
-        /**
-        * Event which will be generated when user clicks report-it option
-        * @memberOf widgets/mobile-menu/mobile-menu
-        */
-        reportItClicked: function (evt) {
-            return evt;
-        },
-
-        /**
-        * Event which will be generated when user clicks my-issues option
-        * @memberOf widgets/mobile-menu/mobile-menu
-        */
-        myIssuesClicked: function (evt) {
-            return evt;
-        },
-
-        /**
-        * Shows map-view and hide the previous view, also resizes the map container.
-        * @memberOf widgets/mobile-menu/mobile-menu
-        */
-        showMapView: function () {
-            this._lastSelectedView.style.display = "none";
-            this._lastSelectedView = dojo.byId("CenterContainer");
-            dojo.byId("CenterContainer").style.display = "block";
-            topic.publish("resizeMap");
-        },
-
-        /**
-        * Shows list view container and hide the previous vie.
-        * @memberOf widgets/mobile-menu/mobile-menu
-        */
-        showListView: function () {
-            this._lastSelectedView.style.display = "none";
-            this._lastSelectedView = dojo.byId("SlideContainermain");
-            dojo.byId("SlideContainermain").style.display = "block";
-        },
-
-        /**
-        * Executed when user clicks on Home option
-        * @memberOf widgets/mobile-menu/mobile-menu
-        */
-        homeMenuClicked: function (hideMobileMenu) {
-            domClass.replace(dom.byId('geoformContainerDiv'), "esriCTHidden", "esriCTVisible");
-            this._lastSelectedView.style.display = "none";
-            this._lastSelectedView = dojo.byId("LeftContainer");
-            dojo.byId("LeftContainer").style.display = "block";
-            if (hideMobileMenu) {
-                this.hideMobileMenu();
-            }
-        },
-
-        /**
         * Executed when user clicks on My issues option
         * @memberOf widgets/mobile-menu/mobile-menu
         */
         _myIssuesClicked: function (evt) {
-            this.showListView();
-            this.hideMobileMenu();
-            this.myIssuesClicked(evt);
-        },
-
-        /**
-        * Executed when user clicks on Map view option
-        * @memberOf widgets/mobile-menu/mobile-menu
-        */
-        _mapViewClicked: function () {
-            domClass.replace(dom.byId('geoformContainerDiv'), "esriCTHidden", "esriCTVisible");
-            this.showMapView();
-            this.hideMobileMenu();
-        },
-
-
-        /**
-        * Executed when user clicks on List view option
-        * @memberOf widgets/mobile-menu/mobile-menu
-        */
-        _listViewClicked: function () {
-            domClass.replace(dom.byId('geoformContainerDiv'), "esriCTHidden", "esriCTVisible");
-            this.showListView();
-            this.hideMobileMenu();
-            this.listViewClicked();
-        },
-
-        /**
-        * Show Report it container
-        * @memberOf widgets/mobile-menu/mobile-menu
-        */
-        _reportItClicked: function (evt) {
-            this.hideMobileMenu();
-            this.reportItClicked();
+            this.onMyIssuesClicked(evt);
         },
 
         /**
@@ -289,18 +168,40 @@ define([
         * @memberOf widgets/mobile-menu/mobile-menu
         */
         _signInClicked: function () {
-            location.reload();
-            this.hideMobileMenu();
+            this.onSignInClicked();
         },
 
         /**
         * Executed when user clicks on Sign out option
         * @memberOf widgets/mobile-menu/mobile-menu
         */
-        _signOutClicked: function () {
-            location.reload();
-            this.hideMobileMenu();
-        }
+        _signOutClicked: function (evt) {
+            this.onSignOutClicked(evt);
+        },
 
+        /**
+        * Executed when user clicks on Sign out option
+        * @memberOf widgets/mobile-menu/mobile-menu
+        */
+        _helpClicked: function (evt) {
+            this.onHelpClicked(evt);
+        },
+
+        //Events generated form mobile menu
+        onSignInClicked: function (evt) {
+            return evt;
+        },
+
+        onSignOutClicked: function (evt) {
+            return evt;
+        },
+
+        onHelpClicked: function (evt) {
+            return evt;
+        },
+
+        onMyIssuesClicked: function (evt) {
+            return evt;
+        }
     });
 });

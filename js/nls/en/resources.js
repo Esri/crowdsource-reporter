@@ -22,7 +22,9 @@ define(({
         geolocationTooltip: "Geolocation"
     },
     main: {
-        noGroup: "No group configured"
+        noGroup: "No group configured",
+        submitReportButtonText: "Submit a report",
+        gotoListViewTooltip: "List View"
     },
     signin: {
         guestSigninText: "Proceed as Guest",
@@ -51,17 +53,15 @@ define(({
         infoBtnToolTip: "Map Information"
     },
     issueWall: {
-        noResultsFound: "No reports found in the current map area"
+        noResultsFound: "No reports found in the current map area",
+        gotoWebmapListTooltip: "Go To Webmap List",
+        gotoMapViewTooltip: "Map View"
     },
-    mobileMenu: {
-        home: "Home",
-        myIssuesView: "My Issues",
-        mapView: "Map View",
-        listView: "List View",
-        reportIt: "Report It",
-        signIn: "Sign In",
-        signOut: "Sign Out",
-        loggedInAs: "Signed in as"
+    appHeader: {
+        myReport: "My Reports",
+        signIn: "Sign in",
+        signOut: "Sign out",
+        help: "Help"
     },
     geoform: {
         enterInformation: "1. Enter Information",
@@ -70,6 +70,7 @@ define(({
         enterLocation: "2. Select Location",
         completeForm: "3. Complete Form",
         reportItButton: "Report It",
+        cancelButton: "Cancel",
         requiredField: "(required)",
         selectDefaultText: "Select&hellip;",
         invalidInputValue: "Please enter valid value.",
@@ -88,7 +89,8 @@ define(({
         selectLocationTitleText: "(Tap/click on map to select location)",
         geoLocationError: "Current location not available",
         geoLocationOutOfExtent: "Current location is out of basemap extent",
-        geoformTooltip: "Report It"
+        submitButtonTooltip: "Report It",
+        cancelButtonTooltip: "Cancel"
     },
     locator: {
         addressText: "Address:",
@@ -112,12 +114,19 @@ define(({
         remainingTextCount: "${0} character(s) remain",
         showNoText: "No"
     },
-    issueDetailsHelper: {
-        likeTooltip: "Like",
-        commentTooltip: "Comment",
-        viewOnMapTooltip: "View on Map",
-        link: "Link",
-        photoAttachmentHeader: "Photo",
-        votesUpdateFailure: "Unable to update"
+    itemDetails: {
+        likeButtonLabel: "Like",
+        likeButtonTooltip: "Vote for this",
+        commentButtonLabel: "Comment",
+        commentButtonTooltip: "Add a comment about this",
+        galleryButtonLabel: "Gallery",
+        galleryButtonTooltip: "See attached photos for this",
+        mapButtonLabel: "View on Map",
+        mapButtonTooltip: "View this on map",
+        commentsListHeading: "Comments",
+        noCommentsPlaceholder: "No comments"
+    },
+    itemList: {
+        likesForThisItemTooltip: "Votes for this"
     }
 }));

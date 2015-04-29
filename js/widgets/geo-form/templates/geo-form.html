@@ -1,9 +1,7 @@
 ﻿<div class="esriCTGeoFormContainer">
-    <div class="esriCTListHeader esriCTBorderBottom">
-        <div data-dojo-attach-point="layerTitleDiv" class="esriCTListHeaderText esriCTHeaderFont esriCTSelectedItem">
-        </div>
-        <span class="esriCTCloseButton esriCTBGColor esriCTPointerCursor" data-dojo-attach-point="closeButton">
-        </span>
+    <div class="esriCTListHeader esriCTBGColor">
+        <div class="esriCTBackButton esriCTPointerCursor"  data-dojo-attach-point="closeButton"></div>
+        <div class="esriCTHeaderText esriCTGeoFormHeaderText esriCTEllipsis"  data-dojo-attach-point="layerTitleDiv"></div>
     </div>
     <div class="esriCTGeoFormBody" id="geoFormBody">
         <div data-dojo-attach-point="headerMessageDiv" class="esriCTHidden">
@@ -21,10 +19,12 @@
                     </form>
                     <div class="esriCTGeoFormTitles esriCTHeaderFont" data-dojo-attach-point="select_location">
                     </div>
-                    <div data-dojo-attach-point="location_panel_body" class="esriCTlocationPanel">
+                    <div data-dojo-attach-point="location_panel_body">
+                        <div data-dojo-attach-point="geoLocationButton" class="esriCTGeoFormGeoLocation esriCTPointerCursor"></div>
+                        <div data-dojo-attach-point="geoformLocator" class="esriCTlocationPanel"></div>
                     </div>
                     <div class="gf-map panel panel-default esriCTmapParentContainer" data-dojo-attach-point="map_container">
-                        <div id="gf-mapDiv" class="map-div esriCTmapContainer">
+                        <div id="gf-mapDiv" class="map-div esriCTGeoFormMapContainer">
                         </div>
                     </div>
                     <div class="esriCTGeoFormTitles esriCTHeaderFont" data-dojo-attach-point="complete_Form">
@@ -33,7 +33,9 @@
                     </div>
                     <div class="form-group">
                         <div class="submit-area">
-                            <div data-dojo-attach-point="submitButton" class="esriCTGeoFormButton esriCTBGColor btn btn-primary">
+                             <div data-dojo-attach-point="cancelButton" class="esriCTHidden esriCTGeoFormButton esriCTGeoFormCancelButton esriCTEllipsis esriCTApplicationColor btn btn-default">Cancel
+                            </div>
+                            <div data-dojo-attach-point="submitButton" class="esriCTGeoFormButton esriCTGeoFormSubmitButton esriCTEllipsis esriCTApplicationColor btn btn-default">
                             </div>
                         </div>
                     </div>

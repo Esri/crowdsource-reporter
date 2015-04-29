@@ -5,7 +5,7 @@
     color: ${SelectedThemeColor};
 }
 
-.esriCTBGColor
+.esriCTBGColor ,.esriCTMobileBurgerIcon span, .esriCTMobileBurgerIcon span:before, .esriCTMobileBurgerIcon span:after, .esriCTItemSummarySelected
 {
     background-color: ${SelectedThemeColor};
 }
@@ -16,23 +16,17 @@
 }
 
 /* Overriden Styles */
-.esriSimpleSliderDecrementButton, .esriSimpleSliderIncrementButton
-{
-    background-color:${SelectedThemeColor}  !important;
-    border:#fff solid 1 !important;
+
+.btn-default:hover, .btn-default:focus, .btn-default:focus {
+     background-color: #fff;
+     border-color: #ccc;
+     color: ${SelectedThemeColor};
 }
 
-.esriSimpleSlider
-{
-    background-color: transparent !important;
-    color: #fff !important;
-    border: #fff solid 0 !important;
-}
-.btn-primary:hover, .btn-primary:focus, .btn-primary:focus, .btn-primary:active
+.btn-default:active
 {
     background-color: ${SelectedThemeColor};
+    color: #fff;
 }
+
 /* End of Overriden Styles */
-
-
-

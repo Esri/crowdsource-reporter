@@ -4,8 +4,8 @@ html, body
     margin: 0;
     height: 100%;
     width: 100%;
-    font-size: 11px;
-    font-family: Verdana;
+    font-size: 12px;
+    font-family: Arial;
     max-height: 100%;
     max-width: 100%;
     background: #EDEDED;
@@ -16,6 +16,7 @@ html, body
 .esriCTHeaderFont
 {
     font-size: 13px;
+    color: #555;
 }
 
 #mapDiv
@@ -26,11 +27,46 @@ html, body
     height: 100%;
 }
 
+#mapParentContainer
+{
+    float: left;
+    width: 70%;
+    height: 100%;
+}
+
+#mapContainer
+{
+    height: 100%;
+}
+
+#mapParentContainer .esriCTReportButton, #mapParentContainer .esriCTListHeader
+{
+    display: none;
+}
+
+#sideContainer
+{
+    float: right;
+    width: 30%;
+    height: 100%;
+}
+
+#sidebarContent
+{
+    background-color: #eee;
+    padding: 0px !important;
+    overflow: hidden;
+}
+
 .esriRTL label
 {
     /*Example of a rule that will be applied if the app is viewed in a browser with a RTL locale like Hebrew or Arabic.*/
 }
 
+.esriCTMapGeoLocationContainer
+{
+    margin-top: 10px;
+}
 /* Overridden Styles */
 
 /* Override identity manager color to default*/
@@ -45,6 +81,13 @@ html, body
     top: 10px;
     left: auto !important;
     right: 10px;
+}
+
+#mapParentContainer .esriSimpleSliderTL
+{
+    top: 10px; /*right: auto !important;     left: 10px !important;*/
+    left: auto !important;
+    right: 10px !important;
 }
 
 .esriSimpleSlider div
@@ -68,6 +111,20 @@ html, body
 .esriSimpleSliderVertical .esriSimpleSliderIncrementButton
 {
     border: 0px !important;
+}
+
+.esriSimpleSliderDecrementButton, .esriSimpleSliderIncrementButton, .esriCTLocationButton, .esriCTLocatorSearchButton
+{
+    background-color: #FFF !important;
+    border: #fff solid 1px !important;
+    box-shadow: 0px 0px 1px 0px;
+}
+
+.esriSimpleSlider
+{
+    background-color: transparent !important;
+    color: #4c4c4c !important;
+    border: #000 solid 0px !important;
 }
 
 /* End of Overridden Styles */
@@ -97,29 +154,10 @@ html, body
     position: relative;
 }
 
-.esriCTLeftContainer
+.esriCTScollY
 {
-    float: left;
-    width: 30%;
-    height: 100%;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    padding: 5px;
-}
-
-.esriCTCenterContainer
-{
-    float: left;
-    width: 40%;
-    height: 100%;
-}
-
-.esriCTSlideContainer
-{
-    float: right;
-    width: 30%;
-    height: 100%;
-    position: relative;
 }
 
 .esriCTMobileMenuContainer
@@ -149,14 +187,65 @@ html, body
 {
     height: 100%;
     float: left;
-    width: 70%;
+    width: 30%;
     position: absolute;
     top: 1px;
-    left: 30%;
+    left: 70%;
     z-index: 100;
 }
 
+.esriCTListHeader
+{
+    height: 50px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.esriCTListViewButton
+{
+    height: 50px;
+    width: 50px;
+    float: right;
+    background-image: url('../images/list-view.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 24px;
+}
+
+.esriCTBackButton
+{
+    height: 50px;
+    width: 30px;
+    background-color: rgba(0, 0, 0, 0.30);
+    float: left;
+    display: inline-block;
+    background-image: url('../images/back.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 24px;
+}
+
+.esriCTHeaderText
+{
+    float: left;
+    line-height: 50px;
+    padding: 0 5px 0 5px;
+}
+
+.esriCTMapHeaderText
+{
+    width: calc(100% - 100px);
+}
+
 /* End of Main Layout*/
+
+/* Common Styles*/
+
+
+
+
+/* End Of Common Styles*/
 
 /* Loading Indicator*/
 
@@ -351,11 +440,17 @@ html, body
 
 /* Application Header Styles */
 
+.esriCTLoginCredentialsDiv
+{
+    margin-right: 10px;
+}
+
 .esriCTApplicationHeader
 {
     width: 100%;
     float: left;
     z-index: 12;
+    background: #fff;
 }
 
 .esriCTMenuTabLeft
@@ -363,11 +458,9 @@ html, body
     font-size: 22px;
     line-height: 38px;
     padding: 5px 0 5px 15px;
-    text-shadow: 0px 0px 1px #aaaaaa;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: #fff;
 }
 
 .esriCTMenuTabRight
@@ -379,14 +472,18 @@ html, body
 {
     float: left;
     height: 48px;
+    max-width: calc(100% - 150px);
+}
+
+.esriCTHomeIconStreched {
+    max-width:calc(100% - 75px);
 }
 
 .esriCTApplicationIcon
 {
     height: 48px;
-    width: 48px;
-    max-width: 48px;
     max-height: 48px;
+    max-width: 100%;
 }
 
 .esriCTHeaderIcons
@@ -413,48 +510,137 @@ html, body
     height: 48px;
 }
 
-/* End of application header Styles */
+.esriCTFloatLeft
+{
+    float: left;
+}
+
+.esriCTLoginUserNameDiv
+{
+    cursor: pointer;
+    max-width: 135px;
+    white-space: nowrap;
+    overflow: hidden;
+    width: auto;
+    text-align: right;
+    margin-top: 18px;
+    float: left;
+    margin-left: 10px;
+}
+
+.esriCTCaretIcon
+{
+    height: 18px;
+    width: 18px;
+    background-position: center;
+    margin-top: 17px;
+    display: inline-block;
+    float: left;
+    margin-left: 5px;
+    font-size: 12px;
+    color: #ccc;
+}
+
+.esriCTOptions
+{
+    position: absolute;
+    background-color: white;
+    z-index: 999;
+    cursor: pointer;
+    width: auto;
+    top: 49px;
+}
+
+.esriCTLoginOptionsDiv
+{
+    right: 17px;
+}
+
+.esriCTBorder
+{
+    border: 1px solid #fff;
+    border-color: #d15706;
+}
+
+.esriCTLogoutOption
+{
+    display: inline-block;
+    border: 1px solid #b4b4b4;
+    min-width: 100px;
+    background: #fff;
+}
+
+.esriCTItems
+{
+    padding: 5px;
+}
+
+.esriCTHelpIcon
+{
+    background-image: url("../images/help.png");
+    height: 24px;
+    width: 24px;
+    background-size: 24px;
+    float: left;
+    margin-top: 12px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+/* End Of Application Header Styles */
 
 /* Web Map List */
+
+.esriCTDisplayList, .esriCTDisplayWebMapTemplate:hover .esriCTWebMapbgColor
+{
+    background: #fff;
+}
+
+.esriCTDisplayList, .esriCTDisplayWebMapTemplate:hover .esriCTMediaBody
+{
+    background: #fff;
+}
+
+.esriCTDisplayList, .esriCTDisplayWebMapTemplate:hover .esriCTMultiLineFill
+{
+    background: #fff;
+}
+
+.esriCTWebMapbgColor
+{
+    background: #f0f0f0;
+}
 
 .esriCTWebMapImg
 {
     height: 80px;
+    width: 120px;
+    border: 1px solid #ccc;
 }
 
 .esriCTWebMapListParentDiv
 {
     width: 100%;
     height: 100%;
+    overflow: auto;
 }
 
 .esriCTDisplayList, .esriCTDisplayWebMapTemplate
 {
     display: block;
-    background: #fff;
+    background: #f0f0f0;
+    padding: 5px;
 }
 
 .esriCTMediaBorder
 {
-    border-top: 1px solid #dfdfdf;
-}
-
-.esriCTRightArrow
-{
-    height: 24px;
-    width: 24px;
-    background-repeat: no-repeat;
-    background-size: 24px;
-    display: inline-block;
-    background-image: url(../images/right-arrow.png);
-    float: right;
+    border-top: 1px solid #ccc;
 }
 
 .esriCTMediaBody
 {
     display: table-cell !important;
-    padding-top: 10px;
-    background: #fff;
+    background: #f0f0f0;
+    vertical-align: middle;
     width: 100%;
     word-wrap: break-word;
     position: relative;
@@ -462,20 +648,19 @@ html, body
 
 .esriCTWebmaplistContents
 {
-    margin-left: 25px;
     height: 40px;
-    padding: 10px 8px 0 0;
+    padding: 8px 0 0 0;
 }
 
-.esriCTMedia
+.esriCTWebMapLayerTitle
 {
-    margin: 10px 0;
-    border-bottom-width: 0px;
+    margin-left: 25px;
+    line-height: 24px;
 }
 
 .esriCTWebMapBorder
 {
-    border: 1px solid #ddd;
+    border-bottom: 1px solid #ccc;
 }
 
 .esriCTDisplayList
@@ -485,35 +670,27 @@ html, body
 
 .esriCTWebMapLayer
 {
-    border-bottom: 1px solid #dfdfdf;
+    border-bottom: 1px solid #ccc;
 }
 
 .esriCTInfoImg
 {
-    height: 24px;
-    width: 24px;
+    height: 16px;
+    width: 16px;
     background-repeat: no-repeat;
-    background-size: 24px;
+    background-position:center center;
+    background-size: 16px;
     background-image: url('../images/info.png');
 }
 
 .esriCTInfoImgRight
 {
+    display: table-cell !important;
     float: right;
-    margin-right: 5px;
-    background-position: right bottom;
-    position: absolute;
-    bottom: 5px;
-    right: 0px;
-}
-
-.esriCTInfoImgLeft
-{
-    float: left;
+    width: 16px;
+    vertical-align: middle;
     margin-left: 5px;
-    position: absolute;
-    bottom: 5px;
-    left: 0px;
+    margin-right:5px;
 }
 
 .esriCTDescription
@@ -525,7 +702,7 @@ html, body
 
 .esriCTMultiLineEllipsisdiv
 {
-    line-height: 18px;
+    line-height: 19px;
     overflow: hidden;
     position: relative;
     max-height: 38.3px;
@@ -535,15 +712,10 @@ html, body
 
 .esriCTMultiLineFill
 {
-    background: #fff;
+    background: #f0f0f0;
     position: absolute;
     height: 100%;
     width: 100%;
-}
-
-.esriCTMediaLeftText
-{
-    margin-left: 5px;
 }
 
 .esriCTInfoHeader
@@ -579,292 +751,23 @@ html, body
     width: 100%;
 }
 
-/* End of Web Map List */
-
-/* Issue wall*/
-
-.panel
-{
-    border-radius: 0px !important;
-}
-
-.panel-default > .panel-heading
-{
-    color: #555;
-}
-
-.esriCTNoPadding
-{
-    padding: 0px !important;
-}
-
-.esriCTIconsContainer
-{
-    display: table;
-    margin: 0 10px;
-    float: right;
-}
-
-.esriCTIssueListIcons
-{
-    width: 24px;
-    height: 24px;
-    float: left;
-    margin: 5px;
-}
-
-.esriCTIssueMapIconContainer
-{
-    display: table-cell;
-    vertical-align: middle;
-}
-
-.esriCTIssueIconContainer
-{
-    display: table-cell;
-    vertical-align: middle;
-    width: 50%;
-    position: relative;
-}
-
-.esriCTIssueIconContainer span
-{
-    position: absolute;
-    bottom: 5px;
-}
-
-.esriCTMapIcon
-{
-    background-image: url('../images/map-view.png');
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 24px;
-    float: right;
-}
-
-.esriCTCommentsIcon
-{
-    background-image: url('../images/comment.png');
-    background-repeat: no-repeat;
-    background-size: 24px;
-    background-position: center center;
-}
-
-.esriCTLikeIcon
-{
-    background-image: url('../images/like.png');
-    background-repeat: no-repeat;
-    background-size: 24px;
-    background-position: center center;
-}
-
-.esriCTDownArrowIcon
-{
-    background-image: url('../images/down-arrow.png');
-    background-repeat: no-repeat;
-    background-size: 24px;
-    background-position: center center;
-}
-
-.esriCTCommentsPanel
-{
-    height: 100%;
-}
-
-.esriCTIssueListContainer
-{
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    height: calc(100% - 35px);
-}
-
-.esriCTCommentsContainer
-{
-    -webkit-overflow-scrolling: touch;
-    height: calc(100% - 150px);
-    overflow: auto;
-    width: 100%;
-}
-
-.esriCTListHeader
-{
-    height: 35px;
-    padding: 5px;
-    position: relative;
-}
-
-.esriCTListContent
-{
-    padding: 5px;
-}
-
-.esriCTListContent .panel-heading
+.esriCTWebMapLayer:hover
 {
     background: #fff;
-    padding-right: 0px;
 }
 
-.esriCTListContent .panel
+.esriCTRightArrow
 {
-    margin-bottom: 0px;
-}
-
-.esriCTListContent .esriCTDownArrowIcon
-{
-    float: right;
-    margin-top: -4px;
-    margin-right: 14px;
-}
-
-.esriCTListPanelHeader
-{
-    display: inline-block;
-    width: calc(100% - 50px);
-    word-wrap: break-word;
-}
-
-.esriCTListContainer
-{
-    height: 100%;
-}
-
-.esriCTInfoLoader
-{
-    cursor: default;
-    display: block;
-    background-position: center center;
-    background-image: url(../images/list-loader.gif);
-    background-repeat: no-repeat;
-    height: 30px;
-    width: 30px;
-    position: absolute;
-    right: 10px;
-}
-
-.esriCTListHeaderText
-{
-    width: 80%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    position: absolute;
-    padding: 3px 0 0 10px;
-}
-
-.esriCTNoIssuesDiv
-{
-    margin: 5px 5px 5px 15px;
-}
-
-.esriCTCustomPopupDiv
-{
-    margin: 5px 15px 5px 0px;
-}
-
-.esriCTInfoLink
-{
-    color: blue;
-    text-decoration: underline;
-    margin: 0 auto;
-    cursor: pointer;
-}
-
-.esriCTIssueListHeader, .esriCTIssueDetailsHeader
-{
-    cursor: pointer;
-}
-
-/* End of Issue wall*/
-
-/* Start of issue details */
-
-.esriCTUpArrowIcon
-{
-    background-image: url('../images/up-arrow.png');
+    height: 24px;
+    width: 24px;
     background-repeat: no-repeat;
     background-size: 24px;
-    background-position: center center;
-}
-
-.esriCTListContent .esriCTUpArrowIcon
-{
+    display: inline-block;
+    background-image: url(../images/right-arrow.png);
     float: right;
-    margin-top: -4px;
-    margin-right: 14px;
 }
 
-.esriCTListHeaderName
-{
-    float: left;
-    width: 89%;
-    line-height: 14px;
-}
-
-.esriCTDetailsContainer
-{
-    width: 100% !important;
-    margin-top: 5px;
-}
-
-.esriCTListData
-{
-    width: 100% !important;
-    padding-bottom: 5px;
-    border-bottom: 1px solid #dfdfdf;
-    word-break: break-all;
-}
-
-.esriCTListItemHeader
-{
-    margin-bottom: 5px;
-}
-
-.esriCTDetailsData
-{
-    overflow-y: auto;
-    height: calc(100% - 70px);
-    -webkit-overflow-scrolling: touch;
-    padding: 0px 0px 0px 15px;
-}
-
-.esriCTDetailsData .esriCTNoIssuesDiv
-{
-    margin: 5px 15px 5px 0px;
-}
-
-.esriCTIssueImgSpan
-{
-    margin: 0 5px 5px 0;
-    float: left;
-    max-width: 110px;
-    max-height: 80px;
-    overflow: hidden;
-    border: 1px solid;
-    border-color: #ddd;
-}
-
-.esriCTImageLoader
-{
-    cursor: default;
-    display: block;
-    background-position: center center;
-    background-image: url(../images/list-loader.gif);
-    background-repeat: no-repeat;
-    height: 80px;
-    width: 110px;
-}
-
-.esriCTIssueDetailImg
-{
-    float: left;
-}
-
-.esriCTlistDetailedContainer
-{
-    height: calc(100% - 35px);
-}
-
-/* End of issue details */
+/* End of Web Map List */
 
 /* Mobile Menu*/
 
@@ -888,11 +791,6 @@ html, body
     padding: 10px;
 }
 
-.esriCTBurgerMenuBottom
-{
-    margin-left: 30px;
-}
-
 .esriCTBurgermenu
 {
     overflow-y: auto;
@@ -900,75 +798,28 @@ html, body
     height: 80% !important;
 }
 
-.esriCTMobileMenuFooter
+.esriCTMobileMenuHeader
 {
-    position: absolute;
-    bottom: 5px;
+    background-color: rgba(0,0,0,0.35);
 }
 
-.esriCTLoginUserNameDiv
+.esriCTUserImg
 {
-    width: 85%;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    margin-left: 30px;
-}
-
-/* Mobile Menu*/
-
-/* Buttons */
-
-.esriCTSlidderButton
-{
+    height: 24px;
+    width: 24px;
     float: left;
-    height: 65px;
-    top: calc(50% - 32.5px);
-    width: 29px;
-    position: absolute;
-    left: -30px;
-    cursor: pointer;
-}
-
-.esriCTSlideInButton
-{
-    background-image: url(../images/slide-in.png);
-    background-size: 29px 65px;
+    margin-right: 5px;
+    background-image: url("../images/user.png");
+    background-size: 20px;
     background-repeat: no-repeat;
 }
 
-.esriCTSlideOutButton
+.esriCTLoggedinUserName
 {
-    background-image: url(../images/slide-out.png);
-    background-size: 29px 65px;
-    background-repeat: no-repeat;
+    width: calc(100% - 40px);
+    margin-top: 2px;
 }
-
-.esriCTSignInButton
-{
-    background-image: url(../images/sign-in.png);
-    height: 24px;
-    width: 24px;
-}
-
-.esriCTSignOutButton
-{
-    background-image: url(../images/sign-out.png);
-    height: 24px;
-    width: 24px;
-}
-
-.esriCTReportIssueButton
-{
-    background-image: url(../images/report-issue.png);
-}
-
-.esriCTMyIssuesButton
-{
-    background-image: url(../images/my-issues.png);
-}
-
-/* End of Buttons */
+/* End Of Mobile Menu*/
 
 /* Burger Button Styles */
 
@@ -976,7 +827,7 @@ html, body
 {
     cursor: pointer;
     padding: 14px 35px 16px 0px;
-    margin: 15px 24px;
+    margin: 15px 12px 15px 24px;
     font-size: 20px;
 }
 
@@ -986,7 +837,6 @@ html, body
     border-radius: 1px;
     height: 2px;
     width: 35px;
-    background: white;
     position: absolute;
     display: block;
     content: '';
@@ -1048,9 +898,10 @@ html, body
 .esriCTGeoFormBody
 {
     overflow-y: auto;
-    height: calc(100% - 35px);
+    height: calc(100% - 60px);
     -webkit-overflow-scrolling: touch;
     color: #555;
+    width: 100%;
 }
 
 .esriCTGeoFormTitles
@@ -1072,6 +923,11 @@ html, body
     margin-left: 5px;
     font-weight: normal;
     font-size: 100%;
+}
+
+.esriCTGeoFormHeaderText
+{
+    width: calc(100% - 50px);
 }
 
 label
@@ -1100,10 +956,11 @@ label
 .esriCTCloseButton
 {
     float: right;
-    background-image: url(../images/close-24.png  );
+    background-image: url(../images/close-24.png );
     height: 24px;
     width: 24px;
     margin-right: 24px;
+    margin-top: 6px;
     background-size: 24px;
     background-repeat: no-repeat;
 }
@@ -1177,9 +1034,9 @@ label
 
 .esriCTGeoFormButton
 {
-    border: none !important;
     border-radius: 0px !important;
-    font-size: 11px;
+    padding: 10px;
+    font-size: 14px;
     font-family: Verdana;
 }
 
@@ -1195,7 +1052,9 @@ label
 
 .esriCTLocationButton
 {
-    background-image: url(../images/curent-location.png);
+    background-image: url(../images/current-location.png);
+    background-size: 32px;
+    height: 100%;
 }
 
 .esriCTGeoFormLoader
@@ -1210,7 +1069,7 @@ label
 
 .esriCTLocateContainer div.input-group
 {
-    width: 100%;
+    width: calc(100% - 50px);
 }
 
 .esriCTLocateContainer div.input-group-btn
@@ -1225,7 +1084,7 @@ label
     padding-right: 70px;
 }
 
-.esriCTmapContainer
+.esriCTGeoFormMapContainer
 {
     height: 280px !important;
     width: 100% !important;
@@ -1235,6 +1094,69 @@ label
 {
     width: 94%;
     margin: 0 3% 0 3%;
+}
+
+.esriCTReportButton
+{
+    height: 55px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 22px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.esriCTReportButtonContainer
+{
+    line-height: 55px;
+    margin: 0px;
+    display: inline-block;
+    max-width: 100%;
+}
+
+.esriCTReportButtonIcon
+{
+    float: left;
+    background-image: url("../images/report-button-icon.png");
+    background-size: 19px;
+    height: 55px;
+    width: 19px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    line-height: 55px;
+    margin-left:5px;
+}
+
+.esriCTReportButtonText
+{
+    padding-left: 5px;
+    min-width: calc(100% - 25px);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.esriCTGeoFormCancelButton
+{
+    width: 48%;
+    float: left;
+}
+
+.esriCTGeoFormSubmitButton
+{
+    width: 48%;
+    float: left;
+}
+
+.esriCTGeoFormGeoLocation
+{
+    height: 34px;
+    width: 34px;
+    margin-left: 4px;
+    background-size: 34px;
+    background-repeat: no-repeat;
+    float: right;
+    margin: 0px;
 }
 
 /* End of geo-form styles*/
@@ -1248,7 +1170,7 @@ label
     margin-bottom: 15px;
     border: 1px solid #ccc;
     overflow-y: auto;
-    width: 100%;
+    width: calc(100% - 40px);
 }
 
 .esriCTSearchGroupRow
@@ -1357,7 +1279,7 @@ label
 
 .esriCTSearchButton
 {
-    background: url('../images/address-search.png') no-repeat center;
+    background: url('../images/search.png') no-repeat center;
     height: 34px;
     width: 34px;
     margin-left: 4px;
@@ -1368,17 +1290,6 @@ label
 
 /* Comment Styles */
 
-.esriCTCloseButtonComment
-{
-    float: right;
-    background-image: url(../images/close-24.png  );
-    height: 24px;
-    width: 24px;
-    background-size: 24px;
-    background-repeat: no-repeat;
-    margin-top: -4px;
-    margin-right: 0px;
-}
 
 .esriCTCommentContent .panel-heading
 {
@@ -1407,105 +1318,374 @@ label
 }
 /* End of Address container Styles */
 
-/* My issues container styles */
+/* ---------- ItemList ---------- */
 
-.esriCTMyIssuesContainer
+.esriCTItemList
 {
-    position: absolute;
-    background-color: #EDEDED;
-    width: 100%;
-    top: 0px;
-    right: 0px;
+    font-family: Arial, 'Helvetica Neue' , Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    background-color: #eee;
+}
+
+.esriCTItemList .esriCTItemSummary
+{
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.esriCTItemSummary
+{
+    line-height: 0; /* reset */
+}
+
+.esriCTItemSummaryHighlighter
+{
+    width: 4px;
+    height: 50px;
+    float: left;
+}
+
+.esriCTtemSummaryParent:hover, .esriCTItemSummaryParentSelected
+{
+    background-color: #fff;
+}
+
+.esriCTItemList .esriCTItemSummary:hover
+{
+    background-color: #fff;
+}
+
+.esriCTItemSummary .esriCTItemTitle
+{
+    width:calc(100% - 70px);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+}
+
+.esriCTItemListTitleFullWidth
+{
+    width: 100% !important;
+}
+
+.esriCTItemList .esriCTItemTitle, .esriCTItemList .esriCTItemFav
+{
+    line-height: 30px;
+}
+
+.esriCTItemFav
+{
+    cursor: auto;
+}
+
+.esriCTItemSummary > div, .esriCTItemFav > div
+{
+    display: inline-block;
+}
+
+.esriCTItemSummary .esriCTItemFav
+{
+    float: right;
+    font-size: 20px;
+    color: rgb(150, 150, 150);
+    color: rgba(0, 0, 0, 0.35);
+}
+
+.esriCTIssueListContainer
+{
+    height: calc(100% - 105px);
+    overflow: auto;
+}
+
+.esriCTNoIssueDiv
+{
+    text-align: center;
+    margin: 10px;
+}
+
+.esriCTInfoLoader
+{
+    cursor: default;
+    height: 30px;
+    width: 30px;
+    margin-top: 11px;
+    margin-left: 11px;
+}
+
+.esriCTIssueWallMapItButton
+{
     display: none;
 }
 
-.esriCTMyIssuesContainer .esriCTInfoLoader
+.esriCTListHeaderText
 {
-    margin: -4px 50px 0 0;
+    width: calc(100% - 80px);
 }
 
-/* End of My issues container styles */
-
-/* Comment container styles */
-
-.esriCTCommentsPanel
-{
-    position: absolute;
-    width: 100%;
-    background: #EDEDED;
-    top: 0px;
-}
-
-.esriCTCommentIcon
-{
-    margin: 30px 0 0 7px;
-}
-
-.esriCTEnterComment
-{
-    float: left; /* Firefox */
-    width: -moz-calc(100% - 72px); /* WebKit */
-    width: -webkit-calc(100% - 72px); /* Opera */
-    width: -o-calc(100% - 72px); /* Standard */
-    width: calc(100% - 72px);
-}
-
-.esriCTPostCommentButton
-{
-    float: left;
-    background-image: url('../images/add-comment-24.png');
-    background-repeat: no-repeat;
-    background-size: 24px;
-    background-position: center center;
-    margin: 30px 0 0 10px;
-}
-
-.esriCTCommentTitleDivHeader
-{
-    text-align: justify;
-    word-wrap: break-word;
-    padding-right: 60px;
-    min-height: 15px;
-}
-
-.esriCTPanelMargin
-{
-    margin: 5px;
-}
-
-.esriCTCommentsContent
-{
-    margin: 2px 0 0 0;
-    float: left;
-    width: 100%;
-}
-
-.esriCTIssueComment
-{
-    clear: both;
-    margin: 10px 15px;
-}
-
-.esriCTCommentHeader
-{
-    margin: 5px 5px 12px 15px;
-}
-
-.esriCTNoCommentsDiv
-{
-    margin: 5px 5px 5px 15px;
-}
-
-.esriCTCountLabel
+.esriCTFavDiv
 {
     float: right;
-    margin-right: 36px;
+    height: 30px;
+    width: 11px;
+    background-image: url('../images/like.png');
+    background-repeat: no-repeat;
+    background-size: 11px 10px;
+    background-position: center center;
 }
 
-.esriCTBreakWord
+.esriCTListButtonContainer {
+    float: right;
+    position: relative;
+    height:48px;
+    width:50px;
+}
+
+.esriCTLoaderPosition {
+    position:absolute;
+}
+
+/* ---------- End Of ItemList ---------- */
+
+/* ---------- ItemDetail ---------- */
+
+.temp
+{
+    height: calc(100% - 50px);
+  overflow: auto;
+}
+
+.esriCTItemDetail {
+    background: #fff;
+  height: 100%;
+}
+
+.esriCTItemDetail > .esriCTItemSummary > div
+{
+    padding: 10px;
+    line-height: 20px;
+    box-sizing: border-box;
+}
+
+.esriCTItemDetail .esriCTItemSummary .esriCTBack
+{
+    cursor: pointer;
+    line-height: 0;
+    float: left;
+}
+
+.esriCTItemDetail .esriCTItemSummary .esriCTItemTitle
+{
+    width: 69%;
+    padding-right: 5px;
+}
+
+.esriCTItemDetail .esriCTItemSummary .esriCTItemFav
+{
+    font-size: inherit;
+    padding-left: 0px;
+}
+
+.esriCTItemDetail .esriCTItemFav .esriCTIcon
+{
+    font-size: 20px;
+    margin-left: 5px;
+}
+
+.esriCTItemDetail .esriCTTtemDescription
+{
+    background-color: #fff;
+    color: #999;
+    padding: 10px;
+    float:left;
+    width:100%;
+}
+
+.esriCTItemDetail .esriCTItemDetailHeader
+{
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.esriCTItemDetail .userName
 {
     display: inline-block;
-    word-break: break-all;
-    word-wrap: break-word;
 }
-/* End of comment container styles */
+
+.esriCTItemDetail .btn
+{
+    color: #007ac2;
+    border: 1px solid #ccc;
+    /*display: inline-block;
+    margin-right: 5px;*/
+    padding: 4px 6px;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.esriCTItemDetail .btn ::selection
+{
+    color: #007ac2;
+}
+
+.esriCTItemDetail .btn ::-moz-selection
+{
+    color: #007ac2;
+}
+
+.esriCTTtemDescFooter
+{
+    height: 25px;
+}
+
+.esriCTItemDetail .float-right
+{
+    float: right;
+}
+
+.esriCTItemDetail .esriCTRightEdge
+{
+    margin-right: 0;
+}
+
+.esriCTItemDetail .esriCTSpaceBelow
+{
+    margin-bottom: 10px;
+}
+
+.esriCTItemDetail .esriCTLargeText
+{
+    font-size: 16px;
+}
+
+.esriCTItemDetail .esriCTMediumText
+{
+    font-size: 14px;
+}
+
+.esriCTItemDetail .small-text
+{
+    font-size: 12px;
+}
+
+.esriCTItemDetail .itemComments
+{
+    background-color: #eee;
+    padding: 10px;
+}
+
+.btn > div
+{
+    display: inline-block;
+}
+
+.btn .esriCTIcon
+{
+    margin-right: 2px;
+    position: relative;
+    top: 2px;
+}
+
+.btn .esriCTIcon svg path, .btn .esriCTIcon svg polyline
+{
+    fill: #007ac2;
+    fill-opacity: 1;
+}
+
+.hide
+{
+    display: none !important;
+}
+
+.center-please
+{
+    text-align: center;
+}
+
+.esriCTItemDetail .attachmentsSection
+{
+    display: none;
+    margin-bottom: 12px;
+}
+
+.esriCTItemDetail .attachmentsSection .attachment
+{
+    width: 48%;
+    margin: 0px 5px 5px 0px;
+    cursor: pointer;
+}
+
+.commentsForm
+{
+    margin-bottom: 12px;
+}
+
+.esriCTMapItButton
+{
+    height: 48px;
+    width: 50px;
+    float: right;
+    background-image: url('../images/map-it.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 24px;
+}
+
+.esriCTDetailsHeader
+{
+    width: calc(100% - 100px);
+}
+
+.esriCTVotesDetails
+{
+    line-height: 50px;
+    float: right;
+    width: 65px;
+    margin-right: 5px;
+}
+
+.esriCTItemVotes
+{
+    margin-right: 3px;
+    float: left;
+    width: 49px;
+    text-align: right;
+    color: rgba(0, 0, 0, 0.30);
+}
+
+.esriCTDetailsFavDiv
+{
+    float: right;
+    height: 50px;
+    width: 11px;
+    background-image: url('../images/like.png');
+    background-repeat: no-repeat;
+    background-size: 11px 10px;
+    background-position: center center;
+}
+
+.esriCTDetailsPanelButton {
+    float:left;
+    width:20%;
+    margin-right: 0 2% 0 3%;
+}
+
+/* ---------- End Of ItemDetail ---------- */
+
+/*-----------Mozilla-----------------*/
+
+@-moz-document url-prefix()
+{
+    .esriCTReportButtonContainer
+    {
+        display: inline-flex;
+    }
+
+    .esriCTReportButtonText
+    {
+        max-width:calc(100% - 24px);
+    }
+}
+
+/*-----------Mozilla-----------------*/

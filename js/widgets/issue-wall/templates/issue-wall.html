@@ -1,10 +1,44 @@
-﻿<div class="esriCTListContainer">
-    <div class="esriCTListHeader esriCTBorderBottom">
-        <div data-dojo-attach-point="listContainerTitle" class="esriCTListHeaderText esriCTHeaderFont">
+﻿<div class="esriCTFullHeight">
+    <div class="esriCTListHeader esriCTBGColor">
+        <div class="esriCTBackButton esriCTPointerCursor" data-dojo-attach-point="listBackButton"></div>
+        <div data-dojo-attach-point="listContainerTitle" class="esriCTHeaderText esriCTListHeaderText esriCTEllipsis">
         </div>
-        <span data-dojo-attach-point="listLoadingIndicator" class="esriCTInfoLoader"></span>
+        <div class="esriCTListButtonContainer">
+            <div class="esriCTMapItButton esriCTPointerCursor esriCTIssueWallMapItButton" data-dojo-attach-point="listMapItButton"></div>
+            <div class="esriCTInfoLoader esriCTHidden esriCTBGColor esriCTLoaderPosition" data-dojo-attach-point="listLoadingIndicator">
+                <div class="spinner">
+                    <div class="spinner-container container1">
+                        <div class="circle1"></div>
+                        <div class="circle2"></div>
+                        <div class="circle3"></div>
+                        <div class="circle4"></div>
+                    </div>
+                    <div class="spinner-container container2">
+                        <div class="circle1"></div>
+
+                        <div class="circle2"></div>
+                        <div class="circle3"></div>
+                        <div class="circle4"></div>
+                    </div>
+                    <div class="spinner-container container3">
+                        <div class="circle1"></div>
+                        <div class="circle2"></div>
+                        <div class="circle3"></div>
+                        <div class="circle4"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div data-dojo-attach-point="listContainer" class="esriCTIssueListContainer">
+        <div data-dojo-attach-point="noIssuesMessage" class="esriCTHidden esriCTNoIssueDiv">
+        </div>
+    </div>
+    <div class="esriCTReportButton esriCTPointerCursor" data-dojo-attach-point="submitReport">
+        <div class="esriCTReportButtonContainer">
+            <div class="esriCTReportButtonIcon"></div>
+            <div class="esriCTReportButtonText">${appConfig.i18n.main.submitReportButtonText}</div>
+        </div>
     </div>
     <div data-dojo-attach-point="listDetailedContainer" class="esriCTlistDetailedContainer esriCTHidden">
     </div>
