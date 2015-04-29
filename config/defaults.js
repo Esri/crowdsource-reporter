@@ -21,7 +21,7 @@ define({
     "appid": "",
     "oauthappid": null,
     //Group templates must support a group url parameter. This will contain the id of the group.
-    "group": "",
+    "group": "758a315597a6461fbe2430a9e1828c6f",
     //Enter the url to the proxy if needed by the application
     "proxyurl": "proxy.ashx",
     //Example of a template specific property. If your template had several color schemes

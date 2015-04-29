@@ -1,7 +1,7 @@
 {
     "values": {
         "group": "758a315597a6461fbe2430a9e1828c6f",
-        "theme": "#d15706",
+        "theme": "#137DB9",
         "signInSubtitle": "",
         "signInBackgroundImage": "/images/signinbg.png",
         "enableFacebook": false,
