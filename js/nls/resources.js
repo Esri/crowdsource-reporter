@@ -23,7 +23,9 @@ define({
             geolocationTooltip: "Geolocation"  // Command button to navigate to the current geographical position
         },
         main: {
-            noGroup: "No group configured" // Shown when no group is configured in the configuration file
+            noGroup: "No group configured", // Shown when no group is configured in the configuration file
+            submitReportButtonText: "Submit a report", //Submit report  text for buttons on map and list
+            gotoListViewTooltip:"List View"
         },
         signin: {
             guestSigninText: "Proceed as Guest", // Shown in the 'Sign in' page below the icon for accessing application as an anonymous user
@@ -52,17 +54,15 @@ define({
             infoBtnToolTip: "Map Information" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "No reports found in the current map area" // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "No reports found in the current map area", // Shown in the issue wall when no issues are present in the current map extent
+            gotoWebmapListTooltip: "Go To Webmap List", // Tooltip for back icon in list header
+            gotoMapViewTooltip: "Map View" // Tooltip for map-it icon in list header
         },
-        mobileMenu: {
-            home: "Home", // Shown in menu container of mobile devices to navigate to the home screen
-            myIssuesView: "My Issues", // Shown in menu container of mobile devices to navigate to 'My issues' section
-            mapView: "Map View", // Shown in menu container of mobile devices to navigate to map view of the selected webmap
-            listView: "List View", // Shown in menu container of mobile devices to navigate to the issue 'List view' of the selected webmap
-            reportIt: "Report It", // Shown in menu container of mobile devices to open the geoform
-            signIn: "Sign In", // Shown in menu container of mobile devices to 'Sign in' to the application
-            signOut: "Sign Out", // Shown in menu container of mobile devices to 'Sign out' of the application
-            loggedInAs: "Signed in as" // Shown at the bottom of menu container in the mobile devices indicating the name of the logged in user
+        appHeader: {
+            myReport: "My Reports", // Command button shown in mobile menu list
+            signIn: "Sign in", // Command button shown in mobile menu list and in appheader
+            signOut: "Sign out", // Command button shown in mobile menu list
+            help: "Help" // Command button shown in mobile menu list
         },
         geoform: {
             enterInformation: "1. Enter Information", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -71,6 +71,7 @@ define({
             enterLocation: "2. Select Location", // Shown as the second section of the geoform, where the user can select a location on the map
             completeForm: "3. Complete Form", // Shown as the third section of the geoform, where the user can submit the geoform to report an issue
             reportItButton: "Report It", // Command button to submit the geoform to report an issue
+            cancelButton: "Cancel", //Command button to close the geoform
             requiredField: "(required)", // Shown next to the field in which the data is mandatory
             selectDefaultText: "Select&hellip;", // Shown in the dropdown field indicating to select an option
             invalidInputValue: "Please enter valid value.", // Shown when user clicks/taps the required field but does not enter the data and comes out of the required field
@@ -89,7 +90,9 @@ define({
             selectLocationTitleText: "(Tap/click on map to select location)", // Appears besides the select location section of the geoform indicating option to select location on the map
             geoLocationError: "Current location not available",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "Current location is out of basemap extent",  // Shown when the current geographical position is out of the basemap extent
-            geoformTooltip: "Report It" // Command button to open the geoform
+            submitButtonTooltip: "Report It", // Command button to open the geoform
+            cancelButtonTooltip:"Cancel"//tooltip for cancel button
+
         },
         locator: {
             addressText: "Address:", // Shown as a title for a group of addresses returned on performing unified search
@@ -113,13 +116,20 @@ define({
             remainingTextCount: "${0} character(s) remain", // Shown below the comments textbox indicating the number of characters that can be added
             showNoText: "No" // Shown when comments character limit is exceeded
         },
-        issueDetailsHelper: {
-            likeTooltip: "Like", // Command button to vote for an issue
-            commentTooltip: "Comment", // Command button to view posted comments and add comments for an issue
-            viewOnMapTooltip: "View on Map", // Command button to locate the issue on map
-            link: "Link", // Shown as a link when a URL is configured in issue details
-            photoAttachmentHeader: "Photo", // Shown as a title in the issue details panel when the selected issue contains attachment(s)
-            votesUpdateFailure: "Unable to update" // Shown as an alert when user is unable to vote for an issue
+        itemDetails: {  // Detailed information about an item and a list of its comments
+            likeButtonLabel: "Like", // Command button shown in details panel
+            likeButtonTooltip: "Vote for this",  // Tooltip for command button shown in details panel
+            commentButtonLabel: "Comment", // Command button shown in details panel
+            commentButtonTooltip: "Add a comment about this", // Tooltip for command button shown in details panel
+            galleryButtonLabel: "Gallery", // Command button shown in details panel
+            galleryButtonTooltip: "See attached photos for this", // Tooltip for command button shown in details panel
+            mapButtonLabel: "View on Map", // Command button shown in details panel
+            mapButtonTooltip: "View this on map", // Tooltip for command button shown in details panel
+            commentsListHeading: "Comments", // List heading for Comments section in details panel
+            noCommentsPlaceholder: "No comments" // Shown if no comments available
+        },
+        itemList: {  // List of feature layer items shown in my-issues and issue-wall
+            likesForThisItemTooltip: "Votes for this"//Shown on hovering of the like icon in my-issues and issue-wall
         }
     }),
     "ar": 1,
@@ -149,7 +159,5 @@ define({
     "th": 1,
     "tr": 1,
     "vi": 1,
-    "zh-cn": 1,
-    "zh-hk": 1,
-    "zh-tw": 1
+    "zh-cn": 1
 });

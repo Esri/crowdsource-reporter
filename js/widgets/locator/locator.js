@@ -13,6 +13,7 @@ define([
     "dojo/Deferred",
     "dojo/DeferredList",
     "dojo/on",
+    "dojo/keys",
     "dojo/query",
     "dojo/text!./templates/locator.html",
     "dijit/_WidgetBase",
@@ -31,7 +32,7 @@ define([
     "esri/tasks/query",
     "esri/tasks/QueryTask",
     "vendor/usng"
-], function (declare, domConstruct, lang, domAttr, domClass, domGeom, domStyle, array, dom, Deferred, DeferredList, on, query, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, Color, esriConfig, Graphic, Point, webMercatorUtils, GraphicsLayer, SpatialReference, GeometryService, Locator, ProjectParameters, EsriQuery, QueryTask, usng) {
+], function (declare, domConstruct, lang, domAttr, domClass, domGeom, domStyle, array, dom, Deferred, DeferredList, on, keys, query, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, Color, esriConfig, Graphic, Point, webMercatorUtils, GraphicsLayer, SpatialReference, GeometryService, Locator, ProjectParameters, EsriQuery, QueryTask, usng) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         lastSearchString: null,
@@ -57,9 +58,10 @@ define([
         */
         postCreate: function () {
             var graphicsLayer;
-            domConstruct.place(this.divLocateContainer, query(".esriCTlocationPanel")[0]);
+            //domConstruct.place(this.divLocateContainer, query(".esriCTlocationPanel")[0]);
+            domConstruct.place(this.divLocateContainer, this.locatorContainer);
             // add placeholder in textbox
-            domAttr.set(this.txtSearch, "placeholder", dojo.configData.i18n.locator.locatorPlaceholder);
+            domAttr.set(this.txtSearch, "placeholder", this.config.i18n.locator.locatorPlaceholder);
             this._attachLocatorEvents();
             // add graphics layer to map
             graphicsLayer = new GraphicsLayer();
@@ -113,7 +115,7 @@ define([
             }
             if (evt) {
                 // Perform search when user hits ENTER key
-                if (evt.keyCode === dojo.keys.ENTER) {
+                if (evt.keyCode === keys.ENTER) {
                     if (this.txtSearch.value !== '') {
                         this._toggleTexBoxControls(true);
                         this._performUnifiedSearch();
@@ -121,7 +123,7 @@ define([
                     }
                 }
                 // Clear address results container when user hits BACKSPACE key till search box becomes empty
-                if (evt.keyCode === dojo.keys.BACKSPACE) {
+                if (evt.keyCode === keys.BACKSPACE) {
                     if (this.txtSearch.value === '' || this.txtSearch.length === 0 || this.txtSearch.value === null) {
                         this._toggleTexBoxControls(false);
                         domConstruct.empty(this.divResultContainer);
@@ -201,14 +203,14 @@ define([
             this._toggleTexBoxControls(true);
             this.isPerformingSearch = true;
             // fetch the geocode URL from portal organization, and if the URL is unavailable disable address search
-            if (dojo.configData.helperServices.geocode.length > 0) {
+            if (this.config.helperServices.geocode.length > 0) {
 
-                for (i = 0; i < dojo.configData.helperServices.geocode.length; i++) {
-                    locator = new Locator(dojo.configData.helperServices.geocode[i].url);
+                for (i = 0; i < this.config.helperServices.geocode.length; i++) {
+                    locator = new Locator(this.config.helperServices.geocode[i].url);
                     locator.outSpatialReference = this.map.spatialReference;
-                    locator.name = dojo.configData.helperServices.geocode[i].name;
-                    if (dojo.configData.helperServices.geocode[i].singleLineFieldName) {
-                        address[dojo.configData.helperServices.geocode[i].singleLineFieldName] = this.txtSearch.value;
+                    locator.name = (this.config && this.config.helperServices.geocode[i].name) ? this.config.helperServices.geocode[i].name : "";
+                    if (this.config.helperServices.geocode[i].singleLineFieldName) {
+                        address[this.config.helperServices.geocode[i].singleLineFieldName] = this.txtSearch.value;
                     } else {
                         address = {
                             SingleLine: this.txtSearch.value
@@ -235,15 +237,15 @@ define([
                 }
             }
             // check if 'enableUSNGSearch' flag is set to true in config file
-            if (dojo.configData.enableUSNGSearch) {
+            if (this.config.enableUSNGSearch) {
                 this._convertUSNG();
             }
             // check if 'enableMGRSSearch' flag is set to true in config file
-            if (dojo.configData.enableMGRSSearch) {
+            if (this.config.enableMGRSSearch) {
                 this._convertMGRS();
             }
             // check if 'enableLatLongSearch' flag is set to true in config file
-            if (dojo.configData.enableLatLongSearch) {
+            if (this.config.enableLatLongSearch) {
                 this._getLatLongValue();
             }
             // get results for both address and layer search
@@ -264,8 +266,8 @@ define([
                     "addresses": evt.addresses,
                     "target": evt.target
                 });
-                if (evt.addresses.length > 0 && !nameArray[dojo.configData.i18n.locator.addressText + " " + evt.target.name]) {
-                    locatorName = dojo.configData.i18n.locator.addressText + " " + evt.target.name;
+                if (evt.addresses.length > 0 && !nameArray[this.config.i18n.locator.addressText + " " + evt.target.name]) {
+                    locatorName = this.config.i18n.locator.addressText + " " + evt.target.name;
                     nameArray[locatorName] = this._addressResult(evt.addresses, locatorName);
                     if (nameArray[locatorName].length > 0) {
                         this._showLocatedAddress(nameArray);
@@ -347,20 +349,20 @@ define([
                 domClass.remove(this.divResultContainer, "esriCTHidden");
                 // push USNG value into address array
                 if (this.usngValue && this.usngValue.value) {
-                    nameArray[dojo.configData.i18n.locator.usngText] = [];
-                    nameArray[dojo.configData.i18n.locator.usngText].push(this.usngValue);
+                    nameArray[this.config.i18n.locator.usngText] = [];
+                    nameArray[this.config.i18n.locator.usngText].push(this.usngValue);
                     this.resultLength++;
                 }
                 // push MGRS value into address array
                 if (this.mgrsValue && this.mgrsValue.value) {
-                    nameArray[dojo.configData.i18n.locator.mgrsText] = [];
-                    nameArray[dojo.configData.i18n.locator.mgrsText].push(this.mgrsValue);
+                    nameArray[this.config.i18n.locator.mgrsText] = [];
+                    nameArray[this.config.i18n.locator.mgrsText].push(this.mgrsValue);
                     this.resultLength++;
                 }
                 // push lat long value into address array
                 if (this.latLongValue && this.latLongValue.value) {
-                    nameArray[dojo.configData.i18n.locator.latLongText] = [];
-                    nameArray[dojo.configData.i18n.locator.latLongText].push({
+                    nameArray[this.config.i18n.locator.latLongText] = [];
+                    nameArray[this.config.i18n.locator.latLongText].push({
                         LatLong: this.latLongValue
                     });
                     this.resultLength++;
@@ -404,7 +406,7 @@ define([
                 for (index in resultAttributes) {
                     if (resultAttributes.hasOwnProperty(index)) {
                         if (!resultAttributes[index]) {
-                            resultAttributes[index] = dojo.configData.showNullValueAs;
+                            resultAttributes[index] = this.config.showNullValueAs;
                         }
                     }
                 }
@@ -510,7 +512,7 @@ define([
                     domAttr.set(candidateAddress, "y", candidate.attributes.location.y);
                 }
             } catch (err) {
-                dojo.applicationUtils.showError(err);
+                this.appUtils.showError(err);
             }
             // handle click event when user clicks on a candidate address
             this.handleAddressClick(candidate, candidateAddress, candidateArray);
@@ -547,7 +549,7 @@ define([
             this._toggleTexBoxControls(false);
             domConstruct.create("div", {
                 "class": "esriCTDivNoResultFound",
-                "innerHTML": dojo.configData.i18n.locator.invalidSearch
+                "innerHTML": this.config.i18n.locator.invalidSearch
             }, this.divResultContainer);
         },
 
@@ -680,7 +682,7 @@ define([
                         this.candidateGeometry = pt;
                     }
                 }), function (error) {
-                    dojo.applicationUtils.showError(error.message);
+                    this.appUtils.showError(error.message);
                 });
             }
         },

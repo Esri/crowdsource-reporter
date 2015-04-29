@@ -10,7 +10,7 @@
         "enableGoogleplus": false,
         "googleplusClientId": "",
         "applicationName": "",
-        "applicationIcon": "/images/app-icon.png",
+        "applicationIcon": "",
         "applicationFavicon": "/images/favicon.ico",
         "webMapInfoDescription": true,
         "webMapInfoSnippet": false,

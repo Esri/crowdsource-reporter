@@ -23,7 +23,6 @@ define([
     "dojo/text!./templates/webmap-list.html",
     "dojo/dom-construct",
     "dojo/DeferredList",
-    "esri/arcgis/utils",
     "dojo/text!./templates/webmap-item.html",
     "dojo/text!./templates/operational-layer.html",
     "dojo/_base/event",
@@ -33,6 +32,7 @@ define([
     "esri/layers/FeatureLayer",
     "dojo/dom",
     "dojo/dom-class",
+    'dojo/dom-style',
     "widgets/bootstrapmap/bootstrapmap",
     "dijit/_WidgetsInTemplateMixin",
     "dojo/query"
@@ -44,7 +44,6 @@ define([
     dijitTemplate,
     domConstruct,
     DeferredList,
-    arcgisUtils,
     webMapItemTemplate,
     operationalLayerTemplate,
     event,
@@ -54,6 +53,7 @@ define([
     FeatureLayer,
     dom,
     domClass,
+    domStyle,
     BootstrapMap,
     _WidgetsInTemplateMixin,
     query
@@ -64,7 +64,7 @@ define([
         lastWebMapSelected: "", // used to store last web map that is selected
         map: null, // to store map object
         options: {}, // to mixin data in this object
-        configData: {}, // to store configuration data
+        appConfig: {}, // to store configuration data
         mapDivID: "webMapListMapDiv", // id of div in which web-map is created
         webMapDescriptionFields: {}, // to store fields that needs to be display in web-map description
         lastSelectedWebMapExtent: null, // to store last extent of web-map that was selected
@@ -87,11 +87,7 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         startup: function () {
-            try {
-                this._createFilteredWebMapArr();
-            } catch (err) {
-                dojo.applicationUtils.showError(err.message);
-            }
+            this._createFilteredWebMapArr();
         },
 
         /**
@@ -101,7 +97,13 @@ define([
         noMapsFound: function () {
             return true;
         },
+        show: function () {
+            domStyle.set(this.domNode, 'display', '');
+        },
 
+        hide: function () {
+            domStyle.set(this.domNode, 'display', 'none');
+        },
         /**
         * This function is used to return selected operational layer
         * @param{object} details of operational layer selected
@@ -116,34 +118,30 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         _createFilteredWebMapArr: function () {
-            try {
-                var i, itemInfo, requestArray = [],
-                    dl, results = this.configData.groupItems.results;
-                for (i = 0; i < results.length; i++) {
-                    itemInfo = results[i];
-                    // Set the itemInfo config option. This can be used when calling createMap instead of the webmap id
-                    if (itemInfo.type === "Web Map") {
-                        requestArray.push(this._createMap(itemInfo.id, "webMapListMapDiv"));
-                    }
+            var i, itemInfo, requestArray = [],
+                dl, results = this.appConfig.groupItems.results;
+            for (i = 0; i < results.length; i++) {
+                itemInfo = results[i];
+                // Set the itemInfo config option. This can be used when calling createMap instead of the webmap id
+                if (itemInfo.type === "Web Map") {
+                    requestArray.push(this._createMap(itemInfo.id, "webMapListMapDiv"));
                 }
-                dl = new DeferredList(requestArray);
-                dl.then(lang.hitch(this, function (response) {
-                    this._filterWebMaps(response);
-                    // if atleast 1 web-map is available than display it
-                    if (this.filteredWebMapResponseArr.length > 0) {
-                        this._createMap(this.filteredWebMapResponseArr[0][1].itemInfo.item.id, this.mapDivID).then(lang.hitch(this, function (response) {
-                            this.lastSelectedWebMapExtent = response.map.extent;
-                            this.lastSelectedWebMapItemInfo = response.itemInfo;
-                            this._createWebMapListUI();
-                        }));
-                    } else {
-                        // display message if no web-map is available to display
-                        this.noMapsFound();
-                    }
-                }));
-            } catch (err) {
-                dojo.applicationUtils.showError(err.message);
             }
+            dl = new DeferredList(requestArray);
+            dl.then(lang.hitch(this, function (response) {
+                this._filterWebMaps(response);
+                // if atleast 1 web-map is available than display it
+                if (this.filteredWebMapResponseArr.length > 0) {
+                    this._createMap(this.filteredWebMapResponseArr[0][1].itemInfo.item.id, this.mapDivID).then(lang.hitch(this, function (response) {
+                        this.lastSelectedWebMapExtent = response.map.extent;
+                        this.lastSelectedWebMapItemInfo = response.itemInfo;
+                        this._createWebMapListUI();
+                    }));
+                } else {
+                    // display message if no web-map is available to display
+                    this.noMapsFound();
+                }
+            }));
         },
 
         /**
@@ -153,25 +151,27 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         _createMap: function (webMapID, mapDivID) {
-            try {
-                if (this.map) {
-                    this.map.destroy();
-                }
-                domConstruct.empty(mapDivID);
-                var webMapInstance = BootstrapMap.createWebMap(webMapID, mapDivID, {
-                    ignorePopups: true,
-                    editable: false,
-                    bingMapsKey: this.configData.bingKey,
-                    scrollWheelZoom: true
-                });
-                webMapInstance.then(lang.hitch(this, function (response) {
-                    this.map = response.map;
-                    this.onMapLoaded(response.map);
-                }));
-                return webMapInstance;
-            } catch (err) {
-                dojo.applicationUtils.showError(err.message);
+            if (this.map) {
+                this.map.destroy();
             }
+            domConstruct.empty(mapDivID);
+            var webMapInstance = BootstrapMap.createWebMap(webMapID, mapDivID, {
+                ignorePopups: false,
+                editable: false,
+                bingMapsKey: this.appConfig.bingKey,
+                scrollWheelZoom: true,
+                autoResize: this.autoResize
+            });
+            webMapInstance.then(lang.hitch(this, function (response) {
+                this.map = response.map;
+                //Disable default infowindow
+                this.map.infoWindow.set("popupWindow", false);
+                //Disable default symbol highlighting of infowindow
+                this.map.infoWindow.set("highlight", false);
+                //Raise map loaded event
+                this.onMapLoaded(response);
+            }));
+            return webMapInstance;
         },
 
         /**
@@ -188,49 +188,45 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         _filterWebMaps: function (response) {
-            try {
-                var i, showWebmapInList, j, removeLayerFromList, operationalLayerCount;
-                for (i = 0; i < response.length; i++) {
-                    // check if webmap has any operational layer if not then dont show that webmap in list
-                    if (response[i][0] && response[i][1].itemInfo.itemData.operationalLayers.length > 0) {
-                        showWebmapInList = false;
-                        operationalLayerCount = response[i][1].itemInfo.itemData.operationalLayers.length;
-                        // this loop will check if the layer is having valid capabilities and popinfo
-                        // if not then it will remove that layer from array
-                        for (j = 0; j < operationalLayerCount; j++) {
-                            removeLayerFromList = true;
-                            if (response[i][1].itemInfo.itemData.operationalLayers[j].visibility && response[i][1].itemInfo.itemData.operationalLayers[j].resourceInfo && response[i][1].itemInfo.itemData.operationalLayers[j].layerObject) {
-                                // check if layer is having valid capabilities and valid popupinfo
-                                if (this._validateLayerCapabilities(response[i][1].itemInfo.itemData.operationalLayers[j].resourceInfo.capabilities)) {
-                                    if (this._validatePopupFields(response[i][1].itemInfo.itemData.operationalLayers[j].popupInfo, response[i][1].itemInfo.itemData.operationalLayers[j].layerObject.fields)) {
-                                        showWebmapInList = true;
-                                        removeLayerFromList = false;
-                                    }
+            var i, showWebmapInList, j, removeLayerFromList, operationalLayerCount;
+            for (i = 0; i < response.length; i++) {
+                // check if webmap has any operational layer if not then dont show that webmap in list
+                if (response[i][0] && response[i][1].itemInfo.itemData.operationalLayers.length > 0) {
+                    showWebmapInList = false;
+                    operationalLayerCount = response[i][1].itemInfo.itemData.operationalLayers.length;
+                    // this loop will check if the layer is having valid capabilities and popinfo
+                    // if not then it will remove that layer from array
+                    for (j = 0; j < operationalLayerCount; j++) {
+                        removeLayerFromList = true;
+                        if (response[i][1].itemInfo.itemData.operationalLayers[j].visibility && response[i][1].itemInfo.itemData.operationalLayers[j].resourceInfo && response[i][1].itemInfo.itemData.operationalLayers[j].layerObject) {
+                            // check if layer is having valid capabilities and valid popupinfo
+                            if (this._validateLayerCapabilities(response[i][1].itemInfo.itemData.operationalLayers[j].resourceInfo.capabilities)) {
+                                if (this._validatePopupFields(response[i][1].itemInfo.itemData.operationalLayers[j].popupInfo, response[i][1].itemInfo.itemData.operationalLayers[j].layerObject.fields)) {
+                                    showWebmapInList = true;
+                                    removeLayerFromList = false;
                                 }
                             }
-                            // if layer is not valid remove it from array
-                            if (removeLayerFromList) {
+                        }
+                        // if layer is not valid remove it from array
+                        if (removeLayerFromList) {
 
-                                if (!this._layersToRemove[response[i][1].itemInfo.item.id]) {
-                                    this._layersToRemove[response[i][1].itemInfo.item.id] = [];
-                                }
-                                this._layersToRemove[response[i][1].itemInfo.item.id].push(response[i][1].itemInfo.itemData.operationalLayers[j].id);
-                                response[i][1].itemInfo.itemData.operationalLayers.splice(j, 1);
-                                operationalLayerCount = response[i][1].itemInfo.itemData.operationalLayers.length;
-                                j--;
+                            if (!this._layersToRemove[response[i][1].itemInfo.item.id]) {
+                                this._layersToRemove[response[i][1].itemInfo.item.id] = [];
                             }
+                            this._layersToRemove[response[i][1].itemInfo.item.id].push(response[i][1].itemInfo.itemData.operationalLayers[j].id);
+                            response[i][1].itemInfo.itemData.operationalLayers.splice(j, 1);
+                            operationalLayerCount = response[i][1].itemInfo.itemData.operationalLayers.length;
+                            j--;
                         }
-                        // if not then dont show that layer in webmaplist
-                        if (showWebmapInList) {
-                            this.filteredWebMapResponseArr.push(response[i]);
-                        }
-                        //If their are any auto refreshed layer on the map browser will send request for those layers although that layer may not be selected on main map.
-                        //destroy the map instance once all the operation is completed.
-                        response[i][1].map.destroy();
                     }
+                    // if not then dont show that layer in webmaplist
+                    if (showWebmapInList) {
+                        this.filteredWebMapResponseArr.push(response[i]);
+                    }
+                    //If their are any auto refreshed layer on the map browser will send request for those layers although that layer may not be selected on main map.
+                    //destroy the map instance once all the operation is completed.
+                    response[i][1].map.destroy();
                 }
-            } catch (err) {
-                dojo.applicationUtils.showError(err.message);
             }
         },
 
@@ -248,14 +244,14 @@ define([
                     if (this.webMapDescriptionFields[field]) {
                         // to display date field
                         if (field === "created" || field === "modified") {
-                            value = webMapItem.itemInfo.item[field] ? ((moment(webMapItem.itemInfo.item[field]).toDate()).toLocaleDateString()) : this.configData.showNullValueAs + "<br/>";
+                            value = webMapItem.itemInfo.item[field] ? ((moment(webMapItem.itemInfo.item[field]).toDate()).toLocaleDateString()) : this.appConfig.showNullValueAs + "<br/>";
                             if (lang.trim(value) === "") {
-                                value = this.configData.showNullValueAs + "<br/>";
+                                value = this.appConfig.showNullValueAs + "<br/>";
                             }
                         } else {
-                            value = webMapItem.itemInfo.item[field] || this.configData.showNullValueAs + "<br/>";
+                            value = webMapItem.itemInfo.item[field] || this.appConfig.showNullValueAs + "<br/>";
                         }
-                        descriptionInfo += "<div class='esriCTDetailsContainerRow'><div class='esriCTDetailsContainerCell'><div class='esriCTInfoHeader'>" + this.configData.i18n.webMapList[field] + "</div><div class='esriCTInfoDetails'>" + value + "</div></div></div>";
+                        descriptionInfo += "<div class='esriCTDetailsContainerRow'><div class='esriCTDetailsContainerCell'><div class='esriCTInfoHeader'>" + this.appConfig.i18n.webMapList[field] + "</div><div class='esriCTInfoDetails'>" + value + "</div></div></div>";
                     }
                 }
             }
@@ -282,89 +278,74 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         _createWebMapListUI: function () {
-            try {
-                var parentDiv, i, templateString, thumbnailSrc = "",
-                    tokenString,
-                    infoDescription = "",
-                    editCapabilityLayerCount,
-                    obj;
-                for (i = 0; i < this.filteredWebMapResponseArr.length; i++) {
-                    editCapabilityLayerCount = this.filteredWebMapResponseArr[i][1].itemInfo.itemData.operationalLayers.length;
-                    // set token for private groups to fetch thumbnail
-                    // first check if web-map thumbnail is available than display it
-                    // second check if web-map thumbnail is configured than display it
-                    // third if none of above scenario is valid than display fallback icon
-                    if (this.filteredWebMapResponseArr[i][1].itemInfo.item.thumbnail) {
-                        tokenString = "";
-                        if (this.configData.logInDetails.token) {
-                            tokenString = "?token=" + this.configData.logInDetails.token;
-                        }
-                        thumbnailSrc = this.configData.sharinghost + "/sharing/rest/content/items/" + this.filteredWebMapResponseArr[i][1].itemInfo.item.id + "/info/" + this.filteredWebMapResponseArr[i][1].itemInfo.item.thumbnail + tokenString;
-                    } else {
-                        if (this.configData.noThumbnailIcon && lang.trim(this.configData.noThumbnailIcon).length !== 0) {
-                            if (this.configData.noThumbnailIcon.indexOf("http") === 0) {
-                                thumbnailSrc = this.configData.noThumbnailIcon;
+            var parentDiv, i, templateString, thumbnailSrc, tokenString, infoDescription, editCapabilityLayerCount, obj, operationalLayersLength;
+            thumbnailSrc = "";
+            infoDescription = "";
+            for (i = 0; i < this.filteredWebMapResponseArr.length; i++) {
+                editCapabilityLayerCount = this.filteredWebMapResponseArr[i][1].itemInfo.itemData.operationalLayers.length;
+                // set token for private groups to fetch thumbnail
+                // first check if web-map thumbnail is available than display it
+                // second check if web-map thumbnail is configured than display it
+                // third if none of above scenario is valid than display fallback icon
+                if (this.filteredWebMapResponseArr[i][1].itemInfo.item.thumbnail) {
+                    tokenString = "";
+                    if (this.appConfig.logInDetails.token) {
+                        tokenString = "?token=" + this.appConfig.logInDetails.token;
+                    }
+                    thumbnailSrc = this.appConfig.sharinghost + "/sharing/rest/content/items/" + this.filteredWebMapResponseArr[i][1].itemInfo.item.id + "/info/" + this.filteredWebMapResponseArr[i][1].itemInfo.item.thumbnail + tokenString;
+                } else {
+                    if (this.appConfig.noThumbnailIcon && lang.trim(this.appConfig.noThumbnailIcon).length !== 0) {
+                        if (this.appConfig.noThumbnailIcon.indexOf("http") === 0) {
+                            thumbnailSrc = this.appConfig.noThumbnailIcon;
+                        } else {
+                            if (this.appConfig.noThumbnailIcon.indexOf("/") === 0) {
+                                thumbnailSrc = dojoConfig.baseURL + this.appConfig.noThumbnailIcon;
                             } else {
-                                if (this.configData.noThumbnailIcon.indexOf("/") === 0) {
-                                    thumbnailSrc = dojoConfig.baseURL + this.configData.noThumbnailIcon;
-                                } else {
-                                    thumbnailSrc = dojoConfig.baseURL + "/" + this.configData.noThumbnailIcon;
-                                }
+                                thumbnailSrc = dojoConfig.baseURL + "/" + this.appConfig.noThumbnailIcon;
                             }
-                        } else {
-                            thumbnailSrc = dojoConfig.baseURL + "/images/no-thumbnail.png";
-                        }
-                    }
-                    infoDescription = this._createWebMapDescription(this.filteredWebMapResponseArr[i][1]);
-                    templateString = string.substitute(webMapItemTemplate, {
-                        WebmapThumbnail: thumbnailSrc,
-                        WebmapTitle: this.filteredWebMapResponseArr[i][1].itemInfo.item.title,
-                        InfoDescription: infoDescription
-                    });
-                    // to display web-map icon which is aligned right & left
-                    if (i % 2 !== 0) {
-                        if (domConstruct.toDom(templateString).childNodes.length > 2) {
-                            parentDiv = domConstruct.toDom(templateString).childNodes[2];
-                        } else {
-                            parentDiv = domConstruct.toDom(templateString).childNodes[1];
                         }
                     } else {
-                        parentDiv = domConstruct.toDom(templateString).childNodes[0];
-                    }
-                    $(parentDiv).addClass("esriCTDisplayWebMapTemplate esriCTWebMapBorder");
-                    domAttr.set(parentDiv, "webMapID", this.filteredWebMapResponseArr[i][1].itemInfo.item.id);
-                    if (query('.esriCTInfoImg', parentDiv).length > 0) {
-                        domAttr.set(query('.esriCTInfoImg', parentDiv)[0], "title", dojo.configData.i18n.webMapList.infoBtnToolTip);
-                    }
-                    if ((this.filteredWebMapResponseArr[i][1].itemInfo.itemData.operationalLayers.length > 1) && (editCapabilityLayerCount > 1)) {
-                        domAttr.set(parentDiv, "displayOperationalLayerList", true);
-                        this._handleWebMapClick(parentDiv, null);
-                    } else {
-                        domAttr.set(parentDiv, "displayOperationalLayerList", false);
-                        domAttr.set(parentDiv, "operationalLayerID", this.filteredWebMapResponseArr[i][1].itemInfo.itemData.operationalLayers[0].id);
-                        this._handleWebMapClick(parentDiv, this.filteredWebMapResponseArr[i][1].itemInfo.itemData.operationalLayers[0]);
-                    }
-                    this.esriCTWebMapListParentDiv.appendChild(parentDiv);
-                    this._attachInformationClick(infoDescription, parentDiv);
-                    if ((this.filteredWebMapResponseArr[i][1].itemInfo.itemData.operationalLayers.length > 1) && (editCapabilityLayerCount > 1)) {
-                        this._sortOperationalLayer(i);
-                        this._createOperationalLayerList(query('.esriCTLayerList', parentDiv)[0], this.filteredWebMapResponseArr[i][1], i);
+                        thumbnailSrc = dojoConfig.baseURL + "/images/default-webmap-thumbnail.png";
                     }
                 }
-                // by default load first webmap and its first layer
-                if (this.filteredWebMapResponseArr.length > 0) {
-                    obj = {
-                        "webMapId": this.filteredWebMapResponseArr[0][1].itemInfo.item.id,
-                        "operationalLayerId": this.filteredWebMapResponseArr[0][1].itemInfo.itemData.operationalLayers[0].id,
-                        "operationalLayerDetails": this.filteredWebMapResponseArr[0][1].itemInfo.itemData.operationalLayers[0],
-                        "itemInfo": this.filteredWebMapResponseArr[0][1].itemInfo
-                    };
-                    this._displaySelectedOperationalLayer(obj);
-                    // by default select first webmap in list
-                    this._selectWebMapItem(this.filteredWebMapResponseArr[0][1].itemInfo.item.id);
+                infoDescription = this._createWebMapDescription(this.filteredWebMapResponseArr[i][1]);
+                templateString = string.substitute(webMapItemTemplate, {
+                    WebmapThumbnail: thumbnailSrc,
+                    WebmapTitle: this.filteredWebMapResponseArr[i][1].itemInfo.item.title,
+                    InfoDescription: infoDescription
+                });
+                parentDiv = domConstruct.toDom(templateString);
+                domClass.add(parentDiv, "esriCTDisplayWebMapTemplate esriCTWebMapBorder");
+                domAttr.set(parentDiv, "webMapID", this.filteredWebMapResponseArr[i][1].itemInfo.item.id);
+                if (query('.esriCTInfoImg', parentDiv).length > 0) {
+                    domAttr.set(query('.esriCTInfoImg', parentDiv)[0], "title", this.appConfig.i18n.webMapList.infoBtnToolTip);
                 }
-            } catch (err) {
-                dojo.applicationUtils.showError(err.message);
+                if ((this.filteredWebMapResponseArr[i][1].itemInfo.itemData.operationalLayers.length > 1) && (editCapabilityLayerCount > 1)) {
+                    domAttr.set(parentDiv, "displayOperationalLayerList", true);
+                    this._handleWebMapClick(parentDiv, null);
+                } else {
+                    domAttr.set(parentDiv, "displayOperationalLayerList", false);
+                    domAttr.set(parentDiv, "operationalLayerID", this.filteredWebMapResponseArr[i][1].itemInfo.itemData.operationalLayers[0].id);
+                    this._handleWebMapClick(parentDiv, this.filteredWebMapResponseArr[i][1].itemInfo.itemData.operationalLayers[0]);
+                }
+                this.esriCTWebMapListParentDiv.appendChild(parentDiv);
+                this._attachInformationClick(infoDescription, parentDiv);
+                if ((this.filteredWebMapResponseArr[i][1].itemInfo.itemData.operationalLayers.length > 1) && (editCapabilityLayerCount > 1)) {
+                    this._createOperationalLayerList(query('.esriCTLayerList', parentDiv)[0], this.filteredWebMapResponseArr[i][1]);
+                }
+            }
+            // by default load first webmap and its first layer
+            if (this.filteredWebMapResponseArr.length > 0) {
+                operationalLayersLength = this.filteredWebMapResponseArr[0][1].itemInfo.itemData.operationalLayers.length;
+                obj = {
+                    "webMapId": this.filteredWebMapResponseArr[0][1].itemInfo.item.id,
+                    "operationalLayerId": this.filteredWebMapResponseArr[0][1].itemInfo.itemData.operationalLayers[operationalLayersLength - 1].id,
+                    "operationalLayerDetails": this.filteredWebMapResponseArr[0][1].itemInfo.itemData.operationalLayers[operationalLayersLength - 1],
+                    "itemInfo": this.filteredWebMapResponseArr[0][1].itemInfo
+                };
+                this._displaySelectedOperationalLayer(obj);
+                // by default select first webmap in list
+                this._selectWebMapItem(this.filteredWebMapResponseArr[0][1].itemInfo.item.id);
             }
         },
 
@@ -376,40 +357,36 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         _displaySelectedOperationalLayer: function (obj) {
-            try {
-                var layer, featureLayer, i;
-                if (this.map) {
-                    for (layer in this.map._layers) {
-                        if (this.map._layers.hasOwnProperty(layer)) {
-                            if (this.map._layers[layer].type) {
-                                // only show feature layer that is selected by user
-                                // and hide rest of layers
-                                if (this.map._layers[layer].type === "Feature Layer") {
-                                    if (this.map._layers[layer].id !== obj.operationalLayerId) {
-                                        this.map._layers[layer].hide();
-                                    } else {
-                                        this.map._layers[layer].show();
-                                        this.map.getLayer(obj.operationalLayerId).refresh();
-                                        featureLayer = new FeatureLayer(this.map._layers[layer].url);
-                                        this._onFeatureLayerLoad(featureLayer, obj.webMapId, obj.operationalLayerId, obj.operationalLayerDetails, obj.itemInfo);
-                                    }
+            var layer, featureLayer, i;
+            if (this.map) {
+                for (layer in this.map._layers) {
+                    if (this.map._layers.hasOwnProperty(layer)) {
+                        if (this.map._layers[layer].type) {
+                            // only show feature layer that is selected by user
+                            // and hide rest of layers
+                            if (this.map._layers[layer].type === "Feature Layer") {
+                                if (this.map._layers[layer].id !== obj.operationalLayerId) {
+                                    this.map._layers[layer].hide();
+                                } else {
+                                    this.map._layers[layer].show();
+                                    this.map.getLayer(obj.operationalLayerId).refresh();
+                                    featureLayer = new FeatureLayer(this.map._layers[layer].url);
+                                    this._onFeatureLayerLoad(featureLayer, obj.webMapId, obj.operationalLayerId, obj.operationalLayerDetails, obj.itemInfo);
                                 }
                             }
                         }
                     }
-                    //Remove Invalid Layers from map
-                    if (this._layersToRemove[obj.webMapId]) {
-                        for (i = 0; i < this._layersToRemove[obj.webMapId].length; i++) {
-                            if (this.map._layers.hasOwnProperty(this._layersToRemove[obj.webMapId][i])) {
-                                this.map.removeLayer(this.map._layers[this._layersToRemove[obj.webMapId][i]]);
-                            }
+                }
+                //Remove Invalid Layers from map
+                if (this._layersToRemove[obj.webMapId]) {
+                    for (i = 0; i < this._layersToRemove[obj.webMapId].length; i++) {
+                        if (this.map._layers.hasOwnProperty(this._layersToRemove[obj.webMapId][i])) {
+                            this.map.removeLayer(this.map._layers[this._layersToRemove[obj.webMapId][i]]);
                         }
                     }
-                } else {
-                    dojo.applicationUtils.hideLoadingIndicator();
                 }
-            } catch (err) {
-                dojo.applicationUtils.showError(err.message);
+            } else {
+                this.appUtils.hideLoadingIndicator();
             }
         },
 
@@ -440,20 +417,16 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         _onFeatureLayerLoad: function (featureLayer, webMapID, layerID, layerDetails, itemInfo) {
-            try {
-                if (!featureLayer.loaded) {
-                    on(featureLayer, "load", lang.hitch(this, function () {
-                        this._featureLayerLoaded(webMapID, layerID, layerDetails, itemInfo);
-                    }));
-                } else {
+            if (!featureLayer.loaded) {
+                on(featureLayer, "load", lang.hitch(this, function () {
                     this._featureLayerLoaded(webMapID, layerID, layerDetails, itemInfo);
-                }
-                on(featureLayer, "error", lang.hitch(this, function (evt) {
-                    dojo.applicationUtils.showError(evt.error.message);
                 }));
-            } catch (err) {
-                dojo.applicationUtils.showError(err.message);
+            } else {
+                this._featureLayerLoaded(webMapID, layerID, layerDetails, itemInfo);
             }
+            on(featureLayer, "error", lang.hitch(this, function (evt) {
+                this.appUtils.showError(evt.error.message);
+            }));
         },
 
         /**
@@ -475,7 +448,7 @@ define([
                     "operationalLayerDetails": layerDetails,
                     "itemInfo": itemInfo
                 });
-                dojo.applicationUtils.hideLoadingIndicator();
+                this.appUtils.hideLoadingIndicator();
             }), 500);
         },
 
@@ -486,17 +459,13 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         _handleWebMapClick: function (parentDiv, operationalLayerDetails) {
-            try {
-                dojo.applicationUtils.showLoadingIndicator();
-                on($(".esriCTMediaBody", parentDiv)[0], "click", lang.hitch(this, function (evt) {
-                    this._handleWebmapToggling(parentDiv, operationalLayerDetails);
-                }));
-                on($(".esriCTWebMapImg", parentDiv)[0], "click", lang.hitch(this, function (evt) {
-                    this._handleWebmapToggling(parentDiv, operationalLayerDetails);
-                }));
-            } catch (err) {
-                dojo.applicationUtils.showError(err.message);
-            }
+            this.appUtils.showLoadingIndicator();
+            on($(".esriCTMediaBody", parentDiv)[0], "click", lang.hitch(this, function (evt) {
+                this._handleWebmapToggling(parentDiv, operationalLayerDetails);
+            }));
+            on($(".esriCTWebMapImg", parentDiv)[0], "click", lang.hitch(this, function (evt) {
+                this._handleWebmapToggling(parentDiv, operationalLayerDetails);
+            }));
         },
 
         /**
@@ -507,7 +476,7 @@ define([
         */
         _handleWebmapToggling: function (node, operationalLayerDetails) {
             var webMapId, selectedWebMapList, operationalLayerId, descriptionDiv;
-            dojo.applicationUtils.showLoadingIndicator();
+            this.appUtils.showLoadingIndicator();
             webMapId = domAttr.get(node, "webMapID");
             // to display operational layer list if web-map contains more than 1 layer
             if (domAttr.get(node, "displayOperationalLayerList") === true) {
@@ -538,7 +507,7 @@ define([
                     }), 500);
 
                 }
-                dojo.applicationUtils.hideLoadingIndicator();
+                this.appUtils.hideLoadingIndicator();
             } else {
                 if (this.lastWebMapSelected !== webMapId) {
                     this.setDefaultHeightOfContainers();
@@ -556,7 +525,7 @@ define([
                     }));
                 } else {
                     this.onSelectedWebMapClicked(webMapId);
-                    dojo.applicationUtils.hideLoadingIndicator();
+                    this.appUtils.hideLoadingIndicator();
                 }
             }
         },
@@ -570,60 +539,33 @@ define([
         },
 
         /**
-        * This function is used to sort operational layer according to name
-        * @param{int} index where concerned operational layer resides
-        * @memberOf widgets/webmap-list/webmap-list
-        */
-        _sortOperationalLayer: function (index) {
-            try {
-                this.filteredWebMapResponseArr[index][1].itemInfo.itemData.operationalLayers.sort(function (a, b) {
-                    var titleA = a.title.toLowerCase(),
-                        titleB = b.title.toLowerCase();
-                    if (titleA < titleB) {
-                        return -1;
-                    }
-                    if (titleA > titleB) {
-                        return 1;
-                    }
-                    return 0;
-                });
-            } catch (err) {
-                dojo.applicationUtils.showError(err.message);
-            }
-        },
-
-        /**
         * This function is used to add operational layer in list
         * @param{object} parent container in which operational layer list will be added
         * @param{object} details of web map
         * @memberOf widgets/webmap-list/webmap-list
         */
-        _createOperationalLayerList: function (parentContainer, webMap, index) {
-            try {
-                var i, parentListNode, childListNode, operationalLayerString;
-                parentListNode = domConstruct.create("div", {
-                    "class": "esriCTHidden  esriCTMediaBorder",
-                    "id": webMap.itemInfo.item.id
+        _createOperationalLayerList: function (parentContainer, webMap) {
+            var i, parentListNode, childListNode, operationalLayerString;
+            parentListNode = domConstruct.create("div", {
+                "class": "esriCTHidden  esriCTMediaBorder",
+                "id": webMap.itemInfo.item.id
+            });
+            // to create operational layer list
+            for (i = webMap.itemInfo.itemData.operationalLayers.length - 1; i >= 0; i--) {
+                operationalLayerString = string.substitute(operationalLayerTemplate, {
+                    OperationalLayerTitle: webMap.itemInfo.itemData.operationalLayers[i].title
                 });
-                // to create operational layer list
-                for (i = 0; i < webMap.itemInfo.itemData.operationalLayers.length; i++) {
-                    operationalLayerString = string.substitute(operationalLayerTemplate, {
-                        OperationalLayerTitle: webMap.itemInfo.itemData.operationalLayers[i].title
-                    });
-                    childListNode = domConstruct.toDom(operationalLayerString);
-                    domAttr.set(childListNode, "webMapID", webMap.itemInfo.item.id);
-                    domAttr.set(childListNode, "operationalLayerID", webMap.itemInfo.itemData.operationalLayers[i].id);
-                    this._handleOperationalLayerClick(childListNode, webMap.itemInfo.itemData.operationalLayers[i]);
-                    parentListNode.appendChild(childListNode);
-                }
-                // stop event propogation so that no other event gets executed
-                on(parentListNode, "click", lang.hitch(this, function (evt) {
-                    event.stop(evt);
-                }));
-                parentContainer.appendChild(parentListNode);
-            } catch (err) {
-                dojo.applicationUtils.showError(err.message);
+                childListNode = domConstruct.toDom(operationalLayerString);
+                domAttr.set(childListNode, "webMapID", webMap.itemInfo.item.id);
+                domAttr.set(childListNode, "operationalLayerID", webMap.itemInfo.itemData.operationalLayers[i].id);
+                this._handleOperationalLayerClick(childListNode, webMap.itemInfo.itemData.operationalLayers[i]);
+                parentListNode.appendChild(childListNode);
             }
+            // stop event propogation so that no other event gets executed
+            on(parentListNode, "click", lang.hitch(this, function (evt) {
+                event.stop(evt);
+            }));
+            parentContainer.appendChild(parentListNode);
         },
 
         /**
@@ -633,46 +575,42 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         _handleOperationalLayerClick: function (childListNode, operationalLayerDetails) {
-            try {
-                var operationalLayerId;
-                on(childListNode, "click", lang.hitch(this, function (evt) {
-                    var webMapId, obj;
-                    event.stop(evt);
-                    dojo.applicationUtils.showLoadingIndicator();
-                    webMapId = domAttr.get(evt.currentTarget, "webMapID");
-                    operationalLayerId = domAttr.get(evt.currentTarget, "operationalLayerID");
-                    // if other layer of same web-map is clicked than just display it
-                    // & if other layer of other web-map is clicked than do create map
-                    if (this.lastWebMapSelected !== webMapId) {
-                        this.setDefaultHeightOfContainers();
-                        this._selectWebMapItem(webMapId);
-                        this._createMap(webMapId, this.mapDivID).then(lang.hitch(this, function (response) {
-                            this.lastSelectedWebMapExtent = response.map.extent;
-                            this.lastSelectedWebMapItemInfo = response.itemInfo;
-                            obj = {
-                                "webMapId": webMapId,
-                                "operationalLayerId": operationalLayerId,
-                                "operationalLayerDetails": operationalLayerDetails,
-                                "itemInfo": response.itemInfo
-                            };
-                            this._displaySelectedOperationalLayer(obj);
-                        }));
-                    } else {
+            var operationalLayerId;
+            on(childListNode, "click", lang.hitch(this, function (evt) {
+                var webMapId, obj;
+                event.stop(evt);
+                this.appUtils.showLoadingIndicator();
+                webMapId = domAttr.get(evt.currentTarget, "webMapID");
+                operationalLayerId = domAttr.get(evt.currentTarget, "operationalLayerID");
+                // if other layer of same web-map is clicked than just display it
+                // & if other layer of other web-map is clicked than do create map
+                if (this.lastWebMapSelected !== webMapId) {
+                    this.setDefaultHeightOfContainers();
+                    this._selectWebMapItem(webMapId);
+                    this._createMap(webMapId, this.mapDivID).then(lang.hitch(this, function (response) {
+                        this.lastSelectedWebMapExtent = response.map.extent;
+                        this.lastSelectedWebMapItemInfo = response.itemInfo;
                         obj = {
                             "webMapId": webMapId,
                             "operationalLayerId": operationalLayerId,
                             "operationalLayerDetails": operationalLayerDetails,
-                            "itemInfo": this.lastSelectedWebMapItemInfo
+                            "itemInfo": response.itemInfo
                         };
                         this._displaySelectedOperationalLayer(obj);
-                        if (this.changeExtentOnLayerChange) {
-                            this.map.setExtent(this.lastSelectedWebMapExtent);
-                        }
+                    }));
+                } else {
+                    obj = {
+                        "webMapId": webMapId,
+                        "operationalLayerId": operationalLayerId,
+                        "operationalLayerDetails": operationalLayerDetails,
+                        "itemInfo": this.lastSelectedWebMapItemInfo
+                    };
+                    this._displaySelectedOperationalLayer(obj);
+                    if (this.changeExtentOnLayerChange) {
+                        this.map.setExtent(this.lastSelectedWebMapExtent);
                     }
-                }));
-            } catch (err) {
-                dojo.applicationUtils.showError(err.message);
-            }
+                }
+            }));
         },
 
         /**
@@ -753,25 +691,21 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         _validatePopupFields: function (popupInfo, fields) {
-            try {
-                var i, j;
-                // check if popup-info is available if not then return false
-                if (popupInfo) {
-                    for (i = 0; i < popupInfo.fieldInfos.length; i++) {
-                        for (j = 0; j < fields.length; j++) {
-                            if (popupInfo.fieldInfos[i].fieldName === fields[j].name) {
-                                // check if field is Editable
-                                if (popupInfo.fieldInfos[i].isEditable) {
-                                    return true;
-                                }
+            var i, j;
+            // check if popup-info is available if not then return false
+            if (popupInfo) {
+                for (i = 0; i < popupInfo.fieldInfos.length; i++) {
+                    for (j = 0; j < fields.length; j++) {
+                        if (popupInfo.fieldInfos[i].fieldName === fields[j].name) {
+                            // check if field is Editable
+                            if (popupInfo.fieldInfos[i].isEditable) {
+                                return true;
                             }
                         }
                     }
                 }
-                return false;
-            } catch (err) {
-                dojo.applicationUtils.showError(err.message);
             }
+            return false;
         }
     });
 });

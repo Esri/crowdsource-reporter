@@ -20,7 +20,6 @@ define([
     "config/template-config",
     "application/template",
     "application/main",
-    "application/utils/utils",
     "dojo/_base/declare",
     "dojo/dom-construct",
     "dojo/dom-style",
@@ -40,7 +39,7 @@ define([
     "widgets/sign-in/twitter-helper",
     "dojo/query"
 
-], function (templateConfig, MainTemplate, Main, ApplicationUtils, declare, domConstruct, domStyle, domAttr, domClass, lang, on, Deferred, all, esriPortal, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, IdentityManager, FBHelper, TWHelper, query) {
+], function (templateConfig, MainTemplate, Main, declare, domConstruct, domStyle, domAttr, domClass, lang, on, Deferred, all, esriPortal, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, IdentityManager, FBHelper, TWHelper, query) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         _config: null,
@@ -54,13 +53,21 @@ define([
         * @param{object} config to be used
         * @memberOf widgets/sign-in/sign-in
         */
-        startup: function (boilerPlateTemplateObject) {
+        startup: function (boilerPlateTemplateObject, appUtils) {
+            var loadGPApi;
             this._boilerPlateTemplate = boilerPlateTemplateObject;
             this._config = boilerPlateTemplateObject.config;
-            dojo.applicationUtils = ApplicationUtils;
+            this.appUtils = appUtils;
             this.inherited(arguments);
             this._createLoginScreenUI();
-            this._handleEvents();
+            if (this._config.enableGoogleplus) {
+                loadGPApi = $.getScript("https://apis.google.com/js/client:platform.js?onload=render");
+            }
+            if (loadGPApi && loadGPApi.readyState) {
+                this._handleEvents();
+            } else {
+                this._handleEvents();
+            }
         },
 
         /**
@@ -236,13 +243,13 @@ define([
                             //Now process the user details of logged in user
                             this.processUserDetails(loggedInUser);
                         } else {
-                            dojo.applicationUtils.showError(this._boilerPlateTemplate.config.i18n.webMapList.noWebMapInGroup);
+                            this.appUtils.showError(this._boilerPlateTemplate.config.i18n.webMapList.noWebMapInGroup);
                         }
                     }));
 
                 }), function (e) {
                     if (e.message !== "ABORTED") {
-                        dojo.applicationUtils.showError(e.message);
+                        this.appUtils.showError(e.message);
                     }
                 });
             }));

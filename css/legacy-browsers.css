@@ -72,8 +72,13 @@
 
 .esriCTSearchButton
 {
-    background: url('../images/address-search-24.png') no-repeat center;
+    background: url('../images/search-24.png') no-repeat center;
     background-size: 24px;
+}
+
+.esriCTLocationButton
+{
+    background-image: url(../images/current-location-32.png);
 }
 
 /* Issue Wall */
@@ -92,34 +97,21 @@
     height: 24px !important;
     width: 24px !important;
 }
-.esriCTSignInButton
-{
-    background-image: url(../images/sign-in-24.png);
-}
-
-.esriCTSignOutButton
-{
-    background-image: url(../images/sign-out-24.png);
-}
-
-.esriCTReportIssueButton
-{
-    background-image: url(../images/report-issue-24.png);
-}
 
 .esriCTMyIssuesButton
 {
     background-image: url(../images/my-issues-24.png);
 }
 
+/* New Icon Changes START */
+.esriCTHelpIcon
+{
+    background-image: url("../images/help-24.png");
+}
+/* New Icon Changes END */
 /* App Header Icons*/
 
 /* Web map list Icons */
-
-.esriCTRightArrow
-{
-    background-image: url('../images/right-arrow-24.png');
-}
 
 .esriCTInfoImg
 {
@@ -132,34 +124,6 @@
 {
     background-image: url(../images/close-24.png  );
 }
-
-/* Issue wall Icons */
-
-.esriCTCommentsIcon
-{
-    background-image: url('../images/comment-24.png');
-}
-.esriCTMapIcon
-{
-    background-image: url('../images/map-view-24.png');
-}
-
-.esriCTLikeIcon
-{
-    background-image: url('../images/like-24.png');
-}
-
-.esriCTDownArrowIcon
-{
-    background-image: url('../images/down-arrow-24.png');
-}
-
-.esriCTUpArrowIcon
-{
-    background-image: url('../images/up-arrow-24.png');
-}
-
-/* Issue wall Icons */
 
 /* Sign In Icons */
 
