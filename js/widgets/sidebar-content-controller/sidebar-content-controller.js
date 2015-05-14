@@ -84,9 +84,9 @@ define([
          */
         showBusy: function (show) {
             if (show) {
-                domStyle.set(this.domNode, "display", "block");
+                domStyle.set(this.detailLoadingIndicator, "display", "block");
             } else {
-                domStyle.set(this.domNode, "display", "none");
+                domStyle.set(this.detailLoadingIndicator, "display", "none");
             }
         }
 

@@ -23,15 +23,13 @@ define([
     "dojo/dom",
     "dojo/dom-attr",
     "dojo/dom-class",
-    "dojo/dom-style",
     "dojo/on",
-    "dojo/window",
     "dojo/text!./templates/app-header.html",
     "widgets/mobile-menu/mobile-menu",
     "dijit/_WidgetBase",
     "dijit/_TemplatedMixin",
     "dijit/_WidgetsInTemplateMixin"
-], function (declare, domConstruct, lang, dom, domAttr, domClass, domStyle, on, dojowindow, template, MobileMenu, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin) {
+], function (declare, domConstruct, lang, dom, domAttr, domClass, on, template, MobileMenu, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         mobileMenu: null,
@@ -45,7 +43,11 @@ define([
             myReport: "My Reports",
             signIn: "Sign in",
             signOut: "Sign out",
-            help: "Help"
+            help: "Help",
+            signInTooltip: "Sign In",
+            signOutTooltip: "Sign Out",
+            myReportTooltip: "My Reports",
+            helpTooltip: "Help"
         },
 
         /**
@@ -88,13 +90,9 @@ define([
             on(this.signOutButton, "click", lang.hitch(this, this._signOutClicked));
             on(this.helpButton, "click", lang.hitch(this, this._helpClicked));
 
-            domAttr.set(this.myIssueButton, "title", this.appConfig.i18n.myIssues.myIssuesTooltip);
-            domAttr.set(this.signOutButton, "title", this.appConfig.i18n.signin.signOutTooltip);
-
             //set header menus based on configuration
             this._setAppHeaderMenu();
 
-            //TODO : sprint2
             //handel signin/logged_in_userName clicked
             on(this.esriCTLoginCredentialsDiv, "click", lang.hitch(this, this._toggleLoginOptionsVisibility));
         },
@@ -258,7 +256,7 @@ define([
         * @memberOf widgets/app-header/app-header
         */
         _helpClicked: function () {
-            alert("Comming Soon"); //TODO: in sprint3
+            alert("Comming Soon"); //WIP: in sprint3
         },
 
         /**

@@ -299,6 +299,12 @@ define([
             flagObject.like = likeFlag;
             flagObject.comment = this._hasCommentsTable;
             flagObject.extentChange = extentChangeFlag;
+            if (operationalLayer.hasAttachments && operationalLayer.infoTemplate && operationalLayer.infoTemplate.info && operationalLayer.infoTemplate.info.showAttachments) {
+                flagObject.gallery = true;
+            } else {
+                flagObject.gallery = false;
+            }
+
             this.actionVisibilities = {};
             this.actionVisibilities = flagObject;
             this._displayIssueList(featureArray, operationalLayer, flagObject, this._commentsTable);

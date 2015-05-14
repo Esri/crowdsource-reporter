@@ -29,4 +29,13 @@
     color: #fff;
 }
 
+.esriCTSubmitButton, .esriCTDetailButtonSelected, .esriCTPostCommentButton {
+  color: #FFF !important;
+  background-color: ${SelectedThemeColor} !important;
+}
+
+.esriCTSubmitButton .btn-default:hover, .esriCTPostCommentButton .btn-default:hover{
+  color: #FFF !important;
+  background-color: ${SelectedThemeColor} !important;
+}
 /* End of Overriden Styles */

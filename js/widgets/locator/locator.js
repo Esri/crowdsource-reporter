@@ -62,6 +62,8 @@ define([
             domConstruct.place(this.divLocateContainer, this.locatorContainer);
             // add placeholder in textbox
             domAttr.set(this.txtSearch, "placeholder", this.config.i18n.locator.locatorPlaceholder);
+            // set Tooltip for search button
+            domAttr.set(this.searchSubmit, "title", this.config.i18n.locator.searchButtonTooltip);
             this._attachLocatorEvents();
             // add graphics layer to map
             graphicsLayer = new GraphicsLayer();

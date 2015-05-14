@@ -1,0 +1,67 @@
+﻿<div>
+    <div class="esriCTListHeader esriCTBGColor">
+        <div class="esriCTBackButton esriCTPointerCursor" title="${i18n.gotoIssueListTooltip}" data-dojo-attach-point="backIcon"></div>
+        <div data-dojo-attach-point="itemTitleDiv" class="esriCTHeaderText esriCTListHeaderText esriCTEllipsis esriCTDetailsHeader">
+        </div>
+        <div class="esriCTHidden esriCTVotesDetails" data-dojo-attach-point="votesDetailContainer">
+            <div class="esriCTItemVotes esriCTEllipsis" data-dojo-attach-point="itemVotesDiv"></div>
+            <div class="esriCTIcon glyphicon glyphicon-heart esriCTDetailsFavDiv"></div>
+        </div>
+    </div>
+    <div class="esriCTItemDetailsContainer">
+        <div class="esriCTTtemDescription">
+            <div class="esriCTDetailDescription esriCTSpaceBelow esriCTSmallText" data-dojo-attach-point="descriptionDiv"></div>
+            <div class="esriCTItemDescFooter esriCTSmallText">
+                <div class="esriCTDetailButtonContainer">
+                    <button type="button" class="btn btn-default esriCTDetailsPanelButton esriCTEllipsis esriCTSmallText esriCTApplicationColor" data-dojo-attach-point="likeButton" title="${i18n.likeButtonTooltip}">
+                        <span class="glyphicon glyphicon-heart esriCTMargin" aria-hidden="true"></span>
+                        <span class="esriCTButtonLabel" data-dojo-attach-point="likeLabel">${i18n.likeButtonLabel}</span>
+                    </button>
+                </div>
+                <div class="esriCTDetailButtonContainer">
+                    <button type="button" class="btn btn-default esriCTDetailsPanelButton esriCTEllipsis esriCTSmallText esriCTApplicationColor" data-dojo-attach-point="commentButton" title="${i18n.commentButtonTooltip}">
+                        <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+                        <span class="esriCTButtonLabel" data-dojo-attach-point="commentLabel">${i18n.commentButtonLabel}</span>
+                    </button>
+                </div>
+                <div class="esriCTDetailButtonContainer esriCTMapItButtonVisibility">
+                    <button type="button" class="btn btn-default esriCTDetailsPanelButton esriCTEllipsis esriCTSmallText esriCTApplicationColor" data-dojo-attach-point="mapItButton" title="${i18n.mapButtonTooltip}">
+                        <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+                        <span class="esriCTButtonLabel" data-dojo-attach-point="mapLabel">${i18n.mapButtonLabel}</span>
+                    </button>
+                </div>
+                <div class="esriCTDetailButtonContainer">
+                    <button type="button" class="btn btn-default esriCTDetailsPanelButton esriCTEllipsis esriCTSmallText esriCTApplicationColor esriCTFloatRight" data-dojo-attach-point="galleryButton" title="${i18n.galleryButtonTooltip}">
+                        <span class="glyphicon glyphicon-picture esriCTMargin" aria-hidden="true"></span>
+                        <span class="esriCTButtonLabel" data-dojo-attach-point=" gallerylabel">${i18n.galleryButtonLabel}</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="esriCTFloatLeft esriCTFullWidth esriCTDetailsPanel">
+            <div class="esriCTAttachmentsSection esriCTDetailsData esriCTHidden esriCTFullWidth esriCTFloatLeft" data-dojo-attach-point="gallery">
+            </div>
+            <div class="esriCTItemComments">
+                <div class="esriCTCommentsForm1 esriCTHidden" data-dojo-attach-point="commentsForm">
+                    <div class="esriCTLargeText esriCTCommentTitle">${i18n.comment.commentsFormText}</div>
+                    <div data-dojo-attach-point="enterCommentContainer" class="esriCTEnterComment" data-dojo-attach-point="commentsTextArea">
+                        <textarea class="textAreaContent" data-dojo-attach-point="commentsTextArea" placeholder="${i18n.comment.placeHolderText}"></textarea>
+                    </div>
+                    <div data-dojo-attach-point="countLabel" class="esriCTCountLabel">
+                    </div>
+                    <div class="esriCTFullWidth esriCTCommentButtons">
+                      <div data-dojo-attach-point="postCommentButton" class="btn btn-default esriCTEllipsis esriCTPostCommentButton esriCTBGColor">
+                            ${i18n.comment.commentsFormSubmitButton}
+                        </div>
+                        <div data-dojo-attach-point="cancelCommentButton" class="btn btn-default esriCTEllipsis esriCTCancelCommentButton esriCTApplicationColor">
+                        ${i18n.comment.commentsFormCancelButton}
+                        </div>
+                    </div>
+                </div>
+                <div class="esriCTItemDetailHeader esriCTLargeText esriCTEllipsis" data-dojo-attach-point="commentsHeading"></div>
+                <div class="esriCTSmallText esriCTDetailsNoResult esriCTHidden" data-dojo-attach-point="noCommentsDiv"></div>
+                <div class="esriCTSmallText esriCTCommentsList" data-dojo-attach-point="commentsList"></div>
+            </div>
+        </div>
+    </div>
+</div>

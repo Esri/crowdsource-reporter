@@ -34,9 +34,7 @@ define(({
         facebookLoginTooltip: "Sign in with Facebook",
         twitterLoginTooltip: "Sign in with Twitter",
         googlePlusLoginTooltip: "Sign in with Google+",
-        agolLoginTooltip: "Sign in with ArcGIS",
-        signInTooltip: "Sign In",
-        signOutTooltip: "Sign Out"
+        agolLoginTooltip: "Sign in with ArcGIS"
     },
     webMapList: {
         owner: "Owner",
@@ -61,14 +59,17 @@ define(({
         myReport: "My Reports",
         signIn: "Sign in",
         signOut: "Sign out",
-        help: "Help"
+        help: "Help",
+        signInTooltip: "Sign In",
+        signOutTooltip: "Sign Out",
+        myReportTooltip: "My Reports",
+        helpTooltip: "Help"
     },
     geoform: {
-        enterInformation: "1. Enter Information",
+        enterInformation: "Details",
         selectAttachments: "Attachments",
-        selectFileText: "Select File",
-        enterLocation: "2. Select Location",
-        completeForm: "3. Complete Form",
+        selectFileText: "Browse",
+        enterLocation: "Location",
         reportItButton: "Report It",
         cancelButton: "Cancel",
         requiredField: "(required)",
@@ -86,11 +87,11 @@ define(({
         errorsInApplyEdits: "Issue could not be reported.",
         attachmentSelectedMsg: "Attachment(s) selected",
         attachmentUploadStatus: "${failed} of ${total} attachment(s) failed to upload.",
-        selectLocationTitleText: "(Tap/click on map to select location)",
         geoLocationError: "Current location not available",
         geoLocationOutOfExtent: "Current location is out of basemap extent",
         submitButtonTooltip: "Report It",
-        cancelButtonTooltip: "Cancel"
+        cancelButtonTooltip: "Cancel",
+        geoformBackButtonTooltip: "Go To Issue List"
     },
     locator: {
         addressText: "Address:",
@@ -99,7 +100,8 @@ define(({
         latLongText: "Latitude/Longitude",
         invalidSearch: "No results found",
         locatorPlaceholder: "Enter address to search",
-        locationOutOfExtent: "Located address is out of basemap extent"
+        locationOutOfExtent: "Located address is out of basemap extent",
+        searchButtonTooltip: "Search"
     },
     myIssues: {
         title: "My Reports",
@@ -107,6 +109,9 @@ define(({
         noResultsFound: "No reports found"
     },
     comment: {
+        commentsFormText: "Comment",
+        commentsFormSubmitButton: "Submit Comment",
+        commentsFormCancelButton: "Cancel",
         errorInSubmittingComment: "Comment could not be submitted.",
         emptyCommentMessage: "Please enter comment.",
         placeHolderText: "Type a comment",
@@ -124,9 +129,14 @@ define(({
         mapButtonLabel: "View on Map",
         mapButtonTooltip: "View this on map",
         commentsListHeading: "Comments",
-        noCommentsPlaceholder: "No comments"
+        unableToUpdateVoteField: "Unable to Update the Feature",
+        gotoIssueListTooltip: "Go To Issue List"
     },
     itemList: {
         likesForThisItemTooltip: "Votes for this"
+    },
+    gallery: {
+        galleryHeaderText: "Gallery",
+        noAttachmentsAvailableText: "No attachments found"
     }
 }));

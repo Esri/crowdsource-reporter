@@ -11,7 +11,7 @@
                         <div data-dojo-attach-point="esriCTLoginDetailsDiv">
                             <div class="esriCTLoginCredentialsDiv esriCTApplicationColor esriCTFloatLeft" data-dojo-attach-point="esriCTLoginCredentialsDiv">
                                 <div class="esriCTFloatLeft" style="width: 100%;">
-                                    <div class="esriCTLoginUserNameDiv esriCTPointerCursor" data-dojo-attach-point="esriCTLoginUserNameDiv">
+                                    <div class="esriCTLoginUserNameDiv esriCTPointerCursor" data-dojo-attach-point="esriCTLoginUserNameDiv" title="${i18n.signInTooltip}">
                                     ${i18n.signIn}
                                     </div>
                                     <div class="esriCTCaretIcon  esriCTPointerCursor esriCTHidden" data-dojo-attach-point="caretIcon">&#9660;</div>
@@ -19,17 +19,17 @@
                             </div>
                             <div class="esriCTOptions esriCTLoginOptionsDiv esriCTApplicationColor esriCTHidden" data-dojo-attach-point="esriCTLoginOptionsDiv">
                                 <div class="esriCTLogoutOption esriCTBorder">
-                                    <div data-dojo-attach-point="myIssueButton" class="esriCTHidden esriCTItems esriCTPointerCursor">
+                                    <div data-dojo-attach-point="myIssueButton" class="esriCTHidden esriCTItems esriCTPointerCursor" title="${i18n.myReportTooltip}">
                                         ${i18n.myReport}
                                     </div>
-                                    <div data-dojo-attach-point="signOutButton" onclick="location.reload();" class="esriCTHidden esriCTItems esriCTPointerCursor">
+                                    <div data-dojo-attach-point="signOutButton" onclick="location.reload();" class="esriCTHidden esriCTItems esriCTPointerCursor" title="${i18n.signOutTooltip}">
                                         ${i18n.signOut}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="esriCTHelpIcon esriCTBGColor esriCTPointerCursor  esriCTHidden" data-dojo-attach-point="helpButton"></div>
+                    <div class="esriCTBGColor esriCTPointerCursor  esriCTHidden" data-dojo-attach-point="helpButton" title="${i18n.helpTooltip}"></div>
                 </div>
                 <div class="esriCTMobileIcons">
                     <div data-dojo-attach-point="mobileMenuBurger" class="esriCTMobileBurgerIcon">
