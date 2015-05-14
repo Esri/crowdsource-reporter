@@ -59,7 +59,7 @@ define({
     "twitterCallbackUrl": "/oauth-callback-twitter.html",
 
     "googleplusClientId": "",
-    "googleplusScope": "",
+    "googleplusScope": "https://www.googleapis.com/auth/userinfo.email",
 
     "showNullValueAs": "",
     "noThumbnailIcon": "/images/default-webmap-thumbnail.png",
