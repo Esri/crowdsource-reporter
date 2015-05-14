@@ -28,7 +28,7 @@ define([
     'dojo/NodeList-dom',
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
-    'dojo/text!./item-list-view.html'
+    'dojo/text!./templates/item-list-view.html'
 ], function (declare, lang, arrayUtil, domConstruct, domStyle, domClass, on, dojoQuery, topic, nld,
     _WidgetBase, _TemplatedMixin,
     template) {
@@ -131,9 +131,9 @@ define([
         * Builds the items list
         */
         buildList: function () {
-            arrayUtil.forEach(this.items, lang.hitch(this, this.buildItemSummary));
             //scroll the list to top always
             this.list.scrollTop = 0;
+            arrayUtil.forEach(this.items, lang.hitch(this, this.buildItemSummary));
         },
 
         /**
@@ -167,16 +167,16 @@ define([
                 itemVotes = this.getItemVotes(item);
                 favDiv = domConstruct.create('div', {
                     'class': 'esriCTItemFav',
-                    'title': this.i18n.likesForThisItemTooltip
+                    'title': itemVotes.label + " " + this.i18n.likesForThisItemTooltip
                 }, itemSummaryDiv);
 
                 domConstruct.create('div', {
-                    'class': 'esriCTItemVotes',
+                    'class': 'esriCTItemVotes esriCTEllipsis',
                     'innerHTML': itemVotes.label
                 }, favDiv);
 
                 domConstruct.create('div', {
-                    'class': 'esriCTFavDiv'
+                    'class': 'glyphicon glyphicon-heart esriCTFavDiv'
                 }, favDiv);
             } else {
                 //If no like icon fill the title

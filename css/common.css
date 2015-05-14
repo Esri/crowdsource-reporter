@@ -77,4 +77,9 @@
     border-bottom: 1px solid #EDEDED;
 }
 
+.btn:focus
+{
+    outline:none;
+}
+
 /*common*/

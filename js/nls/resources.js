@@ -35,9 +35,7 @@ define({
             facebookLoginTooltip: "Sign in with Facebook", // Command button to access the application via Facebook login
             twitterLoginTooltip: "Sign in with Twitter", // Command button to access the application via Twitter login
             googlePlusLoginTooltip: "Sign in with Google+", // Command button to access the application via Google+ login
-            agolLoginTooltip: "Sign in with ArcGIS", // Command button to access the application via AGOL login
-            signInTooltip: "Sign In", // Command button to 'Sign in' to the application
-            signOutTooltip: "Sign Out" // Command button to 'Sign out' of the application
+            agolLoginTooltip: "Sign in with ArcGIS" // Command button to access the application via AGOL login
         },
         webMapList: {
             owner: "Owner", // Shown in the 'Map information' section indicating the owner of the webmap
@@ -62,14 +60,17 @@ define({
             myReport: "My Reports", // Command button shown in mobile menu list
             signIn: "Sign in", // Command button shown in mobile menu list and in appheader
             signOut: "Sign out", // Command button shown in mobile menu list
-            help: "Help" // Command button shown in mobile menu list
+            help: "Help", // Command button shown in mobile menu list
+            signInTooltip: "Sign In", // Tooltip to 'Sign in' option
+            signOutTooltip: "Sign Out", // Tooltip  to 'Sign out' option
+            myReportTooltip: "My Reports", // Tooltip  to 'My Reports' option
+            helpTooltip: "Help" // Tooltip  to 'Help' option
         },
         geoform: {
-            enterInformation: "1. Enter Information", // Shown as the first section of the geoform, where the user can enter details of the issue
+            enterInformation: "Details", // Shown as the first section of the geoform, where the user can enter details of the issue
             selectAttachments: "Attachments", // Appears above 'Select file' button indicating option to attach files
-            selectFileText: "Select File", // Command button to open a dialog box to select file(s) to be attached
-            enterLocation: "2. Select Location", // Shown as the second section of the geoform, where the user can select a location on the map
-            completeForm: "3. Complete Form", // Shown as the third section of the geoform, where the user can submit the geoform to report an issue
+            selectFileText: "Browse", // Command button to open a dialog box to select file(s) to be attached
+            enterLocation: "Location", // Shown as the second section of the geoform, where the user can select a location on the map
             reportItButton: "Report It", // Command button to submit the geoform to report an issue
             cancelButton: "Cancel", //Command button to close the geoform
             requiredField: "(required)", // Shown next to the field in which the data is mandatory
@@ -87,11 +88,11 @@ define({
             errorsInApplyEdits: "Issue could not be reported.", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "Attachment(s) selected", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "${failed} of ${total} attachment(s) failed to upload.", // Shown when there is error while uploading the attachment, while submitting the geoform
-            selectLocationTitleText: "(Tap/click on map to select location)", // Appears besides the select location section of the geoform indicating option to select location on the map
             geoLocationError: "Current location not available",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "Current location is out of basemap extent",  // Shown when the current geographical position is out of the basemap extent
             submitButtonTooltip: "Report It", // Command button to open the geoform
-            cancelButtonTooltip:"Cancel"//tooltip for cancel button
+            cancelButtonTooltip: "Cancel",//tooltip for cancel button
+            geoformBackButtonTooltip: "Go To Issue List" //tooltip for Geoform back button
 
         },
         locator: {
@@ -101,20 +102,13 @@ define({
             latLongText: "Latitude/Longitude", // Shown as a title for a group of latitude longitude values returned on performing unified search
             invalidSearch: "No results found", // Shown in the address container when no results are returned on performing unified search
             locatorPlaceholder: "Enter address to search", // Shown in the address container textbox as a placeholder
-            locationOutOfExtent: "Located address is out of basemap extent" // Shown as an alert when the selected address in the search result is out of basemap extent
+            locationOutOfExtent: "Located address is out of basemap extent", // Shown as an alert when the selected address in the search result is out of basemap extent
+            searchButtonTooltip: "Search" // Tooltip for search button
         },
         myIssues: {
             title: "My Reports", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "My Reports", // Command button to access issues reported by the logged in user
             noResultsFound: "No reports found" // Shown when no issues are reported by the logged in user
-        },
-        comment: {
-            errorInSubmittingComment: "Comment could not be submitted.", // Shown when user is unable to add comments
-            emptyCommentMessage: "Please enter comment.", // Shown when user submits a comment without any text/character
-            placeHolderText: "Type a comment", // Shown as a placeholder in comments textbox
-            noCommentsAvailableText: "No comments available", // Shown when no comments are available for the selected issue
-            remainingTextCount: "${0} character(s) remain", // Shown below the comments textbox indicating the number of characters that can be added
-            showNoText: "No" // Shown when comments character limit is exceeded
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "Like", // Command button shown in details panel
@@ -126,10 +120,26 @@ define({
             mapButtonLabel: "View on Map", // Command button shown in details panel
             mapButtonTooltip: "View this on map", // Tooltip for command button shown in details panel
             commentsListHeading: "Comments", // List heading for Comments section in details panel
-            noCommentsPlaceholder: "No comments" // Shown if no comments available
+            unableToUpdateVoteField: "Unable to Update the Feature", // Error message for feature unable to update
+            gotoIssueListTooltip: "Go To Issue List" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
             likesForThisItemTooltip: "Votes for this"//Shown on hovering of the like icon in my-issues and issue-wall
+        },
+        comment: {
+            commentsFormText: "Comment",//
+            commentsFormSubmitButton: "Submit Comment",//
+            commentsFormCancelButton:"Cancel",//
+            errorInSubmittingComment: "Comment could not be submitted.", // Shown when user is unable to add comments
+            emptyCommentMessage: "Please enter comment.", // Shown when user submits a comment without any text/character
+            placeHolderText: "Type a comment", // Shown as a placeholder in comments textbox
+            noCommentsAvailableText: "No comments available", // Shown when no comments are available for the selected issue
+            remainingTextCount: "${0} character(s) remain", // Shown below the comments textbox indicating the number of characters that can be added
+            showNoText: "No" // Shown when comments character limit is exceeded
+        },
+        gallery: {
+            galleryHeaderText:"Gallery",
+            noAttachmentsAvailableText: "No attachments found" // Shown when no comments are available for the selected issue
         }
     }),
     "ar": 1,

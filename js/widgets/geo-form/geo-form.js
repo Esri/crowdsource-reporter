@@ -115,6 +115,9 @@ define([
                 if (zoomOutBtn) {
                     domAttr.set(zoomOutBtn, "title", this.appConfig.i18n.map.zoomOutTooltip);
                 }
+                domAttr.set(this.closeButton, "title", this.appConfig.i18n.geoform.geoformBackButtonTooltip);
+                domAttr.set(this.submitButton, "title", this.appConfig.i18n.geoform.submitButtonTooltip);
+                domAttr.set(this.cancelButton, "title", this.appConfig.i18n.geoform.cancelButtonTooltip);
                 // store default map extent
                 this.defaultExtent = this.map.extent;
                 // show only selected layer and remove other layer from Webmap
@@ -145,11 +148,7 @@ define([
                 // Handle click of close button
                 on(this.closeButton, "click", lang.hitch(this, this.closeForm));
                 // Handle click of cancel button
-                on(this.cancelButton, "click", lang.hitch(this, function () {
-                    // reset form
-                    this._clearFormFields();
-                    this.closeForm();
-                }));
+                on(this.cancelButton, "click", lang.hitch(this, this._onCancelClick));
                 // Initialize locator widget
                 this.locator = new Locator({ "map": this.map, "config": this.config, "appUtils": this.appUtils, "itemInfo": response.itemInfo.itemData, "layerId": this.layerId, "locatorContainer": this.geoformLocator });
                 // function call on selection of search result
@@ -179,6 +178,17 @@ define([
                     this.map.setExtent(this.changedExtent);
                 }
             }));
+        },
+
+        _onCancelClick: function () {
+            this._clearFormFields();
+            if (domClass.contains(this.headerMessageDiv, "esriCTVisible")) {
+                domClass.replace(this.headerMessageDiv, "esriCTHidden", "esriCTVisible");
+            }
+            this._clearSubmissionGraphic();
+            setTimeout(lang.hitch(this, function () {
+                this.closeForm();
+            }), 500);
         },
 
         /**
@@ -306,8 +316,6 @@ define([
             domAttr.set(this.layerTitleDiv, "innerHTML", this.layerTitle);
             domAttr.set(this.enter_Information, "innerHTML", this.appConfig.i18n.geoform.enterInformation);
             domAttr.set(this.select_location, "innerHTML", this.appConfig.i18n.geoform.enterLocation);
-            domConstruct.create("small", { "class": "esriCTRequireFieldStyle esriCTselectLocationText", "innerHTML": this.appConfig.i18n.geoform.selectLocationTitleText }, this.select_location);
-            domAttr.set(this.complete_Form, "innerHTML", this.appConfig.i18n.geoform.completeForm);
             domAttr.set(this.submitButton, "innerHTML", this.appConfig.i18n.geoform.reportItButton);
             domAttr.set(this.cancelButton, "innerHTML", this.appConfig.i18n.geoform.cancelButton);
             // If sorted field array length is zero
@@ -404,11 +412,12 @@ define([
                 // Select attachment label
                 domConstruct.create("label", {
                     "innerHTML": this.appConfig.i18n.geoform.selectAttachments,
-                    "id": "geoFormAttachmentTitileLabel"
+                    "id": "geoFormAttachmentTitileLabel",
+                    "class": "esriCTGeoFormTitles"
                 }, formContent);
                 domConstruct.create("br", {}, formContent);
                 // Create div for Attachment button
-                fileContainer = domConstruct.create("div", { "class": "esriCTFileButtonContainer" }, formContent);
+                fileContainer = domConstruct.create("div", { "class": "esriCTFileButtonContainer", "title": this.appConfig.i18n.geoform.selectFileText }, formContent);
                 this._fileInputIcon = domConstruct.create("button", {
                     "type": "button",
                     "innerHTML": this.appConfig.i18n.geoform.selectFileText,
@@ -1078,7 +1087,7 @@ define([
         * @memberOf widgets/geo-form/geo-form
         */
         _validateField: function (currentNode, currentField, iskeyPress) {
-            var inputType, inputValue, node, typeCastedInputValue,  error, float = /^[-+]?[0-9]+\.[0-9]+$/,
+            var inputType, inputValue, node, typeCastedInputValue, error, floatVal = /^[-+]?[0-9]+\.[0-9]+$/,
                 targetNode = currentNode.currentTarget || currentNode.srcElement, decimal = /^[-+]?[0-9]+$/;
             // trim current value
             inputValue = lang.trim(targetNode.value);
@@ -1135,7 +1144,7 @@ define([
                 // occurrence of .
                 // at least one occurrence of digits between o-9 in the end
                 typeCastedInputValue = parseFloat(inputValue);
-                if (((inputValue.match(decimal) || inputValue.match(float)) && typeCastedInputValue >= -3.4 * Math.pow(10, 38) && typeCastedInputValue <= 1.2 * Math.pow(10, 38)) && inputValue.length !== 0) {
+                if (((inputValue.match(decimal) || inputValue.match(floatVal)) && typeCastedInputValue >= -3.4 * Math.pow(10, 38) && typeCastedInputValue <= 1.2 * Math.pow(10, 38)) && inputValue.length !== 0) {
                     this._validateUserInput(false, node, inputValue, iskeyPress);
                     this._setFormatToValue(currentField, typeCastedInputValue, currentNode.target);
                 } else {
@@ -1148,7 +1157,7 @@ define([
                 break;
             case "Double":
                 typeCastedInputValue = parseFloat(inputValue);
-                if (((inputValue.match(decimal) || inputValue.match(float)) && typeCastedInputValue >= -2.2 * Math.pow(10, 308) && typeCastedInputValue <= 1.8 * Math.pow(10, 38)) && inputValue.length !== 0) {
+                if (((inputValue.match(decimal) || inputValue.match(floatVal)) && typeCastedInputValue >= -2.2 * Math.pow(10, 308) && typeCastedInputValue <= 1.8 * Math.pow(10, 38)) && inputValue.length !== 0) {
                     this._validateUserInput(false, node, inputValue, iskeyPress);
                     this._setFormatToValue(currentField, typeCastedInputValue, currentNode.target);
                 } else {
@@ -1216,8 +1225,6 @@ define([
                 }
                 // rest form field and show dependent field in the form
                 this._resetSubTypeFields(currentInput);
-                //resize map
-                this._resizeMap();
             }));
             // clear error and success messages
             array.forEach(query(".geoFormQuestionare .input-group"), function (currentInput) {
@@ -1293,9 +1300,13 @@ define([
         */
         _resetSubTypeFields: function (currentInput) {
             if (currentInput.type === "esriFieldTypeDate" || ((currentInput.type === "esriFieldTypeSmallFloat" || currentInput.type === "esriFieldTypeSmallInteger" || currentInput.type === "esriFieldTypeDouble" || currentInput.type === "esriFieldTypeInteger") && (currentInput.domain && currentInput.domain.type && currentInput.domain.type === "range"))) {
-                domConstruct.destroy(dom.byId(currentInput.name).parentNode.parentNode);
+                if (dom.byId(currentInput.name)) {
+                    domConstruct.destroy(dom.byId(currentInput.name).parentNode.parentNode);
+                }
             } else {
-                domConstruct.destroy(dom.byId(currentInput.name).parentNode);
+                if (dom.byId(currentInput.name)) {
+                    domConstruct.destroy(dom.byId(currentInput.name).parentNode);
+                }
             }
         },
 

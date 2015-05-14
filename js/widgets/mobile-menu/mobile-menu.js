@@ -49,7 +49,11 @@ define([
             myReport: "My Reports",
             help: "Help",
             signIn: "Sign in",
-            signOut: "Sign out"
+            signOut: "Sign out",
+            signInTooltip: "Sign In",
+            signOutTooltip: "Sign Out",
+            myReportTooltip: "My Reports",
+            helpTooltip: "Help"
         },
 
         /**

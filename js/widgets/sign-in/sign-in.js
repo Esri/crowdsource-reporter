@@ -86,6 +86,7 @@ define([
             } else {
                 applicationName = this._config.i18n.signin.noGroupNameText;
             }
+            document.title = applicationName;
             domAttr.set(this.signinContainerName, "innerHTML", applicationName);
             if (this._config.signInSubtitle) {
                 domAttr.set(this.signinContainerText, "innerHTML", this._config.signInSubtitle);

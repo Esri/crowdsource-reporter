@@ -87,6 +87,7 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         startup: function () {
+            this.filteredWebMapResponseArr = [];
             this._createFilteredWebMapArr();
         },
 

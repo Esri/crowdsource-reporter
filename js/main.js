@@ -47,6 +47,7 @@ define([
     "application/utils/utils",
     "dojo/query",
     "widgets/sidebar-content-controller/sidebar-content-controller",
+    "widgets/item-details/item-details-controller",
     "dojo/domReady!"
 ], function (
     declare,
@@ -79,7 +80,8 @@ define([
     GeoForm,
     ApplicationUtils,
     query,
-    SidebarContentController
+    SidebarContentController,
+    ItemDetails
 ) {
     return declare(null, {
         config: {},
@@ -153,19 +155,19 @@ define([
         },
 
         /**
-         * Loads group items using BoilerPlateTemplate for specified queryParams.
-         * @param{object} query Parameters
-         * @memberOf main
-         */
+        * Loads group items using BoilerPlateTemplate for specified queryParams.
+        * @param{object} query Parameters
+        * @memberOf main
+        */
         _loadGroupItems: function (queryParams) {
             this.boilerPlateTemplate.queryGroupItems(queryParams).then(lang.hitch(this, this._groupItemsLoaded));
         },
 
         /**
-         * Callback handler called on group items loaded, which will have group items as response.
-         * @param{object} response
-         * @memberOf main
-         */
+        * Callback handler called on group items loaded, which will have group items as response.
+        * @param{object} response
+        * @memberOf main
+        */
         _groupItemsLoaded: function (response) {
             this._groupItems.push.apply(this._groupItems, response.groupItems.results);
             if (response.groupItems.nextQueryParams.start < 0) {
@@ -180,13 +182,13 @@ define([
         },
 
         /**
-         * Loads all application widgets.
-         * 1) Loads Theme
-         * 2) Loads Application Header and attach events to header tools.
-         * 3) Attach application level events
-         * 4) Create Web Map list
-         * @memberOf main
-         */
+        * Loads all application widgets.
+        * 1) Loads Theme
+        * 2) Loads Application Header and attach events to header tools.
+        * 3) Attach application level events
+        * 4) Create Web Map list
+        * @memberOf main
+        */
         _loadApplication: function () {
             if (!this.config.showNullValueAs) {
                 this.config.showNullValueAs = "";
@@ -215,16 +217,32 @@ define([
                     "appConfig": this.config
                 }).placeAt("sidebarContent"); // placeAt triggers a startup call to _sidebarCntent
 
+                // Item details
+                this._itemDetails = new ItemDetails({
+                    "appConfig": this.config,
+                    "appUtils": this.appUtils
+                }).placeAt("sidebarContent"); // placeAt triggers a startup call to _itemDetails
+                this._itemDetails.hide();
+                this._sidebarCnt.addPanel("itemDetails", this._itemDetails);
+
+                this._itemDetails.onCancel = lang.hitch(this, function () {
+                    this._sidebarCnt.showPanel("issueWall");
+                    //refresh the issue list on showing the issue wall
+                    if (this._issueWallWidget && this._issueWallWidget.itemsList) {
+                        this._issueWallWidget.itemsList.refreshList();
+                    }
+                });
+
                 domAttr.set(dom.byId("submitFromMapText"), "innerHTML", this.config.i18n.main.submitReportButtonText);
                 on(dom.byId("submitFromMap"), "click", lang.hitch(this, function (evt) {
                     this._createGeoForm();
                 }));
                 on(dom.byId("mapBackButton"), "click", lang.hitch(this, function (evt) {
                     this._toggleListView();
-                    this._sidebarCnt.showPanel("webMapList");
                 }));
                 on(dom.byId("toggleListViewButton"), "click", lang.hitch(this, function (evt) {
                     this._toggleListView();
+                    this._sidebarCnt.showPanel("webMapList");
                 }));
                 domAttr.set(dom.byId("toggleListViewButton"), "title", this.config.i18n.main.gotoListViewTooltip);
                 this._createWebMapList();
@@ -234,9 +252,9 @@ define([
         },
 
         /**
-         * Handle scenario when there is no web maps
-         * @memberOf main
-         */
+        * Handle scenario when there is no web maps
+        * @memberOf main
+        */
         _handleNoWebMapToDsiplay: function () {
             try {
                 //Remove all menus except signin/signout
@@ -255,9 +273,9 @@ define([
         },
 
         /**
-         * Load application theme
-         * @memberOf main
-         */
+        * Load application theme
+        * @memberOf main
+        */
         _loadApplicationTheme: function () {
             var cssString, head, style;
             //if theme is configured
@@ -284,9 +302,9 @@ define([
         },
 
         /**
-         * Instantiate app-header widget
-         * @memberOf main
-         */
+        * Instantiate app-header widget
+        * @memberOf main
+        */
         _createApplicationHeader: function () {
             this._menusList.portalObject = this.config.portalObject;
             this.appHeader = new ApplicationHeader({
@@ -314,9 +332,9 @@ define([
         },
 
         /**
-         * add layer to map when an issue is selected from my issues panel to locate on map
-         * @memberOf main
-         */
+        * add layer to map when an issue is selected from my issues panel to locate on map
+        * @memberOf main
+        */
         _addFeatureLayerOnMap: function (data) {
             var webmapTemplateNode;
             this._webMapListWidget._displaySelectedOperationalLayer(data);
@@ -333,9 +351,9 @@ define([
         },
 
         /**
-         * get all webmap template item
-         * @memberOf main
-         */
+        * get all webmap template item
+        * @memberOf main
+        */
         _getSeletedWebmapTemplate: function (webMapId) {
             var nodeWebmapId, i, webmapTempNodeArr = $('.esriCTDisplayWebMapTemplate');
             for (i = 0; i < webmapTempNodeArr.length; i++) {
@@ -348,9 +366,9 @@ define([
         },
 
         /**
-         * Instantiate webmap-list widget and attach all the events
-         * @memberOf main
-         */
+        * Instantiate webmap-list widget and attach all the events
+        * @memberOf main
+        */
         _createWebMapList: function () {
             try {
                 var webMapDescriptionFields, webMapListConfigData, isCreateGeoLocation, zoomInBtn, zoomOutBtn, basemapExtent, geoLocationButtonDiv;
@@ -409,7 +427,7 @@ define([
                 this._webMapListWidget.onOperationalLayerSelected = lang.hitch(this, function (details) {
                     //set layer title on map
                     domAttr.set(dom.byId("mapContainerTitle"), "innerHTML", details.operationalLayerDetails.title);
-
+                    this.changedExtent = details.map.extent;
                     //Hide GeoForm if it is Open
                     if (domClass.contains(dom.byId('geoformContainer'), "esriCTVisible")) {
                         domClass.replace(dom.byId('geoformContainer'), "esriCTHidden", "esriCTVisible");
@@ -422,6 +440,7 @@ define([
                         isCreateGeoLocation = true;
                     }
                     this._selectedMapDetails = details;
+                    // this._itemDetails.setActionsVisibility(true, true, details.map._layers[details.operationalLayerId].hasAttachments);
                     // Highlight feature when user clicks on locate issue on map icon from issue wall
                     // If graphics layer is already added on the map, clear it else add a graphic layer on map
                     if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
@@ -483,9 +502,9 @@ define([
         },
 
         /**
-         * Instantiate issue-wall widget
-         * @memberOf main
-         */
+        * Instantiate issue-wall widget
+        * @memberOf main
+        */
         _createIssueWall: function (data) {
             //Create IssueWall widget if not present
             if (!this._issueWallWidget) {
@@ -526,9 +545,9 @@ define([
         },
 
         /**
-         * Instantiate geo-form widget
-         * @memberOf main
-         */
+        * Instantiate geo-form widget
+        * @memberOf main
+        */
         _createGeoForm: function () {
             //if geo-from is not visible then
             if (domClass.contains(dom.byId('geoformContainer'), "esriCTHidden")) {
@@ -539,6 +558,7 @@ define([
                     if (this.geoformInstance && this._selectedMapDetails.operationalLayerId === this.geoformInstance.layerId) {
                         if (this.changedExtent) {
                             this.geoformInstance.map.setExtent(this.changedExtent);
+                            this.geoformInstance._resizeMap();
                         }
                         return;
                     }
@@ -573,9 +593,9 @@ define([
         },
 
         /**
-         * Destroy geo-form widget
-         * @memberOf main
-         */
+        * Destroy geo-form widget
+        * @memberOf main
+        */
         _destroyGeoForm: function () {
             //if last geoform instance exist then destroy it.
             if (this.geoformInstance) {
@@ -586,9 +606,9 @@ define([
         },
 
         /**
-         * Close the Comments pannel if it is open and clear the comment text box
-         * @memberOf main
-         */
+        * Close the Comments pannel if it is open and clear the comment text box
+        * @memberOf main
+        */
         _closeComments: function () {
             //Close the Comments container if it is open
             if (query(".esriCTCommentsPanel")[0]) {
@@ -603,9 +623,9 @@ define([
         },
 
         /**
-         * Resize map and sets center of the map
-         * @memberOf main
-         */
+        * Resize map and sets center of the map
+        * @memberOf main
+        */
         _resizeMap: function () {
             try {
                 //Map widget will not work properly if map is resized when the container holding map is having display none
@@ -629,9 +649,26 @@ define([
             }
             //set selection in item-list to maintain the highlight in list
             this._issueWallWidget.itemsList.setSelection(item.attributes[operationalLayer.objectIdField]);
-            this._issueWallWidget.itemsList.refreshList();
-            alert("Coming soon...");
 
+            //WIP: sprint3 - add comments in details view
+            topic.publish("updateComments", item);
+            //WIP: Implement Show Details
+            this._itemDetails.clearComments();
+            this._itemDetails.setActionsVisibility(this._issueWallWidget.actionVisibilities, this._issueWallWidget._commentsTable);
+            this._itemDetails.setItemFields(this.config.likeField, this.config.commentField);
+            this._itemDetails.setItem(item);
+            this._sidebarCnt.showPanel("itemDetails");
+            //if item is selected from map and user is in mobile view navigate screen to details view
+            if (isMapClicked) {
+                //Close geoform in desktop view if featuer is clicked to show the details panel
+                if (this.geoformInstance) {
+                    this.geoformInstance.closeForm();
+                }
+                if (dojowindow.getBox().w < 768) {
+                    this._toggleListView();
+                }
+            }
+            //*/
         },
 
         _toggleListView: function () {
@@ -646,12 +683,12 @@ define([
         },
 
         /**
-         * Highlight feature on map
-         * @param{object} layer
-         * @param{string} objectId
-         * @param{object} selectedGraphicsLayer
-         * @param{object} map
-         */
+        * Highlight feature on map
+        * @param{object} layer
+        * @param{string} objectId
+        * @param{object} selectedGraphicsLayer
+        * @param{object} map
+        */
         highLightFeatureOnClick: function (layer, objectId, selectedGraphicsLayer, map) {
             var esriQuery, highlightSymbol;
             this.mapInstance = map;
@@ -665,16 +702,16 @@ define([
                     highlightSymbol = this.getHighLightSymbol(featureSet.features[0], layer);
                     selectedGraphicsLayer.add(highlightSymbol);
                 }
-            }), function (err) {
+            }), lang.hitch(this, function (err) {
                 this.appUtils.showError(err.message);
-            });
+            }));
         },
 
         /**
-         * Get symbol used for highlighting feature
-         * @param{string} graphic - graphic of the selected feature
-         * @param{string} layer - layer details
-         */
+        * Get symbol used for highlighting feature
+        * @param{string} graphic - graphic of the selected feature
+        * @param{string} layer - layer details
+        */
         getHighLightSymbol: function (graphic, layer) {
             var i, symbol, point, graphics, symbolWidth, symbolFillColor, height, width, size, isSymbolFound, graphicInfoValue, layerInfoValue;
             isSymbolFound = false;

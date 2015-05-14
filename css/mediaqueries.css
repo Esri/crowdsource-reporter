@@ -90,9 +90,14 @@
     {
         display: block;
     }
-    .esriCTListHeaderText
+
+    .esriCTButtonLabel {
+        display:none;
+    }
+
+    .esriCTMapItButtonVisibility
     {
-        width: calc(100% - 85px);
+        display:inline;
     }
 }
 
@@ -127,6 +132,15 @@
     {
         line-height: 50px;
     }
+
+    .esriCTButtonLabel {
+        display:none;
+    }
+
+    .esriCTMapItButtonVisibility
+    {
+        display:inline;
+    }
 }
 
 /* CSS for Tablet and iPad */
@@ -138,10 +152,6 @@
 /* CSS for Devices other than desktop browser */
 @media screen and (max-width:1024px)
 {
-    html, body, .form-control, .btn
-    {
-        font-size: 15px;
-    }
 
     .esriCTHeaderFont
     {
@@ -209,11 +219,9 @@
     {
         top: 60px;
     }
-    .esriCTHelpIcon
-    {
-        margin-top: 21px;
-    }
+
     /* End New app header */
+
 }
 
 /* CSS for Devices other than mobile */
