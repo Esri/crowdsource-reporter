@@ -1,20 +1,20 @@
 /*global define,dojo,Modernizr,alert,$,console*/
 /*jslint browser:true,sloppy:true,nomen:true,unparam:true,plusplus:true */
 /*
-| Copyright 2014 Esri
-|
-| Licensed under the Apache License, Version 2.0 (the "License");
-| you may not use this file except in compliance with the License.
-| You may obtain a copy of the License at
-|
-|    http://www.apache.org/licenses/LICENSE-2.0
-|
-| Unless required by applicable law or agreed to in writing, software
-| distributed under the License is distributed on an "AS IS" BASIS,
-| WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-| See the License for the specific language governing permissions and
-| limitations under the License.
-*/
+ | Copyright 2014 Esri
+ |
+ | Licensed under the Apache License, Version 2.0 (the "License");
+ | you may not use this file except in compliance with the License.
+ | You may obtain a copy of the License at
+ |
+ |    http://www.apache.org/licenses/LICENSE-2.0
+ |
+ | Unless required by applicable law or agreed to in writing, software
+ | distributed under the License is distributed on an "AS IS" BASIS,
+ | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ | See the License for the specific language governing permissions and
+ | limitations under the License.
+ */
 define([
     'dojo/_base/declare',
     'dojo/_base/lang',
@@ -119,8 +119,8 @@ define([
         },
 
         /**
-       * Show/hide buttons based on layer configuration
-       */
+        * Show/hide buttons based on layer configuration
+        */
         show: function () {
             domStyle.set(this.likeButton, 'display', this.actionVisibilities.showVotes ? 'inline-block' : 'none');
             domStyle.set(this.commentButton, 'display', this.actionVisibilities.showComments ? 'inline-block' : 'none');
@@ -140,8 +140,8 @@ define([
         },
 
         /**
-      * Attach click events on all the available buttons
-      */
+        * Attach click events on all the available buttons
+        */
         _addListeners: function () {
             var self = this;
             on(this.backIcon, 'click', lang.hitch(this, function (evt) {
@@ -150,9 +150,6 @@ define([
             }));
 
             on(this.likeButton, 'click', function () {
-                if (!domClass.contains(self.likeButton, "esriCTDetailButtonSelected")) {
-                    domClass.add(self.likeButton, "esriCTDetailButtonSelected");
-                }
                 self._fetchVotesCount(self.item).then(lang.hitch(this, function (item) {
                     self._incrementVote(item);
                 }));
@@ -210,6 +207,9 @@ define([
             return evt;
         },
 
+        onFeatureUpdated: function (feature) {
+            return feature;
+        },
         /**
         * fetch the latest count of like field.
         * @param {item} the current item for which count is to be retrieved.
@@ -228,6 +228,7 @@ define([
                     retrievedVotes = results.features[0].attributes[this.appConfig.likeField];
                     retrievedVotes = retrievedVotes || 0;
                     item.attributes[this.appConfig.likeField] = retrievedVotes;
+                    this.previousCount = lang.clone(item.attributes[this.appConfig.likeField]);
                     deferred.resolve(item);
                 }
                 deferred.reject(item);
@@ -246,16 +247,21 @@ define([
             // Update the item in the feature layer
             this.appUtils.showLoadingIndicator();
             item._layer.applyEdits(null, [item], null, lang.hitch(this, function (updates) {
-                if (updates.length === 0) {
-                    this._updateItemVotes(item);
-                } else if (updates[0].error) {
+                if (updates && updates.length > 0 && updates[0].error) {
                     this.appUtils.hideLoadingIndicator();
                     this.appUtils.showError(this.i18n.unableToUpdateVoteField);
                 } else {
                     this._updateItemVotes(item);
+                    //highlight like button to indicate user all-ready clicked it
+                    if (!domClass.contains(this.likeButton, "esriCTDetailButtonSelected")) {
+                        domClass.add(this.likeButton, "esriCTDetailButtonSelected");
+                    }
+                    //fire event to indicate feature is updated
+                    this.onFeatureUpdated(item);
                 }
                 this.appUtils.hideLoadingIndicator();
             }), lang.hitch(this, function (err) {
+                item.attributes[this.appConfig.likeField] = this.previousCount;
                 this.appUtils.hideLoadingIndicator();
                 this.appUtils.showError(this.i18n.unableToUpdateVoteField);
             }));
@@ -293,8 +299,8 @@ define([
         },
 
         /**
-       * Set selected item and create detail panel
-       */
+        * Set selected item and create detail panel
+        */
         setItem: function (item) {
             this.item = item;
             if (this.actionVisibilities.showComments) {
@@ -398,13 +404,13 @@ define([
         _submitComment: function (item) {
             var featureData, attributes = {};
             //Proceed if relatedTable and relationships is available, if not show error.
-            if (this._commentTable && this._commentTable.relationships.length > 0) {
+            if (this._commentTable && this._commentTable.relationships.length > 0 && this._commentTable.relationships[0].keyField && item._layer.relationships[0].keyField) {
                 if (lang.trim(this.commentsTextArea.value) !== "") {
                     // Create instance of graphic
                     featureData = new Graphic();
                     // create an empty array object
                     attributes[this.appConfig.commentField] = lang.trim(this.commentsTextArea.value);
-                    attributes[this._commentTable.relationships[0].keyField] = item.attributes[item._layer.globalIdField];
+                    attributes[this._commentTable.relationships[0].keyField] = item.attributes[item._layer.relationships[0].keyField];
                     featureData.setAttributes(attributes);
                     this.appUtils.showLoadingIndicator();
                     this._commentTable.applyEdits([featureData], null, null, lang.hitch(this, function (result) {
@@ -647,9 +653,9 @@ define([
         },
 
         /**
-      * Show attachments in new window when user clicks on the attachment thumbnail
-      * @param{object} evt
-      */
+        * Show attachments in new window when user clicks on the attachment thumbnail
+        * @param{object} evt
+        */
         _openAttachment: function (evt) {
             window.open(evt.target.alt);
         }

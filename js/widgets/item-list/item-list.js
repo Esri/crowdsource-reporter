@@ -36,6 +36,7 @@ define([
     return declare([_WidgetBase, _TemplatedMixin], {
         templateString: template,
         showLikes: false,
+        currentMap: null,
         /**
         * Widget constructor. Placeholder if future functionality is needed in the
         * widget creation life cycle.
@@ -141,10 +142,13 @@ define([
         * @param  {feature} item to display in the list
         */
         buildItemSummary: function (item) {
-            var itemTitle, itemVotes, itemSummaryDiv, itemTitleDiv, favDiv, itemSummaryParent, itemSummaryHighlighter;
-            item = item.graphic;
+            var itemTitle, itemVotes, itemSummaryDiv, itemTitleDiv, favDiv, itemSummaryParent, itemSummaryHighlighter, details = "", itemTitleDivMyIssues;
+            item = (item && item.graphic) ? item.graphic : item;
             itemTitle = this.getItemTitle(item) || "&nbsp;";
-
+            if (this.isMyIssues) {
+                details = item.webMapTitle + " : " + item.layerTitle;
+                this.showLikes = item.showLikes;
+            }
             itemSummaryParent = domConstruct.create('div', {
                 'class': 'esriCTtemSummaryParent',
                 'click': lang.partial(this.summaryClick, this, item)
@@ -158,10 +162,26 @@ define([
                 'class': 'esriCTItemSummary'
             }, itemSummaryParent);
 
-            itemTitleDiv = domConstruct.create('div', {
-                'class': 'esriCTItemTitle',
-                'innerHTML': itemTitle
-            }, itemSummaryDiv);
+            if (this.isMyIssues) {
+                itemTitleDivMyIssues = domConstruct.create('div', {
+                    'class': 'esriCTItemTitle'
+                }, itemSummaryDiv);
+
+                domConstruct.create('div', {
+                    'class': 'esriCTItemListTitleFullWidth esriCTEllipsis',
+                    'innerHTML': details
+                }, itemTitleDivMyIssues);
+
+                domConstruct.create('div', {
+                    'class': 'esriCTItemListTitleFullWidth esriCTEllipsis esriCTMyIssuePopupTitle',
+                    'innerHTML': itemTitle
+                }, itemTitleDivMyIssues);
+            } else {
+                itemTitleDiv = domConstruct.create('div', {
+                    'class': 'esriCTItemTitle',
+                    'innerHTML': itemTitle
+                }, itemSummaryDiv);
+            }
 
             if (this.showLikes) {
                 itemVotes = this.getItemVotes(item);
@@ -179,12 +199,16 @@ define([
                     'class': 'glyphicon glyphicon-heart esriCTFavDiv'
                 }, favDiv);
             } else {
-                //If no like icon fill the title
-                domClass.add(itemTitleDiv, "esriCTItemListTitleFullWidth");
+                //If like field is not configured use the entire space for issue title              
+                if (this.isMyIssues && itemTitleDivMyIssues) {
+                    domClass.add(itemTitleDivMyIssues, "esriCTItemListTitleFullWidth");
+                } else {
+                    domClass.add(itemTitleDiv, "esriCTItemListTitleFullWidth");
+                }
             }
 
             // If this item's OID matches the current selection, apply the theme to highlight it
-            if (this.selectedItemOID && this.selectedItemOID === item.attributes[item._layer.objectIdField]) {
+            if (this.selectedItemOID && this.selectedItemOID === item.attributes[item._layer.objectIdField] + "_" + item.webMapId + "_" + item._layer.id) {
                 domClass.add(itemSummaryHighlighter, "esriCTItemSummarySelected");
                 domClass.add(itemSummaryParent, "esriCTItemSummaryParentSelected");
             }
@@ -238,3 +262,4 @@ define([
 
     });
 });
+

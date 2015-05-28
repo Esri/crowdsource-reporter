@@ -1,21 +1,20 @@
 ﻿/*global define,require,alert,dojo,$,window,moment*/
 /*jslint browser:true,sloppy:true,nomen:true,unparam:true,plusplus:true,indent:4*/
 /*
-| Copyright 2014 Esri
-|
-| Licensed under the Apache License, Version 2.0 (the "License");
-| you may not use this file except in compliance with the License.
-| You may obtain a copy of the License at
-|
-|    http://www.apache.org/licenses/LICENSE-2.0
-|
-| Unless required by applicable law or agreed to in writing, software
-| distributed under the License is distributed on an "AS IS" BASIS,
-| WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-| See the License for the specific language governing permissions and
-| limitations under the License.
-
-*/
+ | Copyright 2014 Esri
+ |
+ | Licensed under the Apache License, Version 2.0 (the "License");
+ | you may not use this file except in compliance with the License.
+ | You may obtain a copy of the License at
+ |
+ |    http://www.apache.org/licenses/LICENSE-2.0
+ |
+ | Unless required by applicable law or agreed to in writing, software
+ | distributed under the License is distributed on an "AS IS" BASIS,
+ | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ | See the License for the specific language governing permissions and
+ | limitations under the License.
+ */
 define([
     "dojo/_base/declare",
     "dojo/_base/lang",
@@ -185,6 +184,7 @@ define([
             if (domClass.contains(this.headerMessageDiv, "esriCTVisible")) {
                 domClass.replace(this.headerMessageDiv, "esriCTHidden", "esriCTVisible");
             }
+            this.toolbar.deactivate();
             this._clearSubmissionGraphic();
             setTimeout(lang.hitch(this, function () {
                 this.closeForm();
@@ -1591,18 +1591,22 @@ define([
                     }
                     // remove graphic
                     this._clearSubmissionGraphic();
-                    //reset to default extent
-                    if (this.defaultExtent) {
-                        this.map.setExtent(this.defaultExtent);
+                    if (this.changedExtent) {
+                        this.map.setExtent(this.changedExtent);
+                    } else {
+                        //reset to default extent
+                        if (this.defaultExtent) {
+                            this.map.setExtent(this.defaultExtent);
+                        }
                     }
                     // Show Thank you message on Success
-                    this._showHeaderMessageDiv(this.config.submitMessage, false);
+                    this._showHeaderMessageDiv(this.config.submitMessage, "success");
                     // Successfully feature is added on the layer
                     this.geoformSubmitted(true);
                 } else {
                     domConstruct.destroy(query(".errorMessage")[0]);
                     // Show Error message on Failure
-                    this._showHeaderMessageDiv(this.appConfig.i18n.geoform.errorsInApplyEdits, true);
+                    this._showHeaderMessageDiv(this.appConfig.i18n.geoform.errorsInApplyEdits, "error");
                     //hide loading indicator started in _addFeatureToLayer method
                     this.appUtils.hideLoadingIndicator();
                 }
@@ -1610,7 +1614,7 @@ define([
                 // remove error
                 domConstruct.destroy(query(".errorMessage")[0]);
                 // Show error message on Failure
-                this._showHeaderMessageDiv(this.appConfig.i18n.geoform.errorsInApplyEdits, true);
+                this._showHeaderMessageDiv(this.appConfig.i18n.geoform.errorsInApplyEdits, "error");
                 //hide loading indicator started in _addFeatureToLayer method
                 this.appUtils.hideLoadingIndicator();
             }));
@@ -1676,7 +1680,7 @@ define([
                         "total": this._totalFileAttachedCounter
                     });
                     // Show Thank you message on Success
-                    this._showHeaderMessageDiv(this.config.submitMessage + "<br /><br />" + attachmentFailedMsg, true);
+                    this._showHeaderMessageDiv(this.config.submitMessage + "<br /><br />" + attachmentFailedMsg, "warning");
                 }
             }
         },
@@ -1730,10 +1734,12 @@ define([
         */
         _showHeaderMessageDiv: function (innerText, isError) {
             // assign success or error handler class to the container
-            if (isError) {
-                domClass.replace(this.headerMessageType, "alert-danger", "alert-success");
+            if (isError === "success") {
+                domClass.replace(this.headerMessageType, "alert-success", "alert-danger alert-warning");
+            } else if (isError === "warning") {
+                domClass.replace(this.headerMessageType, "alert-warning", "alert-danger alert-success");
             } else {
-                domClass.replace(this.headerMessageType, "alert-success", "alert-danger");
+                domClass.replace(this.headerMessageType, "alert-danger", "alert-warning alert-success");
             }
             // replace node
             domClass.replace(this.headerMessageDiv, "esriCTVisible", "esriCTHidden");
@@ -1759,6 +1765,7 @@ define([
         */
         closeForm: function () {
             dom.byId("geoFormBody").scrollTop = 0;
+            this.toolbar.deactivate();
             domClass.replace(dom.byId('geoformContainer'), "esriCTHidden", "esriCTVisible");
         },
 
@@ -1893,6 +1900,14 @@ define([
         geoformSubmitted: function (isSubmitted) {
             // return value
             return isSubmitted;
+        },
+
+        /**
+        * Set extent of main map to geoform map
+        * @memberOf widgets/geo-form/geo-form
+        */
+        setMapExtent: function (extent) {
+            this.changedExtent = extent;
         }
     });
 });

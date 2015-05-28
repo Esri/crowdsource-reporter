@@ -1,20 +1,20 @@
 /*global define,dojo,alert,moment,$ */
 /*jslint browser:true,sloppy:true,nomen:true,unparam:true,plusplus:true,indent:4 */
 /*
- | Copyright 2014 Esri
- |
- | Licensed under the Apache License, Version 2.0 (the "License");
- | you may not use this file except in compliance with the License.
- | You may obtain a copy of the License at
- |
- |    http://www.apache.org/licenses/LICENSE-2.0
- |
- | Unless required by applicable law or agreed to in writing, software
- | distributed under the License is distributed on an "AS IS" BASIS,
- | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- | See the License for the specific language governing permissions and
- | limitations under the License.
- */
+| Copyright 2014 Esri
+|
+| Licensed under the Apache License, Version 2.0 (the "License");
+| you may not use this file except in compliance with the License.
+| You may obtain a copy of the License at
+|
+|    http://www.apache.org/licenses/LICENSE-2.0
+|
+| Unless required by applicable law or agreed to in writing, software
+| distributed under the License is distributed on an "AS IS" BASIS,
+| WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+| See the License for the specific language governing permissions and
+| limitations under the License.
+*/
 define([
     "dojo/_base/declare",
     "dojo/_base/lang",
@@ -44,6 +44,7 @@ define([
     "widgets/webmap-list/webmap-list",
     "widgets/issue-wall/issue-wall",
     "widgets/geo-form/geo-form",
+    "widgets/my-issues/my-issues",
     "application/utils/utils",
     "dojo/query",
     "widgets/sidebar-content-controller/sidebar-content-controller",
@@ -78,6 +79,7 @@ define([
     WebMapList,
     IssueWall,
     GeoForm,
+    MyIssues,
     ApplicationUtils,
     query,
     SidebarContentController,
@@ -96,6 +98,7 @@ define([
             "signIn": true,
             "help": false
         },
+        _isMyIssues: false,
         _sidebarCnt: null,
         startup: function (boilerPlateTemplateObject, loggedInUser) {
             // config will contain application and user defined info for the template such as i18n strings, the web map id
@@ -133,7 +136,7 @@ define([
                 //Enable queryForGroupItems in templateconfig
                 this.boilerPlateTemplate.templateConfig.queryForGroupItems = true;
 
-                //construct the queryparams if found in group info
+                //construct the query params if found in group info
                 if (this.config.groupInfo.results && this.config.groupInfo.results.length > 0) {
                     lang.mixin(queryParams, this.boilerPlateTemplate.templateConfig.groupParams);
                     if (this.config.groupInfo.results[0].sortField) {
@@ -226,14 +229,25 @@ define([
                 this._sidebarCnt.addPanel("itemDetails", this._itemDetails);
 
                 this._itemDetails.onCancel = lang.hitch(this, function () {
-                    this._sidebarCnt.showPanel("issueWall");
-                    //refresh the issue list on showing the issue wall
-                    if (this._issueWallWidget && this._issueWallWidget.itemsList) {
-                        this._issueWallWidget.itemsList.refreshList();
+                    if (this._isMyIssues) {
+                        this._sidebarCnt.showPanel("myIssues");
+                        //refresh the myIssues list on showing the myIssues wall
+                        if (this._myIssuesWidget && this._myIssuesWidget.itemsList) {
+                            this._myIssuesWidget.itemsList.refreshList();
+                        }
+                    } else {
+                        this._sidebarCnt.showPanel("issueWall");
+                        //refresh the issue list on showing the issue wall
+                        if (this._issueWallWidget && this._issueWallWidget.itemsList) {
+                            this._issueWallWidget.itemsList.refreshList();
+                        }
                     }
                 });
 
                 domAttr.set(dom.byId("submitFromMapText"), "innerHTML", this.config.i18n.main.submitReportButtonText);
+                var submitButtonColor = (this.config && this.config.submitReportButtonColor) ? this.config.submitReportButtonColor : "#35ac46";
+                domStyle.set(dom.byId("submitFromMap"), "background-color", submitButtonColor);
+
                 on(dom.byId("submitFromMap"), "click", lang.hitch(this, function (evt) {
                     this._createGeoForm();
                 }));
@@ -241,13 +255,19 @@ define([
                     this._toggleListView();
                 }));
                 on(dom.byId("toggleListViewButton"), "click", lang.hitch(this, function (evt) {
+                    //Change myissues widget flag to false and refresh the list
+                    if (this._myIssuesWidget) {
+                        this._myIssuesWidget.itemsList.clearSelection();
+                        this._myIssuesWidget.itemsList.refreshList();
+                    }
+                    this._isMyIssues = false;
                     this._toggleListView();
                     this._sidebarCnt.showPanel("webMapList");
                 }));
                 domAttr.set(dom.byId("toggleListViewButton"), "title", this.config.i18n.main.gotoListViewTooltip);
                 this._createWebMapList();
             } else {
-                this._handleNoWebMapToDsiplay();
+                this._handleNoWebMapToDisplay();
             }
         },
 
@@ -255,9 +275,9 @@ define([
         * Handle scenario when there is no web maps
         * @memberOf main
         */
-        _handleNoWebMapToDsiplay: function () {
+        _handleNoWebMapToDisplay: function () {
             try {
-                //Remove all menus except signin/signout
+                //Remove all menus except sign in/sign out
                 this._menusList.homeMenu = false;
                 this._menusList.mapView = false;
                 this._menusList.reportIt = false;
@@ -314,7 +334,27 @@ define([
 
             //on my issue button clicked display my issues list
             this.appHeader.showMyIssues = lang.hitch(this, function () {
-                alert("Coming soon...");
+
+                // if map view is open in mobile view then hide it to show the my reports
+                if (dom.byId("mapParentContainer") && domStyle.get(dom.byId("mapParentContainer"), "display") === "block") {
+                    domStyle.set(dom.byId("mapParentContainer"), "display", "none");
+                }
+
+                //Close GeoForm If it is open
+                if (this.geoformInstance) {
+                    this.geoformInstance.closeForm();
+                }
+
+                //set the flag which indicated that user is entering in myissues workflow
+                this._isMyIssues = true;
+
+                //display my issue container if exists else create it
+                if (this._myIssuesWidget) {
+                    this._sidebarCnt.showPanel("myIssues");
+                } else {
+                    this._createMyIssuesList(this._selectedMapDetails);
+                }
+                domClass.toggle(this.appHeader.esriCTLoginOptionsDiv, "esriCTHidden");
             });
 
             //on appicon clicked navigate to home(webmaplist) only in mobile view
@@ -329,6 +369,49 @@ define([
                     this._sidebarCnt.showPanel("webMapList");
                 }
             });
+        },
+
+        /**
+        * instantiate My issue widget
+        * @memberOf main
+        */
+        _createMyIssuesList: function (data) {
+            if (!this._myIssuesWidget) {
+                data.appConfig = this.config;
+                this._myIssuesWidget = new MyIssues(data, domConstruct.create("div", {}, dom.byId('sidebarContent')));
+                this._sidebarCnt.addPanel("myIssues", this._myIssuesWidget);
+                this._sidebarCnt.showPanel("myIssues");
+
+                this._myIssuesWidget.onListCancel = lang.hitch(this, function (selectedFeature) {
+                    this._myIssuesWidget.itemsList.clearSelection();
+                    this._myIssuesWidget.itemsList.refreshList();
+                    this._isMyIssues = false;
+                    this._sidebarCnt.showPanel("webMapList");
+                });
+                this._myIssuesWidget.onItemSelected = lang.hitch(this, function (selectedFeature) {
+                    this.appUtils.showLoadingIndicator();
+                    if (selectedFeature.webMapId !== this._selectedMapDetails.webMapId) {
+                        //create web-map if selected feature is not belongs to selected map
+                        this._webMapListWidget._createMap(selectedFeature.webMapId, this._webMapListWidget.mapDivID).then(lang.hitch(this, function (response) {
+                            this._webMapListWidget.lastSelectedWebMapExtent = response.map.extent;
+                            this._webMapListWidget.lastSelectedWebMapItemInfo = response.itemInfo;
+                            data.itemInfo = response.itemInfo;
+                            data.webMapId = selectedFeature.webMapId;
+                            data.operationalLayerDetails = selectedFeature.layerDetails;
+                            data.operationalLayerId = selectedFeature.layerId;
+                            this._addFeatureLayerOnMap(data);
+                        }));
+                    } else if (selectedFeature.layerId !== this._selectedMapDetails.operationalLayerDetails.id) {
+                        data.operationalLayerDetails = selectedFeature.layerDetails;
+                        data.operationalLayerId = selectedFeature.layerId;
+                        //add layer to map if feature is not belongs to selected layer of selected map
+                        this._addFeatureLayerOnMap(data);
+                    } else {
+                        this.appUtils.hideLoadingIndicator();
+                        this._itemSelected(selectedFeature, false, true);
+                    }
+                });
+            }
         },
 
         /**
@@ -347,7 +430,6 @@ define([
                     this._webMapListWidget._handleWebmapToggling(webmapTemplateNode, data.operationalLayerDetails);
                 }
             }
-
         },
 
         /**
@@ -414,7 +496,7 @@ define([
                     }
                 });
                 this._webMapListWidget.onSelectedWebMapClicked = lang.hitch(this, function () {
-                    //show listview(issueWAll) on selecting webmap
+                    //show listview(issueWAll) on selecting web-map
                     if (this._isWebMapListLoaded) {
                         this._sidebarCnt.showPanel("issueWall");
                     }
@@ -436,10 +518,14 @@ define([
                     this._destroyGeoForm();
                     isCreateGeoLocation = false;
                     //create geo-location when new map is selected
-                    if (!this._selectedMapDetails || (details.webMapId !== this._selectedMapDetails.webMapId)) {
+                    if (!this._selectedMapDetails || (details.webMapId !== this._selectedMapDetails.webMapId) || this._isMyIssues) {
                         isCreateGeoLocation = true;
                     }
                     this._selectedMapDetails = details;
+                    //clears highlighted graghics
+                    if (this._selectedMapDetails && this._selectedMapDetails.map && this._selectedMapDetails.map.infoWindow) {
+                        this._selectedMapDetails.map.infoWindow.clearFeatures();
+                    }
                     // this._itemDetails.setActionsVisibility(true, true, details.map._layers[details.operationalLayerId].hasAttachments);
                     // Highlight feature when user clicks on locate issue on map icon from issue wall
                     // If graphics layer is already added on the map, clear it else add a graphic layer on map
@@ -453,7 +539,7 @@ define([
                     /**/
                     //create or update issue list
                     this._createIssueWall(details);
-                    if (isCreateGeoLocation) {
+                    if (isCreateGeoLocation && query(".esriCTMapGeoLocationContainer").length === 0) {
                         geoLocationButtonDiv = domConstruct.create("div", {
                             "class": "esriCTMapGeoLocationContainer"
                         });
@@ -490,7 +576,7 @@ define([
                 });
 
                 this._webMapListWidget.noMapsFound = lang.hitch(this, function () {
-                    this._handleNoWebMapToDsiplay();
+                    this._handleNoWebMapToDisplay();
                 });
 
                 this._webMapListWidget.placeAt("sidebarContent");
@@ -522,18 +608,45 @@ define([
                 this._issueWallWidget.onSubmit = lang.hitch(this, function (evt) {
                     this._createGeoForm();
                 });
+                this._itemDetails.onFeatureUpdated = lang.hitch(this, function (feature) {
+                    if (this._myIssuesWidget) {
+                        this._myIssuesWidget.updateIssueList(this._selectedMapDetails, feature);
+                    }
+                    if (this._issueWallWidget) {
+                        setTimeout(lang.hitch(this, function () {
+                            this._issueWallWidget.selectedLayer.refresh();
+                            this._issueWallWidget.selectedLayer.redraw();
+                        }), 500);
+                    }
+                });
+
                 this._issueWallWidget.featureSelectedOnMapClick = lang.hitch(this, function (selectedFeature) {
+                    //user can select feature from map once he enters to map from issueDetails of my-issue
+                    //so set the myissue flag to false it indicates that user is going to start new workflow
+                    this._isMyIssues = false;
                     this._itemSelected(selectedFeature, true);
                 });
                 this._sidebarCnt.addPanel("issueWall", this._issueWallWidget);
             } else {
                 this._issueWallWidget.initIssueWall(data);
-                this._sidebarCnt.showPanel("issueWall");
+                //Show issuewall in pannel if my issues are not open
+                //else set the selected item from myissues
+                if (!this._isMyIssues) {
+                    this._sidebarCnt.showPanel("issueWall");
+                } else if (this._myIssuesWidget && this._myIssuesWidget.selectedFeature) {
+                    setTimeout(lang.hitch(this, function () {
+                        this._itemSelected(this._myIssuesWidget.selectedFeature, false, true);
+                    }), 500);
+
+                }
             }
 
             // storing changed instance on extent change
             this._issueWallWidget.map.on("extent-change", lang.hitch(this, function (extent) {
                 this.changedExtent = extent.extent;
+                if (this.geoformInstance) {
+                    this.geoformInstance.setMapExtent(this.changedExtent);
+                }
             }));
             //In mobile view when user selects locate in issue wall user should be navigated to map view.
             //so handle showMapViewOnLocate and check is user is in mobile view then show mapview.
@@ -560,6 +673,7 @@ define([
                             this.geoformInstance.map.setExtent(this.changedExtent);
                             this.geoformInstance._resizeMap();
                         }
+                        this.geoformInstance._activateDrawTool();
                         return;
                     }
                     //if last geoform instance exist then destroy it.
@@ -583,6 +697,10 @@ define([
                             this._selectedMapDetails.map.getLayer(this._selectedMapDetails.operationalLayerId).refresh();
                             //create or update issue-list
                             this._createIssueWall(this._selectedMapDetails);
+                            //update my issue list when new issue is added
+                            if (this._myIssuesWidget) {
+                                this._myIssuesWidget.updateIssueList(this._selectedMapDetails, null, true);
+                            }
                         } catch (ex) {
                             this.appUtils.showError(ex.message);
                         }
@@ -640,7 +758,7 @@ define([
             }
         },
 
-        _itemSelected: function (item, isMapClicked) {
+        _itemSelected: function (item, isMapClicked, myIssues) {
             var operationalLayer;
             //Highlight Feature on map
             operationalLayer = this._selectedMapDetails.operationalLayerDetails.layerObject;
@@ -648,13 +766,22 @@ define([
                 this.highLightFeatureOnClick(operationalLayer, item.attributes[operationalLayer.objectIdField], this._selectedMapDetails.map.getLayer("selectionGraphicsLayer"), this._selectedMapDetails.map);
             }
             //set selection in item-list to maintain the highlight in list
-            this._issueWallWidget.itemsList.setSelection(item.attributes[operationalLayer.objectIdField]);
-
-            //WIP: sprint3 - add comments in details view
-            topic.publish("updateComments", item);
-            //WIP: Implement Show Details
+            //added layer ID to selected item's object id to avoid duplicate value of object id across multiple layer
+            if (this._isMyIssues) {
+                this._myIssuesWidget.itemsList.setSelection(item.attributes[operationalLayer.objectIdField] + "_" + item.webMapId + "_" + item._layer.id);
+                //Change the map extent and set it to features extent
+                this._gotoSelectedFeature(item);
+            } else {
+                this._issueWallWidget.itemsList.setSelection(item.attributes[operationalLayer.objectIdField] + "_" + item.webMapId + "_" + item._layer.id);
+            }
             this._itemDetails.clearComments();
-            this._itemDetails.setActionsVisibility(this._issueWallWidget.actionVisibilities, this._issueWallWidget._commentsTable);
+            if (this._isMyIssues) {
+                this.actionVisibilities = {};
+                this.actionVisibilities = this._myIssuesWidget.setActionVisibilities(item);
+                this._itemDetails.setActionsVisibility(this.actionVisibilities, this.actionVisibilities.commentTable);
+            } else {
+                this._itemDetails.setActionsVisibility(this._issueWallWidget.actionVisibilities, this._issueWallWidget._commentsTable);
+            }
             this._itemDetails.setItemFields(this.config.likeField, this.config.commentField);
             this._itemDetails.setItem(item);
             this._sidebarCnt.showPanel("itemDetails");
@@ -668,7 +795,6 @@ define([
                     this._toggleListView();
                 }
             }
-            //*/
         },
 
         _toggleListView: function () {
@@ -692,56 +818,134 @@ define([
         highLightFeatureOnClick: function (layer, objectId, selectedGraphicsLayer, map) {
             var esriQuery, highlightSymbol;
             this.mapInstance = map;
-            // clear graphics layer
-            selectedGraphicsLayer.clear();
+            if (selectedGraphicsLayer) {
+                // clear graphics layer
+                selectedGraphicsLayer.clear();
+            }
             esriQuery = new Query();
             esriQuery.objectIds = [parseInt(objectId, 10)];
             esriQuery.returnGeometry = true;
             layer.queryFeatures(esriQuery, lang.hitch(this, function (featureSet) {
-                if (featureSet.features[0]) {
+                // Check if feature is valid and have valid geometry, if not prompt with no geometry message
+                if (featureSet && featureSet.features && featureSet.features.length > 0 && featureSet.features[0] && featureSet.features[0].geometry) {
                     highlightSymbol = this.getHighLightSymbol(featureSet.features[0], layer);
-                    selectedGraphicsLayer.add(highlightSymbol);
+                    //add symbol to graphics layer if highlight symbol is created
+                    if (highlightSymbol) {
+                        selectedGraphicsLayer.add(highlightSymbol);
+                    }
+                } else {
+                    this.appUtils.showError(this.config.i18n.main.noFeatureGeomtery);
                 }
-            }), lang.hitch(this, function (err) {
-                this.appUtils.showError(err.message);
             }));
         },
 
         /**
         * Get symbol used for highlighting feature
-        * @param{string} graphic - graphic of the selected feature
-        * @param{string} layer - layer details
+        * @param{object} selected feature which needs to be highlighted
+        * @param{object} details of selected layer
         */
         getHighLightSymbol: function (graphic, layer) {
-            var i, symbol, point, graphics, symbolWidth, symbolFillColor, height, width, size, isSymbolFound, graphicInfoValue, layerInfoValue;
-            isSymbolFound = false;
             // If feature geometry is of type point, add a crosshair symbol
             // If feature geometry is of type polyline, highlight the line
             // If feature geometry is of type polygon, highlight the boundary of the polygon
             switch (graphic.geometry.type) {
             case "point":
-                symbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_SQUARE, null, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 255, 1]), 4));
-                symbol.setColor(null);
-                symbol.size = 50; //set default Symbol size which will be used in case symbol not found.
+                return this._getPointSymbol(graphic, layer);
+            case "polyline":
+                return this._getPolyLineSymbol(graphic, layer);
+            case "polygon":
+                return this._getPolygonSymbol(graphic, layer);
+            }
+        },
+
+        /**
+        * This function is used to get symbol for point geometry
+        * @param{object} selected feature which needs to be highlighted
+        * @param{object} details of selected layer
+        */
+        _getPointSymbol: function (graphic, layer) {
+            var symbol, isSymbolFound, graphics, point, graphicInfoValue, layerInfoValue, i;
+            isSymbolFound = false;
+            symbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_SQUARE, null, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 255, 1]), 3));
+            symbol.setColor(null);
+            symbol.size = 30; //set default Symbol size which will be used in case symbol not found.
+            //check if layer is valid and have valid renderer object then only check for other symbol properties
+            if (layer && layer.renderer) {
                 if (layer.renderer.symbol) {
                     isSymbolFound = true;
-                    if (layer.renderer.symbol.hasOwnProperty("height") && layer.renderer.symbol.hasOwnProperty("width")) {
-                        height = layer.renderer.symbol.height;
-                        width = layer.renderer.symbol.width;
-                        // To display cross hair properly around feature its size needs to be calculated
-                        size = (height > width) ? height : width;
-                        size = size + 10;
-                        symbol.size = size;
-                    }
-                    if (layer.renderer.symbol.hasOwnProperty("size")) {
-                        if (!size || size < layer.renderer.symbol.size) {
-                            symbol.size = layer.renderer.symbol.size + 10;
+                    symbol = this._updatePointSymbolProperties(symbol, layer.renderer.symbol);
+                } else if (layer.renderer.infos && (layer.renderer.infos.length > 0)) {
+                    for (i = 0; i < layer.renderer.infos.length; i++) {
+                        if (layer.typeIdField) {
+                            graphicInfoValue = graphic.attributes[layer.typeIdField];
+                        } else if (layer.renderer.attributeField) {
+                            graphicInfoValue = graphic.attributes[layer.renderer.attributeField];
+                        }
+                        layerInfoValue = layer.renderer.infos[i].value;
+                        // To get properties of symbol when infos contains other than class break renderer.
+                        if (graphicInfoValue !== undefined && graphicInfoValue !== null && graphicInfoValue !== "" && layerInfoValue !== undefined && layerInfoValue !== null && layerInfoValue !== "") {
+                            if (graphicInfoValue.toString() === layerInfoValue.toString()) {
+                                isSymbolFound = true;
+                                symbol = this._updatePointSymbolProperties(symbol, layer.renderer.infos[i].symbol);
+                            }
                         }
                     }
-                    if (layer.renderer.symbol.hasOwnProperty("xoffset") && layer.renderer.symbol.hasOwnProperty("yoffset")) {
-                        symbol.xoffset = layer.renderer.symbol.xoffset;
-                        symbol.yoffset = layer.renderer.symbol.yoffset;
+                    if (!isSymbolFound) {
+                        if (layer.renderer.defaultSymbol) {
+                            isSymbolFound = true;
+                            symbol = this._updatePointSymbolProperties(symbol, layer.renderer.defaultSymbol);
+                        }
                     }
+                }
+            }
+            point = new Point(graphic.geometry.x, graphic.geometry.y, new SpatialReference({
+                wkid: graphic.geometry.spatialReference.wkid
+            }));
+            graphics = new Graphic(point, symbol, graphic.attributes);
+            return graphics;
+        },
+
+        /**
+        * This function is used to get different data of symbol from infos properties of renderer object.
+        * @param{object} symbol that needs to be assigned to selected/activated feature
+        * @param{object} renderer layer Symbol
+        */
+        _updatePointSymbolProperties: function (symbol, layerSymbol) {
+            var height, width, size;
+            if (layerSymbol.hasOwnProperty("height") && layerSymbol.hasOwnProperty("width")) {
+                height = layerSymbol.height;
+                width = layerSymbol.width;
+                // To display cross hair properly around feature its size needs to be calculated
+                size = (height > width) ? height : width;
+                size = size + 10;
+                symbol.size = size;
+            }
+            if (layerSymbol.hasOwnProperty("size")) {
+                if (!size || size < layerSymbol.size) {
+                    symbol.size = layerSymbol.size + 10;
+                }
+            }
+            if (layerSymbol.hasOwnProperty("xoffset")) {
+                symbol.xoffset = layerSymbol.xoffset;
+            }
+            if (layerSymbol.hasOwnProperty("yoffset")) {
+                symbol.yoffset = layerSymbol.yoffset;
+            }
+            return symbol;
+        },
+
+        /**
+        * This function is used to get symbol for polyline geometry
+        * @param{object} selected feature which needs to be highlighted
+        * @param{object} details of selected layer
+        */
+        _getPolyLineSymbol: function (graphic, layer) {
+            var symbol, graphics, polyline, symbolWidth, graphicInfoValue, layerInfoValue, i;
+            symbolWidth = 5; // default line width
+            //check if layer is valid and have valid renderer object then only check for other  symbol properties
+            if (layer && layer.renderer) {
+                if (layer.renderer.symbol && layer.renderer.symbol.hasOwnProperty("width")) {
+                    symbolWidth = layer.renderer.symbol.width;
                 } else if ((layer.renderer.infos) && (layer.renderer.infos.length > 0)) {
                     for (i = 0; i < layer.renderer.infos.length; i++) {
                         if (layer.typeIdField) {
@@ -750,87 +954,57 @@ define([
                             graphicInfoValue = graphic.attributes[layer.renderer.attributeField];
                         }
                         layerInfoValue = layer.renderer.infos[i].value;
-                        if (graphicInfoValue !== null && graphicInfoValue !== "") {
-                            if (graphicInfoValue.toString() === layerInfoValue.toString()) {
-                                isSymbolFound = true;
-                                if (layer.renderer.infos[i].symbol.hasOwnProperty("height") && layer.renderer.infos[i].symbol.hasOwnProperty("width")) {
-                                    height = layer.renderer.infos[i].symbol.height;
-                                    width = layer.renderer.infos[i].symbol.width;
-                                    // To display cross hair properly around feature its size needs to be calculated
-                                    size = (height > width) ? height : width;
-                                    size = size + 10;
-                                    symbol.size = size;
-                                }
-                                if (layer.renderer.infos[i].symbol.hasOwnProperty("size")) {
-                                    if (!size || size < layer.renderer.infos[i].symbol.size) {
-                                        symbol.size = layer.renderer.infos[i].symbol.size + 10;
-                                    }
-                                }
-                                if (layer.renderer.infos[i].symbol.hasOwnProperty("xoffset") && layer.renderer.infos[i].symbol.hasOwnProperty("yoffset")) {
-                                    symbol.xoffset = layer.renderer.infos[i].symbol.xoffset;
-                                    symbol.yoffset = layer.renderer.infos[i].symbol.yoffset;
-                                }
+                        // To get properties of symbol when infos contains other than class break renderer.
+                        if (graphicInfoValue !== undefined && graphicInfoValue !== null && graphicInfoValue !== "" && layerInfoValue !== undefined && layerInfoValue !== null && layerInfoValue !== "") {
+                            if (graphicInfoValue.toString() === layerInfoValue.toString() && layer.renderer.infos[i].symbol.hasOwnProperty("width")) {
+                                symbolWidth = layer.renderer.infos[i].symbol.width;
                             }
                         }
                     }
-                    if (!isSymbolFound) {
-                        if (layer.renderer.defaultSymbol) {
-                            isSymbolFound = true;
-                            if (layer.renderer.defaultSymbol.hasOwnProperty("height") && layer.renderer.defaultSymbol.hasOwnProperty("width")) {
-                                height = layer.renderer.defaultSymbol.height;
-                                width = layer.renderer.defaultSymbol.width;
-                                // To display cross hair properly around feature its size needs to be calculated
-                                size = (height > width) ? height : width;
-                                size = size + 10;
-                                symbol.size = size;
-                            }
-                            if (layer.renderer.defaultSymbol.hasOwnProperty("size")) {
-                                if (!size || size < layer.renderer.defaultSymbol.size) {
-                                    symbol.size = layer.renderer.defaultSymbol.size + 10;
-                                }
-                            }
-                            if (layer.renderer.defaultSymbol.hasOwnProperty("xoffset") && layer.renderer.defaultSymbol.hasOwnProperty("yoffset")) {
-                                symbol.xoffset = layer.renderer.defaultSymbol.xoffset;
-                                symbol.yoffset = layer.renderer.defaultSymbol.yoffset;
-                            }
-                        }
-                    }
+                } else if (layer.renderer.defaultSymbol && layer.renderer.defaultSymbol.hasOwnProperty("width")) {
+                    symbolWidth = layer.renderer.defaultSymbol.width;
                 }
-                point = new Point(graphic.geometry.x, graphic.geometry.y, new SpatialReference({
-                    wkid: graphic.geometry.spatialReference.wkid
-                }));
-                graphics = new Graphic(point, symbol, graphic.attributes);
-                return graphics;
+            }
+            symbol = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 255, 1]), symbolWidth);
+            polyline = new Polyline(new SpatialReference({
+                wkid: graphic.geometry.spatialReference.wkid
+            }));
+            if (graphic.geometry.paths && graphic.geometry.paths.length > 0) {
+                polyline.addPath(graphic.geometry.paths[0]);
+            }
+            graphics = new Graphic(polyline, symbol, graphic.attributes);
+            return graphics;
+        },
 
-            case "polyline":
-                if (layer.renderer.symbol) {
-                    symbolWidth = layer.renderer.symbol.width;
-                } else if ((layer.renderer.infos) && (layer.renderer.infos.length > 1)) {
-                    for (i = 0; i < layer.renderer.infos.length; i++) {
-                        if (graphic.attributes[layer.typeIdField] === parseInt(layer.renderer.infos[i].value, 10)) {
-                            symbolWidth = layer.renderer.infos[i].symbol.width;
-                        }
-                    }
-                }
-                symbol = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 255, 1]), symbolWidth);
-                graphics = new Graphic(new Polyline(graphic.geometry), symbol);
-                return graphics;
+        /**
+        * This function is used to get symbol for polygon geometry
+        * @param{object} selected feature which needs to be highlighted
+        * @param{object} details of selected layer
+        */
+        _getPolygonSymbol: function (graphic, layer) {
+            var symbol, graphics, polygon;
+            symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 255, 1]), 4), new Color([0, 0, 0, 0]));
+            polygon = new Polygon(new SpatialReference({
+                wkid: graphic.geometry.spatialReference.wkid
+            }));
+            if (graphic.geometry.rings) {
+                polygon.rings = lang.clone(graphic.geometry.rings);
+            }
+            graphics = new Graphic(polygon, symbol, graphic.attributes);
+            return graphics;
+        },
 
-            case "polygon":
-                if (layer.renderer.symbol) {
-                    symbolFillColor = layer.renderer.symbol.color;
-                } else if ((layer.renderer.infos) && (layer.renderer.infos.length > 1)) {
-                    for (i = 0; i < layer.renderer.infos.length; i++) {
-                        if (graphic.attributes[layer.typeIdField] === parseInt(layer.renderer.infos[i].value, 10)) {
-                            symbolFillColor = layer.renderer.infos[i].symbol.color;
-                        }
-                    }
-                }
-                symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 255, 1]), 4), symbolFillColor);
-                graphics = new Graphic(new Polygon(graphic.geometry), symbol);
-                return graphics;
+        /**
+        * Show the feature on the center of map in case of "My Reports"
+        * @item{object} selected feature
+        * @memberOf main
+        */
+        _gotoSelectedFeature: function (item) {
+            if (item.geometry.type === "point") {
+                this._selectedMapDetails.map.centerAt(item.geometry);
+            } else {
+                this._selectedMapDetails.map.setExtent(item.geometry.getExtent(), true);
             }
         }
-
     });
 });

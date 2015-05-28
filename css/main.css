@@ -88,9 +88,9 @@ html, body
 
 #mapParentContainer .esriSimpleSliderTL
 {
-    top: 8px; /*right: auto !important;     left: 10px !important;*/
-    left: auto !important;
-    right: 10px !important;
+    top: 8px;
+    right: auto !important;
+    left: 10px !important;
 }
 
 .esriSimpleSlider div
@@ -138,6 +138,10 @@ html, body
     height: 100%;
 }
 
+.mediaSection
+{
+    padding-bottom: 13px;
+}
 
 /* End of Overridden Styles */
 
@@ -370,48 +374,49 @@ html, body
 .esriCTSigninFBButton
 {
     height: 50px;
-    width: 50px;
-    margin-right: 12px;
+    width: 62px;
     background-image: url(../images/facebook.png);
     display: inline-block;
     background-repeat: no-repeat;
     background-size: 50px;
     cursor: pointer;
+    background-position: center center;
 }
 
 .esriCTSigninTwitterButton
 {
     height: 50px;
-    width: 50px;
-    margin-right: 12px;
+    width: 62px;
     background-image: url(../images/twitter.png);
     display: inline-block;
     background-repeat: no-repeat;
     background-size: 50px;
     cursor: pointer;
+    background-position: center center;
 }
 
 .esriCTSigninGPlusButton
 {
     height: 50px;
-    width: 50px;
-    margin-right: 12px;
+    width: 62px;
     background-image: url(../images/googleplus.png);
     display: inline-block;
     background-repeat: no-repeat;
     background-size: 50px;
     cursor: pointer;
+    background-position: center center;
 }
 
 .esriCTSigninEsriButton
 {
     height: 50px;
-    width: 50px;
+    width: 62px;
     background-image: url(../images/esri.png);
     display: inline-block;
     background-repeat: no-repeat;
     background-size: 50px;
     cursor: pointer;
+    background-position: center center;
 }
 
 .esriCTSigninCenterDiv
@@ -544,7 +549,7 @@ html, body
     height: 18px;
     width: 18px;
     background-position: center;
-    margin-top: 17px;
+    margin-top: 18px;
     display: inline-block;
     float: left;
     margin-left: 5px;
@@ -556,7 +561,7 @@ html, body
 {
     position: absolute;
     background-color: white;
-    z-index: 999;
+    z-index: 400;
     cursor: pointer;
     width: auto;
     top: 49px;
@@ -803,19 +808,20 @@ html, body
 .esriCTMobileMenuHeader
 {
     background-color: #fff;
-    line-height: 20px;
+    line-height: 25px;
+    padding: 6px;
 }
 
 .esriCTUserImg
 {
-    height: 20px;
-    width: 20px;
+    height: 25px;
+    width: 25px;
     float: left;
-    margin-right: 5px;
+    margin-right: 8px;
     background-image: url("../images/user.png");
-    background-size: 20px;
+    background-size: 25px;
     background-repeat: no-repeat;
-    margin-left: 1px;
+    margin-left: 2px;
 }
 
 .esriCTLoggedinUserName
@@ -1364,7 +1370,7 @@ label
 
 .esriCTItemSummary .esriCTItemTitle
 {
-    width:calc(100% - 70px);
+    width:calc(100% - 66px);
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow-x: hidden;
@@ -1378,6 +1384,16 @@ label
 .esriCTItemList .esriCTItemTitle, .esriCTItemList .esriCTItemFav
 {
     line-height: 30px;
+}
+
+.esriCTMyIssueListContainer .esriCTItemTitle
+{
+    line-height: 20px;
+}
+
+.esriCTMyIssueListContainer .esriCTItemFav
+{
+    line-height: 40px;
 }
 
 .esriCTItemFav
@@ -1402,6 +1418,16 @@ label
 {
     height: calc(100% - 105px);
     overflow: auto;
+}
+
+.esriCTMyIssueListContainer
+{
+    height: calc(100% - 55px);
+    overflow: auto;
+}
+
+.esriCTMyIssueListContainer .esriCTItemSummaryHighlighter {
+    height: 60px;
 }
 
 .esriCTNoIssueDiv
@@ -1455,6 +1481,10 @@ label
 
 .esriCTLoaderPosition {
     position:absolute;
+}
+
+.esriCTMyIssuePopupTitle {
+    font-weight: normal;
 }
 
 /* ---------- End Of ItemList ---------- */
@@ -1818,7 +1848,6 @@ label
 
 .esriCTDetailsPanel{
     background-color: #F0F0F0;
-    /*padding: 18px;*/
 }
 
 .esriCTMapItButtonVisibility

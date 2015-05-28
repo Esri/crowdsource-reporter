@@ -8,7 +8,7 @@
 
     #mapContainer
     {
-        height: calc(100% - 49px);
+        height: calc(100% - 105px);
     }
 
     #mapParentContainer .esriCTReportButton, #mapParentContainer .esriCTListHeader
@@ -119,7 +119,7 @@
 
     .esriCTApplicationIcon
     {
-        height: 59px; /*  width: 60px; max-width: 60px;*/
+        height: 59px;
         max-height: 59px;
     }
 
@@ -213,7 +213,7 @@
     }
     .esriCTCaretIcon
     {
-        margin-top: 26px;
+        margin-top: 23px;
     }
     .esriCTOptions
     {

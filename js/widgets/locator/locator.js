@@ -64,6 +64,8 @@ define([
             domAttr.set(this.txtSearch, "placeholder", this.config.i18n.locator.locatorPlaceholder);
             // set Tooltip for search button
             domAttr.set(this.searchSubmit, "title", this.config.i18n.locator.searchButtonTooltip);
+            //set Tooltip to geocoder clear text button
+            domAttr.set(this.close, "title", this.config.i18n.locator.clearButtonTooltip);
             this._attachLocatorEvents();
             // add graphics layer to map
             graphicsLayer = new GraphicsLayer();

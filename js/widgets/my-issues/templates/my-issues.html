@@ -2,24 +2,16 @@
     <div class="esriCTListHeader esriCTBGColor">
         <div class="esriCTBackButton esriCTPointerCursor" data-dojo-attach-point="listBackButton"></div>
         <div data-dojo-attach-point="listContainerTitle" class="esriCTHeaderText esriCTListHeaderText esriCTEllipsis">
-        </div>
+        ${appConfig.i18n.myIssues.title}</div>
         <div class="esriCTListButtonContainer">
-            <div class="esriCTMapItButton esriCTPointerCursor esriCTIssueWallMapItButton" data-dojo-attach-point="listMapItButton"></div>
-
             <div class="esriCTInfoLoader esriCTBGColor esriCTHidden esriCTLoaderPosition" data-dojo-attach-point="listLoadingIndicator">
                 <div class="esriCTHeaderLoadingIndicator">
                 </div>
             </div>
         </div>
     </div>
-    <div data-dojo-attach-point="listContainer" class="esriCTIssueListContainer">
+    <div data-dojo-attach-point="myIssuesListContainer" class="esriCTMyIssueListContainer">
         <div data-dojo-attach-point="noIssuesMessage" class="esriCTHidden esriCTNoIssueDiv">
-        </div>
-    </div>
-    <div class="esriCTReportButton esriCTPointerCursor" data-dojo-attach-point="submitReport">
-        <div class="esriCTReportButtonContainer">
-            <div class="esriCTReportButtonIcon"></div>
-            <div class="esriCTReportButtonText">${appConfig.i18n.main.submitReportButtonText}</div>
-        </div>
+        ${appConfig.i18n.myIssues.noResultsFound}</div>
     </div>
 </div>

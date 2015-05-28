@@ -1,20 +1,20 @@
 ﻿/*global define,dojo,alert,dojoConfig,console,$, gapi*/
 /*jslint browser:true,sloppy:true,nomen:true,unparam:true,plusplus:true,indent:4 */
 /** @license
-| Copyright 2013 Esri
-|
-| Licensed under the Apache License, Version 2.0 (the "License");
-| you may not use this file except in compliance with the License.
-| You may obtain a copy of the License at
-|
-|    http://www.apache.org/licenses/LICENSE-2.0
-|
-| Unless required by applicable law or agreed to in writing, software
-| distributed under the License is distributed on an "AS IS" BASIS,
-| WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-| See the License for the specific language governing permissions and
-| limitations under the License.
-*/
+ | Copyright 2013 Esri
+ |
+ | Licensed under the Apache License, Version 2.0 (the "License");
+ | you may not use this file except in compliance with the License.
+ | You may obtain a copy of the License at
+ |
+ |    http://www.apache.org/licenses/LICENSE-2.0
+ |
+ | Unless required by applicable law or agreed to in writing, software
+ | distributed under the License is distributed on an "AS IS" BASIS,
+ | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ | See the License for the specific language governing permissions and
+ | limitations under the License.
+ */
 //============================================================================================================================//
 define([
     "config/template-config",
@@ -27,6 +27,7 @@ define([
     "dojo/dom-class",
     "dojo/_base/lang",
     "dojo/on",
+    "dojo/dom",
     "dojo/Deferred",
     "dojo/promise/all",
     "esri/arcgis/Portal",
@@ -39,7 +40,7 @@ define([
     "widgets/sign-in/twitter-helper",
     "dojo/query"
 
-], function (templateConfig, MainTemplate, Main, declare, domConstruct, domStyle, domAttr, domClass, lang, on, Deferred, all, esriPortal, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, IdentityManager, FBHelper, TWHelper, query) {
+], function (templateConfig, MainTemplate, Main, declare, domConstruct, domStyle, domAttr, domClass, lang, on, dom, Deferred, all, esriPortal, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, IdentityManager, FBHelper, TWHelper, query) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         _config: null,
@@ -141,6 +142,14 @@ define([
             }
             if (!this._config.enableGoogleplus) {
                 domClass.add(this.signinGPlusButton, "esriCTHidden");
+            }
+            if (!this._config.enablePortalLogin) {
+                domClass.add(this.signinEsriButton, "esriCTHidden");
+            }
+
+            if (!this._config.enablePortalLogin && !this._config.enableGoogleplus && !this._config.enableTwitter && !this._config.enableFacebook) {
+                domClass.add(this.signinOptions, "esriCTHidden");
+                domClass.add(this.signinOrDiv, "esriCTHidden");
             }
         },
 
@@ -244,7 +253,11 @@ define([
                             //Now process the user details of logged in user
                             this.processUserDetails(loggedInUser);
                         } else {
-                            this.appUtils.showError(this._boilerPlateTemplate.config.i18n.webMapList.noWebMapInGroup);
+                            //Show error message when Group is Empty or no group is configured
+                            this.domNode.style.display = "none";
+                            this.appUtils.hideLoadingIndicator();
+                            domClass.remove(dom.byId("noWebMapParentDiv"), "esriCTHidden");
+                            domAttr.set(dom.byId("noWebMapChildDiv"), "innerHTML", this._boilerPlateTemplate.config.i18n.webMapList.noWebMapInGroup);
                         }
                     }));
 

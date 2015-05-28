@@ -1,20 +1,20 @@
 ﻿/*global define,dojo,dojoConfig,alert */
 /*jslint browser:true,sloppy:true,nomen:true,unparam:true,plusplus:true,indent:4 */
 /*
-| Copyright 2014 Esri
-|
-| Licensed under the Apache License, Version 2.0 (the "License");
-| you may not use this file except in compliance with the License.
-| You may obtain a copy of the License at
-|
-|    http://www.apache.org/licenses/LICENSE-2.0
-|
-| Unless required by applicable law or agreed to in writing, software
-| distributed under the License is distributed on an "AS IS" BASIS,
-| WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-| See the License for the specific language governing permissions and
-| limitations under the License.
-*/
+ | Copyright 2014 Esri
+ |
+ | Licensed under the Apache License, Version 2.0 (the "License");
+ | you may not use this file except in compliance with the License.
+ | You may obtain a copy of the License at
+ |
+ |    http://www.apache.org/licenses/LICENSE-2.0
+ |
+ | Unless required by applicable law or agreed to in writing, software
+ | distributed under the License is distributed on an "AS IS" BASIS,
+ | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ | See the License for the specific language governing permissions and
+ | limitations under the License.
+ */
 //============================================================================================================================//
 define([
     "dojo/_base/declare",
@@ -76,25 +76,34 @@ define([
             //set application logo
             this._setApplicationLogo();
 
-            // create mobile menu
-            this.mobileMenu = new MobileMenu({ "config": this.config, "appConfig": this.appConfig }, domConstruct.create("div", {}, dom.byId("mobileMenuContainer")));
-            this.mobileMenu.onMyIssuesClicked = lang.hitch(this, function () { this._animateMenuContainer(); this._showMyIssuesClicked(); });
-            this.mobileMenu.onSignInClicked = lang.hitch(this, function () { this._animateMenuContainer(); this._signInClicked(); });
-            this.mobileMenu.onSignOutClicked = lang.hitch(this, function () { this._animateMenuContainer(); this._signOutClicked(); });
-            this.mobileMenu.onHelpClicked = lang.hitch(this, function () { this._animateMenuContainer(); this._helpClicked(); });
+            // if facebook/twitter/googleplus/agol login is enabled in configuration then only
+            if (this.appConfig && (this.appConfig.enableFacebook || this.appConfig.enableTwitter || this.appConfig.enableGoogleplus || this.appConfig.enablePortalLogin)) {
+                //set header menus based on configuration
+                // create mobile menu
+                this.mobileMenu = new MobileMenu({ "config": this.config, "appConfig": this.appConfig }, domConstruct.create("div", {}, dom.byId("mobileMenuContainer")));
+                this.mobileMenu.onMyIssuesClicked = lang.hitch(this, function () { this._animateMenuContainer(); this._showMyIssuesClicked(); });
+                this.mobileMenu.onSignInClicked = lang.hitch(this, function () { this._animateMenuContainer(); this._signInClicked(); });
+                this.mobileMenu.onSignOutClicked = lang.hitch(this, function () { this._animateMenuContainer(); this._signOutClicked(); });
+                this.mobileMenu.onHelpClicked = lang.hitch(this, function () { this._animateMenuContainer(); this._helpClicked(); });
 
 
-            //handle mobile menu events
-            on(this.mobileMenuBurger, "click", lang.hitch(this, this._animateMenuContainer));
-            on(this.myIssueButton, "click", lang.hitch(this, this._showMyIssuesClicked));
-            on(this.signOutButton, "click", lang.hitch(this, this._signOutClicked));
-            on(this.helpButton, "click", lang.hitch(this, this._helpClicked));
+                //handle mobile menu events
+                on(this.mobileMenuBurger, "click", lang.hitch(this, this._animateMenuContainer));
+                on(this.myIssueButton, "click", lang.hitch(this, this._showMyIssuesClicked));
+                on(this.signOutButton, "click", lang.hitch(this, this._signOutClicked));
+                on(this.helpButton, "click", lang.hitch(this, this._helpClicked));
 
-            //set header menus based on configuration
-            this._setAppHeaderMenu();
+                this._setAppHeaderMenu();
+                // Show the sign in button
+                domClass.remove(this.userControlContainer, "esriCTHidden");
 
-            //handel signin/logged_in_userName clicked
-            on(this.esriCTLoginCredentialsDiv, "click", lang.hitch(this, this._toggleLoginOptionsVisibility));
+                //handel signin/logged_in_userName clicked
+                on(this.esriCTLoginCredentialsDiv, "click", lang.hitch(this, this._toggleLoginOptionsVisibility));
+            } else {
+                if (domClass.contains(this.mobileIcons, "esriCTMobileIcons")) {
+                    domClass.replace(this.mobileIcons, "esriCTHidden", "esriCTMobileIcons");
+                }
+            }
         },
 
         /**
@@ -193,6 +202,8 @@ define([
         _setAppHeaderMenu: function () {
             if (this.appConfig && this.appConfig.logInDetails && this.appConfig.logInDetails.userName) {
                 domAttr.set(this.esriCTLoginUserNameDiv, "innerHTML", this.appConfig.logInDetails.userName);
+                domAttr.set(this.esriCTLoginUserNameDiv, "title", "");
+                domClass.remove(this.myIssueButton, "esriCTHidden");
                 domClass.remove(this.signOutButton, "esriCTHidden");
                 domClass.remove(this.caretIcon, "esriCTHidden");
             }
@@ -255,8 +266,8 @@ define([
         * This function is used to show the configured help text.
         * @memberOf widgets/app-header/app-header
         */
-        _helpClicked: function () {
-            alert("Comming Soon"); //WIP: in sprint3
+        _helpClicked: function (evt) {
+            return evt;
         },
 
         /**
@@ -268,7 +279,9 @@ define([
                 lang.mixin(this.config, menuList);
             }
             this._setAppHeaderMenu();
-            this.mobileMenu.updateMenuList(menuList);
+            if (this.mobileMenu) {
+                this.mobileMenu.updateMenuList(menuList);
+            }
         },
 
 

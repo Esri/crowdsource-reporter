@@ -7,12 +7,12 @@
         <div class="esriCTMenuTabRight">
             <div data-dojo-attach-point="applicationHeaderWidgetsContainer">
                 <div class="esriCTDesktopIcons">
-                    <div class="esriCTUserControlContainer esriCTFloatLeft">
+                    <div class="esriCTUserControlContainer esriCTFloatLeft esriCTHidden" data-dojo-attach-point="userControlContainer">
                         <div data-dojo-attach-point="esriCTLoginDetailsDiv">
                             <div class="esriCTLoginCredentialsDiv esriCTApplicationColor esriCTFloatLeft" data-dojo-attach-point="esriCTLoginCredentialsDiv">
                                 <div class="esriCTFloatLeft" style="width: 100%;">
                                     <div class="esriCTLoginUserNameDiv esriCTPointerCursor" data-dojo-attach-point="esriCTLoginUserNameDiv" title="${i18n.signInTooltip}">
-                                    ${i18n.signIn}
+                                        ${i18n.signIn}
                                     </div>
                                     <div class="esriCTCaretIcon  esriCTPointerCursor esriCTHidden" data-dojo-attach-point="caretIcon">&#9660;</div>
                                 </div>
@@ -31,7 +31,7 @@
                     </div>
                     <div class="esriCTBGColor esriCTPointerCursor  esriCTHidden" data-dojo-attach-point="helpButton" title="${i18n.helpTooltip}"></div>
                 </div>
-                <div class="esriCTMobileIcons">
+                <div class="esriCTMobileIcons" data-dojo-attach-point="mobileIcons">
                     <div data-dojo-attach-point="mobileMenuBurger" class="esriCTMobileBurgerIcon">
                         <span></span>
                     </div>
