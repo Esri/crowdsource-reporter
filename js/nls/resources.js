@@ -25,7 +25,8 @@ define({
         main: {
             noGroup: "No group configured", // Shown when no group is configured in the configuration file
             submitReportButtonText: "Submit a report", //Submit report  text for buttons on map and list
-            gotoListViewTooltip:"List View"
+            gotoListViewTooltip: "List View", // Go to List view tooltip text
+            noFeatureGeomtery: "Feature have no geometry to display" // Error message when geomtery is not available
         },
         signin: {
             guestSigninText: "Proceed as Guest", // Shown in the 'Sign in' page below the icon for accessing application as an anonymous user
@@ -103,7 +104,8 @@ define({
             invalidSearch: "No results found", // Shown in the address container when no results are returned on performing unified search
             locatorPlaceholder: "Enter address to search", // Shown in the address container textbox as a placeholder
             locationOutOfExtent: "Located address is out of basemap extent", // Shown as an alert when the selected address in the search result is out of basemap extent
-            searchButtonTooltip: "Search" // Tooltip for search button
+            searchButtonTooltip: "Search", // Tooltip for search button
+            clearButtonTooltip: "Clear Search" // Tooltip for Geocoder clear button 
         },
         myIssues: {
             title: "My Reports", // Shown as a title in 'My issues' panel
@@ -120,8 +122,8 @@ define({
             mapButtonLabel: "View on Map", // Command button shown in details panel
             mapButtonTooltip: "View this on map", // Tooltip for command button shown in details panel
             commentsListHeading: "Comments", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "Unable to Update the Feature", // Error message for feature unable to update
-            gotoIssueListTooltip: "Go To Issue List" // Tooltip for back icon in Issue list header
+            unableToUpdateVoteField: "Your vote cannot be added at this time.", // Error message for feature unable to update
+            gotoIssueListTooltip: "Go To List" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
             likesForThisItemTooltip: "Votes for this"//Shown on hovering of the like icon in my-issues and issue-wall
@@ -129,7 +131,7 @@ define({
         comment: {
             commentsFormText: "Comment",//
             commentsFormSubmitButton: "Submit Comment",//
-            commentsFormCancelButton:"Cancel",//
+            commentsFormCancelButton: "Cancel",//
             errorInSubmittingComment: "Comment could not be submitted.", // Shown when user is unable to add comments
             emptyCommentMessage: "Please enter comment.", // Shown when user submits a comment without any text/character
             placeHolderText: "Type a comment", // Shown as a placeholder in comments textbox
@@ -138,7 +140,7 @@ define({
             showNoText: "No" // Shown when comments character limit is exceeded
         },
         gallery: {
-            galleryHeaderText:"Gallery",
+            galleryHeaderText: "Gallery",
             noAttachmentsAvailableText: "No attachments found" // Shown when no comments are available for the selected issue
         }
     }),

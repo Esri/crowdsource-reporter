@@ -24,7 +24,8 @@ define(({
     main: {
         noGroup: "No group configured",
         submitReportButtonText: "Submit a report",
-        gotoListViewTooltip: "List View"
+        gotoListViewTooltip: "List View",
+        noFeatureGeomtery: "Feature have no geometry to display"
     },
     signin: {
         guestSigninText: "Proceed as Guest",
@@ -101,7 +102,8 @@ define(({
         invalidSearch: "No results found",
         locatorPlaceholder: "Enter address to search",
         locationOutOfExtent: "Located address is out of basemap extent",
-        searchButtonTooltip: "Search"
+        searchButtonTooltip: "Search",
+        clearButtonTooltip: "Clear Search"
     },
     myIssues: {
         title: "My Reports",
@@ -129,8 +131,8 @@ define(({
         mapButtonLabel: "View on Map",
         mapButtonTooltip: "View this on map",
         commentsListHeading: "Comments",
-        unableToUpdateVoteField: "Unable to Update the Feature",
-        gotoIssueListTooltip: "Go To Issue List"
+        unableToUpdateVoteField: "Your vote cannot be added at this time.",
+        gotoIssueListTooltip: "Go To List"
     },
     itemList: {
         likesForThisItemTooltip: "Votes for this"

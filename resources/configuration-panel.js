@@ -7,6 +7,7 @@
         "enableFacebook": false,
         "facebookAppId": "",
         "enableTwitter": false,
+        "enablePortalLogin": true,
         "enableGoogleplus": false,
         "googleplusClientId": "",
         "applicationName": "",
@@ -59,6 +60,12 @@
                     "fieldName": "enableTwitter",
                     "label": "Allow users to sign in using Twitter",
                     "tooltip": "Enable to allow users to sign in using their Twitter credentials"
+                },
+                {
+                    "type": "boolean",
+                    "fieldName": "enablePortalLogin",
+                    "label": "Allow users to sign in using ArcGIS Online",
+                    "tooltip": "Enable to allow users to sign in using their ArcGIS Online credentials"
                 },
                 {
                     "type": "boolean",

@@ -51,6 +51,7 @@ define({
     "enableFacebook": false,
     "enableTwitter": false,
     "enableGoogleplus": false,
+    "enablePortalLogin": true,
 
     "facebookAppId": "",
 
@@ -86,5 +87,5 @@ define({
     "enableMGRSSearch": false,
     "enableLatLongSearch": false,
     //Lower level configuration
-    "submitReportButtonColor": "#35ac46", //Color for Submit Report button.If EMPTY default color will be  #35ac46.
+    "submitReportButtonColor": "#35ac46" //Color for Submit Report button.If EMPTY default color will be  #35ac46.
 });
