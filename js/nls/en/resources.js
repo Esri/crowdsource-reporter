@@ -29,6 +29,7 @@ define(({
     },
     signin: {
         guestSigninText: "Proceed as Guest",
+        signInOrText: "Or",
         signinOptionsText: "Sign in with:",
         noGroupNameText: "Please sign in",
         guestLoginTooltip: "Sign in as a guest",

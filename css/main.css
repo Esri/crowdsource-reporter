@@ -443,6 +443,18 @@ html, body
     display: inline-block;
 }
 
+.esriCTOrdiv
+{
+    background-color: #fff;
+    padding: 10px;
+    padding-bottom: 8px;
+    padding-top: 9px;
+    border-radius: 16px;
+    text-shadow: none;
+    max-width: 100px;
+    display: inline-block;
+}
+
 .esriCTSigninGuestBtnCaption
 {
     color: #fff;

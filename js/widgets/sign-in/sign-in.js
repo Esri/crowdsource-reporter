@@ -103,6 +103,8 @@ define([
                 domStyle.set(this.signinBgImage, "backgroundImage", 'url(' + dojoConfig.baseURL + this._config.signInBackgroundImage + ')');
             }
 
+            domAttr.set(this.signinOrText, "innerHTML", this._config.i18n.signin.signInOrText);
+            domAttr.set(this.signinOrText, "title", this._config.i18n.signin.signInOrText);
             domAttr.set(this.signinGuestButton, "title", this._config.i18n.signin.guestLoginTooltip);
             domAttr.set(this.signinFBButton, "title", this._config.i18n.signin.facebookLoginTooltip);
             domAttr.set(this.signinTwitterButton, "title", this._config.i18n.signin.twitterLoginTooltip);

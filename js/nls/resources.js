@@ -30,6 +30,7 @@ define({
         },
         signin: {
             guestSigninText: "Proceed as Guest", // Shown in the 'Sign in' page below the icon for accessing application as an anonymous user
+            signInOrText: "Or", // Or text on sign in screen
             signinOptionsText: "Sign in with:", // Shown in the 'Sign in' page above the icons for social media sign in
             noGroupNameText: "Please sign in", // Shown when the group title is not available or the group is private
             guestLoginTooltip: "Sign in as a guest", // Command button to access the application as an anonymous user
