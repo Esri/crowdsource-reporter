@@ -17,129 +17,130 @@
 define(({
     map: {
         error: "Unable to create map",
-        zoomInTooltip: "Zoom In",
-        zoomOutTooltip: "Zoom Out",
-        geolocationTooltip: "Geolocation"
+        zoomInTooltip: "Zoom in",
+        zoomOutTooltip: "Zoom out",
+        geolocationTooltip: "Current location"
     },
     main: {
         noGroup: "No group configured",
         submitReportButtonText: "Submit a report",
-        gotoListViewTooltip: "List View",
-        noFeatureGeomtery: "Feature have no geometry to display"
+        gotoListViewTooltip: "List view",
+        noFeatureGeomtery: "Feature cannot be displayed"
     },
     signin: {
         guestSigninText: "Proceed as Guest",
         signInOrText: "Or",
-        signinOptionsText: "Sign in with:",
-        noGroupNameText: "Please sign in",
-        guestLoginTooltip: "Sign in as a guest",
-        facebookLoginTooltip: "Sign in with Facebook",
-        twitterLoginTooltip: "Sign in with Twitter",
-        googlePlusLoginTooltip: "Sign in with Google+",
+        signinOptionsText: "Sign in with:", 
+        noGroupNameText: "Please sign in", 
+        guestLoginTooltip: "Sign in as a guest", 
+        facebookLoginTooltip: "Sign in with Facebook", 
+        twitterLoginTooltip: "Sign in with Twitter", 
+        googlePlusLoginTooltip: "Sign in with Google+", 
         agolLoginTooltip: "Sign in with ArcGIS"
     },
     webMapList: {
         owner: "Owner",
-        created: "Created",
-        modified: "Modified",
+        created: "Date dreated",
+        modified: "Date modified",
         description: "Description",
         snippet: "Summary",
         licenseInfo: "Access and use constraints",
-        accessInformation: "Credits",
-        tags: "Tags",
+        accessInformation: "Credits", 
+        tags: "Tags", 
         numViews: "Number of views",
-        avgRating: "Rating",
+        avgRating: "Rating", 
         noWebMapInGroup: "Configured group is invalid or no items have been shared with this group yet.",
-        infoBtnToolTip: "Map Information"
+        infoBtnToolTip: "Map information"
     },
     issueWall: {
-        noResultsFound: "No reports found in the current map area",
-        gotoWebmapListTooltip: "Go To Webmap List",
-        gotoMapViewTooltip: "Map View"
+        noResultsFound: "No reports available in the current area",
+        gotoWebmapListTooltip: "Go to main list", 
+        gotoMapViewTooltip: "Map view" 
     },
     appHeader: {
         myReport: "My Reports",
-        signIn: "Sign in",
-        signOut: "Sign out",
-        help: "Help",
-        signInTooltip: "Sign In",
-        signOutTooltip: "Sign Out",
-        myReportTooltip: "My Reports",
+        signIn: "Sign In", 
+        signOut: "Sign Out", 
+        help: "Help", 
+        signInTooltip: "Sign in", 
+        signOutTooltip: "Sign out", 
+        myReportTooltip: "View reports submitted by me", 
         helpTooltip: "Help"
     },
     geoform: {
-        enterInformation: "Details",
-        selectAttachments: "Attachments",
-        selectFileText: "Browse",
-        enterLocation: "Location",
-        reportItButton: "Report It",
-        cancelButton: "Cancel",
-        requiredField: "(required)",
-        selectDefaultText: "Select&hellip;",
-        invalidInputValue: "Please enter valid value.",
+        enterInformation: "Details", 
+        selectAttachments: "Attachments", 
+        selectFileText: "Browse", 
+        enterLocation: "Location", 
+        reportItButton: "Report It", 
+        cancelButton: "Cancel", 
+        requiredField: "(required)", 
+        selectDefaultText: "Select&hellip;", 
+        invalidInputValue: "Please enter valid value.", 
         noFieldsConfiguredMessage: "Layer fields are not configured to capture data",
-        invalidSmallNumber: "Please enter valid ${openStrong}integer${closeStrong} value between -32768 and 32767.",
-        invalidNumber: "Please enter valid ${openStrong}integer${closeStrong} value between -2147483648 and 2147483647.",
-        invalidFloat: "Please enter valid ${openStrong}floating point${closeStrong} value between -3.4E38 and 1.2E38 ",
-        invalidDouble: "Please enter valid ${openStrong}double${closeStrong} value between -2.2E308 and 1.8E308",
-        requiredFields: "Please enter all the required fields",
-        selectLocation: "Please select a location for your submission.",
+        invalidSmallNumber: "Please enter an integer", 
+        invalidNumber: "Please enter an integer",
+        invalidFloat: "Please enter a number", 
+        invalidDouble: "Please enter a number", 
+        requiredFields: "Please provide values for all required fields", 
+        selectLocation: "Please select the location for your report", 
         numericRangeHintMessage: "${openStrong}Hint:${closeStrong} Minimum value ${minValue} and Maximum value ${maxValue}",
         dateRangeHintMessage: "${openStrong}Hint:${closeStrong} Minimum Date ${minValue} and Maximum Date ${maxValue}",
-        errorsInApplyEdits: "Issue could not be reported.",
-        attachmentSelectedMsg: "Attachment(s) selected",
-        attachmentUploadStatus: "${failed} of ${total} attachment(s) failed to upload.",
+        errorsInApplyEdits: "Issue could not be reported", 
+        attachmentSelectedMsg: "attachment(s) selected",
+        attachmentUploadStatus: "${failed} of ${total} attachment(s) failed to upload",
         geoLocationError: "Current location not available",
         geoLocationOutOfExtent: "Current location is out of basemap extent",
-        submitButtonTooltip: "Report It",
+        submitButtonTooltip: "Report It", 
         cancelButtonTooltip: "Cancel",
-        geoformBackButtonTooltip: "Go To Issue List"
+        geoformBackButtonTooltip: "Go to the report list" 
+
     },
     locator: {
-        addressText: "Address:",
-        usngText: "USNG",
-        mgrsText: "MGRS",
-        latLongText: "Latitude/Longitude",
-        invalidSearch: "No results found",
-        locatorPlaceholder: "Enter address to search",
+        addressText: "Address:", 
+        usngText: "USNG", 
+        mgrsText: "MGRS", 
+        latLongText: "Latitude/Longitude", 
+        invalidSearch: "No results found", 
+        locatorPlaceholder: "Enter an address to search",
         locationOutOfExtent: "Located address is out of basemap extent",
         searchButtonTooltip: "Search",
-        clearButtonTooltip: "Clear Search"
+        clearButtonTooltip: "Clear search value" 
     },
     myIssues: {
-        title: "My Reports",
-        myIssuesTooltip: "My Reports",
-        noResultsFound: "No reports found"
+        title: "My Reports", 
+        myIssuesTooltip: "My Reports", 
+        noResultsFound: "No reports found" 
+    },
+    itemDetails: { 
+        likeButtonLabel: "Like", 
+        likeButtonTooltip: "Vote for this report",  
+        commentButtonLabel: "Comment", 
+        commentButtonTooltip: "Comment on this report", 
+        galleryButtonLabel: "Gallery", 
+        galleryButtonTooltip: "See attached documents", 
+        mapButtonLabel: "View on Map", 
+        mapButtonTooltip: "View the location of this report", 
+        commentsListHeading: "Comments", 
+        unableToUpdateVoteField: "Your vote cannot be added at this time.", 
+        gotoIssueListTooltip: "Go to the report list" 
+    },
+    itemList: {  
+        likesForThisItemTooltip: "Votes for this report"
     },
     comment: {
         commentsFormText: "Comment",
         commentsFormSubmitButton: "Submit Comment",
         commentsFormCancelButton: "Cancel",
         errorInSubmittingComment: "Comment could not be submitted.",
-        emptyCommentMessage: "Please enter comment.",
-        placeHolderText: "Type a comment",
-        noCommentsAvailableText: "No comments available",
-        remainingTextCount: "${0} character(s) remain",
-        showNoText: "No"
-    },
-    itemDetails: {
-        likeButtonLabel: "Like",
-        likeButtonTooltip: "Vote for this",
-        commentButtonLabel: "Comment",
-        commentButtonTooltip: "Add a comment about this",
-        galleryButtonLabel: "Gallery",
-        galleryButtonTooltip: "See attached photos for this",
-        mapButtonLabel: "View on Map",
-        mapButtonTooltip: "View this on map",
-        commentsListHeading: "Comments",
-        unableToUpdateVoteField: "Your vote cannot be added at this time.",
-        gotoIssueListTooltip: "Go To List"
-    },
-    itemList: {
-        likesForThisItemTooltip: "Votes for this"
+        emptyCommentMessage: "Please enter a comment.", 
+        placeHolderText: "Type a comment", 
+        noCommentsAvailableText: "No comments available", 
+        remainingTextCount: "${0} character(s) remain", 
+        showNoText: "No" 
     },
     gallery: {
         galleryHeaderText: "Gallery",
-        noAttachmentsAvailableText: "No attachments found"
+        noAttachmentsAvailableText: "No attachments found" 
     }
 }));
