@@ -127,7 +127,7 @@ define({
             gotoIssueListTooltip: "Go to the report list" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Votes for this report "//Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Votes for this report" //Shown on hovering of the like icon in my-issues and issue-wall
         },
         comment: {
             commentsFormText: "Comment",
