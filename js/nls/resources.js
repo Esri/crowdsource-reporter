@@ -93,7 +93,7 @@ define({
             geoLocationError: "Current location not available",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "Current location is out of basemap extent",  // Shown when the current geographical position is out of the basemap extent
             submitButtonTooltip: "Report It", // Command button to open the geoform
-            cancelButtonTooltip: "Cancel",//tooltip for cancel button
+            cancelButtonTooltip: "Cancel", //tooltip for cancel button
             geoformBackButtonTooltip: "Go to the report list" //tooltip for Geoform back button
 
         },
@@ -106,7 +106,7 @@ define({
             locatorPlaceholder: "Enter an address to search", // Shown in the address container textbox as a placeholder
             locationOutOfExtent: "Located address is out of basemap extent", // Shown as an alert when the selected address in the search result is out of basemap extent
             searchButtonTooltip: "Search", // Tooltip for search button
-            clearButtonTooltip: "Clear search value" // Tooltip for Geocoder clear button 
+            clearButtonTooltip: "Clear search value" // Tooltip for Geocoder clear button
         },
         myIssues: {
             title: "My Reports", // Shown as a title in 'My issues' panel
@@ -127,12 +127,12 @@ define({
             gotoIssueListTooltip: "Go to the report list" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Votes for this report"//Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Votes for this report "//Shown on hovering of the like icon in my-issues and issue-wall
         },
         comment: {
-            commentsFormText: "Comment",//
-            commentsFormSubmitButton: "Submit Comment",//
-            commentsFormCancelButton: "Cancel",//
+            commentsFormText: "Comment",
+            commentsFormSubmitButton: "Submit Comment",
+            commentsFormCancelButton: "Cancel",
             errorInSubmittingComment: "Comment could not be submitted.", // Shown when user is unable to add comments
             emptyCommentMessage: "Please enter a comment.", // Shown when user submits a comment without any text/character
             placeHolderText: "Type a comment", // Shown as a placeholder in comments textbox
