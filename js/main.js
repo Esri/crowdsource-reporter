@@ -404,7 +404,7 @@ define([
                     } else if (selectedFeature.layerId !== this._selectedMapDetails.operationalLayerDetails.id) {
                         data.operationalLayerDetails = selectedFeature.layerDetails;
                         data.operationalLayerId = selectedFeature.layerId;
-                        //add layer to map if feature is not belongs to selected layer of selected map
+                        //add layer to map if feature doesn't belongs to selected layer of selected map
                         this._addFeatureLayerOnMap(data);
                     } else {
                         this.appUtils.hideLoadingIndicator();
