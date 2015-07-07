@@ -207,7 +207,7 @@ define([
                 if (!userDetails.credential) {
                     userDetails.processedUserName = userDetails.uniqueID;
                 } else {
-                    userDetails.processedUserName = userDetails.orgId + userDetails.credential.userId;
+                    userDetails.processedUserName =userDetails.credential.userId;
                 }
                 this.isUserLoggedIn = true;
                 this.onLogIn(userDetails);
