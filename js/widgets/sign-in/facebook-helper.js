@@ -52,9 +52,9 @@ define([
         * @memberOf widgets/sign-in/facebook-helper
         */
         fbAsyncInit: function () {
-            FB.Event.subscribe("auth.login", this.getFbloginResponse);
-            FB.Event.subscribe("auth.statusChange", this.getFbloginResponse);
-            FB.Event.subscribe("auth.logout", this.getFbloginResponse);
+            FB.Event.subscribe("auth.login", lang.hitch(this, this.getFbloginResponse));
+            FB.Event.subscribe("auth.statusChange", lang.hitch(this, this.getFbloginResponse));
+            FB.Event.subscribe("auth.logout", lang.hitch(this, this.getFbloginResponse));
             FB.init({
                 appId: this._config.facebookAppId,
                 cookie: true,  // enable cookies to allow the server to access the session
