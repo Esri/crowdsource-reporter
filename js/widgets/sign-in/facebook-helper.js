@@ -60,7 +60,7 @@ define([
                 cookie: true,  // enable cookies to allow the server to access the session
                 xfbml: true,   // parse social plugins on this page such as Login
                 status: true,  // check login status
-                version: "v2.2"
+                version: "v2.3"
             });
             this.facebookLoginHandler();
         },
