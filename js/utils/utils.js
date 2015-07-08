@@ -16,6 +16,7 @@
 | limitations under the License.
 */
 define([
+    "dojo/_base/declare",
     "dojo/dom",
     "dojo/_base/fx",
     "dojo/_base/lang",
@@ -25,8 +26,10 @@ define([
     "dojo/dom-attr",
     "dojo/on",
     "dojo/query",
+    "dijit/_WidgetBase",
     "esri/dijit/LocateButton"
 ], function (
+    declare,
     dom,
     coreFx,
     lang,
@@ -36,9 +39,10 @@ define([
     domAttr,
     on,
     query,
+    _WidgetBase,
     LocateButton
 ) {
-    return {
+    return declare([_WidgetBase], {
         showLoadingIndicator: function () {
             domClass.add(document.body, "app-loading");
         },
@@ -57,8 +61,8 @@ define([
 
         showErrorScreen: function (message) {
             domClass.add(dom.byId("layoutContainer"), "esriCTHidden");
-            domClass.remove(dom.byId("esriCTNoWebMapParentDiv"), "esriCTHidden");
-            domAttr.set(dom.byId("esriCTNoWebMapChildDiv"), "innerHTML", message);
+            domClass.remove(dom.byId("noWebMapParentDiv"), "esriCTHidden");
+            domAttr.set(dom.byId("noWebMapChildDiv"), "innerHTML", message);
         },
 
         /**
@@ -143,12 +147,11 @@ define([
         * Create geolocation button on the map
         * @memberOf utils/utils
         */
-        createGeoLocationButton: function (basemapLayers, map, mapId, addGraphic) {
+        createGeoLocationButton: function (basemapLayers, map, parentNode, addGraphic) {
             var currentLocation, createLocationDiv;
             // create geolocation div
-            createLocationDiv = domConstruct.create("div", { "class": "esriCTBGColor esriCTLocationButton" });
-            domConstruct.place(createLocationDiv, query(".esriSimpleSliderDecrementButton", mapId)[0], "after");
-            domAttr.set(createLocationDiv, "title", dojo.configData.i18n.map.geolocationTooltip);
+            createLocationDiv = domConstruct.create("div", { "class": "esriCTLocationButton" }, parentNode);
+            domAttr.set(createLocationDiv, "title", this.config.i18n.map.geolocationTooltip);
             // initialize object of locate button
             currentLocation = new LocateButton({
                 map: map,
@@ -193,5 +196,5 @@ define([
         onGeolocationComplete: function (event, addGraphic) {
             return event;
         }
-    };
+    });
 });

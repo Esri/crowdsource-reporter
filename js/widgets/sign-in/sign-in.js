@@ -1,26 +1,25 @@
 ﻿/*global define,dojo,alert,dojoConfig,console,$, gapi*/
 /*jslint browser:true,sloppy:true,nomen:true,unparam:true,plusplus:true,indent:4 */
 /** @license
-| Copyright 2013 Esri
-|
-| Licensed under the Apache License, Version 2.0 (the "License");
-| you may not use this file except in compliance with the License.
-| You may obtain a copy of the License at
-|
-|    http://www.apache.org/licenses/LICENSE-2.0
-|
-| Unless required by applicable law or agreed to in writing, software
-| distributed under the License is distributed on an "AS IS" BASIS,
-| WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-| See the License for the specific language governing permissions and
-| limitations under the License.
-*/
+ | Copyright 2013 Esri
+ |
+ | Licensed under the Apache License, Version 2.0 (the "License");
+ | you may not use this file except in compliance with the License.
+ | You may obtain a copy of the License at
+ |
+ |    http://www.apache.org/licenses/LICENSE-2.0
+ |
+ | Unless required by applicable law or agreed to in writing, software
+ | distributed under the License is distributed on an "AS IS" BASIS,
+ | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ | See the License for the specific language governing permissions and
+ | limitations under the License.
+ */
 //============================================================================================================================//
 define([
     "config/template-config",
     "application/template",
     "application/main",
-    "application/utils/utils",
     "dojo/_base/declare",
     "dojo/dom-construct",
     "dojo/dom-style",
@@ -28,6 +27,7 @@ define([
     "dojo/dom-class",
     "dojo/_base/lang",
     "dojo/on",
+    "dojo/dom",
     "dojo/Deferred",
     "dojo/promise/all",
     "esri/arcgis/Portal",
@@ -40,7 +40,7 @@ define([
     "widgets/sign-in/twitter-helper",
     "dojo/query"
 
-], function (templateConfig, MainTemplate, Main, ApplicationUtils, declare, domConstruct, domStyle, domAttr, domClass, lang, on, Deferred, all, esriPortal, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, IdentityManager, FBHelper, TWHelper, query) {
+], function (templateConfig, MainTemplate, Main, declare, domConstruct, domStyle, domAttr, domClass, lang, on, dom, Deferred, all, esriPortal, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, IdentityManager, FBHelper, TWHelper, query) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         _config: null,
@@ -54,13 +54,21 @@ define([
         * @param{object} config to be used
         * @memberOf widgets/sign-in/sign-in
         */
-        startup: function (boilerPlateTemplateObject) {
+        startup: function (boilerPlateTemplateObject, appUtils) {
+            var loadGPApi;
             this._boilerPlateTemplate = boilerPlateTemplateObject;
             this._config = boilerPlateTemplateObject.config;
-            dojo.applicationUtils = ApplicationUtils;
+            this.appUtils = appUtils;
             this.inherited(arguments);
             this._createLoginScreenUI();
-            this._handleEvents();
+            if (this._config.enableGoogleplus) {
+                loadGPApi = $.getScript("https://apis.google.com/js/client:platform.js?onload=render");
+            }
+            if (loadGPApi && loadGPApi.readyState) {
+                this._handleEvents();
+            } else {
+                this._handleEvents();
+            }
         },
 
         /**
@@ -79,6 +87,7 @@ define([
             } else {
                 applicationName = this._config.i18n.signin.noGroupNameText;
             }
+            document.title = applicationName;
             domAttr.set(this.signinContainerName, "innerHTML", applicationName);
             if (this._config.signInSubtitle) {
                 domAttr.set(this.signinContainerText, "innerHTML", this._config.signInSubtitle);
@@ -94,6 +103,8 @@ define([
                 domStyle.set(this.signinBgImage, "backgroundImage", 'url(' + dojoConfig.baseURL + this._config.signInBackgroundImage + ')');
             }
 
+            domAttr.set(this.signinOrText, "innerHTML", this._config.i18n.signin.signInOrText);
+            domAttr.set(this.signinOrText, "title", this._config.i18n.signin.signInOrText);
             domAttr.set(this.signinGuestButton, "title", this._config.i18n.signin.guestLoginTooltip);
             domAttr.set(this.signinFBButton, "title", this._config.i18n.signin.facebookLoginTooltip);
             domAttr.set(this.signinTwitterButton, "title", this._config.i18n.signin.twitterLoginTooltip);
@@ -133,6 +144,14 @@ define([
             }
             if (!this._config.enableGoogleplus) {
                 domClass.add(this.signinGPlusButton, "esriCTHidden");
+            }
+            if (!this._config.enablePortalLogin) {
+                domClass.add(this.signinEsriButton, "esriCTHidden");
+            }
+
+            if (!this._config.enablePortalLogin && !this._config.enableGoogleplus && !this._config.enableTwitter && !this._config.enableFacebook) {
+                domClass.add(this.signinOptions, "esriCTHidden");
+                domClass.add(this.signinOrDiv, "esriCTHidden");
             }
         },
 
@@ -183,17 +202,12 @@ define([
         processUserDetails: function (userDetails) {
             //if user already not logged in and user information's not exist
             if (!this.isUserLoggedIn) {
-                //If userDetails have Valid email then use email as processUserName or use the uniqueID
-                if (userDetails.email && userDetails.email !== "") {
-                    userDetails.processedUserName = userDetails.email;
+                //Check if it is AGOL Login or Social Media Login
+                //In Case of AGOL Login construct uniqueId with OrgID + UserID
+                if (!userDetails.credential) {
+                    userDetails.processedUserName = userDetails.uniqueID;
                 } else {
-                    //Check if it is AGOL Login or Social Media Login
-                    //In Case of AGOL Login construct uniqueId with OrgID + UserID
-                    if (!userDetails.credential) {
-                        userDetails.processedUserName = userDetails.uniqueID;
-                    } else {
-                        userDetails.processedUserName = userDetails.orgId + userDetails.credential.userId;
-                    }
+                    userDetails.processedUserName =userDetails.credential.userId;
                 }
                 this.isUserLoggedIn = true;
                 this.onLogIn(userDetails);
@@ -236,13 +250,17 @@ define([
                             //Now process the user details of logged in user
                             this.processUserDetails(loggedInUser);
                         } else {
-                            dojo.applicationUtils.showError(this._boilerPlateTemplate.config.i18n.webMapList.noWebMapInGroup);
+                            //Show error message when Group is Empty or no group is configured
+                            this.domNode.style.display = "none";
+                            this.appUtils.hideLoadingIndicator();
+                            domClass.remove(dom.byId("noWebMapParentDiv"), "esriCTHidden");
+                            domAttr.set(dom.byId("noWebMapChildDiv"), "innerHTML", this._boilerPlateTemplate.config.i18n.webMapList.noWebMapInGroup);
                         }
                     }));
 
                 }), function (e) {
                     if (e.message !== "ABORTED") {
-                        dojo.applicationUtils.showError(e.message);
+                        this.appUtils.showError(e.message);
                     }
                 });
             }));
@@ -319,13 +337,12 @@ define([
                             'userId': 'me'
                         });
                         request.execute(lang.hitch(this, function (resp) {
-                            var userDetails = { fullName: null, firstName: null, lastName: null, uniqueID: null, email: null, socialMediaType: null };
+                            var userDetails = { fullName: null, firstName: null, lastName: null, uniqueID: null, socialMediaType: null };
                             // if emails exist in response object
                             if (resp.emails) {
                                 userDetails.fullName = resp.displayName || "";
                                 userDetails.firstName = resp.name.givenName;
                                 userDetails.lastName = resp.name.familyName;
-                                userDetails.email = resp.emails[0].value;
                                 userDetails.uniqueID = resp.id;
                                 userDetails.socialMediaType = "googleplus";
                                 this.processUserDetails(userDetails);

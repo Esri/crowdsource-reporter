@@ -1,21 +1,20 @@
 ﻿/*global define,require,alert,dojo,$,window,moment*/
 /*jslint browser:true,sloppy:true,nomen:true,unparam:true,plusplus:true,indent:4*/
 /*
-| Copyright 2014 Esri
-|
-| Licensed under the Apache License, Version 2.0 (the "License");
-| you may not use this file except in compliance with the License.
-| You may obtain a copy of the License at
-|
-|    http://www.apache.org/licenses/LICENSE-2.0
-|
-| Unless required by applicable law or agreed to in writing, software
-| distributed under the License is distributed on an "AS IS" BASIS,
-| WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-| See the License for the specific language governing permissions and
-| limitations under the License.
-
-*/
+ | Copyright 2014 Esri
+ |
+ | Licensed under the Apache License, Version 2.0 (the "License");
+ | you may not use this file except in compliance with the License.
+ | You may obtain a copy of the License at
+ |
+ |    http://www.apache.org/licenses/LICENSE-2.0
+ |
+ | Unless required by applicable law or agreed to in writing, software
+ | distributed under the License is distributed on an "AS IS" BASIS,
+ | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ | See the License for the specific language governing permissions and
+ | limitations under the License.
+ */
 define([
     "dojo/_base/declare",
     "dojo/_base/lang",
@@ -39,10 +38,9 @@ define([
     "esri/symbols/SimpleFillSymbol",
     "esri/symbols/SimpleMarkerSymbol",
     "esri/geometry/Polygon",
-    "esri/arcgis/utils",
     "widgets/locator/locator",
     "widgets/bootstrapmap/bootstrapmap"
-], function (declare, lang, _WidgetBase, _TemplatedMixin, domConstruct, domClass, on, domAttr, array, dom, domStyle, query, dijitTemplate, string, locale, GraphicsLayer, Graphic, Draw, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Polygon, arcgisUtils, Locator, BootstrapMap) {
+], function (declare, lang, _WidgetBase, _TemplatedMixin, domConstruct, domClass, on, domAttr, array, dom, domStyle, query, dijitTemplate, string, locale, GraphicsLayer, Graphic, Draw, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Polygon, Locator, BootstrapMap) {
     return declare([_WidgetBase, _TemplatedMixin], {
         templateString: dijitTemplate,
         lastWebMapSelected: "",
@@ -77,7 +75,7 @@ define([
         startup: function () {
             try {
                 // Show loading indicator
-                dojo.applicationUtils.showLoadingIndicator();
+                this.appUtils.showLoadingIndicator();
                 // Clear previous attachments
                 this._clearAttachements();
                 this.sortedFields = [];
@@ -85,7 +83,7 @@ define([
                 this._init();
             } catch (err) {
                 // Show error message
-                dojo.applicationUtils.showError(err.message);
+                this.appUtils.showError(err.message);
             }
         },
 
@@ -111,12 +109,14 @@ define([
                 zoomInBtn = query('.esriSimpleSliderIncrementButton', dom.byId(this.map.id))[0];
                 zoomOutBtn = query('.esriSimpleSliderDecrementButton', dom.byId(this.map.id))[0];
                 if (zoomInBtn) {
-                    domAttr.set(zoomInBtn, "title", dojo.configData.i18n.map.zoomInTooltip);
+                    domAttr.set(zoomInBtn, "title", this.appConfig.i18n.map.zoomInTooltip);
                 }
                 if (zoomOutBtn) {
-                    domAttr.set(zoomOutBtn, "title", dojo.configData.i18n.map.zoomOutTooltip);
+                    domAttr.set(zoomOutBtn, "title", this.appConfig.i18n.map.zoomOutTooltip);
                 }
-
+                domAttr.set(this.closeButton, "title", this.appConfig.i18n.geoform.geoformBackButtonTooltip);
+                domAttr.set(this.submitButton, "title", this.appConfig.i18n.geoform.submitButtonTooltip);
+                domAttr.set(this.cancelButton, "title", this.appConfig.i18n.geoform.cancelButtonTooltip);
                 // store default map extent
                 this.defaultExtent = this.map.extent;
                 // show only selected layer and remove other layer from Webmap
@@ -128,12 +128,7 @@ define([
                 // Create graphics layer to draw graphics
                 this._graphicsLayer = new GraphicsLayer();
                 this.map.addLayer(this._graphicsLayer);
-
-                this.basemapExtent = dojo.applicationUtils.getBasemapExtent(response.itemInfo.itemData.baseMap.baseMapLayers);
-
-                // create geoLocation Button
-                dojo.applicationUtils.createGeoLocationButton(response.itemInfo.itemData.baseMap.baseMapLayers, this.map, dom.byId("gf-mapDiv"), true);
-
+                this.basemapExtent = this.appUtils.getBasemapExtent(response.itemInfo.itemData.baseMap.baseMapLayers);
                 // Create instance of Draw tool to draw the graphics on graphics layer
                 this.toolbar = new Draw(this.map);
                 // activate draw tool
@@ -151,10 +146,16 @@ define([
                 on(this.submitButton, "click", lang.hitch(this, this._submitForm));
                 // Handle click of close button
                 on(this.closeButton, "click", lang.hitch(this, this.closeForm));
+                // Handle click of cancel button
+                on(this.cancelButton, "click", lang.hitch(this, this._onCancelClick));
                 // Initialize locator widget
-                this.locator = new Locator({ "map": this.map, "itemInfo": response.itemInfo.itemData, "layerId": this.layerId });
+                this.locator = new Locator({ "map": this.map, "config": this.config, "appUtils": this.appUtils, "itemInfo": response.itemInfo.itemData, "layerId": this.layerId, "locatorContainer": this.geoformLocator });
                 // function call on selection of search result
                 this.locator.onLocationCompleted = lang.hitch(this, this._validateAddress);
+
+                // create geoLocation Button
+                this.appUtils.createGeoLocationButton(response.itemInfo.itemData.baseMap.baseMapLayers, this.map, this.geoLocationButton, true);
+
                 // function call on map resize
                 on(window, 'resize', lang.hitch(this, function () {
                     this._resizeMap(true);
@@ -170,7 +171,24 @@ define([
 
                 //hide geoFormLoader div
                 domClass.add(this.geoFormLoader, "esriCTHidden");
+
+                // if changed extent not null
+                if (this.changedExtent) {
+                    this.map.setExtent(this.changedExtent);
+                }
             }));
+        },
+
+        _onCancelClick: function () {
+            this._clearFormFields();
+            if (domClass.contains(this.headerMessageDiv, "esriCTVisible")) {
+                domClass.replace(this.headerMessageDiv, "esriCTHidden", "esriCTVisible");
+            }
+            this.toolbar.deactivate();
+            this._clearSubmissionGraphic();
+            setTimeout(lang.hitch(this, function () {
+                this.closeForm();
+            }), 500);
         },
 
         /**
@@ -197,7 +215,7 @@ define([
             if (this.basemapExtent.contains(geometry)) {
                 this._locateSelectedAddress(geometry);
             } else {
-                dojo.applicationUtils.showError(dojo.configData.i18n.locator.locationOutOfExtent);
+                this.appUtils.showError(this.appConfig.i18n.locator.locationOutOfExtent);
             }
         },
 
@@ -296,14 +314,13 @@ define([
             domConstruct.empty(this.layerTitleDiv);
             // Set innerHTML for geo form header sections
             domAttr.set(this.layerTitleDiv, "innerHTML", this.layerTitle);
-            domAttr.set(this.enter_Information, "innerHTML", dojo.configData.i18n.geoform.enterInformation);
-            domAttr.set(this.select_location, "innerHTML", dojo.configData.i18n.geoform.enterLocation);
-            domConstruct.create("small", { "class": "esriCTRequireFieldStyle esriCTselectLocationText", "innerHTML": dojo.configData.i18n.geoform.selectLocationTitleText }, this.select_location);
-            domAttr.set(this.complete_Form, "innerHTML", dojo.configData.i18n.geoform.completeForm);
-            domAttr.set(this.submitButton, "innerHTML", dojo.configData.i18n.geoform.reportItButton);
+            domAttr.set(this.enter_Information, "innerHTML", this.appConfig.i18n.geoform.enterInformation);
+            domAttr.set(this.select_location, "innerHTML", this.appConfig.i18n.geoform.enterLocation);
+            domAttr.set(this.submitButton, "innerHTML", this.appConfig.i18n.geoform.reportItButton);
+            domAttr.set(this.cancelButton, "innerHTML", this.appConfig.i18n.geoform.cancelButton);
             // If sorted field array length is zero
             if (this.sortedFields.length === 0) {
-                this._showErrorMessageDiv(dojo.configData.i18n.geoform.noFieldsConfiguredMessage, this.headerMessageDiv);
+                this._showErrorMessageDiv(this.appConfig.i18n.geoform.noFieldsConfiguredMessage, this.headerMessageDiv);
             }
             // Sort fields array by type
             this._sortedTypeFormElement();
@@ -394,16 +411,17 @@ define([
                 }, userFormNode);
                 // Select attachment label
                 domConstruct.create("label", {
-                    "innerHTML": dojo.configData.i18n.geoform.selectAttachments,
-                    "id": "geoFormAttachmentTitileLabel"
+                    "innerHTML": this.appConfig.i18n.geoform.selectAttachments,
+                    "id": "geoFormAttachmentTitileLabel",
+                    "class": "esriCTGeoFormTitles"
                 }, formContent);
                 domConstruct.create("br", {}, formContent);
                 // Create div for Attachment button
-                fileContainer = domConstruct.create("div", { "class": "esriCTFileButtonContainer" }, formContent);
+                fileContainer = domConstruct.create("div", { "class": "esriCTFileButtonContainer", "title": this.appConfig.i18n.geoform.selectFileText }, formContent);
                 this._fileInputIcon = domConstruct.create("button", {
                     "type": "button",
-                    "innerHTML": dojo.configData.i18n.geoform.selectFileText,
-                    "class": "fileInputButton btn  btn-primary esriCTBGColor esriCTPointerCursor esriCTGeoFormButton"
+                    "innerHTML": this.appConfig.i18n.geoform.selectFileText,
+                    "class": "fileInputButton btn  btn-default esriCTPointerCursor esriCTGeoFormButton esriCTApplicationColor"
                 }, fileContainer);
                 // Show photo selected count
                 domConstruct.create("div", {
@@ -494,7 +512,7 @@ define([
             if (photoSelectedDiv) {
                 selectedAttachmentsCount = query(".alert-dismissable", this.fileAttachmentList).length;
                 if (selectedAttachmentsCount > 0) {
-                    domAttr.set(photoSelectedDiv, "innerHTML", selectedAttachmentsCount + " " + dojo.configData.i18n.geoform.attachmentSelectedMsg);
+                    domAttr.set(photoSelectedDiv, "innerHTML", selectedAttachmentsCount + " " + this.appConfig.i18n.geoform.attachmentSelectedMsg);
                 } else {
                     domAttr.set(photoSelectedDiv, "innerHTML", "");
                 }
@@ -527,7 +545,7 @@ define([
                 domClass.add(formContent, "form-group geoFormQuestionare mandatory");
                 requireField = domConstruct.create("small", {
                     className: 'esriCTRequireFieldStyle',
-                    innerHTML: dojo.configData.i18n.geoform.requiredField
+                    innerHTML: this.appConfig.i18n.geoform.requiredField
                 }, formContent);
             } else {
                 domClass.add(formContent, "form-group geoFormQuestionare");
@@ -569,12 +587,12 @@ define([
             if (currentField.domain || currentField.typeField) {
                 this._createDomainValueFormElements(currentField, formContent, fieldname);
             } else {
-                this._createInputFormElements(currentField, formContent, fieldname, fieldLabelText);
+                this._createInputFormElements(currentField, formContent, fieldname);
             }
             // Set hint text for range domain Value
             this._createRangeText(currentField, formContent, fieldname);
             //hide Loading Indicator
-            dojo.applicationUtils.hideLoadingIndicator();
+            this.appUtils.hideLoadingIndicator();
             // Resize Map
             this._resizeMap();
         },
@@ -642,7 +660,7 @@ define([
                         this.defaultValueArray.push({ defaultValue: rangeDefaultDate, id: this.inputContent.id, type: currentField.type });
                     }
                     // Assign value to the range help text
-                    this.rangeHelpText = string.substitute(dojo.configData.i18n.geoform.dateRangeHintMessage, {
+                    this.rangeHelpText = string.substitute(this.appConfig.i18n.geoform.dateRangeHintMessage, {
                         minValue: moment(new Date(currentField.domain.minValue)).format($(inputRangeDateGroupContainer).data("DateTimePicker").format),
                         maxValue: moment(new Date(currentField.domain.maxValue)).format($(inputRangeDateGroupContainer).data("DateTimePicker").format),
                         openStrong: "<strong>",
@@ -672,7 +690,7 @@ define([
                 "id": fieldname
             }, formContent);
             selectOptions = domConstruct.create("option", {
-                innerHTML: dojo.configData.i18n.geoform.selectDefaultText,
+                innerHTML: this.appConfig.i18n.geoform.selectDefaultText,
                 value: ""
             }, this.inputContent);
             // check for domain value and create control for drop down list
@@ -736,10 +754,9 @@ define([
         * @param{object} currentField, object of current field in the info pop
         * @param{object} formContent, Parent Node of the field inside geo form
         * @param{string} fieldname, name of the field
-        * @param{string} fieldLabelText, Field's Label text
         * @memberOf widgets/geo-form/geo-form
         */
-        _createInputFormElements: function (currentField, formContent, fieldname, fieldLabelText) {
+        _createInputFormElements: function (currentField, formContent, fieldname) {
             var inputDateGroupContainer;
             // Create field controls on basis of their type
             switch (currentField.type) {
@@ -904,7 +921,7 @@ define([
             // Touch Spinner on keyup event
             this._inputTouchspinOnKeyup(inputcontentSpinner, currentField);
             // Set minimum and maximum value to the rangeHelpText
-            rangeHelpText = string.substitute(dojo.configData.i18n.geoform.numericRangeHintMessage, {
+            rangeHelpText = string.substitute(this.appConfig.i18n.geoform.numericRangeHintMessage, {
                 minValue: currentField.domain.minValue.toString(),
                 maxValue: currentField.domain.maxValue.toString(),
                 openStrong: "<strong>",
@@ -1070,11 +1087,8 @@ define([
         * @memberOf widgets/geo-form/geo-form
         */
         _validateField: function (currentNode, currentField, iskeyPress) {
-            var inputType, inputValue,
-                node, typeCastedInputValue, decimal = /^[-+]?[0-9]+$/,
-                float = /^[-+]?[0-9]+\.[0-9]+$/,
-                error,
-                targetNode = currentNode.currentTarget || currentNode.srcElement;
+            var inputType, inputValue, node, typeCastedInputValue, error, floatVal = /^[-+]?[0-9]+\.[0-9]+$/,
+                targetNode = currentNode.currentTarget || currentNode.srcElement, decimal = /^[-+]?[0-9]+$/;
             // trim current value
             inputValue = lang.trim(targetNode.value);
             // get value of data-input-type
@@ -1091,7 +1105,7 @@ define([
                 if (inputValue.length !== 0) {
                     this._validateUserInput(false, node, inputValue, iskeyPress);
                 } else {
-                    error = string.substitute(dojo.configData.i18n.geoform.invalidInputValue, {
+                    error = string.substitute(this.appConfig.i18n.geoform.invalidInputValue, {
                         openStrong: "<strong>",
                         closeStrong: "</strong>"
                     });
@@ -1104,7 +1118,7 @@ define([
                     this._validateUserInput(false, node, inputValue);
                     this._setFormatToValue(currentField, typeCastedInputValue, currentNode.target);
                 } else {
-                    error = string.substitute(dojo.configData.i18n.geoform.invalidSmallNumber, {
+                    error = string.substitute(this.appConfig.i18n.geoform.invalidSmallNumber, {
                         openStrong: "<strong>",
                         closeStrong: "</strong>"
                     });
@@ -1117,7 +1131,7 @@ define([
                     this._validateUserInput(false, node, inputValue, iskeyPress);
                     this._setFormatToValue(currentField, typeCastedInputValue, currentNode.target);
                 } else {
-                    error = string.substitute(dojo.configData.i18n.geoform.invalidNumber, {
+                    error = string.substitute(this.appConfig.i18n.geoform.invalidNumber, {
                         openStrong: "<strong>",
                         closeStrong: "</strong>"
                     });
@@ -1130,11 +1144,11 @@ define([
                 // occurrence of .
                 // at least one occurrence of digits between o-9 in the end
                 typeCastedInputValue = parseFloat(inputValue);
-                if (((inputValue.match(decimal) || inputValue.match(float)) && typeCastedInputValue >= -3.4 * Math.pow(10, 38) && typeCastedInputValue <= 1.2 * Math.pow(10, 38)) && inputValue.length !== 0) {
+                if (((inputValue.match(decimal) || inputValue.match(floatVal)) && typeCastedInputValue >= -3.4 * Math.pow(10, 38) && typeCastedInputValue <= 1.2 * Math.pow(10, 38)) && inputValue.length !== 0) {
                     this._validateUserInput(false, node, inputValue, iskeyPress);
                     this._setFormatToValue(currentField, typeCastedInputValue, currentNode.target);
                 } else {
-                    error = string.substitute(dojo.configData.i18n.geoform.invalidFloat, {
+                    error = string.substitute(this.appConfig.i18n.geoform.invalidFloat, {
                         openStrong: "<strong>",
                         closeStrong: "</strong>"
                     });
@@ -1143,11 +1157,11 @@ define([
                 break;
             case "Double":
                 typeCastedInputValue = parseFloat(inputValue);
-                if (((inputValue.match(decimal) || inputValue.match(float)) && typeCastedInputValue >= -2.2 * Math.pow(10, 308) && typeCastedInputValue <= 1.8 * Math.pow(10, 38)) && inputValue.length !== 0) {
+                if (((inputValue.match(decimal) || inputValue.match(floatVal)) && typeCastedInputValue >= -2.2 * Math.pow(10, 308) && typeCastedInputValue <= 1.8 * Math.pow(10, 38)) && inputValue.length !== 0) {
                     this._validateUserInput(false, node, inputValue, iskeyPress);
                     this._setFormatToValue(currentField, typeCastedInputValue, currentNode.target);
                 } else {
-                    error = string.substitute(dojo.configData.i18n.geoform.invalidDouble, {
+                    error = string.substitute(this.appConfig.i18n.geoform.invalidDouble, {
                         openStrong: "<strong>",
                         closeStrong: "</strong>"
                     });
@@ -1182,6 +1196,18 @@ define([
             // remove error and success messages for each form field
             array.forEach(query(".form-control"), lang.hitch(this, function (currentInput) {
                 node = currentInput.parentElement;
+                //Remove error message div
+                //This logic is required for resetting geoform when user enters something wrong and clicks on Cancel button
+                array.some(node.children, lang.hitch(this, function (currentNode) {
+                    if (domClass.contains(currentNode, "errorMessage")) {
+                        this._removeErrorNode(currentNode);
+                        return true;
+                    }
+                }));
+                if (domClass.contains(this.select_location.nextSibling, "errorMessage")) {
+                    this._removeErrorNode(this.select_location.nextSibling);
+                }
+                this.locator._hideText();
                 // Clear form fields
                 if (!domClass.contains(currentInput, "selectDomain")) {
                     domAttr.set(currentInput, "value", "");
@@ -1190,6 +1216,7 @@ define([
                 } else {
                     currentInput.options[0].selected = true;
                     domClass.remove(node, "has-success");
+                    domClass.remove(node, "has-error");
                 }
             }));
             array.forEach(this.sortedFields, lang.hitch(this, function (currentInput) {
@@ -1198,8 +1225,6 @@ define([
                 }
                 // rest form field and show dependent field in the form
                 this._resetSubTypeFields(currentInput);
-                //resize map
-                this._resizeMap();
             }));
             // clear error and success messages
             array.forEach(query(".geoFormQuestionare .input-group"), function (currentInput) {
@@ -1275,9 +1300,13 @@ define([
         */
         _resetSubTypeFields: function (currentInput) {
             if (currentInput.type === "esriFieldTypeDate" || ((currentInput.type === "esriFieldTypeSmallFloat" || currentInput.type === "esriFieldTypeSmallInteger" || currentInput.type === "esriFieldTypeDouble" || currentInput.type === "esriFieldTypeInteger") && (currentInput.domain && currentInput.domain.type && currentInput.domain.type === "range"))) {
-                domConstruct.destroy(dom.byId(currentInput.name).parentNode.parentNode);
+                if (dom.byId(currentInput.name)) {
+                    domConstruct.destroy(dom.byId(currentInput.name).parentNode.parentNode);
+                }
             } else {
-                domConstruct.destroy(dom.byId(currentInput.name).parentNode);
+                if (dom.byId(currentInput.name)) {
+                    domConstruct.destroy(dom.byId(currentInput.name).parentNode);
+                }
             }
         },
 
@@ -1302,7 +1331,7 @@ define([
             }, parentNode);
             // get date format
             if (currentField.format.dateFormat) {
-                setDateFormat = dojo.applicationUtils.getDateFormat(currentField.format.dateFormat);
+                setDateFormat = this.appUtils.getDateFormat(currentField.format.dateFormat);
             }
             // on focus
             on(dateInputField, "focus", function () {
@@ -1407,7 +1436,7 @@ define([
         */
         _resizeMap: function () {
             // If geoform is visible
-            if (this.map && !domClass.contains(dom.byId('geoformContainerDiv'), "esriCTHidden")) {
+            if (this.map && !domClass.contains(dom.byId('geoformContainer'), "esriCTHidden")) {
                 // re position the map
                 this.map.reposition();
                 // re size the map
@@ -1442,7 +1471,7 @@ define([
                     }
                     // condition to check if mandatory fields are kept empty.
                     if ((query(".form-control", currentField)[0].value === "" && domClass.contains(currentField, "mandatory"))) {
-                        this._validateUserInput(dojo.configData.i18n.geoform.requiredFields, currentField, query(".form-control", currentField)[0].value, true);
+                        this._validateUserInput(this.appConfig.i18n.geoform.requiredFields, currentField, query(".form-control", currentField)[0].value, true);
                         erroneousFields.push(currentField);
                     } else if (domClass.contains(currentField, "mandatory")) {
                         this._validateUserInput(false, currentField, query(".form-control", currentField)[0].value, true);
@@ -1459,7 +1488,7 @@ define([
                 }, 1000);
                 if (!this.addressGeometry) {
                     // error message
-                    errorMessage = dojo.configData.i18n.geoform.selectLocation;
+                    errorMessage = this.appConfig.i18n.geoform.selectLocation;
                     this._showErrorMessageDiv(errorMessage, this.select_location);
                 }
             } else {
@@ -1469,7 +1498,7 @@ define([
                     this._addFeatureToLayer();
                 } else {
                     // error message
-                    errorMessage = dojo.configData.i18n.geoform.selectLocation;
+                    errorMessage = this.appConfig.i18n.geoform.selectLocation;
                     this._showErrorMessageDiv(errorMessage, this.select_location);
                     // Scroll to the selected location
                     $('#geoFormBody').animate({
@@ -1486,7 +1515,7 @@ define([
         _addFeatureToLayer: function () {
             var userFormNode = this.userForm, featureData, key, value, datePicker, picker, fileList, i, type, editedFields = [];
             // show loading indicator
-            dojo.applicationUtils.showLoadingIndicator();
+            this.appUtils.showLoadingIndicator();
             // Create instance of graphic
             featureData = new Graphic();
             // create an empty array object
@@ -1556,34 +1585,38 @@ define([
                         }
                     } else {
                         //hide loading indicator started in _addFeatureToLayer method
-                        dojo.applicationUtils.hideLoadingIndicator();
+                        this.appUtils.hideLoadingIndicator();
                         // reset form
                         this._clearFormFields();
                     }
                     // remove graphic
                     this._clearSubmissionGraphic();
-                    //reset to default extent
-                    if (this.defaultExtent) {
-                        this.map.setExtent(this.defaultExtent);
+                    if (this.changedExtent) {
+                        this.map.setExtent(this.changedExtent);
+                    } else {
+                        //reset to default extent
+                        if (this.defaultExtent) {
+                            this.map.setExtent(this.defaultExtent);
+                        }
                     }
                     // Show Thank you message on Success
-                    this._showHeaderMessageDiv(this.config.submitMessage, false);
+                    this._showHeaderMessageDiv(this.config.submitMessage, "success");
                     // Successfully feature is added on the layer
                     this.geoformSubmitted(true);
                 } else {
                     domConstruct.destroy(query(".errorMessage")[0]);
                     // Show Error message on Failure
-                    this._showHeaderMessageDiv(dojo.configData.i18n.geoform.errorsInApplyEdits, true);
+                    this._showHeaderMessageDiv(this.appConfig.i18n.geoform.errorsInApplyEdits, "error");
                     //hide loading indicator started in _addFeatureToLayer method
-                    dojo.applicationUtils.hideLoadingIndicator();
+                    this.appUtils.hideLoadingIndicator();
                 }
-            }), lang.hitch(this, function (evt) {
+            }), lang.hitch(this, function () {
                 // remove error
                 domConstruct.destroy(query(".errorMessage")[0]);
                 // Show error message on Failure
-                this._showHeaderMessageDiv(dojo.configData.i18n.geoform.errorsInApplyEdits, true);
+                this._showHeaderMessageDiv(this.appConfig.i18n.geoform.errorsInApplyEdits, "error");
                 //hide loading indicator started in _addFeatureToLayer method
-                dojo.applicationUtils.hideLoadingIndicator();
+                this.appUtils.hideLoadingIndicator();
             }));
         },
 
@@ -1638,16 +1671,16 @@ define([
             var attachmentFailedMsg;
             if (this._totalFileAttachedCounter === (this._fileAttachedCounter + this._fileFailedCounter)) {
                 //hide loading indicator started in _addFeatureToLayer method
-                dojo.applicationUtils.hideLoadingIndicator();
+                this.appUtils.hideLoadingIndicator();
                 // reset form
                 this._clearFormFields();
                 if (this._fileFailedCounter > 0) {
-                    attachmentFailedMsg = string.substitute(dojo.configData.i18n.geoform.attachmentUploadStatus, {
+                    attachmentFailedMsg = string.substitute(this.appConfig.i18n.geoform.attachmentUploadStatus, {
                         "failed": this._fileFailedCounter,
                         "total": this._totalFileAttachedCounter
                     });
                     // Show Thank you message on Success
-                    this._showHeaderMessageDiv(this.config.submitMessage + "<br /><br />" + attachmentFailedMsg, true);
+                    this._showHeaderMessageDiv(this.config.submitMessage + "<br /><br />" + attachmentFailedMsg, "warning");
                 }
             }
         },
@@ -1678,7 +1711,7 @@ define([
             // resize map
             this._resizeMap();
             // hide Loading Indicator
-            dojo.applicationUtils.hideLoadingIndicator();
+            this.appUtils.hideLoadingIndicator();
         },
 
         /**
@@ -1701,10 +1734,12 @@ define([
         */
         _showHeaderMessageDiv: function (innerText, isError) {
             // assign success or error handler class to the container
-            if (isError) {
-                domClass.replace(this.headerMessageType, "alert-danger", "alert-success");
+            if (isError === "success") {
+                domClass.replace(this.headerMessageType, "alert-success", "alert-danger alert-warning");
+            } else if (isError === "warning") {
+                domClass.replace(this.headerMessageType, "alert-warning", "alert-danger alert-success");
             } else {
-                domClass.replace(this.headerMessageType, "alert-success", "alert-danger");
+                domClass.replace(this.headerMessageType, "alert-danger", "alert-warning alert-success");
             }
             // replace node
             domClass.replace(this.headerMessageDiv, "esriCTVisible", "esriCTHidden");
@@ -1729,7 +1764,9 @@ define([
         * @memberOf widgets/geo-form/geo-form
         */
         closeForm: function () {
-            domClass.replace(dom.byId('geoformContainerDiv'), "esriCTHidden", "esriCTVisible");
+            dom.byId("geoFormBody").scrollTop = 0;
+            this.toolbar.deactivate();
+            domClass.replace(dom.byId('geoformContainer'), "esriCTHidden", "esriCTVisible");
         },
 
         /**
@@ -1800,15 +1837,15 @@ define([
             var centerPoint;
             // check for geometry type of different layer
             if (geometry.type === "point") {
-                this.map.setLevel(dojo.configData.zoomLevel);
+                this.map.setLevel(this.appConfig.zoomLevel);
                 this.map.centerAt(geometry);
             } else if (geometry.type === "polyline") {
-                this.map.setLevel(dojo.configData.zoomLevel);
+                this.map.setLevel(this.appConfig.zoomLevel);
                 centerPoint = geometry.getExtent();
                 this.map.setExtent(centerPoint);
                 // if geometry is of type polygon, add border to the polygon
             } else if (geometry.type === "polygon") {
-                this.map.setLevel(dojo.configData.zoomLevel);
+                this.map.setLevel(this.appConfig.zoomLevel);
                 centerPoint = geometry.getExtent();
                 this.map.setExtent(centerPoint);
             }
@@ -1863,6 +1900,14 @@ define([
         geoformSubmitted: function (isSubmitted) {
             // return value
             return isSubmitted;
+        },
+
+        /**
+        * Set extent of main map to geoform map
+        * @memberOf widgets/geo-form/geo-form
+        */
+        setMapExtent: function (extent) {
+            this.changedExtent = extent;
         }
     });
 });

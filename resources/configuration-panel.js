@@ -1,16 +1,17 @@
 {
     "values": {
         "group": "758a315597a6461fbe2430a9e1828c6f",
-        "theme": "#d15706",
+        "theme": "#137DB9",
         "signInSubtitle": "",
         "signInBackgroundImage": "/images/signinbg.png",
         "enableFacebook": false,
         "facebookAppId": "",
         "enableTwitter": false,
+        "enablePortalLogin": true,
         "enableGoogleplus": false,
         "googleplusClientId": "",
         "applicationName": "",
-        "applicationIcon": "/images/app-icon.png",
+        "applicationIcon": "",
         "applicationFavicon": "/images/favicon.ico",
         "webMapInfoDescription": true,
         "webMapInfoSnippet": false,
@@ -59,6 +60,12 @@
                     "fieldName": "enableTwitter",
                     "label": "Allow users to sign in using Twitter",
                     "tooltip": "Enable to allow users to sign in using their Twitter credentials"
+                },
+                {
+                    "type": "boolean",
+                    "fieldName": "enablePortalLogin",
+                    "label": "Allow users to sign in using ArcGIS Online",
+                    "tooltip": "Enable to allow users to sign in using their ArcGIS Online credentials"
                 },
                 {
                     "type": "boolean",
