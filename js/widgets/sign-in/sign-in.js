@@ -202,17 +202,12 @@ define([
         processUserDetails: function (userDetails) {
             //if user already not logged in and user information's not exist
             if (!this.isUserLoggedIn) {
-                //If userDetails have Valid email then use email as processUserName or use the uniqueID
-                if (userDetails.email && userDetails.email !== "") {
-                    userDetails.processedUserName = userDetails.email;
+                //Check if it is AGOL Login or Social Media Login
+                //In Case of AGOL Login construct uniqueId with OrgID + UserID
+                if (!userDetails.credential) {
+                    userDetails.processedUserName = userDetails.uniqueID;
                 } else {
-                    //Check if it is AGOL Login or Social Media Login
-                    //In Case of AGOL Login construct uniqueId with OrgID + UserID
-                    if (!userDetails.credential) {
-                        userDetails.processedUserName = userDetails.uniqueID;
-                    } else {
-                        userDetails.processedUserName = userDetails.orgId + userDetails.credential.userId;
-                    }
+                    userDetails.processedUserName =userDetails.credential.userId;
                 }
                 this.isUserLoggedIn = true;
                 this.onLogIn(userDetails);
@@ -342,13 +337,12 @@ define([
                             'userId': 'me'
                         });
                         request.execute(lang.hitch(this, function (resp) {
-                            var userDetails = { fullName: null, firstName: null, lastName: null, uniqueID: null, email: null, socialMediaType: null };
+                            var userDetails = { fullName: null, firstName: null, lastName: null, uniqueID: null, socialMediaType: null };
                             // if emails exist in response object
                             if (resp.emails) {
                                 userDetails.fullName = resp.displayName || "";
                                 userDetails.firstName = resp.name.givenName;
                                 userDetails.lastName = resp.name.familyName;
-                                userDetails.email = resp.emails[0].value;
                                 userDetails.uniqueID = resp.id;
                                 userDetails.socialMediaType = "googleplus";
                                 this.processUserDetails(userDetails);

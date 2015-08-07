@@ -1,0 +1,8 @@
+commit 8abfb009533799f915d8b795dba1f214aa50905a
+Merge: d67e086 1896f22
+Author: Kelly Hutchins <khutchins@esri.com>
+Date:   Tue Feb 3 15:01:18 2015 -0800
+
+    Merge pull request #46 from Esri/development
+    
+    Development

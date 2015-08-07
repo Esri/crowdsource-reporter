@@ -30,7 +30,7 @@ define({
     "theme": "#137DB9",
     "bingKey": "", //Enter the url to your organizations bing maps key if you want to use bing basemaps
     //Defaults to arcgis.com. Set this value to your portal or organization host name.
-    "sharinghost": location.protocol + "//" + "arcgis.com/",
+    "sharinghost": location.protocol + "//" + "arcgis.com",
     //HelperServices url
     "helperServices": {
         "geometry": {
