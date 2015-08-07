@@ -27,7 +27,8 @@ define([
     "dojo/on",
     "dojo/query",
     "dijit/_WidgetBase",
-    "esri/dijit/LocateButton"
+    "esri/dijit/LocateButton",
+    "esri/dijit/HomeButton"
 ], function (
     declare,
     dom,
@@ -40,7 +41,8 @@ define([
     on,
     query,
     _WidgetBase,
-    LocateButton
+    LocateButton,
+    HomeButton
 ) {
     return declare([_WidgetBase], {
         showLoadingIndicator: function () {
@@ -169,6 +171,20 @@ define([
             on(currentLocation, "locate", lang.hitch(this, function (evt) {
                 this.onGeolocationComplete(evt, addGraphic);
             }));
+        },
+
+        /**
+       * Create homebutton button on the map
+       * @memberOf utils/utils
+       */
+        createHomeButton: function (map, parentNode) {
+            var homeButton, createHomeButtonDiv;
+            createHomeButtonDiv = domConstruct.create("div", { "class": "esriCTHomeButton" }, parentNode);
+            homeButton = new HomeButton({
+                map: map,
+                class: "esriCTHomeButton"
+            }, createHomeButtonDiv);
+            homeButton.startup();
         },
 
         /**

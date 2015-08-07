@@ -26,6 +26,7 @@ define([
     "dojo/dom-attr",
     "dojo/_base/array",
     "dojo/dom",
+    "dojo/touch",
     "dojo/dom-style",
     "dojo/query",
     "dojo/text!./templates/geo-form.html",
@@ -40,7 +41,7 @@ define([
     "esri/geometry/Polygon",
     "widgets/locator/locator",
     "widgets/bootstrapmap/bootstrapmap"
-], function (declare, lang, _WidgetBase, _TemplatedMixin, domConstruct, domClass, on, domAttr, array, dom, domStyle, query, dijitTemplate, string, locale, GraphicsLayer, Graphic, Draw, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Polygon, Locator, BootstrapMap) {
+], function (declare, lang, _WidgetBase, _TemplatedMixin, domConstruct, domClass, on, domAttr, array, dom, touch, domStyle, query, dijitTemplate, string, locale, GraphicsLayer, Graphic, Draw, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Polygon, Locator, BootstrapMap) {
     return declare([_WidgetBase, _TemplatedMixin], {
         templateString: dijitTemplate,
         lastWebMapSelected: "",
@@ -105,6 +106,9 @@ define([
                 }, 1000);
                 // Once the map is created we get access to the response which provides map, operational layers, popup info.
                 this.map = response.map;
+                this.map.on("click", lang.hitch(this, function () {
+                    this._clearSubmissionGraphic();
+                }));
                 // tooltip for zoom in and zoom out button
                 zoomInBtn = query('.esriSimpleSliderIncrementButton', dom.byId(this.map.id))[0];
                 zoomOutBtn = query('.esriSimpleSliderDecrementButton', dom.byId(this.map.id))[0];
@@ -133,7 +137,7 @@ define([
                 this.toolbar = new Draw(this.map);
                 // activate draw tool
                 this._activateDrawTool();
-                // Handle draw-end event which will be fired on selecting location
+                // Handle draw_activateDrawTool-end event which will be fired on selecting location
                 on(this.toolbar, "draw-end", lang.hitch(this, function (evt) {
                     // remove select location error message as location is selected now.
                     this._removeErrorNode(this.select_location.nextSibling);
@@ -314,6 +318,10 @@ define([
             domConstruct.empty(this.layerTitleDiv);
             // Set innerHTML for geo form header sections
             domAttr.set(this.layerTitleDiv, "innerHTML", this.layerTitle);
+            //Show popup on click/hover of layer title div
+            if (window.hasOwnProperty("ontouchstart")) {
+                this._createTooltip(this.layerTitleDiv, this.layerTitle);
+            }
             domAttr.set(this.enter_Information, "innerHTML", this.appConfig.i18n.geoform.enterInformation);
             domAttr.set(this.select_location, "innerHTML", this.appConfig.i18n.geoform.enterLocation);
             domAttr.set(this.submitButton, "innerHTML", this.appConfig.i18n.geoform.reportItButton);
@@ -640,7 +648,7 @@ define([
         * @memberOf widgets/geo-form/geo-form
         */
         _createDomainValueFormElements: function (currentField, formContent, fieldname) {
-            var date, inputRangeDateGroupContainer, rangeDefaultDate;
+            var date, inputRangeDateGroupContainer, rangeDefaultDate, currentSelectedDate, formatedDate;
             if ((currentField.domain && (currentField.domain.type === 'undefined' || currentField.domain.type === undefined || currentField.domain.type === 'codedValue')) || currentField.typeField) {
                 this._createCodedValueFormElements(currentField, formContent, fieldname);
             } else {
@@ -658,6 +666,17 @@ define([
                         rangeDefaultDate = moment(date).format($(inputRangeDateGroupContainer).data("DateTimePicker").format);
                         // set default value and id to the array
                         this.defaultValueArray.push({ defaultValue: rangeDefaultDate, id: this.inputContent.id, type: currentField.type });
+                    } else {
+                        ////Check if todays date falls between minimum and maximum date
+                        if (currentField.domain.maxValue > Date.now() && currentField.domain.minValue < Date.now()) {
+                            currentSelectedDate = Date.now();
+                            $(inputRangeDateGroupContainer).data("DateTimePicker").setDate(moment(Date.now()).format($(inputRangeDateGroupContainer).data("DateTimePicker").format));
+                        } else {
+                            currentSelectedDate = currentField.domain.minValue;
+                        }
+                        formatedDate = moment(new Date(currentSelectedDate)).format($(inputRangeDateGroupContainer).data("DateTimePicker").format);
+                        $(inputRangeDateGroupContainer).data("DateTimePicker").setDate(formatedDate);
+                        this.defaultValueArray.push({ defaultValue: formatedDate, id: this.inputContent.id, type: currentField.type });
                     }
                     // Assign value to the range help text
                     this.rangeHelpText = string.substitute(this.appConfig.i18n.geoform.dateRangeHintMessage, {
@@ -1767,6 +1786,13 @@ define([
             dom.byId("geoFormBody").scrollTop = 0;
             this.toolbar.deactivate();
             domClass.replace(dom.byId('geoformContainer'), "esriCTHidden", "esriCTVisible");
+            //Hide header message div if it exist
+            if (domClass.contains(this.headerMessageDiv, "esriCTVisible")) {
+                domClass.replace(this.headerMessageDiv, "esriCTHidden", "esriCTVisible");
+            }
+            array.forEach(query('.errorMessage'), lang.hitch(this, function (node) {
+                this._removeErrorNode(node);
+            }));
         },
 
         /**
@@ -1780,6 +1806,8 @@ define([
             tool = type.toUpperCase();
             // active draw tool
             this.toolbar.activate(Draw[tool]);
+            // clear graphics on the map
+            this._clearSubmissionGraphic();
         },
 
         /**
@@ -1908,6 +1936,32 @@ define([
         */
         setMapExtent: function (extent) {
             this.changedExtent = extent;
+        },
+
+        /**
+        * Invoked when touch occurs on respective title
+        * @memberOf geo-form/geo-form
+        */
+        _createTooltip: function (node, title) {
+            domAttr.set(node, "data-original-title", title);
+            //Remove previous handle
+            if (this.tooltipHandler) {
+                this.tooltipHandler.remove();
+                if ($(node)) {
+                    $(node).tooltip("hide");
+                }
+            }
+            this.tooltipHandler = on(node, touch.press, lang.hitch(this, function (e) {
+                $(node).tooltip("toggle");
+                e.preventDefault();
+            }));
+            on(document, "click", lang.hitch(this, function () {
+                $(node).tooltip("hide");
+            }));
+
+            on(window, "resize", lang.hitch(this, function () {
+                $(node).tooltip("hide");
+            }));
         }
     });
 });

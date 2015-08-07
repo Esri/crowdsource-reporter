@@ -67,10 +67,21 @@ html, body
 {
     margin-top: 10px;
 }
+
+.esriCTMapHomeButtonContainer
+{
+    margin-top: 2px;
+}
 /* Overridden Styles */
 
-.esriViewPopup .header {
-  word-wrap: break-word;
+.esriViewPopup .header, .esriViewPopup .attrTable
+{
+    word-wrap: break-word;
+}
+
+.esriViewPopup .attrValue
+{
+    word-break: break-all;
 }
 /* Override identity manager color to default*/
 
@@ -102,7 +113,6 @@ html, body
 
 .esriSimpleSliderDecrementButton, .esriSimpleSliderIncrementButton
 {
-    margin-bottom: 2px;
     margin-top: 2px;
 }
 
@@ -116,11 +126,25 @@ html, body
     border: 0px !important;
 }
 
-.esriSimpleSliderDecrementButton, .esriSimpleSliderIncrementButton, .esriSimpleSlider .esriCTLocationButton
+.esriSimpleSliderDecrementButton, .esriSimpleSliderIncrementButton, .esriSimpleSlider .esriCTLocationButton, .esriSimpleSlider .esriCTHomeButton, .esriSimpleSlider .esriCTSearchButton
 {
     background-color: #fff !important;
+    -webkit-box-shadow: 1px 1px 10px #888;
+    -moz-box-shadow: 1px 1px 10px #888;
+    box-shadow: 1px 1px 10px #888;
+
+}
+
+.esriSimpleSlider .esriCTHomeButton
+{
     border: #fff solid 1px !important;
-    box-shadow: 0px 0px 1px 0px;
+}
+
+.esriSimpleSlider .HomeButton .home
+{
+    background-image: url("../images/home.png");
+    background-color: #fff !important;
+    background-size: 30px;
 }
 
 
@@ -136,6 +160,7 @@ html, body
     background-image: url(../images/current-location.png);
     background-size: 30px;
     height: 100%;
+    border: #fff solid 1px !important;
 }
 
 .mediaSection
@@ -460,6 +485,14 @@ html, body
     color: #fff;
 }
 
+.esriCTSigninHelpLink
+{
+    color: white;
+    cursor: pointer;
+    border-bottom: 1px solid white;
+    margin-top: 10px;
+}
+
 /* End of SignIn */
 
 /* Application Header Styles */
@@ -522,6 +555,12 @@ html, body
 .esriCTDesktopIcons
 {
     display: block;
+    float:left;
+}
+
+.esriCTMobileIconDiv
+{
+    float:left;
 }
 
 .esriCTMobileIcons
@@ -577,11 +616,6 @@ html, body
     cursor: pointer;
     width: auto;
     top: 49px;
-}
-
-.esriCTLoginOptionsDiv
-{
-    right: 17px;
 }
 
 .esriCTBorder
@@ -710,8 +744,7 @@ html, body
     float: right;
     width: 16px;
     vertical-align: middle;
-    margin-left: 5px;
-    margin-right:5px;
+    padding: 12px;
 }
 
 .esriCTDescription
@@ -731,6 +764,8 @@ html, body
     max-width: 100%;
     word-break: break-word;
     margin-left: 10px;
+    margin-right: 29px;
+
 }
 
 .esriCTMultiLineFill
@@ -1256,7 +1291,7 @@ label
     margin-left: 15px;
 }
 
-.esriCTClearInput, .esriCTSearchLoader
+.esriCTClearInput, .esriCTSearchLoader, .esriCTCloseHelpWindow
 {
     height: 24px;
     width: 24px;
@@ -1477,6 +1512,11 @@ label
     width: calc(100% - 80px);
 }
 
+.esriCTNoVotesDetailContainer
+{
+    width: calc(100% - 35px) !important;
+}
+
 .esriCTFavDiv
 {
     font-size: 12px;
@@ -1497,6 +1537,11 @@ label
 
 .esriCTMyIssuePopupTitle {
     font-weight: normal;
+}
+
+.esriCTListHeader .tooltip
+{
+    word-break: break-all;
 }
 
 /* ---------- End Of ItemList ---------- */
@@ -1565,6 +1610,12 @@ label
 {
     font-size: 20px;
     margin-left: 5px;
+}
+
+.esriCTItemDetail .esriCTItemDetailsContainer
+{
+    float: left;
+    width: 100%;
 }
 
 .esriCTItemDetail .esriCTTtemDescription
@@ -1908,3 +1959,182 @@ label
 }
 
 /*-----------Mozilla-----------------*/
+/* Start of map search container styles */
+.esriSimpleSlider .esriCTSearchButton
+{
+    background: url('../images/search.png') center;
+    background-size: 30px;
+    border-left: none !important;
+}
+
+.esriSimpleSlider .search, .esriSimpleSlider .search div
+{
+
+    font-size: 12px;
+    color: #666;
+    text-align: left;
+    line-height: 16px;
+    height: 31px;
+}
+
+.esriSimpleSlider .search
+{
+    margin-top: 1px;
+}
+.esriSimpleSlider .esriCTTxtSearch
+{
+    height: 33px;
+    width: 0;
+    display: none;
+}
+
+.esriSimpleSlider .esriCTMapSearchContainer .input-group-btn
+{
+    right: -5px;
+}
+
+.esriSimpleSlider .esriCTMapSearchContainer .esriCTSearchClose
+{
+    right: 32px;
+    top: 4px;
+    display: none;
+}
+
+.esriSimpleSlider .esriCTMapSearchContainer .esriCTResultContainer
+{
+    min-width: 231px;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+}
+
+.esriSimpleSlider .esriCTMapSearchContainer .esriCTDivNoResultFound
+{
+    float:left;
+    width:90%;
+}
+
+.esriSimpleSlider .esriCTMapSearchContainer .esriCTCandidateList
+{
+    min-width: 197px;
+}
+
+.esriSimpleSlider .esriCTMapSearchContainer .esriCTSearchGroupCell
+{
+    min-width: 205px;
+}
+
+
+.esriSimpleSlider .esriCTMapSearchContainer
+{
+    margin-top: 0px !important;
+}
+
+.esriSimpleSlider .esriCTLocatorSearchButton
+{
+    margin-left: -5px;
+    height: 31px;
+}
+
+.esriSimpleSlider .esriCTSearchButton
+{
+    height: 31px !important;
+    width: 32px !important;
+    position: absolute;
+}
+.esriSimpleSlider .esriCTTxtMapSearch
+{
+    display: none;
+}
+
+.esriCTHelpIcon
+{
+    background-image: url("../images/help.png");
+    height: 24px;
+    width: 24px;
+    background-size: 24px;
+    float: left;
+    margin-top: 12px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.modal-header
+{
+    border-color: #555;
+}
+
+.esriCTModelDialog .modal-body
+{
+    overflow: auto;
+    height: 250px;
+    margin-bottom: 15px;
+}
+
+.esriCTModelDialog
+{
+    top: 150px;
+}
+
+.esriCTClose
+{
+    margin-right: 26px;
+    opacity: 1;
+}
+
+.esriCTClose:hover
+{
+    opacity: 1;
+}
+
+.esriCTCloseHelpWindow
+{
+    background: url('../images/closeHelp.png') no-repeat center;
+    background-size: 30px;
+}
+
+.esriCTIncrementButton
+{
+    width: 32px;
+    height: 31px;
+    background-image: url('../images/increment.png');
+    background-size: 32px 31px;
+}
+
+.esriCTDecrementButton
+{
+    width: 32px;
+    height: 31px;
+    background-image: url('../images/decrement.png');
+    background-size: 32px 31px;
+}
+
+.esriSimpleSliderIncrementButton.esriCTIncrementButton.esriCTPointerCursor.esriSimpleSliderDisabledButton
+{
+    width: 32px;
+    height: 31px;
+    background-image: url('../images/increment-disabled.png') !important;
+    background-size: 32px 31px;
+}
+
+.esriSimpleSliderDecrementButton.esriCTDecrementButton.esriCTPointerCursor.esriSimpleSliderDisabledButton
+{
+    width: 32px;
+    height: 31px;
+    background-image: url('../images/decrement-disabled.png') !important;
+    background-size: 32px 31px;
+}
+
+.modal-title
+{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 85%;
+}
+
+.modal-header
+{
+    min-height: 56px;
+}

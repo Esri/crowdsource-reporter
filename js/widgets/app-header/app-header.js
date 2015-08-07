@@ -23,13 +23,15 @@ define([
     "dojo/dom",
     "dojo/dom-attr",
     "dojo/dom-class",
+    "dojo/dom-style",
     "dojo/on",
     "dojo/text!./templates/app-header.html",
     "widgets/mobile-menu/mobile-menu",
+    "widgets/help/help",
     "dijit/_WidgetBase",
     "dijit/_TemplatedMixin",
     "dijit/_WidgetsInTemplateMixin"
-], function (declare, domConstruct, lang, dom, domAttr, domClass, on, template, MobileMenu, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin) {
+], function (declare, domConstruct, lang, dom, domAttr, domClass, domStyle, on, template, MobileMenu, Help, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         mobileMenu: null,
@@ -71,6 +73,10 @@ define([
         * @memberOf widgets/app-header/app-header
         */
         postCreate: function () {
+            if (this.appConfig.enableHelp) {
+                //create help screen
+                this.helpScreen = new Help({ "config": this.appConfig });
+            }
             //set application title
             this._setApplicationTitle();
             //set application logo
@@ -91,19 +97,30 @@ define([
                 on(this.mobileMenuBurger, "click", lang.hitch(this, this._animateMenuContainer));
                 on(this.myIssueButton, "click", lang.hitch(this, this._showMyIssuesClicked));
                 on(this.signOutButton, "click", lang.hitch(this, this._signOutClicked));
-                on(this.helpButton, "click", lang.hitch(this, this._helpClicked));
-
                 this._setAppHeaderMenu();
                 // Show the sign in button
                 domClass.remove(this.userControlContainer, "esriCTHidden");
 
-                //handel signin/logged_in_userName clicked
+                //handle signin/logged_in_userName clicked
                 on(this.esriCTLoginCredentialsDiv, "click", lang.hitch(this, this._toggleLoginOptionsVisibility));
+
+                //Adding class to hide help icon in mobile view if login is enabled
+                domClass.add(this.helpButton, "esriCTMobileHelpIcon");
             } else {
-                if (domClass.contains(this.mobileIcons, "esriCTMobileIcons")) {
-                    domClass.replace(this.mobileIcons, "esriCTHidden", "esriCTMobileIcons");
+                if (domClass.contains(this.mobileMenuBurger, "esriCTMobileIcons")) {
+                    domClass.replace(this.mobileMenuBurger, "esriCTHidden", "esriCTMobileIcons");
                 }
             }
+
+            if (this.appConfig.enableHelp) {
+                domClass.remove(this.helpButton, "esriCTHidden");
+                domStyle.set(this.esriCTLoginOptionsDiv, "right", "50px");
+            } else {
+                domStyle.set(this.esriCTLoginOptionsDiv, "right", "6px");
+            }
+
+            on(this.helpButton, "click", lang.hitch(this, this._helpClicked));
+            domAttr.set(this.helpButton, "title", this.appConfig.helpLinkText);
         },
 
         /**
@@ -207,8 +224,8 @@ define([
                 domClass.remove(this.signOutButton, "esriCTHidden");
                 domClass.remove(this.caretIcon, "esriCTHidden");
             }
-            if (this.config.help) {
-                domClass.remove(this.helpButton, "esriCTHidden");
+            if (!this.appConfig.enableHelp) {
+                domClass.add(this.helpButton, "esriCTHidden");
             }
         },
 
@@ -267,6 +284,8 @@ define([
         * @memberOf widgets/app-header/app-header
         */
         _helpClicked: function (evt) {
+            //show splash screen dialog
+            this.helpScreen.showDialog();
             return evt;
         },
 

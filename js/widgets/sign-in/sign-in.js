@@ -38,13 +38,15 @@ define([
     "esri/IdentityManager",
     "widgets/sign-in/facebook-helper",
     "widgets/sign-in/twitter-helper",
+    "widgets/help/help",
     "dojo/query"
 
-], function (templateConfig, MainTemplate, Main, declare, domConstruct, domStyle, domAttr, domClass, lang, on, dom, Deferred, all, esriPortal, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, IdentityManager, FBHelper, TWHelper, query) {
+], function (templateConfig, MainTemplate, Main, declare, domConstruct, domStyle, domAttr, domClass, lang, on, dom, Deferred, all, esriPortal, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, IdentityManager, FBHelper, TWHelper, Help, query) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         _config: null,
         _boilerPlateTemplate: null,
+        _helpScreen: null,
         isUserLoggedIn: false,
         fbHelperObject: null,
         twHelperObject: null,
@@ -58,6 +60,13 @@ define([
             var loadGPApi;
             this._boilerPlateTemplate = boilerPlateTemplateObject;
             this._config = boilerPlateTemplateObject.config;
+            if (this._config.enableHelp) {
+                //Initialize splash screen
+                this._helpScreen = new Help({ "config": this._config });
+            } else {
+            //If help is turned off, then hide the help link
+                domClass.add(this.signinHelpLink, "esriCTHidden");
+            }
             this.appUtils = appUtils;
             this.inherited(arguments);
             this._createLoginScreenUI();
@@ -89,6 +98,8 @@ define([
             }
             document.title = applicationName;
             domAttr.set(this.signinContainerName, "innerHTML", applicationName);
+            domAttr.set(this.signinHelpLink, "innerHTML", this._config.helpLinkText);
+            domAttr.set(this.signinHelpLink, "title", this._config.helpLinkText);
             if (this._config.signInSubtitle) {
                 domAttr.set(this.signinContainerText, "innerHTML", this._config.signInSubtitle);
             } else {
@@ -124,7 +135,9 @@ define([
             this.own(on(this.signinFBButton, "click", lang.hitch(this, this._fbButtonClicked)));
             this.own(on(this.signinTwitterButton, "click", lang.hitch(this, this._twitterButtonClicked)));
             this.own(on(this.signinGPlusButton, "click", lang.hitch(this, this._gpButtonClicked)));
-
+            this.own(on(this.signinHelpLink, "click", lang.hitch(this, function () {
+                this._helpScreen.showDialog();
+            })));
             //handle identity manager cancel clicked event
             on(IdentityManager, "dialog-cancel", lang.hitch(this, function () {
                 window.location.reload();
@@ -207,7 +220,7 @@ define([
                 if (!userDetails.credential) {
                     userDetails.processedUserName = userDetails.uniqueID;
                 } else {
-                    userDetails.processedUserName =userDetails.credential.userId;
+                    userDetails.processedUserName = userDetails.credential.userId;
                 }
                 this.isUserLoggedIn = true;
                 this.onLogIn(userDetails);

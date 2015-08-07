@@ -48,6 +48,7 @@ define({
     "signInSubtitle": "",
     "signInBackgroundImage": "/images/signinbg.png",
 
+    "searchedAddressPushpinImage":"/images/redstickpin.png",
     "enableFacebook": false,
     "enableTwitter": false,
     "enableGoogleplus": false,
@@ -87,5 +88,10 @@ define({
     "enableMGRSSearch": false,
     "enableLatLongSearch": false,
     //Lower level configuration
-    "submitReportButtonColor": "#35ac46" //Color for Submit Report button.If EMPTY default color will be  #35ac46.
+    "submitReportButtonColor": "#35ac46", //Color for Submit Report button.If EMPTY default color will be  #35ac46.
+    //Configurable text for help dialog and help link
+    "enableHelp":true,
+    "helpLinkText": "Help",
+    "helpDialogTitle":"Help Page",
+    "helpDialogContent": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 });
