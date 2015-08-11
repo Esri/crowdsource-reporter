@@ -130,8 +130,8 @@
                 {
                     "type": "string",
                     "fieldName": "reportedByField",
-                    "label": "Reporter Name Field (optional)",
-                    "tooltip": "Text field that stores the username of the person who created the feature. Field name must be the same across all layers and maps."
+                    "label": "Reporter ID Field (optional)",
+                    "tooltip": "Text field that stores the ID of the person who created the feature. Field name must be the same across all layers and maps."
                 },
                 {
                     "type": "string",

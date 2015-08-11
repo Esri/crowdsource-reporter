@@ -46,7 +46,7 @@ define(
             description: "Beskrivelse", // Shown in the 'Map information' section describing the webmap
             snippet: "Sammendrag", // Shown in the 'Map information' section providing the summary of the webmap
             licenseInfo: "Begrensning av tilgang og bruk", // Shown in the map information section indicating the webmap license information
-            accessInformation: "Credits", // Shown in the 'Map information' section indicating account credits
+            accessInformation: "Krediteringer", // Shown in the 'Map information' section indicating account credits
             tags: "Merker", // Shown in the 'Map information' section indicating tags of the webmap
             numViews: "Antall visninger", // Shown in the 'Map information' section indicating number of times the webmap has been viewed
             avgRating: "Vurdering", // Shown in the 'Map information' section indicating webmap rating

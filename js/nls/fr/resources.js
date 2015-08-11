@@ -41,7 +41,7 @@ define(
         },
         webMapList: {
             owner: "Propriétaire", // Shown in the 'Map information' section indicating the owner of the webmap
-            created: "æ_Date created_____Â", // Shown in the 'Map information' section indicating the date when the webmap was created
+            created: "Date de création", // Shown in the 'Map information' section indicating the date when the webmap was created
             modified: "Date de modification", // Shown in the 'Map information' section indicating the date when the webmap was modified
             description: "Description", // Shown in the 'Map information' section describing the webmap
             snippet: "Résumé", // Shown in the 'Map information' section providing the summary of the webmap

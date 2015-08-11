@@ -44,7 +44,7 @@ define(
             created: "Luontipäivämäärä", // Shown in the 'Map information' section indicating the date when the webmap was created
             modified: "Muokkauspäivämäärä", // Shown in the 'Map information' section indicating the date when the webmap was modified
             description: "Kuvaus", // Shown in the 'Map information' section describing the webmap
-            snippet: "Summary", // Shown in the 'Map information' section providing the summary of the webmap
+            snippet: "Yhteenveto", // Shown in the 'Map information' section providing the summary of the webmap
             licenseInfo: "Käyttörajoitukset", // Shown in the map information section indicating the webmap license information
             accessInformation: "Krediitit", // Shown in the 'Map information' section indicating account credits
             tags: "Tunnisteet", // Shown in the 'Map information' section indicating tags of the webmap
@@ -118,11 +118,11 @@ define(
             likeButtonTooltip: "Äänestä tätä raporttia",  // Tooltip for command button shown in details panel
             commentButtonLabel: "Kommentti", // Command button shown in details panel
             commentButtonTooltip: "Kommentoi tätä raporttia", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "Gallery", // Command button shown in details panel
+            galleryButtonLabel: "Galleria", // Command button shown in details panel
             galleryButtonTooltip: "Näytä liitetyt dokumentit", // Tooltip for command button shown in details panel
             mapButtonLabel: "Näytä kartalla", // Command button shown in details panel
             mapButtonTooltip: "Näytä tämän raportin sijainti", // Tooltip for command button shown in details panel
-            commentsListHeading: "Comments", // List heading for Comments section in details panel
+            commentsListHeading: "Kommentit", // List heading for Comments section in details panel
             unableToUpdateVoteField: "Ääntäsi ei voi lisätä tällä kertaa.", // Error message for feature unable to update
             gotoIssueListTooltip: "Siirry raporttiluetteloon" // Tooltip for back icon in Issue list header
         },
@@ -141,7 +141,7 @@ define(
             showNoText: "Ei" // Shown when comments character limit is exceeded
         },
         gallery: {
-            galleryHeaderText: "Gallery",
+            galleryHeaderText: "Galleria",
             noAttachmentsAvailableText: "Liitteitä ei löydy." // Shown when no comments are available for the selected issue
         }
     })

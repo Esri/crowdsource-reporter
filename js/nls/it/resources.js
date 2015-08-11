@@ -32,7 +32,7 @@ define(
             guestSigninText: "Continua come ospite", // Shown in the 'Sign in' page below the icon for accessing application as an anonymous user
             signInOrText: "Oppure", // Or text on sign in screen
             signinOptionsText: "Accedi con:", // Shown in the 'Sign in' page above the icons for social media sign in
-            noGroupNameText: "Effettuare l\\'accesso", // Shown when the group title is not available or the group is private
+            noGroupNameText: "Effettuare l\'accesso", // Shown when the group title is not available or the group is private
             guestLoginTooltip: "Accedi come ospite", // Command button to access the application as an anonymous user
             facebookLoginTooltip: "Accedi con Facebook", // Command button to access the application via Facebook login
             twitterLoginTooltip: "Accedi con Twitter", // Command button to access the application via Twitter login
@@ -41,7 +41,7 @@ define(
         },
         webMapList: {
             owner: "Proprietario", // Shown in the 'Map information' section indicating the owner of the webmap
-            created: "é_Date created_____È", // Shown in the 'Map information' section indicating the date when the webmap was created
+            created: "Data creazione", // Shown in the 'Map information' section indicating the date when the webmap was created
             modified: "Data modifica", // Shown in the 'Map information' section indicating the date when the webmap was modified
             description: "Descrizione", // Shown in the 'Map information' section describing the webmap
             snippet: "Riepilogo", // Shown in the 'Map information' section providing the summary of the webmap
@@ -62,11 +62,11 @@ define(
             myReport: "I miei report", // Command button shown in mobile menu list
             signIn: "Accedi", // Command button shown in mobile menu list and in appheader
             signOut: "Esci", // Command button shown in mobile menu list
-            help: "?", // Command button shown in mobile menu list
-            signInTooltip: "l\\'accesso", // Tooltip to 'Sign in' option
+            help: "Guida", // Command button shown in mobile menu list
+            signInTooltip: "l\'accesso", // Tooltip to 'Sign in' option
             signOutTooltip: "Disconnetti", // Tooltip  to 'Sign out' option
             myReportTooltip: "Visualizza report inviati da me", // Tooltip  to 'My Reports' option
-            helpTooltip: "?" // Tooltip  to 'Help' option
+            helpTooltip: "Guida" // Tooltip  to 'Help' option
         },
         geoform: {
             enterInformation: "Dettagli", // Shown as the first section of the geoform, where the user can enter details of the issue

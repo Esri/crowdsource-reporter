@@ -41,7 +41,7 @@ define(
         },
         webMapList: {
             owner: "Vlastník", // Shown in the 'Map information' section indicating the owner of the webmap
-            created: "Ř_Date created_____ů", // Shown in the 'Map information' section indicating the date when the webmap was created
+            created: "Datum vytvoření", // Shown in the 'Map information' section indicating the date when the webmap was created
             modified: "Datum změny", // Shown in the 'Map information' section indicating the date when the webmap was modified
             description: "Popis", // Shown in the 'Map information' section describing the webmap
             snippet: "Souhrn", // Shown in the 'Map information' section providing the summary of the webmap

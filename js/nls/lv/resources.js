@@ -41,7 +41,7 @@ define(
         },
         webMapList: {
             owner: "Īpašnieks", // Shown in the 'Map information' section indicating the owner of the webmap
-            created: "ķ_Date created_____ū", // Shown in the 'Map information' section indicating the date when the webmap was created
+            created: "Izveides datums", // Shown in the 'Map information' section indicating the date when the webmap was created
             modified: "Modificēšanas datums", // Shown in the 'Map information' section indicating the date when the webmap was modified
             description: "Apraksts", // Shown in the 'Map information' section describing the webmap
             snippet: "Kopsavilkums", // Shown in the 'Map information' section providing the summary of the webmap

@@ -41,7 +41,7 @@ define(
         },
         webMapList: {
             owner: "Savininkas", // Shown in the 'Map information' section indicating the owner of the webmap
-            created: "Į_Date created_____š", // Shown in the 'Map information' section indicating the date when the webmap was created
+            created: "Sukūrimo data", // Shown in the 'Map information' section indicating the date when the webmap was created
             modified: "Paskutinis pakeitimas", // Shown in the 'Map information' section indicating the date when the webmap was modified
             description: "Aprašas", // Shown in the 'Map information' section describing the webmap
             snippet: "Santrauka", // Shown in the 'Map information' section providing the summary of the webmap

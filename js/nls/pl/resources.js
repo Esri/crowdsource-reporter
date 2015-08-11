@@ -30,7 +30,7 @@ define(
         },
         signin: {
             guestSigninText: "Kontynuuj jako gość", // Shown in the 'Sign in' page below the icon for accessing application as an anonymous user
-            signInOrText: "Or", // Or text on sign in screen
+            signInOrText: "Lub", // Or text on sign in screen
             signinOptionsText: "Zaloguj się, używając:", // Shown in the 'Sign in' page above the icons for social media sign in
             noGroupNameText: "Zaloguj się", // Shown when the group title is not available or the group is private
             guestLoginTooltip: "Zaloguj się jako gość", // Command button to access the application as an anonymous user
@@ -44,10 +44,10 @@ define(
             created: "Data utworzenia", // Shown in the 'Map information' section indicating the date when the webmap was created
             modified: "Ostatnia modyfikacja", // Shown in the 'Map information' section indicating the date when the webmap was modified
             description: "Opis", // Shown in the 'Map information' section describing the webmap
-            snippet: "Summary", // Shown in the 'Map information' section providing the summary of the webmap
+            snippet: "Podsumowanie", // Shown in the 'Map information' section providing the summary of the webmap
             licenseInfo: "Ograniczenia dostępu i użytkowania", // Shown in the map information section indicating the webmap license information
             accessInformation: "Udostępniający zasoby", // Shown in the 'Map information' section indicating account credits
-            tags: "Tags", // Shown in the 'Map information' section indicating tags of the webmap
+            tags: "Znaczniki", // Shown in the 'Map information' section indicating tags of the webmap
             numViews: "Liczba wyświetleń", // Shown in the 'Map information' section indicating number of times the webmap has been viewed
             avgRating: "Ocena", // Shown in the 'Map information' section indicating webmap rating
             noWebMapInGroup: "Skonfigurowana grupa jest nieprawidłowa lub tej grupie nie udostępniono jeszcze żadnych elementów.", // Shown when the configured group is invalid/private or no items have been shared with the group
@@ -63,7 +63,7 @@ define(
             signIn: "Zaloguj się", // Command button shown in mobile menu list and in appheader
             signOut: "Wyloguj się", // Command button shown in mobile menu list
             help: "Pomoc", // Command button shown in mobile menu list
-            signInTooltip: "Sign in", // Tooltip to 'Sign in' option
+            signInTooltip: "Zaloguj się", // Tooltip to 'Sign in' option
             signOutTooltip: "Wyloguj się", // Tooltip  to 'Sign out' option
             myReportTooltip: "Wyświetl raporty przesłane przeze mnie", // Tooltip  to 'My Reports' option
             helpTooltip: "Pomoc" // Tooltip  to 'Help' option
