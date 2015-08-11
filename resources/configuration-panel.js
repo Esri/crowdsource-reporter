@@ -244,6 +244,40 @@
                     "tooltip": "Enable Latitude Longitude Search"
                 }
             ]
+        },
+        {
+            "category": "<b>Help Settings</b>",
+            "fields": [
+                {
+                    "type": "paragraph",
+                    "value": "Configure content of help dialog"
+                },
+                {
+                    "type": "boolean",
+                    "fieldName": "enableHelp",
+                    "label": "Show help",
+                    "tooltip": "Show help"
+                },
+                {
+                    "type": "string",
+                    "fieldName": "helpLinkText",
+                    "label": "Help link",
+                    "tooltip": "Help link"
+                },
+                {
+                    "type": "string",
+                    "fieldName": "helpDialogTitle",
+                    "label": "Title",
+                    "tooltip": "Title"
+                },
+                {
+                    "type": "string",
+                    "fieldName": "helpDialogContent",
+                    "label": "Dialog content",
+                    "stringFieldOption": "richtext",
+                    "tooltip": "Dialog content"
+                }
+            ]
         }
     ]
 }

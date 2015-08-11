@@ -47,13 +47,11 @@ define([
         },
         i18n: {
             myReport: "My Reports",
-            help: "Help",
             signIn: "Sign in",
             signOut: "Sign out",
             signInTooltip: "Sign In",
             signOutTooltip: "Sign Out",
-            myReportTooltip: "My Reports",
-            helpTooltip: "Help"
+            myReportTooltip: "My Reports"
         },
 
         /**
@@ -86,6 +84,8 @@ define([
             on(window, "orientationchange", lang.hitch(this, function () {
                 this._setMenuContainerHeight();
             }));
+            domAttr.set(this.help, "innerHTML", this.appConfig.helpLinkText);
+            domAttr.set(this.help, "title", this.appConfig.helpLinkText);
         },
 
         /**
@@ -137,14 +137,11 @@ define([
                 domClass.add(this.signOut, "esriCTHidden");
                 domStyle.set(this.mainMenuContainer, "height", "100%");
             }
-
-            // check if help is to be shown in list and accordingly set it's display and handle it's click
-            if (this.config.help) {
+            if (this.appConfig.enableHelp) {
+                // check if help is to be shown in list and accordingly set it's display and handle it's click
                 domClass.remove(this.help, "esriCTHidden");
-                this.own(on(this.help, "click", lang.hitch(this, this._helpClicked)));
-            } else {
-                domClass.add(this.help, "esriCTHidden");
             }
+            this.own(on(this.help, "click", lang.hitch(this, this._helpClicked)));
         },
 
         /**

@@ -17,7 +17,7 @@
                                     <div class="esriCTCaretIcon  esriCTPointerCursor esriCTHidden" data-dojo-attach-point="caretIcon">&#9660;</div>
                                 </div>
                             </div>
-                            <div class="esriCTOptions esriCTLoginOptionsDiv esriCTApplicationColor esriCTHidden" data-dojo-attach-point="esriCTLoginOptionsDiv">
+                            <div class="esriCTOptions esriCTApplicationColor esriCTHidden" data-dojo-attach-point="esriCTLoginOptionsDiv">
                                 <div class="esriCTLogoutOption esriCTBorder">
                                     <div data-dojo-attach-point="myIssueButton" class="esriCTHidden esriCTItems esriCTPointerCursor" title="${i18n.myReportTooltip}">
                                         ${i18n.myReport}
@@ -29,10 +29,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="esriCTBGColor esriCTPointerCursor  esriCTHidden" data-dojo-attach-point="helpButton" title="${i18n.helpTooltip}"></div>
                 </div>
-                <div class="esriCTMobileIcons" data-dojo-attach-point="mobileIcons">
-                    <div data-dojo-attach-point="mobileMenuBurger" class="esriCTMobileBurgerIcon">
+                <div data-dojo-attach-point="mobileIcons" class="esriCTMobileIconDiv">
+                    <div class="esriCTHelpIcon esriCTBGColor esriCTPointerCursor esriCTHidden" data-dojo-attach-point="helpButton"
+                        data-toggle="modal">
+                    </div>
+                    <div data-dojo-attach-point="mobileMenuBurger" class="esriCTMobileBurgerIcon esriCTMobileIcons">
                         <span></span>
                     </div>
                 </div>

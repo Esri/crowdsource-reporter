@@ -199,7 +199,7 @@ define([
                 if (domClass.contains(self.gallery, "esriCTHidden")) {
                     self._showAttachments(self.item);
                 }
-                self._showPanel(self.gallery, self.galleryButton, false);
+                self._showPanel(self.gallery, self.galleryButton, true);
             });
         },
 
@@ -377,8 +377,10 @@ define([
             domAttr.set(this.votesDetailContainer, "title", this.itemVotes.label + " " + this.i18n.likeButtonTooltip);
             if (this.actionVisibilities.showVotes && this.votesField) {
                 domClass.remove(this.votesDetailContainer, "esriCTHidden");
+                domClass.remove(this.itemTitleDiv, "esriCTNoVotesDetailContainer");
             } else {
                 domClass.add(this.votesDetailContainer, "esriCTHidden");
+                domClass.add(this.itemTitleDiv, "esriCTNoVotesDetailContainer");
             }
             if (this.actionVisibilities.showComments) {
                 this._initCommentsDiv();
