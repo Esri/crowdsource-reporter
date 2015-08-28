@@ -80,7 +80,6 @@ define({
 
     "submitMessage": "Thank you! Your report has been submitted.",
     "likeField": "NUMVOTES",
-    "commentField": "COMMENTS",
     "reportedByField": "USERID",
 
     "zoomLevel": 12,

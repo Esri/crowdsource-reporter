@@ -24,6 +24,7 @@ define([
     "dojo/dom-attr",
     "dojo/dom-class",
     "dojo/_base/lang",
+    "dojo/_base/array",
     "dojo/on",
     "dojo/touch",
     "dojo/string",
@@ -37,13 +38,15 @@ define([
     "esri/tasks/query",
     "widgets/item-list/item-list",
     "dojo/_base/event"
-], function (declare, dom, domConstruct, domStyle, domAttr, domClass, lang, on, touch, string, query, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, Graphic, FeatureLayer, Query, ItemList, event) {
+], function (declare, dom, domConstruct, domStyle, domAttr, domClass, lang, array, on, touch, string, query, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, Graphic, FeatureLayer, Query, ItemList, event) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         extentChangeHandler: null,
         _hasCommentsTable: false,
         _commentsTable: null,
+        _commentPopupTable: null,
         _layerClickHandler: null,
+        tooltipHandler: null,
         itemsList: null,
         selectedLayer: null,
 
@@ -145,10 +148,16 @@ define([
                 lang.mixin(this, config);
             }
             this.selectedLayer = this.map.getLayer(this.operationalLayerId);
+            //Clear list and selection before creating new issue list
+            this.itemsList.clearList();
             this.itemsList.clearSelection();
             //Set the Comments table flag to false
             this._hasCommentsTable = false;
             this._getRelatedTableInfo();
+            //Hide no issues warning message before fetching features from newly selected layer
+            if (!domClass.contains(this.noIssuesMessage, "esriCTHidden")) {
+                domClass.add(this.noIssuesMessage, "esriCTHidden");
+            }
         },
 
         /**
@@ -160,12 +169,13 @@ define([
         _getRelatedTableInfo: function () {
             var relatedTableURL;
             // if comment field is present in config file and the layer contains related table, fetch the first related table URL
-            if (this.appConfig.commentField && this.selectedLayer.relationships && this.selectedLayer.relationships.length > 0) {
+            if (this.selectedLayer.relationships && this.selectedLayer.relationships.length > 0) {
                 // Construct the related table URL form operational layer URL and the related table id
                 // We are considering only first related table although the layer has many related table.
                 // Hence, we are fetching relatedTableId from relationships[0] ie:"operationalLayer.relationships[0].relatedTableId"
                 relatedTableURL = this.selectedLayer.url.substr(0, this.selectedLayer.url.lastIndexOf('/') + 1) + this.selectedLayer.relationships[0].relatedTableId;
                 this._commentsTable = new FeatureLayer(relatedTableURL);
+                this.itemInfos = this.itemInfo;
                 if (!this._commentsTable.loaded) {
                     on(this._commentsTable, "load", lang.hitch(this, function (evt) {
                         this._commentsTableLoaded();
@@ -180,11 +190,25 @@ define([
 
         _commentsTableLoaded: function () {
             var k;
-            // if the related table contains comment field set commentIconFlag to true
-            for (k = 0; k < this._commentsTable.fields.length; k++) {
-                if (this._commentsTable.fields[k].name === this.appConfig.commentField) {
-                    this._hasCommentsTable = true;
-                    break;
+            this._commentPopupTable = null;
+            if (this.itemInfos && this.itemInfos.itemData.tables) {
+                //fetch comment popup table which will be used in creating comment form
+                array.some(this.itemInfos.itemData.tables, lang.hitch(this, function (currentTable) {
+                    if (this._commentsTable && this._commentsTable.url) {
+                        if (currentTable.url === this._commentsTable.url && currentTable.popupInfo) {
+                            this._commentPopupTable = currentTable;
+                        }
+                    }
+                }));
+            }
+
+            if (this._commentPopupTable && this._commentPopupTable.popupInfo) {
+                // if popup information of related table has atleast one editable field comment flag will be set to true
+                for (k = 0; k < this._commentPopupTable.popupInfo.fieldInfos.length; k++) {
+                    if (this._commentPopupTable.popupInfo.fieldInfos[k].isEditable) {
+                        this._hasCommentsTable = true;
+                        break;
+                    }
                 }
             }
             if (!this._hasCommentsTable) {
@@ -204,7 +228,7 @@ define([
             domAttr.set(this.listContainerTitle, "innerHTML", this.operationalLayerDetails.title);
             domAttr.set(this.listContainerTitle, "title", this.operationalLayerDetails.title);
             //Show popup on click/hover of layer title div
-            if (window.hasOwnProperty("ontouchstart")) {
+            if (window.hasOwnProperty("ontouchstart") || window.ontouchstart !== undefined) {
                 this._createTooltip(this.listContainerTitle, this.operationalLayerDetails.title);
             }
             this._loadFeatureLayer(this.selectedLayer, extentChangeFlag);

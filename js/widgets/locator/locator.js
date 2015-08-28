@@ -57,11 +57,15 @@ define([
         * @memberOf widgets/locator/locator
         */
         postCreate: function () {
-            var graphicsLayer;
+            var graphicsLayer, placeHolderText;
             //domConstruct.place(this.divLocateContainer, query(".esriCTlocationPanel")[0]);
             domConstruct.place(this.divLocateContainer, this.locatorContainer);
+            if (this.itemInfo.applicationProperties.viewing.search && this.itemInfo.applicationProperties.viewing.search.hintText) {
+                placeHolderText = this.itemInfo.applicationProperties.viewing.search.hintText;
+            }
+            placeHolderText = placeHolderText || this.config.i18n.locator.locatorPlaceholder;
             // add placeholder in textbox
-            domAttr.set(this.txtSearch, "placeholder", this.config.i18n.locator.locatorPlaceholder);
+            domAttr.set(this.txtSearch, "placeholder", placeHolderText);
             // set Tooltip for search button
             domAttr.set(this.searchSubmit, "title", this.config.i18n.locator.searchButtonTooltip);
             //set Tooltip to geocoder clear text button
@@ -297,9 +301,9 @@ define([
                 queryLayer = new EsriQuery();
                 // check if layer is configured to perform exact search, else perform 'contains' search
                 if (layerObject.field.exactMatch) {
-                    queryLayer.where = layerObject.field.name.toUpperCase() + "='" + lang.trim(this.txtSearch.value).toUpperCase() + "'" + " AND " + currentTime + "=" + currentTime;
+                    queryLayer.where = layerObject.field.name.toUpperCase() + "='" + lang.trim(this.txtSearch.value) + "'" + " AND " + currentTime + "=" + currentTime;
                 } else {
-                    queryLayer.where = layerObject.field.name.toUpperCase() + " LIKE '%" + lang.trim(this.txtSearch.value).toUpperCase() + "%'" + " AND " + currentTime + "=" + currentTime;
+                    queryLayer.where = "UPPER(" + layerObject.field.name + ") LIKE UPPER ('%" + lang.trim(this.txtSearch.value) + "%') AND " + currentTime + "=" + currentTime;
                 }
                 queryLayer.outSpatialReference = this.map.spatialReference;
                 queryLayer.returnGeometry = true;

@@ -46,6 +46,7 @@ define([
         opLayersArr: [],
         isNoFeatureFound: null,
         selectedFeature: null,
+        relatedTables: [],
 
         /**
         * Initialize widget
@@ -140,12 +141,18 @@ define([
         * @memberOf widgets/my-issues/my-issues
         */
         _getOperationalLayers: function () {
-            var webmapOpLayerArr, layerResponseDef = [], i, j, index = 0, likeFlag = false;
+            var webmapOpLayerArr, layerResponseDef = [], i, j, k, index = 0, likeFlag = false;
+            this.relatedTables = [];
             // if web-map list found
             if (this.webmapList) {
                 // loop to iterate all the web-maps to fetch all the layers from web-maps
                 for (i = 0; i < this.webmapList.length; i++) {
                     webmapOpLayerArr = this.webmapList[i][1].itemInfo.itemData.operationalLayers;
+                    if (this.webmapList[i][1].itemInfo.itemData.tables) {
+                        for (k = 0; k < this.webmapList[i][1].itemInfo.itemData.tables.length; k++) {
+                            this.relatedTables.push(this.webmapList[i][1].itemInfo.itemData.tables[k]);
+                        }
+                    }
                     // loop to iterate layers from web-map and push into layerResponseDef array
                     for (j = webmapOpLayerArr.length - 1; j >= 0; j--) {
                         // add layer to opLayersArr array, if it has configured reported by field to identify creator of issue
@@ -367,12 +374,13 @@ define([
                 // if relationships field exist on layer and in relationships table comment avilable 
                 // and comment field given in configuration file then it will set comments flag true
                 // in feature set
-                if (this.appConfig.commentField && currentFeature && currentFeature._layer.relationships && currentFeature._layer.relationships.length > 0) {
+                if (currentFeature && currentFeature._layer.relationships && currentFeature._layer.relationships.length > 0) {
                     layerId = currentFeature._layer.relationships[0].relatedTableId;
                     lastIndex = currentFeature._layer.url.lastIndexOf('/');
                     layer = currentFeature._layer.url.substr(0, lastIndex + 1);
                     relatedTableURL = layer + layerId;
                     relatedTable = new FeatureLayer(relatedTableURL);
+                    this.itemInfos = this.itemInfo;
                     if (!relatedTable.loaded) {
                         on(relatedTable, "load", lang.hitch(this, function (evt) {
                             allFeaturesAray.push(this._relatedTableLoaded(evt.layer, currentFeature, featureDef));
@@ -401,15 +409,30 @@ define([
         */
         _relatedTableLoaded: function (relatedTable, currentFeature, featureDef) {
             var commentIconFlag = false, k;
-            // if the related table contains comment field set commentIconFlag to true
-            for (k = 0; k < relatedTable.fields.length; k++) {
-                if (relatedTable.fields[k].name === this.appConfig.commentField) {
-                    commentIconFlag = true;
-                    break;
+            this._commentPopupTable = null;
+            if (this.itemInfos && this.relatedTables.length > 0) {
+                //fetch comment popup table which will be used in creating comment form
+                array.some(this.relatedTables, lang.hitch(this, function (currentTable) {
+                    if (relatedTable && relatedTable.url) {
+                        if (currentTable.url === relatedTable.url && currentTable.popupInfo) {
+                            this._commentPopupTable = currentTable;
+                        }
+                    }
+                }));
+            }
+
+            if (this._commentPopupTable && this._commentPopupTable.popupInfo) {
+                // if popup information of related table has atleast one editable field comment flag will be set to true
+                for (k = 0; k < this._commentPopupTable.popupInfo.fieldInfos.length; k++) {
+                    if (this._commentPopupTable.popupInfo.fieldInfos[k].isEditable) {
+                        commentIconFlag = true;
+                        break;
+                    }
                 }
             }
             currentFeature.commentFlag = commentIconFlag;
             currentFeature.relatedTable = relatedTable;
+            currentFeature.commentPopupTable = this._commentPopupTable;
             featureDef.resolve(currentFeature);
         },
 
@@ -423,6 +446,7 @@ define([
             actionVisibilities.like = item.showLikes;
             actionVisibilities.comment = item.commentFlag;
             actionVisibilities.commentTable = item.relatedTable;
+            actionVisibilities.commentPopupTable = item.commentPopupTable;
             actionVisibilities.gallery = item.gallery;
             return actionVisibilities;
         }

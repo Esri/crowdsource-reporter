@@ -28,6 +28,7 @@ define([
     "dojo/on",
     "dojo/topic",
     "dojo/string",
+    "dojo/touch",
     "dojo/window",
     "dojo/text!css/theme-template.css",
     "esri/layers/GraphicsLayer",
@@ -67,6 +68,7 @@ define([
     on,
     topic,
     string,
+    touch,
     dojowindow,
     ThemeCss,
     GraphicsLayer,
@@ -108,6 +110,7 @@ define([
         },
         _isMyIssues: false,
         _sidebarCnt: null,
+        tooltipHandler: null,
         startup: function (boilerPlateTemplateObject, loggedInUser) {
             // config will contain application and user defined info for the template such as i18n strings, the web map id
             // and application id
@@ -489,6 +492,13 @@ define([
                 //create instance of web map list widget
                 this._webMapListWidget = new WebMapList(webMapListConfigData, domConstruct.create("div"));
 
+                //clear extent handler of current layer before removing it from map
+                this._webMapListWidget.beforeOperationalLayerSelected = lang.hitch(this, function () {
+                    if (this._issueWallWidget && this._issueWallWidget.extentChangeHandler) {
+                        this._issueWallWidget.extentChangeHandler.remove();
+                    }
+                });
+
                 //handel on map updated event
                 this._webMapListWidget.mapUpdated = lang.hitch(this, function (mapObject) {
                     this._selectedMapDetails.map = mapObject;
@@ -519,6 +529,10 @@ define([
                 this._webMapListWidget.onOperationalLayerSelected = lang.hitch(this, function (details) {
                     //set layer title on map
                     domAttr.set(dom.byId("mapContainerTitle"), "innerHTML", details.operationalLayerDetails.title);
+                    //Show popup on click/hover of layer title div
+                    if (window.hasOwnProperty("ontouchstart") || window.ontouchstart !== undefined) {
+                        this._createTooltip(dom.byId("mapContainerTitle"), details.operationalLayerDetails.title);
+                    }
                     this.changedExtent = details.map.extent;
                     //Hide GeoForm if it is Open
                     if (domClass.contains(dom.byId('geoformContainer'), "esriCTVisible")) {
@@ -756,10 +770,6 @@ define([
                 if (domStyle.get(query(".esriCTCommentsPanel")[0], "display") === "block") {
                     domClass.replace(query(".esriCTCommentsPanel")[0], "esriCTHidden", "esriCTVisible");
                 }
-                // Clear the text area of comment widget
-                if (query(".textAreaContent")[0]) {
-                    query(".textAreaContent")[0].value = "";
-                }
             }
         },
 
@@ -801,11 +811,11 @@ define([
             if (this._isMyIssues) {
                 this.actionVisibilities = {};
                 this.actionVisibilities = this._myIssuesWidget.setActionVisibilities(item);
-                this._itemDetails.setActionsVisibility(this.actionVisibilities, this.actionVisibilities.commentTable);
+                this._itemDetails.setActionsVisibility(this.actionVisibilities, this.actionVisibilities.commentTable, this.response.itemInfo, this.actionVisibilities.commentPopupTable);
             } else {
-                this._itemDetails.setActionsVisibility(this._issueWallWidget.actionVisibilities, this._issueWallWidget._commentsTable);
+                this._itemDetails.setActionsVisibility(this._issueWallWidget.actionVisibilities, this._issueWallWidget._commentsTable, this.response.itemInfo, this._issueWallWidget._commentPopupTable);
             }
-            this._itemDetails.setItemFields(this.config.likeField, this.config.commentField);
+            this._itemDetails.setItemFields(this.config.likeField);
             this._itemDetails.setItem(item);
             this._sidebarCnt.showPanel("itemDetails");
             //if item is selected from map and user is in mobile view navigate screen to details view
@@ -1053,6 +1063,31 @@ define([
             } else {
                 this._selectedMapDetails.map.setExtent(item.geometry.getExtent(), true);
             }
+        },
+
+        /* Invoked when touch occurs on respective title
+        * @memberOf widgets/item-details-controller/item-details-controller
+        */
+        _createTooltip: function (node, title) {
+            domAttr.set(node, "data-original-title", title);
+            //Remove previous handle
+            if (this.tooltipHandler) {
+                this.tooltipHandler.remove();
+                if ($(node)) {
+                    $(node).tooltip("hide");
+                }
+            }
+            this.tooltipHandler = on(node, touch.press, lang.hitch(this, function (e) {
+                $(node).tooltip("toggle");
+                e.preventDefault();
+            }));
+            on(document, "click", lang.hitch(this, function () {
+                $(node).tooltip("hide");
+            }));
+
+            on(window, "resize", lang.hitch(this, function () {
+                $(node).tooltip("hide");
+            }));
         }
     });
 });
