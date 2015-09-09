@@ -55,6 +55,11 @@
         display: block;
     }
 
+    .esriCTMobileHelpIcon
+    {
+        display: none;
+    }
+
     .esriCTHeaderContainer
     {
         height: 60px;
@@ -99,6 +104,36 @@
     {
         display:inline;
     }
+    /* help dialog css Start*/
+    .esriCTModelDialog
+    {
+        top: 0px;
+        width: 100%;
+        height: 100%;
+    }
+
+    .esriCTModelDialog .modal-content
+    {
+        height:100%;
+
+    }
+
+    .esriCTModelDialog .modal-body
+    {
+        overflow: auto;
+        height: calc(100% - 60px);
+     }
+
+    .modal-dialog
+    {
+        margin:0px;
+    }
+
+    .modal-open .modal
+    {
+        overflow-y: hidden;
+    }
+    /* help dialog css END*/
 }
 
 /* CSS for MiniTablets */
@@ -211,6 +246,12 @@
     {
         margin-top: 23px;
     }
+
+    .esriCTHelpIcon
+    {
+       margin-top: 18px;
+    }
+
     .esriCTCaretIcon
     {
         margin-top: 23px;

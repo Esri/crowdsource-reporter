@@ -41,7 +41,7 @@ define(
         },
         webMapList: {
             owner: "Sahibi", // Shown in the 'Map information' section indicating the owner of the webmap
-            created: "ı_Date created_____İ", // Shown in the 'Map information' section indicating the date when the webmap was created
+            created: "Oluşturulma tarihi", // Shown in the 'Map information' section indicating the date when the webmap was created
             modified: "Değiştirme tarihi:", // Shown in the 'Map information' section indicating the date when the webmap was modified
             description: "Tanım", // Shown in the 'Map information' section describing the webmap
             snippet: "Özet", // Shown in the 'Map information' section providing the summary of the webmap

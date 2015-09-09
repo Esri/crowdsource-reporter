@@ -118,7 +118,7 @@ define(
             likeButtonTooltip: "Op dit rapport stemmen",  // Tooltip for command button shown in details panel
             commentButtonLabel: "Opmerking", // Command button shown in details panel
             commentButtonTooltip: "Op dit rapporten reageren", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "Gallery", // Command button shown in details panel
+            galleryButtonLabel: "Galerij", // Command button shown in details panel
             galleryButtonTooltip: "Zie bijgesloten documenten", // Tooltip for command button shown in details panel
             mapButtonLabel: "Op kaart weergeven", // Command button shown in details panel
             mapButtonTooltip: "Bekijk de locatie van dit rapport", // Tooltip for command button shown in details panel
@@ -141,7 +141,7 @@ define(
             showNoText: "Nee" // Shown when comments character limit is exceeded
         },
         gallery: {
-            galleryHeaderText: "Gallery",
+            galleryHeaderText: "Galerij",
             noAttachmentsAvailableText: "Geen bijlagen gevonden" // Shown when no comments are available for the selected issue
         }
     })

@@ -25,6 +25,7 @@ define([
     "dojo/dom-class",
     "dojo/_base/lang",
     "dojo/on",
+    "dojo/touch",
     "dojo/string",
     "dojo/query",
     "dojo/text!./templates/issue-wall.html",
@@ -36,7 +37,7 @@ define([
     "esri/tasks/query",
     "widgets/item-list/item-list",
     "dojo/_base/event"
-], function (declare, dom, domConstruct, domStyle, domAttr, domClass, lang, on, string, query, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, Graphic, FeatureLayer, Query, ItemList, event) {
+], function (declare, dom, domConstruct, domStyle, domAttr, domClass, lang, on, touch, string, query, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, Graphic, FeatureLayer, Query, ItemList, event) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         extentChangeHandler: null,
@@ -159,7 +160,7 @@ define([
         _getRelatedTableInfo: function () {
             var relatedTableURL;
             // if comment field is present in config file and the layer contains related table, fetch the first related table URL
-            if (this.appConfig.commentField && this.selectedLayer.relationships.length > 0) {
+            if (this.appConfig.commentField && this.selectedLayer.relationships && this.selectedLayer.relationships.length > 0) {
                 // Construct the related table URL form operational layer URL and the related table id
                 // We are considering only first related table although the layer has many related table.
                 // Hence, we are fetching relatedTableId from relationships[0] ie:"operationalLayer.relationships[0].relatedTableId"
@@ -201,6 +202,11 @@ define([
             this.selectedGraphicsLayer = this.map.getLayer("selectionGraphicsLayer");
             //set Layer Title in header
             domAttr.set(this.listContainerTitle, "innerHTML", this.operationalLayerDetails.title);
+            domAttr.set(this.listContainerTitle, "title", this.operationalLayerDetails.title);
+            //Show popup on click/hover of layer title div
+            if (window.hasOwnProperty("ontouchstart")) {
+                this._createTooltip(this.listContainerTitle, this.operationalLayerDetails.title);
+            }
             this._loadFeatureLayer(this.selectedLayer, extentChangeFlag);
             if (this.extentChangeHandler) {
                 this.extentChangeHandler.remove();
@@ -274,7 +280,7 @@ define([
                         // get object id field from the layer
                         objectIdFieldValue = operationalLayer.graphics[j].attributes[operationalLayer.objectIdField];
                         // if like field is present in the config file and the layer contains like field, set the flag to true
-                        if (this.appConfig.likeField && (operationalLayer.fields[x].name === this.appConfig.likeField)) {
+                        if (this.appConfig.likeField && (operationalLayer.fields[x].name === this.appConfig.likeField) && (operationalLayer.fields[x].type === "esriFieldTypeSmallInteger" || operationalLayer.fields[x].type === "esriFieldTypeInteger" || operationalLayer.fields[x].type === "esriFieldTypeSingle" || operationalLayer.fields[x].type === "esriFieldTypeDouble")) {
                             likeFlag = true;
                         }
                     }
@@ -389,6 +395,32 @@ define([
         */
         destroyInstance: function () {
             this.destroy();
+        },
+
+        /**
+        * Invoked when touch occurs on respective title
+        * @memberOf geo-form/geo-form
+        */
+        _createTooltip: function (node, title) {
+            domAttr.set(node, "data-original-title", title);
+            //Remove previous handle
+            if (this.tooltipHandler) {
+                this.tooltipHandler.remove();
+                if ($(node)) {
+                    $(node).tooltip("hide");
+                }
+            }
+            this.tooltipHandler = on(node, touch.press, lang.hitch(this, function (e) {
+                $(node).tooltip("toggle");
+                e.preventDefault();
+            }));
+            on(document, "click", lang.hitch(this, function () {
+                $(node).tooltip("hide");
+            }));
+
+            on(window, "resize", lang.hitch(this, function () {
+                $(node).tooltip("hide");
+            }));
         }
     });
 });

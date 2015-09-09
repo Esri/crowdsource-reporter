@@ -41,7 +41,7 @@ define(
         },
         webMapList: {
             owner: "เจ้าของ", // Shown in the 'Map information' section indicating the owner of the webmap
-            created: "ก้_Date created_____ษฺ", // Shown in the 'Map information' section indicating the date when the webmap was created
+            created: "วันที่สร้าง", // Shown in the 'Map information' section indicating the date when the webmap was created
             modified: "วันที่แก้ไข", // Shown in the 'Map information' section indicating the date when the webmap was modified
             description: "คำบรรยาย", // Shown in the 'Map information' section describing the webmap
             snippet: "สรุป", // Shown in the 'Map information' section providing the summary of the webmap

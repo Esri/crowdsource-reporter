@@ -41,7 +41,7 @@ define(
         },
         webMapList: {
             owner: "Κάτοχος", // Shown in the 'Map information' section indicating the owner of the webmap
-            created: "Đ_Date created_____ớ", // Shown in the 'Map information' section indicating the date when the webmap was created
+            created: "Ημερομηνία δημιουργίας", // Shown in the 'Map information' section indicating the date when the webmap was created
             modified: "Ημερομηνία τροποποίησης", // Shown in the 'Map information' section indicating the date when the webmap was modified
             description: "Περιγραφή", // Shown in the 'Map information' section describing the webmap
             snippet: "Σύνοψη", // Shown in the 'Map information' section providing the summary of the webmap

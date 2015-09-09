@@ -41,7 +41,7 @@ define(
         },
         webMapList: {
             owner: "יוצר", // Shown in the 'Map information' section indicating the owner of the webmap
-            created: "כן_Date created_____ש", // Shown in the 'Map information' section indicating the date when the webmap was created
+            created: "תאריך יצירה", // Shown in the 'Map information' section indicating the date when the webmap was created
             modified: "תאריך שינוי", // Shown in the 'Map information' section indicating the date when the webmap was modified
             description: "תיאור", // Shown in the 'Map information' section describing the webmap
             snippet: "סיכום", // Shown in the 'Map information' section providing the summary of the webmap

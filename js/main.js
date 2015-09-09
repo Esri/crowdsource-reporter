@@ -18,6 +18,7 @@
 define([
     "dojo/_base/declare",
     "dojo/_base/lang",
+    "dojo/_base/array",
     "esri/arcgis/utils",
     "dojo/dom",
     "dojo/dom-construct",
@@ -30,6 +31,8 @@ define([
     "dojo/window",
     "dojo/text!css/theme-template.css",
     "esri/layers/GraphicsLayer",
+    "esri/layers/FeatureLayer",
+    "esri/geometry/Circle",
     "esri/tasks/query",
     "esri/Color",
     "esri/graphic",
@@ -49,10 +52,12 @@ define([
     "dojo/query",
     "widgets/sidebar-content-controller/sidebar-content-controller",
     "widgets/item-details/item-details-controller",
+    "widgets/map-search/map-search",
     "dojo/domReady!"
 ], function (
     declare,
     lang,
+    array,
     arcgisUtils,
     dom,
     domConstruct,
@@ -65,6 +70,8 @@ define([
     dojowindow,
     ThemeCss,
     GraphicsLayer,
+    FeatureLayer,
+    Circle,
     Query,
     Color,
     Graphic,
@@ -83,7 +90,8 @@ define([
     ApplicationUtils,
     query,
     SidebarContentController,
-    ItemDetails
+    ItemDetails,
+    MapSearch
 ) {
     return declare(null, {
         config: {},
@@ -111,6 +119,8 @@ define([
                 this.appUtils = new ApplicationUtils({
                     "config": this.config
                 });
+                // Initializes the map-search widget
+                this.mapSearch = new MapSearch({ "config": this.config, "appUtils": this.appUtils });
                 //if login details are not available set it to anonymousUserName
                 //based on login info if user is logged in set menu's for signin and signout
                 if (loggedInUser) {
@@ -453,7 +463,7 @@ define([
         */
         _createWebMapList: function () {
             try {
-                var webMapDescriptionFields, webMapListConfigData, isCreateGeoLocation, zoomInBtn, zoomOutBtn, basemapExtent, geoLocationButtonDiv;
+                var webMapDescriptionFields, webMapListConfigData, isCreateGeoLocation, zoomInBtn, zoomOutBtn, basemapExtent, geoLocationButtonDiv, homeButtonDiv, incrementButton, decrementButton;
                 //construct json data for the fields to be shown in descriptions, based on the configuration
                 webMapDescriptionFields = {
                     "description": this.config.webMapInfoDescription,
@@ -543,8 +553,21 @@ define([
                         geoLocationButtonDiv = domConstruct.create("div", {
                             "class": "esriCTMapGeoLocationContainer"
                         });
+                        homeButtonDiv = domConstruct.create("div", {
+                            "class": "esriCTMapHomeButtonContainer"
+                        });
+                        incrementButton = query(".esriSimpleSliderIncrementButton", dom.byId("mapDiv"));
+                        domConstruct.empty(incrementButton[0]);
+                        domClass.add(incrementButton[0], "esriCTIncrementButton esriCTPointerCursor");
+                        decrementButton = query(".esriSimpleSliderDecrementButton", dom.byId("mapDiv"));
+                        domConstruct.empty(decrementButton[0]);
+                        domClass.add(decrementButton[0], "esriCTDecrementButton esriCTPointerCursor");
+
+                        domConstruct.place(homeButtonDiv, query(".esriSimpleSliderIncrementButton", dom.byId("mapDiv"))[0], "after");
                         domConstruct.place(geoLocationButtonDiv, query(".esriSimpleSliderDecrementButton", dom.byId("mapDiv"))[0], "after");
                         this.appUtils.createGeoLocationButton(details.itemInfo.itemData.baseMap.baseMapLayers, this._selectedMapDetails.map, geoLocationButtonDiv, false);
+                        this.appUtils.createHomeButton(this._selectedMapDetails.map, homeButtonDiv);
+                        this.mapSearch.createSearchButton(this.response, this.response.map, dom.byId("mapDiv"), false, details);
                         basemapExtent = this.appUtils.getBasemapExtent(details.itemInfo.itemData.baseMap.baseMapLayers);
                     }
                     this._selectedMapDetails.webmapList = this._webMapListWidget.filteredWebMapResponseArr;
@@ -864,7 +887,7 @@ define([
         * @param{object} details of selected layer
         */
         _getPointSymbol: function (graphic, layer) {
-            var symbol, isSymbolFound, graphics, point, graphicInfoValue, layerInfoValue, i;
+            var symbol, isSymbolFound, graphics, point, graphicInfoValue, layerInfoValue, i, itemFromLayer, symbolShape;
             isSymbolFound = false;
             symbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_SQUARE, null, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 255, 1]), 3));
             symbol.setColor(null);
@@ -894,6 +917,31 @@ define([
                         if (layer.renderer.defaultSymbol) {
                             isSymbolFound = true;
                             symbol = this._updatePointSymbolProperties(symbol, layer.renderer.defaultSymbol);
+                        }
+                    }
+                }
+            }
+            layer = this.mapInstance.getLayer(layer.id);
+            if (!isSymbolFound && layer && layer.graphics && layer.graphics.length > 0) {
+                array.some(layer.graphics, function (item) {
+                    if (item.attributes[graphic._layer.objectIdField] === graphic.attributes[graphic._layer.objectIdField]) {
+                        itemFromLayer = item;
+                        return item;
+                    }
+                });
+                if (itemFromLayer.getShape) {
+                    symbolShape = itemFromLayer.getShape();
+                    if (symbolShape && symbolShape.shape) {
+                        if (symbolShape.shape.hasOwnProperty("r")) {
+                            isSymbolFound = true;
+                            symbol.size = (symbolShape.shape.r * 2) + 10;
+                        } else if (symbolShape.shape.hasOwnProperty("width")) {
+                            isSymbolFound = true;
+                            //get offsets in case of smartmapping symbols from the renderer info if available
+                            if (layer.renderer && layer.renderer.infos && layer.renderer.infos.length > 0) {
+                                symbol = this._updatePointSymbolProperties(symbol, layer.renderer.infos[0].symbol);
+                            }
+                            symbol.size = symbolShape.shape.width + 10;
                         }
                     }
                 }

@@ -130,8 +130,8 @@
                 {
                     "type": "string",
                     "fieldName": "reportedByField",
-                    "label": "Reporter Name Field (optional)",
-                    "tooltip": "Text field that stores the username of the person who created the feature. Field name must be the same across all layers and maps."
+                    "label": "Reporter ID Field (optional)",
+                    "tooltip": "Text field that stores the ID of the person who created the feature. Field name must be the same across all layers and maps."
                 },
                 {
                     "type": "string",
@@ -242,6 +242,40 @@
                     "fieldName": "enableLatLongSearch",
                     "label": "Latitude/Longitude",
                     "tooltip": "Enable Latitude Longitude Search"
+                }
+            ]
+        },
+        {
+            "category": "<b>Help Settings</b>",
+            "fields": [
+                {
+                    "type": "paragraph",
+                    "value": "A help window can be accessed from a link on the spash page and from an icon within the app. Configure this dialog to display instructions for using the app, or any other information that may be useful to your users."
+                },
+                {
+                    "type": "boolean",
+                    "fieldName": "enableHelp",
+                    "label": "Enable the help window",
+                    "tooltip": "When disabled, the help window will not be accessible."
+                },
+                {
+                    "type": "string",
+                    "fieldName": "helpLinkText",
+                    "label": "Splash page link text",
+                    "tooltip": "Clicking this text will open the help dialog."
+                },
+                {
+                    "type": "string",
+                    "fieldName": "helpDialogTitle",
+                    "label": "Help window title",
+                    "tooltip": "Text displayed at the top of the help window"
+                },
+                {
+                    "type": "string",
+                    "fieldName": "helpDialogContent",
+                    "label": "Dialog content",
+                    "stringFieldOption": "richtext",
+                    "tooltip": "Text and graphics that will display in the help window."
                 }
             ]
         }

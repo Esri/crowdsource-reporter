@@ -147,8 +147,7 @@ define([
                 for (i = 0; i < this.webmapList.length; i++) {
                     webmapOpLayerArr = this.webmapList[i][1].itemInfo.itemData.operationalLayers;
                     // loop to iterate layers from web-map and push into layerResponseDef array
-                   // for (j = 0; j < webmapOpLayerArr.length; j++) {
-                        for (j = webmapOpLayerArr.length - 1; j >= 0; j--) {
+                    for (j = webmapOpLayerArr.length - 1; j >= 0; j--) {
                         // add layer to opLayersArr array, if it has configured reported by field to identify creator of issue
                         if (this.isFieldAvailable(webmapOpLayerArr[j].layerObject, this.appConfig.reportedByField)) {
                             webmapOpLayerArr[j].webmapId = this.webmapList[i][1].itemInfo.item.id;
