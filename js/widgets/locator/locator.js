@@ -58,7 +58,6 @@ define([
         */
         postCreate: function () {
             var graphicsLayer, placeHolderText;
-            //domConstruct.place(this.divLocateContainer, query(".esriCTlocationPanel")[0]);
             domConstruct.place(this.divLocateContainer, this.locatorContainer);
             if (this.itemInfo.applicationProperties.viewing.search && this.itemInfo.applicationProperties.viewing.search.hintText) {
                 placeHolderText = this.itemInfo.applicationProperties.viewing.search.hintText;
@@ -212,7 +211,6 @@ define([
             this.isPerformingSearch = true;
             // fetch the geocode URL from portal organization, and if the URL is unavailable disable address search
             if (this.config.helperServices.geocode.length > 0) {
-
                 for (i = 0; i < this.config.helperServices.geocode.length; i++) {
                     locator = new Locator(this.config.helperServices.geocode[i].url);
                     locator.outSpatialReference = this.map.spatialReference;
@@ -292,12 +290,12 @@ define([
         * @param {} deferredArray
         */
         _layerSearchResults: function (layerObject, deferredArray) {
-            var queryTask, queryLayer, deferred, currentTime, queryURL;
-            queryURL = this.map.getLayer(layerObject.id);
+            var queryTask, queryLayer, deferred, currentTime, layer;
+            layer = this.map.getLayer(layerObject.id);
             this._toggleTexBoxControls(true);
-            if (queryURL) {
+            if (layer) {
                 currentTime = new Date().getTime();
-                queryTask = new QueryTask(queryURL.url);
+                queryTask = new QueryTask(layer.url);
                 queryLayer = new EsriQuery();
                 // check if layer is configured to perform exact search, else perform 'contains' search
                 if (layerObject.field.exactMatch) {
@@ -305,9 +303,13 @@ define([
                 } else {
                     queryLayer.where = "UPPER(" + layerObject.field.name + ") LIKE UPPER ('%" + lang.trim(this.txtSearch.value) + "%') AND " + currentTime + "=" + currentTime;
                 }
+                if (layer.getDefinitionExpression()) {
+                    queryLayer.where = queryLayer.where + " AND " + layer.getDefinitionExpression();
+                }
                 queryLayer.outSpatialReference = this.map.spatialReference;
                 queryLayer.returnGeometry = true;
                 queryLayer.outFields = ["*"];
+
                 deferred = new Deferred();
                 queryTask.execute(queryLayer, lang.hitch(this, function (featureSet) {
                     var resultArray, resultObject = {};
@@ -671,7 +673,21 @@ define([
                     candidateSplitValue = candidate.coords.split(",");
                     this._projectOnMap(candidateSplitValue[0], candidateSplitValue[1]);
                 }
-                this.onLocationCompleted(this.candidateGeometry);
+                //New function to catch the selected feature
+                if (candidate.name && candidate.geometry) {
+                    this.onFeatureSearchCompleted(candidate);
+                } else {
+                    this.onLocationCompleted(this.candidateGeometry);
+                }
+                if (this.handleFeatureSearch) {
+                    if (candidate.name && candidate.geometry) {
+                        this.onFeatureSearchCompleted(candidate);
+                    } else {
+                        this.onLocationCompleted(this.candidateGeometry);
+                    }
+                } else {
+                    this.onLocationCompleted(this.candidateGeometry);
+                }
             }));
         },
 
@@ -702,6 +718,15 @@ define([
         */
         onLocationCompleted: function (geometry) {
             return geometry;
+        },
+
+        /**
+        * Return the selected address's geometry
+        * @param {} geometry
+        * @memberOf widgets/locator/locator
+        */
+        onFeatureSearchCompleted: function (feature) {
+            return feature;
         },
 
         /**

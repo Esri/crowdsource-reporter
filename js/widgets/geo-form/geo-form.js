@@ -155,7 +155,7 @@ define([
                 // Handle click of cancel button
                 on(this.cancelButton, "click", lang.hitch(this, this._onCancelClick));
                 // Initialize locator widget
-                this.locator = new Locator({ "map": this.map, "config": this.config, "appUtils": this.appUtils, "itemInfo": response.itemInfo.itemData, "layerId": this.layerId, "locatorContainer": this.geoformLocator });
+                this.locator = new Locator({ "map": this.map, "config": this.config, "appUtils": this.appUtils, "itemInfo": response.itemInfo.itemData, "layerId": this.layerId, "locatorContainer": this.geoformLocator, "handleFeatureSearch": false });
                 // function call on selection of search result
                 this.locator.onLocationCompleted = lang.hitch(this, this._validateAddress);
                 //Set placeholder text on load, if application is running in IE9
@@ -1641,7 +1641,7 @@ define([
                     // Show Thank you message on Success
                     this._showHeaderMessageDiv(this.config.submitMessage, "success");
                     // Successfully feature is added on the layer
-                    this.geoformSubmitted(true);
+                    this.geoformSubmitted(addResults[0].objectId);
                 } else {
                     domConstruct.destroy(query(".errorMessage")[0]);
                     // Show Error message on Failure
@@ -1810,6 +1810,7 @@ define([
             if (domClass.contains(this.headerMessageDiv, "esriCTVisible")) {
                 domClass.replace(this.headerMessageDiv, "esriCTHidden", "esriCTVisible");
             }
+
             array.forEach(query('.errorMessage'), lang.hitch(this, function (node) {
                 this._removeErrorNode(node);
             }));

@@ -35,9 +35,9 @@ define([
         appUtils: null,
 
         /**
-         * This function is called when user needs to start operation of widget
-         * @memberOf js/bootstrapper
-         */
+        * This function is called when user needs to start operation of widget
+        * @memberOf js/bootstrapper
+        */
         startup: function () {
             // create the template. This will take care of all the logic required for template applications
             this.boilerPlateTemplateObject = new Template(TemplateConfig);
@@ -45,9 +45,15 @@ define([
                 "config": this.boilerPlateTemplateObject
             });
             this.boilerPlateTemplateObject.startup().then(lang.hitch(this, function (config) {
+                config.geolocation = {};
+                //Check whether browser supprots geolocation
+                navigator.geolocation.getCurrentPosition(lang.hitch(this, function (position) {
+                    config.geolocation = position;
+                }), function () {
+                    config.geolocation = false;
+                });
                 // The config object contains the following properties: helper services, (optionally)
                 // i18n, appid, webmap and any custom values defined by the application.
-
                 // Load Application if valid group-id is configured, if not show error message.
                 if (lang.trim(config.group) !== "") {
                     this.initApplication(config);
@@ -67,9 +73,9 @@ define([
         },
 
         /**
-         * This function is used to initiate the main application
-         * @memberOf js/bootstrapper
-         */
+        * This function is used to initiate the main application
+        * @memberOf js/bootstrapper
+        */
         initApplication: function () {
             var citizenApp;
             // create citizenApp and pass the boiler plate instance to it

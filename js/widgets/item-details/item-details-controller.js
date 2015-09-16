@@ -53,6 +53,7 @@ define([
         itemTitle: 'default title',
         characterLength: null,
         tooltipHandler: null,
+        selectedLayer: null,
         i18n: {
             likeButtonLabel: "Like",
             likeButtonTooltip: "Vote for this",
@@ -193,10 +194,10 @@ define([
             var updateQuery, updateQueryTask, deferred = new Deferred();
             // Get the latest vote count from the server, not just the feature layer
             updateQuery = new Query();
-            updateQuery.objectIds = [item.attributes[item._layer.objectIdField]];
+            updateQuery.objectIds = [item.attributes[this.selectedLayer.objectIdField]];
             updateQuery.returnGeometry = false;
             updateQuery.outFields = [this.appConfig.likeField];
-            updateQueryTask = new QueryTask(item._layer.url);
+            updateQueryTask = new QueryTask(this.selectedLayer.url);
             updateQueryTask.execute(updateQuery, lang.hitch(this, function (results) {
                 var retrievedVotes;
                 if (results && results.features && results.features.length > 0) {
@@ -221,7 +222,7 @@ define([
             item.attributes[this.appConfig.likeField] = item.attributes[this.appConfig.likeField] + 1;
             // Update the item in the feature layer
             this.appUtils.showLoadingIndicator();
-            item._layer.applyEdits(null, [item], null, lang.hitch(this, function (updates) {
+            this.selectedLayer.applyEdits(null, [item], null, lang.hitch(this, function (updates) {
                 if (updates && updates.length > 0 && updates[0].error) {
                     this.appUtils.hideLoadingIndicator();
                     this.appUtils.showError(this.i18n.unableToUpdateVoteField);
@@ -248,8 +249,9 @@ define([
         * @param {string} votesField Name of votes property
         * @param {array} commentFields Fields used by comment-entry form
         */
-        setItemFields: function (votesField) {
+        setItemFields: function (votesField, selectedLayer) {
             this.votesField = votesField;
+            this.selectedLayer = selectedLayer;
         },
 
         /**
@@ -422,13 +424,13 @@ define([
         */
         _queryComments: function (item) {
             var updateQuery = new RelationshipQuery();
-            updateQuery.objectIds = [item.attributes[item._layer.objectIdField]];
+            updateQuery.objectIds = [item.attributes[this.selectedLayer.objectIdField]];
             updateQuery.returnGeometry = true;
             updateQuery.outFields = ["*"];
-            updateQuery.relationshipId = item._layer.relationships[0].id;
+            updateQuery.relationshipId = this.selectedLayer.relationships[0].id;
             //Show loading indicator
             this.appUtils.showLoadingIndicator();
-            item._layer.queryRelatedFeatures(updateQuery, lang.hitch(this, function (results) {
+            this.selectedLayer.queryRelatedFeatures(updateQuery, lang.hitch(this, function (results) {
                 var pThis = this, fset, features, i;
                 // Function for descending-OID-order sort
                 // Function for descending-OID-order sort
@@ -441,7 +443,8 @@ define([
                     }
                     return 0;  // a & b have same date, so relative order doesn't matter
                 }
-                fset = results[item.attributes[item._layer.objectIdField]];
+
+                fset = results[item.attributes[this.selectedLayer.objectIdField]];
                 features = fset ? fset.features : [];
 
                 if (features.length > 0) {
@@ -457,7 +460,7 @@ define([
                 if (features.length > 0) {
                     // Sort by descending OID order
                     features.sort(sortByOID);
-                    this._setComments(results[item.attributes[item._layer.objectIdField]].features);
+                    this._setComments(results[item.attributes[this.selectedLayer.objectIdField]].features);
                     domClass.add(this.noCommentsDiv, "esriCTHidden");
                 } else {
                     domClass.remove(this.noCommentsDiv, "esriCTHidden");
@@ -507,7 +510,7 @@ define([
             var container, fieldContent, i, imageContent, imagePath, imageDiv = [];
             domConstruct.empty(this.gallery);
             this.appUtils.showLoadingIndicator();
-            item._layer.queryAttachmentInfos(item.attributes[item._layer.objectIdField], lang.hitch(this, function (infos) {
+            this.selectedLayer.queryAttachmentInfos(item.attributes[this.selectedLayer.objectIdField], lang.hitch(this, function (infos) {
                 container = domConstruct.create("div", {
                     "class": "esriCTDetailsContainer"
                 }, this.gallery);
@@ -617,7 +620,8 @@ define([
                     itemInfos: this.itemInfos,
                     appUtils: this.appUtils,
                     nls: this.i18n,
-                    item: item
+                    item: item,
+                    selectedLayer : this.selectedLayer
                 }, domConstruct.create("div", {}, this.commentDetails));
 
                 //attach cancel button click event
@@ -635,7 +639,7 @@ define([
             } else {
                 this.commentformInstance.commentTable = this._commentTable;
                 this.commentformInstance.commentPopupTable = this.commentPopupTable;
-                this.commentformInstance.setItem(item);
+                this.commentformInstance.setItem(item, this.selectedLayer);
                 this.commentformInstance._initializeCommentForm();
             }
             this._showPanel(this.commentDetails, this.commentButton, true);

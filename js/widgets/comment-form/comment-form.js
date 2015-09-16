@@ -41,6 +41,7 @@ define([
         item: null,
         rangeHelpText: null,
         _layerHasReportedByField: false,
+        selectedLayer: null,
 
         /**
         * This function is called when widget is constructed.
@@ -207,7 +208,7 @@ define([
                 //Show loading indicator
                 this.appUtils.showLoadingIndicator();
 
-                this._primaryKeyField = this.item._layer.relationships[0].keyField;
+                this._primaryKeyField = this.selectedLayer.relationships[0].keyField;
                 this._foreignKeyField = this.commentTable.relationships[0].keyField;
                 featureData.attributes[this._foreignKeyField] = this.item.attributes[this._primaryKeyField];
                 // Add the comment to the comment table
@@ -1178,8 +1179,9 @@ define([
         * @param{item} selected item
         * @memberOf widgets/comment-form/comment-form
         */
-        setItem: function (item) {
+        setItem: function (item, selectedLayer) {
             this.item = item;
+            this.selectedLayer = selectedLayer;
         }
     });
 });

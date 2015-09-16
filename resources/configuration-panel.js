@@ -78,7 +78,6 @@
                     "label": "Facebook AppId",
                     "tooltip": "Facebook AppId"
                 },
-
                 {
                     "type": "boolean",
                     "fieldName": "enableGoogleplus",
@@ -96,7 +95,6 @@
         {
             "category": "<b>Application Settings</b>",
             "fields": [
-
                 {
                     "type": "string",
                     "fieldName": "applicationIcon",
@@ -138,6 +136,7 @@
                     "label": "Vote Field (optional)",
                     "tooltip": "Integer field that stores the vote count. Field name must be the same across all layers and maps."
                 },
+
                 {
                     "type": "string",
                     "fieldName": "zoomLevel",
@@ -207,6 +206,47 @@
                     "fieldName": "webMapInfoAvgRating",
                     "label": "Average Rating",
                     "tooltip": "Enable to show webmap average rating"
+                },
+                {
+                    "type": "string",
+                    "fieldName": "bufferRadius",
+                    "label": "Buffer Radius",
+                    "tooltip": "Buffer Radius"
+                },
+                {
+                    "type": "options",
+                    "fieldName": "bufferUnit",
+                    "tooltip": "Unit to be used for buffer",
+                    "label": "Buffer Unit:",
+                    "options": [
+                        {
+                            "label": "Miles",
+                            "value": "miles"
+                        },
+                        {
+                            "label": "Kilometers",
+                            "value": "kilometers"
+                        },
+                        {
+                            "label": "Meters",
+                            "value": "meters"
+                        },
+                        {
+                            "label": "Feets",
+                            "value": "feet"
+                        }
+                    ]
+                },
+                {
+                    "type": "number",
+                    "fieldName": "autoRefreshInterval",
+                    "label": "Refresh Interval",
+                    "tooltip": "Refresh Interval",
+                    "constraints": {
+                        "min": 3,
+                        "max": 60,
+                        "places": 0
+                    }
                 }
             ]
         },

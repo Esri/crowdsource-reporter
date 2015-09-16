@@ -1,0 +1,46 @@
+
+/*RTL support for help dialog*/
+
+.dj_rtl .esriCTCloseHelpWindow
+{
+    right:auto;
+    left: 25px;
+}
+
+.dj_rtl .esriCTGeoFormGeoLocation
+{
+    float: left !important;
+}
+
+.dj_rtl .esriCTGeoFormBody .esriCTTxtSearch
+{
+    padding-right:5px;
+    padding-left: 70px !important;
+}
+
+.dj_rtl .esriCTGeoFormBody .esriCTLocateContainer div.input-group-btn
+{
+    right:auto;
+    left: 36px !important;
+}
+
+.dj_rtl .esriCTGeoFormBody .esriCTSearchButton
+{
+    margin-left:auto;
+    margin-right: 4px !important;
+    border-right: 1px solid #ccc !important;
+}
+
+.dj_rtl .esriCTGeoFormBody .esriCTSearchClose
+{
+    right: auto;
+    left:66px !important;
+}
+
+.dj_rtl .esriCTLoadMoreButton
+{
+    margin-left:45%;
+    margin-right:45%;
+}
+
+/*RTL support for help dialog*/

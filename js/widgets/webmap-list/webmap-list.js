@@ -369,7 +369,7 @@ define([
                                 if (this.map._layers[layer].id !== obj.operationalLayerId) {
                                     this.map._layers[layer].hide();
                                 } else {
-                                    this.map._layers[layer].show();
+                                    this.map._layers[layer].hide();
                                     this.map.getLayer(obj.operationalLayerId).refresh();
                                     featureLayer = new FeatureLayer(this.map._layers[layer].url);
                                     this._onFeatureLayerLoad(featureLayer, obj.webMapId, obj.operationalLayerId, obj.operationalLayerDetails, obj.itemInfo);

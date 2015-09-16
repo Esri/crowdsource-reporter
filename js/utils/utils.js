@@ -47,12 +47,15 @@ define([
     HomeButton
 ) {
     return declare([_WidgetBase], {
+        isBusy: false,
         showLoadingIndicator: function () {
             domClass.add(document.body, "app-loading");
+            this.isBusy = true;
         },
 
         hideLoadingIndicator: function () {
             domClass.remove(document.body, "app-loading");
+            this.isBusy = false;
         },
 
         showError: function (error) {
@@ -176,9 +179,9 @@ define([
         },
 
         /**
-       * Create homebutton button on the map
-       * @memberOf utils/utils
-       */
+        * Create homebutton button on the map
+        * @memberOf utils/utils
+        */
         createHomeButton: function (map, parentNode) {
             var homeButton, createHomeButtonDiv;
             createHomeButtonDiv = domConstruct.create("div", { "class": "esriCTHomeButton" }, parentNode);

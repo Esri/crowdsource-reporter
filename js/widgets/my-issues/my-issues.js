@@ -58,7 +58,9 @@ define([
             this.itemsList = new ItemList({
                 "appConfig": this.appConfig,
                 "linkToMapView": false,
-                "isMyIssues": true
+                "appUtils": this.appUtils,
+                "isMyIssues": true,
+                "selectedLayer": this.selectedLayer
             }).placeAt(this.myIssuesListContainer);
 
             // Handles Click event on selected myIssues
@@ -355,7 +357,7 @@ define([
             // Sort by descending OID order
             features.sort(sortByOID);
             // loop to iterate all the feature and push the details of like, comment, gallary flag value
-            // also stores the webmap title , layerObject and layer title information in feature 
+            // also stores the webmap title , layerObject and layer title information in feature
             array.forEach(features, lang.hitch(this, function (currentFeature) {
                 currentFeature.webMapTitle = webmaptitle;
                 currentFeature.showLikes = likeFlag;
@@ -363,7 +365,7 @@ define([
                 currentFeature.layerId = opLayer.id;
                 currentFeature.layerTitle = opLayer.title;
                 currentFeature._layer = opLayer.layerObject;
-                // if attachment flag is true on layer then set gallary flag true 
+                // if attachment flag is true on layer then set gallary flag true
                 // in features which will show gallry button in detail view
                 if (currentFeature._layer.hasAttachments && currentFeature._layer.infoTemplate && currentFeature._layer.infoTemplate.info && currentFeature._layer.infoTemplate.info.showAttachments) {
                     currentFeature.gallery = true;
@@ -371,7 +373,7 @@ define([
                     currentFeature.gallery = false;
                 }
 
-                // if relationships field exist on layer and in relationships table comment avilable 
+                // if relationships field exist on layer and in relationships table comment avilable
                 // and comment field given in configuration file then it will set comments flag true
                 // in feature set
                 if (currentFeature && currentFeature._layer.relationships && currentFeature._layer.relationships.length > 0) {
@@ -449,6 +451,18 @@ define([
             actionVisibilities.commentPopupTable = item.commentPopupTable;
             actionVisibilities.gallery = item.gallery;
             return actionVisibilities;
+        },
+
+        /**
+        * update myissues widget and item list with current layer
+        * @param{item} operational layer object
+        * @memberOf widgets/my-issues/my-issues
+        */
+        updateLayer: function (selectedLayer) {
+            this.selectedLayer = selectedLayer;
+            if (this.itemsList) {
+                this.itemsList.selectedLayer = selectedLayer;
+            }
         }
 
     });
