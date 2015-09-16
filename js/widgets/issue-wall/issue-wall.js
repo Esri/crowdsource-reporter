@@ -24,6 +24,7 @@ define([
     "dojo/dom-attr",
     "dojo/dom-class",
     "dojo/_base/lang",
+    "dojo/_base/array",
     "dojo/on",
     "dojo/touch",
     "dojo/string",
@@ -37,15 +38,17 @@ define([
     "esri/tasks/query",
     "widgets/item-list/item-list",
     "dojo/_base/event"
-], function (declare, dom, domConstruct, domStyle, domAttr, domClass, lang, on, touch, string, query, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, Graphic, FeatureLayer, Query, ItemList, event) {
+], function (declare, dom, domConstruct, domStyle, domAttr, domClass, lang, array, on, touch, string, query, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, Graphic, FeatureLayer, Query, ItemList, event) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
-        extentChangeHandler: null,
         _hasCommentsTable: false,
         _commentsTable: null,
+        _commentPopupTable: null,
         _layerClickHandler: null,
+        tooltipHandler: null,
         itemsList: null,
         selectedLayer: null,
+        _hasLikes: false,
 
         /**
         * This function is called when widget is constructed.
@@ -63,11 +66,16 @@ define([
             // Items list
             this.itemsList = new ItemList({
                 "appConfig": this.appConfig,
+                "appUtils": this.appUtils,
                 "linkToMapView": true
             }).placeAt(this.listContainer); // placeAt triggers a startup call to _itemsList
 
             this.itemsList.summaryClick = lang.hitch(this, function (self, feat, evt) {
                 this.onItemSelected(feat);
+            });
+
+            this.itemsList.onLoadMoreClick = lang.hitch(this, function (evt) {
+                this.onLoadMoreClick(evt);
             });
 
             this.itemsList.setLikeField(this.appConfig.likeField);
@@ -134,6 +142,9 @@ define([
             return evt;
         },
 
+        onLoadMoreClick: function (evt) {
+            return evt;
+        },
 
         /**
         * Initialize Issue wall
@@ -141,14 +152,32 @@ define([
         * @memberOf widgets/issue-wall/issue-wall
         */
         initIssueWall: function (config) {
+            var x;
             if (config) {
                 lang.mixin(this, config);
             }
+            this.itemsList.featureLayerCount = this.featureLayerCount;
             this.selectedLayer = this.map.getLayer(this.operationalLayerId);
+            this.itemsList.selectedLayer = this.selectedLayer;
+            this.selectedGraphicsDisplayLayer = this.map.getLayer("Graphics" + this.operationalLayerId);
+            //Clear list and selection before creating new issue list
+            this.itemsList.clearList();
             this.itemsList.clearSelection();
             //Set the Comments table flag to false
             this._hasCommentsTable = false;
+            //Set the Likes flag to false
+            this._hasLikes = false;
             this._getRelatedTableInfo();
+            //Hide no issues warning message before fetching features from newly selected layer
+            if (!domClass.contains(this.noIssuesMessage, "esriCTHidden")) {
+                domClass.add(this.noIssuesMessage, "esriCTHidden");
+            }
+            for (x = 0; x < this.selectedLayer.fields.length; x++) {
+                // if like field is present in the config file and the layer contains like field, set the flag to true
+                if (this.appConfig.likeField && (this.selectedLayer.fields[x].name === this.appConfig.likeField)) {
+                    this._hasLikes = true;
+                }
+            }
         },
 
         /**
@@ -160,12 +189,13 @@ define([
         _getRelatedTableInfo: function () {
             var relatedTableURL;
             // if comment field is present in config file and the layer contains related table, fetch the first related table URL
-            if (this.appConfig.commentField && this.selectedLayer.relationships && this.selectedLayer.relationships.length > 0) {
+            if (this.selectedLayer.relationships && this.selectedLayer.relationships.length > 0) {
                 // Construct the related table URL form operational layer URL and the related table id
                 // We are considering only first related table although the layer has many related table.
                 // Hence, we are fetching relatedTableId from relationships[0] ie:"operationalLayer.relationships[0].relatedTableId"
                 relatedTableURL = this.selectedLayer.url.substr(0, this.selectedLayer.url.lastIndexOf('/') + 1) + this.selectedLayer.relationships[0].relatedTableId;
                 this._commentsTable = new FeatureLayer(relatedTableURL);
+                this.itemInfos = this.itemInfo;
                 if (!this._commentsTable.loaded) {
                     on(this._commentsTable, "load", lang.hitch(this, function (evt) {
                         this._commentsTableLoaded();
@@ -180,11 +210,25 @@ define([
 
         _commentsTableLoaded: function () {
             var k;
-            // if the related table contains comment field set commentIconFlag to true
-            for (k = 0; k < this._commentsTable.fields.length; k++) {
-                if (this._commentsTable.fields[k].name === this.appConfig.commentField) {
-                    this._hasCommentsTable = true;
-                    break;
+            this._commentPopupTable = null;
+            if (this.itemInfos && this.itemInfos.itemData.tables) {
+                //fetch comment popup table which will be used in creating comment form
+                array.some(this.itemInfos.itemData.tables, lang.hitch(this, function (currentTable) {
+                    if (this._commentsTable && this._commentsTable.url) {
+                        if (currentTable.url === this._commentsTable.url && currentTable.popupInfo) {
+                            this._commentPopupTable = currentTable;
+                        }
+                    }
+                }));
+            }
+
+            if (this._commentPopupTable && this._commentPopupTable.popupInfo) {
+                // if popup information of related table has atleast one editable field comment flag will be set to true
+                for (k = 0; k < this._commentPopupTable.popupInfo.fieldInfos.length; k++) {
+                    if (this._commentPopupTable.popupInfo.fieldInfos[k].isEditable) {
+                        this._hasCommentsTable = true;
+                        break;
+                    }
                 }
             }
             if (!this._hasCommentsTable) {
@@ -204,17 +248,10 @@ define([
             domAttr.set(this.listContainerTitle, "innerHTML", this.operationalLayerDetails.title);
             domAttr.set(this.listContainerTitle, "title", this.operationalLayerDetails.title);
             //Show popup on click/hover of layer title div
-            if (window.hasOwnProperty("ontouchstart")) {
+            if (window.hasOwnProperty("ontouchstart") || window.ontouchstart !== undefined) {
                 this._createTooltip(this.listContainerTitle, this.operationalLayerDetails.title);
             }
             this._loadFeatureLayer(this.selectedLayer, extentChangeFlag);
-            if (this.extentChangeHandler) {
-                this.extentChangeHandler.remove();
-            }
-            this.extentChangeHandler = this.map.on("extent-change", lang.hitch(this, function () {
-                extentChangeFlag = true;
-                this._loadFeatureLayer(this.selectedLayer, extentChangeFlag);
-            }));
         },
 
         /**
@@ -265,40 +302,9 @@ define([
         * @memberOf widgets/issue-wall/issue-wall
         */
         _fetchIssueDetails: function (operationalLayer, extentChangeFlag) {
-            var graphicsInExtent = [], j, x, featureArray = [], likeFlag = false, fields, fieldValue, objectIdFieldValue, flagObject = {};
-            for (j = 0; j < operationalLayer.graphics.length; j++) {
-                // fetch only the features present in current map extent
-                if (this.map.extent.intersects(operationalLayer.graphics[j].geometry)) {
-                    for (fields in operationalLayer.graphics[j].attributes) {
-                        if (operationalLayer.graphics[j].attributes.hasOwnProperty(fields)) {
-                            if (operationalLayer.graphics[j].attributes[fields] === null || operationalLayer.graphics[j].attributes[fields] === "") {
-                                operationalLayer.graphics[j].attributes[fields] = this.appConfig.showNullValueAs;
-                            }
-                        }
-                    }
-                    for (x = 0; x < operationalLayer.fields.length; x++) {
-                        // get object id field from the layer
-                        objectIdFieldValue = operationalLayer.graphics[j].attributes[operationalLayer.objectIdField];
-                        // if like field is present in the config file and the layer contains like field, set the flag to true
-                        if (this.appConfig.likeField && (operationalLayer.fields[x].name === this.appConfig.likeField) && (operationalLayer.fields[x].type === "esriFieldTypeSmallInteger" || operationalLayer.fields[x].type === "esriFieldTypeInteger" || operationalLayer.fields[x].type === "esriFieldTypeSingle" || operationalLayer.fields[x].type === "esriFieldTypeDouble")) {
-                            likeFlag = true;
-                        }
-                    }
-
-                    // perform sorting based on object id field
-                    if (objectIdFieldValue) {
-                        fieldValue = objectIdFieldValue;
-                    }
-                    featureArray.push({
-                        "graphic": operationalLayer.graphics[j],
-                        "sortValue": fieldValue
-                    });
-                    graphicsInExtent.push(operationalLayer.graphics[j]);
-                }
-            }
-            // Sort feature array
-            featureArray.sort(this._sortFeatureArray);
-            flagObject.like = likeFlag;
+            var featureArray = [], flagObject = {};
+            featureArray = this.layerGraphicsArray;
+            flagObject.like = this._hasLikes;
             flagObject.comment = this._hasCommentsTable;
             flagObject.extentChange = extentChangeFlag;
             if (operationalLayer.hasAttachments && operationalLayer.infoTemplate && operationalLayer.infoTemplate.info && operationalLayer.infoTemplate.info.showAttachments) {
@@ -333,12 +339,14 @@ define([
                 this._attachFeatureClickEvent();
                 this.itemsList.showLikes = flagObject.like;
                 this.itemsList.setItems(featureSet);
-                this.itemsList.show();
             } else {
-                //Update the featureSet count to EMPTY or 0 in itemlist.So the widget will clear the list and show No issues message.
-                this.itemsList.setItems(featureSet);
+                if (this.featureLayerCount !== 0) {
+                    domAttr.set(this.noIssuesMessage, "innerHTML", this.appConfig.i18n.issueWall.noResultsFoundInCurrentBuffer);
+                    this.itemsList.setItems(featureSet);
+                }
                 domClass.remove(this.noIssuesMessage, "esriCTHidden");
             }
+            this.itemsList.show();
             domClass.add(this.listLoadingIndicator, "esriCTHidden");
         },
 
@@ -352,7 +360,7 @@ define([
             if (this._layerClickHandler) {
                 this._layerClickHandler.remove();
             }
-            this._layerClickHandler = on(this.selectedLayer, "click", lang.hitch(this, function (evt) {
+            this._layerClickHandler = on(this.selectedGraphicsDisplayLayer, "click", lang.hitch(this, function (evt) {
                 this.featureSelectedOnMapClick(evt.graphic);
             }));
         },
@@ -361,8 +369,8 @@ define([
         * Show issue details on click of feature on map
         * @memberOf widgets/issue-wall/issue-wall
         */
-        featureSelectedOnMapClick: function () {
-            return;
+        featureSelectedOnMapClick: function (item) {
+            return item;
         },
 
         /**

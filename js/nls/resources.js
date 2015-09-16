@@ -54,7 +54,9 @@ define({
             infoBtnToolTip: "Map information" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "No reports available in the current area", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "No features found", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "No features found near you", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "Unable to complete operation", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Go to main list", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Map view" // Tooltip for map-it icon in list header
         },
@@ -125,7 +127,8 @@ define({
             gotoIssueListTooltip: "Go to the report list" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Votes for this report" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Votes for this report", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "Load More..." //Text for load more button
         },
         comment: {
             commentsFormText: "Comment",

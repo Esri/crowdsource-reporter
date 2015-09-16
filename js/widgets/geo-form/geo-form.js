@@ -23,6 +23,7 @@ define([
     "dojo/dom-construct",
     "dojo/dom-class",
     "dojo/on",
+    "dojo/has",
     "dojo/dom-attr",
     "dojo/_base/array",
     "dojo/dom",
@@ -41,7 +42,7 @@ define([
     "esri/geometry/Polygon",
     "widgets/locator/locator",
     "widgets/bootstrapmap/bootstrapmap"
-], function (declare, lang, _WidgetBase, _TemplatedMixin, domConstruct, domClass, on, domAttr, array, dom, touch, domStyle, query, dijitTemplate, string, locale, GraphicsLayer, Graphic, Draw, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Polygon, Locator, BootstrapMap) {
+], function (declare, lang, _WidgetBase, _TemplatedMixin, domConstruct, domClass, on, has, domAttr, array, dom, touch, domStyle, query, dijitTemplate, string, locale, GraphicsLayer, Graphic, Draw, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Polygon, Locator, BootstrapMap) {
     return declare([_WidgetBase, _TemplatedMixin], {
         templateString: dijitTemplate,
         lastWebMapSelected: "",
@@ -58,6 +59,7 @@ define([
         _totalFileAttachedCounter: 0,
         _fileAttachedCounter: 0,
         _fileFailedCounter: 0,
+        tooltipHandler: null,
 
         /**
         * This function is called when widget is constructed.
@@ -153,10 +155,28 @@ define([
                 // Handle click of cancel button
                 on(this.cancelButton, "click", lang.hitch(this, this._onCancelClick));
                 // Initialize locator widget
-                this.locator = new Locator({ "map": this.map, "config": this.config, "appUtils": this.appUtils, "itemInfo": response.itemInfo.itemData, "layerId": this.layerId, "locatorContainer": this.geoformLocator });
+                this.locator = new Locator({ "map": this.map, "config": this.config, "appUtils": this.appUtils, "itemInfo": response.itemInfo.itemData, "layerId": this.layerId, "locatorContainer": this.geoformLocator, "handleFeatureSearch": false });
                 // function call on selection of search result
                 this.locator.onLocationCompleted = lang.hitch(this, this._validateAddress);
-
+                //Set placeholder text on load, if application is running in IE9
+                if (has("ie") === 9) {
+                    this.appUtils.displayPlaceHolderText(this.locator.txtSearch, response.itemInfo);
+                }
+                on(this.locator.txtSearch, "blur", lang.hitch(this, function () {
+                    if (has("ie") === 9) {
+                        this.appUtils.displayPlaceHolderText(this.locator.txtSearch, response.itemInfo);
+                    }
+                }));
+                on(this.locator.txtSearch, "focus", lang.hitch(this, function () {
+                    if (has("ie") === 9) {
+                        this.appUtils.removePlaceHolderText(this.locator.txtSearch);
+                    }
+                }));
+                on(this.locator.close, "click", lang.hitch(this, function () {
+                    if (has("ie") === 9) {
+                        this.appUtils.displayPlaceHolderText(this.locator.txtSearch, response.itemInfo);
+                    }
+                }));
                 // create geoLocation Button
                 this.appUtils.createGeoLocationButton(response.itemInfo.itemData.baseMap.baseMapLayers, this.map, this.geoLocationButton, true);
 
@@ -319,7 +339,7 @@ define([
             // Set innerHTML for geo form header sections
             domAttr.set(this.layerTitleDiv, "innerHTML", this.layerTitle);
             //Show popup on click/hover of layer title div
-            if (window.hasOwnProperty("ontouchstart")) {
+            if (window.hasOwnProperty("ontouchstart") || window.ontouchstart !== undefined) {
                 this._createTooltip(this.layerTitleDiv, this.layerTitle);
             }
             domAttr.set(this.enter_Information, "innerHTML", this.appConfig.i18n.geoform.enterInformation);
@@ -1213,7 +1233,7 @@ define([
         _clearFormFields: function () {
             var attachNode, node, index, currentFileInputID, fileChange;
             // remove error and success messages for each form field
-            array.forEach(query(".form-control"), lang.hitch(this, function (currentInput) {
+            array.forEach(query(".form-control", this.domNode), lang.hitch(this, function (currentInput) {
                 node = currentInput.parentElement;
                 //Remove error message div
                 //This logic is required for resetting geoform when user enters something wrong and clicks on Cancel button
@@ -1271,7 +1291,7 @@ define([
             // Reset Form
             this.userForm.reset();
             // Set default Values and success to the controls
-            array.forEach(query(".form-control"), lang.hitch(this, function (currentInput) {
+            array.forEach(query(".form-control", this.domNode), lang.hitch(this, function (currentInput) {
                 for (index = 0; index < this.defaultValueArray.length; index++) {
                     if (this.defaultValueArray[index].id === currentInput.id) {
                         if (this.defaultValueArray[index].type === "esriFieldTypeDate" || this.defaultValueArray[index].type === "range") {
@@ -1621,7 +1641,7 @@ define([
                     // Show Thank you message on Success
                     this._showHeaderMessageDiv(this.config.submitMessage, "success");
                     // Successfully feature is added on the layer
-                    this.geoformSubmitted(true);
+                    this.geoformSubmitted(addResults[0].objectId);
                 } else {
                     domConstruct.destroy(query(".errorMessage")[0]);
                     // Show Error message on Failure
@@ -1790,8 +1810,15 @@ define([
             if (domClass.contains(this.headerMessageDiv, "esriCTVisible")) {
                 domClass.replace(this.headerMessageDiv, "esriCTHidden", "esriCTVisible");
             }
+
             array.forEach(query('.errorMessage'), lang.hitch(this, function (node) {
                 this._removeErrorNode(node);
+            }));
+
+            array.forEach(query('.geoFormQuestionare'), lang.hitch(this, function (currentNode) {
+                if (domClass.contains(currentNode, "has-error")) {
+                    domClass.remove(currentNode, "has-error");
+                }
             }));
         },
 
