@@ -36,9 +36,10 @@ define([
     "esri/graphic",
     "esri/layers/FeatureLayer",
     "esri/tasks/query",
+    "esri/dijit/PopupTemplate",
     "widgets/item-list/item-list",
     "dojo/_base/event"
-], function (declare, dom, domConstruct, domStyle, domAttr, domClass, lang, array, on, touch, string, query, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, Graphic, FeatureLayer, Query, ItemList, event) {
+], function (declare, dom, domConstruct, domStyle, domAttr, domClass, lang, array, on, touch, string, query, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, Graphic, FeatureLayer, Query, PopupTemplate, ItemList, event) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         _hasCommentsTable: false,
@@ -162,7 +163,6 @@ define([
             this.selectedGraphicsDisplayLayer = this.map.getLayer("Graphics" + this.operationalLayerId);
             //Clear list and selection before creating new issue list
             this.itemsList.clearList();
-            this.itemsList.clearSelection();
             //Set the Comments table flag to false
             this._hasCommentsTable = false;
             //Set the Likes flag to false
@@ -209,7 +209,7 @@ define([
         },
 
         _commentsTableLoaded: function () {
-            var k;
+            var k, popupInfo = {};
             this._commentPopupTable = null;
             if (this.itemInfos && this.itemInfos.itemData.tables) {
                 //fetch comment popup table which will be used in creating comment form
@@ -222,12 +222,40 @@ define([
                 }));
             }
 
-            if (this._commentPopupTable && this._commentPopupTable.popupInfo) {
-                // if popup information of related table has atleast one editable field comment flag will be set to true
-                for (k = 0; k < this._commentPopupTable.popupInfo.fieldInfos.length; k++) {
-                    if (this._commentPopupTable.popupInfo.fieldInfos[k].isEditable) {
-                        this._hasCommentsTable = true;
-                        break;
+            //Check for the comment form configuration parameter and availability of commentField
+            if (this._commentPopupTable) {
+                if (!this.appConfig.usePopupConfigurationForComment) {
+                    popupInfo = {};
+                    popupInfo.fieldInfos = [];
+                    popupInfo.mediaInfos = [];
+                    popupInfo.showAttachments = false;
+                    popupInfo.title = "";
+                    for (k = 0; k < this._commentsTable.fields.length; k++) {
+                        if (this._commentsTable.fields[k].name === this.appConfig.commentField && this._commentsTable.fields[k].editable && this._commentsTable.fields[k].type === "esriFieldTypeString") {
+                            popupInfo.fieldInfos.push({
+                                fieldName: this._commentsTable.fields[k].name,
+                                format: null,
+                                isEditable: this._commentsTable.fields[k].editable,
+                                label: this._commentsTable.fields[k].alias,
+                                stringFieldOption: "textarea",
+                                tooltip: "",
+                                visible: true
+                            });
+                            popupInfo.description = "{" + this.appConfig.commentField + "}" + "\n <div class='commentRow'></div>";
+                            this._hasCommentsTable = true;
+                            break;
+                        }
+                    }
+                    this._commentPopupTable.popupInfo = popupInfo;
+                } else {
+                    if (this._commentPopupTable && this._commentPopupTable.popupInfo) {
+                        // if popup information of related table has atleast one editable field comment flag will be set to true
+                        for (k = 0; k < this._commentPopupTable.popupInfo.fieldInfos.length; k++) {
+                            if (this._commentPopupTable.popupInfo.fieldInfos[k].isEditable) {
+                                this._hasCommentsTable = true;
+                                break;
+                            }
+                        }
                     }
                 }
             }

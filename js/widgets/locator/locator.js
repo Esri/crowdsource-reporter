@@ -673,12 +673,6 @@ define([
                     candidateSplitValue = candidate.coords.split(",");
                     this._projectOnMap(candidateSplitValue[0], candidateSplitValue[1]);
                 }
-                //New function to catch the selected feature
-                if (candidate.name && candidate.geometry) {
-                    this.onFeatureSearchCompleted(candidate);
-                } else {
-                    this.onLocationCompleted(this.candidateGeometry);
-                }
                 if (this.handleFeatureSearch) {
                     if (candidate.name && candidate.geometry) {
                         this.onFeatureSearchCompleted(candidate);
@@ -686,7 +680,11 @@ define([
                         this.onLocationCompleted(this.candidateGeometry);
                     }
                 } else {
-                    this.onLocationCompleted(this.candidateGeometry);
+                    if (candidate.name && candidate.geometry) {
+                        this.onFeatureSearchCompleted(candidate);
+                    } else {
+                        this.onLocationCompleted(this.candidateGeometry);
+                    }
                 }
             }));
         },

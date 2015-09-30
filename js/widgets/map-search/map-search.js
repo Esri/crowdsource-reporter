@@ -61,7 +61,6 @@ define([
 
 ) {
     return declare([_WidgetBase], {
-        isAddressSearchNeeded: true,
         startup: function () {
             this.inherited(arguments);
         },
@@ -92,7 +91,6 @@ define([
             this.countyLayer = new GraphicsLayer();
             this.newMap.addLayer(this.countyLayer);
             this.locatorSearch.onFeatureSearchCompleted = lang.hitch(this, function (feature) {
-                this.isAddressSearchNeeded = false;
                 this.onFeatureFound(feature);
                 if (query(".esriCTMapSearchContainer .input-group-btn")[0]) {
                     this._collapseSerach(query(".esriCTMapSearchContainer .input-group-btn")[0]);

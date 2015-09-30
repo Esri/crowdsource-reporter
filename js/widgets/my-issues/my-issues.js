@@ -410,7 +410,7 @@ define([
         * @memberOf widgets/my-issues/my-issues
         */
         _relatedTableLoaded: function (relatedTable, currentFeature, featureDef) {
-            var commentIconFlag = false, k;
+            var commentIconFlag = false, k, popupInfo = {};
             this._commentPopupTable = null;
             if (this.itemInfos && this.relatedTables.length > 0) {
                 //fetch comment popup table which will be used in creating comment form
@@ -423,12 +423,40 @@ define([
                 }));
             }
 
-            if (this._commentPopupTable && this._commentPopupTable.popupInfo) {
-                // if popup information of related table has atleast one editable field comment flag will be set to true
-                for (k = 0; k < this._commentPopupTable.popupInfo.fieldInfos.length; k++) {
-                    if (this._commentPopupTable.popupInfo.fieldInfos[k].isEditable) {
-                        commentIconFlag = true;
-                        break;
+            //Check for the comment form configuration parameter and availability of commentField
+            if (this._commentPopupTable) {
+                if (!this.appConfig.usePopupConfigurationForComment) {
+                    popupInfo = {};
+                    popupInfo.fieldInfos = [];
+                    popupInfo.mediaInfos = [];
+                    popupInfo.showAttachments = false;
+                    popupInfo.title = "";
+                    for (k = 0; k < relatedTable.fields.length; k++) {
+                        if (relatedTable.fields[k].name === this.appConfig.commentField && relatedTable.fields[k].editable && relatedTable.fields[k].type === "esriFieldTypeString") {
+                            popupInfo.fieldInfos.push({
+                                fieldName: relatedTable.fields[k].name,
+                                format: null,
+                                isEditable: relatedTable.fields[k].editable,
+                                label: relatedTable.fields[k].alias,
+                                stringFieldOption: "textarea",
+                                tooltip: "",
+                                visible: true
+                            });
+                            popupInfo.description = "{" + this.appConfig.commentField + "}" + "\n <div class='commentRow'></div>";
+                            commentIconFlag = true;
+                            break;
+                        }
+                    }
+                    this._commentPopupTable.popupInfo = popupInfo;
+                } else {
+                    if (this._commentPopupTable.popupInfo) {
+                        // if popup information of related table has atleast one editable field comment flag will be set to true
+                        for (k = 0; k < this._commentPopupTable.popupInfo.fieldInfos.length; k++) {
+                            if (this._commentPopupTable.popupInfo.fieldInfos[k].isEditable) {
+                                commentIconFlag = true;
+                                break;
+                            }
+                        }
                     }
                 }
             }

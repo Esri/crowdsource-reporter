@@ -257,6 +257,13 @@ define([
 
             //Handle Window Resize
             on(window, "resize", lang.hitch(this, function () {
+                //Check if application is running on android devices and item details panel is open then show/hide the details panel
+                //This resolves the jumbling of content in details panel on android devices
+                if (this._itemDetails && !this._itemDetails.isCommentFormOpen) {
+                    if (this.appUtils.isAndroid() && this._sidebarCnt && this._sidebarCnt._currentPanelName === "itemDetails") {
+                        this._itemDetails.toggleDetailsPanel();
+                    }
+                }
                 this._resizeMap();
             }));
 
@@ -272,12 +279,6 @@ define([
                     "appConfig": this.config
                 }).placeAt("sidebarContent"); // placeAt triggers a startup call to _sidebarCntent
 
-                //Listen for the panel open event
-                this._sidebarCnt.onPanelShown = lang.hitch(this, function (currentPanelName) {
-                    //alert(currentPanelName + "Opened");
-                    this._autoRefresh();
-                });
-
                 // Item details
                 this._itemDetails = new ItemDetails({
                     "appConfig": this.config,
@@ -286,18 +287,18 @@ define([
                 this._itemDetails.hide();
                 this._sidebarCnt.addPanel("itemDetails", this._itemDetails);
 
-                this._itemDetails.onCancel = lang.hitch(this, function () {
+                this._itemDetails.onCancel = lang.hitch(this, function (item) {
                     if (this._isMyIssues) {
                         this._sidebarCnt.showPanel("myIssues");
                         //refresh the myIssues list on showing the myIssues wall
                         if (this._myIssuesWidget && this._myIssuesWidget.itemsList) {
-                            this._myIssuesWidget.itemsList.refreshList();
+                            this._myIssuesWidget.itemsList.refreshList(item);
                         }
                     } else {
                         this._sidebarCnt.showPanel("issueWall");
                         //refresh the issue list on showing the issue wall
                         if (this._issueWallWidget && this._issueWallWidget.itemsList) {
-                            this._issueWallWidget.itemsList.refreshList();
+                            this._issueWallWidget.itemsList.refreshList(item);
                         }
                     }
                 });
@@ -459,6 +460,7 @@ define([
                 });
                 this._myIssuesWidget.onItemSelected = lang.hitch(this, function (selectedFeature) {
                     this.appUtils.showLoadingIndicator();
+                    this._isMyIssues = true;
                     if (selectedFeature.webMapId !== this._selectedMapDetails.webMapId) {
                         //create web-map if selected feature does not belongs to selected map
                         this._webMapListWidget._createMap(selectedFeature.webMapId, this._webMapListWidget.mapDivID).then(lang.hitch(this, function (response) {
@@ -469,17 +471,15 @@ define([
                             data.operationalLayerDetails = selectedFeature.layerDetails;
                             data.operationalLayerId = selectedFeature.layerId;
                             this._addFeatureLayerOnMap(data);
-
                         }));
                     } else if (selectedFeature.layerId !== this._selectedMapDetails.operationalLayerDetails.id) {
                         data.operationalLayerDetails = selectedFeature.layerDetails;
                         data.operationalLayerId = selectedFeature.layerId;
-
-                        //add layer to map if feature is not belongs to selected layer of selected map
+                        //add layer to map if feature does not belongs to selected layer of selected map
                         this._addFeatureLayerOnMap(data);
                     } else {
                         this.appUtils.hideLoadingIndicator();
-                        this._itemSelected(selectedFeature, false, true);
+                        this._itemSelected(selectedFeature, false);
                     }
                 });
             }
@@ -608,8 +608,6 @@ define([
                         this.geolocationgGraphicsLayer.clear();
                         this.geolocationgGraphicsLayer = null;
                     }
-                    //Since the new layer is added, we will reset the timer
-                    this._resetTimer();
                     // storing changed instance on extent change
                     this.map.on("extent-change", lang.hitch(this, function (extent) {
                         this.changedExtent = extent.extent;
@@ -617,6 +615,14 @@ define([
                             this.geoformInstance.setMapExtent(this.changedExtent);
                         }
                     }));
+                    //Set the comments form Instance to null if it exsist
+                    if (this._itemDetails && this._itemDetails.commentformInstance) {
+                        this._itemDetails.commentformInstance = null;
+                    }
+                    //Set the selects features id value to null
+                    if (this._issueWallWidget) {
+                        this._issueWallWidget.itemsList.clearSelection();
+                    }
                 });
 
                 this.appUtils.onGeolocationComplete = lang.hitch(this, function (evt, addGraphic) {
@@ -752,7 +758,7 @@ define([
                     this._sidebarCnt.showPanel("issueWall");
                 } else if (this._myIssuesWidget && this._myIssuesWidget.selectedFeature) {
                     setTimeout(lang.hitch(this, function () {
-                        this._itemSelected(this._myIssuesWidget.selectedFeature, false, true);
+                        this._itemSelected(this._myIssuesWidget.selectedFeature, false);
                     }), 500);
 
                 }
@@ -800,7 +806,6 @@ define([
                         appUtils: this.appUtils
 
                     }, domConstruct.create("div", {}, dom.byId("geoformContainer")));
-                    aspect.after(this.geoformInstance, "closeForm", lang.hitch(this, this._autoRefresh));
                     //on submitting issues in geoform update issue wall and main map to show newly updated issue.
                     this.geoformInstance.geoformSubmitted = lang.hitch(this, function (objectId) {
                         try {
@@ -878,13 +883,18 @@ define([
                     this.featureLayerCount++;
                     console.log("New feature layer graphics count: " + this.featureLayerCount);
                 }
-                this._createIssueWall(this._selectedMapDetails);
             }
             console.log("Feature Already Exsist :" + featureExsist);
             //If feature is found through search widget then we need to display item details for the selected feature
             if (addedFrom === "search") {
-                this._itemSelected(newGraphic.graphic, true, false);
+                this._itemSelected(newGraphic.graphic, true);
+                this._isMyIssues = false;
             }
+            //If feature does not exsist, we need to create new issue wall
+            if (!featureExsist) {
+                this._createIssueWall(this._selectedMapDetails);
+            }
+
             //Since we added one feature now, we need to clear the no features found message
             if (this.displaygraphicsLayer.graphics && this.displaygraphicsLayer.graphics.length > 0) {
                 if (!domClass.contains(this._issueWallWidget.noIssuesMessage, "esriCTHidden")) {
@@ -962,7 +972,7 @@ define([
             }
         },
 
-        _itemSelected: function (item, isMapClicked, myIssues) {
+        _itemSelected: function (item, isMapClicked) {
             var operationalLayer;
             //Highlight Feature on map
             operationalLayer = this._selectedMapDetails.operationalLayerDetails.layerObject;
@@ -1546,7 +1556,9 @@ define([
                     //Now, initialize issue list
                     this._createIssueWall(details);
                 }
-            }));
+            }), function (err) {
+                console.log(err);
+            });
         },
 
         /**
@@ -1634,7 +1646,13 @@ define([
             for (i = 0, j = results.length; i < j; i += chunk) {
                 this.sortedBufferArray.push(results.slice(i, i + chunk));
             }
-            this._selectFeaturesInBuffer(featureLayer, details);
+            if (this.sortedBufferArray.length > 0) {
+                this._selectFeaturesInBuffer(featureLayer, details);
+            } else {
+                //We still need to show issue wall with no features found message
+                this._createIssueWall(details);
+            }
+
         },
 
         /**
@@ -1661,147 +1679,7 @@ define([
                 return 1;
             }
             return 0;
-        },
-
-        /*-------  End of section for Geographical Filtering  -------*/
-
-        /*-------  Start of section for Auto refresh  -------*/
-
-        /**
-        * This function is used to reset the time interval
-        * @memberOf main
-        */
-        _resetTimer: function () {
-            if (this.autoRefreshInterval) {
-                clearInterval(this.autoRefreshInterval);
-            }
-            this.autoRefreshInterval = setInterval(lang.hitch(this, function () { this._autoRefresh(); }), (this.config.autoRefreshInterval * 60000));
-            this._refreshElapsedTime = moment();
-        },
-
-        /**
-        * This function gives the elapsed time which will be used to refresh the selected layer
-        * @memberOf main
-        */
-        _getElapsedTimeInMinutes: function () {
-            var endTime = moment(), startTime, duration, elapsedTime;
-            startTime = this._refreshElapsedTime;
-            duration = moment.duration(endTime.diff(startTime));
-            elapsedTime = duration.asMinutes();
-            return elapsedTime;
-        },
-
-        /**
-        * This function is used to refersh the layer and fetch the newly added features
-        * @memberOf main
-        */
-        _autoRefresh: function () {
-            var refreshQuery;
-            if (!this.appUtils.isBusy && (parseInt(this._getElapsedTimeInMinutes(), 10) >= parseInt(this.config.autoRefreshInterval, 10))) {
-                if (this._sidebarCnt._currentPanelName === "issueWall" && domClass.contains(dom.byId('geoformContainer'), "esriCTHidden")) {
-                    this._resetTimer();
-                    refreshQuery = new Query();
-                    if (this._existingDefinitionExpression) {
-                        refreshQuery.where = this._existingDefinitionExpression;
-                    } else {
-                        refreshQuery.where = "1=1";
-                    }
-                    refreshQuery.returnIdsOnly = true;
-                    refreshQuery.returnGeometry = false;
-                    //In case of geolocation we will pass buffer only if all the features from the layers are not loaded
-                    //if all the features are loaded then we will not pass the buffer and load all the features added on the layer
-                    if (this.config.geolocation && (this.displaygraphicsLayer.graphics.length !== this.featureLayerCount)) {
-                        refreshQuery.geometry = this.circle;
-                    }
-                    this._getCurrentBufferTotalCount(refreshQuery);
-                }
-            }
-        },
-
-        /**
-        * This function is used to get the total features in current buffer
-        * @param{object} query parameters
-        * @memberOf main
-        */
-        _getCurrentBufferTotalCount: function (query) {
-            var queryTask, remainingFeaturesInBuffer = [], i;
-            queryTask = new QueryTask(this.selectedLayer.url);
-            queryTask.executeForIds(query).then(lang.hitch(this, function (response) {
-                var newFeatures = [];
-                if (response && response.length > 0) {
-                    //Compare newly obtained features with features added to graphics layer
-                    newFeatures = response.filter(lang.hitch(this, function (objectId) {
-                        return this.displaygraphicsLayer.graphics.filter(lang.hitch(this, function (graphic) {
-                            return graphic.attributes[this.selectedLayer.objectIdField] === objectId;
-                        })).length === 0;
-                    }));
-                    //If layer still has some features to load, then filter the features
-                    //Get remaining features from current buffer in case of geolcoation based on remaining pages
-                    //Get all the remaning features from layer if geolocation is not available
-                    if (this.sortedBufferArray.length - 1 > this.bufferPageNumber) {
-                        for (i = this.bufferPageNumber + 1; i < this.sortedBufferArray.length; i++) {
-                            remainingFeaturesInBuffer.push.apply(remainingFeaturesInBuffer, this.sortedBufferArray[i]);
-                        }
-                    }
-                    if (remainingFeaturesInBuffer.length > 0) {
-                        newFeatures = newFeatures.filter(lang.hitch(this, function (newObjectId) {
-                            return remainingFeaturesInBuffer.filter(lang.hitch(this, function (objectId) {
-                                return newObjectId === objectId;
-                            })).length === 0;
-                        }));
-                    }
-                    //If layer has new features in the current buffer extent, add them graphics layer and list
-                    if (newFeatures.length > 0) {
-                        this._queryNewFeatures(newFeatures);
-                    } else {
-                        console.log("Auto Refresh Done, No new features Found");
-                        console.log("********Auto Refresh End:" + moment().format('MMMM Do YYYY, h:mm:ss a') + "*********");
-                    }
-                }
-            }));
-        },
-
-        /**
-        * This function is used to fetch the new features added in layer
-        * @param{object} arrray of objectId's of newly added features
-        * @memberOf main
-        */
-        _queryNewFeatures: function (newFeatures) {
-            var newFeatureQuery, queryTask, newFeaturesArray = [];
-            newFeatureQuery = new Query();
-            queryTask = new QueryTask(this.selectedLayer.url);
-            newFeatureQuery.objectIds = newFeatures;
-            newFeatureQuery.where = "1=1";
-            newFeatureQuery.returnGeometry = true;
-            newFeatureQuery.outFields = ["*"];
-            queryTask.execute(newFeatureQuery).then(lang.hitch(this, function (response) {
-                array.forEach(response.features, lang.hitch(this, function (currenFeature) {
-                    var newFeature;
-                    newFeature = this._createFeatureAttributes(currenFeature, this.selectedLayer);
-                    if (newFeature) {
-                        this.displaygraphicsLayer.add(newFeature.graphic);
-                        newFeaturesArray.push(newFeature);
-                        this.featureLayerCount++;
-                        console.log("New feature layer graphics count: " + this.featureLayerCount);
-                    }
-                }));
-                if (newFeaturesArray.length > 0) {
-                    this.layerGraphicsArray.push.apply(this.layerGraphicsArray, newFeaturesArray);
-                    this.layerGraphicsArray.sort(this._sortFeatureArray);
-                    if (this.config.geolocation) {
-                        this.layerGraphicsArray.reverse();
-                    }
-                    console.log("Auto Refresh done, and new features added are :" + newFeaturesArray.length);
-                    console.log("********Auto Refresh End:" + moment().format('MMMM Do YYYY, h:mm:ss a') + "*********");
-                    //create or update issue-list
-                    this._createIssueWall(this._selectedMapDetails);
-                } else {
-                    console.log("Auto Refresh Done, No new features Found");
-                    console.log("********Auto Refresh End:" + moment().format('MMMM Do YYYY, h:mm:ss a') + "*********");
-                }
-            }));
         }
-
-        /*-------  End of section for Auto refresh  -------*/
+        /*-------  End of section for Geographical Filtering  -------*/
     });
 });

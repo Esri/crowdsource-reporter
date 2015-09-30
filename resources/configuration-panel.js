@@ -23,8 +23,12 @@
         "webMapInfoTags": false,
         "webMapInfoNumViews": false,
         "webMapInfoAvgRating": false,
+        "bufferRadius": 3,
+        "bufferUnit": "miles",
         "submitMessage": "Thank you! Your report has been submitted.",
         "likeField": "NUMVOTES",
+        "commentField": "COMMENTS",
+        "usePopupConfigurationForComment":false,
         "reportedByField": "USERID",
         "zoomLevel": 12,
         "enableUSNGSearch": false,
@@ -136,7 +140,18 @@
                     "label": "Vote Field (optional)",
                     "tooltip": "Integer field that stores the vote count. Field name must be the same across all layers and maps."
                 },
-
+                {
+                    "type": "string",
+                    "fieldName": "commentField",
+                    "label": "Comment Field (optional)",
+                    "tooltip": "Text field in the comments tables that stores feedback. Field name must be the same across all layers and maps."
+                },
+                {
+                    "type": "boolean",
+                    "fieldName": "usePopupConfigurationForComment",
+                    "label": "Comment Popup Configuration",
+                    "tooltip": "Allow users to choose between default or custom popup configuration for comments"
+                },
                 {
                     "type": "string",
                     "fieldName": "zoomLevel",
@@ -236,17 +251,6 @@
                             "value": "feet"
                         }
                     ]
-                },
-                {
-                    "type": "number",
-                    "fieldName": "autoRefreshInterval",
-                    "label": "Refresh Interval",
-                    "tooltip": "Refresh Interval",
-                    "constraints": {
-                        "min": 3,
-                        "max": 60,
-                        "places": 0
-                    }
                 }
             ]
         },

@@ -54,6 +54,8 @@ define([
         characterLength: null,
         tooltipHandler: null,
         selectedLayer: null,
+        commentformInstance: null,
+        isCommentFormOpen: false,
         i18n: {
             likeButtonLabel: "Like",
             likeButtonTooltip: "Vote for this",
@@ -67,7 +69,6 @@ define([
             unableToUpdateVoteField: "Unable to Update the Feature",
             gotoIssueListTooltip: "Go To Issue List",
             comment: {
-                commentsFormText: "Comment",
                 commentsFormSubmitButton: "Submit Comment",
                 commentsFormCancelButton: "Cancel",
                 errorInSubmittingComment: "Comment could not be submitted.",
@@ -150,7 +151,10 @@ define([
         _addListeners: function () {
             var self = this;
             on(this.backIcon, 'click', lang.hitch(this, function (evt) {
-                this.onCancel(evt);
+                if (this.commentformInstance) {
+                    this.commentformInstance = null;
+                }
+                this.onCancel(self.item);
             }));
 
             on(this.likeButton, 'click', function () {
@@ -247,7 +251,7 @@ define([
         * Sets the fields that are needed to display feature information in this list (number of votes).
         * Needs to be called before first setItems to tell the widget which fields to look for.
         * @param {string} votesField Name of votes property
-        * @param {array} commentFields Fields used by comment-entry form
+        * @param {object} instance of selected layer
         */
         setItemFields: function (votesField, selectedLayer) {
             this.votesField = votesField;
@@ -368,6 +372,11 @@ define([
             if (this.actionVisibilities.showComments) {
                 this._initCommentsDiv();
             }
+            //If property does not exsist, add it to the infotemplate
+            //Without this the set content of content pane gives an relationship error
+            if (this.item.infoTemplate && !this.item.infoTemplate.hasOwnProperty("_relatedLayersInfo")) {
+                this.item.infoTemplate["_relatedLayersInfo"] = {};
+            }
             this.itemCP.set('content', this.item.getContent());
         },
 
@@ -385,8 +394,6 @@ define([
                 domClass.add(domNode, "esriCTHidden");
             }
         },
-
-
 
         _setComments: function (commentsArr) {
             arrayUtil.forEach(commentsArr, lang.hitch(this, this._buildCommentDiv));
@@ -621,28 +628,43 @@ define([
                     appUtils: this.appUtils,
                     nls: this.i18n,
                     item: item,
-                    selectedLayer : this.selectedLayer
+                    selectedLayer: this.selectedLayer
                 }, domConstruct.create("div", {}, this.commentDetails));
 
                 //attach cancel button click event
-                on(this.commentformInstance.cancelCommentButton, 'click', lang.hitch(this, function () {
+                this.commentformInstance.onCancelButtonClick = lang.hitch(this, function () {
                     this._showPanel(this.commentDetails, this.commentButton, false);
                     this.commentformInstance._clearFormFields();
-                }));
+                    this.isCommentFormOpen = false;
+                    //Check if application is running on android devices, and show/hide the details panel
+                    //This resolves the jumbling of content in details panel on android devices
+                    if (this.appUtils.isAndroid()) {
+                        this.toggleDetailsPanel();
+                    }
+                });
                 this.commentformInstance.onCommentFormSubmitted = lang.hitch(this, function (item) {
                     //close the comment form after submitting new comment
                     this._showPanel(this.commentDetails, this.commentButton, false);
                     this.commentformInstance._clearFormFields();
+                    this.isCommentFormOpen = false;
                     //update comment list
                     this._queryComments(item);
                 });
             } else {
-                this.commentformInstance.commentTable = this._commentTable;
-                this.commentformInstance.commentPopupTable = this.commentPopupTable;
-                this.commentformInstance.setItem(item, this.selectedLayer);
-                this.commentformInstance._initializeCommentForm();
+                //Hide error message div, if it is visible
+                this.commentformInstance.clearHeaderMessage();
             }
             this._showPanel(this.commentDetails, this.commentButton, true);
+            //If Comment form is close, update the comment form open flag
+            if (domClass.contains(this.commentDetails, "esriCTHidden")) {
+                if (this.appUtils.isAndroid()) {
+                    this.toggleDetailsPanel();
+                }
+                this.isCommentFormOpen = false;
+            } else {
+                this.isCommentFormOpen = true;
+            }
+
         },
 
         /**
@@ -669,6 +691,20 @@ define([
             on(window, "resize", lang.hitch(this, function () {
                 $(node).tooltip("hide");
             }));
+        },
+
+        /**
+        * Invoked when application is running in android devices
+        * Workaround for preventing jubmling of panel
+        * @memberOf widgets/item-details-controller/item-details-controller
+        */
+        toggleDetailsPanel: function () {
+            if (this.itemDetailsContainer) {
+                domStyle.set(this.itemDetailsContainer, "display", "none");
+                setTimeout(lang.hitch(this, function () {
+                    domStyle.set(this.itemDetailsContainer, "display", "block");
+                }), 100);
+            }
         }
     });
 });
