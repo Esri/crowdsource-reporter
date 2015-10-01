@@ -1,7 +1,11 @@
 ﻿<div class="esriCTCommentsForm1" data-dojo-attach-point="commentsForm">
-    <div class="esriCTLargeText esriCTCommentTitle">
-        ${i18n.comment.commentsFormText}</div>
     <div data-dojo-attach-point="enterCommentContainer" class="esriCTEnterComment">
+        <div data-dojo-attach-point="headerMessageDiv" class="esriCTHidden">
+            <div data-dojo-attach-point="headerMessageType" class="alert alert-danger">
+                <span class="close" data-dojo-attach-point="headerMessageButton">&times;</span>
+                <span data-dojo-attach-point="headerMessageContent">${i18n.comment.errorInSubmittingComment}</span>
+            </div>
+        </div>
         <form role="form" data-dojo-attach-point="commentForm">
         </form>
     </div>

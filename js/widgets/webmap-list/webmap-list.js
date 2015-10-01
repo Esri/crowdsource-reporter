@@ -511,25 +511,20 @@ define([
                 }
                 this.appUtils.hideLoadingIndicator();
             } else {
-                if (this.lastWebMapSelected !== webMapId) {
-                    this.setDefaultHeightOfContainers();
-                    this._selectWebMapItem(webMapId);
-                    operationalLayerId = domAttr.get(node, "operationalLayerID");
-                    this._createMap(webMapId, this.mapDivID).then(lang.hitch(this, function (evt) {
-                        var obj;
-                        this.lastSelectedWebMapExtent = evt.map.extent;
-                        obj = {
-                            "webMapId": webMapId,
-                            "operationalLayerId": operationalLayerId,
-                            "operationalLayerDetails": operationalLayerDetails,
-                            "itemInfo": evt.itemInfo
-                        };
-                        this._displaySelectedOperationalLayer(obj);
-                    }));
-                } else {
-                    this.onSelectedWebMapClicked(webMapId);
-                    this.appUtils.hideLoadingIndicator();
-                }
+                this.setDefaultHeightOfContainers();
+                this._selectWebMapItem(webMapId);
+                operationalLayerId = domAttr.get(node, "operationalLayerID");
+                this._createMap(webMapId, this.mapDivID).then(lang.hitch(this, function (evt) {
+                    var obj;
+                    this.lastSelectedWebMapExtent = evt.map.extent;
+                    obj = {
+                        "webMapId": webMapId,
+                        "operationalLayerId": operationalLayerId,
+                        "operationalLayerDetails": operationalLayerDetails,
+                        "itemInfo": evt.itemInfo
+                    };
+                    this._displaySelectedOperationalLayer(obj);
+                }));
             }
         },
 

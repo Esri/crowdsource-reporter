@@ -45,9 +45,11 @@ define([
                 "config": this.boilerPlateTemplateObject
             });
             this.boilerPlateTemplateObject.startup().then(lang.hitch(this, function (config) {
-                config.geolocation = {};
+            //By default geolocation will be set to false
+                config.geolocation = false;
                 //Check whether browser supprots geolocation
                 navigator.geolocation.getCurrentPosition(lang.hitch(this, function (position) {
+                    config.geolocation = {};
                     config.geolocation = position;
                 }), function () {
                     config.geolocation = false;

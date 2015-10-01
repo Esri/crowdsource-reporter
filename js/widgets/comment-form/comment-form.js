@@ -60,12 +60,16 @@ define([
 
         postCreate: function () {
             this.inherited(arguments);
-
             this._initializeCommentForm();
             // click event for submit comment form on submit button click
             on(this.postCommentButton, 'click', lang.hitch(this, function () {
                 this._submitCommentForm();
             }));
+            on(this.cancelCommentButton, 'click', lang.hitch(this, function (evt) {
+                this.onCancelButtonClick(evt);
+            }));
+
+
         },
 
         startup: function () {
@@ -124,7 +128,6 @@ define([
                     }
                 }));
             }
-            domConstruct.empty(this.enterCommentContainer);
         },
 
 
@@ -215,13 +218,20 @@ define([
                 this.commentTable.applyEdits([featureData], null, null, lang.hitch(this, function (results) {
                     //Hide loading indicator
                     this.appUtils.hideLoadingIndicator();
-                    this._clearFormFields();
-                    this.onCommentFormSubmitted(this.item);
+                    if (results[0].success) {
+                        this._clearFormFields();
+                        this.onCommentFormSubmitted(this.item);
+                    } else {
+                        // Show error message in header
+                        this._showHeaderMessageDiv();
+                    }
                 }), lang.hitch(this, function (err) {
                     //Hide loading indicator
                     this.appUtils.hideLoadingIndicator();
                     // Show error message
                     this.appUtils.showError(err);
+                    // Show error message in header
+                    this._showHeaderMessageDiv();
                 }));
             }
         },
@@ -272,6 +282,21 @@ define([
         },
 
         /**
+        * Display message on header of form
+        * @memberOf widgets/comment-form/comment-form
+        */
+        _showHeaderMessageDiv: function () {
+            on(this.headerMessageButton, "click", lang.hitch(this, function () {
+                if (domClass.contains(this.headerMessageDiv, "esriCTVisible")) {
+                    domClass.replace(this.headerMessageDiv, "esriCTHidden", "esriCTVisible");
+                }
+            }));
+            if (domClass.contains(this.headerMessageDiv, "esriCTHidden")) {
+                domClass.replace(this.headerMessageDiv, "esriCTVisible", "esriCTHidden");
+            }
+        },
+
+        /**
         * Remove the error message container.
         * @param{object} node, node to bind error massage
         * @memberOf widgets/comment-form/comment-form
@@ -292,7 +317,7 @@ define([
         */
         _createFormElement: function (currentField, index, referenceNode) {
             var fieldname, labelContent, fieldLabelText, formContent, requireField, userFormNode, fieldAttribute;
-            userFormNode = this.enterCommentContainer;
+            userFormNode = this.commentForm;
             //code to put asterisk mark for mandatory fields and also to give it a mandatory class.
             formContent = domConstruct.create("div", {}, userFormNode);
             // If dependent field has Reference Node
@@ -867,6 +892,18 @@ define([
 
             domConstruct.empty(query(".esriCTResultContainer")[0]);
             domClass.add(query(".esriCTResultContainer")[0], "esriCTHidden");
+            this.clearHeaderMessage();
+        },
+
+        /**
+        * Clear header message
+        * @memberOf widgets/comment-form/comment-form
+        */
+        clearHeaderMessage: function () {
+            //Hide error message div, if it is visible
+            if (domClass.contains(this.headerMessageDiv, "esriCTVisible")) {
+                domClass.replace(this.headerMessageDiv, "esriCTHidden", "esriCTVisible");
+            }
         },
 
         /**
@@ -1172,6 +1209,14 @@ define([
         */
         onCommentFormSubmitted: function (item) {
             return item;
+        },
+
+        /**
+        * Callback after clicking cancel button of comment form
+        * @memberOf widgets/comment-form/comment-form
+        */
+        onCancelButtonClick: function (evt) {
+            return evt;
         },
 
         /**

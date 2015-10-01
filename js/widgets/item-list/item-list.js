@@ -1,4 +1,4 @@
-/*global define,dojo */
+/*global define,dojo,console */
 /*jslint browser:true,sloppy:true,nomen:true,unparam:true,plusplus:true */
 /*
  | Copyright 2014 Esri
@@ -125,8 +125,8 @@ define([
         /**
         * Refresh the items list
         */
-        refreshList: function () {
-            var currentNode;
+        refreshList: function (item) {
+            var currentNode, itemVotes, favIconDiv, votesNode;
             //Clear all the previously selected feature
             arrayUtil.forEach(dojoQuery(".esriCTItemSummaryParentSelected", this.domNode), lang.hitch(this, function (currentNode) {
                 domClass.remove(currentNode, "esriCTItemSummaryParentSelected");
@@ -139,6 +139,14 @@ define([
                 if (currentNode.length > 0) {
                     domClass.add(currentNode[0], "esriCTItemSummaryParentSelected");
                     domClass.add(dojoQuery(".esriCTItemSummaryHighlighter", currentNode[0])[0], "esriCTItemSummarySelected");
+                }
+                if (item && this.showLikes) {
+                    //If votes count is increased, update the selected items votes in item list
+                    itemVotes = this.getItemVotes(item);
+                    favIconDiv = dojoQuery(".esriCTItemFav", currentNode[0])[0];
+                    favIconDiv.title = itemVotes.label + " " + this.i18n.likesForThisItemTooltip;
+                    votesNode = dojoQuery(".esriCTItemVotes", currentNode[0])[0];
+                    votesNode.innerHTML = itemVotes.label;
                 }
             }
         },
@@ -164,7 +172,7 @@ define([
         * @param  {feature} item to display in the list
         */
         buildItemSummary: function (item) {
-            var itemTitle, itemVotes, itemSummaryDiv, itemTitleDiv, favDiv, itemSummaryParent, details = "", itemTitleDivMyIssues, selectedLayerId;
+            var itemTitle, itemVotes, itemSummaryDiv, itemTitleDiv, favDiv, itemSummaryParent, itemSummaryHighlighter, details = "", itemTitleDivMyIssues, selectedLayerId;
             item = (item && item.graphic) ? item.graphic : item;
             itemTitle = this.getItemTitle(item) || "&nbsp;";
             if (this.isMyIssues) {
@@ -179,7 +187,7 @@ define([
                 'click': lang.partial(this.summaryClick, this, item)
             }, this.list);
 
-            domConstruct.create('div', {
+            itemSummaryHighlighter = domConstruct.create('div', {
                 'class': 'esriCTItemSummaryHighlighter'
             }, itemSummaryParent);
 
@@ -206,6 +214,12 @@ define([
                     'class': 'esriCTItemTitle',
                     'innerHTML': itemTitle
                 }, itemSummaryDiv);
+            }
+
+            //If selected features object id exsist, make sure we are highlighting the respective row
+            if (this.selectedItemOID && this.selectedItemOID === item.attributes[this.selectedLayer.objectIdField] + "_" + item.webMapId + "_" + selectedLayerId) {
+                domClass.add(itemSummaryParent, "esriCTItemSummaryParentSelected");
+                domClass.add(itemSummaryHighlighter, "esriCTItemSummarySelected");
             }
 
             if (this.showLikes) {
@@ -293,7 +307,7 @@ define([
             }, loadMoreButton);
 
             itemTitleDivMyIssues = domConstruct.create('div', {
-                'class': 'esriCTItemTitle'
+                'class': 'esriCTLoadMoreContainer'
             }, itemSummaryDiv);
 
             domConstruct.create('div', {

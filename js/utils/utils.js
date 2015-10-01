@@ -47,15 +47,12 @@ define([
     HomeButton
 ) {
     return declare([_WidgetBase], {
-        isBusy: false,
         showLoadingIndicator: function () {
             domClass.add(document.body, "app-loading");
-            this.isBusy = true;
         },
 
         hideLoadingIndicator: function () {
             domClass.remove(document.body, "app-loading");
-            this.isBusy = false;
         },
 
         showError: function (error) {
@@ -239,6 +236,14 @@ define([
                 node.value = "";
                 domClass.remove(node, "esriCTPlaceholder");
             }
+        },
+
+        /**
+        * @memberOf utils/utils
+        */
+        isAndroid: function () {
+            var ua = navigator.userAgent.toLowerCase();
+            return ua.indexOf("android") > -1;
         }
     });
 });

@@ -131,7 +131,6 @@ define({
             loadMoreButtonText: "Load More..." //Text for load more button
         },
         comment: {
-            commentsFormText: "Comment",
             commentsFormSubmitButton: "Submit Comment",
             commentsFormCancelButton: "Cancel",
             errorInSubmittingComment: "Comment could not be submitted.", // Shown when user is unable to add comments
