@@ -289,7 +289,6 @@ html, body
     left: 0;
     overflow: hidden;
     background-color: #8e8e8e;
-    background-size: 32px;
 }
 
 .app-loading .loading-indicator
