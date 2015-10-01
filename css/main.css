@@ -288,11 +288,7 @@ html, body
     top: 0;
     left: 0;
     overflow: hidden;
-    filter: alpha(opacity = 40);
-    -moz-opacity: 0.4;
-    -khtml-opacity: 0.4;
-    opacity: 0.4;
-    background-color: #000;
+    background-color: #8e8e8e;
     background-size: 32px;
 }
 
