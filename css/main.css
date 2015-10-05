@@ -288,7 +288,11 @@ html, body
     top: 0;
     left: 0;
     overflow: hidden;
-    background-color: #8e8e8e;
+    filter: alpha(opacity = 40);
+    -moz-opacity: 0.4;
+    -khtml-opacity: 0.4;
+    opacity: 0.4;
+    background-color: #000;
 }
 
 .app-loading .loading-indicator
