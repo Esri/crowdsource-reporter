@@ -37,10 +37,10 @@
     left:66px !important;
 }
 
-.dj_rtl .esriCTLoadMoreButton
+.dj_rtl .date .input-group-addon:first-child
 {
-    margin-left:45%;
-    margin-right:45%;
+    border-right: 1px solid;
+    border-left: 0;
 }
 
 /*RTL support for help dialog*/
