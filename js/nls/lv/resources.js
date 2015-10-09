@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "Kartes informācija" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "Pašreizējā apgabalā nav pieejamu ziņojumu", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "ķ_No features found______ū", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "ķ_No features found near you_________ū", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "ķ_Unable to complete operation_________ū", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Doties uz galveno sarakstu", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Kartes skats" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "Mani ziņojumi", // Command button shown in mobile menu list
             signIn: "Pierakstīties", // Command button shown in mobile menu list and in appheader
             signOut: "Izrakstīties", // Command button shown in mobile menu list
-            help: "Palīdzība", // Command button shown in mobile menu list
             signInTooltip: "Pierakstīties", // Tooltip to 'Sign in' option
             signOutTooltip: "Izrakstīties", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Skatīt manus iesniegtos ziņojumus", // Tooltip  to 'My Reports' option
-            helpTooltip: "Palīdzība" // Tooltip  to 'Help' option
+            myReportTooltip: "Skatīt manus iesniegtos ziņojumus" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Detaļas", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -111,7 +111,7 @@ define(
         myIssues: {
             title: "Mani ziņojumi", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "Mani ziņojumi", // Command button to access issues reported by the logged in user
-            noResultsFound: "Nav atrastu ziņojumu" // Shown when no issues are reported by the logged in user
+            noResultsFound: "ķ_No reports found______ū" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "Patīk", // Command button shown in details panel
@@ -127,10 +127,10 @@ define(
             gotoIssueListTooltip: "Doties uz ziņojumu sarakstu" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Balsis par šo ziņojumu" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Balsis par šo ziņojumu", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "ķ_Load More_____ū..." //Text for load more button
         },
         comment: {
-            commentsFormText: "Komentārs",
             commentsFormSubmitButton: "Iesniegt komentāru",
             commentsFormCancelButton: "Atcelt",
             errorInSubmittingComment: "Komentāru nevarēja iesniegt.", // Shown when user is unable to add comments

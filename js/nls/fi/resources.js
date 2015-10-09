@@ -44,7 +44,7 @@ define(
             created: "Luontipäivämäärä", // Shown in the 'Map information' section indicating the date when the webmap was created
             modified: "Muokkauspäivämäärä", // Shown in the 'Map information' section indicating the date when the webmap was modified
             description: "Kuvaus", // Shown in the 'Map information' section describing the webmap
-            snippet: "Yhteenveto", // Shown in the 'Map information' section providing the summary of the webmap
+            snippet: "Summary", // Shown in the 'Map information' section providing the summary of the webmap
             licenseInfo: "Käyttörajoitukset", // Shown in the map information section indicating the webmap license information
             accessInformation: "Krediitit", // Shown in the 'Map information' section indicating account credits
             tags: "Tunnisteet", // Shown in the 'Map information' section indicating tags of the webmap
@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "Kartan tiedot" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "Nykyiseltä alueelta ei ole raportteja käytettävissä", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "Å_No features found______ö", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "Å_No features found near you_________ö", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "Å_Unable to complete operation_________ö", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Siirry pääluetteloon", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Karttanäkymä" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "Omat raportit", // Command button shown in mobile menu list
             signIn: "Kirjaudu sisään", // Command button shown in mobile menu list and in appheader
             signOut: "Kirjaudu ulos", // Command button shown in mobile menu list
-            help: "Ohje", // Command button shown in mobile menu list
             signInTooltip: "Kirjaudu sisään", // Tooltip to 'Sign in' option
             signOutTooltip: "Kirjaudu ulos", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Näytä minulle lähetetyt raportit", // Tooltip  to 'My Reports' option
-            helpTooltip: "Ohje" // Tooltip  to 'Help' option
+            myReportTooltip: "Näytä minulle lähetetyt raportit" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Yksityiskohdat", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -111,26 +111,26 @@ define(
         myIssues: {
             title: "Omat raportit", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "Omat raportit", // Command button to access issues reported by the logged in user
-            noResultsFound: "Yhtään raporttia ei löytynyt" // Shown when no issues are reported by the logged in user
+            noResultsFound: "Å_No reports found______ö" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "Kuten", // Command button shown in details panel
             likeButtonTooltip: "Äänestä tätä raporttia",  // Tooltip for command button shown in details panel
             commentButtonLabel: "Kommentti", // Command button shown in details panel
             commentButtonTooltip: "Kommentoi tätä raporttia", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "Galleria", // Command button shown in details panel
+            galleryButtonLabel: "Gallery", // Command button shown in details panel
             galleryButtonTooltip: "Näytä liitetyt dokumentit", // Tooltip for command button shown in details panel
             mapButtonLabel: "Näytä kartalla", // Command button shown in details panel
             mapButtonTooltip: "Näytä tämän raportin sijainti", // Tooltip for command button shown in details panel
-            commentsListHeading: "Kommentit", // List heading for Comments section in details panel
+            commentsListHeading: "Comments", // List heading for Comments section in details panel
             unableToUpdateVoteField: "Ääntäsi ei voi lisätä tällä kertaa.", // Error message for feature unable to update
             gotoIssueListTooltip: "Siirry raporttiluetteloon" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Tämän raportin äänet" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Tämän raportin äänet", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "Å_Load More_____ö..." //Text for load more button
         },
         comment: {
-            commentsFormText: "Kommentti",
             commentsFormSubmitButton: "Lähetä kommentti",
             commentsFormCancelButton: "Peruuta",
             errorInSubmittingComment: "Kommentin lähetys ei onnistunut.", // Shown when user is unable to add comments
@@ -141,7 +141,7 @@ define(
             showNoText: "Ei" // Shown when comments character limit is exceeded
         },
         gallery: {
-            galleryHeaderText: "Galleria",
+            galleryHeaderText: "Gallery",
             noAttachmentsAvailableText: "Liitteitä ei löydy." // Shown when no comments are available for the selected issue
         }
     })

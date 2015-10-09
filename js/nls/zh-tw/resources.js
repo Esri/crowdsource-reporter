@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "地圖資訊" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "目前區域中沒有任何報告可用", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "試_No features found______驗", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "試_No features found near you_________驗", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "試_Unable to complete operation_________驗", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "轉至主清單", // Tooltip for back icon in list header
             gotoMapViewTooltip: "地圖視圖" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "我的報告", // Command button shown in mobile menu list
             signIn: "登入", // Command button shown in mobile menu list and in appheader
             signOut: "登出", // Command button shown in mobile menu list
-            help: "幫助", // Command button shown in mobile menu list
             signInTooltip: "登入", // Tooltip to 'Sign in' option
             signOutTooltip: "登出", // Tooltip  to 'Sign out' option
-            myReportTooltip: "檢視我提交的報告", // Tooltip  to 'My Reports' option
-            helpTooltip: "說明" // Tooltip  to 'Help' option
+            myReportTooltip: "檢視我提交的報告" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "詳細資訊", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -111,7 +111,7 @@ define(
         myIssues: {
             title: "我的報告", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "我的報告", // Command button to access issues reported by the logged in user
-            noResultsFound: "未找到任何報告" // Shown when no issues are reported by the logged in user
+            noResultsFound: "試_No reports found______驗" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "Like(K)", // Command button shown in details panel
@@ -127,10 +127,10 @@ define(
             gotoIssueListTooltip: "轉至報告清單" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "為此報告投票" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "為此報告投票", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "試_Load More_____驗..." //Text for load more button
         },
         comment: {
-            commentsFormText: "評論",
             commentsFormSubmitButton: "提交評論",
             commentsFormCancelButton: "取消",
             errorInSubmittingComment: "無法提交評論。", // Shown when user is unable to add comments

@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "ข้อมูลรายละเอียดแผนที่" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "ไม่มีรายงานให้ในพื้นที่นี้", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "ก้_No features found______ษฺ", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "ก้_No features found near you_________ษฺ", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "ก้_Unable to complete operation_________ษฺ", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "ไปที่รายการหลัก", // Tooltip for back icon in list header
             gotoMapViewTooltip: "มุมมองแผนที่" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "รายงาน", // Command button shown in mobile menu list
             signIn: "ลงชื่อเข้าใช้", // Command button shown in mobile menu list and in appheader
             signOut: "ลงชื่อออก", // Command button shown in mobile menu list
-            help: "ช่วยเหลือ", // Command button shown in mobile menu list
             signInTooltip: "ลงชื่อเข้าใช้", // Tooltip to 'Sign in' option
             signOutTooltip: "ออกจากระบบ", // Tooltip  to 'Sign out' option
-            myReportTooltip: "แสดงรายการที่ส่ง", // Tooltip  to 'My Reports' option
-            helpTooltip: "ช่วยเหลือ" // Tooltip  to 'Help' option
+            myReportTooltip: "แสดงรายการที่ส่ง" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "รายละเอียด", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -111,7 +111,7 @@ define(
         myIssues: {
             title: "รายงาน", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "รายงาน", // Command button to access issues reported by the logged in user
-            noResultsFound: "ไม่พบรายงาน" // Shown when no issues are reported by the logged in user
+            noResultsFound: "ก้_No reports found______ษฺ" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "ชอบ", // Command button shown in details panel
@@ -127,10 +127,10 @@ define(
             gotoIssueListTooltip: "ไปที่รายการรายงาน" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "โหวตให้รายงานนี้" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "โหวตให้รายงานนี้", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "ก้_Load More_____ษฺ..." //Text for load more button
         },
         comment: {
-            commentsFormText: "คำอธิบาย",
             commentsFormSubmitButton: "ส่งความคิดเห็น",
             commentsFormCancelButton: "ยกเลิก",
             errorInSubmittingComment: "ความคิดเห็นนี้ไม่สามารถส่งได้", // Shown when user is unable to add comments

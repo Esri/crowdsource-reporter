@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "Kaarditeave" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "Praeguses piirkonnas pole objekte", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "Š_No features found______ä", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "Š_No features found near you_________ä", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "Š_Unable to complete operation_________ä", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Mine pealehele", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Kaardivaade" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "Minu aruanded", // Command button shown in mobile menu list
             signIn: "Logi sisse", // Command button shown in mobile menu list and in appheader
             signOut: "Logi välja", // Command button shown in mobile menu list
-            help: "Abi", // Command button shown in mobile menu list
             signInTooltip: "Logi sisse", // Tooltip to 'Sign in' option
             signOutTooltip: "Logi välja", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Kuva minu poolt esitatud aruanded", // Tooltip  to 'My Reports' option
-            helpTooltip: "Abi" // Tooltip  to 'Help' option
+            myReportTooltip: "Kuva minu poolt esitatud aruanded" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Detailid", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -111,7 +111,7 @@ define(
         myIssues: {
             title: "Minu aruanded", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "Minu aruanded", // Command button to access issues reported by the logged in user
-            noResultsFound: "Ühtki aruannet ei leitud" // Shown when no issues are reported by the logged in user
+            noResultsFound: "Š_No reports found______ä" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "nagu", // Command button shown in details panel
@@ -127,10 +127,10 @@ define(
             gotoIssueListTooltip: "Liigu aruande loendisse" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Selle aruande kohta antud hääled." //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Selle aruande kohta antud hääled.", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "Š_Load More_____ä..." //Text for load more button
         },
         comment: {
-            commentsFormText: "Kommentaar",
             commentsFormSubmitButton: "Saada kommentaar",
             commentsFormCancelButton: "Tühista",
             errorInSubmittingComment: "Kommentaari ei saanud esitada.", // Shown when user is unable to add comments

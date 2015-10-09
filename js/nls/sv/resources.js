@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "Kartinformation" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "Inga rapporter tillgängliga i det aktuella området", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "Å_No features found______ö", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "Å_No features found near you_________ö", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "Å_Unable to complete operation_________ö", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Gå till huvudlistan", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Kartvy" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "Mina rapporter", // Command button shown in mobile menu list
             signIn: "Logga in", // Command button shown in mobile menu list and in appheader
             signOut: "Logga ut", // Command button shown in mobile menu list
-            help: "Hjälp", // Command button shown in mobile menu list
             signInTooltip: "Logga in", // Tooltip to 'Sign in' option
             signOutTooltip: "Logga ut", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Visa rapporter som skickats av mig", // Tooltip  to 'My Reports' option
-            helpTooltip: "Hjälp" // Tooltip  to 'Help' option
+            myReportTooltip: "Visa rapporter som skickats av mig" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Detaljer", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -111,7 +111,7 @@ define(
         myIssues: {
             title: "Mina rapporter", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "Mina rapporter", // Command button to access issues reported by the logged in user
-            noResultsFound: "Inga rapporter hittades" // Shown when no issues are reported by the logged in user
+            noResultsFound: "Å_No reports found______ö" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "Gilla", // Command button shown in details panel
@@ -127,10 +127,10 @@ define(
             gotoIssueListTooltip: "Gå till rapportlistan" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Röster för den här rapporten" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Röster för den här rapporten", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "Å_Load More_____ö..." //Text for load more button
         },
         comment: {
-            commentsFormText: "Kommentar",
             commentsFormSubmitButton: "Skicka en kommentar",
             commentsFormCancelButton: "Avbryt",
             errorInSubmittingComment: "Det gick inte att skicka kommentaren.", // Shown when user is unable to add comments

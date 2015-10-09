@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "Žemėlapio informacija" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "Esamoje srityje ataskaitų nėra", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "Į_No features found______š", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "Į_No features found near you_________š", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "Į_Unable to complete operation_________š", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Eiti į pagrindinį sąrašą", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Žemėlapio vaizdas" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "Mano ataskaitos", // Command button shown in mobile menu list
             signIn: "Prisijungti", // Command button shown in mobile menu list and in appheader
             signOut: "Atsijungti", // Command button shown in mobile menu list
-            help: "Pagalba", // Command button shown in mobile menu list
             signInTooltip: "Prisijunkite", // Tooltip to 'Sign in' option
             signOutTooltip: "Atsijungti", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Peržiūrėti savo pateiktas ataskaitas", // Tooltip  to 'My Reports' option
-            helpTooltip: "Pagalba" // Tooltip  to 'Help' option
+            myReportTooltip: "Peržiūrėti savo pateiktas ataskaitas" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Išsamiau", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -111,7 +111,7 @@ define(
         myIssues: {
             title: "Mano ataskaitos", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "Mano ataskaitos", // Command button to access issues reported by the logged in user
-            noResultsFound: "Ataskaitų nerasta" // Shown when no issues are reported by the logged in user
+            noResultsFound: "Į_No reports found______š" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "Patinka", // Command button shown in details panel
@@ -127,10 +127,10 @@ define(
             gotoIssueListTooltip: "Eiti į ataskaitų sąrašą" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Balsai už šią ataskaitą" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Balsai už šią ataskaitą", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "Į_Load More_____š..." //Text for load more button
         },
         comment: {
-            commentsFormText: "Komentuoti",
             commentsFormSubmitButton: "Pateikti komentarą",
             commentsFormCancelButton: "Atšaukti",
             errorInSubmittingComment: "Komentaro pateikti nepavyko.", // Shown when user is unable to add comments

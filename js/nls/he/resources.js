@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "מידע על המפה" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "אין דוחות זמינים באזור הנוכחי", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "כן_No features found______ש", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "כן_No features found near you_________ש", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "כן_Unable to complete operation_________ש", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "עבור לרשימה הראשית", // Tooltip for back icon in list header
             gotoMapViewTooltip: "מבט מפה" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "הדוחות שלי", // Command button shown in mobile menu list
             signIn: "הירשם", // Command button shown in mobile menu list and in appheader
             signOut: "התנתק", // Command button shown in mobile menu list
-            help: "עזרה", // Command button shown in mobile menu list
             signInTooltip: "הרשם", // Tooltip to 'Sign in' option
             signOutTooltip: "יציאה", // Tooltip  to 'Sign out' option
-            myReportTooltip: "הצג דוחות ששלחתי", // Tooltip  to 'My Reports' option
-            helpTooltip: "עזרה" // Tooltip  to 'Help' option
+            myReportTooltip: "הצג דוחות ששלחתי" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "פרטים", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -111,7 +111,7 @@ define(
         myIssues: {
             title: "הדוחות שלי", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "הדוחות שלי", // Command button to access issues reported by the logged in user
-            noResultsFound: "לא נמצאו דוחות" // Shown when no issues are reported by the logged in user
+            noResultsFound: "כן_No reports found______ש" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "סמן Like", // Command button shown in details panel
@@ -127,10 +127,10 @@ define(
             gotoIssueListTooltip: "עבור לרשימת הדוחות" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "הצבעות לדוח זה" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "הצבעות לדוח זה", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "כן_Load More_____ש..." //Text for load more button
         },
         comment: {
-            commentsFormText: "הערה",
             commentsFormSubmitButton: "שלח תגובה",
             commentsFormCancelButton: "בטל",
             errorInSubmittingComment: "לא ניתן לשלוח תגובה.", // Shown when user is unable to add comments

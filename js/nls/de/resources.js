@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "Karteninformationen" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "Keine Berichte im aktuellen Bereich verfügbar", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "ä_No features found______Ü", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "ä_No features found near you_________Ü", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "ä_Unable to complete operation_________Ü", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Zur Hauptliste wechseln", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Kartenansicht" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "Eigene Berichte", // Command button shown in mobile menu list
             signIn: "Anmelden", // Command button shown in mobile menu list and in appheader
             signOut: "Abmelden", // Command button shown in mobile menu list
-            help: "Hilfe", // Command button shown in mobile menu list
             signInTooltip: "Anmelden", // Tooltip to 'Sign in' option
             signOutTooltip: "Abmelden", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Von mir gesendete Berichte anzeigen", // Tooltip  to 'My Reports' option
-            helpTooltip: "Hilfe" // Tooltip  to 'Help' option
+            myReportTooltip: "Von mir gesendete Berichte anzeigen" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Details", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -111,7 +111,7 @@ define(
         myIssues: {
             title: "Eigene Berichte", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "Eigene Berichte", // Command button to access issues reported by the logged in user
-            noResultsFound: "Keine Berichte gefunden" // Shown when no issues are reported by the logged in user
+            noResultsFound: "ä_No reports found______Ü" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "Wie", // Command button shown in details panel
@@ -127,10 +127,10 @@ define(
             gotoIssueListTooltip: "Zur Berichtsliste wechseln" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Stimmen für diesen Bericht" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Stimmen für diesen Bericht", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "ä_Load More_____Ü..." //Text for load more button
         },
         comment: {
-            commentsFormText: "Kommentar",
             commentsFormSubmitButton: "Kommentar senden",
             commentsFormCancelButton: "Abbrechen",
             errorInSubmittingComment: "Kommentar konnte nicht gesendet werden.", // Shown when user is unable to add comments

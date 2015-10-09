@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "Harita bilgileri" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "Geçerli alanda kullanılabilir rapor yok", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "ı_No features found______İ", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "ı_No features found near you_________İ", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "ı_Unable to complete operation_________İ", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Ana listeye git", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Harita görünümü" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "Raporlarım", // Command button shown in mobile menu list
             signIn: "Oturum Açma", // Command button shown in mobile menu list and in appheader
             signOut: "Oturum Kapat", // Command button shown in mobile menu list
-            help: "Yardım", // Command button shown in mobile menu list
             signInTooltip: "Hesabınıza", // Tooltip to 'Sign in' option
             signOutTooltip: "Oturumu kapat", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Kendi gönderdiğim raporları görüntüle", // Tooltip  to 'My Reports' option
-            helpTooltip: "Yardım" // Tooltip  to 'Help' option
+            myReportTooltip: "Kendi gönderdiğim raporları görüntüle" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Ayrıntılar", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -111,7 +111,7 @@ define(
         myIssues: {
             title: "Raporlarım", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "Raporlarım", // Command button to access issues reported by the logged in user
-            noResultsFound: "Herhangi bir rapor bulunamadı" // Shown when no issues are reported by the logged in user
+            noResultsFound: "ı_No reports found______İ" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "Gibi", // Command button shown in details panel
@@ -127,10 +127,10 @@ define(
             gotoIssueListTooltip: "Rapor listesine git" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Bu rapora verilen oylar" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Bu rapora verilen oylar", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "ı_Load More_____İ..." //Text for load more button
         },
         comment: {
-            commentsFormText: "Açıklama",
             commentsFormSubmitButton: "Yorum Gönder",
             commentsFormCancelButton: "İptal",
             errorInSubmittingComment: "Yorum gönderilemedi.", // Shown when user is unable to add comments

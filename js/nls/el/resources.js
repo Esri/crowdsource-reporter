@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "Πληροφορίες χάρτη" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "Δεν υπάρχουν διαθέσιμες αναφορές στην τρέχουσα περιοχή", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "Đ_No features found______ớ", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "Đ_No features found near you_________ớ", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "Đ_Unable to complete operation_________ớ", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Μετάβαση στην κύρια λίστα", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Προβολή χάρτη" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "Οι αναφορές μου", // Command button shown in mobile menu list
             signIn: "Είσοδος", // Command button shown in mobile menu list and in appheader
             signOut: "Έξοδος", // Command button shown in mobile menu list
-            help: "Βοήθεια", // Command button shown in mobile menu list
             signInTooltip: "Εισέλθετε", // Tooltip to 'Sign in' option
             signOutTooltip: "Έξοδος", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Προβολή αναφορών που έχουν υποβληθεί από εμένα", // Tooltip  to 'My Reports' option
-            helpTooltip: "Βοήθεια" // Tooltip  to 'Help' option
+            myReportTooltip: "Προβολή αναφορών που έχουν υποβληθεί από εμένα" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "ΛΕΠΤΟΜΕΡΕΙΕΣ", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -111,7 +111,7 @@ define(
         myIssues: {
             title: "Οι αναφορές μου", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "Οι αναφορές μου", // Command button to access issues reported by the logged in user
-            noResultsFound: "Δεν βρέθηκαν αναφορές." // Shown when no issues are reported by the logged in user
+            noResultsFound: "Đ_No reports found______ớ" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "Μου αρέσει", // Command button shown in details panel
@@ -127,10 +127,10 @@ define(
             gotoIssueListTooltip: "Μετάβαση στη λίστα αναφορών" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Ψήφοι για αυτήν την αναφορά" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Ψήφοι για αυτήν την αναφορά", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "Đ_Load More_____ớ..." //Text for load more button
         },
         comment: {
-            commentsFormText: "Σχόλιο",
             commentsFormSubmitButton: "Υποβολή σχολίου",
             commentsFormCancelButton: "Ακύρωση",
             errorInSubmittingComment: "Δεν ήταν δυνατή η υποβολή του σχολίου.", // Shown when user is unable to add comments

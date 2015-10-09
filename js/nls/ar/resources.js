@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "معلومات الخريطة" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "لا توجد تقارير متاحة في المنطقة الحالية", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "بيت_No features found______لاحقة", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "بيت_No features found near you_________لاحقة", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "بيت_Unable to complete operation_________لاحقة", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "الانتقال إلى القائمة الرئيسية", // Tooltip for back icon in list header
             gotoMapViewTooltip: "عرض الخريطة" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "التقارير خاصتي", // Command button shown in mobile menu list
             signIn: "تسجيل الدخول", // Command button shown in mobile menu list and in appheader
             signOut: "تسجيل الخروج", // Command button shown in mobile menu list
-            help: "المساعدة", // Command button shown in mobile menu list
             signInTooltip: "تسجيل الدخول", // Tooltip to 'Sign in' option
             signOutTooltip: "تسجيل الخروج", // Tooltip  to 'Sign out' option
-            myReportTooltip: "عرض التقارير التي تم إرسالها بواسطتي", // Tooltip  to 'My Reports' option
-            helpTooltip: "المساعدة" // Tooltip  to 'Help' option
+            myReportTooltip: "عرض التقارير التي تم إرسالها بواسطتي" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "التفاصيل", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -111,7 +111,7 @@ define(
         myIssues: {
             title: "التقارير خاصتي", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "التقارير خاصتي", // Command button to access issues reported by the logged in user
-            noResultsFound: "لم يتم إيجاد التقارير" // Shown when no issues are reported by the logged in user
+            noResultsFound: "بيت_No reports found______لاحقة" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "مثل", // Command button shown in details panel
@@ -127,10 +127,10 @@ define(
             gotoIssueListTooltip: "الانتقال إلى قائمة التقرير" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "عمليات التصويت لهذا التقرير" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "عمليات التصويت لهذا التقرير", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "بيت_Load More_____لاحقة..." //Text for load more button
         },
         comment: {
-            commentsFormText: "التعليق",
             commentsFormSubmitButton: "تقديم تعليق",
             commentsFormCancelButton: "إلغاء الأمر",
             errorInSubmittingComment: "يتعذر إرسال التعليق.", // Shown when user is unable to add comments

@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "Информация карты" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "В текущей области нет доступных отчетов", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "Ж_No features found______Я", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "Ж_No features found near you_________Я", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "Ж_Unable to complete operation_________Я", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Перейти в основной список", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Вид карты" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "Мои отчеты", // Command button shown in mobile menu list
             signIn: "Вход", // Command button shown in mobile menu list and in appheader
             signOut: "Выход", // Command button shown in mobile menu list
-            help: "Справка", // Command button shown in mobile menu list
             signInTooltip: "Вход", // Tooltip to 'Sign in' option
             signOutTooltip: "Выход", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Просмотреть отчеты, созданные мной", // Tooltip  to 'My Reports' option
-            helpTooltip: "Справка" // Tooltip  to 'Help' option
+            myReportTooltip: "Просмотреть отчеты, созданные мной" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Подробности", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -111,7 +111,7 @@ define(
         myIssues: {
             title: "Мои отчеты", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "Мои отчеты", // Command button to access issues reported by the logged in user
-            noResultsFound: "Отчеты не найдены." // Shown when no issues are reported by the logged in user
+            noResultsFound: "Ж_No reports found______Я" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "Like", // Command button shown in details panel
@@ -127,10 +127,10 @@ define(
             gotoIssueListTooltip: "Перейти к списку отчетов" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Число голосов отданных за отчет" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Число голосов отданных за отчет", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "Ж_Load More_____Я..." //Text for load more button
         },
         comment: {
-            commentsFormText: "Комментарий",
             commentsFormSubmitButton: "Отправить комментарий",
             commentsFormCancelButton: "Отменить",
             errorInSubmittingComment: "Комментарий не может быть добавлен.", // Shown when user is unable to add comments

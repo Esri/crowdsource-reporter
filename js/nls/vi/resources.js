@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "Thông tin bản đồ" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "Không có báo cáo trong khu vực hiện tại", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "Đ_No features found______ớ", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "Đ_No features found near you_________ớ", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "Đ_Unable to complete operation_________ớ", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Đến danh sách chính", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Chế độ xem bản đồ" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "Báo cáo của tôi", // Command button shown in mobile menu list
             signIn: "Đăng nhập", // Command button shown in mobile menu list and in appheader
             signOut: "Đăng xuất", // Command button shown in mobile menu list
-            help: "Trợ giúp", // Command button shown in mobile menu list
             signInTooltip: "Đăng nhập", // Tooltip to 'Sign in' option
             signOutTooltip: "Đăng xuất", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Xem các báo cáo tôi đã gửi", // Tooltip  to 'My Reports' option
-            helpTooltip: "Trợ giúp" // Tooltip  to 'Help' option
+            myReportTooltip: "Xem các báo cáo tôi đã gửi" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Chi tiết", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -111,7 +111,7 @@ define(
         myIssues: {
             title: "Các báo cáo của tôi", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "Các báo cáo của tôi", // Command button to access issues reported by the logged in user
-            noResultsFound: "Không tìm thấy báo cáo" // Shown when no issues are reported by the logged in user
+            noResultsFound: "Đ_No reports found______ớ" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "Thích", // Command button shown in details panel
@@ -127,10 +127,10 @@ define(
             gotoIssueListTooltip: "Đến danh sách báo cáo" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Các bình chọn cho báo cáo này" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Các bình chọn cho báo cáo này", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "Đ_Load More_____ớ..." //Text for load more button
         },
         comment: {
-            commentsFormText: "Bình luận",
             commentsFormSubmitButton: "Gửi bình luận",
             commentsFormCancelButton: "Hủy",
             errorInSubmittingComment: "Không thể gửi bình luận.", // Shown when user is unable to add comments

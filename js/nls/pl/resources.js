@@ -30,7 +30,7 @@ define(
         },
         signin: {
             guestSigninText: "Kontynuuj jako gość", // Shown in the 'Sign in' page below the icon for accessing application as an anonymous user
-            signInOrText: "Lub", // Or text on sign in screen
+            signInOrText: "Or", // Or text on sign in screen
             signinOptionsText: "Zaloguj się, używając:", // Shown in the 'Sign in' page above the icons for social media sign in
             noGroupNameText: "Zaloguj się", // Shown when the group title is not available or the group is private
             guestLoginTooltip: "Zaloguj się jako gość", // Command button to access the application as an anonymous user
@@ -44,17 +44,19 @@ define(
             created: "Data utworzenia", // Shown in the 'Map information' section indicating the date when the webmap was created
             modified: "Ostatnia modyfikacja", // Shown in the 'Map information' section indicating the date when the webmap was modified
             description: "Opis", // Shown in the 'Map information' section describing the webmap
-            snippet: "Podsumowanie", // Shown in the 'Map information' section providing the summary of the webmap
+            snippet: "Summary", // Shown in the 'Map information' section providing the summary of the webmap
             licenseInfo: "Ograniczenia dostępu i użytkowania", // Shown in the map information section indicating the webmap license information
             accessInformation: "Udostępniający zasoby", // Shown in the 'Map information' section indicating account credits
-            tags: "Znaczniki", // Shown in the 'Map information' section indicating tags of the webmap
+            tags: "Tags", // Shown in the 'Map information' section indicating tags of the webmap
             numViews: "Liczba wyświetleń", // Shown in the 'Map information' section indicating number of times the webmap has been viewed
             avgRating: "Ocena", // Shown in the 'Map information' section indicating webmap rating
             noWebMapInGroup: "Skonfigurowana grupa jest nieprawidłowa lub tej grupie nie udostępniono jeszcze żadnych elementów.", // Shown when the configured group is invalid/private or no items have been shared with the group
             infoBtnToolTip: "Informacje o mapie" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "Brak raportów w obecnym obszarze", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "ł_No features found______ą", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "ł_No features found near you_________ą", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "ł_Unable to complete operation_________ą", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Przejdź do głównej listy", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Widok mapy" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "Moje raporty", // Command button shown in mobile menu list
             signIn: "Zaloguj się", // Command button shown in mobile menu list and in appheader
             signOut: "Wyloguj się", // Command button shown in mobile menu list
-            help: "Pomoc", // Command button shown in mobile menu list
-            signInTooltip: "Zaloguj się", // Tooltip to 'Sign in' option
+            signInTooltip: "Sign in", // Tooltip to 'Sign in' option
             signOutTooltip: "Wyloguj się", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Wyświetl raporty przesłane przeze mnie", // Tooltip  to 'My Reports' option
-            helpTooltip: "Pomoc" // Tooltip  to 'Help' option
+            myReportTooltip: "Wyświetl raporty przesłane przeze mnie" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Szczegóły", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -111,7 +111,7 @@ define(
         myIssues: {
             title: "Moje raporty", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "Moje raporty", // Command button to access issues reported by the logged in user
-            noResultsFound: "Nie znaleziono raportów" // Shown when no issues are reported by the logged in user
+            noResultsFound: "ł_No reports found______ą" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "Lubię to", // Command button shown in details panel
@@ -127,10 +127,10 @@ define(
             gotoIssueListTooltip: "Przejdź do listy raportów" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Głosy na ten raport" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Głosy na ten raport", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "ł_Load More_____ą..." //Text for load more button
         },
         comment: {
-            commentsFormText: "Komentarz",
             commentsFormSubmitButton: "Prześlij komentarz",
             commentsFormCancelButton: "Anuluj",
             errorInSubmittingComment: "Nie można przesłać komentarza.", // Shown when user is unable to add comments

@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "맵 정보" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "현재 영역에서 사용할 수 있는 보고서가 없음", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "한_No features found______빠", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "한_No features found near you_________빠", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "한_Unable to complete operation_________빠", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "기본 목록으로 이동", // Tooltip for back icon in list header
             gotoMapViewTooltip: "맵 보기" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "내 보고서", // Command button shown in mobile menu list
             signIn: "로그인", // Command button shown in mobile menu list and in appheader
             signOut: "로그아웃", // Command button shown in mobile menu list
-            help: "도움말", // Command button shown in mobile menu list
             signInTooltip: "로그인", // Tooltip to 'Sign in' option
             signOutTooltip: "로그아웃", // Tooltip  to 'Sign out' option
-            myReportTooltip: "내가 제출한 보고서 보기", // Tooltip  to 'My Reports' option
-            helpTooltip: "도움말" // Tooltip  to 'Help' option
+            myReportTooltip: "내가 제출한 보고서 보기" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "세부정보", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -111,7 +111,7 @@ define(
         myIssues: {
             title: "내 보고서", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "내 보고서", // Command button to access issues reported by the logged in user
-            noResultsFound: "보고서를 찾을 수 없음" // Shown when no issues are reported by the logged in user
+            noResultsFound: "한_No reports found______빠" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "좋아요", // Command button shown in details panel
@@ -127,10 +127,10 @@ define(
             gotoIssueListTooltip: "보고서 목록으로 이동" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "이 보고서에 투표" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "이 보고서에 투표", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "한_Load More_____빠..." //Text for load more button
         },
         comment: {
-            commentsFormText: "의견",
             commentsFormSubmitButton: "의견 제출",
             commentsFormCancelButton: "취소",
             errorInSubmittingComment: "의견을 제출할 수 없습니다.", // Shown when user is unable to add comments

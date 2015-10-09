@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "Kaartinformatie" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "Er zijn geen rapporten beschikbaar in het huidige gebied", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "Ĳ_No features found______ä", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "Ĳ_No features found near you_________ä", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "Ĳ_Unable to complete operation_________ä", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Ga naar de hoofdlijst", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Kaartweergave" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "Mijn Rapporten", // Command button shown in mobile menu list
             signIn: "Aanmelden", // Command button shown in mobile menu list and in appheader
             signOut: "Afmelden", // Command button shown in mobile menu list
-            help: "Help", // Command button shown in mobile menu list
             signInTooltip: "Aanmelden", // Tooltip to 'Sign in' option
             signOutTooltip: "Meld u af", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Rapporten door mij ingediend bekijken", // Tooltip  to 'My Reports' option
-            helpTooltip: "Help" // Tooltip  to 'Help' option
+            myReportTooltip: "Rapporten door mij ingediend bekijken" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Details", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -111,14 +111,14 @@ define(
         myIssues: {
             title: "Mijn Rapporten", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "Mijn Rapporten", // Command button to access issues reported by the logged in user
-            noResultsFound: "Geen rapporten gevonden" // Shown when no issues are reported by the logged in user
+            noResultsFound: "Ĳ_No reports found______ä" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "Zoals", // Command button shown in details panel
             likeButtonTooltip: "Op dit rapport stemmen",  // Tooltip for command button shown in details panel
             commentButtonLabel: "Opmerking", // Command button shown in details panel
             commentButtonTooltip: "Op dit rapporten reageren", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "Galerij", // Command button shown in details panel
+            galleryButtonLabel: "Gallery", // Command button shown in details panel
             galleryButtonTooltip: "Zie bijgesloten documenten", // Tooltip for command button shown in details panel
             mapButtonLabel: "Op kaart weergeven", // Command button shown in details panel
             mapButtonTooltip: "Bekijk de locatie van dit rapport", // Tooltip for command button shown in details panel
@@ -127,10 +127,10 @@ define(
             gotoIssueListTooltip: "Ga naar de meldlijst" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Stemmen op dit rapport" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Stemmen op dit rapport", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "Ĳ_Load More_____ä..." //Text for load more button
         },
         comment: {
-            commentsFormText: "Opmerking",
             commentsFormSubmitButton: "Opmerking verzenden",
             commentsFormCancelButton: "Annuleren",
             errorInSubmittingComment: "Reactie kon niet worden ingediend.", // Shown when user is unable to add comments
@@ -141,7 +141,7 @@ define(
             showNoText: "Nee" // Shown when comments character limit is exceeded
         },
         gallery: {
-            galleryHeaderText: "Galerij",
+            galleryHeaderText: "Gallery",
             noAttachmentsAvailableText: "Geen bijlagen gevonden" // Shown when no comments are available for the selected issue
         }
     })

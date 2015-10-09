@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "Informaţii hartă" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "Niciun raport disponibil în zona curentă", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "Ă_No features found______ș", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "Ă_No features found near you_________ș", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "Ă_Unable to complete operation_________ș", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Accesaţi lista principală", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Vizualizare hartă" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "Rapoartele mele", // Command button shown in mobile menu list
             signIn: "Autentificare", // Command button shown in mobile menu list and in appheader
             signOut: "Deconectare", // Command button shown in mobile menu list
-            help: "Ajutor", // Command button shown in mobile menu list
             signInTooltip: "Autentificaţi-vă", // Tooltip to 'Sign in' option
             signOutTooltip: "Deconectare", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Vizualizează rapoartele transmise de mine", // Tooltip  to 'My Reports' option
-            helpTooltip: "Ajutor" // Tooltip  to 'Help' option
+            myReportTooltip: "Vizualizează rapoartele transmise de mine" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Detalii", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -111,7 +111,7 @@ define(
         myIssues: {
             title: "Rapoartele mele", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "Rapoartele mele", // Command button to access issues reported by the logged in user
-            noResultsFound: "Nu a fost găsit niciun raport" // Shown when no issues are reported by the logged in user
+            noResultsFound: "Ă_No reports found______ș" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "Îmi place", // Command button shown in details panel
@@ -127,10 +127,10 @@ define(
             gotoIssueListTooltip: "Accesare listă rapoarte" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Voturi pentru acest raport" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Voturi pentru acest raport", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "Ă_Load More_____ș..." //Text for load more button
         },
         comment: {
-            commentsFormText: "Comentariu",
             commentsFormSubmitButton: "Trimitere comentariu",
             commentsFormCancelButton: "Anulare",
             errorInSubmittingComment: "Comentariul nu a putut fi transmis.", // Shown when user is unable to add comments

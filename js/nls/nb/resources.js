@@ -46,7 +46,7 @@ define(
             description: "Beskrivelse", // Shown in the 'Map information' section describing the webmap
             snippet: "Sammendrag", // Shown in the 'Map information' section providing the summary of the webmap
             licenseInfo: "Begrensning av tilgang og bruk", // Shown in the map information section indicating the webmap license information
-            accessInformation: "Krediteringer", // Shown in the 'Map information' section indicating account credits
+            accessInformation: "Credits", // Shown in the 'Map information' section indicating account credits
             tags: "Merker", // Shown in the 'Map information' section indicating tags of the webmap
             numViews: "Antall visninger", // Shown in the 'Map information' section indicating number of times the webmap has been viewed
             avgRating: "Vurdering", // Shown in the 'Map information' section indicating webmap rating
@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "Kartinformasjon" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "Ingen rapporter tilgjengelige i gjeldende område", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "å_No features found______ø", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "å_No features found near you_________ø", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "å_Unable to complete operation_________ø", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Gå til hovedliste", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Kartvisning" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "Mine rapporter", // Command button shown in mobile menu list
             signIn: "Logg på", // Command button shown in mobile menu list and in appheader
             signOut: "Logg ut", // Command button shown in mobile menu list
-            help: "Hjelp", // Command button shown in mobile menu list
             signInTooltip: "Logg på", // Tooltip to 'Sign in' option
             signOutTooltip: "Logg av", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Vis rapporter jeg har sendt", // Tooltip  to 'My Reports' option
-            helpTooltip: "Hjelp" // Tooltip  to 'Help' option
+            myReportTooltip: "Vis rapporter jeg har sendt" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Detaljer", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -111,7 +111,7 @@ define(
         myIssues: {
             title: "Mine rapporter", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "Mine rapporter", // Command button to access issues reported by the logged in user
-            noResultsFound: "Finner ingen rapporter" // Shown when no issues are reported by the logged in user
+            noResultsFound: "å_No reports found______ø" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "Lik", // Command button shown in details panel
@@ -127,10 +127,10 @@ define(
             gotoIssueListTooltip: "Gå til rapportlisten" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Stemmer på denne rapporten" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Stemmer på denne rapporten", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "å_Load More_____ø..." //Text for load more button
         },
         comment: {
-            commentsFormText: "Kommentar",
             commentsFormSubmitButton: "Send inn kommentar",
             commentsFormCancelButton: "Avbryt",
             errorInSubmittingComment: "Kommentar kan ikke sendes.", // Shown when user is unable to add comments

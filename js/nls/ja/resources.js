@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "マップ情報" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "現在のエリアで利用できるレポートがありません", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "須_No features found______鷗", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "須_No features found near you_________鷗", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "須_Unable to complete operation_________鷗", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "メイン リストへ移動", // Tooltip for back icon in list header
             gotoMapViewTooltip: "マップ ビュー" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "マイ レポート", // Command button shown in mobile menu list
             signIn: "サイン イン", // Command button shown in mobile menu list and in appheader
             signOut: "サイン アウト", // Command button shown in mobile menu list
-            help: "ヘルプ", // Command button shown in mobile menu list
             signInTooltip: "サイン イン", // Tooltip to 'Sign in' option
             signOutTooltip: "サイン アウト", // Tooltip  to 'Sign out' option
-            myReportTooltip: "自分が送信したレポートを表示", // Tooltip  to 'My Reports' option
-            helpTooltip: "ヘルプ" // Tooltip  to 'Help' option
+            myReportTooltip: "自分が送信したレポートを表示" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "詳細", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -111,7 +111,7 @@ define(
         myIssues: {
             title: "マイ レポート", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "マイ レポート", // Command button to access issues reported by the logged in user
-            noResultsFound: "レポートがありません" // Shown when no issues are reported by the logged in user
+            noResultsFound: "須_No reports found______鷗" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "LIKE", // Command button shown in details panel
@@ -127,10 +127,10 @@ define(
             gotoIssueListTooltip: "レポート リストへ移動" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "このレポートに投票する" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "このレポートに投票する", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "須_Load More_____鷗..." //Text for load more button
         },
         comment: {
-            commentsFormText: "コメント",
             commentsFormSubmitButton: "コメントの送信",
             commentsFormCancelButton: "キャンセル",
             errorInSubmittingComment: "コメントを送信できませんでした。", // Shown when user is unable to add comments
