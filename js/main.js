@@ -138,6 +138,7 @@ define([
         geoLocationPoint: null,
         newlyAddedFeatures: [],
         basemapExtent: null,
+        maxBufferLimit: 0,
         geolocationgGraphicsLayer: null,
         startup: function (boilerPlateTemplateObject, loggedInUser) {
             // config will contain application and user defined info for the template such as i18n strings, the web map id
@@ -379,7 +380,7 @@ define([
                 }
 
                 //If application is loaded in RTL mode, change styles of required nodes
-                if (dojo.body().dir === "rtl") {
+                if (this.config.i18n.direction === "rtl") {
                     link = document.createElement('link');
                     link.rel = 'stylesheet';
                     link.type = 'text/css';
@@ -598,6 +599,7 @@ define([
                     this.layerGraphicsArray = [];
                     this.sortedFeaturesArray = [];
                     this.filteredBufferIds = [];
+                    this.maxBufferLimit = 0;
                     this.map = details.map;
                     this.newlyAddedFeatures = [];
                     this._selectedMapDetails = details;
@@ -708,7 +710,7 @@ define([
                     if (this.config.geolocation) {
                         if (this.sortedBufferArray.length <= this.bufferPageNumber) {
                             this.bufferRadius += 1;
-                            this._createBufferParameters(this._issueWallWidget.selectedLayer, this._selectedMapDetails);
+                            this._createBufferParameters(this._issueWallWidget.selectedLayer, this._selectedMapDetails, true);
                         } else {
                             //If buffer has more features than maxRecordCount, then get more features without incrementing buffer
                             this._selectFeaturesInBuffer(this._issueWallWidget.selectedLayer, this._selectedMapDetails);
@@ -867,7 +869,10 @@ define([
                     return true;
                 }
             }));
-
+            //If feature is found through search widget, we need to set my issues flag to false if it is true
+            if (addedFrom === "search") {
+                this._isMyIssues = false;
+            }
             if (!featureExsist) {
                 //If feature is added through geoform which is outside the buffer, append it to layer graphics array
                 this.newlyAddedFeatures.push(newFeature.attributes[layer.objectIdField]);
@@ -881,18 +886,13 @@ define([
                 if (addedFrom === "geoform") {
                     //Increment layer count by 1 since we have successfully added a graphic
                     this.featureLayerCount++;
-                    console.log("New feature layer graphics count: " + this.featureLayerCount);
                 }
+                this._createIssueWall(this._selectedMapDetails);
             }
-            console.log("Feature Already Exsist :" + featureExsist);
             //If feature is found through search widget then we need to display item details for the selected feature
             if (addedFrom === "search") {
                 this._itemSelected(newGraphic.graphic, true);
                 this._isMyIssues = false;
-            }
-            //If feature does not exsist, we need to create new issue wall
-            if (!featureExsist) {
-                this._createIssueWall(this._selectedMapDetails);
             }
 
             //Since we added one feature now, we need to clear the no features found message
@@ -1349,10 +1349,9 @@ define([
             }
             queryTask.executeForIds(countQuery, lang.hitch(this, function (results) {
                 this.featureLayerCount = results.length;
-                console.log("Feature Layer Graphics Count: " + this.featureLayerCount);
                 //If geolocation exsists create configurable buffer and fetch the features
                 if (this.config.geolocation) {
-                    this._createBufferParameters(featureLayer, details);
+                    this._createBufferParameters(featureLayer, details, false);
                 } else {
                     //Sort obtained object ids in descending order
                     results.sort(function (a, b) {
@@ -1372,12 +1371,12 @@ define([
         * @param{object} details of selected operational layer
         * @memberOf main
         */
-        _createBufferParameters: function (featureLayer, details) {
+        _createBufferParameters: function (featureLayer, details, isLoadMoreClick) {
             var circleSymb, bufferedGeometries, circleBoundary, newGeometry;
             //Create new point from the geolocation coordinates
             this.geoLocationPoint = webMercatorUtils.geographicToWebMercator(new Point(this.config.geolocation.coords.longitude, this.config.geolocation.coords.latitude));
             //Create symbol which will indicate the buffer
-            circleSymb = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SHORTDASHDOTDOT, new Color([105, 105, 105]), 2),
+            circleSymb = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL, new Color([105, 105, 105]), 2),
                 new Color([255, 255, 0, 0.25]));
             //Get the actual buffer geomtery based on geolocation point and configurable buffer radius
             bufferedGeometries = geometryEngine.geodesicBuffer(this.geoLocationPoint, [this.bufferRadius], this.config.bufferUnit, false);
@@ -1396,7 +1395,7 @@ define([
             this.map.setExtent(bufferedGeometries.getExtent().expand(1.5));
             //store previous geometry, we will use this to get cut geomtery next time
             this.previousBufferGeometry = bufferedGeometries;
-            this._createBuffer(featureLayer, newGeometry, details, bufferedGeometries);
+            this._createBuffer(featureLayer, newGeometry, details, bufferedGeometries, isLoadMoreClick);
         },
 
         /**
@@ -1407,7 +1406,7 @@ define([
         * @param{object} buffer geomteries
         * @memberOf main
         */
-        _createBuffer: function (featureLayer, newGeometry, details, bufferedGeometries) {
+        _createBuffer: function (featureLayer, newGeometry, details, bufferedGeometries, isLoadMoreClick) {
             var bufferQuery, queryTask, i, j, chunk;
             bufferQuery = new Query();
             queryTask = new QueryTask(featureLayer.url);
@@ -1424,11 +1423,12 @@ define([
             bufferQuery.geometry = newGeometry;
             queryTask.executeForIds(bufferQuery).then(lang.hitch(this, function (response) {
                 if (response && response.length > 0) {
-                    console.log("TotalBufferCount For " + this.bufferRadius + " Miles " + response.length);
                     this.bufferFeatureCount = response.length;
                     this.currentBufferIds = response;
                     this._filterResult();
-                    //If new features are added inthe current buffer from outside the applcation, make sure the feature layer count is in sync with it
+                    //Reset max buffer count to 0, if features are found in current buffer
+                    this.maxBufferLimit = 0;
+                    //If new features are added in the current buffer from outside the application, make sure the feature layer count is in sync with it
                     if (this.filteredBufferIds.length + this.layerGraphicsArray.length > this.featureLayerCount) {
                         this.featureLayerCount = this.filteredBufferIds.length + this.layerGraphicsArray.length;
                     }
@@ -1438,6 +1438,10 @@ define([
                     if (chunk > response.length) {
                         chunk = response.length;
                     }
+                    //If this is not user initiated action, we need to increment the buffer page number to keep track of each page
+                    if (!this.firstTimeLayerLoad && !isLoadMoreClick) {
+                        this.bufferPageNumber++;
+                    }
                     //check if the filtered array contains object ids to fetch the features
                     if (this.filteredBufferIds.length > 0) {
                         for (i = 0, j = this.filteredBufferIds.length; i < j; i += chunk) {
@@ -1445,9 +1449,11 @@ define([
                         }
                         this._selectFeaturesInBuffer(featureLayer, details, bufferedGeometries);
                     } else {
+                        //Add empty array to sortedBufferArray to maintain the page numbering
+                        this.sortedBufferArray.push([]);
                         if (this.featureLayerCount > this.layerGraphicsArray.length) {
                             this.bufferRadius += 1;
-                            this._createBufferParameters(featureLayer, details);
+                            this._createBufferParameters(featureLayer, details, false);
                         }
                     }
                 } else {
@@ -1456,11 +1462,28 @@ define([
                         //If no features are present in the first buffer itself.
                         //Show the appropriate error message which indicates user that he can click on load more to see the features
                         if (this.firstTimeLayerLoad) {
+                            //Add empty array to sortedBufferArray to maintain the page numbering
+                            this.sortedBufferArray.push([]);
                             this._createIssueWall(details);
                             this.firstTimeLayerLoad = false;
                         } else {
-                            this.bufferRadius += 1;
-                            this._createBufferParameters(featureLayer, details);
+                            this.maxBufferLimit++;
+                            //If this is not user initiated action, we need to increment the buffer page number to keep track of each page
+                            if (!isLoadMoreClick) {
+                                this.bufferPageNumber++;
+                            }
+                            //If app is getting empty features array in consecutive 10 attempts, stop the process and show "View More" button
+                            if (this.maxBufferLimit % 10 === 0) {
+                                //Add empty array to sortedBufferArray to maintain the page numbering
+                                this.sortedBufferArray.push([]);
+                                this.appUtils.hideLoadingIndicator();
+                                this.maxBufferLimit = 0;
+                            } else {
+                                //Add empty array to sortedBufferArray to maintain the page numbering
+                                this.sortedBufferArray.push([]);
+                                this.bufferRadius += 1;
+                                this._createBufferParameters(featureLayer, details, false);
+                            }
                         }
                     }
                     if (this.featureLayerCount === 0) {
@@ -1505,7 +1528,6 @@ define([
                     }
                 }
             }
-            console.log("Features to be added to list :" + this.filteredBufferIds.length);
         },
 
         /**

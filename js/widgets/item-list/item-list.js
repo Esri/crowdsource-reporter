@@ -158,9 +158,6 @@ define([
             //scroll the list to top always
             this.list.scrollTop = 0;
             arrayUtil.forEach(this.items, lang.hitch(this, this.buildItemSummary));
-            if (this.items && this.items.length) {
-                console.log("List Count:" + this.items.length);
-            }
             if (this.featureLayerCount && this.items && this.featureLayerCount !== this.items.length) {
                 this._createLoadMoreButton();
             }
