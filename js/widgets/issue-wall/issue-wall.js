@@ -371,6 +371,8 @@ define([
                 if (this.featureLayerCount !== 0) {
                     domAttr.set(this.noIssuesMessage, "innerHTML", this.appConfig.i18n.issueWall.noResultsFoundInCurrentBuffer);
                     this.itemsList.setItems(featureSet);
+                } else {
+                    domAttr.set(this.noIssuesMessage, "innerHTML", this.appConfig.i18n.issueWall.noResultsFound);
                 }
                 domClass.remove(this.noIssuesMessage, "esriCTHidden");
             }

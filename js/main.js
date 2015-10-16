@@ -592,6 +592,7 @@ define([
                     this.firstTimeLayerLoad = true;
                     this.bufferPageNumber = 0;
                     this.bufferRadius = this.config.bufferRadius;
+                    this.bufferRadiusInterval = this.config.bufferRadius;
                     this.sortedBufferArray = [];
                     this.previousBufferGeometry = null;
                     this.previousBufferIds = null;
@@ -701,15 +702,11 @@ define([
                     this._createGeoForm();
                 });
                 this._issueWallWidget.onLoadMoreClick = lang.hitch(this, function (evt) {
-                    //Clear previously selected feature
-                    if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
-                        this._selectedMapDetails.map.getLayer("selectionGraphicsLayer").clear();
-                    }
                     this.appUtils.showLoadingIndicator();
                     this.bufferPageNumber++;
                     if (this.config.geolocation) {
                         if (this.sortedBufferArray.length <= this.bufferPageNumber) {
-                            this.bufferRadius += 1;
+                            this.bufferRadius += this.bufferRadiusInterval;
                             this._createBufferParameters(this._issueWallWidget.selectedLayer, this._selectedMapDetails, true);
                         } else {
                             //If buffer has more features than maxRecordCount, then get more features without incrementing buffer
@@ -814,7 +811,7 @@ define([
                             //refresh main map so that newly created issue will be shown on it.
                             var layer = this._selectedMapDetails.map.getLayer(this._selectedMapDetails.operationalLayerId);
                             layer.refresh();
-                            this._addNewFeature(objectId, layer, "geoform").then(lang.hitch(this, function () {
+                            this._addNewFeature(objectId, this.selectedLayer, "geoform").then(lang.hitch(this, function () {
                                 //update my issue list when new issue is added
                                 if (this._myIssuesWidget) {
                                     this._myIssuesWidget.updateIssueList(this._selectedMapDetails, null, true);
@@ -837,14 +834,14 @@ define([
         * @memberOf main
         */
         _addNewFeature: function (objectId, layer, addedFrom) {
-            var queryFeature, queryTask, featureDef = new Deferred();
+            var queryFeature, featureDef = new Deferred(), currentDateTime = new Date().getTime();
             queryFeature = new Query();
-            queryTask = new QueryTask(layer.url);
-            queryFeature.objectIds = [objectId];
+            queryFeature.objectIds = [parseInt(objectId, 10)];
             queryFeature.outFields = ["*"];
             queryFeature.outSpatialReference = layer.spatialReference;
+            queryFeature.where = currentDateTime + "=" + currentDateTime;
             queryFeature.returnGeometry = true;
-            queryTask.execute(queryFeature, lang.hitch(this, function (result) {
+            layer.queryFeatures(queryFeature, lang.hitch(this, function (result) {
                 this._createFeature(result.features[0], layer, addedFrom);
                 featureDef.resolve();
             }), function (error) {
@@ -861,6 +858,8 @@ define([
         */
         _createFeature: function (newFeature, layer, addedFrom) {
             var newGraphic, featureExsist = false;
+            //Add infotemplate to newly created feature
+            newFeature.setInfoTemplate(layer.infoTemplate);
             newGraphic = this._createFeatureAttributes(newFeature, layer);
             //check if newfeature is already present in graphics layer and set featureExsist flag to true
             array.some(this.displaygraphicsLayer.graphics, lang.hitch(this, function (currentFeature) {
@@ -913,6 +912,8 @@ define([
         _createFeatureAttributes: function (newFeature, layer) {
             var newGraphic1, fieldValue;
             newGraphic1 = new Graphic();
+            //Kepping instance of original feature for further use
+            newGraphic1.originalFeature = newFeature;
             newGraphic1.attributes = newFeature.attributes;
             newGraphic1.geometry = newFeature.geometry;
             newGraphic1.infoTemplate = layer.infoTemplate;
@@ -1452,7 +1453,7 @@ define([
                         //Add empty array to sortedBufferArray to maintain the page numbering
                         this.sortedBufferArray.push([]);
                         if (this.featureLayerCount > this.layerGraphicsArray.length) {
-                            this.bufferRadius += 1;
+                            this.bufferRadius += this.bufferRadiusInterval;
                             this._createBufferParameters(featureLayer, details, false);
                         }
                     }
@@ -1467,13 +1468,13 @@ define([
                             this._createIssueWall(details);
                             this.firstTimeLayerLoad = false;
                         } else {
-                            this.maxBufferLimit++;
+                            this.maxBufferLimit += this.bufferRadiusInterval;
                             //If this is not user initiated action, we need to increment the buffer page number to keep track of each page
                             if (!isLoadMoreClick) {
                                 this.bufferPageNumber++;
                             }
                             //If app is getting empty features array in consecutive 10 attempts, stop the process and show "View More" button
-                            if (this.maxBufferLimit % 10 === 0) {
+                            if (this.maxBufferLimit === this.bufferRadiusInterval * 10) {
                                 //Add empty array to sortedBufferArray to maintain the page numbering
                                 this.sortedBufferArray.push([]);
                                 this.appUtils.hideLoadingIndicator();
@@ -1481,7 +1482,7 @@ define([
                             } else {
                                 //Add empty array to sortedBufferArray to maintain the page numbering
                                 this.sortedBufferArray.push([]);
-                                this.bufferRadius += 1;
+                                this.bufferRadius += this.bufferRadiusInterval;
                                 this._createBufferParameters(featureLayer, details, false);
                             }
                         }
@@ -1538,16 +1539,15 @@ define([
         * @memberOf main
         */
         _selectFeaturesInBuffer: function (featureLayer, details, bufferedGeometries) {
-            var queryFeature, queryTask, newGraphic;
+            var queryFeature, newGraphic;
             queryFeature = new Query();
-            queryTask = new QueryTask(featureLayer.url);
             queryFeature.objectIds = this.sortedBufferArray[this.bufferPageNumber];
             queryFeature.outFields = ["*"];
             queryFeature.returnGeometry = true;
             if (bufferedGeometries) {
                 queryFeature.geometry = bufferedGeometries;
             }
-            queryTask.execute(queryFeature, lang.hitch(this, function (result) {
+            this.selectedLayer.queryFeatures(queryFeature, lang.hitch(this, function (result) {
                 var i, fields;
                 if (result.features) {
                     for (i = 0; i < result.features.length; i++) {
@@ -1566,6 +1566,8 @@ define([
                         newGraphic.setInfoTemplate(new PopupTemplate(details.operationalLayerDetails.popupInfo));
                         result.features[i].infoTemplate = newGraphic.infoTemplate;
                         newGraphic.webMapId = result.features[i].webMapId = details.webMapId;
+                        //Kepping instance of original feature for further use
+                        newGraphic.originalFeature = result.features[i];
                         this.displaygraphicsLayer.add(newGraphic);
                         //add to feature array
                         this.layerGraphicsArray.push(this._createFeatureAttributes(result.features[i], featureLayer));

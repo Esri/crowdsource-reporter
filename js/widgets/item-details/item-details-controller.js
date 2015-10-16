@@ -377,7 +377,7 @@ define([
             if (this.item.infoTemplate && !this.item.infoTemplate.hasOwnProperty("_relatedLayersInfo")) {
                 this.item.infoTemplate["_relatedLayersInfo"] = {};
             }
-            this.itemCP.set('content', this.item.getContent());
+            this.itemCP.set('content', this.item.originalFeature.getContent());
         },
 
         _showPanel: function (domNode, buttonNode, isScroll) {

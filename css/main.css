@@ -1307,7 +1307,6 @@ label
     height: 18px;
     width: 18px;
     cursor: pointer;
-    position: absolute;
     background-color: #fff;
 }
 
@@ -2135,8 +2134,8 @@ label
 
 .esriCTClose
 {
-    margin-right: 26px;
     opacity: 1;
+    padding: 2px;
 }
 
 .esriCTClose:hover
