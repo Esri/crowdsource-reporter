@@ -87,7 +87,7 @@ define({
             selectLocation: "Please select the location for your report", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Hint:${closeStrong} Minimum value ${minValue} and Maximum value ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Hint:${closeStrong} Minimum Date ${minValue} and Maximum Date ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Report could not be submitted.", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "Report could not be submitted", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "attachment(s) selected", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "${failed} of ${total} attachment(s) failed to upload", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Current location not available",  // Shown when the browser returns an error instead of the current geographical position
