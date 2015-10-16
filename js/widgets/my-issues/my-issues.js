@@ -365,6 +365,7 @@ define([
                 currentFeature.layerId = opLayer.id;
                 currentFeature.layerTitle = opLayer.title;
                 currentFeature._layer = opLayer.layerObject;
+                currentFeature.originalFeature = currentFeature;
                 // if attachment flag is true on layer then set gallary flag true
                 // in features which will show gallry button in detail view
                 if (currentFeature._layer.hasAttachments && currentFeature._layer.infoTemplate && currentFeature._layer.infoTemplate.info && currentFeature._layer.infoTemplate.info.showAttachments) {

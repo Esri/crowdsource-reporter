@@ -223,7 +223,7 @@
                     "tooltip": "Enable to show webmap average rating"
                 },
                 {
-                    "type": "string",
+                    "type": "number",
                     "fieldName": "bufferRadius",
                     "label": "Buffer Radius",
                     "tooltip": "Buffer Radius"

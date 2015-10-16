@@ -169,18 +169,20 @@ define([
         * @param  {feature} item to display in the list
         */
         buildItemSummary: function (item) {
-            var itemTitle, itemVotes, itemSummaryDiv, itemTitleDiv, favDiv, itemSummaryParent, itemSummaryHighlighter, details = "", itemTitleDivMyIssues, selectedLayerId;
+            var itemTitle, itemVotes, itemSummaryDiv, itemTitleDiv, favDiv, itemSummaryParent, itemSummaryHighlighter, details = "", itemTitleDivMyIssues, selectedLayerId, objectIdFieldName;
             item = (item && item.graphic) ? item.graphic : item;
             itemTitle = this.getItemTitle(item) || "&nbsp;";
             if (this.isMyIssues) {
                 details = item.webMapTitle + " : " + item.layerTitle;
                 this.showLikes = item.showLikes;
                 selectedLayerId = item._layer.id;
+                objectIdFieldName = item._layer.objectIdField;
             } else {
                 selectedLayerId = this.selectedLayer.id;
+                objectIdFieldName = this.selectedLayer.objectIdField;
             }
             itemSummaryParent = domConstruct.create('div', {
-                'class': 'esriCTtemSummaryParent, ' + item.attributes[this.selectedLayer.objectIdField] + "_" + item.webMapId + "_" + selectedLayerId,
+                'class': 'esriCTtemSummaryParent, ' + item.attributes[objectIdFieldName] + "_" + item.webMapId + "_" + selectedLayerId,
                 'click': lang.partial(this.summaryClick, this, item)
             }, this.list);
 
