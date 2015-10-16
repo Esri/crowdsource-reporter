@@ -66,7 +66,7 @@ define(
             signOut: "Cerrar sesión", // Command button shown in mobile menu list
             signInTooltip: "Iniciar sesión", // Tooltip to 'Sign in' option
             signOutTooltip: "Cerrar sesión", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Ver informes enviados por mí" // Tooltip  to 'My Reports' option
+            myReportTooltip: "á_View my reports______Ó" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Detalles", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "Selecciona la ubicación para el informe", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Sugerencia:${closeStrong} Valor mínimo ${minValue} y valor máximo ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Sugerencia:${closeStrong} Fecha mínima ${minValue} y fecha máxima ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "No se pudo notificar el problema", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "á_Report could not be submitted__________Ó", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "adjuntos seleccionados", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "Error al cargar ${failed} de ${total} adjuntos", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Ubicación actual no disponible",  // Shown when the browser returns an error instead of the current geographical position
@@ -114,16 +114,16 @@ define(
             noResultsFound: "á_No reports found______Ó" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Como", // Command button shown in details panel
-            likeButtonTooltip: "Votar este informe",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "Comentario", // Command button shown in details panel
-            commentButtonTooltip: "Comentar este informe", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "Galería", // Command button shown in details panel
+            likeButtonLabel: "Como", // Command button for up-voting a report
+            likeButtonTooltip: "Votar este informe",  // Tooltip for Like button
+            commentButtonLabel: "Comentario", // Command button for submitting feedback
+            commentButtonTooltip: "Comentar este informe", // Tooltip for Comment button
+            galleryButtonLabel: "Galería", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "Ver documentos adjuntos", // Tooltip for command button shown in details panel
             mapButtonLabel: "Ver en mapa", // Command button shown in details panel
-            mapButtonTooltip: "Ver la ubicación de este informe", // Tooltip for command button shown in details panel
+            mapButtonTooltip: "Ver la ubicación de este informe", // Tooltip for Gallery button
             commentsListHeading: "Comentarios", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "No es posible agregar tu voto en este momento.", // Error message for feature unable to update
+            unableToUpdateVoteField: "á_Your vote cannot be counted at this time_____________Ó.", // Error message for feature unable to update
             gotoIssueListTooltip: "Ir a lista de informes" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall

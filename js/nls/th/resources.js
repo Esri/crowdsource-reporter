@@ -66,7 +66,7 @@ define(
             signOut: "ลงชื่อออก", // Command button shown in mobile menu list
             signInTooltip: "ลงชื่อเข้าใช้", // Tooltip to 'Sign in' option
             signOutTooltip: "ออกจากระบบ", // Tooltip  to 'Sign out' option
-            myReportTooltip: "แสดงรายการที่ส่ง" // Tooltip  to 'My Reports' option
+            myReportTooltip: "ก้_View my reports______ษฺ" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "รายละเอียด", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "โปรดเลือกสถานที่สำหรับรายงานของคุณ", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}เปรย:${closeStrong} ค่่าต่ำที่สุด ${minValue} และค่าสูงที่สุด ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}เปรย:${closeStrong} วันขั้นต่ำ ${minValue} และวันสูงสุด ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "ปัญหานี้ไม่ไม่ได้รับรายงาน", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "ก้_Report could not be submitted__________ษฺ", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "เลือกไฟล์แนบ", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "${failed} จาก ${total} ไฟล์แนบที่ไม่สามารถอัพโหลดได้", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "ไม่พร้อมใช้ตำแหน่งปัจจุบัน",  // Shown when the browser returns an error instead of the current geographical position
@@ -114,16 +114,16 @@ define(
             noResultsFound: "ก้_No reports found______ษฺ" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "ชอบ", // Command button shown in details panel
-            likeButtonTooltip: "โหวตให้รายงานนี้",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "คำอธิบาย", // Command button shown in details panel
-            commentButtonTooltip: "แสดงความคิดเห็นเกี่ยวกับรายงานนี้", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "แกลเลอรี", // Command button shown in details panel
+            likeButtonLabel: "ชอบ", // Command button for up-voting a report
+            likeButtonTooltip: "โหวตให้รายงานนี้",  // Tooltip for Like button
+            commentButtonLabel: "คำอธิบาย", // Command button for submitting feedback
+            commentButtonTooltip: "แสดงความคิดเห็นเกี่ยวกับรายงานนี้", // Tooltip for Comment button
+            galleryButtonLabel: "แกลเลอรี", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "แสดงเอกสารแนบ", // Tooltip for command button shown in details panel
             mapButtonLabel: "แสดงบนแผนที่", // Command button shown in details panel
-            mapButtonTooltip: "แสดงตำแหน่งของรายงานนี้", // Tooltip for command button shown in details panel
+            mapButtonTooltip: "แสดงตำแหน่งของรายงานนี้", // Tooltip for Gallery button
             commentsListHeading: "ความคิดเห็น", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "โหวตของคุณยังไม่เพิ่มเข้ามาในขณะนี้", // Error message for feature unable to update
+            unableToUpdateVoteField: "ก้_Your vote cannot be counted at this time_____________ษฺ.", // Error message for feature unable to update
             gotoIssueListTooltip: "ไปที่รายการรายงาน" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall

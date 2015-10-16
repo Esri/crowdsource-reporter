@@ -66,7 +66,7 @@ define(
             signOut: "Deconectare", // Command button shown in mobile menu list
             signInTooltip: "Autentificaţi-vă", // Tooltip to 'Sign in' option
             signOutTooltip: "Deconectare", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Vizualizează rapoartele transmise de mine" // Tooltip  to 'My Reports' option
+            myReportTooltip: "Ă_View my reports______ș" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Detalii", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "Selectaţi locaţia pentru raport", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Sugestie:${closeStrong} Valoarea minimă ${minValue} şi Valoarea maximă ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Sugestie:${closeStrong} Data minimă ${minValue} şi Data maximă ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Problema nu a putut fi raportată", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "Ă_Report could not be submitted__________ș", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "ataşări selectate", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "${failed} din ${total} ataşări nu au fost încărcate", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Locaţia curentă nu este disponibilă",  // Shown when the browser returns an error instead of the current geographical position
@@ -114,16 +114,16 @@ define(
             noResultsFound: "Ă_No reports found______ș" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Îmi place", // Command button shown in details panel
-            likeButtonTooltip: "Votaţi pentru acest raport",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "Comentariu", // Command button shown in details panel
-            commentButtonTooltip: "Comentaţi acest raport", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "Galerie", // Command button shown in details panel
+            likeButtonLabel: "Îmi place", // Command button for up-voting a report
+            likeButtonTooltip: "Votaţi pentru acest raport",  // Tooltip for Like button
+            commentButtonLabel: "Comentariu", // Command button for submitting feedback
+            commentButtonTooltip: "Comentaţi acest raport", // Tooltip for Comment button
+            galleryButtonLabel: "Galerie", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "Consultaţi documentele ataşate", // Tooltip for command button shown in details panel
             mapButtonLabel: "Vizualizare pe hartă", // Command button shown in details panel
-            mapButtonTooltip: "Vizualizaţi locaţia acestui raport", // Tooltip for command button shown in details panel
+            mapButtonTooltip: "Vizualizaţi locaţia acestui raport", // Tooltip for Gallery button
             commentsListHeading: "Comentarii", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "Votul dumneavoastră nu poate fi adăugat în acest moment.", // Error message for feature unable to update
+            unableToUpdateVoteField: "Ă_Your vote cannot be counted at this time_____________ș.", // Error message for feature unable to update
             gotoIssueListTooltip: "Accesare listă rapoarte" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall

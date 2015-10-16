@@ -66,7 +66,7 @@ define(
             signOut: "Logi välja", // Command button shown in mobile menu list
             signInTooltip: "Logi sisse", // Tooltip to 'Sign in' option
             signOutTooltip: "Logi välja", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Kuva minu poolt esitatud aruanded" // Tooltip  to 'My Reports' option
+            myReportTooltip: "Š_View my reports______ä" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Detailid", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "Valige oma aruande asukoht.", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Vihje:${closeStrong} Miinimumväärtus ${minValue} ja maksimumväärtus ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Vihje:${closeStrong} Kuupäeva alampiir ${minValue} ja kuupäeva ülempiir ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Probleemi kohta ei saa aruannet esitada.", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "Š_Report could not be submitted__________ä", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "valitud manus(ed)", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "Manust /kokku manusest ei õnnestunud üles laadida.", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Hetke asukoht pole kättesaadav.",  // Shown when the browser returns an error instead of the current geographical position
@@ -114,16 +114,16 @@ define(
             noResultsFound: "Š_No reports found______ä" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "nagu", // Command button shown in details panel
-            likeButtonTooltip: "Hääletage selle aruande kohta",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "Kommentaar", // Command button shown in details panel
-            commentButtonTooltip: "Kommenteerige seda aruannet", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "Galerii", // Command button shown in details panel
+            likeButtonLabel: "nagu", // Command button for up-voting a report
+            likeButtonTooltip: "Hääletage selle aruande kohta",  // Tooltip for Like button
+            commentButtonLabel: "Kommentaar", // Command button for submitting feedback
+            commentButtonTooltip: "Kommenteerige seda aruannet", // Tooltip for Comment button
+            galleryButtonLabel: "Galerii", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "Vaadake manustatud dokumente", // Tooltip for command button shown in details panel
             mapButtonLabel: "Vaata kaardil", // Command button shown in details panel
-            mapButtonTooltip: "Vaata selle aruande asukohta", // Tooltip for command button shown in details panel
+            mapButtonTooltip: "Vaata selle aruande asukohta", // Tooltip for Gallery button
             commentsListHeading: "Kommentaari", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "Teie häält ei saa seekord lisada.", // Error message for feature unable to update
+            unableToUpdateVoteField: "Š_Your vote cannot be counted at this time_____________ä.", // Error message for feature unable to update
             gotoIssueListTooltip: "Liigu aruande loendisse" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall

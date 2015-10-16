@@ -66,7 +66,7 @@ define(
             signOut: "Odhlásit", // Command button shown in mobile menu list
             signInTooltip: "Přihlásit se", // Tooltip to 'Sign in' option
             signOutTooltip: "Odhlásit se", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Zobrazit mnou odeslané zprávy" // Tooltip  to 'My Reports' option
+            myReportTooltip: "Ř_View my reports______ů" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Podrobnosti", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "Vyberte umístění hlášení.", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Tip:${closeStrong} Minimální hodnota ${minValue} a Maximální hodnota ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Tip:${closeStrong} Minimální datum ${minValue} a Maximální datum ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Problém se nepodařilo nahlásit.", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "Ř_Report could not be submitted__________ů", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "příloh vybráno", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "nepodařilo se nahrát ${failed} z ${total} příloh", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Současné umístění není k dispozici",  // Shown when the browser returns an error instead of the current geographical position
@@ -114,16 +114,16 @@ define(
             noResultsFound: "Ř_No reports found______ů" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Líbí se mi", // Command button shown in details panel
-            likeButtonTooltip: "Hlasovat pro tuto zprávu",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "Komentář", // Command button shown in details panel
-            commentButtonTooltip: "Odeslat komentář pro tuto zprávu", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "Galerie", // Command button shown in details panel
+            likeButtonLabel: "Líbí se mi", // Command button for up-voting a report
+            likeButtonTooltip: "Hlasovat pro tuto zprávu",  // Tooltip for Like button
+            commentButtonLabel: "Komentář", // Command button for submitting feedback
+            commentButtonTooltip: "Odeslat komentář pro tuto zprávu", // Tooltip for Comment button
+            galleryButtonLabel: "Galerie", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "Zobrazit připojené dokumenty", // Tooltip for command button shown in details panel
             mapButtonLabel: "Zobrazit na mapě", // Command button shown in details panel
-            mapButtonTooltip: "Zobrazit umístění této zprávy", // Tooltip for command button shown in details panel
+            mapButtonTooltip: "Zobrazit umístění této zprávy", // Tooltip for Gallery button
             commentsListHeading: "Komentáře", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "Váš hlas v tuto chvíli nelze přidat.", // Error message for feature unable to update
+            unableToUpdateVoteField: "Ř_Your vote cannot be counted at this time_____________ů.", // Error message for feature unable to update
             gotoIssueListTooltip: "Přejít na seznam zpráv" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall

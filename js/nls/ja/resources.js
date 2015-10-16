@@ -66,7 +66,7 @@ define(
             signOut: "サイン アウト", // Command button shown in mobile menu list
             signInTooltip: "サイン イン", // Tooltip to 'Sign in' option
             signOutTooltip: "サイン アウト", // Tooltip  to 'Sign out' option
-            myReportTooltip: "自分が送信したレポートを表示" // Tooltip  to 'My Reports' option
+            myReportTooltip: "須_View my reports______鷗" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "詳細", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "レポート対象の位置を選択してください", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}ヒント:${closeStrong} 最小値 ${minValue} および最大値 ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}ヒント:${closeStrong} 最小日付 ${minValue} および最大日付 ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "問題をレポートできませんでした", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "須_Report could not be submitted__________鷗", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "添付ファイルが選択されています", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "${total} 件のうち、${failed} 件の添付ファイルをアップロードできませんでした", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "現在の位置は利用できません",  // Shown when the browser returns an error instead of the current geographical position
@@ -114,16 +114,16 @@ define(
             noResultsFound: "須_No reports found______鷗" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "LIKE", // Command button shown in details panel
-            likeButtonTooltip: "このレポートに投票",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "コメント", // Command button shown in details panel
-            commentButtonTooltip: "このレポートにコメント", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "ギャラリー", // Command button shown in details panel
+            likeButtonLabel: "LIKE", // Command button for up-voting a report
+            likeButtonTooltip: "このレポートに投票",  // Tooltip for Like button
+            commentButtonLabel: "コメント", // Command button for submitting feedback
+            commentButtonTooltip: "このレポートにコメント", // Tooltip for Comment button
+            galleryButtonLabel: "ギャラリー", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "添付したドキュメントを参照", // Tooltip for command button shown in details panel
             mapButtonLabel: "マップ上で表示", // Command button shown in details panel
-            mapButtonTooltip: "このレポートの位置を表示", // Tooltip for command button shown in details panel
+            mapButtonTooltip: "このレポートの位置を表示", // Tooltip for Gallery button
             commentsListHeading: "コメント", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "この時点では投票できません。", // Error message for feature unable to update
+            unableToUpdateVoteField: "須_Your vote cannot be counted at this time_____________鷗.", // Error message for feature unable to update
             gotoIssueListTooltip: "レポート リストへ移動" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall

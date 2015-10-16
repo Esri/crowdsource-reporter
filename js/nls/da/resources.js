@@ -66,7 +66,7 @@ define(
             signOut: "Log ud", // Command button shown in mobile menu list
             signInTooltip: "Sign in", // Tooltip to 'Sign in' option
             signOutTooltip: "Log ud", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Vis rapporter indsendt af mig" // Tooltip  to 'My Reports' option
+            myReportTooltip: "ø_View my reports______å" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Oplysninger", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "Vælg en placering for din rapport", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Hint:${closeStrong} Minimumværdi ${minValue} og maksimumværdi ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Hint:${closeStrong} Minimumdato ${minValue} og maksimumdato ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Problem kunne ikke rapporteres", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "ø_Report could not be submitted__________å", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "vedhæftning(er) valgt", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "${mislykkedes} af ${total} vedhæftning(er) kunne ikke overføres", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Aktuel position er ikke tilgængelig",  // Shown when the browser returns an error instead of the current geographical position
@@ -114,16 +114,16 @@ define(
             noResultsFound: "ø_No reports found______å" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Synes godt om", // Command button shown in details panel
-            likeButtonTooltip: "Stem på denne rapport",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "Kommentar", // Command button shown in details panel
-            commentButtonTooltip: "Kommentér på denne rapport", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "Galleri", // Command button shown in details panel
+            likeButtonLabel: "Synes godt om", // Command button for up-voting a report
+            likeButtonTooltip: "Stem på denne rapport",  // Tooltip for Like button
+            commentButtonLabel: "Kommentar", // Command button for submitting feedback
+            commentButtonTooltip: "Kommentér på denne rapport", // Tooltip for Comment button
+            galleryButtonLabel: "Galleri", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "Se vedhæftede dokumenter", // Tooltip for command button shown in details panel
             mapButtonLabel: "Vis på kort", // Command button shown in details panel
-            mapButtonTooltip: "Vis denne rapports placering", // Tooltip for command button shown in details panel
+            mapButtonTooltip: "Vis denne rapports placering", // Tooltip for Gallery button
             commentsListHeading: "Comments", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "Din stemme kan ikke afgives på nuværende tidspunkt.", // Error message for feature unable to update
+            unableToUpdateVoteField: "ø_Your vote cannot be counted at this time_____________å.", // Error message for feature unable to update
             gotoIssueListTooltip: "Gå til rapportlisten" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall

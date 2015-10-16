@@ -66,7 +66,7 @@ define(
             signOut: "התנתק", // Command button shown in mobile menu list
             signInTooltip: "הרשם", // Tooltip to 'Sign in' option
             signOutTooltip: "יציאה", // Tooltip  to 'Sign out' option
-            myReportTooltip: "הצג דוחות ששלחתי" // Tooltip  to 'My Reports' option
+            myReportTooltip: "כן_View my reports______ש" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "פרטים", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "בחר מיקום לדוח", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}רמז:${closeStrong} ערך מינימום ${minValue} וערך מקסימום ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}רמז:${closeStrong} תאריך מינימום ${minValue} ותאריך מקסימום ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "לא ניתן לדווח על הבעיה", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "כן_Report could not be submitted__________ש", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "קבצים מצורפים נבחרו", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "נכשלה ההעלאה של ${failed} מתוך ${total} קבצים מצורפים", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "מיקום נוכחי לא זמין",  // Shown when the browser returns an error instead of the current geographical position
@@ -114,16 +114,16 @@ define(
             noResultsFound: "כן_No reports found______ש" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "סמן Like", // Command button shown in details panel
-            likeButtonTooltip: "הצבע עבור דוח זה",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "הערה", // Command button shown in details panel
-            commentButtonTooltip: "הוסף תגובה לדוח", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "גלריה", // Command button shown in details panel
+            likeButtonLabel: "סמן Like", // Command button for up-voting a report
+            likeButtonTooltip: "הצבע עבור דוח זה",  // Tooltip for Like button
+            commentButtonLabel: "הערה", // Command button for submitting feedback
+            commentButtonTooltip: "הוסף תגובה לדוח", // Tooltip for Comment button
+            galleryButtonLabel: "גלריה", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "ראה מסמכים מצורפים", // Tooltip for command button shown in details panel
             mapButtonLabel: "הצג במפה", // Command button shown in details panel
-            mapButtonTooltip: "הצג את מיקום הדוח", // Tooltip for command button shown in details panel
+            mapButtonTooltip: "הצג את מיקום הדוח", // Tooltip for Gallery button
             commentsListHeading: "הערות", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "לא ניתן להצביע כעת.", // Error message for feature unable to update
+            unableToUpdateVoteField: "כן_Your vote cannot be counted at this time_____________ש.", // Error message for feature unable to update
             gotoIssueListTooltip: "עבור לרשימת הדוחות" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall

@@ -66,7 +66,7 @@ define(
             signOut: "登出", // Command button shown in mobile menu list
             signInTooltip: "登录", // Tooltip to 'Sign in' option
             signOutTooltip: "登出", // Tooltip  to 'Sign out' option
-            myReportTooltip: "查看我提交的报告" // Tooltip  to 'My Reports' option
+            myReportTooltip: "试_View my reports______验" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "详细信息", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "请为您的报告选择位置", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}提示:${closeStrong} 最小值 ${minValue} 和最大值 ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}提示:${closeStrong} 最小日期 ${minValue} 和最大日期 ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "无法报告问题", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "试_Report could not be submitted__________验", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "附件已选定", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "${failed} 个附件(共有 ${total} 个)上传失败", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "当前位置不可用",  // Shown when the browser returns an error instead of the current geographical position
@@ -114,16 +114,16 @@ define(
             noResultsFound: "试_No reports found______验" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "赞", // Command button shown in details panel
-            likeButtonTooltip: "投票支持此报告",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "评论", // Command button shown in details panel
-            commentButtonTooltip: "评论此报告", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "图库", // Command button shown in details panel
+            likeButtonLabel: "赞", // Command button for up-voting a report
+            likeButtonTooltip: "投票支持此报告",  // Tooltip for Like button
+            commentButtonLabel: "评论", // Command button for submitting feedback
+            commentButtonTooltip: "评论此报告", // Tooltip for Comment button
+            galleryButtonLabel: "图库", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "参见随附文档", // Tooltip for command button shown in details panel
             mapButtonLabel: "在地图中查看", // Command button shown in details panel
-            mapButtonTooltip: "查看此报告的位置", // Tooltip for command button shown in details panel
+            mapButtonTooltip: "查看此报告的位置", // Tooltip for Gallery button
             commentsListHeading: "评论", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "目前无法添加您的投票。", // Error message for feature unable to update
+            unableToUpdateVoteField: "试_Your vote cannot be counted at this time_____________验.", // Error message for feature unable to update
             gotoIssueListTooltip: "转至报告列表" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall

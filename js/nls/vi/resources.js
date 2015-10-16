@@ -66,7 +66,7 @@ define(
             signOut: "Đăng xuất", // Command button shown in mobile menu list
             signInTooltip: "Đăng nhập", // Tooltip to 'Sign in' option
             signOutTooltip: "Đăng xuất", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Xem các báo cáo tôi đã gửi" // Tooltip  to 'My Reports' option
+            myReportTooltip: "Đ_View my reports______ớ" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Chi tiết", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "Vui lòng chọn vị trí cho báo cáo của bạn", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Gợi ý:${closeStrong} Giá trị tối thiểu ${minValue} và Giá trị tối đa ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Gợi ý:${closeStrong} Ngày tối thiểu ${minValue} và Ngày tối đa ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Không thể báo cáo vấn đề", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "Đ_Report could not be submitted__________ớ", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "(các) tệp đính kèm được chọn", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "Không thể tải lên ${failed} trên ${total} tệp đính kèm", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Vị trí hiện tại không khả dụng",  // Shown when the browser returns an error instead of the current geographical position
@@ -114,16 +114,16 @@ define(
             noResultsFound: "Đ_No reports found______ớ" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Thích", // Command button shown in details panel
-            likeButtonTooltip: "Bình chọn cho báo cáo này",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "Bình luận", // Command button shown in details panel
-            commentButtonTooltip: "Bình luận về báo cáo này", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "Bộ sưu tập", // Command button shown in details panel
+            likeButtonLabel: "Thích", // Command button for up-voting a report
+            likeButtonTooltip: "Bình chọn cho báo cáo này",  // Tooltip for Like button
+            commentButtonLabel: "Bình luận", // Command button for submitting feedback
+            commentButtonTooltip: "Bình luận về báo cáo này", // Tooltip for Comment button
+            galleryButtonLabel: "Bộ sưu tập", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "Xem tài liệu đính kèm", // Tooltip for command button shown in details panel
             mapButtonLabel: "Xem trên Bản đồ", // Command button shown in details panel
-            mapButtonTooltip: "Xem vị trí của báo cáo này", // Tooltip for command button shown in details panel
+            mapButtonTooltip: "Xem vị trí của báo cáo này", // Tooltip for Gallery button
             commentsListHeading: "Bình luận", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "Không thể thêm bình chọn của bạn vào lúc này.", // Error message for feature unable to update
+            unableToUpdateVoteField: "Đ_Your vote cannot be counted at this time_____________ớ.", // Error message for feature unable to update
             gotoIssueListTooltip: "Đến danh sách báo cáo" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall

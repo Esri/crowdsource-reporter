@@ -66,7 +66,7 @@ define(
             signOut: "Kirjaudu ulos", // Command button shown in mobile menu list
             signInTooltip: "Kirjaudu sisään", // Tooltip to 'Sign in' option
             signOutTooltip: "Kirjaudu ulos", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Näytä minulle lähetetyt raportit" // Tooltip  to 'My Reports' option
+            myReportTooltip: "Å_View my reports______ö" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Yksityiskohdat", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "Valitse raportin sijainti", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Vihje:${closeStrong} Vähimmäisarvo ${minValue} ja enimmäisarvo ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Vihje:${closeStrong} aikaisin ${minValue} ja myöhäisin päivämäärä ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Ongelman raportointi ei onnistunut", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "Å_Report could not be submitted__________ö", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "liite(ttä) on valittu", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "${failed}/${total} liitteen lataus epäonnistui", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Nykyinen sijainti ei ole käytettävissä",  // Shown when the browser returns an error instead of the current geographical position
@@ -114,16 +114,16 @@ define(
             noResultsFound: "Å_No reports found______ö" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Kuten", // Command button shown in details panel
-            likeButtonTooltip: "Äänestä tätä raporttia",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "Kommentti", // Command button shown in details panel
-            commentButtonTooltip: "Kommentoi tätä raporttia", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "Gallery", // Command button shown in details panel
+            likeButtonLabel: "Kuten", // Command button for up-voting a report
+            likeButtonTooltip: "Äänestä tätä raporttia",  // Tooltip for Like button
+            commentButtonLabel: "Kommentti", // Command button for submitting feedback
+            commentButtonTooltip: "Kommentoi tätä raporttia", // Tooltip for Comment button
+            galleryButtonLabel: "Gallery", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "Näytä liitetyt dokumentit", // Tooltip for command button shown in details panel
             mapButtonLabel: "Näytä kartalla", // Command button shown in details panel
-            mapButtonTooltip: "Näytä tämän raportin sijainti", // Tooltip for command button shown in details panel
+            mapButtonTooltip: "Näytä tämän raportin sijainti", // Tooltip for Gallery button
             commentsListHeading: "Comments", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "Ääntäsi ei voi lisätä tällä kertaa.", // Error message for feature unable to update
+            unableToUpdateVoteField: "Å_Your vote cannot be counted at this time_____________ö.", // Error message for feature unable to update
             gotoIssueListTooltip: "Siirry raporttiluetteloon" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall

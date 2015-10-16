@@ -66,7 +66,7 @@ define(
             signOut: "Oturum Kapat", // Command button shown in mobile menu list
             signInTooltip: "Hesabınıza", // Tooltip to 'Sign in' option
             signOutTooltip: "Oturumu kapat", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Kendi gönderdiğim raporları görüntüle" // Tooltip  to 'My Reports' option
+            myReportTooltip: "ı_View my reports______İ" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Ayrıntılar", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "Raporunuzun konumunu seçin", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}İpucu:${closeStrong} Minimum değer ${minValue} ve Maksimum değer ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}İpucu:${closeStrong} Minimum Tarih ${minValue} ve Maksimum Tarih ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Sorun bildirilemedi", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "ı_Report could not be submitted__________İ", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "ek seçildi", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "${failed} / ${total} ek yüklenemedi", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Geçerli konum kullanılamıyor",  // Shown when the browser returns an error instead of the current geographical position
@@ -114,16 +114,16 @@ define(
             noResultsFound: "ı_No reports found______İ" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Gibi", // Command button shown in details panel
-            likeButtonTooltip: "Bu rapora oy ver",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "Açıklama", // Command button shown in details panel
-            commentButtonTooltip: "Bu rapora yorum yap", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "Galeri", // Command button shown in details panel
+            likeButtonLabel: "Gibi", // Command button for up-voting a report
+            likeButtonTooltip: "Bu rapora oy ver",  // Tooltip for Like button
+            commentButtonLabel: "Açıklama", // Command button for submitting feedback
+            commentButtonTooltip: "Bu rapora yorum yap", // Tooltip for Comment button
+            galleryButtonLabel: "Galeri", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "Ekli belgeleri incele", // Tooltip for command button shown in details panel
             mapButtonLabel: "Haritada görüntüle", // Command button shown in details panel
-            mapButtonTooltip: "Bu raporun konumunu görüntüle", // Tooltip for command button shown in details panel
+            mapButtonTooltip: "Bu raporun konumunu görüntüle", // Tooltip for Gallery button
             commentsListHeading: "Yorumlar", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "Oyunuz şu anda eklenemiyor.", // Error message for feature unable to update
+            unableToUpdateVoteField: "ı_Your vote cannot be counted at this time_____________İ.", // Error message for feature unable to update
             gotoIssueListTooltip: "Rapor listesine git" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall

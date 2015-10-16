@@ -66,7 +66,7 @@ define(
             signOut: "Wyloguj się", // Command button shown in mobile menu list
             signInTooltip: "Sign in", // Tooltip to 'Sign in' option
             signOutTooltip: "Wyloguj się", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Wyświetl raporty przesłane przeze mnie" // Tooltip  to 'My Reports' option
+            myReportTooltip: "ł_View my reports______ą" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Szczegóły", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "Wybierz lokalizację dla raportu", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Wskazówka:${closeStrong} Wartość minimalna ${minValue} i Wartość maksymalna ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Wskazówka:${closeStrong} Data minimalna ${minValue} i Data maksymalna ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Nie można zgłosić problemu", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "ł_Report could not be submitted__________ą", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "wybrany(-e/-ych) załącznik(-i/-ów)", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "Nie udało się przesłać ${failed} z ${total} załączników", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Bieżąca lokalizacja nie jest dostępna",  // Shown when the browser returns an error instead of the current geographical position
@@ -114,16 +114,16 @@ define(
             noResultsFound: "ł_No reports found______ą" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Lubię to", // Command button shown in details panel
-            likeButtonTooltip: "Głosuj na ten raport",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "Komentarz", // Command button shown in details panel
-            commentButtonTooltip: "Dodaj komentarz do tego raportu", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "Galeria", // Command button shown in details panel
+            likeButtonLabel: "Lubię to", // Command button for up-voting a report
+            likeButtonTooltip: "Głosuj na ten raport",  // Tooltip for Like button
+            commentButtonLabel: "Komentarz", // Command button for submitting feedback
+            commentButtonTooltip: "Dodaj komentarz do tego raportu", // Tooltip for Comment button
+            galleryButtonLabel: "Galeria", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "Zobacz załączone dokumenty", // Tooltip for command button shown in details panel
             mapButtonLabel: "Wyświetl na mapie", // Command button shown in details panel
-            mapButtonTooltip: "Wyświetl lokalizację tego raportu", // Tooltip for command button shown in details panel
+            mapButtonTooltip: "Wyświetl lokalizację tego raportu", // Tooltip for Gallery button
             commentsListHeading: "Comments", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "Oddanego głosu nie można teraz dodać.", // Error message for feature unable to update
+            unableToUpdateVoteField: "ł_Your vote cannot be counted at this time_____________ą.", // Error message for feature unable to update
             gotoIssueListTooltip: "Przejdź do listy raportów" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall

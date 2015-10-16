@@ -66,7 +66,7 @@ define(
             signOut: "Abmelden", // Command button shown in mobile menu list
             signInTooltip: "Anmelden", // Tooltip to 'Sign in' option
             signOutTooltip: "Abmelden", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Von mir gesendete Berichte anzeigen" // Tooltip  to 'My Reports' option
+            myReportTooltip: "ä_View my reports______Ü" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Details", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -79,15 +79,15 @@ define(
             selectDefaultText: "Auswählen&hellip;", // Shown in the dropdown field indicating to select an option
             invalidInputValue: "Geben Sie einen gültigen Wert ein.", // Shown when user clicks/taps the required field but does not enter the data and comes out of the required field
             noFieldsConfiguredMessage: "Layer-Felder sind nicht für die Erfassung von Daten konfiguriert", // Shown when all the fields of the selected layer are disabled
-            invalidSmallNumber: "Geben Sie einen Ganzzahlwert ein", // Shown when the entered value is beyond the specified range (valid ${openStrong}integer${closeStrong} value between -32768 and 32767.)
-            invalidNumber: "Geben Sie einen Ganzzahlwert ein", // Shown when the entered value is beyond the specified range (valid ${openStrong}integer${closeStrong} value between -2147483648 and 2147483647.)
+            invalidSmallNumber: "Geben Sie einen ganzzahligen Wert ein", // Shown when the entered value is beyond the specified range (valid ${openStrong}integer${closeStrong} value between -32768 and 32767.)
+            invalidNumber: "Geben Sie einen ganzzahligen Wert ein", // Shown when the entered value is beyond the specified range (valid ${openStrong}integer${closeStrong} value between -2147483648 and 2147483647.)
             invalidFloat: "Geben Sie eine Zahl ein", // Shown when the entered value is beyond the specified range (valid ${openStrong}floating point${closeStrong} value between -3.4E38 and 1.2E38 )
             invalidDouble: "Geben Sie eine Zahl ein", // Shown when the entered value is beyond the specified range (valid ${openStrong}double${closeStrong} value between -2.2E308 and 1.8E308)
             requiredFields: "Geben Sie Werte für alle erforderlichen Felder ein", // Shown when user submits the geoform without entering data in the mandatory field(s)
             selectLocation: "Wählen Sie den Speicherort für Ihren Bericht aus", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Hinweis:${closeStrong} Minimalwert ${minValue} und Maximalwert ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Hinweis:${closeStrong} Mindestdatum ${minValue} und maximal auswählbares Datum ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Problem konnte nicht gemeldet werden", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "ä_Report could not be submitted__________Ü", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "Anlage(n) ausgewählt", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "${failed} von ${total} Anlage(n) konnte(n) nicht hochgeladen werden", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Aktuelle Position ist nicht verfügbar",  // Shown when the browser returns an error instead of the current geographical position
@@ -111,19 +111,19 @@ define(
         myIssues: {
             title: "Eigene Berichte", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "Eigene Berichte", // Command button to access issues reported by the logged in user
-            noResultsFound: "ä_No reports found______Ü" // Shown when no issues are reported by the logged in user
+            noResultsFound: "Keine Berichte gefunden" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Wie", // Command button shown in details panel
-            likeButtonTooltip: "Für diesen Bericht stimmen",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "Kommentar", // Command button shown in details panel
-            commentButtonTooltip: "Diesen Bericht kommentieren", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "Galerie", // Command button shown in details panel
+            likeButtonLabel: "Wie", // Command button for up-voting a report
+            likeButtonTooltip: "Für diesen Bericht stimmen",  // Tooltip for Like button
+            commentButtonLabel: "Kommentar", // Command button for submitting feedback
+            commentButtonTooltip: "Diesen Bericht kommentieren", // Tooltip for Comment button
+            galleryButtonLabel: "Galerie", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "Angehängte Dokumente anzeigen", // Tooltip for command button shown in details panel
             mapButtonLabel: "Auf Karte anzeigen", // Command button shown in details panel
-            mapButtonTooltip: "Speicherort dieses Berichts anzeigen", // Tooltip for command button shown in details panel
+            mapButtonTooltip: "Speicherort dieses Berichts anzeigen", // Tooltip for Gallery button
             commentsListHeading: "Bemerkungen", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "Ihre Stimme kann zurzeit nicht hinzugefügt werden.", // Error message for feature unable to update
+            unableToUpdateVoteField: "ä_Your vote cannot be counted at this time_____________Ü.", // Error message for feature unable to update
             gotoIssueListTooltip: "Zur Berichtsliste wechseln" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall

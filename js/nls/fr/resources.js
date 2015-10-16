@@ -66,7 +66,7 @@ define(
             signOut: "Déconnexion", // Command button shown in mobile menu list
             signInTooltip: "Connexion", // Tooltip to 'Sign in' option
             signOutTooltip: "Déconnexion", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Afficher les rapports que j\'ai envoyés" // Tooltip  to 'My Reports' option
+            myReportTooltip: "æ_View my reports______Â" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Détails", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "Sélectionnez l\'emplacement de votre rapport", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Astuce :${closeStrong} valeur minimale ${minValue} et valeur maximale ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Astuce :${closeStrong} date minimum ${minValue} et date maximum ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Impossible de signaler le problème", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "æ_Report could not be submitted__________Â", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "pièce(s) jointe(s) sélectionnée(s)", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "Echec du chargement de ${failed} sur ${total} pièce(s) jointe(s)", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Localisant actuel non disponible",  // Shown when the browser returns an error instead of the current geographical position
@@ -114,16 +114,16 @@ define(
             noResultsFound: "æ_No reports found______Â" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Comme", // Command button shown in details panel
-            likeButtonTooltip: "Voter pour ce rapport",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "Commentaire", // Command button shown in details panel
-            commentButtonTooltip: "Commenter ce rapport", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "Bibliothèque", // Command button shown in details panel
+            likeButtonLabel: "Comme", // Command button for up-voting a report
+            likeButtonTooltip: "Voter pour ce rapport",  // Tooltip for Like button
+            commentButtonLabel: "Commentaire", // Command button for submitting feedback
+            commentButtonTooltip: "Commenter ce rapport", // Tooltip for Comment button
+            galleryButtonLabel: "Bibliothèque", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "Voir les documents joints", // Tooltip for command button shown in details panel
             mapButtonLabel: "Afficher sur la carte", // Command button shown in details panel
-            mapButtonTooltip: "Afficher l\'emplacement de ce rapport", // Tooltip for command button shown in details panel
+            mapButtonTooltip: "Afficher l\'emplacement de ce rapport", // Tooltip for Gallery button
             commentsListHeading: "Commentaires", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "Il est actuellement impossible d\'ajouter votre vote.", // Error message for feature unable to update
+            unableToUpdateVoteField: "æ_Your vote cannot be counted at this time_____________Â.", // Error message for feature unable to update
             gotoIssueListTooltip: "Accéder à la liste des rapports" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
