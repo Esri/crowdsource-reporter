@@ -149,8 +149,8 @@
                 {
                     "type": "boolean",
                     "fieldName": "usePopupConfigurationForComment",
-                    "label": "Comment Popup Configuration",
-                    "tooltip": "Allow users to choose between default or custom popup configuration for comments"
+                    "label": "Use comment table popup configuration",
+                    "tooltip": "Enable to display a comment submission form based on the popup configuration for the comments layer instead of a single field for comment entry"
                 },
                 {
                     "type": "string",
@@ -225,14 +225,14 @@
                 {
                     "type": "number",
                     "fieldName": "bufferRadius",
-                    "label": "Buffer Radius",
-                    "tooltip": "Buffer Radius"
+                    "label": "Initial Search Radius",
+                    "tooltip": "Application will initially load all reports within this search radius"
                 },
                 {
                     "type": "options",
                     "fieldName": "bufferUnit",
-                    "tooltip": "Unit to be used for buffer",
-                    "label": "Buffer Unit:",
+                    "tooltip": "Unit of distance for the search radius",
+                    "label": "Search Radius Unit:",
                     "options": [
                         {
                             "label": "Miles",
@@ -247,7 +247,7 @@
                             "value": "meters"
                         },
                         {
-                            "label": "Feets",
+                            "label": "Feet",
                             "value": "feet"
                         }
                     ]
