@@ -54,9 +54,9 @@ define(
             infoBtnToolTip: "地图信息" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "试_No features found______验", // Shown in the issue wall when no issues are present in layer
-            noResultsFoundInCurrentBuffer: "试_No features found near you_________验", // Shown in the issue wall when no issues are present in the current buffer extent
-            unableToFetchFeatureError: "试_Unable to complete operation_________验", // Shown in the issue wall when layer does not return any features and throws an error
+            noResultsFound: "未找到要素", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "在您附近未找到要素", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "无法完成操作", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "转至主列表", // Tooltip for back icon in list header
             gotoMapViewTooltip: "地图视图" // Tooltip for map-it icon in list header
         },
@@ -66,7 +66,7 @@ define(
             signOut: "登出", // Command button shown in mobile menu list
             signInTooltip: "登录", // Tooltip to 'Sign in' option
             signOutTooltip: "登出", // Tooltip  to 'Sign out' option
-            myReportTooltip: "试_View my reports______验" // Tooltip  to 'My Reports' option
+            myReportTooltip: "查看我的报告" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "详细信息", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "请为您的报告选择位置", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}提示:${closeStrong} 最小值 ${minValue} 和最大值 ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}提示:${closeStrong} 最小日期 ${minValue} 和最大日期 ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "试_Report could not be submitted__________验", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "无法提交报告", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "附件已选定", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "${failed} 个附件(共有 ${total} 个)上传失败", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "当前位置不可用",  // Shown when the browser returns an error instead of the current geographical position
@@ -111,7 +111,7 @@ define(
         myIssues: {
             title: "我的报告", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "我的报告", // Command button to access issues reported by the logged in user
-            noResultsFound: "试_No reports found______验" // Shown when no issues are reported by the logged in user
+            noResultsFound: "未找到任何报告" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "赞", // Command button for up-voting a report
@@ -123,12 +123,12 @@ define(
             mapButtonLabel: "在地图中查看", // Command button shown in details panel
             mapButtonTooltip: "查看此报告的位置", // Tooltip for Gallery button
             commentsListHeading: "评论", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "试_Your vote cannot be counted at this time_____________验.", // Error message for feature unable to update
+            unableToUpdateVoteField: "目前无法计数您的投票。", // Error message for feature unable to update
             gotoIssueListTooltip: "转至报告列表" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
             likesForThisItemTooltip: "投票支持此报告", //Shown on hovering of the like icon in my-issues and issue-wall
-            loadMoreButtonText: "试_Load More_____验..." //Text for load more button
+            loadMoreButtonText: "加载更多..." //Text for load more button
         },
         comment: {
             commentsFormSubmitButton: "提交评论",

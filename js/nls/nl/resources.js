@@ -54,9 +54,9 @@ define(
             infoBtnToolTip: "Kaartinformatie" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "Ĳ_No features found______ä", // Shown in the issue wall when no issues are present in layer
-            noResultsFoundInCurrentBuffer: "Ĳ_No features found near you_________ä", // Shown in the issue wall when no issues are present in the current buffer extent
-            unableToFetchFeatureError: "Ĳ_Unable to complete operation_________ä", // Shown in the issue wall when layer does not return any features and throws an error
+            noResultsFound: "Geen objecten gevonden", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "Geen objecten gevonden in uw omgeving", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "Kan de actie niet voltooien", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Ga naar de hoofdlijst", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Kaartweergave" // Tooltip for map-it icon in list header
         },
@@ -66,7 +66,7 @@ define(
             signOut: "Afmelden", // Command button shown in mobile menu list
             signInTooltip: "Aanmelden", // Tooltip to 'Sign in' option
             signOutTooltip: "Meld u af", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Ĳ_View my reports______ä" // Tooltip  to 'My Reports' option
+            myReportTooltip: "Mijn rapporten bekijken" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Details", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "Selecteer de locatie voor uw rapport", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Tip:${closeStrong} Minimumwaarde ${minValue} en Maximumwaarde ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Tip:${closeStrong} Minimumdatum ${minValue} en Maximumdatum ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Ĳ_Report could not be submitted__________ä", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "Rapport kon niet worden ingediend", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "bijlage(n) geselecteerd", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "${failed} van ${total} bijlage(n) is niet geupload", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Huidige locatie niet beschikbaar",  // Shown when the browser returns an error instead of the current geographical position
@@ -111,7 +111,7 @@ define(
         myIssues: {
             title: "Mijn Rapporten", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "Mijn Rapporten", // Command button to access issues reported by the logged in user
-            noResultsFound: "Ĳ_No reports found______ä" // Shown when no issues are reported by the logged in user
+            noResultsFound: "Geen rapporten gevonden" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "Zoals", // Command button for up-voting a report
@@ -123,12 +123,12 @@ define(
             mapButtonLabel: "Op kaart weergeven", // Command button shown in details panel
             mapButtonTooltip: "Bekijk de locatie van dit rapport", // Tooltip for Gallery button
             commentsListHeading: "Opmerkingen", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "Ĳ_Your vote cannot be counted at this time_____________ä.", // Error message for feature unable to update
+            unableToUpdateVoteField: "Uw stem kan nu niet worden geteld.", // Error message for feature unable to update
             gotoIssueListTooltip: "Ga naar de meldlijst" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
             likesForThisItemTooltip: "Stemmen op dit rapport", //Shown on hovering of the like icon in my-issues and issue-wall
-            loadMoreButtonText: "Ĳ_Load More_____ä..." //Text for load more button
+            loadMoreButtonText: "Meer laden..." //Text for load more button
         },
         comment: {
             commentsFormSubmitButton: "Opmerking verzenden",

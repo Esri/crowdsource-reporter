@@ -54,9 +54,9 @@ define(
             infoBtnToolTip: "マップ情報" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "須_No features found______鷗", // Shown in the issue wall when no issues are present in layer
-            noResultsFoundInCurrentBuffer: "須_No features found near you_________鷗", // Shown in the issue wall when no issues are present in the current buffer extent
-            unableToFetchFeatureError: "須_Unable to complete operation_________鷗", // Shown in the issue wall when layer does not return any features and throws an error
+            noResultsFound: "フィーチャが見つかりません", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "近くにフィーチャは見つかりませんでした", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "操作を完了できません", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "メイン リストへ移動", // Tooltip for back icon in list header
             gotoMapViewTooltip: "マップ ビュー" // Tooltip for map-it icon in list header
         },
@@ -66,7 +66,7 @@ define(
             signOut: "サイン アウト", // Command button shown in mobile menu list
             signInTooltip: "サイン イン", // Tooltip to 'Sign in' option
             signOutTooltip: "サイン アウト", // Tooltip  to 'Sign out' option
-            myReportTooltip: "須_View my reports______鷗" // Tooltip  to 'My Reports' option
+            myReportTooltip: "レポートの表示" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "詳細", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "レポート対象の位置を選択してください", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}ヒント:${closeStrong} 最小値 ${minValue} および最大値 ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}ヒント:${closeStrong} 最小日付 ${minValue} および最大日付 ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "須_Report could not be submitted__________鷗", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "レポートを送信できませんでした", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "添付ファイルが選択されています", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "${total} 件のうち、${failed} 件の添付ファイルをアップロードできませんでした", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "現在の位置は利用できません",  // Shown when the browser returns an error instead of the current geographical position
@@ -111,7 +111,7 @@ define(
         myIssues: {
             title: "マイ レポート", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "マイ レポート", // Command button to access issues reported by the logged in user
-            noResultsFound: "須_No reports found______鷗" // Shown when no issues are reported by the logged in user
+            noResultsFound: "レポートがありません" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "LIKE", // Command button for up-voting a report
@@ -123,12 +123,12 @@ define(
             mapButtonLabel: "マップ上で表示", // Command button shown in details panel
             mapButtonTooltip: "このレポートの位置を表示", // Tooltip for Gallery button
             commentsListHeading: "コメント", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "須_Your vote cannot be counted at this time_____________鷗.", // Error message for feature unable to update
+            unableToUpdateVoteField: "この時点では投票をカウントできません。", // Error message for feature unable to update
             gotoIssueListTooltip: "レポート リストへ移動" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
             likesForThisItemTooltip: "このレポートに投票する", //Shown on hovering of the like icon in my-issues and issue-wall
-            loadMoreButtonText: "須_Load More_____鷗..." //Text for load more button
+            loadMoreButtonText: "さらに読み込み..." //Text for load more button
         },
         comment: {
             commentsFormSubmitButton: "コメントの送信",

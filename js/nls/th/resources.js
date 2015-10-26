@@ -54,9 +54,9 @@ define(
             infoBtnToolTip: "ข้อมูลรายละเอียดแผนที่" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "ก้_No features found______ษฺ", // Shown in the issue wall when no issues are present in layer
-            noResultsFoundInCurrentBuffer: "ก้_No features found near you_________ษฺ", // Shown in the issue wall when no issues are present in the current buffer extent
-            unableToFetchFeatureError: "ก้_Unable to complete operation_________ษฺ", // Shown in the issue wall when layer does not return any features and throws an error
+            noResultsFound: "ไม่พบฟีเจอร์ที่ค้นหา", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "ไม่พบข้อมูลในระยะใกล้", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "ไม่สามารถดำเนินการให้เสร็จสมบูรณ์", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "ไปที่รายการหลัก", // Tooltip for back icon in list header
             gotoMapViewTooltip: "มุมมองแผนที่" // Tooltip for map-it icon in list header
         },
@@ -66,7 +66,7 @@ define(
             signOut: "ลงชื่อออก", // Command button shown in mobile menu list
             signInTooltip: "ลงชื่อเข้าใช้", // Tooltip to 'Sign in' option
             signOutTooltip: "ออกจากระบบ", // Tooltip  to 'Sign out' option
-            myReportTooltip: "ก้_View my reports______ษฺ" // Tooltip  to 'My Reports' option
+            myReportTooltip: "ดูรายงานของฉัน" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "รายละเอียด", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "โปรดเลือกสถานที่สำหรับรายงานของคุณ", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}เปรย:${closeStrong} ค่่าต่ำที่สุด ${minValue} และค่าสูงที่สุด ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}เปรย:${closeStrong} วันขั้นต่ำ ${minValue} และวันสูงสุด ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "ก้_Report could not be submitted__________ษฺ", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "รายงานไม่สามารถส่งได้", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "เลือกไฟล์แนบ", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "${failed} จาก ${total} ไฟล์แนบที่ไม่สามารถอัพโหลดได้", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "ไม่พร้อมใช้ตำแหน่งปัจจุบัน",  // Shown when the browser returns an error instead of the current geographical position
@@ -111,7 +111,7 @@ define(
         myIssues: {
             title: "รายงาน", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "รายงาน", // Command button to access issues reported by the logged in user
-            noResultsFound: "ก้_No reports found______ษฺ" // Shown when no issues are reported by the logged in user
+            noResultsFound: "ไม่พบรายงาน" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "ชอบ", // Command button for up-voting a report
@@ -123,12 +123,12 @@ define(
             mapButtonLabel: "แสดงบนแผนที่", // Command button shown in details panel
             mapButtonTooltip: "แสดงตำแหน่งของรายงานนี้", // Tooltip for Gallery button
             commentsListHeading: "ความคิดเห็น", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "ก้_Your vote cannot be counted at this time_____________ษฺ.", // Error message for feature unable to update
+            unableToUpdateVoteField: "ผลโหวตของคุณไม่สามารถนับได้ในขณะนี้", // Error message for feature unable to update
             gotoIssueListTooltip: "ไปที่รายการรายงาน" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
             likesForThisItemTooltip: "โหวตให้รายงานนี้", //Shown on hovering of the like icon in my-issues and issue-wall
-            loadMoreButtonText: "ก้_Load More_____ษฺ..." //Text for load more button
+            loadMoreButtonText: "โหลดเพิ่มเติม" //Text for load more button
         },
         comment: {
             commentsFormSubmitButton: "ส่งความคิดเห็น",

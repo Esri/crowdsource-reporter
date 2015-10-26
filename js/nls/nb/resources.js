@@ -54,9 +54,9 @@ define(
             infoBtnToolTip: "Kartinformasjon" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "å_No features found______ø", // Shown in the issue wall when no issues are present in layer
-            noResultsFoundInCurrentBuffer: "å_No features found near you_________ø", // Shown in the issue wall when no issues are present in the current buffer extent
-            unableToFetchFeatureError: "å_Unable to complete operation_________ø", // Shown in the issue wall when layer does not return any features and throws an error
+            noResultsFound: "Finner ingen geoobjekter", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "Finner ingen geoobjekter i nærheten av deg", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "Kan ikke fullføre operasjonen", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Gå til hovedliste", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Kartvisning" // Tooltip for map-it icon in list header
         },
@@ -66,7 +66,7 @@ define(
             signOut: "Logg ut", // Command button shown in mobile menu list
             signInTooltip: "Logg på", // Tooltip to 'Sign in' option
             signOutTooltip: "Logg av", // Tooltip  to 'Sign out' option
-            myReportTooltip: "å_View my reports______ø" // Tooltip  to 'My Reports' option
+            myReportTooltip: "Vis mine rapporter" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Detaljer", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "Velg lokasjonen for rapporten", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Hint:${closeStrong} Minimumsverdi ${minValue} og maksimumsverdi ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Hint:${closeStrong} Laveste dato ${minValue} og høyeste dato ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "å_Report could not be submitted__________ø", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "Kan ikke sende inn rapporten", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "vedlegg valgt", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "kan ikke laste opp ${failed} av ${total} vedlegg", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Gjeldende plassering er ikke tilgjengelig",  // Shown when the browser returns an error instead of the current geographical position
@@ -111,7 +111,7 @@ define(
         myIssues: {
             title: "Mine rapporter", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "Mine rapporter", // Command button to access issues reported by the logged in user
-            noResultsFound: "å_No reports found______ø" // Shown when no issues are reported by the logged in user
+            noResultsFound: "Finner ingen rapporter" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "Lik", // Command button for up-voting a report
@@ -123,12 +123,12 @@ define(
             mapButtonLabel: "Vis på kart", // Command button shown in details panel
             mapButtonTooltip: "Vis lokasjonen for denne rapporten", // Tooltip for Gallery button
             commentsListHeading: "Kommentarer", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "å_Your vote cannot be counted at this time_____________ø.", // Error message for feature unable to update
+            unableToUpdateVoteField: "Stemmen din kan ikke telles akkurat nå.", // Error message for feature unable to update
             gotoIssueListTooltip: "Gå til rapportlisten" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
             likesForThisItemTooltip: "Stemmer på denne rapporten", //Shown on hovering of the like icon in my-issues and issue-wall
-            loadMoreButtonText: "å_Load More_____ø..." //Text for load more button
+            loadMoreButtonText: "Last inn flere..." //Text for load more button
         },
         comment: {
             commentsFormSubmitButton: "Send inn kommentar",

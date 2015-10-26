@@ -54,9 +54,9 @@ define(
             infoBtnToolTip: "Kaarditeave" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "Š_No features found______ä", // Shown in the issue wall when no issues are present in layer
-            noResultsFoundInCurrentBuffer: "Š_No features found near you_________ä", // Shown in the issue wall when no issues are present in the current buffer extent
-            unableToFetchFeatureError: "Š_Unable to complete operation_________ä", // Shown in the issue wall when layer does not return any features and throws an error
+            noResultsFound: "Objekte ei leitud", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "Läheduses objekte ei leitud.", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "Toimingut ei saanud lõpule viia.", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Mine pealehele", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Kaardivaade" // Tooltip for map-it icon in list header
         },
@@ -66,7 +66,7 @@ define(
             signOut: "Logi välja", // Command button shown in mobile menu list
             signInTooltip: "Logi sisse", // Tooltip to 'Sign in' option
             signOutTooltip: "Logi välja", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Š_View my reports______ä" // Tooltip  to 'My Reports' option
+            myReportTooltip: "Kuva minu aruanded" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Detailid", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "Valige oma aruande asukoht.", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Vihje:${closeStrong} Miinimumväärtus ${minValue} ja maksimumväärtus ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Vihje:${closeStrong} Kuupäeva alampiir ${minValue} ja kuupäeva ülempiir ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Š_Report could not be submitted__________ä", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "Kommentaari ei saanud esitada.", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "valitud manus(ed)", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "Manust /kokku manusest ei õnnestunud üles laadida.", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Hetke asukoht pole kättesaadav.",  // Shown when the browser returns an error instead of the current geographical position
@@ -111,7 +111,7 @@ define(
         myIssues: {
             title: "Minu aruanded", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "Minu aruanded", // Command button to access issues reported by the logged in user
-            noResultsFound: "Š_No reports found______ä" // Shown when no issues are reported by the logged in user
+            noResultsFound: "Ühtki aruannet ei leitud" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "nagu", // Command button for up-voting a report
@@ -123,12 +123,12 @@ define(
             mapButtonLabel: "Vaata kaardil", // Command button shown in details panel
             mapButtonTooltip: "Vaata selle aruande asukohta", // Tooltip for Gallery button
             commentsListHeading: "Kommentaari", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "Š_Your vote cannot be counted at this time_____________ä.", // Error message for feature unable to update
+            unableToUpdateVoteField: "Teie häält ei saa seekord lisada.", // Error message for feature unable to update
             gotoIssueListTooltip: "Liigu aruande loendisse" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
             likesForThisItemTooltip: "Selle aruande kohta antud hääled.", //Shown on hovering of the like icon in my-issues and issue-wall
-            loadMoreButtonText: "Š_Load More_____ä..." //Text for load more button
+            loadMoreButtonText: "Laadi rohkem..." //Text for load more button
         },
         comment: {
             commentsFormSubmitButton: "Saada kommentaar",

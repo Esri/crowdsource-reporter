@@ -54,9 +54,9 @@ define(
             infoBtnToolTip: "Thông tin bản đồ" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "Đ_No features found______ớ", // Shown in the issue wall when no issues are present in layer
-            noResultsFoundInCurrentBuffer: "Đ_No features found near you_________ớ", // Shown in the issue wall when no issues are present in the current buffer extent
-            unableToFetchFeatureError: "Đ_Unable to complete operation_________ớ", // Shown in the issue wall when layer does not return any features and throws an error
+            noResultsFound: "Không tìm thấy đối tượng", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "Không tìm thấy đối tượng gần bạn", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "Không thể hoàn thành hoạt động", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Đến danh sách chính", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Chế độ xem bản đồ" // Tooltip for map-it icon in list header
         },
@@ -66,7 +66,7 @@ define(
             signOut: "Đăng xuất", // Command button shown in mobile menu list
             signInTooltip: "Đăng nhập", // Tooltip to 'Sign in' option
             signOutTooltip: "Đăng xuất", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Đ_View my reports______ớ" // Tooltip  to 'My Reports' option
+            myReportTooltip: "Xem báo cáo của tôi" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Chi tiết", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "Vui lòng chọn vị trí cho báo cáo của bạn", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Gợi ý:${closeStrong} Giá trị tối thiểu ${minValue} và Giá trị tối đa ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Gợi ý:${closeStrong} Ngày tối thiểu ${minValue} và Ngày tối đa ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Đ_Report could not be submitted__________ớ", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "Không thể gửi báo cáo", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "(các) tệp đính kèm được chọn", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "Không thể tải lên ${failed} trên ${total} tệp đính kèm", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Vị trí hiện tại không khả dụng",  // Shown when the browser returns an error instead of the current geographical position
@@ -111,7 +111,7 @@ define(
         myIssues: {
             title: "Các báo cáo của tôi", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "Các báo cáo của tôi", // Command button to access issues reported by the logged in user
-            noResultsFound: "Đ_No reports found______ớ" // Shown when no issues are reported by the logged in user
+            noResultsFound: "Không tìm thấy báo cáo" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "Thích", // Command button for up-voting a report
@@ -123,12 +123,12 @@ define(
             mapButtonLabel: "Xem trên Bản đồ", // Command button shown in details panel
             mapButtonTooltip: "Xem vị trí của báo cáo này", // Tooltip for Gallery button
             commentsListHeading: "Bình luận", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "Đ_Your vote cannot be counted at this time_____________ớ.", // Error message for feature unable to update
+            unableToUpdateVoteField: "Không thể tính bình chọn của bạn vào lúc này.", // Error message for feature unable to update
             gotoIssueListTooltip: "Đến danh sách báo cáo" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
             likesForThisItemTooltip: "Các bình chọn cho báo cáo này", //Shown on hovering of the like icon in my-issues and issue-wall
-            loadMoreButtonText: "Đ_Load More_____ớ..." //Text for load more button
+            loadMoreButtonText: "Tải Thêm..." //Text for load more button
         },
         comment: {
             commentsFormSubmitButton: "Gửi bình luận",
