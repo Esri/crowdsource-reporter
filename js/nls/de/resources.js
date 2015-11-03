@@ -54,9 +54,9 @@ define(
             infoBtnToolTip: "Karteninformationen" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "ä_No features found______Ü", // Shown in the issue wall when no issues are present in layer
-            noResultsFoundInCurrentBuffer: "ä_No features found near you_________Ü", // Shown in the issue wall when no issues are present in the current buffer extent
-            unableToFetchFeatureError: "ä_Unable to complete operation_________Ü", // Shown in the issue wall when layer does not return any features and throws an error
+            noResultsFound: "Keine Features gefunden", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "Keine Features in Ihrer Nähe gefunden", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "Vorgang kann nicht abgeschlossen werden", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Zur Hauptliste wechseln", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Kartenansicht" // Tooltip for map-it icon in list header
         },
@@ -66,7 +66,7 @@ define(
             signOut: "Abmelden", // Command button shown in mobile menu list
             signInTooltip: "Anmelden", // Tooltip to 'Sign in' option
             signOutTooltip: "Abmelden", // Tooltip  to 'Sign out' option
-            myReportTooltip: "ä_View my reports______Ü" // Tooltip  to 'My Reports' option
+            myReportTooltip: "Eigene Berichte anzeigen" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Details", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "Wählen Sie den Speicherort für Ihren Bericht aus", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Hinweis:${closeStrong} Minimalwert ${minValue} und Maximalwert ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Hinweis:${closeStrong} Mindestdatum ${minValue} und maximal auswählbares Datum ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "ä_Report could not be submitted__________Ü", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "Bericht konnte nicht gesendet werden", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "Anlage(n) ausgewählt", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "${failed} von ${total} Anlage(n) konnte(n) nicht hochgeladen werden", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Aktuelle Position ist nicht verfügbar",  // Shown when the browser returns an error instead of the current geographical position
@@ -123,12 +123,12 @@ define(
             mapButtonLabel: "Auf Karte anzeigen", // Command button shown in details panel
             mapButtonTooltip: "Speicherort dieses Berichts anzeigen", // Tooltip for Gallery button
             commentsListHeading: "Bemerkungen", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "ä_Your vote cannot be counted at this time_____________Ü.", // Error message for feature unable to update
+            unableToUpdateVoteField: "Ihre Stimme kann zurzeit nicht gezählt werden.", // Error message for feature unable to update
             gotoIssueListTooltip: "Zur Berichtsliste wechseln" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
             likesForThisItemTooltip: "Stimmen für diesen Bericht", //Shown on hovering of the like icon in my-issues and issue-wall
-            loadMoreButtonText: "ä_Load More_____Ü..." //Text for load more button
+            loadMoreButtonText: "Weitere laden..." //Text for load more button
         },
         comment: {
             commentsFormSubmitButton: "Kommentar senden",

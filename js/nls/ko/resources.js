@@ -54,9 +54,9 @@ define(
             infoBtnToolTip: "맵 정보" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "한_No features found______빠", // Shown in the issue wall when no issues are present in layer
-            noResultsFoundInCurrentBuffer: "한_No features found near you_________빠", // Shown in the issue wall when no issues are present in the current buffer extent
-            unableToFetchFeatureError: "한_Unable to complete operation_________빠", // Shown in the issue wall when layer does not return any features and throws an error
+            noResultsFound: "피처를 찾을 수 없음", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "근처에서 피처를 찾을 수 없음", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "작업을 완료할 수 없음", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "기본 목록으로 이동", // Tooltip for back icon in list header
             gotoMapViewTooltip: "맵 보기" // Tooltip for map-it icon in list header
         },
@@ -66,7 +66,7 @@ define(
             signOut: "로그아웃", // Command button shown in mobile menu list
             signInTooltip: "로그인", // Tooltip to 'Sign in' option
             signOutTooltip: "로그아웃", // Tooltip  to 'Sign out' option
-            myReportTooltip: "한_View my reports______빠" // Tooltip  to 'My Reports' option
+            myReportTooltip: "내 보고서 보기" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "세부정보", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "보고서의 위치를 선택하세요.", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}힌트:${closeStrong} 최소값 ${minValue} 및 최대값 ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}힌트:${closeStrong} 최소 날짜 ${minValue} 및 최대 날짜 ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "한_Report could not be submitted__________빠", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "보고서를 제출할 수 없음", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "첨부 파일이 선택됨", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "${total}개 중 ${failed}개 첨부 파일 업로드 실패", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "현재 위치를 사용할 수 없음",  // Shown when the browser returns an error instead of the current geographical position
@@ -111,7 +111,7 @@ define(
         myIssues: {
             title: "내 보고서", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "내 보고서", // Command button to access issues reported by the logged in user
-            noResultsFound: "한_No reports found______빠" // Shown when no issues are reported by the logged in user
+            noResultsFound: "보고서를 찾을 수 없음" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "좋아요", // Command button for up-voting a report
@@ -123,12 +123,12 @@ define(
             mapButtonLabel: "맵에서 보기", // Command button shown in details panel
             mapButtonTooltip: "이 보고서의 위치 보기", // Tooltip for Gallery button
             commentsListHeading: "의견", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "한_Your vote cannot be counted at this time_____________빠.", // Error message for feature unable to update
+            unableToUpdateVoteField: "지금은 투표를 계산할 수 없습니다.", // Error message for feature unable to update
             gotoIssueListTooltip: "보고서 목록으로 이동" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
             likesForThisItemTooltip: "이 보고서에 투표", //Shown on hovering of the like icon in my-issues and issue-wall
-            loadMoreButtonText: "한_Load More_____빠..." //Text for load more button
+            loadMoreButtonText: "추가로 불러오기..." //Text for load more button
         },
         comment: {
             commentsFormSubmitButton: "의견 제출",

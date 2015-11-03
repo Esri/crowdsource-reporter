@@ -54,9 +54,9 @@ define(
             infoBtnToolTip: "Информация карты" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "Ж_No features found______Я", // Shown in the issue wall when no issues are present in layer
-            noResultsFoundInCurrentBuffer: "Ж_No features found near you_________Я", // Shown in the issue wall when no issues are present in the current buffer extent
-            unableToFetchFeatureError: "Ж_Unable to complete operation_________Я", // Shown in the issue wall when layer does not return any features and throws an error
+            noResultsFound: "Не найдены объекты", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "Не найдены объекты рядом", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "Невозможно завершить операцию", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Перейти в основной список", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Вид карты" // Tooltip for map-it icon in list header
         },
@@ -66,7 +66,7 @@ define(
             signOut: "Выход", // Command button shown in mobile menu list
             signInTooltip: "Вход", // Tooltip to 'Sign in' option
             signOutTooltip: "Выход", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Ж_View my reports______Я" // Tooltip  to 'My Reports' option
+            myReportTooltip: "Просмотреть мои отчеты" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Подробности", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "Выберите местоположение для отчета", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Подсказка:${closeStrong} Минимальное значение ${minValue} и Максимальное значение ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Hint:${closeStrong} Минимальная дата ${minValue} и Максимальная дата ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Ж_Report could not be submitted__________Я", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "Невозможно добавить отчет.", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "выбранные вложения", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "${failed} из ${total} вложений не удалось выгрузить.", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Текущее местоположение недоступно",  // Shown when the browser returns an error instead of the current geographical position
@@ -123,12 +123,12 @@ define(
             mapButtonLabel: "Просмотр на карте", // Command button shown in details panel
             mapButtonTooltip: "Просмотреть местоположение этого отчета", // Tooltip for Gallery button
             commentsListHeading: "Комментарии", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "Ж_Your vote cannot be counted at this time_____________Я.", // Error message for feature unable to update
+            unableToUpdateVoteField: "Ваш голос не может быть учтен сейчас.", // Error message for feature unable to update
             gotoIssueListTooltip: "Перейти к списку отчетов" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
             likesForThisItemTooltip: "Число голосов отданных за отчет", //Shown on hovering of the like icon in my-issues and issue-wall
-            loadMoreButtonText: "Ж_Load More_____Я..." //Text for load more button
+            loadMoreButtonText: "Загрузить больше..." //Text for load more button
         },
         comment: {
             commentsFormSubmitButton: "Отправить комментарий",

@@ -54,9 +54,9 @@ define(
             infoBtnToolTip: "Informaţii hartă" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "Ă_No features found______ș", // Shown in the issue wall when no issues are present in layer
-            noResultsFoundInCurrentBuffer: "Ă_No features found near you_________ș", // Shown in the issue wall when no issues are present in the current buffer extent
-            unableToFetchFeatureError: "Ă_Unable to complete operation_________ș", // Shown in the issue wall when layer does not return any features and throws an error
+            noResultsFound: "Nu a fost găsit niciun obiect spaţial", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "Nu a fost găsit niciun obiect spaţial lângă dvs.", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "Imposibil de finalizat operaţiunea", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Accesaţi lista principală", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Vizualizare hartă" // Tooltip for map-it icon in list header
         },
@@ -66,7 +66,7 @@ define(
             signOut: "Deconectare", // Command button shown in mobile menu list
             signInTooltip: "Autentificaţi-vă", // Tooltip to 'Sign in' option
             signOutTooltip: "Deconectare", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Ă_View my reports______ș" // Tooltip  to 'My Reports' option
+            myReportTooltip: "Vizualizare rapoartele mele" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Detalii", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "Selectaţi locaţia pentru raport", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Sugestie:${closeStrong} Valoarea minimă ${minValue} şi Valoarea maximă ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Sugestie:${closeStrong} Data minimă ${minValue} şi Data maximă ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Ă_Report could not be submitted__________ș", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "Raportul nu a putut fi transmis", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "ataşări selectate", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "${failed} din ${total} ataşări nu au fost încărcate", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Locaţia curentă nu este disponibilă",  // Shown when the browser returns an error instead of the current geographical position
@@ -111,7 +111,7 @@ define(
         myIssues: {
             title: "Rapoartele mele", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "Rapoartele mele", // Command button to access issues reported by the logged in user
-            noResultsFound: "Ă_No reports found______ș" // Shown when no issues are reported by the logged in user
+            noResultsFound: "Nu a fost găsit niciun raport" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "Îmi place", // Command button for up-voting a report
@@ -123,12 +123,12 @@ define(
             mapButtonLabel: "Vizualizare pe hartă", // Command button shown in details panel
             mapButtonTooltip: "Vizualizaţi locaţia acestui raport", // Tooltip for Gallery button
             commentsListHeading: "Comentarii", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "Ă_Your vote cannot be counted at this time_____________ș.", // Error message for feature unable to update
+            unableToUpdateVoteField: "Votul dumneavoastră nu poate fi luat în considerare în acest moment.", // Error message for feature unable to update
             gotoIssueListTooltip: "Accesare listă rapoarte" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
             likesForThisItemTooltip: "Voturi pentru acest raport", //Shown on hovering of the like icon in my-issues and issue-wall
-            loadMoreButtonText: "Ă_Load More_____ș..." //Text for load more button
+            loadMoreButtonText: "Se încarcă mai multe..." //Text for load more button
         },
         comment: {
             commentsFormSubmitButton: "Trimitere comentariu",

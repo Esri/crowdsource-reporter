@@ -54,9 +54,9 @@ define(
             infoBtnToolTip: "Información del mapa" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "á_No features found______Ó", // Shown in the issue wall when no issues are present in layer
-            noResultsFoundInCurrentBuffer: "á_No features found near you_________Ó", // Shown in the issue wall when no issues are present in the current buffer extent
-            unableToFetchFeatureError: "á_Unable to complete operation_________Ó", // Shown in the issue wall when layer does not return any features and throws an error
+            noResultsFound: "No se ha encontrado ninguna entidad", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "No se encontraron entidades cerca de ti", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "No se puede completar la operación", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Ir a lista principal", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Vista del mapa" // Tooltip for map-it icon in list header
         },
@@ -66,7 +66,7 @@ define(
             signOut: "Cerrar sesión", // Command button shown in mobile menu list
             signInTooltip: "Iniciar sesión", // Tooltip to 'Sign in' option
             signOutTooltip: "Cerrar sesión", // Tooltip  to 'Sign out' option
-            myReportTooltip: "á_View my reports______Ó" // Tooltip  to 'My Reports' option
+            myReportTooltip: "Ver mis informes" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Detalles", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "Selecciona la ubicación para el informe", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Sugerencia:${closeStrong} Valor mínimo ${minValue} y valor máximo ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Sugerencia:${closeStrong} Fecha mínima ${minValue} y fecha máxima ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "á_Report could not be submitted__________Ó", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "No se pudo enviar el informe", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "adjuntos seleccionados", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "Error al cargar ${failed} de ${total} adjuntos", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Ubicación actual no disponible",  // Shown when the browser returns an error instead of the current geographical position
@@ -111,7 +111,7 @@ define(
         myIssues: {
             title: "Mis informes", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "Mis informes", // Command button to access issues reported by the logged in user
-            noResultsFound: "á_No reports found______Ó" // Shown when no issues are reported by the logged in user
+            noResultsFound: "No se encontraron informes" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "Como", // Command button for up-voting a report
@@ -123,12 +123,12 @@ define(
             mapButtonLabel: "Ver en mapa", // Command button shown in details panel
             mapButtonTooltip: "Ver la ubicación de este informe", // Tooltip for Gallery button
             commentsListHeading: "Comentarios", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "á_Your vote cannot be counted at this time_____________Ó.", // Error message for feature unable to update
+            unableToUpdateVoteField: "No es posible contar tu voto en este momento.", // Error message for feature unable to update
             gotoIssueListTooltip: "Ir a lista de informes" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
             likesForThisItemTooltip: "Vota este informe", //Shown on hovering of the like icon in my-issues and issue-wall
-            loadMoreButtonText: "á_Load More_____Ó..." //Text for load more button
+            loadMoreButtonText: "Cargar más..." //Text for load more button
         },
         comment: {
             commentsFormSubmitButton: "Enviar comentario",
