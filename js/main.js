@@ -1539,11 +1539,12 @@ define([
         * @memberOf main
         */
         _selectFeaturesInBuffer: function (featureLayer, details, bufferedGeometries) {
-            var queryFeature, newGraphic;
+            var queryFeature, newGraphic, currentDateTime = new Date().getTime();
             queryFeature = new Query();
             queryFeature.objectIds = this.sortedBufferArray[this.bufferPageNumber];
             queryFeature.outFields = ["*"];
             queryFeature.returnGeometry = true;
+            queryFeature.where = currentDateTime + "=" + currentDateTime;
             if (bufferedGeometries) {
                 queryFeature.geometry = bufferedGeometries;
             }
