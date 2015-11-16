@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "地圖資訊" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "目前區域中沒有任何報告可用", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "找不到圖徵", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "找不到您附近的圖徵", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "無法完成操作", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "轉至主清單", // Tooltip for back icon in list header
             gotoMapViewTooltip: "地圖視圖" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "我的報告", // Command button shown in mobile menu list
             signIn: "登入", // Command button shown in mobile menu list and in appheader
             signOut: "登出", // Command button shown in mobile menu list
-            help: "幫助", // Command button shown in mobile menu list
             signInTooltip: "登入", // Tooltip to 'Sign in' option
             signOutTooltip: "登出", // Tooltip  to 'Sign out' option
-            myReportTooltip: "檢視我提交的報告", // Tooltip  to 'My Reports' option
-            helpTooltip: "說明" // Tooltip  to 'Help' option
+            myReportTooltip: "檢視我的報告" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "詳細資訊", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "請為您的報告選擇位置", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}提示:${closeStrong} 最小值 ${minValue} 和最大值 ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}提示:${closeStrong} 最小日期 ${minValue} 和最大日期 ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "無法報告問題", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "無法提交報告", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "已選定附件", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "${failed} 個附件（共有 ${total} 個）上傳失敗", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "目前位置不可用",  // Shown when the browser returns an error instead of the current geographical position
@@ -114,23 +114,23 @@ define(
             noResultsFound: "未找到任何報告" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Like(K)", // Command button shown in details panel
-            likeButtonTooltip: "為此報告投票",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "評論", // Command button shown in details panel
-            commentButtonTooltip: "評論此報告", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "圖庫", // Command button shown in details panel
+            likeButtonLabel: "Like(K)", // Command button for up-voting a report
+            likeButtonTooltip: "為此報告投票",  // Tooltip for Like button
+            commentButtonLabel: "評論", // Command button for submitting feedback
+            commentButtonTooltip: "評論此報告", // Tooltip for Comment button
+            galleryButtonLabel: "圖庫", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "參閱隨附的說明文件", // Tooltip for command button shown in details panel
             mapButtonLabel: "檢視地圖", // Command button shown in details panel
-            mapButtonTooltip: "檢視此報告的位置", // Tooltip for command button shown in details panel
+            mapButtonTooltip: "檢視此報告的位置", // Tooltip for Gallery button
             commentsListHeading: "評論", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "您的投票此時無法進行新增。", // Error message for feature unable to update
+            unableToUpdateVoteField: "您的投票此時無法進行計數。", // Error message for feature unable to update
             gotoIssueListTooltip: "轉至報告清單" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "為此報告投票" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "為此報告投票", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "載入更多..." //Text for load more button
         },
         comment: {
-            commentsFormText: "評論",
             commentsFormSubmitButton: "提交評論",
             commentsFormCancelButton: "取消",
             errorInSubmittingComment: "無法提交評論。", // Shown when user is unable to add comments

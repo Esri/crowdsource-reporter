@@ -1,4 +1,4 @@
-/*global define,dojo */
+/*global define,dojo,console */
 /*jslint browser:true,sloppy:true,nomen:true,unparam:true,plusplus:true */
 /*
  | Copyright 2014 Esri
@@ -111,6 +111,8 @@ define([
         */
         clearSelection: function () {
             this.selectedItemOID = null;
+            this.refreshList();
+
         },
 
         /**
@@ -123,9 +125,30 @@ define([
         /**
         * Refresh the items list
         */
-        refreshList: function () {
-            this.clearList();
-            this.buildList();
+        refreshList: function (item) {
+            var currentNode, itemVotes, favIconDiv, votesNode;
+            //Clear all the previously selected feature
+            arrayUtil.forEach(dojoQuery(".esriCTItemSummaryParentSelected", this.domNode), lang.hitch(this, function (currentNode) {
+                domClass.remove(currentNode, "esriCTItemSummaryParentSelected");
+                domClass.remove(dojoQuery(".esriCTItemSummaryHighlighter", currentNode)[0], "esriCTItemSummarySelected");
+
+            }));
+            //If selected features object id exsist, highlight the dom element
+            if (this.selectedItemOID) {
+                currentNode = dojoQuery("." + this.selectedItemOID, this.domNode);
+                if (currentNode.length > 0) {
+                    domClass.add(currentNode[0], "esriCTItemSummaryParentSelected");
+                    domClass.add(dojoQuery(".esriCTItemSummaryHighlighter", currentNode[0])[0], "esriCTItemSummarySelected");
+                }
+                if (item && this.showLikes) {
+                    //If votes count is increased, update the selected items votes in item list
+                    itemVotes = this.getItemVotes(item);
+                    favIconDiv = dojoQuery(".esriCTItemFav", currentNode[0])[0];
+                    favIconDiv.title = itemVotes.label + " " + this.i18n.likesForThisItemTooltip;
+                    votesNode = dojoQuery(".esriCTItemVotes", currentNode[0])[0];
+                    votesNode.innerHTML = itemVotes.label;
+                }
+            }
         },
 
         /**
@@ -135,6 +158,10 @@ define([
             //scroll the list to top always
             this.list.scrollTop = 0;
             arrayUtil.forEach(this.items, lang.hitch(this, this.buildItemSummary));
+            if (this.featureLayerCount && this.items && this.featureLayerCount !== this.items.length) {
+                this._createLoadMoreButton();
+            }
+            this.appUtils.hideLoadingIndicator();
         },
 
         /**
@@ -142,15 +169,20 @@ define([
         * @param  {feature} item to display in the list
         */
         buildItemSummary: function (item) {
-            var itemTitle, itemVotes, itemSummaryDiv, itemTitleDiv, favDiv, itemSummaryParent, itemSummaryHighlighter, details = "", itemTitleDivMyIssues;
+            var itemTitle, itemVotes, itemSummaryDiv, itemTitleDiv, favDiv, itemSummaryParent, itemSummaryHighlighter, details = "", itemTitleDivMyIssues, selectedLayerId, objectIdFieldName;
             item = (item && item.graphic) ? item.graphic : item;
             itemTitle = this.getItemTitle(item) || "&nbsp;";
             if (this.isMyIssues) {
                 details = item.webMapTitle + " : " + item.layerTitle;
                 this.showLikes = item.showLikes;
+                selectedLayerId = item._layer.id;
+                objectIdFieldName = item._layer.objectIdField;
+            } else {
+                selectedLayerId = this.selectedLayer.id;
+                objectIdFieldName = this.selectedLayer.objectIdField;
             }
             itemSummaryParent = domConstruct.create('div', {
-                'class': 'esriCTtemSummaryParent',
+                'class': 'esriCTtemSummaryParent, ' + item.attributes[objectIdFieldName] + "_" + item.webMapId + "_" + selectedLayerId,
                 'click': lang.partial(this.summaryClick, this, item)
             }, this.list);
 
@@ -183,6 +215,12 @@ define([
                 }, itemSummaryDiv);
             }
 
+            //If selected features object id exsist, make sure we are highlighting the respective row
+            if (this.selectedItemOID && this.selectedItemOID === item.attributes[this.selectedLayer.objectIdField] + "_" + item.webMapId + "_" + selectedLayerId) {
+                domClass.add(itemSummaryParent, "esriCTItemSummaryParentSelected");
+                domClass.add(itemSummaryHighlighter, "esriCTItemSummarySelected");
+            }
+
             if (this.showLikes) {
                 itemVotes = this.getItemVotes(item);
                 favDiv = domConstruct.create('div', {
@@ -199,18 +237,12 @@ define([
                     'class': 'glyphicon glyphicon-heart esriCTFavDiv'
                 }, favDiv);
             } else {
-                //If like field is not configured use the entire space for issue title              
+                //If like field is not configured use the entire space for issue title
                 if (this.isMyIssues && itemTitleDivMyIssues) {
                     domClass.add(itemTitleDivMyIssues, "esriCTItemListTitleFullWidth");
                 } else {
                     domClass.add(itemTitleDiv, "esriCTItemListTitleFullWidth");
                 }
-            }
-
-            // If this item's OID matches the current selection, apply the theme to highlight it
-            if (this.selectedItemOID && this.selectedItemOID === item.attributes[item._layer.objectIdField] + "_" + item.webMapId + "_" + item._layer.id) {
-                domClass.add(itemSummaryHighlighter, "esriCTItemSummarySelected");
-                domClass.add(itemSummaryParent, "esriCTItemSummaryParentSelected");
             }
         },
 
@@ -258,8 +290,38 @@ define([
         summaryClick: function (self, feat, evt) {
             // 'this' = row click
             return true;
-        }
+        },
 
+        /**
+        * Create load more button
+        */
+        _createLoadMoreButton: function () {
+            var loadMoreButton, itemSummaryDiv, itemTitleDivMyIssues;
+            loadMoreButton = domConstruct.create('div', {
+                'class': 'esriCTtemSummaryParent'
+            }, this.list);
+
+            itemSummaryDiv = domConstruct.create('div', {
+                'class': 'esriCTItemSummary'
+            }, loadMoreButton);
+
+            itemTitleDivMyIssues = domConstruct.create('div', {
+                'class': 'esriCTLoadMoreContainer'
+            }, itemSummaryDiv);
+
+            domConstruct.create('div', {
+                'class': 'esriCTItemListTitleFullWidth esriCTEllipsis esriCTMyIssuePopupTitle esriCTLoadMoreButton',
+                'innerHTML': this.i18n.loadMoreButtonText
+            }, itemTitleDivMyIssues);
+
+            on(loadMoreButton, "click", lang.hitch(this, function (evt) {
+                this.onLoadMoreClick();
+            }));
+        },
+
+        onLoadMoreClick: function (evt) {
+            return evt;
+        }
     });
 });
 

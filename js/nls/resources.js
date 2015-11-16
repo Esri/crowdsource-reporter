@@ -54,7 +54,9 @@ define({
             infoBtnToolTip: "Map information" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "No reports available in the current area", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "No features found", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "No features found near you", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "Unable to complete operation", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Go to main list", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Map view" // Tooltip for map-it icon in list header
         },
@@ -64,7 +66,7 @@ define({
             signOut: "Sign Out", // Command button shown in mobile menu list
             signInTooltip: "Sign in", // Tooltip to 'Sign in' option
             signOutTooltip: "Sign out", // Tooltip  to 'Sign out' option
-            myReportTooltip: "View reports submitted by me" // Tooltip  to 'My Reports' option
+            myReportTooltip: "View my reports" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Details", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -85,7 +87,7 @@ define({
             selectLocation: "Please select the location for your report", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Hint:${closeStrong} Minimum value ${minValue} and Maximum value ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Hint:${closeStrong} Minimum Date ${minValue} and Maximum Date ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Issue could not be reported", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "Report could not be submitted", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "attachment(s) selected", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "${failed} of ${total} attachment(s) failed to upload", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Current location not available",  // Shown when the browser returns an error instead of the current geographical position
@@ -112,23 +114,23 @@ define({
             noResultsFound: "No reports found" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Like", // Command button shown in details panel
-            likeButtonTooltip: "Vote for this report",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "Comment", // Command button shown in details panel
-            commentButtonTooltip: "Comment on this report", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "Gallery", // Command button shown in details panel
+            likeButtonLabel: "Like", // Command button for up-voting a report
+            likeButtonTooltip: "Vote for this report",  // Tooltip for Like button
+            commentButtonLabel: "Comment", // Command button for submitting feedback
+            commentButtonTooltip: "Comment on this report", // Tooltip for Comment button
+            galleryButtonLabel: "Gallery", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "See attached documents", // Tooltip for command button shown in details panel
             mapButtonLabel: "View on Map", // Command button shown in details panel
-            mapButtonTooltip: "View the location of this report", // Tooltip for command button shown in details panel
+            mapButtonTooltip: "View the location of this report", // Tooltip for Gallery button
             commentsListHeading: "Comments", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "Your vote cannot be added at this time.", // Error message for feature unable to update
+            unableToUpdateVoteField: "Your vote cannot be counted at this time.", // Error message for feature unable to update
             gotoIssueListTooltip: "Go to the report list" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Votes for this report" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Votes for this report", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "Load More..." //Text for load more button
         },
         comment: {
-            commentsFormText: "Comment",
             commentsFormSubmitButton: "Submit Comment",
             commentsFormCancelButton: "Cancel",
             errorInSubmittingComment: "Comment could not be submitted.", // Shown when user is unable to add comments

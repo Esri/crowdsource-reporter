@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "معلومات الخريطة" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "لا توجد تقارير متاحة في المنطقة الحالية", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "لم يتم العثور على أي معلم", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "لم يتم العثور على أي معالم بجوارك", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "يتعذر إكمال العملية", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "الانتقال إلى القائمة الرئيسية", // Tooltip for back icon in list header
             gotoMapViewTooltip: "عرض الخريطة" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "التقارير خاصتي", // Command button shown in mobile menu list
             signIn: "تسجيل الدخول", // Command button shown in mobile menu list and in appheader
             signOut: "تسجيل الخروج", // Command button shown in mobile menu list
-            help: "المساعدة", // Command button shown in mobile menu list
             signInTooltip: "تسجيل الدخول", // Tooltip to 'Sign in' option
             signOutTooltip: "تسجيل الخروج", // Tooltip  to 'Sign out' option
-            myReportTooltip: "عرض التقارير التي تم إرسالها بواسطتي", // Tooltip  to 'My Reports' option
-            helpTooltip: "المساعدة" // Tooltip  to 'Help' option
+            myReportTooltip: "عرض التقارير" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "التفاصيل", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "برجاء تحديد موقع التقرير", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}تلميح:${closeStrong} القيمة الدنيا ${minValue} والقيمة العليا ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}تلميح:${closeStrong} التاريخ الأدنى ${minValue} والتاريخ الأقصى ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "يتعذر تقرير المشكلة", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "يتعذر إرسال التقرير", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "المرفقات المحددة", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "فشل تحميل المرفقات ${failed} من ${total}", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "الموقع الحالي غير متاح",  // Shown when the browser returns an error instead of the current geographical position
@@ -111,26 +111,26 @@ define(
         myIssues: {
             title: "التقارير خاصتي", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "التقارير خاصتي", // Command button to access issues reported by the logged in user
-            noResultsFound: "لم يتم إيجاد التقارير" // Shown when no issues are reported by the logged in user
+            noResultsFound: "لم يتم العثور على أي تقارير" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "مثل", // Command button shown in details panel
-            likeButtonTooltip: "التصويت لهذا التقرير",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "التعليق", // Command button shown in details panel
-            commentButtonTooltip: "التعليق على هذا التقرير", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "معرض الصور", // Command button shown in details panel
+            likeButtonLabel: "مثل", // Command button for up-voting a report
+            likeButtonTooltip: "التصويت لهذا التقرير",  // Tooltip for Like button
+            commentButtonLabel: "التعليق", // Command button for submitting feedback
+            commentButtonTooltip: "التعليق على هذا التقرير", // Tooltip for Comment button
+            galleryButtonLabel: "معرض الصور", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "مراجعة المستندات المرفقة", // Tooltip for command button shown in details panel
             mapButtonLabel: "العرض على الخريطة", // Command button shown in details panel
-            mapButtonTooltip: "عرض موقع هذا التقرير", // Tooltip for command button shown in details panel
+            mapButtonTooltip: "عرض موقع هذا التقرير", // Tooltip for Gallery button
             commentsListHeading: "التعليقات", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "تتعذر إضافة التصويت الآن.", // Error message for feature unable to update
+            unableToUpdateVoteField: "يتعذر حساب التصويت الآن.", // Error message for feature unable to update
             gotoIssueListTooltip: "الانتقال إلى قائمة التقرير" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "عمليات التصويت لهذا التقرير" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "عمليات التصويت لهذا التقرير", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "تحميل المزيد..." //Text for load more button
         },
         comment: {
-            commentsFormText: "التعليق",
             commentsFormSubmitButton: "تقديم تعليق",
             commentsFormCancelButton: "إلغاء الأمر",
             errorInSubmittingComment: "يتعذر إرسال التعليق.", // Shown when user is unable to add comments

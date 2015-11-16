@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "Kartes informācija" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "Pašreizējā apgabalā nav pieejamu ziņojumu", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "Nav atrasts neviens elements", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "Jūsu tuvumā nav atrasts neviens elements", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "Nevar pabeigt darbību", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Doties uz galveno sarakstu", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Kartes skats" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "Mani ziņojumi", // Command button shown in mobile menu list
             signIn: "Pierakstīties", // Command button shown in mobile menu list and in appheader
             signOut: "Izrakstīties", // Command button shown in mobile menu list
-            help: "Palīdzība", // Command button shown in mobile menu list
             signInTooltip: "Pierakstīties", // Tooltip to 'Sign in' option
             signOutTooltip: "Izrakstīties", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Skatīt manus iesniegtos ziņojumus", // Tooltip  to 'My Reports' option
-            helpTooltip: "Palīdzība" // Tooltip  to 'Help' option
+            myReportTooltip: "Skatīt manus ziņojumus" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Detaļas", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "Lūdzu atlasiet vietu savam ziņojumam", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Norāde:${closeStrong} minimālā vērtība ${minValue} un maksimālā vērtība ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Norāde:${closeStrong} minimālais datums ${minValue} un maksimālais datums ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Par problēmu nevarēja ziņot", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "Neizdevās iesniegt ziņojumu", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "atlasītais(-ie) pielikums(-i)", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "${failed} no ${total} pielikuma(-iem) neizdevās augšupielādēt", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Pašreizējā vieta nav pieejama",  // Shown when the browser returns an error instead of the current geographical position
@@ -111,26 +111,26 @@ define(
         myIssues: {
             title: "Mani ziņojumi", // Shown as a title in 'My issues' panel
             myIssuesTooltip: "Mani ziņojumi", // Command button to access issues reported by the logged in user
-            noResultsFound: "Nav atrastu ziņojumu" // Shown when no issues are reported by the logged in user
+            noResultsFound: "Nav atrasts neviens ziņojums" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Patīk", // Command button shown in details panel
-            likeButtonTooltip: "Balsot par šo ziņojumu",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "Komentārs", // Command button shown in details panel
-            commentButtonTooltip: "Komentēt šo ziņojumu", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "Galerija", // Command button shown in details panel
+            likeButtonLabel: "Patīk", // Command button for up-voting a report
+            likeButtonTooltip: "Balsot par šo ziņojumu",  // Tooltip for Like button
+            commentButtonLabel: "Komentārs", // Command button for submitting feedback
+            commentButtonTooltip: "Komentēt šo ziņojumu", // Tooltip for Comment button
+            galleryButtonLabel: "Galerija", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "Skatīt pievienotos dokumentus", // Tooltip for command button shown in details panel
             mapButtonLabel: "Skatīt kartē", // Command button shown in details panel
-            mapButtonTooltip: "Skatiet šī ziņojuma vietu", // Tooltip for command button shown in details panel
+            mapButtonTooltip: "Skatiet šī ziņojuma vietu", // Tooltip for Gallery button
             commentsListHeading: "Komentāri", // List heading for Comments section in details panel
             unableToUpdateVoteField: "Jūsu balsi šobrīd nevar pievienot.", // Error message for feature unable to update
             gotoIssueListTooltip: "Doties uz ziņojumu sarakstu" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Balsis par šo ziņojumu" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Balsis par šo ziņojumu", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "Ielādēt vēl..." //Text for load more button
         },
         comment: {
-            commentsFormText: "Komentārs",
             commentsFormSubmitButton: "Iesniegt komentāru",
             commentsFormCancelButton: "Atcelt",
             errorInSubmittingComment: "Komentāru nevarēja iesniegt.", // Shown when user is unable to add comments

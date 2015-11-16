@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "Kartinformation" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "Inga rapporter tillgängliga i det aktuella området", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "Inga geoobjekt hittades", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "Inga geoobjekt hittades nära dig", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "Det gick inte att slutföra åtgärden", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Gå till huvudlistan", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Kartvy" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "Mina rapporter", // Command button shown in mobile menu list
             signIn: "Logga in", // Command button shown in mobile menu list and in appheader
             signOut: "Logga ut", // Command button shown in mobile menu list
-            help: "Hjälp", // Command button shown in mobile menu list
             signInTooltip: "Logga in", // Tooltip to 'Sign in' option
             signOutTooltip: "Logga ut", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Visa rapporter som skickats av mig", // Tooltip  to 'My Reports' option
-            helpTooltip: "Hjälp" // Tooltip  to 'Help' option
+            myReportTooltip: "Visa mina rapporter" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Detaljer", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "Välj platsen för din rapport", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Tips:${closeStrong} minsta värde ${minValue} och största värde ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Tips:${closeStrong} minsta datum ${minValue} och största datum ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Det gick inte att rapportera problemet", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "Det gick inte att skicka rapporten", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "bilagor markerade", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "${failed} av ${total} bilagor kunde inte överföras", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Aktuell plats finns inte tillgänglig",  // Shown when the browser returns an error instead of the current geographical position
@@ -114,23 +114,23 @@ define(
             noResultsFound: "Inga rapporter hittades" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Gilla", // Command button shown in details panel
-            likeButtonTooltip: "Rösta för den här rapporten",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "Kommentar", // Command button shown in details panel
-            commentButtonTooltip: "Kommentera den här rapporten", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "Galleri", // Command button shown in details panel
+            likeButtonLabel: "Gilla", // Command button for up-voting a report
+            likeButtonTooltip: "Rösta för den här rapporten",  // Tooltip for Like button
+            commentButtonLabel: "Kommentar", // Command button for submitting feedback
+            commentButtonTooltip: "Kommentera den här rapporten", // Tooltip for Comment button
+            galleryButtonLabel: "Galleri", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "Se bifogade dokument", // Tooltip for command button shown in details panel
             mapButtonLabel: "Visa på kartan", // Command button shown in details panel
-            mapButtonTooltip: "Visa platsen för rapporten", // Tooltip for command button shown in details panel
+            mapButtonTooltip: "Visa platsen för rapporten", // Tooltip for Gallery button
             commentsListHeading: "Kommentarer", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "Det går inte att lägga till din röst just nu.", // Error message for feature unable to update
+            unableToUpdateVoteField: "Det går inte att räkna din röst just nu.", // Error message for feature unable to update
             gotoIssueListTooltip: "Gå till rapportlistan" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Röster för den här rapporten" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Röster för den här rapporten", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "Läs in mer ..." //Text for load more button
         },
         comment: {
-            commentsFormText: "Kommentar",
             commentsFormSubmitButton: "Skicka en kommentar",
             commentsFormCancelButton: "Avbryt",
             errorInSubmittingComment: "Det gick inte att skicka kommentaren.", // Shown when user is unable to add comments

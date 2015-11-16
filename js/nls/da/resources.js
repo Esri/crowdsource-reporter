@@ -44,17 +44,19 @@ define(
             created: "Oprettelsesdato", // Shown in the 'Map information' section indicating the date when the webmap was created
             modified: "Dato for ændring", // Shown in the 'Map information' section indicating the date when the webmap was modified
             description: "Beskrivelse", // Shown in the 'Map information' section describing the webmap
-            snippet: "Oversigt", // Shown in the 'Map information' section providing the summary of the webmap
+            snippet: "Summary", // Shown in the 'Map information' section providing the summary of the webmap
             licenseInfo: "Få adgang til og brug begrænsninger", // Shown in the map information section indicating the webmap license information
             accessInformation: "Credits", // Shown in the 'Map information' section indicating account credits
-            tags: "Nøgleord", // Shown in the 'Map information' section indicating tags of the webmap
+            tags: "Tags", // Shown in the 'Map information' section indicating tags of the webmap
             numViews: "Antal visninger", // Shown in the 'Map information' section indicating number of times the webmap has been viewed
             avgRating: "Vurdering", // Shown in the 'Map information' section indicating webmap rating
             noWebMapInGroup: "Konfigureret gruppe er ugyldig, eller ingen elementer er endnu blevet delt med denne gruppe.", // Shown when the configured group is invalid/private or no items have been shared with the group
             infoBtnToolTip: "Kortoplysninger" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "Ingen rapporter er tilgængelige i det aktuelle område", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "Der blev ikke fundet nogen objekter", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "Der blev ikke fundet nogen objekter i nærheden af dig", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "Kan ikke fuldføre handling", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Gå til hovedlisten", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Kortvisning" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "Mine rapporter", // Command button shown in mobile menu list
             signIn: "Log ind", // Command button shown in mobile menu list and in appheader
             signOut: "Log ud", // Command button shown in mobile menu list
-            help: "Hjælp", // Command button shown in mobile menu list
-            signInTooltip: "Log ind", // Tooltip to 'Sign in' option
+            signInTooltip: "Sign in", // Tooltip to 'Sign in' option
             signOutTooltip: "Log ud", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Vis rapporter indsendt af mig", // Tooltip  to 'My Reports' option
-            helpTooltip: "Hjælp" // Tooltip  to 'Help' option
+            myReportTooltip: "Vis mine rapporter" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Oplysninger", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "Vælg en placering for din rapport", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Hint:${closeStrong} Minimumværdi ${minValue} og maksimumværdi ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Hint:${closeStrong} Minimumdato ${minValue} og maksimumdato ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Problem kunne ikke rapporteres", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "Rapport kunne ikke sendes", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "vedhæftning(er) valgt", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "${mislykkedes} af ${total} vedhæftning(er) kunne ikke overføres", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Aktuel position er ikke tilgængelig",  // Shown when the browser returns an error instead of the current geographical position
@@ -105,7 +105,7 @@ define(
             invalidSearch: "Ingen resultater", // Shown in the address container when no results are returned on performing unified search
             locatorPlaceholder: "Indtast en adresse, der skal søges efter", // Shown in the address container textbox as a placeholder
             locationOutOfExtent: "Den fundne adresse ligger uden for baggrundskortets udstrækning", // Shown as an alert when the selected address in the search result is out of basemap extent
-            searchButtonTooltip: "Søg", // Tooltip for search button
+            searchButtonTooltip: "Search", // Tooltip for search button
             clearButtonTooltip: "Ryd søgeværdi" // Tooltip for Geocoder clear button
         },
         myIssues: {
@@ -114,23 +114,23 @@ define(
             noResultsFound: "ingen rapporter fundet" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Synes godt om", // Command button shown in details panel
-            likeButtonTooltip: "Stem på denne rapport",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "Kommentar", // Command button shown in details panel
-            commentButtonTooltip: "Kommentér på denne rapport", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "Galleri", // Command button shown in details panel
+            likeButtonLabel: "Synes godt om", // Command button for up-voting a report
+            likeButtonTooltip: "Stem på denne rapport",  // Tooltip for Like button
+            commentButtonLabel: "Kommentar", // Command button for submitting feedback
+            commentButtonTooltip: "Kommentér på denne rapport", // Tooltip for Comment button
+            galleryButtonLabel: "Galleri", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "Se vedhæftede dokumenter", // Tooltip for command button shown in details panel
             mapButtonLabel: "Vis på kort", // Command button shown in details panel
-            mapButtonTooltip: "Vis denne rapports placering", // Tooltip for command button shown in details panel
-            commentsListHeading: "Kommentarer", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "Din stemme kan ikke afgives på nuværende tidspunkt.", // Error message for feature unable to update
+            mapButtonTooltip: "Vis denne rapports placering", // Tooltip for Gallery button
+            commentsListHeading: "Comments", // List heading for Comments section in details panel
+            unableToUpdateVoteField: "Din stemme kan ikke tælles på nuværende tidspunkt.", // Error message for feature unable to update
             gotoIssueListTooltip: "Gå til rapportlisten" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Stemmer på denne rapport" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Stemmer på denne rapport", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "Indlæs mere..." //Text for load more button
         },
         comment: {
-            commentsFormText: "Kommentar",
             commentsFormSubmitButton: "Send kommentar",
             commentsFormCancelButton: "Annuller",
             errorInSubmittingComment: "Kommentar kunne ikke indsendes.", // Shown when user is unable to add comments

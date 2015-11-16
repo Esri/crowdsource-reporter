@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "Žemėlapio informacija" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "Esamoje srityje ataskaitų nėra", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "Elementų nerasta", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "Šalia jūsų objektų nerasta", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "Nepavyko įvykdyti operacijos", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Eiti į pagrindinį sąrašą", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Žemėlapio vaizdas" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "Mano ataskaitos", // Command button shown in mobile menu list
             signIn: "Prisijungti", // Command button shown in mobile menu list and in appheader
             signOut: "Atsijungti", // Command button shown in mobile menu list
-            help: "Pagalba", // Command button shown in mobile menu list
             signInTooltip: "Prisijunkite", // Tooltip to 'Sign in' option
             signOutTooltip: "Atsijungti", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Peržiūrėti savo pateiktas ataskaitas", // Tooltip  to 'My Reports' option
-            helpTooltip: "Pagalba" // Tooltip  to 'Help' option
+            myReportTooltip: "Rodyti mano ataskaitas" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Išsamiau", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "Nurodykite ataskaitos vietą", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Užuomina:${closeStrong} minimali vertė ${minValue} ir maksimali vertė ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Užuomina:${closeStrong} minimali data ${minValue} ir maksimali data ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Apie problemą pranešti neįmanoma", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "Komentaro pateikti nepavyko", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "pasirinktas (-i) priedas (-ai)", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "Nepavyko įkelti ${failed} iš ${total} priedo (-ų)", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Informacijos apie esamą vietą nėra",  // Shown when the browser returns an error instead of the current geographical position
@@ -114,23 +114,23 @@ define(
             noResultsFound: "Ataskaitų nerasta" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Patinka", // Command button shown in details panel
-            likeButtonTooltip: "Balsuokite už šią ataskaitą",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "Komentuoti", // Command button shown in details panel
-            commentButtonTooltip: "Pakomentuoti šią ataskaitą", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "Galerija", // Command button shown in details panel
+            likeButtonLabel: "Patinka", // Command button for up-voting a report
+            likeButtonTooltip: "Balsuokite už šią ataskaitą",  // Tooltip for Like button
+            commentButtonLabel: "Komentuoti", // Command button for submitting feedback
+            commentButtonTooltip: "Pakomentuoti šią ataskaitą", // Tooltip for Comment button
+            galleryButtonLabel: "Galerija", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "Žr. pridėtus dokumentus", // Tooltip for command button shown in details panel
             mapButtonLabel: "Žiūrėti žemėlapyje", // Command button shown in details panel
-            mapButtonTooltip: "Žiūrėti šios ataskaitos vietą", // Tooltip for command button shown in details panel
+            mapButtonTooltip: "Žiūrėti šios ataskaitos vietą", // Tooltip for Gallery button
             commentsListHeading: "Komentarai", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "Šiuo metu jūsų balso pridėti negalima.", // Error message for feature unable to update
+            unableToUpdateVoteField: "Šiuo metu jūsų balso įskaičiuoti negalima.", // Error message for feature unable to update
             gotoIssueListTooltip: "Eiti į ataskaitų sąrašą" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Balsai už šią ataskaitą" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Balsai už šią ataskaitą", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "Įkelti daugiau..." //Text for load more button
         },
         comment: {
-            commentsFormText: "Komentuoti",
             commentsFormSubmitButton: "Pateikti komentarą",
             commentsFormCancelButton: "Atšaukti",
             errorInSubmittingComment: "Komentaro pateikti nepavyko.", // Shown when user is unable to add comments

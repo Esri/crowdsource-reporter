@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "Informação de mapa" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "Não há relatórios disponíveis na área actual", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "Não foram encontrados elementos", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "Não foram encontrados elementos perto de si", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "Não é possível completar a operação", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Ir para a lista principal", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Vista de mapa" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "Meus Relatórios", // Command button shown in mobile menu list
             signIn: "Iniciar sessão", // Command button shown in mobile menu list and in appheader
             signOut: "Terminar sessão", // Command button shown in mobile menu list
-            help: "Ajuda", // Command button shown in mobile menu list
             signInTooltip: "Iniciar sessão", // Tooltip to 'Sign in' option
             signOutTooltip: "Terminar Sessão", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Visualizar relatórios submetidos por mim", // Tooltip  to 'My Reports' option
-            helpTooltip: "Ajuda" // Tooltip  to 'Help' option
+            myReportTooltip: "Visualizar os meus relatórios" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Detalhes", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "Por favor seleccione uma localização para o seu relatório", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Hint:${closeStrong} valor Mínimo ${minValue} e valor Máximo ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Hint:${closeStrong} Data Mínima ${minValue} e Data Máxima ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Problema não pode ser reportado", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "O relatório não pôde ser submetido", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "anexo(s) seleccionado(s)", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "${failed} do ${total} anexo(s) falhou a carregar", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Localização actual não disponível",  // Shown when the browser returns an error instead of the current geographical position
@@ -114,23 +114,23 @@ define(
             noResultsFound: "Não foram descobertos relatórios" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Gostar", // Command button shown in details panel
-            likeButtonTooltip: "Votar neste relatório",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "Comentário", // Command button shown in details panel
-            commentButtonTooltip: "Comentar neste relatório", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "Galeria", // Command button shown in details panel
+            likeButtonLabel: "Gostar", // Command button for up-voting a report
+            likeButtonTooltip: "Votar neste relatório",  // Tooltip for Like button
+            commentButtonLabel: "Comentário", // Command button for submitting feedback
+            commentButtonTooltip: "Comentar neste relatório", // Tooltip for Comment button
+            galleryButtonLabel: "Galeria", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "Ver documentos anexados", // Tooltip for command button shown in details panel
             mapButtonLabel: "Ver no mapa", // Command button shown in details panel
-            mapButtonTooltip: "Ver a localização deste relatório", // Tooltip for command button shown in details panel
+            mapButtonTooltip: "Ver a localização deste relatório", // Tooltip for Gallery button
             commentsListHeading: "Comentários", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "O seu vot não pode ser adicionado neste momento", // Error message for feature unable to update
+            unableToUpdateVoteField: "Não é possível contar o seu voto neste momento.", // Error message for feature unable to update
             gotoIssueListTooltip: "Vá para a lista de relatório" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Votos para este relatório" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Votos para este relatório", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "Carregar mais..." //Text for load more button
         },
         comment: {
-            commentsFormText: "Comentário",
             commentsFormSubmitButton: "Submeter Comentário",
             commentsFormCancelButton: "Cancelar",
             errorInSubmittingComment: "Comentário não pode ser submetido", // Shown when user is unable to add comments

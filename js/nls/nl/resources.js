@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "Kaartinformatie" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "Er zijn geen rapporten beschikbaar in het huidige gebied", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "Geen objecten gevonden", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "Geen objecten gevonden in uw omgeving", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "Kan de actie niet voltooien", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Ga naar de hoofdlijst", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Kaartweergave" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "Mijn Rapporten", // Command button shown in mobile menu list
             signIn: "Aanmelden", // Command button shown in mobile menu list and in appheader
             signOut: "Afmelden", // Command button shown in mobile menu list
-            help: "Help", // Command button shown in mobile menu list
             signInTooltip: "Aanmelden", // Tooltip to 'Sign in' option
             signOutTooltip: "Meld u af", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Rapporten door mij ingediend bekijken", // Tooltip  to 'My Reports' option
-            helpTooltip: "Help" // Tooltip  to 'Help' option
+            myReportTooltip: "Mijn rapporten bekijken" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Details", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "Selecteer de locatie voor uw rapport", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Tip:${closeStrong} Minimumwaarde ${minValue} en Maximumwaarde ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Tip:${closeStrong} Minimumdatum ${minValue} en Maximumdatum ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Probleem kon niet worden gemeld", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "Rapport kon niet worden ingediend", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "bijlage(n) geselecteerd", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "${failed} van ${total} bijlage(n) is niet geupload", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Huidige locatie niet beschikbaar",  // Shown when the browser returns an error instead of the current geographical position
@@ -114,23 +114,23 @@ define(
             noResultsFound: "Geen rapporten gevonden" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Zoals", // Command button shown in details panel
-            likeButtonTooltip: "Op dit rapport stemmen",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "Opmerking", // Command button shown in details panel
-            commentButtonTooltip: "Op dit rapporten reageren", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "Galerij", // Command button shown in details panel
+            likeButtonLabel: "Zoals", // Command button for up-voting a report
+            likeButtonTooltip: "Op dit rapport stemmen",  // Tooltip for Like button
+            commentButtonLabel: "Opmerking", // Command button for submitting feedback
+            commentButtonTooltip: "Op dit rapporten reageren", // Tooltip for Comment button
+            galleryButtonLabel: "Gallery", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "Zie bijgesloten documenten", // Tooltip for command button shown in details panel
             mapButtonLabel: "Op kaart weergeven", // Command button shown in details panel
-            mapButtonTooltip: "Bekijk de locatie van dit rapport", // Tooltip for command button shown in details panel
+            mapButtonTooltip: "Bekijk de locatie van dit rapport", // Tooltip for Gallery button
             commentsListHeading: "Opmerkingen", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "Uw stem kan nu niet worden toegevoegd.", // Error message for feature unable to update
+            unableToUpdateVoteField: "Uw stem kan nu niet worden geteld.", // Error message for feature unable to update
             gotoIssueListTooltip: "Ga naar de meldlijst" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Stemmen op dit rapport" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Stemmen op dit rapport", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "Meer laden..." //Text for load more button
         },
         comment: {
-            commentsFormText: "Opmerking",
             commentsFormSubmitButton: "Opmerking verzenden",
             commentsFormCancelButton: "Annuleren",
             errorInSubmittingComment: "Reactie kon niet worden ingediend.", // Shown when user is unable to add comments
@@ -141,7 +141,7 @@ define(
             showNoText: "Nee" // Shown when comments character limit is exceeded
         },
         gallery: {
-            galleryHeaderText: "Galerij",
+            galleryHeaderText: "Gallery",
             noAttachmentsAvailableText: "Geen bijlagen gevonden" // Shown when no comments are available for the selected issue
         }
     })

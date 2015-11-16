@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "맵 정보" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "현재 영역에서 사용할 수 있는 보고서가 없음", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "피처를 찾을 수 없음", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "근처에서 피처를 찾을 수 없음", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "작업을 완료할 수 없음", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "기본 목록으로 이동", // Tooltip for back icon in list header
             gotoMapViewTooltip: "맵 보기" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "내 보고서", // Command button shown in mobile menu list
             signIn: "로그인", // Command button shown in mobile menu list and in appheader
             signOut: "로그아웃", // Command button shown in mobile menu list
-            help: "도움말", // Command button shown in mobile menu list
             signInTooltip: "로그인", // Tooltip to 'Sign in' option
             signOutTooltip: "로그아웃", // Tooltip  to 'Sign out' option
-            myReportTooltip: "내가 제출한 보고서 보기", // Tooltip  to 'My Reports' option
-            helpTooltip: "도움말" // Tooltip  to 'Help' option
+            myReportTooltip: "내 보고서 보기" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "세부정보", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "보고서의 위치를 선택하세요.", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}힌트:${closeStrong} 최소값 ${minValue} 및 최대값 ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}힌트:${closeStrong} 최소 날짜 ${minValue} 및 최대 날짜 ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "문제를 보고할 수 없음", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "보고서를 제출할 수 없음", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "첨부 파일이 선택됨", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "${total}개 중 ${failed}개 첨부 파일 업로드 실패", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "현재 위치를 사용할 수 없음",  // Shown when the browser returns an error instead of the current geographical position
@@ -114,23 +114,23 @@ define(
             noResultsFound: "보고서를 찾을 수 없음" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "좋아요", // Command button shown in details panel
-            likeButtonTooltip: "이 보고서에 투표",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "의견", // Command button shown in details panel
-            commentButtonTooltip: "이 보고서에 대한 의견", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "갤러리", // Command button shown in details panel
+            likeButtonLabel: "좋아요", // Command button for up-voting a report
+            likeButtonTooltip: "이 보고서에 투표",  // Tooltip for Like button
+            commentButtonLabel: "의견", // Command button for submitting feedback
+            commentButtonTooltip: "이 보고서에 대한 의견", // Tooltip for Comment button
+            galleryButtonLabel: "갤러리", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "첨부된 문서 보기", // Tooltip for command button shown in details panel
             mapButtonLabel: "맵에서 보기", // Command button shown in details panel
-            mapButtonTooltip: "이 보고서의 위치 보기", // Tooltip for command button shown in details panel
+            mapButtonTooltip: "이 보고서의 위치 보기", // Tooltip for Gallery button
             commentsListHeading: "의견", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "지금은 투표를 추가할 수 없습니다.", // Error message for feature unable to update
+            unableToUpdateVoteField: "지금은 투표를 계산할 수 없습니다.", // Error message for feature unable to update
             gotoIssueListTooltip: "보고서 목록으로 이동" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "이 보고서에 투표" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "이 보고서에 투표", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "추가로 불러오기..." //Text for load more button
         },
         comment: {
-            commentsFormText: "의견",
             commentsFormSubmitButton: "의견 제출",
             commentsFormCancelButton: "취소",
             errorInSubmittingComment: "의견을 제출할 수 없습니다.", // Shown when user is unable to add comments

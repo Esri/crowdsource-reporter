@@ -46,6 +46,7 @@ define([
         opLayersArr: [],
         isNoFeatureFound: null,
         selectedFeature: null,
+        relatedTables: [],
 
         /**
         * Initialize widget
@@ -57,7 +58,9 @@ define([
             this.itemsList = new ItemList({
                 "appConfig": this.appConfig,
                 "linkToMapView": false,
-                "isMyIssues": true
+                "appUtils": this.appUtils,
+                "isMyIssues": true,
+                "selectedLayer": this.selectedLayer
             }).placeAt(this.myIssuesListContainer);
 
             // Handles Click event on selected myIssues
@@ -140,12 +143,18 @@ define([
         * @memberOf widgets/my-issues/my-issues
         */
         _getOperationalLayers: function () {
-            var webmapOpLayerArr, layerResponseDef = [], i, j, index = 0, likeFlag = false;
+            var webmapOpLayerArr, layerResponseDef = [], i, j, k, index = 0, likeFlag = false;
+            this.relatedTables = [];
             // if web-map list found
             if (this.webmapList) {
                 // loop to iterate all the web-maps to fetch all the layers from web-maps
                 for (i = 0; i < this.webmapList.length; i++) {
                     webmapOpLayerArr = this.webmapList[i][1].itemInfo.itemData.operationalLayers;
+                    if (this.webmapList[i][1].itemInfo.itemData.tables) {
+                        for (k = 0; k < this.webmapList[i][1].itemInfo.itemData.tables.length; k++) {
+                            this.relatedTables.push(this.webmapList[i][1].itemInfo.itemData.tables[k]);
+                        }
+                    }
                     // loop to iterate layers from web-map and push into layerResponseDef array
                     for (j = webmapOpLayerArr.length - 1; j >= 0; j--) {
                         // add layer to opLayersArr array, if it has configured reported by field to identify creator of issue
@@ -348,7 +357,7 @@ define([
             // Sort by descending OID order
             features.sort(sortByOID);
             // loop to iterate all the feature and push the details of like, comment, gallary flag value
-            // also stores the webmap title , layerObject and layer title information in feature 
+            // also stores the webmap title , layerObject and layer title information in feature
             array.forEach(features, lang.hitch(this, function (currentFeature) {
                 currentFeature.webMapTitle = webmaptitle;
                 currentFeature.showLikes = likeFlag;
@@ -356,7 +365,8 @@ define([
                 currentFeature.layerId = opLayer.id;
                 currentFeature.layerTitle = opLayer.title;
                 currentFeature._layer = opLayer.layerObject;
-                // if attachment flag is true on layer then set gallary flag true 
+                currentFeature.originalFeature = currentFeature;
+                // if attachment flag is true on layer then set gallary flag true
                 // in features which will show gallry button in detail view
                 if (currentFeature._layer.hasAttachments && currentFeature._layer.infoTemplate && currentFeature._layer.infoTemplate.info && currentFeature._layer.infoTemplate.info.showAttachments) {
                     currentFeature.gallery = true;
@@ -364,15 +374,16 @@ define([
                     currentFeature.gallery = false;
                 }
 
-                // if relationships field exist on layer and in relationships table comment avilable 
+                // if relationships field exist on layer and in relationships table comment avilable
                 // and comment field given in configuration file then it will set comments flag true
                 // in feature set
-                if (this.appConfig.commentField && currentFeature && currentFeature._layer.relationships && currentFeature._layer.relationships.length > 0) {
+                if (currentFeature && currentFeature._layer.relationships && currentFeature._layer.relationships.length > 0) {
                     layerId = currentFeature._layer.relationships[0].relatedTableId;
                     lastIndex = currentFeature._layer.url.lastIndexOf('/');
                     layer = currentFeature._layer.url.substr(0, lastIndex + 1);
                     relatedTableURL = layer + layerId;
                     relatedTable = new FeatureLayer(relatedTableURL);
+                    this.itemInfos = this.itemInfo;
                     if (!relatedTable.loaded) {
                         on(relatedTable, "load", lang.hitch(this, function (evt) {
                             allFeaturesAray.push(this._relatedTableLoaded(evt.layer, currentFeature, featureDef));
@@ -400,16 +411,59 @@ define([
         * @memberOf widgets/my-issues/my-issues
         */
         _relatedTableLoaded: function (relatedTable, currentFeature, featureDef) {
-            var commentIconFlag = false, k;
-            // if the related table contains comment field set commentIconFlag to true
-            for (k = 0; k < relatedTable.fields.length; k++) {
-                if (relatedTable.fields[k].name === this.appConfig.commentField) {
-                    commentIconFlag = true;
-                    break;
+            var commentIconFlag = false, k, popupInfo = {};
+            this._commentPopupTable = null;
+            if (this.itemInfos && this.relatedTables.length > 0) {
+                //fetch comment popup table which will be used in creating comment form
+                array.some(this.relatedTables, lang.hitch(this, function (currentTable) {
+                    if (relatedTable && relatedTable.url) {
+                        if (currentTable.url === relatedTable.url && currentTable.popupInfo) {
+                            this._commentPopupTable = currentTable;
+                        }
+                    }
+                }));
+            }
+
+            //Check for the comment form configuration parameter and availability of commentField
+            if (this._commentPopupTable) {
+                if (!this.appConfig.usePopupConfigurationForComment) {
+                    popupInfo = {};
+                    popupInfo.fieldInfos = [];
+                    popupInfo.mediaInfos = [];
+                    popupInfo.showAttachments = false;
+                    popupInfo.title = "";
+                    for (k = 0; k < relatedTable.fields.length; k++) {
+                        if (relatedTable.fields[k].name === this.appConfig.commentField && relatedTable.fields[k].editable && relatedTable.fields[k].type === "esriFieldTypeString") {
+                            popupInfo.fieldInfos.push({
+                                fieldName: relatedTable.fields[k].name,
+                                format: null,
+                                isEditable: relatedTable.fields[k].editable,
+                                label: relatedTable.fields[k].alias,
+                                stringFieldOption: "textarea",
+                                tooltip: "",
+                                visible: true
+                            });
+                            popupInfo.description = "{" + this.appConfig.commentField + "}" + "\n <div class='commentRow'></div>";
+                            commentIconFlag = true;
+                            break;
+                        }
+                    }
+                    this._commentPopupTable.popupInfo = popupInfo;
+                } else {
+                    if (this._commentPopupTable.popupInfo) {
+                        // if popup information of related table has atleast one editable field comment flag will be set to true
+                        for (k = 0; k < this._commentPopupTable.popupInfo.fieldInfos.length; k++) {
+                            if (this._commentPopupTable.popupInfo.fieldInfos[k].isEditable) {
+                                commentIconFlag = true;
+                                break;
+                            }
+                        }
+                    }
                 }
             }
             currentFeature.commentFlag = commentIconFlag;
             currentFeature.relatedTable = relatedTable;
+            currentFeature.commentPopupTable = this._commentPopupTable;
             featureDef.resolve(currentFeature);
         },
 
@@ -423,8 +477,21 @@ define([
             actionVisibilities.like = item.showLikes;
             actionVisibilities.comment = item.commentFlag;
             actionVisibilities.commentTable = item.relatedTable;
+            actionVisibilities.commentPopupTable = item.commentPopupTable;
             actionVisibilities.gallery = item.gallery;
             return actionVisibilities;
+        },
+
+        /**
+        * update myissues widget and item list with current layer
+        * @param{item} operational layer object
+        * @memberOf widgets/my-issues/my-issues
+        */
+        updateLayer: function (selectedLayer) {
+            this.selectedLayer = selectedLayer;
+            if (this.itemsList) {
+                this.itemsList.selectedLayer = selectedLayer;
+            }
         }
 
     });

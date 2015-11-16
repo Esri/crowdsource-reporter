@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "Informations sur la carte" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "Aucun rapport n\'est disponible dans la zone actuelle", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "Aucune entité trouvée", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "Aucune entité trouvée à proximité de votre position", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "Impossible d\'exécuter l\'opération", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Accéder à la liste principale", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Vue cartographique" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "Mes rapports", // Command button shown in mobile menu list
             signIn: "Connexion", // Command button shown in mobile menu list and in appheader
             signOut: "Déconnexion", // Command button shown in mobile menu list
-            help: "Aide", // Command button shown in mobile menu list
             signInTooltip: "Connexion", // Tooltip to 'Sign in' option
             signOutTooltip: "Déconnexion", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Afficher les rapports que j\'ai envoyés", // Tooltip  to 'My Reports' option
-            helpTooltip: "Aide" // Tooltip  to 'Help' option
+            myReportTooltip: "Afficher mes rapports" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Détails", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "Sélectionnez l\'emplacement de votre rapport", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Astuce :${closeStrong} valeur minimale ${minValue} et valeur maximale ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Astuce :${closeStrong} date minimum ${minValue} et date maximum ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Impossible de signaler le problème", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "Impossible d\'envoyer le rapport", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "pièce(s) jointe(s) sélectionnée(s)", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "Echec du chargement de ${failed} sur ${total} pièce(s) jointe(s)", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Localisant actuel non disponible",  // Shown when the browser returns an error instead of the current geographical position
@@ -114,23 +114,23 @@ define(
             noResultsFound: "Aucun rapport trouvé" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Comme", // Command button shown in details panel
-            likeButtonTooltip: "Voter pour ce rapport",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "Commentaire", // Command button shown in details panel
-            commentButtonTooltip: "Commenter ce rapport", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "Bibliothèque", // Command button shown in details panel
+            likeButtonLabel: "Comme", // Command button for up-voting a report
+            likeButtonTooltip: "Voter pour ce rapport",  // Tooltip for Like button
+            commentButtonLabel: "Commentaire", // Command button for submitting feedback
+            commentButtonTooltip: "Commenter ce rapport", // Tooltip for Comment button
+            galleryButtonLabel: "Bibliothèque", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "Voir les documents joints", // Tooltip for command button shown in details panel
             mapButtonLabel: "Afficher sur la carte", // Command button shown in details panel
-            mapButtonTooltip: "Afficher l\'emplacement de ce rapport", // Tooltip for command button shown in details panel
+            mapButtonTooltip: "Afficher l\'emplacement de ce rapport", // Tooltip for Gallery button
             commentsListHeading: "Commentaires", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "Il est actuellement impossible d\'ajouter votre vote.", // Error message for feature unable to update
+            unableToUpdateVoteField: "Il est actuellement impossible de comptabiliser votre vote.", // Error message for feature unable to update
             gotoIssueListTooltip: "Accéder à la liste des rapports" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Votes pour ce rapport" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Votes pour ce rapport", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "Charger plus..." //Text for load more button
         },
         comment: {
-            commentsFormText: "Commentaire",
             commentsFormSubmitButton: "Envoyer un commentaire",
             commentsFormCancelButton: "Annuler",
             errorInSubmittingComment: "Impossible d\'envoyer le commentaire.", // Shown when user is unable to add comments

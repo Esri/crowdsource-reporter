@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "Информация карты" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "В текущей области нет доступных отчетов", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "Не найдены объекты", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "Не найдены объекты рядом", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "Невозможно завершить операцию", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Перейти в основной список", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Вид карты" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "Мои отчеты", // Command button shown in mobile menu list
             signIn: "Вход", // Command button shown in mobile menu list and in appheader
             signOut: "Выход", // Command button shown in mobile menu list
-            help: "Справка", // Command button shown in mobile menu list
             signInTooltip: "Вход", // Tooltip to 'Sign in' option
             signOutTooltip: "Выход", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Просмотреть отчеты, созданные мной", // Tooltip  to 'My Reports' option
-            helpTooltip: "Справка" // Tooltip  to 'Help' option
+            myReportTooltip: "Просмотреть мои отчеты" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Подробности", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,9 +87,9 @@ define(
             selectLocation: "Выберите местоположение для отчета", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Подсказка:${closeStrong} Минимальное значение ${minValue} и Максимальное значение ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Hint:${closeStrong} Минимальная дата ${minValue} и Максимальная дата ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Это не может быть отражено в отчете.", // Shown when there is an error in any of the services while submitting the geoform
-            attachmentSelectedMsg: "выбранное вложение(я)", // Shown besides the select file button indicating the number of files attached
-            attachmentUploadStatus: "${failed} из ${total} вложений(я) не удалось выгрузить.", // Shown when there is error while uploading the attachment, while submitting the geoform
+            errorsInApplyEdits: "Невозможно добавить отчет.", // Shown when there is an error in any of the services while submitting the geoform
+            attachmentSelectedMsg: "выбранные вложения", // Shown besides the select file button indicating the number of files attached
+            attachmentUploadStatus: "${failed} из ${total} вложений не удалось выгрузить.", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Текущее местоположение недоступно",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "Текущее местоположение вне экстента базовой карты",  // Shown when the current geographical position is out of the basemap extent
             submitButtonTooltip: "Отчет", // Command button to open the geoform
@@ -114,23 +114,23 @@ define(
             noResultsFound: "Отчеты не найдены." // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Like", // Command button shown in details panel
-            likeButtonTooltip: "Голосовать за этот отчет",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "Комментарий", // Command button shown in details panel
-            commentButtonTooltip: "Комментировать этот отчет", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "Галерея", // Command button shown in details panel
+            likeButtonLabel: "Like", // Command button for up-voting a report
+            likeButtonTooltip: "Голосовать за этот отчет",  // Tooltip for Like button
+            commentButtonLabel: "Комментарий", // Command button for submitting feedback
+            commentButtonTooltip: "Комментировать этот отчет", // Tooltip for Comment button
+            galleryButtonLabel: "Галерея", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "Просмотр вложенных документов", // Tooltip for command button shown in details panel
             mapButtonLabel: "Просмотр на карте", // Command button shown in details panel
-            mapButtonTooltip: "Просмотреть местоположение этого отчета", // Tooltip for command button shown in details panel
+            mapButtonTooltip: "Просмотреть местоположение этого отчета", // Tooltip for Gallery button
             commentsListHeading: "Комментарии", // List heading for Comments section in details panel
             unableToUpdateVoteField: "Ваш голос не может быть учтен сейчас.", // Error message for feature unable to update
             gotoIssueListTooltip: "Перейти к списку отчетов" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Число голосов отданных за отчет" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Число голосов отданных за отчет", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "Загрузить больше..." //Text for load more button
         },
         comment: {
-            commentsFormText: "Комментарий",
             commentsFormSubmitButton: "Отправить комментарий",
             commentsFormCancelButton: "Отменить",
             errorInSubmittingComment: "Комментарий не может быть добавлен.", // Shown when user is unable to add comments

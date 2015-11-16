@@ -28,20 +28,23 @@ define([
     'dojo/dom',
     'dojo/string',
     'dojo/topic',
+    'dojo/touch',
     'dojo/NodeList-dom',
     'dojo/Deferred',
     'esri/graphic',
+    'esri/dijit/PopupTemplate',
     'esri/tasks/query',
     'esri/tasks/QueryTask',
     'esri/tasks/RelationshipQuery',
     'dijit/layout/ContentPane',
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
-    'dojo/text!./templates/item-details-view.html'
-], function (declare, lang, arrayUtil, domConstruct, domStyle, domClass, domAttr, dojoQuery, on, dom, string, topic, nld, Deferred, Graphic, Query, QueryTask, RelationshipQuery,
+    'dojo/text!./templates/item-details-view.html',
+    "widgets/comment-form/comment-form"
+], function (declare, lang, arrayUtil, domConstruct, domStyle, domClass, domAttr, dojoQuery, on, dom, string, topic, touch, nld, Deferred, Graphic, PopupTemplate, Query, QueryTask, RelationshipQuery,
     ContentPane,
     _WidgetBase, _TemplatedMixin,
-    template) {
+    template, CommentForm) {
 
     return declare([_WidgetBase, _TemplatedMixin], {
         templateString: template,
@@ -49,6 +52,10 @@ define([
         baseClass: 'esriCTItemDetail',
         itemTitle: 'default title',
         characterLength: null,
+        tooltipHandler: null,
+        selectedLayer: null,
+        commentformInstance: null,
+        isCommentFormOpen: false,
         i18n: {
             likeButtonLabel: "Like",
             likeButtonTooltip: "Vote for this",
@@ -62,7 +69,6 @@ define([
             unableToUpdateVoteField: "Unable to Update the Feature",
             gotoIssueListTooltip: "Go To Issue List",
             comment: {
-                commentsFormText: "Comment",
                 commentsFormSubmitButton: "Submit Comment",
                 commentsFormCancelButton: "Cancel",
                 errorInSubmittingComment: "Comment could not be submitted.",
@@ -145,8 +151,10 @@ define([
         _addListeners: function () {
             var self = this;
             on(this.backIcon, 'click', lang.hitch(this, function (evt) {
-                domAttr.set(self.commentsTextArea, 'value', '');
-                this.onCancel(evt);
+                if (this.commentformInstance) {
+                    this.commentformInstance = null;
+                }
+                this.onCancel(self.item);
             }));
 
             on(this.likeButton, 'click', function () {
@@ -157,42 +165,14 @@ define([
 
             on(this.commentButton, 'click', function () {
                 topic.publish('getComment', self.item);
-                self._showPanel(self.commentsForm, self.commentButton, true);
+                self._createCommentForm(self.item);
+
             });
 
-            on(this.postCommentButton, 'click', function () {
-                self._submitComment(self.item);
-            });
-
-            on(this.cancelCommentButton, 'click', function () {
-                domAttr.set(self.commentsTextArea, 'value', '');
-                self._setTextAreaMaxLength();
-                self._showPanel(self.commentsForm, self.commentButton, false);
-            });
 
             on(this.mapItButton, 'click', function () {
                 domStyle.set(dom.byId("mapParentContainer"), "display", "block");
                 topic.publish("resizeMap");
-            });
-
-            // change event on textarea
-            on(this.commentsTextArea, "change", function (evt) {
-                self._calculateCharactersCount();
-            });
-
-            // keyup event on textarea
-            on(this.commentsTextArea, "keyup", function (evt) {
-                self._calculateCharactersCount();
-            });
-
-            // paste event on textarea
-            on(this.commentsTextArea, "paste", function (evt) {
-                self._calculateCharactersCount();
-            });
-
-            // cut event on textarea
-            on(this.commentsTextArea, "cut", function (evt) {
-                self._calculateCharactersCount();
             });
 
             on(this.galleryButton, 'click', function () {
@@ -218,10 +198,10 @@ define([
             var updateQuery, updateQueryTask, deferred = new Deferred();
             // Get the latest vote count from the server, not just the feature layer
             updateQuery = new Query();
-            updateQuery.objectIds = [item.attributes[item._layer.objectIdField]];
+            updateQuery.objectIds = [item.attributes[this.selectedLayer.objectIdField]];
             updateQuery.returnGeometry = false;
             updateQuery.outFields = [this.appConfig.likeField];
-            updateQueryTask = new QueryTask(item._layer.url);
+            updateQueryTask = new QueryTask(this.selectedLayer.url);
             updateQueryTask.execute(updateQuery, lang.hitch(this, function (results) {
                 var retrievedVotes;
                 if (results && results.features && results.features.length > 0) {
@@ -246,7 +226,7 @@ define([
             item.attributes[this.appConfig.likeField] = item.attributes[this.appConfig.likeField] + 1;
             // Update the item in the feature layer
             this.appUtils.showLoadingIndicator();
-            item._layer.applyEdits(null, [item], null, lang.hitch(this, function (updates) {
+            this.selectedLayer.applyEdits(null, [item], null, lang.hitch(this, function (updates) {
                 if (updates && updates.length > 0 && updates[0].error) {
                     this.appUtils.hideLoadingIndicator();
                     this.appUtils.showError(this.i18n.unableToUpdateVoteField);
@@ -271,23 +251,25 @@ define([
         * Sets the fields that are needed to display feature information in this list (number of votes).
         * Needs to be called before first setItems to tell the widget which fields to look for.
         * @param {string} votesField Name of votes property
-        * @param {array} commentFields Fields used by comment-entry form
+        * @param {object} instance of selected layer
         */
-        setItemFields: function (votesField, commentFields) {
+        setItemFields: function (votesField, selectedLayer) {
             this.votesField = votesField;
-            this.commentFields = commentFields;
+            this.selectedLayer = selectedLayer;
         },
 
         /**
         * Sets visibiltiy of like, comment and gallery buttons
         */
-        setActionsVisibility: function (settings, commentTable) {
+        setActionsVisibility: function (settings, commentTable, itemInfos, commentPopupTable) {
             this.actionVisibilities = {
                 "showVotes": settings.like,
                 "showComments": settings.comment,
                 "showGallery": settings.gallery
             };
             this._commentTable = commentTable;
+            this.itemInfos = itemInfos;
+            this.commentPopupTable = commentPopupTable;
         },
 
         /**
@@ -365,7 +347,7 @@ define([
             this.commentsHeading.innerHTML = '';
             this.itemCP.set('content', '');
             domClass.add(this.gallery, "esriCTHidden");
-            domClass.add(this.commentsForm, "esriCTHidden");
+            domClass.add(this.commentDetails, "esriCTHidden");
             arrayUtil.forEach(dojoQuery(".esriCTDetailButtonContainer"), lang.hitch(this, function (currentButton) {
                 domClass.remove(currentButton.children[0], "esriCTDetailButtonSelected");
             }));
@@ -373,6 +355,11 @@ define([
 
         _buildItemDisplay: function () {
             this.itemTitleDiv.innerHTML = this.itemTitle;
+            domAttr.set(this.itemTitleDiv, "title", this.itemTitle);
+            //Show popup on click/hover of layer title div
+            if (window.hasOwnProperty("ontouchstart") || window.ontouchstart !== undefined) {
+                this._createTooltip(this.itemTitleDiv, this.itemTitle);
+            }
             this.itemVotesDiv.innerHTML = this.itemVotes.label;
             domAttr.set(this.votesDetailContainer, "title", this.itemVotes.label + " " + this.i18n.likeButtonTooltip);
             if (this.actionVisibilities.showVotes && this.votesField) {
@@ -385,7 +372,12 @@ define([
             if (this.actionVisibilities.showComments) {
                 this._initCommentsDiv();
             }
-            this.itemCP.set('content', this.item.getContent());
+            //If property does not exsist, add it to the infotemplate
+            //Without this the set content of content pane gives an relationship error
+            if (this.item.infoTemplate && !this.item.infoTemplate.hasOwnProperty("_relatedLayersInfo")) {
+                this.item.infoTemplate["_relatedLayersInfo"] = {};
+            }
+            this.itemCP.set('content', this.item.originalFeature.getContent());
         },
 
         _showPanel: function (domNode, buttonNode, isScroll) {
@@ -403,59 +395,6 @@ define([
             }
         },
 
-        _submitComment: function (item) {
-            var featureData, attributes = {};
-            //Proceed if relatedTable and relationships is available, if not show error.
-            if (this._commentTable && this._commentTable.relationships.length > 0 && this._commentTable.relationships[0].keyField && item._layer.relationships[0].keyField) {
-                if (lang.trim(this.commentsTextArea.value) !== "") {
-                    // Create instance of graphic
-                    featureData = new Graphic();
-                    // create an empty array object
-                    attributes[this.appConfig.commentField] = lang.trim(this.commentsTextArea.value);
-                    attributes[this._commentTable.relationships[0].keyField] = item.attributes[item._layer.relationships[0].keyField];
-                    featureData.setAttributes(attributes);
-                    this.appUtils.showLoadingIndicator();
-                    this._commentTable.applyEdits([featureData], null, null, lang.hitch(this, function (result) {
-                        if (result[0].success && this.commentsTextArea.value !== "") {
-                            this._queryComments(item);
-                            // Assigning maxLength for Text area
-                            this._setTextAreaMaxLength();
-                            this.commentsTextArea.value = "";
-                            this._showPanel(this.commentsForm, this.commentButton, true);
-                        } else {
-                            // If comment container has no comment then show message and set the remaining text
-                            if (this.commentsTextArea.value === "") {
-                                this._setTextAreaMaxLength();
-                                alert(this.appConfig.i18n.comment.emptyCommentMessage);
-                                return;
-                            }
-                            // Assigning maxLength for textarea
-                            this._setTextAreaMaxLength();
-                            this.commentsTextArea.value = "";
-                            this.appUtils.showError(this.appConfig.i18n.comment.errorInSubmittingComment);
-                        }
-                        this.appUtils.hideLoadingIndicator();
-                    }), lang.hitch(this, function (err) {
-                        // Assigning maxLength for textarea
-                        this._setTextAreaMaxLength();
-                        this.commentsTextArea.value = "";
-                        this.appUtils.showError(this.appConfig.i18n.comment.errorInSubmittingComment);
-                        this.appUtils.hideLoadingIndicator();
-                    }));
-                } else {
-                    // Assigning  maxLength for textarea
-                    this._setTextAreaMaxLength();
-                    this.commentsTextArea.value = "";
-                    alert(this.appConfig.i18n.comment.emptyCommentMessage);
-                }
-            } else {
-                // Assigning maxLength for textarea
-                this._setTextAreaMaxLength();
-                this.commentsTextArea.value = "";
-                this.appUtils.showError(this.appConfig.i18n.comment.errorInSubmittingComment);
-            }
-        },
-
         _setComments: function (commentsArr) {
             arrayUtil.forEach(commentsArr, lang.hitch(this, this._buildCommentDiv));
         },
@@ -466,10 +405,15 @@ define([
         * getContent() on it
         */
         _buildCommentDiv: function (comment) {
-            domConstruct.create('div', {
-                'class': 'esriCTCommentsText',
-                'innerHTML': comment.attributes[this.appConfig.commentField]
+            var commentDiv;
+            commentDiv = domConstruct.create('div', {
+                'class': 'comment'
             }, this.commentsList);
+
+            new ContentPane({
+                'class': 'content small-text',
+                'content': comment.getContent()
+            }, commentDiv).startup();
         },
 
         /**
@@ -487,12 +431,15 @@ define([
         */
         _queryComments: function (item) {
             var updateQuery = new RelationshipQuery();
-            updateQuery.objectIds = [item.attributes[item._layer.objectIdField]];
+            updateQuery.objectIds = [item.attributes[this.selectedLayer.objectIdField]];
             updateQuery.returnGeometry = true;
             updateQuery.outFields = ["*"];
-            updateQuery.relationshipId = item._layer.relationships[0].id;
-            item._layer.queryRelatedFeatures(updateQuery, lang.hitch(this, function (results) {
-                var pThis = this, fset, features;
+            updateQuery.relationshipId = this.selectedLayer.relationships[0].id;
+            //Show loading indicator
+            this.appUtils.showLoadingIndicator();
+            this.selectedLayer.queryRelatedFeatures(updateQuery, lang.hitch(this, function (results) {
+                var pThis = this, fset, features, i;
+                // Function for descending-OID-order sort
                 // Function for descending-OID-order sort
                 function sortByOID(a, b) {
                     if (a.attributes[pThis._commentTable.objectIdField] > b.attributes[pThis._commentTable.objectIdField]) {
@@ -503,32 +450,35 @@ define([
                     }
                     return 0;  // a & b have same date, so relative order doesn't matter
                 }
-                fset = results[item.attributes[item._layer.objectIdField]];
+
+                fset = results[item.attributes[this.selectedLayer.objectIdField]];
                 features = fset ? fset.features : [];
+
+                if (features.length > 0) {
+                    // Sort by descending OID order
+                    features.sort(sortByOID);
+
+                    // Add the comment table popup
+                    for (i = 0; i < features.length; ++i) {
+                        features[i].setInfoTemplate(new PopupTemplate(this.commentPopupTable.popupInfo));
+                    }
+                }
                 this.clearComments();
                 if (features.length > 0) {
                     // Sort by descending OID order
                     features.sort(sortByOID);
-                    this._setComments(results[item.attributes[item._layer.objectIdField]].features);
+                    this._setComments(results[item.attributes[this.selectedLayer.objectIdField]].features);
                     domClass.add(this.noCommentsDiv, "esriCTHidden");
                 } else {
                     domClass.remove(this.noCommentsDiv, "esriCTHidden");
                     domAttr.set(this.noCommentsDiv, "innerHTML", this.appConfig.i18n.comment.noCommentsAvailableText);
                 }
-                // Getting character length from comments table
-                if (pThis._commentTable && pThis._commentTable.fields) {
-                    // Looping through the fields present in the related table for getting character length
-                    arrayUtil.forEach(pThis._commentTable.fields, function (currentField) {
-                        if (currentField.name === pThis.appConfig.commentField) {
-                            pThis.characterLength = currentField.length;
-                            // Assigning maxLength for textarea
-                            pThis._setTextAreaMaxLength();
-                        }
-                    });
-                }
-
+                //Hide loading indicator
+                this.appUtils.hideLoadingIndicator();
             }), lang.hitch(this, function (err) {
                 console.log(err.message || "queryRelatedFeatures");
+                //Hide loading indicator
+                this.appUtils.hideLoadingIndicator();
             }));
         },
 
@@ -567,7 +517,7 @@ define([
             var container, fieldContent, i, imageContent, imagePath, imageDiv = [];
             domConstruct.empty(this.gallery);
             this.appUtils.showLoadingIndicator();
-            item._layer.queryAttachmentInfos(item.attributes[item._layer.objectIdField], lang.hitch(this, function (infos) {
+            this.selectedLayer.queryAttachmentInfos(item.attributes[this.selectedLayer.objectIdField], lang.hitch(this, function (infos) {
                 container = domConstruct.create("div", {
                     "class": "esriCTDetailsContainer"
                 }, this.gallery);
@@ -660,6 +610,101 @@ define([
         */
         _openAttachment: function (evt) {
             window.open(evt.target.alt);
+        },
+
+        /**
+        * Instantiate comment-form widget
+        * @memberOf widgets/item-details-controller/item-details-controller
+        */
+        _createCommentForm: function (item) {
+            if (!this.commentformInstance) {
+                domConstruct.empty(this.commentDetails);
+                //Create new instance of CommentForm
+                this.commentformInstance = new CommentForm({
+                    config: this.appConfig,
+                    commentTable: this._commentTable,
+                    commentPopupTable: this.commentPopupTable,
+                    itemInfos: this.itemInfos,
+                    appUtils: this.appUtils,
+                    nls: this.i18n,
+                    item: item,
+                    selectedLayer: this.selectedLayer
+                }, domConstruct.create("div", {}, this.commentDetails));
+
+                //attach cancel button click event
+                this.commentformInstance.onCancelButtonClick = lang.hitch(this, function () {
+                    this._showPanel(this.commentDetails, this.commentButton, false);
+                    this.commentformInstance._clearFormFields();
+                    this.isCommentFormOpen = false;
+                    //Check if application is running on android devices, and show/hide the details panel
+                    //This resolves the jumbling of content in details panel on android devices
+                    if (this.appUtils.isAndroid()) {
+                        this.toggleDetailsPanel();
+                    }
+                });
+                this.commentformInstance.onCommentFormSubmitted = lang.hitch(this, function (item) {
+                    //close the comment form after submitting new comment
+                    this._showPanel(this.commentDetails, this.commentButton, false);
+                    this.commentformInstance._clearFormFields();
+                    this.isCommentFormOpen = false;
+                    //update comment list
+                    this._queryComments(item);
+                });
+            } else {
+                //Hide error message div, if it is visible
+                this.commentformInstance.clearHeaderMessage();
+            }
+            this._showPanel(this.commentDetails, this.commentButton, true);
+            //If Comment form is close, update the comment form open flag
+            if (domClass.contains(this.commentDetails, "esriCTHidden")) {
+                if (this.appUtils.isAndroid()) {
+                    this.toggleDetailsPanel();
+                }
+                this.isCommentFormOpen = false;
+            } else {
+                this.isCommentFormOpen = true;
+            }
+
+        },
+
+        /**
+        * Invoked when touch occurs on respective title
+        * @memberOf widgets/item-details-controller/item-details-controller
+        */
+        _createTooltip: function (node, title) {
+            domAttr.set(node, "data-original-title", title);
+            //Remove previous handle
+            if (this.tooltipHandler) {
+                this.tooltipHandler.remove();
+                if ($(node)) {
+                    $(node).tooltip("hide");
+                }
+            }
+            this.tooltipHandler = on(node, touch.press, lang.hitch(this, function (e) {
+                $(node).tooltip("toggle");
+                e.preventDefault();
+            }));
+            on(document, "click", lang.hitch(this, function () {
+                $(node).tooltip("hide");
+            }));
+
+            on(window, "resize", lang.hitch(this, function () {
+                $(node).tooltip("hide");
+            }));
+        },
+
+        /**
+        * Invoked when application is running in android devices
+        * Workaround for preventing jubmling of panel
+        * @memberOf widgets/item-details-controller/item-details-controller
+        */
+        toggleDetailsPanel: function () {
+            if (this.itemDetailsContainer) {
+                domStyle.set(this.itemDetailsContainer, "display", "none");
+                setTimeout(lang.hitch(this, function () {
+                    domStyle.set(this.itemDetailsContainer, "display", "block");
+                }), 100);
+            }
         }
     });
 });

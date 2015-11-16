@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "Πληροφορίες χάρτη" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "Δεν υπάρχουν διαθέσιμες αναφορές στην τρέχουσα περιοχή", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "Δεν βρέθηκαν στοιχεία", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "Δεν βρέθηκαν στοιχεία κοντά σας", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "Δεν είναι δυνατή η ολοκλήρωση της ενέργειας", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Μετάβαση στην κύρια λίστα", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Προβολή χάρτη" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "Οι αναφορές μου", // Command button shown in mobile menu list
             signIn: "Είσοδος", // Command button shown in mobile menu list and in appheader
             signOut: "Έξοδος", // Command button shown in mobile menu list
-            help: "Βοήθεια", // Command button shown in mobile menu list
             signInTooltip: "Εισέλθετε", // Tooltip to 'Sign in' option
             signOutTooltip: "Έξοδος", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Προβολή αναφορών που έχουν υποβληθεί από εμένα", // Tooltip  to 'My Reports' option
-            helpTooltip: "Βοήθεια" // Tooltip  to 'Help' option
+            myReportTooltip: "Προβολή των αναφορών μου" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "ΛΕΠΤΟΜΕΡΕΙΕΣ", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "Επιλέξτε τη θέση για την αναφορά σας", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Υπόδειξη:${closeStrong} ελάχιστη τιμή ${minValue} και μέγιστη τιμή ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Υπόδειξη:${closeStrong} ελάχιστη ημερομηνία ${minValue} και μέγιστη ημερομηνία ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Δεν ήταν δυνατή η αναφορά του ζητήματος", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "Δεν ήταν δυνατή η υποβολή της αναφοράς", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "συνημμένα επιλέχθηκαν", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "Απέτυχε η μεταφόρτωση ${failed} από ${total} συνημμένων", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Η τρέχουσα τοποθεσία δεν είναι διαθέσιμη",  // Shown when the browser returns an error instead of the current geographical position
@@ -114,23 +114,23 @@ define(
             noResultsFound: "Δεν βρέθηκαν αναφορές." // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Μου αρέσει", // Command button shown in details panel
-            likeButtonTooltip: "Ψηφίστε για αυτήν την αναφορά",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "Σχόλιο", // Command button shown in details panel
-            commentButtonTooltip: "Σχολιάστε αυτήν την αναφορά", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "ΣΥΛΛΟΓΗ", // Command button shown in details panel
+            likeButtonLabel: "Μου αρέσει", // Command button for up-voting a report
+            likeButtonTooltip: "Ψηφίστε για αυτήν την αναφορά",  // Tooltip for Like button
+            commentButtonLabel: "Σχόλιο", // Command button for submitting feedback
+            commentButtonTooltip: "Σχολιάστε αυτήν την αναφορά", // Tooltip for Comment button
+            galleryButtonLabel: "ΣΥΛΛΟΓΗ", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "Δείτε τα συνημμένα έγγραφα", // Tooltip for command button shown in details panel
             mapButtonLabel: "Προβολή στο χάρτη", // Command button shown in details panel
-            mapButtonTooltip: "Προβολή της τοποθεσίας αυτής της αναφοράς", // Tooltip for command button shown in details panel
+            mapButtonTooltip: "Προβολή της τοποθεσίας αυτής της αναφοράς", // Tooltip for Gallery button
             commentsListHeading: "Σχόλια", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "Δεν είναι δυνατή η προσθήκη της ψήφου σας αυτήν τη στιγμή.", // Error message for feature unable to update
+            unableToUpdateVoteField: "Δεν είναι δυνατή η μέτρηση της ψήφου σας αυτήν τη στιγμή.", // Error message for feature unable to update
             gotoIssueListTooltip: "Μετάβαση στη λίστα αναφορών" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Ψήφοι για αυτήν την αναφορά" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Ψήφοι για αυτήν την αναφορά", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "Φόρτωση περισσότερων δεδομένων..." //Text for load more button
         },
         comment: {
-            commentsFormText: "Σχόλιο",
             commentsFormSubmitButton: "Υποβολή σχολίου",
             commentsFormCancelButton: "Ακύρωση",
             errorInSubmittingComment: "Δεν ήταν δυνατή η υποβολή του σχολίου.", // Shown when user is unable to add comments

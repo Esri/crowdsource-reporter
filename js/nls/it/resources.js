@@ -54,7 +54,9 @@ define(
             infoBtnToolTip: "Informazioni mappa" // Command button to view the 'Map information'
         },
         issueWall: {
-            noResultsFound: "Nessun report disponibile nell\'area corrente", // Shown in the issue wall when no issues are present in the current map extent
+            noResultsFound: "Nessuna feature trovata", // Shown in the issue wall when no issues are present in layer
+            noResultsFoundInCurrentBuffer: "Nessuna feature trovata nelle vicinanze", // Shown in the issue wall when no issues are present in the current buffer extent
+            unableToFetchFeatureError: "Impossibile completare l\'operazione", // Shown in the issue wall when layer does not return any features and throws an error
             gotoWebmapListTooltip: "Vai all\'elenco principale", // Tooltip for back icon in list header
             gotoMapViewTooltip: "Vista mappa" // Tooltip for map-it icon in list header
         },
@@ -62,11 +64,9 @@ define(
             myReport: "I miei report", // Command button shown in mobile menu list
             signIn: "Accedi", // Command button shown in mobile menu list and in appheader
             signOut: "Esci", // Command button shown in mobile menu list
-            help: "Guida", // Command button shown in mobile menu list
             signInTooltip: "l\'accesso", // Tooltip to 'Sign in' option
             signOutTooltip: "Disconnetti", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Visualizza report inviati da me", // Tooltip  to 'My Reports' option
-            helpTooltip: "Guida" // Tooltip  to 'Help' option
+            myReportTooltip: "Visualizza i miei report" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Dettagli", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -87,7 +87,7 @@ define(
             selectLocation: "Selezionare la posizione del report", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Suggerimento:${closeStrong} Valore minimo ${minValue} e valore massimo ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Suggerimento:${closeStrong} Data minima ${minValue} e data massima ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Impossibile segnalare il problema", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "Impossibile inviare il rapporto", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "allegato/i selezionato/i", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "Impossibile caricare ${failed} di ${total} allegati", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Posizione corrente non disponibile",  // Shown when the browser returns an error instead of the current geographical position
@@ -114,23 +114,23 @@ define(
             noResultsFound: "Nessun report trovato" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Come", // Command button shown in details panel
-            likeButtonTooltip: "Vota per questo report",  // Tooltip for command button shown in details panel
-            commentButtonLabel: "Commento", // Command button shown in details panel
-            commentButtonTooltip: "Commenta questo report", // Tooltip for command button shown in details panel
-            galleryButtonLabel: "Galleria", // Command button shown in details panel
+            likeButtonLabel: "Come", // Command button for up-voting a report
+            likeButtonTooltip: "Vota per questo report",  // Tooltip for Like button
+            commentButtonLabel: "Commento", // Command button for submitting feedback
+            commentButtonTooltip: "Commenta questo report", // Tooltip for Comment button
+            galleryButtonLabel: "Galleria", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "Vedi documenti allegati", // Tooltip for command button shown in details panel
             mapButtonLabel: "Visualizza su mappa", // Command button shown in details panel
-            mapButtonTooltip: "Visualizza la posizione di questo report", // Tooltip for command button shown in details panel
+            mapButtonTooltip: "Visualizza la posizione di questo report", // Tooltip for Gallery button
             commentsListHeading: "Commenti", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "Impossibile aggiungere il voto al momento.", // Error message for feature unable to update
+            unableToUpdateVoteField: "Impossibile conteggiare il voto al momento.", // Error message for feature unable to update
             gotoIssueListTooltip: "Vai all\'elenco dei report" // Tooltip for back icon in Issue list header
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Voti per questo report" //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Voti per questo report", //Shown on hovering of the like icon in my-issues and issue-wall
+            loadMoreButtonText: "Carica altro..." //Text for load more button
         },
         comment: {
-            commentsFormText: "Commento",
             commentsFormSubmitButton: "Invia commento",
             commentsFormCancelButton: "Annulla",
             errorInSubmittingComment: "Impossibile inviare il commento.", // Shown when user is unable to add comments

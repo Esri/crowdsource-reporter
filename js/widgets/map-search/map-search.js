@@ -61,7 +61,6 @@ define([
 
 ) {
     return declare([_WidgetBase], {
-
         startup: function () {
             this.inherited(arguments);
         },
@@ -77,18 +76,26 @@ define([
         */
         createSearchButton: function (response, map, mapId, addGraphic, details) {
             var createSearchDiv, inputGroupButton, searchIconDiv, textSearch;
+            if (query(".esriCTMapSearchContainer")[0]) {
+                domConstruct.empty(query(".esriCTMapSearchContainer")[0]);
+            }
             // create search div
             createSearchDiv = domConstruct.create("div", { "class": "search", "id": "search" });
-            //domConstruct.place(createSearchDiv, query(".esriCTMapHomeButtonContainer", mapId)[0], "after");
             domConstruct.place(createSearchDiv, query(".esriCTMapGeoLocationContainer", mapId)[0], "after");
             // Initialize map serach widget
-            this.locatorSearch = new Locator({ "map": map, "config": this.config, "itemInfo": response.itemInfo.itemData, "layerId": details.operationalLayerId, "locatorContainer": dom.byId("search") });
+            this.locatorSearch = new Locator({ "map": map, "config": this.config, "itemInfo": response.itemInfo.itemData, "layerId": details.operationalLayerId, "locatorContainer": dom.byId("search"), "handleFeatureSearch": this.handleFeatureSearch });
 
             // function call on selection of search result
             this.basemapExtent = this.appUtils.getBasemapExtent(details.itemInfo.itemData.baseMap.baseMapLayers);
             this.newMap = map;
             this.countyLayer = new GraphicsLayer();
             this.newMap.addLayer(this.countyLayer);
+            this.locatorSearch.onFeatureSearchCompleted = lang.hitch(this, function (feature) {
+                this.onFeatureFound(feature);
+                if (query(".esriCTMapSearchContainer .input-group-btn")[0]) {
+                    this._collapseSerach(query(".esriCTMapSearchContainer .input-group-btn")[0]);
+                }
+            });
             this.locatorSearch.onLocationCompleted = lang.hitch(this, this._validateAddress);
             inputGroupButton = query(".esriCTMapSearchContainer .input-group-btn")[0];
             searchIconDiv = query(".esriCTMapSearchContainer .esriCTLocatorSearchButton ")[0];
@@ -169,7 +176,6 @@ define([
             }
             inputGroupButton = query(".esriCTMapSearchContainer .input-group-btn")[0];
             this._collapseSerach(inputGroupButton);
-
         },
 
         /**
@@ -227,6 +233,10 @@ define([
                 centerPoint = geometry.getExtent();
                 this.newMap.setExtent(centerPoint);
             }
+        },
+
+        onFeatureFound: function (feature) {
+            return feature;
         }
     });
 });

@@ -369,7 +369,7 @@ define([
                                 if (this.map._layers[layer].id !== obj.operationalLayerId) {
                                     this.map._layers[layer].hide();
                                 } else {
-                                    this.map._layers[layer].show();
+                                    this.map._layers[layer].hide();
                                     this.map.getLayer(obj.operationalLayerId).refresh();
                                     featureLayer = new FeatureLayer(this.map._layers[layer].url);
                                     this._onFeatureLayerLoad(featureLayer, obj.webMapId, obj.operationalLayerId, obj.operationalLayerDetails, obj.itemInfo);
@@ -418,6 +418,7 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         _onFeatureLayerLoad: function (featureLayer, webMapID, layerID, layerDetails, itemInfo) {
+            this.beforeOperationalLayerSelected();
             if (!featureLayer.loaded) {
                 on(featureLayer, "load", lang.hitch(this, function () {
                     this._featureLayerLoaded(webMapID, layerID, layerDetails, itemInfo);
@@ -510,25 +511,20 @@ define([
                 }
                 this.appUtils.hideLoadingIndicator();
             } else {
-                if (this.lastWebMapSelected !== webMapId) {
-                    this.setDefaultHeightOfContainers();
-                    this._selectWebMapItem(webMapId);
-                    operationalLayerId = domAttr.get(node, "operationalLayerID");
-                    this._createMap(webMapId, this.mapDivID).then(lang.hitch(this, function (evt) {
-                        var obj;
-                        this.lastSelectedWebMapExtent = evt.map.extent;
-                        obj = {
-                            "webMapId": webMapId,
-                            "operationalLayerId": operationalLayerId,
-                            "operationalLayerDetails": operationalLayerDetails,
-                            "itemInfo": evt.itemInfo
-                        };
-                        this._displaySelectedOperationalLayer(obj);
-                    }));
-                } else {
-                    this.onSelectedWebMapClicked(webMapId);
-                    this.appUtils.hideLoadingIndicator();
-                }
+                this.setDefaultHeightOfContainers();
+                this._selectWebMapItem(webMapId);
+                operationalLayerId = domAttr.get(node, "operationalLayerID");
+                this._createMap(webMapId, this.mapDivID).then(lang.hitch(this, function (evt) {
+                    var obj;
+                    this.lastSelectedWebMapExtent = evt.map.extent;
+                    obj = {
+                        "webMapId": webMapId,
+                        "operationalLayerId": operationalLayerId,
+                        "operationalLayerDetails": operationalLayerDetails,
+                        "itemInfo": evt.itemInfo
+                    };
+                    this._displaySelectedOperationalLayer(obj);
+                }));
             }
         },
 
@@ -590,7 +586,6 @@ define([
                     this.setDefaultHeightOfContainers();
                     this._selectWebMapItem(webMapId);
                     this._createMap(webMapId, this.mapDivID).then(lang.hitch(this, function (response) {
-                        var obj;
                         this.lastSelectedWebMapExtent = response.map.extent;
                         this.lastSelectedWebMapItemInfo = response.itemInfo;
                         obj = {
@@ -709,6 +704,15 @@ define([
                 }
             }
             return false;
+        },
+
+        /**
+        * This function is used to clear layers extent handler if it exists
+        * @param{object} pop-up info
+        * @memberOf widgets/webmap-list/webmap-list
+        */
+        beforeOperationalLayerSelected: function () {
+            return;
         }
     });
 });

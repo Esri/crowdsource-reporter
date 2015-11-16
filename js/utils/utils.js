@@ -25,6 +25,7 @@ define([
     "dojo/dom-class",
     "dojo/dom-attr",
     "dojo/on",
+    "dojo/has",
     "dojo/query",
     "dijit/_WidgetBase",
     "esri/dijit/LocateButton",
@@ -39,6 +40,7 @@ define([
     domClass,
     domAttr,
     on,
+    has,
     query,
     _WidgetBase,
     LocateButton,
@@ -174,9 +176,9 @@ define([
         },
 
         /**
-       * Create homebutton button on the map
-       * @memberOf utils/utils
-       */
+        * Create homebutton button on the map
+        * @memberOf utils/utils
+        */
         createHomeButton: function (map, parentNode) {
             var homeButton, createHomeButtonDiv;
             createHomeButtonDiv = domConstruct.create("div", { "class": "esriCTHomeButton" }, parentNode);
@@ -211,6 +213,37 @@ define([
         */
         onGeolocationComplete: function (event, addGraphic) {
             return event;
+        },
+
+        /* This function is used to display place holder text in search bar
+        * @memberOf utils/utils
+        */
+        displayPlaceHolderText: function (node, itemInfo) {
+            if (has("ie") === 9) {
+                if (lang.trim(node.value) === "") {
+                    node.value = itemInfo.itemData.applicationProperties.viewing.search.hintText;
+                    domClass.add(node, "esriCTPlaceholder");
+                }
+            }
+        },
+
+        /**
+        * This function is used to remove place holder text in search bar
+        * @memberOf widgets/utils/utils
+        */
+        removePlaceHolderText: function (node) {
+            if (domClass.contains(node, "esriCTPlaceholder")) {
+                node.value = "";
+                domClass.remove(node, "esriCTPlaceholder");
+            }
+        },
+
+        /**
+        * @memberOf utils/utils
+        */
+        isAndroid: function () {
+            var ua = navigator.userAgent.toLowerCase();
+            return ua.indexOf("android") > -1;
         }
     });
 });

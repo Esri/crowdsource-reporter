@@ -42,25 +42,25 @@ define([
         _currentPanel: null,
 
         /**
-         * Widget constructor
-         * @param {object} initialProps Initialization properties:
-         *     appConfig: Application configuration
-         * @constructor
-         */
+        * Widget constructor
+        * @param {object} initialProps Initialization properties:
+        *     appConfig: Application configuration
+        * @constructor
+        */
 
         /**
-         * Adds a panel to be controlled.
-         * @param {string} name Name to identify panel later on
-         * @param {object} widget Panel to show or hide
-         */
+        * Adds a panel to be controlled.
+        * @param {string} name Name to identify panel later on
+        * @param {object} widget Panel to show or hide
+        */
         addPanel: function (name, widget) {
             this._panels[name] = widget;
         },
 
         /**
-         * Switches to the specified panel.
-         * @param {string} name Name identifying panel when it was added via addPanel
-         */
+        * Switches to the specified panel.
+        * @param {string} name Name identifying panel when it was added via addPanel
+        */
         showPanel: function (name) {
             if (this._currentPanel) {
                 this._currentPanel.hide();
@@ -68,26 +68,43 @@ define([
             this._currentPanelName = name;
             this._currentPanel = this._panels[name];
             this._currentPanel.show();
+            this._panelSelected(name);
         },
 
         /**
-         * Returns the name of the current panel.
-         * @return {string} Name or, if showPanel has not yet been called, null
-         */
+        * Returns the name of the current panel.
+        * @return {string} Name or, if showPanel has not yet been called, null
+        */
         getCurrentPanelName: function () {
             return this._currentPanelName;
         },
 
         /**
-         * Sets the display of the controller's busy display.
-         * @param {boolean} show Shows the busy display if true
-         */
+        * Sets the display of the controller's busy display.
+        * @param {boolean} show Shows the busy display if true
+        */
         showBusy: function (show) {
             if (show) {
                 domStyle.set(this.detailLoadingIndicator, "display", "block");
             } else {
                 domStyle.set(this.detailLoadingIndicator, "display", "none");
             }
+        },
+
+        /**
+        * Return current open panels name
+        * @param {string} panel name
+        */
+        onPanelShown: function (name) {
+            return name;
+        },
+
+        /**
+        * Return current open panels name
+        * @param {string} panel name
+        */
+        _panelSelected: function (name) {
+            this.onPanelShown(name);
         }
 
     });
