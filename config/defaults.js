@@ -80,7 +80,7 @@ define({
 
     "submitMessage": "Thank you! Your report has been submitted.",
     "likeField": "NUMVOTES",
-    "commentField": "comments",
+    "commentField": "COMMENTS",
     "usePopupConfigurationForComment":false,
     "reportedByField": "USERID",
 
@@ -94,7 +94,7 @@ define({
     "enableHelp":true,
     "helpLinkText": "Help",
     "helpDialogTitle":"Help Page",
-    "helpDialogContent": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    "bufferRadius": 1, //Buffer radius will be used to create inital buffer on applicaiton load
+    "helpDialogContent": "<p>Crowdsource Reporter is a configurable gallery application template that allows users to submit problems or observations. The application has been optimized for smartphones but is responsively designed to be used on smartphones, tablets, and desktop computers.</p><p>The Crowdsource Reporter application presents one or more maps that can be used to report a problem or observation. Users can anonymously submit new reports, review existing reports, and comment and vote on reports or observations submitted by other users. They also can authenticate with their social media or ArcGIS Online credentials and track the status of problems or observations they have reported.</p>",
+    "bufferRadius": 3, //Buffer radius will be used to create inital buffer on applicaiton load
     "bufferUnit": "miles"
 });
