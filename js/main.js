@@ -140,6 +140,7 @@ define([
         basemapExtent: null,
         maxBufferLimit: 0,
         geolocationgGraphicsLayer: null,
+        _isWebmapListRequired: true,
         startup: function (boilerPlateTemplateObject, loggedInUser) {
             // config will contain application and user defined info for the template such as i18n strings, the web map id
             // and application id
@@ -207,6 +208,12 @@ define([
                 this._loadGroupItems(queryParams);
             } else {
                 this.appUtils.showError("Main:: Config is not defined");
+            }
+
+            //If application is running in RTL mode, change the class of sidebar container
+            if (this.config.i18n.direction === "rtl") {
+                domClass.replace(dom.byId("sideContainer"), "esriCTBorderRight", "esriCTBorderLeft");
+                domClass.replace(dom.byId("geoformContainer"), "esriCTBorderRight", "esriCTBorderLeft");
             }
         },
 
@@ -457,7 +464,11 @@ define([
                     this._myIssuesWidget.itemsList.clearSelection();
                     this._myIssuesWidget.itemsList.refreshList();
                     this._isMyIssues = false;
-                    this._sidebarCnt.showPanel("webMapList");
+                    if (this._isWebmapListRequired) {
+                        this._sidebarCnt.showPanel("webMapList");
+                    } else {
+                        this._sidebarCnt.showPanel("issueWall");
+                    }
                 });
                 this._myIssuesWidget.onItemSelected = lang.hitch(this, function (selectedFeature) {
                     this.appUtils.showLoadingIndicator();
@@ -558,6 +569,14 @@ define([
                     if (this._issueWallWidget && this._issueWallWidget.extentChangeHandler) {
                         this._issueWallWidget.extentChangeHandler.remove();
                     }
+                });
+
+                //Hide webmap list if single webmap with single layer is obtained through query
+                this._webMapListWidget.singleWebmapFound = lang.hitch(this, function () {
+                    domStyle.set(dom.byId("toggleListViewButton"), "display", "none");
+                    //keep flag to indentify the status of webmap list
+                    this._isWebmapListRequired = false;
+                    this._sidebarCnt.hidePanel("webMapList");
                 });
 
                 //handel on map updated event
@@ -683,6 +702,7 @@ define([
             if (!this._issueWallWidget) {
                 data.appConfig = this.config;
                 data.appUtils = this.appUtils;
+                data.appUtils.isWebmapListRequired = this._isWebmapListRequired;
                 data.featureLayerCount = this.featureLayerCount;
                 data.layerGraphicsArray = this.layerGraphicsArray;
                 if (this.geoLocationPoint) {
@@ -747,6 +767,10 @@ define([
                     this._itemSelected(selectedFeature, true);
                 });
                 this._sidebarCnt.addPanel("issueWall", this._issueWallWidget);
+                //If single webmap with single layer is found, directly show issue list
+                if (this._isWebMapListLoaded && !this._isWebmapListRequired) {
+                    this._sidebarCnt.showPanel("issueWall");
+                }
             } else {
                 data.featureLayerCount = this.featureLayerCount;
                 data.layerGraphicsArray = this.layerGraphicsArray;
@@ -1349,11 +1373,14 @@ define([
                 countQuery.where = "1=1";
             }
             queryTask.executeForIds(countQuery, lang.hitch(this, function (results) {
-                this.featureLayerCount = results.length;
+                //If server returns null values, set feature layer count to 0 and proceed
+                this.featureLayerCount = results && results.length ? results.length : 0;
                 //If geolocation exsists create configurable buffer and fetch the features
                 if (this.config.geolocation) {
                     this._createBufferParameters(featureLayer, details, false);
                 } else {
+                    // Some layers return NULL if no feature are present, to handle that simply assign empty array to results 
+                    if (!results) { results = []; }
                     //Sort obtained object ids in descending order
                     results.sort(function (a, b) {
                         return b - a;
@@ -1611,7 +1638,6 @@ define([
             if (this._selectedMapDetails && this._selectedMapDetails.map && this._selectedMapDetails.map.infoWindow) {
                 this._selectedMapDetails.map.infoWindow.clearFeatures();
             }
-            // this._itemDetails.setActionsVisibility(true, true, details.map._layers[details.operationalLayerId].hasAttachments);
             // Highlight feature when user clicks on locate issue on map icon from issue wall
             // If graphics layer is already added on the map, clear it else add a graphic layer on map
             if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
