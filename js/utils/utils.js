@@ -218,10 +218,13 @@ define([
         /* This function is used to display place holder text in search bar
         * @memberOf utils/utils
         */
-        displayPlaceHolderText: function (node, itemInfo) {
+        displayPlaceHolderText: function (node, itemInfo, nls) {
             if (has("ie") === 9) {
-                if (lang.trim(node.value) === "") {
+                if (lang.trim(node.value) === "" && itemInfo.itemData.applicationProperties.viewing.search && itemInfo.itemData.applicationProperties.viewing.search.hintText) {
                     node.value = itemInfo.itemData.applicationProperties.viewing.search.hintText;
+                    domClass.add(node, "esriCTPlaceholder");
+                } else {
+                    node.value = nls.locator.locatorPlaceholder;
                     domClass.add(node, "esriCTPlaceholder");
                 }
             }

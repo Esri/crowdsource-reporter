@@ -160,11 +160,11 @@ define([
                 this.locator.onLocationCompleted = lang.hitch(this, this._validateAddress);
                 //Set placeholder text on load, if application is running in IE9
                 if (has("ie") === 9) {
-                    this.appUtils.displayPlaceHolderText(this.locator.txtSearch, response.itemInfo);
+                    this.appUtils.displayPlaceHolderText(this.locator.txtSearch, response.itemInfo, this.config.i18n);
                 }
                 on(this.locator.txtSearch, "blur", lang.hitch(this, function () {
                     if (has("ie") === 9) {
-                        this.appUtils.displayPlaceHolderText(this.locator.txtSearch, response.itemInfo);
+                        this.appUtils.displayPlaceHolderText(this.locator.txtSearch, response.itemInfo, this.config.i18n);
                     }
                 }));
                 on(this.locator.txtSearch, "focus", lang.hitch(this, function () {
@@ -174,7 +174,7 @@ define([
                 }));
                 on(this.locator.close, "click", lang.hitch(this, function () {
                     if (has("ie") === 9) {
-                        this.appUtils.displayPlaceHolderText(this.locator.txtSearch, response.itemInfo);
+                        this.appUtils.displayPlaceHolderText(this.locator.txtSearch, response.itemInfo, this.config.i18n);
                     }
                 }));
                 // create geoLocation Button
@@ -1296,6 +1296,7 @@ define([
                     if (this.defaultValueArray[index].id === currentInput.id) {
                         if (this.defaultValueArray[index].type === "esriFieldTypeDate" || this.defaultValueArray[index].type === "range") {
                             domClass.add(currentInput.parentElement.parentElement, "has-success");
+                            $(currentInput.parentElement).data('DateTimePicker').setValue(this.defaultValueArray[index].defaultValue);
                         } else {
                             domClass.add(currentInput.parentElement, "has-success");
                         }

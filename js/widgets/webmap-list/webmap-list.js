@@ -133,6 +133,10 @@ define([
                 this._filterWebMaps(response);
                 // if atleast 1 web-map is available than display it
                 if (this.filteredWebMapResponseArr.length > 0) {
+                    //Check if query returns single webmap with single layer
+                    if ((this.filteredWebMapResponseArr.length === 1) && (this.filteredWebMapResponseArr[0][1].itemInfo.itemData.operationalLayers.length === 1)) {
+                        this.singleWebmapFound();
+                    }
                     this._createMap(this.filteredWebMapResponseArr[0][1].itemInfo.item.id, this.mapDivID).then(lang.hitch(this, function (response) {
                         this.lastSelectedWebMapExtent = response.map.extent;
                         this.lastSelectedWebMapItemInfo = response.itemInfo;
@@ -712,6 +716,14 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         beforeOperationalLayerSelected: function () {
+            return;
+        },
+
+        /**
+        * This function is called when selected group has single webmap with single layer
+        * @memberOf widgets/webmap-list/webmap-list
+        */
+        singleWebmapFound: function () {
             return;
         }
     });

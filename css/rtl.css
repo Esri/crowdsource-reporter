@@ -44,3 +44,122 @@
 }
 
 /*RTL support for help dialog*/
+
+/* RTL for Application Header*/
+
+.dj_rtl .esriCTHomeIcon
+{
+    float: right !important;
+}
+
+.dj_rtl .esriCTMenuTabRight 
+{
+    float: left !important;
+}
+
+.dj_rtl .esriCTOptions 
+{
+    right:auto !important;
+    left:60px;
+}
+
+.dj_rtl .esriCTMenuTabLeft 
+{
+    padding: 5px 5px 5px 15px !important;
+}
+
+/* End of RTL for Application Header*/
+
+/* RTL for side bar container */
+
+.dj_rtl #sideContainer, .dj_rtl .esriCTInfoImg, .dj_rtl .esriCTVotesDetails, .dj_rtl .esriCTItemFav 
+{
+    float:left !important;
+}
+
+.dj_rtl #mapParentContainer, .dj_rtl .esriCTHeaderText, .dj_rtl .esriCTDesktopIcons, .dj_rtl .esriCTReportButtonIcon 
+{
+    float: right !important;
+}
+
+.dj_rtl .esriCTItemDetail .esriCTItemDetailHeader 
+{
+    padding: 10px 10px 0 10px;
+}
+
+.dj_rtl .esriCTDetailsNoResult 
+{
+    padding: 5px 10px 5px 10px;
+}
+
+.dj_rtl .esriCTItemDetail .esriCTTtemDescription, .dj_rtl .esriCTItemDescFooter, .dj_rtl .esriCTDetailsPanel    
+{
+    float: none !important;
+    
+}
+
+.dj_rtl .esriCTGeoFormParentContainer 
+{
+    left:auto;
+    right: 70%;
+}
+
+.dj_rtl .esriCTItemVotes {
+    float: right;
+    text-align: left;
+}
+
+.dj_rtl .esriCTMobileBurgerIcon {
+    padding: 14px 35px 16px 16px;
+}
+
+.dj_rtl .esriCTInfoLoader 
+{
+    margin-left:auto;
+    left:12px;
+}
+
+.dj_rtl .esriCTMobileMenuHeader 
+{
+    padding: 0px;
+}
+
+.dj_rtl .esriCTMultiLineEllipsisdiv 
+{
+    margin-right: 15px;
+}
+
+/* End of RTL for side bar container */
+
+/* RTL for Geoform */
+
+.dj_rtl .esriCTHeaderMessageDiv .close 
+{
+    float:left;
+}
+
+/* End of RTL for Geoform */
+
+/* RTL for Details panel */
+
+.dj_rtl .esriCTItemDescFooter 
+{
+    padding: 0 10px 10px 10px;
+    margin-bottom: 0px;
+}
+
+.dj_rtl .esriCTGalleryButton, .dj_rtl .esriCTCancelCommentButton
+{
+    float: left !important;
+}
+
+/* End of RTL for Details panel */
+
+@media only screen and (max-width: 767px)
+{
+    .dj_rtl .esriCTGeoFormParentContainer
+    {
+        right: 0;
+    }
+    
+}
