@@ -880,12 +880,14 @@ define([
                     if (this.defaultValueArray[index].id === currentInput.id) {
                         if (this.defaultValueArray[index].type === "esriFieldTypeDate" || this.defaultValueArray[index].type === "range") {
                             domClass.add(currentInput.parentElement.parentElement, "has-success");
-                            $(currentInput.parentElement).data('DateTimePicker').setValue(this.defaultValueArray[index].defaultValue);
                         } else {
                             domClass.add(currentInput.parentElement, "has-success");
                         }
                         if (!domClass.contains(currentInput, "selectDomain")) {
                             domAttr.set(currentInput, "value", this.defaultValueArray[index].defaultValue);
+                        }
+                        if (this.defaultValueArray[index].type === "esriFieldTypeDate") {
+                            $(currentInput.parentElement).data('DateTimePicker').setValue(this.defaultValueArray[index].defaultValue);
                         }
                     }
                 }
