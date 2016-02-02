@@ -1,6 +1,6 @@
 {
     "values": {
-        "group": "758a315597a6461fbe2430a9e1828c6f",
+        "group": "520b1bd79fa74f0f9f3d13315dab6915",
         "theme": "#137DB9",
         "signInSubtitle": "",
         "signInBackgroundImage": "/images/signinbg.png",
