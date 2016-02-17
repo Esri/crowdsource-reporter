@@ -114,7 +114,7 @@ define(
             noResultsFound: "Nenhum relatório localizado" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Como", // Command button for up-voting a report
+            likeButtonLabel: "Curtir", // Command button for up-voting a report
             likeButtonTooltip: "Vote por este relatório",  // Tooltip for Like button
             commentButtonLabel: "Comentário", // Command button for submitting feedback
             commentButtonTooltip: "Comente sobre este relatório", // Tooltip for Comment button
