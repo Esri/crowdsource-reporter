@@ -43,5 +43,6 @@ dojoConfig = {
     }, {
         name: "vendor",
         location: root + '/js/vendor'
-    }]
+    }],
+    locale: decodeURIComponent((new RegExp('[?|&]' + 'locale' + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ''])[1].replace(/\+/g, '%20')) || null
 };

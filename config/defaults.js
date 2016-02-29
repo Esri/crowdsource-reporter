@@ -17,12 +17,14 @@
  */
 define({
     //Default configuration settings for the application. This is where you'll define things like a bing maps key,
-    //default group, default app color theme and more. These values can be overwritten by template configuration settings and url parameters.
+    //default web map, default app color theme and more. These values can be overwritten by template configuration settings and url parameters.
     "appid": "",
+    "webmap": "",
     "oauthappid": null,
     //Group templates must support a group url parameter. This will contain the id of the group.
-    "group": "758a315597a6461fbe2430a9e1828c6f",
-    //Enter the url to the proxy if needed by the application
+    "group": "520b1bd79fa74f0f9f3d13315dab6915",
+    //Enter the url to the proxy if needed by the application. See the 'Using the proxy page' help topic for details
+    //http://developers.arcgis.com/en/javascript/jshelp/ags_proxy.html
     "proxyurl": "proxy.ashx",
     //Example of a template specific property. If your template had several color schemes
     //you could define the default here and setup configuration settings to allow users to choose a different
@@ -31,16 +33,24 @@ define({
     "bingKey": "", //Enter the url to your organizations bing maps key if you want to use bing basemaps
     //Defaults to arcgis.com. Set this value to your portal or organization host name.
     "sharinghost": location.protocol + "//" + "arcgis.com",
-    //HelperServices url
+    "units": null,
+    //If your applcation needs to edit feature layer fields set this value to true. When false the map will
+    //be dreated with layers that are not set to editable which allows the FeatureLayer to load features optimally. 
+    "editable": false,
     "helperServices": {
-        "geometry": {
-            "url": null
-        },
-        "geocode": [{
-            "url": null
-        }]
-    },
-
+     "geometry": {
+       "url": null
+     },
+     "printTask": {
+       "url": null
+     },
+     "elevationSync": {
+       "url": null
+     },
+     "geocode": [{
+       "url": null
+         }]
+  },
     "applicationName": "",
     "applicationIcon": "",
     "applicationFavicon": "/images/favicon.ico",
@@ -80,7 +90,7 @@ define({
 
     "submitMessage": "Thank you! Your report has been submitted.",
     "likeField": "NUMVOTES",
-    "commentField": "comments",
+    "commentField": "COMMENTS",
     "usePopupConfigurationForComment":false,
     "reportedByField": "USERID",
 
@@ -94,7 +104,7 @@ define({
     "enableHelp":true,
     "helpLinkText": "Help",
     "helpDialogTitle":"Help Page",
-    "helpDialogContent": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    "bufferRadius": 1, //Buffer radius will be used to create inital buffer on applicaiton load
+    "helpDialogContent": "<p>Crowdsource Reporter is a configurable gallery application template that allows users to submit problems or observations. The application has been optimized for smartphones but is responsively designed to be used on smartphones, tablets, and desktop computers.</p><p>The Crowdsource Reporter application presents one or more maps that can be used to report a problem or observation. Users can anonymously submit new reports, review existing reports, and comment and vote on reports or observations submitted by other users. They also can authenticate with their social media or ArcGIS Online credentials and track the status of problems or observations they have reported.</p>",
+    "bufferRadius": 3, //Buffer radius will be used to create inital buffer on applicaiton load
     "bufferUnit": "miles"
 });

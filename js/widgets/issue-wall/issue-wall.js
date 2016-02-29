@@ -70,6 +70,11 @@ define([
                 "appUtils": this.appUtils,
                 "linkToMapView": true
             }).placeAt(this.listContainer); // placeAt triggers a startup call to _itemsList
+            
+            //If webmap list is not required, we need to hide the back button
+            if (!this.appUtils.isWebmapListRequired) {
+                domStyle.set(this.listBackButton, "display", "none");
+            }
 
             this.itemsList.summaryClick = lang.hitch(this, function (self, feat, evt) {
                 this.onItemSelected(feat);

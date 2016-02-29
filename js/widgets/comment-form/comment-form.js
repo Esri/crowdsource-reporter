@@ -445,7 +445,7 @@ define([
                         // set default value and id to the array
                         this.defaultValueArray.push({ defaultValue: rangeDefaultDate, id: this.inputContent.id, type: currentField.type });
                     } else {
-                        ////Check if todays date falls between minimum and maximum date
+                        //Check if todays date falls between minimum and maximum date
                         if (currentField.domain.maxValue > Date.now() && currentField.domain.minValue < Date.now()) {
                             currentSelectedDate = Date.now();
                             $(inputRangeDateGroupContainer).data("DateTimePicker").setDate(moment(Date.now()).format($(inputRangeDateGroupContainer).data("DateTimePicker").format));
@@ -885,6 +885,9 @@ define([
                         }
                         if (!domClass.contains(currentInput, "selectDomain")) {
                             domAttr.set(currentInput, "value", this.defaultValueArray[index].defaultValue);
+                        }
+                        if (this.defaultValueArray[index].type === "esriFieldTypeDate") {
+                            $(currentInput.parentElement).data('DateTimePicker').setValue(this.defaultValueArray[index].defaultValue);
                         }
                     }
                 }

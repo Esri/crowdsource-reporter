@@ -67,7 +67,7 @@ Learn more about Esri's [ArcGIS for Local Government maps and apps][].
 
 Show me a list of other [Local Government GitHub repositories][].
 
-This application uses the 3.15 version of [Esri's ArcGIS API for JavaScript][]; see the site for concepts, samples, and a reference for using the API to create mapping web sites.
+This application uses the 3.16 version of [Esri's ArcGIS API for JavaScript][]; see the site for concepts, samples, and a reference for using the API to create mapping web sites.
 
 [Esri's ArcGIS Online Help][] site describes how to create web maps and web map applications in the ArcGIS Online ecosystem.
 
@@ -91,5 +91,5 @@ Unless required by applicable law or agreed to in writing, software distributed 
 
 A copy of the license is available in the repository's [LICENSE.txt][] file.
 
-[](Esri Tags: Local-Government Local Government Online Apps Constituent Engagement)
+[](Esri Tags: ArcGISSolutions State-Government Local-Government State Local Government Online Apps Constituent Engagement)
 [](Esri Language: JavaScript)

@@ -72,6 +72,14 @@ define([
         },
 
         /**
+        * Hide specified panel
+        * @param {string} name Name identifying panel that should be closed
+        */
+        hidePanel: function (name) {
+            this._panels[name].hide();
+        },
+
+        /**
         * Returns the name of the current panel.
         * @return {string} Name or, if showPanel has not yet been called, null
         */
