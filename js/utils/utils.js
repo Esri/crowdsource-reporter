@@ -29,7 +29,9 @@ define([
     "dojo/query",
     "dijit/_WidgetBase",
     "esri/dijit/LocateButton",
-    "esri/dijit/HomeButton"
+    "esri/dijit/HomeButton",
+    "esri/tasks/locator",
+    "esri/geometry/webMercatorUtils"
 ], function (
     declare,
     dom,
@@ -44,7 +46,9 @@ define([
     query,
     _WidgetBase,
     LocateButton,
-    HomeButton
+    HomeButton,
+    Locator,
+    webMercatorUtils
 ) {
     return declare([_WidgetBase], {
         showLoadingIndicator: function () {
@@ -247,6 +251,28 @@ define([
         isAndroid: function () {
             var ua = navigator.userAgent.toLowerCase();
             return ua.indexOf("android") > -1;
+        },
+
+        /**
+        * This function is used create geocoder object based on the portal settings
+        * @memberOf widgets/utils/utils
+        */
+        createGeocoderInstance: function () {
+            //Default geocoder url
+            var geocodeURL = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";
+            if (this.config.helperServices && this.config.helperServices.geocode && this.config.helperServices.geocode[0] && this.config.helperServices.geocode[0].url) {
+                geocodeURL = this.config.helperServices.geocode[0].url;
+            }
+            //create the locator instance to reverse geocode the address
+            this.locatorInstance = new Locator(geocodeURL);
+            //Listen for location to address complete event
+            this.locatorInstance.on("location-to-address-complete", lang.hitch(this, function (result) {
+                this.onLocationToAddressComplete(result);
+            }));
+            //Listen for error in locator
+            this.locatorInstance.onError = lang.hitch(this, function (err) {
+                this.onLocationToAddressFailed(err);
+            });
         }
     });
 });

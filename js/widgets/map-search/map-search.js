@@ -176,6 +176,7 @@ define([
             }
             inputGroupButton = query(".esriCTMapSearchContainer .input-group-btn")[0];
             this._collapseSerach(inputGroupButton);
+            this.onAddressClicked(geometry);
         },
 
         /**

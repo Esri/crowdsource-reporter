@@ -114,6 +114,11 @@ define([
                 domStyle.set(this.signinBgImage, "backgroundImage", 'url(' + dojoConfig.baseURL + this._config.signInBackgroundImage + ')');
             }
 
+            //If guest login is disabled from configuration, make sure we are not showing it on login screen
+            if (!this._config.enableGuestAccess) {
+                domStyle.set(this.signInGuestButtonContainer, "display", "none");
+            }
+
             domAttr.set(this.signinOrText, "innerHTML", this._config.i18n.signin.signInOrText);
             domAttr.set(this.signinOrText, "title", this._config.i18n.signin.signInOrText);
             domAttr.set(this.signinGuestButton, "title", this._config.i18n.signin.guestLoginTooltip);

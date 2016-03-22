@@ -17,7 +17,9 @@
  */
 define([
     "dojo/_base/declare",
+    "dojo/_base/kernel",
     "dojo/_base/lang",
+    "dojo/date/locale",
     "dijit/_WidgetBase",
     "dijit/_TemplatedMixin",
     "dojo/dom-construct",
@@ -36,13 +38,14 @@ define([
     "esri/layers/GraphicsLayer",
     "esri/graphic",
     "esri/toolbars/draw",
+    "esri/geometry/webMercatorUtils",
     "esri/symbols/SimpleLineSymbol",
     "esri/symbols/SimpleFillSymbol",
     "esri/symbols/SimpleMarkerSymbol",
     "esri/geometry/Polygon",
     "widgets/locator/locator",
     "widgets/bootstrapmap/bootstrapmap"
-], function (declare, lang, _WidgetBase, _TemplatedMixin, domConstruct, domClass, on, has, domAttr, array, dom, touch, domStyle, query, dijitTemplate, string, locale, GraphicsLayer, Graphic, Draw, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Polygon, Locator, BootstrapMap) {
+], function (declare, kernel, lang, dateLocale, _WidgetBase, _TemplatedMixin, domConstruct, domClass, on, has, domAttr, array, dom, touch, domStyle, query, dijitTemplate, string, locale, GraphicsLayer, Graphic, Draw, webMercatorUtils, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Polygon, Locator, BootstrapMap) {
     return declare([_WidgetBase, _TemplatedMixin], {
         templateString: dijitTemplate,
         lastWebMapSelected: "",
@@ -60,6 +63,8 @@ define([
         _fileAttachedCounter: 0,
         _fileFailedCounter: 0,
         tooltipHandler: null,
+        hasLocationField: false,
+        firstMapClickPoint: null,
 
         /**
         * This function is called when widget is constructed.
@@ -108,7 +113,10 @@ define([
                 }, 1000);
                 // Once the map is created we get access to the response which provides map, operational layers, popup info.
                 this.map = response.map;
-                this.map.on("click", lang.hitch(this, function () {
+                this.map.on("click", lang.hitch(this, function (evt) {
+                    if (!this.firstMapClickPoint) {
+                        this.firstMapClickPoint = evt.mapPoint;
+                    }
                     this._clearSubmissionGraphic();
                 }));
                 // tooltip for zoom in and zoom out button
@@ -140,13 +148,21 @@ define([
                 // activate draw tool
                 this._activateDrawTool();
                 // Handle draw_activateDrawTool-end event which will be fired on selecting location
-                on(this.toolbar, "draw-end", lang.hitch(this, function (evt) {
+                on(this.toolbar, "draw-complete", lang.hitch(this, function (evt) {
                     // remove select location error message as location is selected now.
                     this._removeErrorNode(this.select_location.nextSibling);
                     // add drawn graphic on the graphics layer
                     this._addToGraphicsLayer(evt);
                     // resize map
                     this._resizeMap();
+                    // Listen to draw complete event
+                    this.onDrawComplete(evt);
+                    if (evt.geometry.type === "point") {
+                        this.appUtils.locatorInstance.locationToAddress(webMercatorUtils.webMercatorToGeographic(evt.geometry), 100);
+                    } else {
+                        this.appUtils.locatorInstance.locationToAddress(webMercatorUtils.webMercatorToGeographic(lang.clone(this.firstMapClickPoint)), 100);
+                    }
+                    this.firstMapClickPoint = null;
                 }));
                 // Handle click of Submit button
                 on(this.submitButton, "click", lang.hitch(this, this._submitForm));
@@ -200,6 +216,23 @@ define([
                 if (this.changedExtent) {
                     this.map.setExtent(this.changedExtent);
                 }
+
+                //Populate location field after successfully fetching the address
+                this.appUtils.onLocationToAddressComplete = lang.hitch(this, function (result) {
+                    if (result.address && result.address.address) {
+                        this._populateLocationField(result.address.address.Address);
+                    }
+                });
+
+                //Reset the field in case of error
+                this.appUtils.onLocationToAddressFailed = lang.hitch(this, function () {
+                    this._resetLocationField();
+                });
+
+                //Check if valid location field is configured
+                if (this.config.locationField) {
+                    this._findLocationField();
+                }
             }));
         },
 
@@ -238,6 +271,9 @@ define([
         _validateAddress: function (geometry) {
             if (this.basemapExtent.contains(geometry)) {
                 this._locateSelectedAddress(geometry);
+                if (this.layer.geometryType === "esriGeometryPoint") {
+                    this._populateLocationField(this.locator.txtSearch.value);
+                }
             } else {
                 this.appUtils.showError(this.appConfig.i18n.locator.locationOutOfExtent);
             }
@@ -252,6 +288,8 @@ define([
             //check if the layer is a point layer
             if (this.layer.geometryType === "esriGeometryPoint") {
                 this._addToGraphicsLayer(geometry);
+                // Listen to draw complete event
+                this.onDrawComplete(geometry);
             }
             // zoom to current location
             this._zoomToSelectedFeature(geometry);
@@ -335,6 +373,7 @@ define([
         * @memberOf widgets/geo-form/geo-form
         */
         _createGeoFormUI: function () {
+            var geoformDetailsSectionLabel, geoformLocationSectionLabel;
             domConstruct.empty(this.layerTitleDiv);
             // Set innerHTML for geo form header sections
             domAttr.set(this.layerTitleDiv, "innerHTML", this.layerTitle);
@@ -342,8 +381,29 @@ define([
             if (window.hasOwnProperty("ontouchstart") || window.ontouchstart !== undefined) {
                 this._createTooltip(this.layerTitleDiv, this.layerTitle);
             }
-            domAttr.set(this.enter_Information, "innerHTML", this.appConfig.i18n.geoform.enterInformation);
-            domAttr.set(this.select_location, "innerHTML", this.appConfig.i18n.geoform.enterLocation);
+            //Check for configurable parameter and accordingly set the section titles
+            if (this.appConfig.geoformDetailsSectionLabel) {
+                if (this.appConfig.geoformDetailsSectionLabel === "Details") {
+                    geoformDetailsSectionLabel = this.appConfig.i18n.geoform.enterInformation;
+                } else {
+                    geoformDetailsSectionLabel = this.appConfig.geoformDetailsSectionLabel;
+                }
+            } else {
+                geoformDetailsSectionLabel = this.appConfig.i18n.geoform.enterInformation;
+            }
+
+            if (this.appConfig.geoformLocationSectionLabel) {
+                if (this.appConfig.geoformLocationSectionLabel === "Location") {
+                    geoformLocationSectionLabel = this.appConfig.i18n.geoform.enterLocation;
+                } else {
+                    geoformLocationSectionLabel = this.appConfig.geoformLocationSectionLabel;
+                }
+            } else {
+                geoformLocationSectionLabel = this.appConfig.i18n.geoform.enterLocation;
+            }
+
+            domAttr.set(this.enter_Information, "innerHTML", geoformDetailsSectionLabel);
+            domAttr.set(this.select_location, "innerHTML", geoformLocationSectionLabel);
             domAttr.set(this.submitButton, "innerHTML", this.appConfig.i18n.geoform.reportItButton);
             domAttr.set(this.cancelButton, "innerHTML", this.appConfig.i18n.geoform.cancelButton);
             // If sorted field array length is zero
@@ -429,7 +489,7 @@ define([
         * @memberOf widgets/geo-form/geo-form
         */
         _createAttachments: function () {
-            var fileInput, formContent, userFormNode, fileChange, fileAttachmentContainer, fileContainer;
+            var fileInput, formContent, userFormNode, fileChange, fileAttachmentContainer, fileContainer, geoformAttachmentSectionLabel;
             // If layer has hasAttachments true
             if (this.layer.hasAttachments) {
                 userFormNode = this.userForm;
@@ -437,9 +497,19 @@ define([
                 formContent = domConstruct.create("div", {
                     "class": "form-group hasAttachment geoFormQuestionare esriCTGeoFormAttachmentLabel"
                 }, userFormNode);
+
+                if (this.appConfig.geoformAttachmentSectionLabel) {
+                    if (this.appConfig.geoformAttachmentSectionLabel === "Attachments") {
+                        geoformAttachmentSectionLabel = this.appConfig.i18n.geoform.selectAttachments;
+                    } else {
+                        geoformAttachmentSectionLabel = this.appConfig.geoformAttachmentSectionLabel;
+                    }
+                } else {
+                    geoformAttachmentSectionLabel = this.appConfig.i18n.geoform.selectAttachments;
+                }
                 // Select attachment label
                 domConstruct.create("label", {
-                    "innerHTML": this.appConfig.i18n.geoform.selectAttachments,
+                    "innerHTML": geoformAttachmentSectionLabel,
                     "id": "geoFormAttachmentTitileLabel",
                     "class": "esriCTGeoFormTitles"
                 }, formContent);
@@ -685,7 +755,7 @@ define([
                         // set format to the current date
                         rangeDefaultDate = moment(date).format($(inputRangeDateGroupContainer).data("DateTimePicker").format);
                         // set default value and id to the array
-                        this.defaultValueArray.push({ defaultValue: rangeDefaultDate, id: this.inputContent.id, type: currentField.type });
+                        this.defaultValueArray.push({ defaultValue: currentField.defaultValue, id: this.inputContent.id, type: currentField.type });
                     } else {
                         ////Check if todays date falls between minimum and maximum date
                         if (currentField.domain.maxValue > Date.now() && currentField.domain.minValue < Date.now()) {
@@ -696,7 +766,7 @@ define([
                         }
                         formatedDate = moment(new Date(currentSelectedDate)).format($(inputRangeDateGroupContainer).data("DateTimePicker").format);
                         $(inputRangeDateGroupContainer).data("DateTimePicker").setDate(formatedDate);
-                        this.defaultValueArray.push({ defaultValue: formatedDate, id: this.inputContent.id, type: currentField.type });
+                        this.defaultValueArray.push({ defaultValue: currentSelectedDate, id: this.inputContent.id, type: currentField.type });
                     }
                     // Assign value to the range help text
                     this.rangeHelpText = string.substitute(this.appConfig.i18n.geoform.dateRangeHintMessage, {
@@ -882,7 +952,7 @@ define([
                     $(inputDateGroupContainer).data("DateTimePicker").setDate(date);
                     // set format to the current date
                     defaultDate = moment(date).format($(inputDateGroupContainer).data("DateTimePicker").format);
-                    this.defaultValueArray.push({ defaultValue: defaultDate, id: this.inputContent.id, type: currentField.type });
+                    this.defaultValueArray.push({ defaultValue: currentField.defaultValue, id: this.inputContent.id, type: currentField.type });
                 } else {
                     domAttr.set(this.inputContent, "value", currentField.defaultValue);
                     domClass.add(formContent, "has-success");
@@ -895,7 +965,7 @@ define([
                     $(inputDateGroupContainer).data("DateTimePicker").setDate(new Date());
                     // set format to the current date
                     defaultDate = moment(new Date()).format($(inputDateGroupContainer).data("DateTimePicker").format);
-                    this.defaultValueArray.push({ defaultValue: defaultDate, id: this.inputContent.id, type: currentField.type });
+                    this.defaultValueArray.push({ defaultValue: new Date(), id: this.inputContent.id, type: currentField.type });
                 }
             }
             // If field type is not date, validate fields on focus out
@@ -1303,7 +1373,9 @@ define([
                             domAttr.set(currentInput, "value", this.defaultValueArray[index].defaultValue);
                         }
                         if (this.defaultValueArray[index].type === "esriFieldTypeDate") {
-                            $(currentInput.parentElement).data('DateTimePicker').setValue(this.defaultValueArray[index].defaultValue);
+                            var date = new Date(this.defaultValueArray[index].defaultValue);
+                            // set current date to date field
+                            $(currentInput.parentElement).data('DateTimePicker').setDate(date);
                         }
                     }
                 }
@@ -1390,7 +1462,8 @@ define([
                 useSeconds: false,
                 useStrict: false,
                 format: setDateFormat.dateFormat,
-                pickTime: setDateFormat.showTime
+                pickTime: setDateFormat.showTime,
+                language: kernel.locale
             }).on('dp.show', function (evt) {
                 if (isRangeField) {
                     value = new Date(query("input", this)[0].value);
@@ -1823,6 +1896,7 @@ define([
                     domClass.remove(currentNode, "has-error");
                 }
             }));
+            this.onFormClose();
         },
 
         /**
@@ -1867,7 +1941,7 @@ define([
         * @param{object} evt, draw tool bar event
         * @memberOf widgets/geo-form/geo-form
         */
-        _addToGraphicsLayer: function (evt) {
+        _addToGraphicsLayer: function (evt, isReverseGeocodeRequired) {
             var symbol, graphic, graphicGeometry;
             // clear graphics on the map
             this._clearSubmissionGraphic();
@@ -1884,6 +1958,11 @@ define([
             graphic = new Graphic(graphicGeometry, symbol);
             // add graphics
             this._graphicsLayer.add(graphic);
+            if (isReverseGeocodeRequired) {
+                if (evt.geometry.type === "point") {
+                    this.appUtils.locatorInstance.locationToAddress(webMercatorUtils.webMercatorToGeographic(evt.geometry), 100);
+                }
+            }
         },
 
         /**
@@ -1992,6 +2071,45 @@ define([
             on(window, "resize", lang.hitch(this, function () {
                 $(node).tooltip("hide");
             }));
+        },
+
+        /**
+        * This function is used to check if valid location field is set in configuration
+        * @memberOf geo-form/geo-form
+        */
+        _findLocationField: function () {
+            array.some(this.layer.fields, lang.hitch(this, function (currentField) {
+                if (this.config.locationField === currentField.name && currentField.type === "esriFieldTypeString" && !currentField.domain && !currentField.typeField) {
+                    this.hasLocationField = true;
+                    return true;
+                }
+            }));
+        },
+
+        /**
+        * This function is used to set selected address to location field
+        * @memberOf geo-form/geo-form
+        */
+        _populateLocationField: function (selectedAddress) {
+            var locationFieldTextBox = $("#geoformContainer").find("#" + this.config.locationField)[0];
+            if (locationFieldTextBox && this.hasLocationField && this.config.locationField) {
+                if (selectedAddress) {
+                    locationFieldTextBox.value = selectedAddress;
+                    domClass.add(locationFieldTextBox.parentElement, "has-success");
+                }
+            }
+        },
+
+        /**
+        * This function is used to reset location field
+        * @memberOf geo-form/geo-form
+        */
+        _resetLocationField: function () {
+            var locationFieldTextBox = $("#geoformContainer").find("#" + this.config.locationField)[0];
+            if (locationFieldTextBox && this.hasLocationField && this.config.locationField) {
+                locationFieldTextBox.value = "";
+                domClass.remove(locationFieldTextBox.parentElement, "has-success");
+            }
         }
     });
 });

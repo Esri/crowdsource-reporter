@@ -18,6 +18,7 @@
 define([
     "dojo/_base/declare",
     "dojo/_base/lang",
+    "dojo/_base/array",
     "dijit/_WidgetBase",
     "dijit/_TemplatedMixin",
     "dojo/text!./templates/webmap-list.html",
@@ -33,12 +34,14 @@ define([
     "dojo/dom",
     "dojo/dom-class",
     'dojo/dom-style',
+    'dojo/aspect',
     "widgets/bootstrapmap/bootstrapmap",
     "dijit/_WidgetsInTemplateMixin",
     "dojo/query"
 ], function (
     declare,
     lang,
+    array,
     _WidgetBase,
     _TemplatedMixin,
     dijitTemplate,
@@ -54,6 +57,7 @@ define([
     dom,
     domClass,
     domStyle,
+    aspect,
     BootstrapMap,
     _WidgetsInTemplateMixin,
     query
@@ -71,6 +75,7 @@ define([
         lastSelectedWebMapItemInfo: null, // to store item info of web-map that was last selected
         changeExtentOnLayerChange: null, // whether to change extent on click of operational layer
         _layersToRemove: {}, //object of arrays for each webmap item having list of operational id's which are not valid.
+        selectedMapResponse: null, //object of selected map response object, this will reduce the unnecessary calls to API to get all the required properties of layer or map
 
         /**
         * This function is called when widget is constructed.
@@ -89,6 +94,13 @@ define([
         startup: function () {
             this.filteredWebMapResponseArr = [];
             this._createFilteredWebMapArr();
+            //Check for the flag and accordingly show/hide non editable layers
+            if (this.appConfig.showNonEditableLayers) {
+                //Show all the non editable feature servers in webmap after selecting a layer from webmap list
+                aspect.after(this, "_displaySelectedOperationalLayer", lang.hitch(this, function () {
+                    this._displayNonEditableLayers();
+                }));
+            }
         },
 
         /**
@@ -169,6 +181,7 @@ define([
             });
             webMapInstance.then(lang.hitch(this, function (response) {
                 this.map = response.map;
+                this.selectedMapResponse = response;
                 //Disable default infowindow
                 this.map.infoWindow.set("popupWindow", false);
                 //Enable default symbol highlighting of infowindow
@@ -218,7 +231,11 @@ define([
                             if (!this._layersToRemove[response[i][1].itemInfo.item.id]) {
                                 this._layersToRemove[response[i][1].itemInfo.item.id] = [];
                             }
-                            this._layersToRemove[response[i][1].itemInfo.item.id].push(response[i][1].itemInfo.itemData.operationalLayers[j].id);
+
+                            if (!(response[i][1].itemInfo.itemData.operationalLayers[j].layerType === "ArcGISFeatureLayer" && response[i][1].itemInfo.itemData.operationalLayers[j].visibility)) {
+                                this._layersToRemove[response[i][1].itemInfo.item.id].push(response[i][1].itemInfo.itemData.operationalLayers[j].id);
+                            }
+
                             response[i][1].itemInfo.itemData.operationalLayers.splice(j, 1);
                             operationalLayerCount = response[i][1].itemInfo.itemData.operationalLayers.length;
                             j--;
@@ -708,6 +725,22 @@ define([
                 }
             }
             return false;
+        },
+
+        /**
+        * This function is used to display non editable layers along with single selected editable layer
+        * @memberOf widgets/webmap-list/webmap-list
+        */
+        _displayNonEditableLayers: function () {
+            array.forEach(this.selectedMapResponse.itemInfo.itemData.operationalLayers, lang.hitch(this, function (currentLayer, index) {
+                if (currentLayer.resourceInfo && currentLayer.resourceInfo.capabilities && currentLayer.layerType === "ArcGISFeatureLayer") {
+                    if (currentLayer.resourceInfo.capabilities.indexOf("Create") === -1 && (currentLayer.resourceInfo.capabilities.indexOf("Update") === -1 || currentLayer.resourceInfo.capabilities.indexOf("Editing") === -1)) {
+                        currentLayer.layerObject.show();
+                    } else {
+                        currentLayer.layerObject.hide();
+                    }
+                }
+            }));
         },
 
         /**
