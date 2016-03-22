@@ -6,6 +6,7 @@
         "signInBackgroundImage": "/images/signinbg.png",
         "enableFacebook": false,
         "facebookAppId": "",
+        "enableGuestAccess": true,
         "enableTwitter": false,
         "enablePortalLogin": true,
         "enableGoogleplus": false,
@@ -28,7 +29,9 @@
         "submitMessage": "Thank you. Your report has been submitted.",
         "likeField": "NUMVOTES",
         "commentField": "COMMENTS",
+        "locationField": "LONG_TEXT",
         "usePopupConfigurationForComment":false,
+        "showNonEditableLayers": false,
         "reportedByField": "USERID",
         "zoomLevel": 12,
         "enableUSNGSearch": false,
@@ -37,7 +40,10 @@
         "enableHelp":true,
         "helpLinkText": "Help",
         "helpDialogTitle":"Help Page",
-        "helpDialogContent": "<p>Crowdsource Reporter is a configurable gallery application template that allows users to submit problems or observations. The application has been optimized for smartphones but is responsively designed to be used on smartphones, tablets, and desktop computers.</p><p>The Crowdsource Reporter application presents one or more maps that can be used to report a problem or observation. Users can anonymously submit new reports, review existing reports, and comment and vote on reports or observations submitted by other users. They also can authenticate with their social media or ArcGIS Online credentials and track the status of problems or observations they have reported.</p>"
+        "helpDialogContent": "<p>Crowdsource Reporter is a configurable gallery application template that allows users to submit problems or observations. The application has been optimized for smartphones but is responsively designed to be used on smartphones, tablets, and desktop computers.</p><p>The Crowdsource Reporter application presents one or more maps that can be used to report a problem or observation. Users can anonymously submit new reports, review existing reports, and comment and vote on reports or observations submitted by other users. They also can authenticate with their social media or ArcGIS Online credentials and track the status of problems or observations they have reported.</p>",
+        "geoformDetailsSectionLabel": "Details",
+        "geoformLocationSectionLabel": "Location",
+        "geoformAttachmentSectionLabel": "Attachments"
     },
     "configurationSettings": [{
         "category": "<b>App Settings</b>",
@@ -108,7 +114,12 @@
                 "fieldName": "likeField",
                 "label": "Field to store the vote tally for each report (optional)",
                 "tooltip": "Integer field that stores the vote count. Field name must be the same across all layers and maps."
-            }, {
+            },{
+                "type": "string",
+                "fieldName": "locationField",
+                "label": "Location Field (optional)",
+                "tooltip": "Allows user to configure location field"
+            },{
                 "type": "boolean",
                 "fieldName": "usePopupConfigurationForComment",
                 "label": "Build comment form from comment table popup",
@@ -204,6 +215,26 @@
                 "fieldName": "webMapInfoAvgRating",
                 "label": "Average Rating",
                 "tooltip": "Enable to show webmap average rating"
+            },{
+                "type": "boolean",
+                "fieldName": "showNonEditableLayers",
+                "label": "Show non editable layers",
+                "tooltip": "Enable to show non editable layers on map"
+             },{
+                "type": "string",
+                "fieldName": "geoformDetailsSectionLabel",
+                "label": "Configure label for details section of geoform",
+                "tooltip": "Configure label for details section of geoform"
+            },{
+                "type": "string",
+                "fieldName": "geoformLocationSectionLabel",
+                "label": "Configure label for location section of geoform",
+                "tooltip": "Configure label for location section of geoform"
+            },{
+                "type": "string",
+                "fieldName": "geoformAttachmentSectionLabel",
+                "label": "Configure label for attachments section of geoform",
+                "tooltip": "Configure label for attachments section of geoform"
             }
         ]
     }, {
@@ -226,7 +257,12 @@
                     "fieldName": "enableFacebook",
                     "label": "Allow users to sign in using Facebook",
                     "tooltip": "Enable to allow users to sign in using their Facebook credentials"
-                }, {
+                },{
+                    "type": "boolean",
+                    "fieldName": "enableGuestAccess",
+                    "label": "Allow users to sign in as guest",
+                    "tooltip": "Enable to allow users to sign in as a guest user"
+                },{
                     "type": "string",
                     "fieldName": "facebookAppId",
                     "label": "Facebook AppId",
@@ -241,7 +277,7 @@
                     "fieldName": "googleplusClientId",
                     "label": "Google+ Client ID",
                     "tooltip": "Google+ ClientId"
-                }, {
+                },{
                     "type": "string",
                     "fieldName": "reportedByField",
                     "label": "Field for storing the ID of authenticated users (optional)",

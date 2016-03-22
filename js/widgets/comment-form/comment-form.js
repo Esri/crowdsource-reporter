@@ -21,6 +21,7 @@ define([
     "dijit/_TemplatedMixin",
     "dojo/_base/lang",
     "dojo/_base/array",
+    "dojo/_base/kernel",
     "dojo/dom-construct",
     "dojo/dom-class",
     "dojo/query",
@@ -32,7 +33,7 @@ define([
     "esri/graphic",
     "esri/tasks/RelationshipQuery",
     "dojo/text!./templates/comment-form.html"
-], function (declare, _WidgetBase, _TemplatedMixin, lang, array, domConstruct, domClass, query, dom, string, on, domAttr, locale, Graphic, RelationshipQuery, commentForm) {
+], function (declare, _WidgetBase, _TemplatedMixin, lang, array, kernel, domConstruct, domClass, query, dom, string, on, domAttr, locale, Graphic, RelationshipQuery, commentForm) {
     return declare([_WidgetBase, _TemplatedMixin], {
         templateString: commentForm,
         sortedFields: [],
@@ -443,7 +444,7 @@ define([
                         // set format to the current date
                         rangeDefaultDate = moment(date).format($(inputRangeDateGroupContainer).data("DateTimePicker").format);
                         // set default value and id to the array
-                        this.defaultValueArray.push({ defaultValue: rangeDefaultDate, id: this.inputContent.id, type: currentField.type });
+                        this.defaultValueArray.push({ defaultValue: currentField.defaultValue, id: this.inputContent.id, type: currentField.type });
                     } else {
                         //Check if todays date falls between minimum and maximum date
                         if (currentField.domain.maxValue > Date.now() && currentField.domain.minValue < Date.now()) {
@@ -454,7 +455,7 @@ define([
                         }
                         formatedDate = moment(new Date(currentSelectedDate)).format($(inputRangeDateGroupContainer).data("DateTimePicker").format);
                         $(inputRangeDateGroupContainer).data("DateTimePicker").setDate(formatedDate);
-                        this.defaultValueArray.push({ defaultValue: formatedDate, id: this.inputContent.id, type: currentField.type });
+                        this.defaultValueArray.push({ defaultValue: currentSelectedDate, id: this.inputContent.id, type: currentField.type });
                     }
                     // Assign value to the range help text
                     this.rangeHelpText = string.substitute(this.i18n.geoform.dateRangeHintMessage, {
@@ -887,7 +888,9 @@ define([
                             domAttr.set(currentInput, "value", this.defaultValueArray[index].defaultValue);
                         }
                         if (this.defaultValueArray[index].type === "esriFieldTypeDate") {
-                            $(currentInput.parentElement).data('DateTimePicker').setValue(this.defaultValueArray[index].defaultValue);
+                            var date = new Date(this.defaultValueArray[index].defaultValue);
+                            // set current date to date field
+                            $(currentInput.parentElement).data('DateTimePicker').setDate(date);
                         }
                     }
                 }
@@ -928,7 +931,7 @@ define([
                     $(inputDateGroupContainer).data("DateTimePicker").setDate(date);
                     // set format to the current date
                     defaultDate = moment(date).format($(inputDateGroupContainer).data("DateTimePicker").format);
-                    this.defaultValueArray.push({ defaultValue: defaultDate, id: this.inputContent.id, type: currentField.type });
+                    this.defaultValueArray.push({ defaultValue: currentField.defaultValue, id: this.inputContent.id, type: currentField.type });
                 } else {
                     domAttr.set(this.inputContent, "value", currentField.defaultValue);
                     domClass.add(formContent, "has-success");
@@ -941,7 +944,7 @@ define([
                     $(inputDateGroupContainer).data("DateTimePicker").setDate(new Date());
                     // set format to the current date
                     defaultDate = moment(new Date()).format($(inputDateGroupContainer).data("DateTimePicker").format);
-                    this.defaultValueArray.push({ defaultValue: defaultDate, id: this.inputContent.id, type: currentField.type });
+                    this.defaultValueArray.push({ defaultValue: new Date(), id: this.inputContent.id, type: currentField.type });
                 }
             }
             // If field type is not date, validate fields on focus out
@@ -1151,7 +1154,8 @@ define([
                 useSeconds: false,
                 useStrict: false,
                 format: setDateFormat.dateFormat,
-                pickTime: setDateFormat.showTime
+                pickTime: setDateFormat.showTime,
+                language: kernel.locale
             }).on('dp.show', function (evt) {
                 if (isRangeField) {
                     value = new Date(query("input", this)[0].value);
