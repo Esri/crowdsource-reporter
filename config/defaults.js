@@ -35,7 +35,7 @@ define({
     "sharinghost": location.protocol + "//" + "arcgis.com",
     "units": null,
     //If your applcation needs to edit feature layer fields set this value to true. When false the map will
-    //be dreated with layers that are not set to editable which allows the FeatureLayer to load features optimally. 
+    //be created with layers that are not set to editable which allows the FeatureLayer to load features optimally. 
     "editable": false,
     "helperServices": {
      "geometry": {
