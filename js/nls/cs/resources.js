@@ -24,7 +24,7 @@ define(
         },
         main: {
             noGroup: "Není nakonfigurována žádná skupina", // Shown when no group is configured in the configuration file
-            submitReportButtonText: "Odeslat zprávu", //Submit report  text for buttons on map and list
+            submitReportButtonText: "Ř_Submit a Report______ů", //Submit report  text for buttons on map and list
             gotoListViewTooltip: "Zobrazení seznamu", // Go to List view tooltip text
             noFeatureGeomtery: "Prvek nelze zobrazit." // Error message when geomtery is not available
         },
@@ -92,9 +92,9 @@ define(
             attachmentUploadStatus: "nepodařilo se nahrát ${failed} z ${total} příloh", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Současné umístění není k dispozici",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "Aktuální umístění se nachází mimo rozsah podkladové mapy.",  // Shown when the current geographical position is out of the basemap extent
-            submitButtonTooltip: "Vytvořit zprávu", // Command button to open the geoform
+            submitButtonTooltip: "Ř_Submit___ů", // Command button to open the geoform
             cancelButtonTooltip: "Storno", //tooltip for cancel button
-            geoformBackButtonTooltip: "Přejít na seznam zpráv" //tooltip for Geoform back button
+            geoformBackButtonTooltip: "Ř_Return to the report list_________ů" //tooltip for Geoform back button
 
         },
         locator: {
@@ -114,7 +114,7 @@ define(
             noResultsFound: "Nebyly nalezeny žádné zprávy." // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Líbí se mi", // Command button for up-voting a report
+            likeButtonLabel: "Ř_Vote__ů", // Command button for up-voting a report
             likeButtonTooltip: "Hlasovat pro tuto zprávu",  // Tooltip for Like button
             commentButtonLabel: "Komentář", // Command button for submitting feedback
             commentButtonTooltip: "Odeslat komentář pro tuto zprávu", // Tooltip for Comment button

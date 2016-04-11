@@ -24,7 +24,7 @@ define(
         },
         main: {
             noGroup: "Δεν έχει παραμετροποιηθεί κάποια ομάδα", // Shown when no group is configured in the configuration file
-            submitReportButtonText: "Υποβολή αναφοράς", //Submit report  text for buttons on map and list
+            submitReportButtonText: "Đ_Submit a Report______ớ", //Submit report  text for buttons on map and list
             gotoListViewTooltip: "Προβολή λίστας", // Go to List view tooltip text
             noFeatureGeomtery: "Δεν είναι δυνατή η εμφάνιση του στοιχείου" // Error message when geomtery is not available
         },
@@ -92,9 +92,9 @@ define(
             attachmentUploadStatus: "Απέτυχε η μεταφόρτωση ${failed} από ${total} συνημμένων", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Η τρέχουσα τοποθεσία δεν είναι διαθέσιμη",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "Η τρέχουσα τοποθεσία είναι εκτός της έκτασης του υποβάθρου",  // Shown when the current geographical position is out of the basemap extent
-            submitButtonTooltip: "Αναφορά", // Command button to open the geoform
+            submitButtonTooltip: "Đ_Submit___ớ", // Command button to open the geoform
             cancelButtonTooltip: "Ακύρωση", //tooltip for cancel button
-            geoformBackButtonTooltip: "Μετάβαση στη λίστα αναφορών" //tooltip for Geoform back button
+            geoformBackButtonTooltip: "Đ_Return to the report list_________ớ" //tooltip for Geoform back button
 
         },
         locator: {
@@ -114,7 +114,7 @@ define(
             noResultsFound: "Δεν βρέθηκαν αναφορές." // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Μου αρέσει", // Command button for up-voting a report
+            likeButtonLabel: "Đ_Vote__ớ", // Command button for up-voting a report
             likeButtonTooltip: "Ψηφίστε για αυτήν την αναφορά",  // Tooltip for Like button
             commentButtonLabel: "Σχόλιο", // Command button for submitting feedback
             commentButtonTooltip: "Σχολιάστε αυτήν την αναφορά", // Tooltip for Comment button

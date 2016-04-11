@@ -24,7 +24,7 @@ define(
         },
         main: {
             noGroup: "Ingen gruppe konfigureret", // Shown when no group is configured in the configuration file
-            submitReportButtonText: "Send en rapport", //Submit report  text for buttons on map and list
+            submitReportButtonText: "ø_Submit a Report______å", //Submit report  text for buttons on map and list
             gotoListViewTooltip: "Listevisning", // Go to List view tooltip text
             noFeatureGeomtery: "Objekt kan ikke vises" // Error message when geomtery is not available
         },
@@ -92,9 +92,9 @@ define(
             attachmentUploadStatus: "${mislykkedes} af ${total} vedhæftning(er) kunne ikke overføres", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Aktuel position er ikke tilgængelig",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "Aktuel position ligger uden for baggrundskortets udstrækning",  // Shown when the current geographical position is out of the basemap extent
-            submitButtonTooltip: "Rapportér det", // Command button to open the geoform
+            submitButtonTooltip: "ø_Submit___å", // Command button to open the geoform
             cancelButtonTooltip: "Annuller", //tooltip for cancel button
-            geoformBackButtonTooltip: "Gå til rapportlisten" //tooltip for Geoform back button
+            geoformBackButtonTooltip: "ø_Return to the report list_________å" //tooltip for Geoform back button
 
         },
         locator: {
@@ -114,7 +114,7 @@ define(
             noResultsFound: "ingen rapporter fundet" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Synes godt om", // Command button for up-voting a report
+            likeButtonLabel: "ø_Vote__å", // Command button for up-voting a report
             likeButtonTooltip: "Stem på denne rapport",  // Tooltip for Like button
             commentButtonLabel: "Kommentar", // Command button for submitting feedback
             commentButtonTooltip: "Kommentér på denne rapport", // Tooltip for Comment button

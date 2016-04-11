@@ -24,7 +24,7 @@ define(
         },
         main: {
             noGroup: "Ingen grupp konfigurerad", // Shown when no group is configured in the configuration file
-            submitReportButtonText: "Skicka in en rapport", //Submit report  text for buttons on map and list
+            submitReportButtonText: "Å_Submit a Report______ö", //Submit report  text for buttons on map and list
             gotoListViewTooltip: "Listvy", // Go to List view tooltip text
             noFeatureGeomtery: "Geoobjektet kan inte visas" // Error message when geomtery is not available
         },
@@ -92,9 +92,9 @@ define(
             attachmentUploadStatus: "${failed} av ${total} bilagor kunde inte överföras", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Aktuell plats finns inte tillgänglig",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "Aktuell plats är utanför baskartans utbredning",  // Shown when the current geographical position is out of the basemap extent
-            submitButtonTooltip: "Rapportera", // Command button to open the geoform
+            submitButtonTooltip: "Å_Submit___ö", // Command button to open the geoform
             cancelButtonTooltip: "Avbryt", //tooltip for cancel button
-            geoformBackButtonTooltip: "Gå till rapportlistan" //tooltip for Geoform back button
+            geoformBackButtonTooltip: "Å_Return to the report list_________ö" //tooltip for Geoform back button
 
         },
         locator: {
@@ -114,7 +114,7 @@ define(
             noResultsFound: "Inga rapporter hittades" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Gilla", // Command button for up-voting a report
+            likeButtonLabel: "Å_Vote__ö", // Command button for up-voting a report
             likeButtonTooltip: "Rösta för den här rapporten",  // Tooltip for Like button
             commentButtonLabel: "Kommentar", // Command button for submitting feedback
             commentButtonTooltip: "Kommentera den här rapporten", // Tooltip for Comment button

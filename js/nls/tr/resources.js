@@ -24,7 +24,7 @@ define(
         },
         main: {
             noGroup: "Yapılandırılan grup yok", // Shown when no group is configured in the configuration file
-            submitReportButtonText: "Rapor gönder", //Submit report  text for buttons on map and list
+            submitReportButtonText: "ı_Submit a Report______İ", //Submit report  text for buttons on map and list
             gotoListViewTooltip: "Liste görünümü", // Go to List view tooltip text
             noFeatureGeomtery: "Detay görüntülenemiyor" // Error message when geomtery is not available
         },
@@ -92,9 +92,9 @@ define(
             attachmentUploadStatus: "${failed} / ${total} ek yüklenemedi", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Geçerli konum kullanılamıyor",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "Geçerli konum altlık haritası yayılımı dışında",  // Shown when the current geographical position is out of the basemap extent
-            submitButtonTooltip: "Bildir", // Command button to open the geoform
+            submitButtonTooltip: "ı_Submit___İ", // Command button to open the geoform
             cancelButtonTooltip: "İptal", //tooltip for cancel button
-            geoformBackButtonTooltip: "Rapor listesine git" //tooltip for Geoform back button
+            geoformBackButtonTooltip: "ı_Return to the report list_________İ" //tooltip for Geoform back button
 
         },
         locator: {
@@ -114,7 +114,7 @@ define(
             noResultsFound: "Herhangi bir rapor bulunamadı" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Gibi", // Command button for up-voting a report
+            likeButtonLabel: "ı_Vote__İ", // Command button for up-voting a report
             likeButtonTooltip: "Bu rapora oy ver",  // Tooltip for Like button
             commentButtonLabel: "Açıklama", // Command button for submitting feedback
             commentButtonTooltip: "Bu rapora yorum yap", // Tooltip for Comment button

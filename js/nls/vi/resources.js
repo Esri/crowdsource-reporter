@@ -24,7 +24,7 @@ define(
         },
         main: {
             noGroup: "Không có nhóm nào được cấu hình", // Shown when no group is configured in the configuration file
-            submitReportButtonText: "Đệ trình báo cáo", //Submit report  text for buttons on map and list
+            submitReportButtonText: "Đ_Submit a Report______ớ", //Submit report  text for buttons on map and list
             gotoListViewTooltip: "Chế độ xem dạng danh sách", // Go to List view tooltip text
             noFeatureGeomtery: "Không thể hiển thị đối tượng" // Error message when geomtery is not available
         },
@@ -92,9 +92,9 @@ define(
             attachmentUploadStatus: "Không thể tải lên ${failed} trên ${total} tệp đính kèm", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Vị trí hiện tại không khả dụng",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "Vị trí hiện tại ngoài phạm vi bản đồ nền",  // Shown when the current geographical position is out of the basemap extent
-            submitButtonTooltip: "Báo cáo Nó", // Command button to open the geoform
+            submitButtonTooltip: "Đ_Submit___ớ", // Command button to open the geoform
             cancelButtonTooltip: "Hủy", //tooltip for cancel button
-            geoformBackButtonTooltip: "Đến danh sách báo cáo" //tooltip for Geoform back button
+            geoformBackButtonTooltip: "Đ_Return to the report list_________ớ" //tooltip for Geoform back button
 
         },
         locator: {
@@ -114,7 +114,7 @@ define(
             noResultsFound: "Không tìm thấy báo cáo" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Thích", // Command button for up-voting a report
+            likeButtonLabel: "Đ_Vote__ớ", // Command button for up-voting a report
             likeButtonTooltip: "Bình chọn cho báo cáo này",  // Tooltip for Like button
             commentButtonLabel: "Bình luận", // Command button for submitting feedback
             commentButtonTooltip: "Bình luận về báo cáo này", // Tooltip for Comment button

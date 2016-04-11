@@ -24,7 +24,7 @@ define(
         },
         main: {
             noGroup: "Nav konfigurētas grupas", // Shown when no group is configured in the configuration file
-            submitReportButtonText: "Iesniegt ziņojumu", //Submit report  text for buttons on map and list
+            submitReportButtonText: "ķ_Submit a Report______ū", //Submit report  text for buttons on map and list
             gotoListViewTooltip: "Saraksta skats", // Go to List view tooltip text
             noFeatureGeomtery: "Funkciju nevar parādīt" // Error message when geomtery is not available
         },
@@ -92,9 +92,9 @@ define(
             attachmentUploadStatus: "${failed} no ${total} pielikuma(-iem) neizdevās augšupielādēt", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Pašreizējā vieta nav pieejama",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "Pašreizējā vieta ir ārpus pamatkartes tvēruma",  // Shown when the current geographical position is out of the basemap extent
-            submitButtonTooltip: "Ziņot par to", // Command button to open the geoform
+            submitButtonTooltip: "ķ_Submit___ū", // Command button to open the geoform
             cancelButtonTooltip: "Atcelt", //tooltip for cancel button
-            geoformBackButtonTooltip: "Doties uz ziņojumu sarakstu" //tooltip for Geoform back button
+            geoformBackButtonTooltip: "ķ_Return to the report list_________ū" //tooltip for Geoform back button
 
         },
         locator: {
@@ -114,7 +114,7 @@ define(
             noResultsFound: "Nav atrasts neviens ziņojums" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Patīk", // Command button for up-voting a report
+            likeButtonLabel: "ķ_Vote__ū", // Command button for up-voting a report
             likeButtonTooltip: "Balsot par šo ziņojumu",  // Tooltip for Like button
             commentButtonLabel: "Komentārs", // Command button for submitting feedback
             commentButtonTooltip: "Komentēt šo ziņojumu", // Tooltip for Comment button

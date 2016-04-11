@@ -24,7 +24,7 @@ define(
         },
         main: {
             noGroup: "グループが構成されていません", // Shown when no group is configured in the configuration file
-            submitReportButtonText: "レポートの送信", //Submit report  text for buttons on map and list
+            submitReportButtonText: "須_Submit a Report______鷗", //Submit report  text for buttons on map and list
             gotoListViewTooltip: "リスト ビュー", // Go to List view tooltip text
             noFeatureGeomtery: "フィーチャを表示できません" // Error message when geomtery is not available
         },
@@ -92,9 +92,9 @@ define(
             attachmentUploadStatus: "${total} 件のうち、${failed} 件の添付ファイルをアップロードできませんでした", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "現在の位置は利用できません",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "現在の位置はベースマップの範囲外です",  // Shown when the current geographical position is out of the basemap extent
-            submitButtonTooltip: "レポートする", // Command button to open the geoform
+            submitButtonTooltip: "須_Submit___鷗", // Command button to open the geoform
             cancelButtonTooltip: "キャンセル", //tooltip for cancel button
-            geoformBackButtonTooltip: "レポート リストへ移動" //tooltip for Geoform back button
+            geoformBackButtonTooltip: "須_Return to the report list_________鷗" //tooltip for Geoform back button
 
         },
         locator: {
@@ -114,7 +114,7 @@ define(
             noResultsFound: "レポートがありません" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "LIKE", // Command button for up-voting a report
+            likeButtonLabel: "須_Vote__鷗", // Command button for up-voting a report
             likeButtonTooltip: "このレポートに投票",  // Tooltip for Like button
             commentButtonLabel: "コメント", // Command button for submitting feedback
             commentButtonTooltip: "このレポートにコメント", // Tooltip for Comment button

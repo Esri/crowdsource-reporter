@@ -24,7 +24,7 @@ define(
         },
         main: {
             noGroup: "Ühtki rühma ei ole konfigureeritud", // Shown when no group is configured in the configuration file
-            submitReportButtonText: "Esita aruanne", //Submit report  text for buttons on map and list
+            submitReportButtonText: "Š_Submit a Report______ä", //Submit report  text for buttons on map and list
             gotoListViewTooltip: "Loendivaade", // Go to List view tooltip text
             noFeatureGeomtery: "Funktsiooni ei saa kuvada." // Error message when geomtery is not available
         },
@@ -92,9 +92,9 @@ define(
             attachmentUploadStatus: "Manust /kokku manusest ei õnnestunud üles laadida.", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Hetke asukoht pole kättesaadav.",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "Hetke asukoht on lubatud vahemikust väljas.",  // Shown when the current geographical position is out of the basemap extent
-            submitButtonTooltip: "Aruanne It", // Command button to open the geoform
+            submitButtonTooltip: "Š_Submit___ä", // Command button to open the geoform
             cancelButtonTooltip: "Tühista", //tooltip for cancel button
-            geoformBackButtonTooltip: "Liigu aruande loendisse" //tooltip for Geoform back button
+            geoformBackButtonTooltip: "Š_Return to the report list_________ä" //tooltip for Geoform back button
 
         },
         locator: {
@@ -114,7 +114,7 @@ define(
             noResultsFound: "Ühtki aruannet ei leitud" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "nagu", // Command button for up-voting a report
+            likeButtonLabel: "Š_Vote__ä", // Command button for up-voting a report
             likeButtonTooltip: "Hääletage selle aruande kohta",  // Tooltip for Like button
             commentButtonLabel: "Kommentaar", // Command button for submitting feedback
             commentButtonTooltip: "Kommenteerige seda aruannet", // Tooltip for Comment button

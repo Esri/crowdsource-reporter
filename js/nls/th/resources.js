@@ -24,7 +24,7 @@ define(
         },
         main: {
             noGroup: "ยังไม่กำหนดกลุ่ม", // Shown when no group is configured in the configuration file
-            submitReportButtonText: "ส่งรายงาน", //Submit report  text for buttons on map and list
+            submitReportButtonText: "ก้_Submit a Report______ษฺ", //Submit report  text for buttons on map and list
             gotoListViewTooltip: "รายการยอดเข้าชม", // Go to List view tooltip text
             noFeatureGeomtery: "ไม่สามารถแสดงฟีเจอร์ได้" // Error message when geomtery is not available
         },
@@ -92,9 +92,9 @@ define(
             attachmentUploadStatus: "${failed} จาก ${total} ไฟล์แนบที่ไม่สามารถอัพโหลดได้", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "ไม่พร้อมใช้ตำแหน่งปัจจุบัน",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "ตำแหน่งปัจจุบันอยู่นอกขอบเขตของแผนที่ฐาน",  // Shown when the current geographical position is out of the basemap extent
-            submitButtonTooltip: "รายการสิ่งนี้", // Command button to open the geoform
+            submitButtonTooltip: "ก้_Submit___ษฺ", // Command button to open the geoform
             cancelButtonTooltip: "ยกเลิก", //tooltip for cancel button
-            geoformBackButtonTooltip: "ไปที่รายการรายงาน" //tooltip for Geoform back button
+            geoformBackButtonTooltip: "ก้_Return to the report list_________ษฺ" //tooltip for Geoform back button
 
         },
         locator: {
@@ -114,7 +114,7 @@ define(
             noResultsFound: "ไม่พบรายงาน" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "ชอบ", // Command button for up-voting a report
+            likeButtonLabel: "ก้_Vote__ษฺ", // Command button for up-voting a report
             likeButtonTooltip: "โหวตให้รายงานนี้",  // Tooltip for Like button
             commentButtonLabel: "คำอธิบาย", // Command button for submitting feedback
             commentButtonTooltip: "แสดงความคิดเห็นเกี่ยวกับรายงานนี้", // Tooltip for Comment button

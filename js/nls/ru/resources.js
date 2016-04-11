@@ -24,7 +24,7 @@ define(
         },
         main: {
             noGroup: "Не задана группа", // Shown when no group is configured in the configuration file
-            submitReportButtonText: "Отправить отчет", //Submit report  text for buttons on map and list
+            submitReportButtonText: "Ж_Submit a Report______Я", //Submit report  text for buttons on map and list
             gotoListViewTooltip: "Вид - список", // Go to List view tooltip text
             noFeatureGeomtery: "Объекты невозможно отобразить" // Error message when geomtery is not available
         },
@@ -92,9 +92,9 @@ define(
             attachmentUploadStatus: "${failed} из ${total} вложений не удалось выгрузить.", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Текущее местоположение недоступно",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "Текущее местоположение вне экстента базовой карты",  // Shown when the current geographical position is out of the basemap extent
-            submitButtonTooltip: "Отчет", // Command button to open the geoform
+            submitButtonTooltip: "Ж_Submit___Я", // Command button to open the geoform
             cancelButtonTooltip: "Отменить", //tooltip for cancel button
-            geoformBackButtonTooltip: "Перейти к списку отчетов" //tooltip for Geoform back button
+            geoformBackButtonTooltip: "Ж_Return to the report list_________Я" //tooltip for Geoform back button
 
         },
         locator: {
@@ -114,7 +114,7 @@ define(
             noResultsFound: "Отчеты не найдены." // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Like", // Command button for up-voting a report
+            likeButtonLabel: "Ж_Vote__Я", // Command button for up-voting a report
             likeButtonTooltip: "Голосовать за этот отчет",  // Tooltip for Like button
             commentButtonLabel: "Комментарий", // Command button for submitting feedback
             commentButtonTooltip: "Комментировать этот отчет", // Tooltip for Comment button

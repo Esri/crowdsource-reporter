@@ -24,7 +24,7 @@ define(
         },
         main: {
             noGroup: "Sukonfigūruotų grupių nėra", // Shown when no group is configured in the configuration file
-            submitReportButtonText: "Pateikti ataskaitą", //Submit report  text for buttons on map and list
+            submitReportButtonText: "Į_Submit a Report______š", //Submit report  text for buttons on map and list
             gotoListViewTooltip: "Sąrašo vaizdas", // Go to List view tooltip text
             noFeatureGeomtery: "Elemento parodyti negalima" // Error message when geomtery is not available
         },
@@ -92,9 +92,9 @@ define(
             attachmentUploadStatus: "Nepavyko įkelti ${failed} iš ${total} priedo (-ų)", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Informacijos apie esamą vietą nėra",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "Dabartinė vieta yra už pagrindo žemėlapio ribų",  // Shown when the current geographical position is out of the basemap extent
-            submitButtonTooltip: "Pranešti apie tai", // Command button to open the geoform
+            submitButtonTooltip: "Į_Submit___š", // Command button to open the geoform
             cancelButtonTooltip: "Atšaukti", //tooltip for cancel button
-            geoformBackButtonTooltip: "Eiti į ataskaitų sąrašą" //tooltip for Geoform back button
+            geoformBackButtonTooltip: "Į_Return to the report list_________š" //tooltip for Geoform back button
 
         },
         locator: {
@@ -114,7 +114,7 @@ define(
             noResultsFound: "Ataskaitų nerasta" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Patinka", // Command button for up-voting a report
+            likeButtonLabel: "Į_Vote__š", // Command button for up-voting a report
             likeButtonTooltip: "Balsuokite už šią ataskaitą",  // Tooltip for Like button
             commentButtonLabel: "Komentuoti", // Command button for submitting feedback
             commentButtonTooltip: "Pakomentuoti šią ataskaitą", // Tooltip for Comment button

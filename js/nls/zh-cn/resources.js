@@ -24,7 +24,7 @@ define(
         },
         main: {
             noGroup: "未配置任何群组", // Shown when no group is configured in the configuration file
-            submitReportButtonText: "提交报告", //Submit report  text for buttons on map and list
+            submitReportButtonText: "试_Submit a Report______验", //Submit report  text for buttons on map and list
             gotoListViewTooltip: "列表视图", // Go to List view tooltip text
             noFeatureGeomtery: "无法显示要素" // Error message when geomtery is not available
         },
@@ -92,9 +92,9 @@ define(
             attachmentUploadStatus: "${failed} 个附件(共有 ${total} 个)上传失败", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "当前位置不可用",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "当前位置不在底图范围之内",  // Shown when the current geographical position is out of the basemap extent
-            submitButtonTooltip: "提交报告", // Command button to open the geoform
+            submitButtonTooltip: "试_Submit___验", // Command button to open the geoform
             cancelButtonTooltip: "取消", //tooltip for cancel button
-            geoformBackButtonTooltip: "转至报告列表" //tooltip for Geoform back button
+            geoformBackButtonTooltip: "试_Return to the report list_________验" //tooltip for Geoform back button
 
         },
         locator: {
@@ -114,7 +114,7 @@ define(
             noResultsFound: "未找到任何报告" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "赞", // Command button for up-voting a report
+            likeButtonLabel: "试_Vote__验", // Command button for up-voting a report
             likeButtonTooltip: "投票支持此报告",  // Tooltip for Like button
             commentButtonLabel: "评论", // Command button for submitting feedback
             commentButtonTooltip: "评论此报告", // Tooltip for Comment button

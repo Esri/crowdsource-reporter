@@ -24,7 +24,7 @@ define(
         },
         main: {
             noGroup: "لم يتم تكوين المجموعة", // Shown when no group is configured in the configuration file
-            submitReportButtonText: "إرسال تقرير", //Submit report  text for buttons on map and list
+            submitReportButtonText: "بيت_Submit a Report______لاحقة", //Submit report  text for buttons on map and list
             gotoListViewTooltip: "عرض القائمة", // Go to List view tooltip text
             noFeatureGeomtery: "يتعذر عرض المعالم" // Error message when geomtery is not available
         },
@@ -92,9 +92,9 @@ define(
             attachmentUploadStatus: "فشل تحميل المرفقات ${failed} من ${total}", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "الموقع الحالي غير متاح",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "الموقع الحالي خارج نطاق الخريطة",  // Shown when the current geographical position is out of the basemap extent
-            submitButtonTooltip: "تقريرها", // Command button to open the geoform
+            submitButtonTooltip: "بيت_Submit___لاحقة", // Command button to open the geoform
             cancelButtonTooltip: "إلغاء الأمر", //tooltip for cancel button
-            geoformBackButtonTooltip: "الانتقال إلى قائمة التقرير" //tooltip for Geoform back button
+            geoformBackButtonTooltip: "بيت_Return to the report list_________لاحقة" //tooltip for Geoform back button
 
         },
         locator: {
@@ -114,7 +114,7 @@ define(
             noResultsFound: "لم يتم العثور على أي تقارير" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "مثل", // Command button for up-voting a report
+            likeButtonLabel: "بيت_Vote__لاحقة", // Command button for up-voting a report
             likeButtonTooltip: "التصويت لهذا التقرير",  // Tooltip for Like button
             commentButtonLabel: "التعليق", // Command button for submitting feedback
             commentButtonTooltip: "التعليق على هذا التقرير", // Tooltip for Comment button

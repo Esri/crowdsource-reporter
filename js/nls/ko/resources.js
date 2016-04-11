@@ -24,7 +24,7 @@ define(
         },
         main: {
             noGroup: "구성된 그룹 없음", // Shown when no group is configured in the configuration file
-            submitReportButtonText: "보고서 제출", //Submit report  text for buttons on map and list
+            submitReportButtonText: "한_Submit a Report______빠", //Submit report  text for buttons on map and list
             gotoListViewTooltip: "목록 보기", // Go to List view tooltip text
             noFeatureGeomtery: "피처를 표시할 수 없음" // Error message when geomtery is not available
         },
@@ -92,9 +92,9 @@ define(
             attachmentUploadStatus: "${total}개 중 ${failed}개 첨부 파일 업로드 실패", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "현재 위치를 사용할 수 없음",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "현재 위치가 베이스맵 범위를 벗어남",  // Shown when the current geographical position is out of the basemap extent
-            submitButtonTooltip: "보고", // Command button to open the geoform
+            submitButtonTooltip: "한_Submit___빠", // Command button to open the geoform
             cancelButtonTooltip: "취소", //tooltip for cancel button
-            geoformBackButtonTooltip: "보고서 목록으로 이동" //tooltip for Geoform back button
+            geoformBackButtonTooltip: "한_Return to the report list_________빠" //tooltip for Geoform back button
 
         },
         locator: {
@@ -114,7 +114,7 @@ define(
             noResultsFound: "보고서를 찾을 수 없음" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "좋아요", // Command button for up-voting a report
+            likeButtonLabel: "한_Vote__빠", // Command button for up-voting a report
             likeButtonTooltip: "이 보고서에 투표",  // Tooltip for Like button
             commentButtonLabel: "의견", // Command button for submitting feedback
             commentButtonTooltip: "이 보고서에 대한 의견", // Tooltip for Comment button

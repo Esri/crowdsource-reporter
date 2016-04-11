@@ -24,7 +24,7 @@ define(
         },
         main: {
             noGroup: "Yhtään ryhmää ei ole määritetty", // Shown when no group is configured in the configuration file
-            submitReportButtonText: "Lähetä rapotti", //Submit report  text for buttons on map and list
+            submitReportButtonText: "Å_Submit a Report______ö", //Submit report  text for buttons on map and list
             gotoListViewTooltip: "Luettelonäkymä", // Go to List view tooltip text
             noFeatureGeomtery: "Kohdetta ei voi näyttää" // Error message when geomtery is not available
         },
@@ -92,9 +92,9 @@ define(
             attachmentUploadStatus: "${failed}/${total} liitteen lataus epäonnistui", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Nykyinen sijainti ei ole käytettävissä",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "Nykyinen sijainti ei ole taustakartan rajoissa",  // Shown when the current geographical position is out of the basemap extent
-            submitButtonTooltip: "Raportoi", // Command button to open the geoform
+            submitButtonTooltip: "Å_Submit___ö", // Command button to open the geoform
             cancelButtonTooltip: "Peruuta", //tooltip for cancel button
-            geoformBackButtonTooltip: "Siirry raporttiluetteloon" //tooltip for Geoform back button
+            geoformBackButtonTooltip: "Å_Return to the report list_________ö" //tooltip for Geoform back button
 
         },
         locator: {
@@ -114,7 +114,7 @@ define(
             noResultsFound: "Yhtään raporttia ei löytynyt" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Kuten", // Command button for up-voting a report
+            likeButtonLabel: "Å_Vote__ö", // Command button for up-voting a report
             likeButtonTooltip: "Äänestä tätä raporttia",  // Tooltip for Like button
             commentButtonLabel: "Kommentti", // Command button for submitting feedback
             commentButtonTooltip: "Kommentoi tätä raporttia", // Tooltip for Comment button

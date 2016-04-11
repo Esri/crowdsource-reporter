@@ -24,7 +24,7 @@ define(
         },
         main: {
             noGroup: "Keine Gruppe konfiguriert", // Shown when no group is configured in the configuration file
-            submitReportButtonText: "Bericht senden", //Submit report  text for buttons on map and list
+            submitReportButtonText: "ä_Submit a Report______Ü", //Submit report  text for buttons on map and list
             gotoListViewTooltip: "Listenansicht", // Go to List view tooltip text
             noFeatureGeomtery: "Feature kann nicht angezeigt werden" // Error message when geomtery is not available
         },
@@ -92,9 +92,9 @@ define(
             attachmentUploadStatus: "${failed} von ${total} Anlage(n) konnte(n) nicht hochgeladen werden", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Aktuelle Position ist nicht verfügbar",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "Aktuelle Position befindet sich außerhalb der Grundkartenausdehnung",  // Shown when the current geographical position is out of the basemap extent
-            submitButtonTooltip: "Melden", // Command button to open the geoform
+            submitButtonTooltip: "ä_Submit___Ü", // Command button to open the geoform
             cancelButtonTooltip: "Abbrechen", //tooltip for cancel button
-            geoformBackButtonTooltip: "Zur Berichtsliste wechseln" //tooltip for Geoform back button
+            geoformBackButtonTooltip: "ä_Return to the report list_________Ü" //tooltip for Geoform back button
 
         },
         locator: {
@@ -114,7 +114,7 @@ define(
             noResultsFound: "Keine Berichte gefunden" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Wie", // Command button for up-voting a report
+            likeButtonLabel: "ä_Vote__Ü", // Command button for up-voting a report
             likeButtonTooltip: "Für diesen Bericht stimmen",  // Tooltip for Like button
             commentButtonLabel: "Kommentar", // Command button for submitting feedback
             commentButtonTooltip: "Diesen Bericht kommentieren", // Tooltip for Comment button

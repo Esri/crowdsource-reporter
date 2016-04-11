@@ -24,7 +24,7 @@ define(
         },
         main: {
             noGroup: "Geen groep geconfigureerd", // Shown when no group is configured in the configuration file
-            submitReportButtonText: "Een rapport indienen", //Submit report  text for buttons on map and list
+            submitReportButtonText: "Ĳ_Submit a Report______ä", //Submit report  text for buttons on map and list
             gotoListViewTooltip: "Lijstweergave", // Go to List view tooltip text
             noFeatureGeomtery: "Object kan niet worden weergegeven" // Error message when geomtery is not available
         },
@@ -92,9 +92,9 @@ define(
             attachmentUploadStatus: "${failed} van ${total} bijlage(n) is niet geupload", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Huidige locatie niet beschikbaar",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "Huidige locatie ligt buiten het basiskaartbereik",  // Shown when the current geographical position is out of the basemap extent
-            submitButtonTooltip: "Melden", // Command button to open the geoform
+            submitButtonTooltip: "Ĳ_Submit___ä", // Command button to open the geoform
             cancelButtonTooltip: "Annuleren", //tooltip for cancel button
-            geoformBackButtonTooltip: "Ga naar de meldlijst" //tooltip for Geoform back button
+            geoformBackButtonTooltip: "Ĳ_Return to the report list_________ä" //tooltip for Geoform back button
 
         },
         locator: {
@@ -114,7 +114,7 @@ define(
             noResultsFound: "Geen rapporten gevonden" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Zoals", // Command button for up-voting a report
+            likeButtonLabel: "Ĳ_Vote__ä", // Command button for up-voting a report
             likeButtonTooltip: "Op dit rapport stemmen",  // Tooltip for Like button
             commentButtonLabel: "Opmerking", // Command button for submitting feedback
             commentButtonTooltip: "Op dit rapporten reageren", // Tooltip for Comment button

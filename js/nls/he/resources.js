@@ -24,7 +24,7 @@ define(
         },
         main: {
             noGroup: "לא הוגדרה קבוצה", // Shown when no group is configured in the configuration file
-            submitReportButtonText: "שלח דוח", //Submit report  text for buttons on map and list
+            submitReportButtonText: "כן_Submit a Report______ש", //Submit report  text for buttons on map and list
             gotoListViewTooltip: "תצוגת רשימה", // Go to List view tooltip text
             noFeatureGeomtery: "לא ניתן להציג את הישות" // Error message when geomtery is not available
         },
@@ -92,9 +92,9 @@ define(
             attachmentUploadStatus: "נכשלה ההעלאה של ${failed} מתוך ${total} קבצים מצורפים", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "מיקום נוכחי לא זמין",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "המיקום נוכחי נמצא מחוץ לגבולות מפת הבסיס",  // Shown when the current geographical position is out of the basemap extent
-            submitButtonTooltip: "דווח על כך", // Command button to open the geoform
+            submitButtonTooltip: "כן_Submit___ש", // Command button to open the geoform
             cancelButtonTooltip: "בטל", //tooltip for cancel button
-            geoformBackButtonTooltip: "עבור לרשימת הדוחות" //tooltip for Geoform back button
+            geoformBackButtonTooltip: "כן_Return to the report list_________ש" //tooltip for Geoform back button
 
         },
         locator: {
@@ -114,7 +114,7 @@ define(
             noResultsFound: "לא נמצאו דוחות" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "סמן Like", // Command button for up-voting a report
+            likeButtonLabel: "כן_Vote__ש", // Command button for up-voting a report
             likeButtonTooltip: "הצבע עבור דוח זה",  // Tooltip for Like button
             commentButtonLabel: "הערה", // Command button for submitting feedback
             commentButtonTooltip: "הוסף תגובה לדוח", // Tooltip for Comment button

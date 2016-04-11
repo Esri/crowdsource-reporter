@@ -24,7 +24,7 @@ define(
         },
         main: {
             noGroup: "Aucun groupe configuré", // Shown when no group is configured in the configuration file
-            submitReportButtonText: "Envoyer un rapport", //Submit report  text for buttons on map and list
+            submitReportButtonText: "æ_Submit a Report______Â", //Submit report  text for buttons on map and list
             gotoListViewTooltip: "Vue Liste", // Go to List view tooltip text
             noFeatureGeomtery: "Impossible d\'afficher l\'entité" // Error message when geomtery is not available
         },
@@ -92,9 +92,9 @@ define(
             attachmentUploadStatus: "Echec du chargement de ${failed} sur ${total} pièce(s) jointe(s)", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Localisant actuel non disponible",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "L\'étendue courante est en dehors de l\'étendue du fond de carte",  // Shown when the current geographical position is out of the basemap extent
-            submitButtonTooltip: "Signaler", // Command button to open the geoform
+            submitButtonTooltip: "æ_Submit___Â", // Command button to open the geoform
             cancelButtonTooltip: "Annuler", //tooltip for cancel button
-            geoformBackButtonTooltip: "Accéder à la liste des rapports" //tooltip for Geoform back button
+            geoformBackButtonTooltip: "æ_Return to the report list_________Â" //tooltip for Geoform back button
 
         },
         locator: {
@@ -114,7 +114,7 @@ define(
             noResultsFound: "Aucun rapport trouvé" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Comme", // Command button for up-voting a report
+            likeButtonLabel: "æ_Vote__Â", // Command button for up-voting a report
             likeButtonTooltip: "Voter pour ce rapport",  // Tooltip for Like button
             commentButtonLabel: "Commentaire", // Command button for submitting feedback
             commentButtonTooltip: "Commenter ce rapport", // Tooltip for Comment button

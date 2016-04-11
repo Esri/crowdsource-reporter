@@ -24,7 +24,7 @@ define(
         },
         main: {
             noGroup: "Nessun gruppo configurato", // Shown when no group is configured in the configuration file
-            submitReportButtonText: "Invia un report", //Submit report  text for buttons on map and list
+            submitReportButtonText: "é_Submit a Report______È", //Submit report  text for buttons on map and list
             gotoListViewTooltip: "Vista elenco", // Go to List view tooltip text
             noFeatureGeomtery: "Impossibile visualizzare la feature" // Error message when geomtery is not available
         },
@@ -92,9 +92,9 @@ define(
             attachmentUploadStatus: "Impossibile caricare ${failed} di ${total} allegati", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Posizione corrente non disponibile",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "Posizione corrente esterna all\'estensione della mappa di base",  // Shown when the current geographical position is out of the basemap extent
-            submitButtonTooltip: "Segnala", // Command button to open the geoform
+            submitButtonTooltip: "é_Submit___È", // Command button to open the geoform
             cancelButtonTooltip: "Annulla", //tooltip for cancel button
-            geoformBackButtonTooltip: "Vai all\'elenco dei report" //tooltip for Geoform back button
+            geoformBackButtonTooltip: "é_Return to the report list_________È" //tooltip for Geoform back button
 
         },
         locator: {
@@ -114,7 +114,7 @@ define(
             noResultsFound: "Nessun report trovato" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Come", // Command button for up-voting a report
+            likeButtonLabel: "é_Vote__È", // Command button for up-voting a report
             likeButtonTooltip: "Vota per questo report",  // Tooltip for Like button
             commentButtonLabel: "Commento", // Command button for submitting feedback
             commentButtonTooltip: "Commenta questo report", // Tooltip for Comment button

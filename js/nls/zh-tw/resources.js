@@ -24,7 +24,7 @@ define(
         },
         main: {
             noGroup: "未配置任何群組", // Shown when no group is configured in the configuration file
-            submitReportButtonText: "提交報告", //Submit report  text for buttons on map and list
+            submitReportButtonText: "試_Submit a Report______驗", //Submit report  text for buttons on map and list
             gotoListViewTooltip: "清單視圖", // Go to List view tooltip text
             noFeatureGeomtery: "無法顯示圖徵" // Error message when geomtery is not available
         },
@@ -92,9 +92,9 @@ define(
             attachmentUploadStatus: "${failed} 個附件（共有 ${total} 個）上傳失敗", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "目前位置不可用",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "目前位置不在底圖範圍之內",  // Shown when the current geographical position is out of the basemap extent
-            submitButtonTooltip: "進行報告", // Command button to open the geoform
+            submitButtonTooltip: "試_Submit___驗", // Command button to open the geoform
             cancelButtonTooltip: "取消", //tooltip for cancel button
-            geoformBackButtonTooltip: "轉至報告清單" //tooltip for Geoform back button
+            geoformBackButtonTooltip: "試_Return to the report list_________驗" //tooltip for Geoform back button
 
         },
         locator: {
@@ -114,7 +114,7 @@ define(
             noResultsFound: "未找到任何報告" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Like(K)", // Command button for up-voting a report
+            likeButtonLabel: "試_Vote__驗", // Command button for up-voting a report
             likeButtonTooltip: "為此報告投票",  // Tooltip for Like button
             commentButtonLabel: "評論", // Command button for submitting feedback
             commentButtonTooltip: "評論此報告", // Tooltip for Comment button

@@ -24,7 +24,7 @@ define(
         },
         main: {
             noGroup: "Niciun grup configurat", // Shown when no group is configured in the configuration file
-            submitReportButtonText: "Transmitere raport", //Submit report  text for buttons on map and list
+            submitReportButtonText: "Ă_Submit a Report______ș", //Submit report  text for buttons on map and list
             gotoListViewTooltip: "Vizualizare tip listă", // Go to List view tooltip text
             noFeatureGeomtery: "Obiectul spaţial nu poate fi afişat" // Error message when geomtery is not available
         },
@@ -92,9 +92,9 @@ define(
             attachmentUploadStatus: "${failed} din ${total} ataşări nu au fost încărcate", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Locaţia curentă nu este disponibilă",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "Locaţia curentă se află în afara extinderii hărţii fundal",  // Shown when the current geographical position is out of the basemap extent
-            submitButtonTooltip: "Raportare", // Command button to open the geoform
+            submitButtonTooltip: "Ă_Submit___ș", // Command button to open the geoform
             cancelButtonTooltip: "Anulare", //tooltip for cancel button
-            geoformBackButtonTooltip: "Accesare listă rapoarte" //tooltip for Geoform back button
+            geoformBackButtonTooltip: "Ă_Return to the report list_________ș" //tooltip for Geoform back button
 
         },
         locator: {
@@ -114,7 +114,7 @@ define(
             noResultsFound: "Nu a fost găsit niciun raport" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Îmi place", // Command button for up-voting a report
+            likeButtonLabel: "Ă_Vote__ș", // Command button for up-voting a report
             likeButtonTooltip: "Votaţi pentru acest raport",  // Tooltip for Like button
             commentButtonLabel: "Comentariu", // Command button for submitting feedback
             commentButtonTooltip: "Comentaţi acest raport", // Tooltip for Comment button
