@@ -368,7 +368,7 @@ html, body
 {
     color: #fff;
     display: inline-block;
-    height: 31px;
+    max-height: 31px;
     overflow: hidden;
     width: 250px;
 }
@@ -438,10 +438,27 @@ html, body
     background-position: center center;
 }
 
-.esriCTSigninCenterDiv
+.esriCTSigninCenterDiv, .esrictsigninSocialdiv 
 {
     display: inline-block;
-    margin-top: 5%;
+    width: 100%;
+}
+
+.esriCTSigninGapPosition 
+{
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.esriCTSocialMediaSigninContainer 
+{
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.esriCTSigninOptionDisabled 
+{
+    margin-top: 30px;
 }
 
 .esriCTSigninOrLine
@@ -454,12 +471,11 @@ html, body
 {
     background-image: url(../images/seperator.png);
     background-repeat: no-repeat;
-    background-size: 145px 30px;
-    margin-top: 30%;
-    margin-bottom: 35%;
-    height: 30px;
+    background-size: 145px 35px;
+    height: 35px;
     width: 145px;
     display: inline-block;
+    margin:4px 0;
 }
 
 .esriCTOrdiv
@@ -488,10 +504,6 @@ html, body
     text-shadow: rgb(0, 0, 0) 0px 0px 16px;
 }
 
-.esriCTSigninHelpContainerDiv
-{
-    margin-top: 30px;
-}
 
 /* End of SignIn */
 

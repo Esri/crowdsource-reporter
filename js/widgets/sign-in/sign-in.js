@@ -170,7 +170,13 @@ define([
             if (!this._config.enablePortalLogin && !this._config.enableGoogleplus && !this._config.enableTwitter && !this._config.enableFacebook) {
                 domClass.add(this.signinOptions, "esriCTHidden");
                 domClass.add(this.signinOrDiv, "esriCTHidden");
+                domClass.add(this.socialMediaSigninContainer, "esriCTHidden");
             }
+
+            if (domClass.contains(this.signinOptions, "esriCTHidden") && !this._config.enableGuestAccess && this._config.enableHelp) {
+              domClass.add(this.signinHelpContainer, "esriCTSigninOptionDisabled");
+            }
+
         },
 
         /**
