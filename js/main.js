@@ -1447,7 +1447,9 @@ define([
         * @memberOf widgets/geo-form/geo-form
         */
         _clearSubmissionGraphic: function () {
-            this.featureGraphicLayer.clear();
+            if (this.featureGraphicLayer) {
+                this.featureGraphicLayer.clear();
+            }
         },
 
         /**

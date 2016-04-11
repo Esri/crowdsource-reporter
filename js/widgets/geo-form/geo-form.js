@@ -307,6 +307,10 @@ define([
                 // else remove that layer form map, so that only selected layer is visible on map.
                 if (opLayers[i].id === this.layerId) {
                     this.layer = this.map.getLayer(opLayers[i].id);
+                    //Make sure we are not showing labels on geoform feature layer to make it consistent with main map
+                    if (this.layer.showLabels) {
+                        this.layer.showLabels = false;
+                    }
                 } else {
                     if (this.map.getLayer(opLayers[i].id)) {
                         this.map.removeLayer(this.map.getLayer(opLayers[i].id));
