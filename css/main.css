@@ -103,7 +103,7 @@ html, body
 {
     font-weight: normal !important;
     width: 32px;
-    height: 31px;
+    height: 32px;
 }
 
 .esriSimpleSliderDecrementButton, .esriSimpleSliderIncrementButton
@@ -121,7 +121,7 @@ html, body
     border: 0px !important;
 }
 
-.esriSimpleSliderDecrementButton, .esriSimpleSliderIncrementButton, .esriSimpleSlider .esriCTLocationButton, .esriSimpleSlider .esriCTHomeButton, .esriSimpleSlider .esriCTSearchButton
+.esriSimpleSliderDecrementButton, .esriSimpleSliderIncrementButton, .esriSimpleSlider .esriCTMapGeoLocationContainer, .esriSimpleSlider .esriCTHomeButton, .esriSimpleSlider .esriCTMapSearchContainer
 {
     background-color: #fff !important;
     -webkit-box-shadow: 1px 1px 10px #888;
@@ -149,17 +149,21 @@ html, body
     border: #000 solid 0px !important;
 }
 
-.esriSimpleSlider .esriCTLocationButton
-{
-    background-image: url(../images/current-location.png);
-    background-size: 30px;
-    height: 100%;
-    border: #fff solid 1px !important;
-}
-
 .mediaSection
 {
     padding-bottom: 13px;
+}
+
+.LocateButton .zoomLocateButton {
+    background-color:#fff;
+    -webkit-border-radius:0px;
+    -moz-border-radius:0px;
+    -o-border-radius:0px;
+    border-radius:0px;
+    background-image: url(../images/current-location-32.png);
+    padding: 0px;
+    width: 32px;
+    height: 32px;
 }
 
 /* End of Overridden Styles */
@@ -438,25 +442,25 @@ html, body
     background-position: center center;
 }
 
-.esriCTSigninCenterDiv, .esrictsigninSocialdiv 
+.esriCTSigninCenterDiv, .esrictsigninSocialdiv
 {
     display: inline-block;
     width: 100%;
 }
 
-.esriCTSigninGapPosition 
+.esriCTSigninGapPosition
 {
     margin-top: 30px;
     margin-bottom: 30px;
 }
 
-.esriCTSocialMediaSigninContainer 
+.esriCTSocialMediaSigninContainer
 {
     margin-top: 30px;
     margin-bottom: 30px;
 }
 
-.esriCTSigninOptionDisabled 
+.esriCTSigninOptionDisabled
 {
     margin-top: 30px;
 }
@@ -1124,15 +1128,6 @@ label
     width: calc(100% - 50px);
 }
 
-.esriCTGeoFormBody .esriCTLocationButton
-{
-    background-image: url(../images/current-location.png);
-    background-size: 28px;
-    height: 100%;
-    background-position: center center;
-    border: 1px solid #ccc;
-}
-
 .esriCTGeoFormLoader
 {
     top: 1px;
@@ -1236,7 +1231,7 @@ label
     margin-top: 1px;
 }
 
-.esriCTGeoFormBody .esriCTLocationButton, .esriCTLocatorSearchButton
+.esriCTGeoFormBody .esriCTMapGeoLocationContainer, .esriCTLocatorSearchButton
 {
     background-color: #fff;
 }

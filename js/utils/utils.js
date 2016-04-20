@@ -24,6 +24,7 @@ define([
     "dojo/dom-geometry",
     "dojo/dom-class",
     "dojo/dom-attr",
+    "dojo/dom-style",
     "dojo/on",
     "dojo/has",
     "dojo/query",
@@ -41,6 +42,7 @@ define([
     domGeometry,
     domClass,
     domAttr,
+    domStyle,
     on,
     has,
     query,
@@ -158,7 +160,7 @@ define([
         createGeoLocationButton: function (basemapLayers, map, parentNode, addGraphic) {
             var currentLocation, createLocationDiv;
             // create geolocation div
-            createLocationDiv = domConstruct.create("div", { "class": "esriCTLocationButton" }, parentNode);
+            createLocationDiv = domConstruct.create("div", {}, parentNode);
             domAttr.set(createLocationDiv, "title", this.config.i18n.map.geolocationTooltip);
             // initialize object of locate button
             currentLocation = new LocateButton({
@@ -166,13 +168,10 @@ define([
                 highlightLocation: false,
                 setScale: false,
                 centerAt: false
-            }, domConstruct.create('div'));
+            }, createLocationDiv);
             currentLocation.startup();
-            // handle click event of geolocate button
-            on(createLocationDiv, 'click', lang.hitch(this, function (evt) {
-                // trigger locate method of locate button widget
-                currentLocation.locate();
-            }));
+            domStyle.set(parentNode, 'display', currentLocation.domNode.style["display"]);
+
             // event on locate
             on(currentLocation, "locate", lang.hitch(this, function (evt) {
                 this.onGeolocationComplete(evt, addGraphic);
