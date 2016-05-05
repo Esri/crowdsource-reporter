@@ -65,7 +65,7 @@ define([
         tooltipHandler: null,
         hasLocationField: false,
         firstMapClickPoint: null,
-
+        _webmapResponse: null,
         /**
         * This function is called when widget is constructed.
         * @param{object} options to be mixed
@@ -112,6 +112,7 @@ define([
                     scrollTop: 0
                 }, 1000);
                 // Once the map is created we get access to the response which provides map, operational layers, popup info.
+                this._webmapResponse = response;
                 this.map = response.map;
                 this.map.on("click", lang.hitch(this, function (evt) {
                     if (!this.firstMapClickPoint) {
@@ -312,15 +313,64 @@ define([
                         this.layer.showLabels = false;
                     }
                 } else {
-                    if (this.map.getLayer(opLayers[i].id)) {
-                       //Although the layer is removed from map, the labels were still showing up for the same layer
-                        if (this.map.getLayer(opLayers[i].id).showLabels) {
-                            this.map.getLayer(opLayers[i].id).showLabels = false;
+                    if (this.appConfig.showNonEditableLayers) {
+                        if (this.map.getLayer(opLayers[i].id)) {
+                            if (opLayers[i].resourceInfo && opLayers[i].resourceInfo.capabilities) {
+                                // condition to check if feature layer is non-editable and it is visible in TOC
+                                if ((opLayers[i].resourceInfo.capabilities.indexOf("Create") === -1) &&
+                                        ((opLayers[i].resourceInfo.capabilities.indexOf("Update") === -1) ||
+                                        (opLayers[i].resourceInfo.capabilities.indexOf("Editing") === -1)) &&
+                                        opLayers[i].visibility) {
+                                    opLayers[i].layerObject.show(); // display non-editable layer
+                                    // condition to check feature layer with create, edit, delete permissions and popup enabled, but all fields marked display only
+                                } else if ((opLayers[i].resourceInfo.capabilities.indexOf("Create") !== -1) &&
+                                        (opLayers[i].resourceInfo.capabilities.indexOf("Editing") !== -1) &&
+                                        (opLayers[i].resourceInfo.capabilities.indexOf("Update") !== -1) &&
+                                        (opLayers[i].popupInfo) &&
+                                        this._checkDisplayPropertyOfFields(opLayers[i].popupInfo, opLayers[i].layerObject.fields) &&
+                                        this.layerId !== opLayers[i].id) {
+                                    opLayers[i].layerObject.show(); // display non-editable layer
+                                    // condition to check feature layer with create, edit, delete permissions, but disabled on the layer in the map TOC
+                                } else {
+                                    opLayers[i].layerObject.hide();
+                                }
+                            }
                         }
-                        this.map.removeLayer(this.map.getLayer(opLayers[i].id));
+                    } else {
+                        opLayers[i].layerObject.hide();
                     }
                 }
             }
+        },
+
+        /**
+        * This function is used to check whether all fields are marked display or not
+        * @memberOf widgets/webmap-list/webmap-list
+        */
+        _checkDisplayPropertyOfFields: function (popupInfo, fields) {
+            var i, j;
+            if (!popupInfo) {
+                return false;
+            }
+            for (i = 0; i < popupInfo.fieldInfos.length; i++) {
+                if (popupInfo.fieldInfos[i].isEditable) {
+                    return false;
+                }
+            }
+            // check if popup-info is available if not then return false
+            if (popupInfo) {
+                for (i = 0; i < popupInfo.fieldInfos.length; i++) {
+                    for (j = 0; j < fields.length; j++) {
+                        if (popupInfo.fieldInfos[i].fieldName === fields[j].name) {
+                            // check if field is Editable
+                            if (popupInfo.fieldInfos[i].visible) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
         },
 
         /**
@@ -1724,6 +1774,10 @@ define([
                     }
                     // Show Thank you message on Success
                     this._showHeaderMessageDiv(this.config.submitMessage, "success");
+                    if (this.appConfig.showNonEditableLayers) {
+                        //Refresh label layers to fetch label of updated feature
+                        this.appUtils.refreshLabelLayers(this._webmapResponse.itemInfo.itemData.operationalLayers);
+                    }
                     // Successfully feature is added on the layer
                     this.geoformSubmitted(addResults[0].objectId);
                 } else {
