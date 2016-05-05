@@ -312,7 +312,7 @@ define([
         * @return {string}      The title of the feature
         */
         _getItemTitle: function (item) {
-            return item.getTitle ? item.getTitle() : "";
+            return item.originalFeature.getTitle ? item.originalFeature.getTitle() : "";
         },
 
         /**

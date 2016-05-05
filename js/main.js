@@ -145,6 +145,7 @@ define([
         geolocationgGraphicsLayer: null,
         _isWebmapListRequired: true,
         firstMapClickPoint: null,
+        _existingLayerIndex: null,
         startup: function (boilerPlateTemplateObject, loggedInUser) {
             // config will contain application and user defined info for the template such as i18n strings, the web map id
             // and application id
@@ -684,7 +685,7 @@ define([
                 });
 
                 this.appUtils.onGeolocationComplete = lang.hitch(this, function (evt, addGraphic) {
-                    var symbol;
+                    var symbol, selectedGeometry = {};
                     if (!this.geolocationgGraphicsLayer) {
                         this.geolocationgGraphicsLayer = new GraphicsLayer();
                         this.map.addLayer(this.geolocationgGraphicsLayer);
@@ -700,8 +701,7 @@ define([
                     } else if (this.basemapExtent.contains(evt.graphic.geometry)) {
                         // add graphics on map if geolocation is called from geoform widget
                         if (addGraphic) {
-                            if (this.selectedLayer.geometryType == "esriGeometryPoint") {
-                                var selectedGeometry = {};
+                            if (this.selectedLayer.geometryType === "esriGeometryPoint") {
                                 selectedGeometry.geometry = evt.graphic.geometry;
                                 this._addToGraphicsLayer(selectedGeometry);
                                 this.geoformInstance._addToGraphicsLayer(selectedGeometry, true);
@@ -901,6 +901,10 @@ define([
                             //refresh main map so that newly created issue will be shown on it.
                             var layer = this._selectedMapDetails.map.getLayer(this._selectedMapDetails.operationalLayerId);
                             layer.refresh();
+                            if (this.config.showNonEditableLayers) {
+                                //Refresh label layers to fetch label of updated feature
+                                this.appUtils.refreshLabelLayers(this._selectedMapDetails.itemInfo.itemData.operationalLayers);
+                            }
                             this._addNewFeature(objectId, this.selectedLayer, "geoform").then(lang.hitch(this, function () {
                                 //update my issue list when new issue is added
                                 if (this._myIssuesWidget) {
@@ -945,7 +949,6 @@ define([
             queryFeature = new Query();
             queryFeature.objectIds = [parseInt(objectId, 10)];
             queryFeature.outFields = ["*"];
-            queryFeature.outSpatialReference = layer.spatialReference;
             queryFeature.where = currentDateTime + "=" + currentDateTime;
             queryFeature.returnGeometry = true;
             layer.queryFeatures(queryFeature, lang.hitch(this, function (result) {
@@ -1142,7 +1145,7 @@ define([
         * @param{object} map
         */
         highLightFeatureOnClick: function (layer, objectId, selectedGraphicsLayer, map) {
-            var esriQuery, highlightSymbol;
+            var esriQuery, highlightSymbol, currentDateTime = new Date().getTime();
             this.mapInstance = map;
             if (selectedGraphicsLayer) {
                 // clear graphics layer
@@ -1150,6 +1153,7 @@ define([
             }
             esriQuery = new Query();
             esriQuery.objectIds = [parseInt(objectId, 10)];
+            esriQuery.where = currentDateTime + "=" + currentDateTime;
             esriQuery.returnGeometry = true;
             layer.queryFeatures(esriQuery, lang.hitch(this, function (featureSet) {
                 // Check if feature is valid and have valid geometry, if not prompt with no geometry message
@@ -1406,15 +1410,15 @@ define([
             var type;
             //set type for selected geometry type of the layer
             switch (this.selectedLayer.geometryType) {
-                case "esriGeometryPoint":
-                    type = "point";
-                    break;
-                case "esriGeometryPolyline":
-                    type = "polyline";
-                    break;
-                case "esriGeometryPolygon":
-                    type = "polygon";
-                    break;
+            case "esriGeometryPoint":
+                type = "point";
+                break;
+            case "esriGeometryPolyline":
+                type = "polyline";
+                break;
+            case "esriGeometryPolygon":
+                type = "polygon";
+                break;
             }
             // return Value
             return type;
@@ -1480,18 +1484,45 @@ define([
             var symbol;
             //set symbol for selected geometry type of the layer
             switch (geometryType) {
-                case "point":
-                    symbol = new SimpleMarkerSymbol();
-                    break;
-                case "polyline":
-                    symbol = new SimpleLineSymbol();
-                    break;
-                case "polygon":
-                    symbol = new SimpleFillSymbol();
-                    break;
+            case "point":
+                symbol = new SimpleMarkerSymbol();
+                break;
+            case "polyline":
+                symbol = new SimpleLineSymbol();
+                break;
+            case "polygon":
+                symbol = new SimpleFillSymbol();
+                break;
             }
             //return symbol
             return symbol;
+        },
+
+        /**
+        * This function is used to reorder all the layers on map
+        * @memberOf widgets/main/main
+        */
+        _reorderAllLayers: function () {
+            var layer, i, layerInstance, index, basemapLength;
+            basemapLength = 1;
+            if ((this.map.layerIds) && (this.map.layerIds.length > 0)) {
+                basemapLength = this.map.layerIds.length;
+            }
+            for (i = 0; i < this._selectedMapDetails.itemInfo.itemData.operationalLayers.length; i++) {
+                for (layer in this.map._layers) {
+                    if (this.map._layers.hasOwnProperty(layer)) {
+                        if (this.map._layers[layer].id === this._selectedMapDetails.itemInfo.itemData.operationalLayers[i].id) {
+                            if (this.selectedLayer.id === this.map._layers[layer].id) {
+                                layerInstance = this.map.getLayer("Graphics" + this._selectedMapDetails.itemInfo.itemData.operationalLayers[i].id);
+                            } else {
+                                layerInstance = this.map.getLayer(this._selectedMapDetails.itemInfo.itemData.operationalLayers[i].id);
+                            }
+                            index = i + basemapLength;
+                            this.map.reorderLayer(layerInstance, index);
+                        }
+                    }
+                }
+            }
         },
 
         /*-------  Begining of section for Geographical Filtering  -------*/
@@ -1518,6 +1549,8 @@ define([
             //Fetch defination expression of selected feature layer
             this._getExistingDefinitionExpression(details.itemInfo, selectedOperationalLayer);
             selectedOperationalLayer.hide();
+            // get index of layer
+            this._getExistingIndex(layerID);
             //Check if graphics layer already exsists
             if (this.displaygraphicsLayer) {
                 this.map.removeLayer(this.displaygraphicsLayer);
@@ -1526,8 +1559,24 @@ define([
             this.displaygraphicsLayer.setRenderer(cloneRenderer);
             this.displaygraphicsLayer.setInfoTemplate(cloneInfoTemplate);
             this.displaygraphicsLayer.setOpacity(layerOpacity);
-            this.map.addLayer(this.displaygraphicsLayer);
+            this.map.addLayer(this.displaygraphicsLayer, this._existingLayerIndex);
             this._getFeatureLayerCount(details, selectedOperationalLayer);
+            this._reorderAllLayers();
+        },
+
+        /**
+        * This function is used get existing index of layer
+        * @memberOf widgets/main/main
+        */
+        _getExistingIndex: function (layerID) {
+            var index, i;
+            this._existingLayerIndex = null;
+            for (i = 0; i < this._selectedMapDetails.itemInfo.itemData.operationalLayers.length; i++) {
+                if (this._selectedMapDetails.itemInfo.itemData.operationalLayers[i].id === layerID) {
+                    index = i + 1;
+                    this._existingLayerIndex = index;
+                }
+            }
         },
 
         /**

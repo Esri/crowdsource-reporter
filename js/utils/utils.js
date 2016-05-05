@@ -20,6 +20,7 @@ define([
     "dojo/dom",
     "dojo/_base/fx",
     "dojo/_base/lang",
+    "dojo/_base/array",
     "dojo/dom-construct",
     "dojo/dom-geometry",
     "dojo/dom-class",
@@ -38,6 +39,7 @@ define([
     dom,
     coreFx,
     lang,
+    array,
     domConstruct,
     domGeometry,
     domClass,
@@ -187,7 +189,7 @@ define([
             createHomeButtonDiv = domConstruct.create("div", { "class": "esriCTHomeButton" }, parentNode);
             homeButton = new HomeButton({
                 map: map,
-                class: "esriCTHomeButton"
+                "class": "esriCTHomeButton"
             }, createHomeButtonDiv);
             homeButton.startup();
         },
@@ -272,6 +274,18 @@ define([
             this.locatorInstance.onError = lang.hitch(this, function (err) {
                 this.onLocationToAddressFailed(err);
             });
+        },
+
+        /**
+        * This function is used to refresh the supporting label layers
+        * @memberOf widgets/utils/utils
+        */
+        refreshLabelLayers: function (operationalLayers) {
+            array.forEach(operationalLayers, lang.hitch(this, function (currentLayer) {
+                if (currentLayer.layerObject.showLabels && currentLayer.layerObject.labelingInfo) {
+                    currentLayer.layerObject.refresh();
+                }
+            }));
         }
     });
 });
