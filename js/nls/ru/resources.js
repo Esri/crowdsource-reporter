@@ -14,135 +14,132 @@
  | See the License for the specific language governing permissions and
  | limitations under the License.
  */
-define(
-     ({
-        map: {
-            error: "Не удалось создать карту",
-            zoomInTooltip: "Увеличить",  // Command button to zoom in to the map
-            zoomOutTooltip: "Уменьшить",  // Command button to zoom out of the map
-            geolocationTooltip: "Текущее местоположение"  // Command button to navigate to the current geographical position
-        },
-        main: {
-            noGroup: "Не задана группа", // Shown when no group is configured in the configuration file
-            submitReportButtonText: "Ж_Submit a Report______Я", //Submit report  text for buttons on map and list
-            gotoListViewTooltip: "Вид - список", // Go to List view tooltip text
-            noFeatureGeomtery: "Объекты невозможно отобразить" // Error message when geomtery is not available
-        },
-        signin: {
-            guestSigninText: "Продолжить как гость", // Shown in the 'Sign in' page below the icon for accessing application as an anonymous user
-            signInOrText: "Или", // Or text on sign in screen
-            signinOptionsText: "Вход с использованием:", // Shown in the 'Sign in' page above the icons for social media sign in
-            noGroupNameText: "Выполните вход", // Shown when the group title is not available or the group is private
-            guestLoginTooltip: "Войти как гость", // Command button to access the application as an anonymous user
-            facebookLoginTooltip: "Войти через Facebook", // Command button to access the application via Facebook login
-            twitterLoginTooltip: "Войти через Twitter", // Command button to access the application via Twitter login
-            googlePlusLoginTooltip: "Войти через Google+", // Command button to access the application via Google+ login
-            agolLoginTooltip: "Войти через ArcGIS" // Command button to access the application via AGOL login
-        },
-        webMapList: {
-            owner: "Владелец", // Shown in the 'Map information' section indicating the owner of the webmap
-            created: "Время создания", // Shown in the 'Map information' section indicating the date when the webmap was created
-            modified: "Дата изменения", // Shown in the 'Map information' section indicating the date when the webmap was modified
-            description: "Описание", // Shown in the 'Map information' section describing the webmap
-            snippet: "Итоговая информация", // Shown in the 'Map information' section providing the summary of the webmap
-            licenseInfo: "Ограничения доступа и использования", // Shown in the map information section indicating the webmap license information
-            accessInformation: "Сведения об авторах", // Shown in the 'Map information' section indicating account credits
-            tags: "Теги", // Shown in the 'Map information' section indicating tags of the webmap
-            numViews: "Количество просмотров", // Shown in the 'Map information' section indicating number of times the webmap has been viewed
-            avgRating: "Рейтинг", // Shown in the 'Map information' section indicating webmap rating
-            noWebMapInGroup: "Настроенная группа недействительна, или в указанной группе нет доступных элементов", // Shown when the configured group is invalid/private or no items have been shared with the group
-            infoBtnToolTip: "Информация карты" // Command button to view the 'Map information'
-        },
-        issueWall: {
-            noResultsFound: "Не найдены объекты", // Shown in the issue wall when no issues are present in layer
-            noResultsFoundInCurrentBuffer: "Не найдены объекты рядом", // Shown in the issue wall when no issues are present in the current buffer extent
-            unableToFetchFeatureError: "Невозможно завершить операцию", // Shown in the issue wall when layer does not return any features and throws an error
-            gotoWebmapListTooltip: "Перейти в основной список", // Tooltip for back icon in list header
-            gotoMapViewTooltip: "Вид карты" // Tooltip for map-it icon in list header
-        },
-        appHeader: {
-            myReport: "Мои отчеты", // Command button shown in mobile menu list
-            signIn: "Вход", // Command button shown in mobile menu list and in appheader
-            signOut: "Выход", // Command button shown in mobile menu list
-            signInTooltip: "Вход", // Tooltip to 'Sign in' option
-            signOutTooltip: "Выход", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Просмотреть мои отчеты" // Tooltip  to 'My Reports' option
-        },
-        geoform: {
-            enterInformation: "Подробности", // Shown as the first section of the geoform, where the user can enter details of the issue
-            selectAttachments: "Вложения", // Appears above 'Select file' button indicating option to attach files
-            selectFileText: "Просмотр", // Command button to open a dialog box to select file(s) to be attached
-            enterLocation: "Расположение", // Shown as the second section of the geoform, where the user can select a location on the map
-            reportItButton: "Отчет", // Command button to submit the geoform to report an issue
-            cancelButton: "Отменить", //Command button to close the geoform
-            requiredField: "(необходимо)", // Shown next to the field in which the data is mandatory
-            selectDefaultText: "Выбрать&hellip;", // Shown in the dropdown field indicating to select an option
-            invalidInputValue: "Введите корректное значение.", // Shown when user clicks/taps the required field but does not enter the data and comes out of the required field
-            noFieldsConfiguredMessage: "Поля слоя не настроены для получения данных", // Shown when all the fields of the selected layer are disabled
-            invalidSmallNumber: "Введите целое число", // Shown when the entered value is beyond the specified range (valid ${openStrong}integer${closeStrong} value between -32768 and 32767.)
-            invalidNumber: "Введите целое число", // Shown when the entered value is beyond the specified range (valid ${openStrong}integer${closeStrong} value between -2147483648 and 2147483647.)
-            invalidFloat: "Введите число", // Shown when the entered value is beyond the specified range (valid ${openStrong}floating point${closeStrong} value between -3.4E38 and 1.2E38 )
-            invalidDouble: "Введите число", // Shown when the entered value is beyond the specified range (valid ${openStrong}double${closeStrong} value between -2.2E308 and 1.8E308)
-            requiredFields: "Укажите значения для всех обязательных полей", // Shown when user submits the geoform without entering data in the mandatory field(s)
-            selectLocation: "Выберите местоположение для отчета", // Shown when user submits the geoform without selecting location on the map
-            numericRangeHintMessage: "${openStrong}Подсказка:${closeStrong} Минимальное значение ${minValue} и Максимальное значение ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
-            dateRangeHintMessage: "${openStrong}Hint:${closeStrong} Минимальная дата ${minValue} и Максимальная дата ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Невозможно добавить отчет.", // Shown when there is an error in any of the services while submitting the geoform
-            attachmentSelectedMsg: "выбранные вложения", // Shown besides the select file button indicating the number of files attached
-            attachmentUploadStatus: "${failed} из ${total} вложений не удалось выгрузить.", // Shown when there is error while uploading the attachment, while submitting the geoform
-            geoLocationError: "Текущее местоположение недоступно",  // Shown when the browser returns an error instead of the current geographical position
-            geoLocationOutOfExtent: "Текущее местоположение вне экстента базовой карты",  // Shown when the current geographical position is out of the basemap extent
-            submitButtonTooltip: "Ж_Submit___Я", // Command button to open the geoform
-            cancelButtonTooltip: "Отменить", //tooltip for cancel button
-            geoformBackButtonTooltip: "Ж_Return to the report list_________Я" //tooltip for Geoform back button
-
-        },
-        locator: {
-            addressText: "Адрес:", // Shown as a title for a group of addresses returned on performing unified search
-            usngText: "USNG", // Shown as a title for a group of USNG values returned on performing unified search
-            mgrsText: "MGRS", // Shown as a title for a group of MGRS values returned on performing unified search
-            latLongText: "Широта/Долгота", // Shown as a title for a group of latitude longitude values returned on performing unified search
-            invalidSearch: "Результаты не найдены", // Shown in the address container when no results are returned on performing unified search
-            locatorPlaceholder: "Введите адрес для поиска", // Shown in the address container textbox as a placeholder
-            locationOutOfExtent: "Адрес находится вне экстента базовой карты", // Shown as an alert when the selected address in the search result is out of basemap extent
-            searchButtonTooltip: "Поиск", // Tooltip for search button
-            clearButtonTooltip: "Очистить значение поиска" // Tooltip for Geocoder clear button
-        },
-        myIssues: {
-            title: "Мои отчеты", // Shown as a title in 'My issues' panel
-            myIssuesTooltip: "Мои отчеты", // Command button to access issues reported by the logged in user
-            noResultsFound: "Отчеты не найдены." // Shown when no issues are reported by the logged in user
-        },
-        itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Ж_Vote__Я", // Command button for up-voting a report
-            likeButtonTooltip: "Голосовать за этот отчет",  // Tooltip for Like button
-            commentButtonLabel: "Комментарий", // Command button for submitting feedback
-            commentButtonTooltip: "Комментировать этот отчет", // Tooltip for Comment button
-            galleryButtonLabel: "Галерея", // Command button for opening and closing attachment file gallery
-            galleryButtonTooltip: "Просмотр вложенных документов", // Tooltip for command button shown in details panel
-            mapButtonLabel: "Просмотр на карте", // Command button shown in details panel
-            mapButtonTooltip: "Просмотреть местоположение этого отчета", // Tooltip for Gallery button
-            commentsListHeading: "Комментарии", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "Ваш голос не может быть учтен сейчас.", // Error message for feature unable to update
-            gotoIssueListTooltip: "Перейти к списку отчетов" // Tooltip for back icon in Issue list header
-        },
-        itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Число голосов отданных за отчет", //Shown on hovering of the like icon in my-issues and issue-wall
-            loadMoreButtonText: "Загрузить больше..." //Text for load more button
-        },
-        comment: {
-            commentsFormSubmitButton: "Отправить комментарий",
-            commentsFormCancelButton: "Отменить",
-            errorInSubmittingComment: "Комментарий не может быть добавлен.", // Shown when user is unable to add comments
-            emptyCommentMessage: "Введите комментарий.", // Shown when user submits a comment without any text/character
-            placeHolderText: "Введите комментарий", // Shown as a placeholder in comments textbox
-            noCommentsAvailableText: "Нет доступных комментариев", // Shown when no comments are available for the selected issue
-            remainingTextCount: "Символов осталось: ${0}", // Shown below the comments textbox indicating the number of characters that can be added
-            showNoText: "Нет" // Shown when comments character limit is exceeded
-        },
-        gallery: {
-            galleryHeaderText: "Галерея",
-            noAttachmentsAvailableText: "Вложения не найдены" // Shown when no comments are available for the selected issue
-        }
-    })
-);
+define({
+  "map": {
+    "error": "Не удалось создать карту",
+    "zoomInTooltip": "Увеличить",
+    "zoomOutTooltip": "Уменьшить",
+    "geolocationTooltip": "Текущее местоположение"
+  },
+  "main": {
+    "noGroup": "Не задана группа",
+    "submitReportButtonText": "Ж_Submit a Report______Я",
+    "gotoListViewTooltip": "Вид - список",
+    "noFeatureGeomtery": "Объекты невозможно отобразить"
+  },
+  "signin": {
+    "guestSigninText": "Продолжить как гость",
+    "signInOrText": "Или",
+    "signinOptionsText": "Вход с использованием:",
+    "noGroupNameText": "Выполните вход",
+    "guestLoginTooltip": "Войти как гость",
+    "facebookLoginTooltip": "Войти через Facebook",
+    "twitterLoginTooltip": "Войти через Twitter",
+    "googlePlusLoginTooltip": "Войти через Google+",
+    "agolLoginTooltip": "Войти через ArcGIS"
+  },
+  "webMapList": {
+    "owner": "Владелец",
+    "created": "Время создания",
+    "modified": "Дата изменения",
+    "description": "Описание",
+    "snippet": "Итоговая информация",
+    "licenseInfo": "Ограничения доступа и использования",
+    "accessInformation": "Сведения об авторах",
+    "tags": "Теги",
+    "numViews": "Количество просмотров",
+    "avgRating": "Рейтинг",
+    "noWebMapInGroup": "Настроенная группа недействительна, или в указанной группе нет доступных элементов",
+    "infoBtnToolTip": "Информация карты"
+  },
+  "issueWall": {
+    "noResultsFound": "Не найдены объекты",
+    "noResultsFoundInCurrentBuffer": "Не найдены объекты рядом",
+    "unableToFetchFeatureError": "Невозможно завершить операцию",
+    "gotoWebmapListTooltip": "Перейти в основной список",
+    "gotoMapViewTooltip": "Вид карты"
+  },
+  "appHeader": {
+    "myReport": "Мои отчеты",
+    "signIn": "Вход",
+    "signOut": "Выход",
+    "signInTooltip": "Вход",
+    "signOutTooltip": "Выход",
+    "myReportTooltip": "Просмотреть мои отчеты"
+  },
+  "geoform": {
+    "enterInformation": "Подробности",
+    "selectAttachments": "Вложения",
+    "selectFileText": "Просмотр",
+    "enterLocation": "Расположение",
+    "reportItButton": "Отчет",
+    "cancelButton": "Отменить",
+    "requiredField": "(необходимо)",
+    "selectDefaultText": "Выбрать&hellip;",
+    "invalidInputValue": "Введите корректное значение.",
+    "noFieldsConfiguredMessage": "Поля слоя не настроены для получения данных",
+    "invalidSmallNumber": "Введите целое число",
+    "invalidNumber": "Введите целое число",
+    "invalidFloat": "Введите число",
+    "invalidDouble": "Введите число",
+    "requiredFields": "Укажите значения для всех обязательных полей",
+    "selectLocation": "Выберите местоположение для отчета",
+    "numericRangeHintMessage": "${openStrong}Подсказка:${closeStrong} Минимальное значение ${minValue} и Максимальное значение ${maxValue}",
+    "dateRangeHintMessage": "${openStrong}Hint:${closeStrong} Минимальная дата ${minValue} и Максимальная дата ${maxValue}",
+    "errorsInApplyEdits": "Невозможно добавить отчет.",
+    "attachmentSelectedMsg": "выбранные вложения",
+    "attachmentUploadStatus": "${failed} из ${total} вложений не удалось выгрузить.",
+    "geoLocationError": "Текущее местоположение недоступно",
+    "geoLocationOutOfExtent": "Текущее местоположение вне экстента базовой карты",
+    "submitButtonTooltip": "Ж_Submit___Я",
+    "cancelButtonTooltip": "Отменить",
+    "geoformBackButtonTooltip": "Ж_Return to the report list_________Я"
+  },
+  "locator": {
+    "addressText": "Адрес:",
+    "usngText": "USNG",
+    "mgrsText": "MGRS",
+    "latLongText": "Широта/Долгота",
+    "invalidSearch": "Результаты не найдены",
+    "locatorPlaceholder": "Введите адрес для поиска",
+    "locationOutOfExtent": "Адрес находится вне экстента базовой карты",
+    "searchButtonTooltip": "Поиск",
+    "clearButtonTooltip": "Очистить значение поиска"
+  },
+  "myIssues": {
+    "title": "Мои отчеты",
+    "myIssuesTooltip": "Мои отчеты",
+    "noResultsFound": "Отчеты не найдены."
+  },
+  "itemDetails": {
+    "likeButtonLabel": "Ж_Vote__Я",
+    "likeButtonTooltip": "Голосовать за этот отчет",
+    "commentButtonLabel": "Комментарий",
+    "commentButtonTooltip": "Комментировать этот отчет",
+    "galleryButtonLabel": "Галерея",
+    "galleryButtonTooltip": "Просмотр вложенных документов",
+    "mapButtonLabel": "Просмотр на карте",
+    "mapButtonTooltip": "Просмотреть местоположение этого отчета",
+    "commentsListHeading": "Комментарии",
+    "unableToUpdateVoteField": "Ваш голос не может быть учтен сейчас.",
+    "gotoIssueListTooltip": "Перейти к списку отчетов"
+  },
+  "itemList": {
+    "likesForThisItemTooltip": "Число голосов отданных за отчет",
+    "loadMoreButtonText": "Загрузить больше..."
+  },
+  "comment": {
+    "commentsFormSubmitButton": "Отправить комментарий",
+    "commentsFormCancelButton": "Отменить",
+    "errorInSubmittingComment": "Комментарий не может быть добавлен.",
+    "emptyCommentMessage": "Введите комментарий.",
+    "placeHolderText": "Введите комментарий",
+    "noCommentsAvailableText": "Нет доступных комментариев",
+    "remainingTextCount": "Символов осталось: ${0}",
+    "showNoText": "Нет"
+  },
+  "gallery": {
+    "galleryHeaderText": "Галерея",
+    "noAttachmentsAvailableText": "Вложения не найдены"
+  }
+});
