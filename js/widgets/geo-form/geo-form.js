@@ -66,6 +66,8 @@ define([
         hasLocationField: false,
         firstMapClickPoint: null,
         _webmapResponse: null,
+        newLocationFieldValue: null,
+        locationFieldLength: null,
         /**
         * This function is called when widget is constructed.
         * @param{object} options to be mixed
@@ -1739,6 +1741,10 @@ define([
             featureData.geometry = {};
             // Assign feature geometry
             featureData.geometry = this.addressGeometry;
+            //Check if location field is not visible in popup but still it is editable
+            if (this.newLocationFieldValue) {
+                featureData.attributes[this.config.locationField] = this.newLocationFieldValue;
+            }
             // Add feature to the layer
             this.layer.applyEdits([featureData], null, null, lang.hitch(this, function (addResults) {
                 // Add attachment on success
@@ -2141,8 +2147,9 @@ define([
         */
         _findLocationField: function () {
             array.some(this.layer.fields, lang.hitch(this, function (currentField) {
-                if (this.config.locationField === currentField.name && currentField.type === "esriFieldTypeString" && !currentField.domain && !currentField.typeField) {
+                if (this.config.locationField === currentField.name && currentField.type === "esriFieldTypeString" && !currentField.domain && !currentField.typeField && currentField.editable) {
                     this.hasLocationField = true;
+                    this.locationFieldLength = currentField.length;
                     return true;
                 }
             }));
@@ -2159,6 +2166,14 @@ define([
                     locationFieldTextBox.value = selectedAddress;
                     domClass.add(locationFieldTextBox.parentElement, "has-success");
                 }
+            } else if (this.hasLocationField && this.config.locationField) {
+                //Check if address fits in given field length
+                if (selectedAddress.length <= this.locationFieldLength) {
+                    this.newLocationFieldValue = selectedAddress;
+                } else {
+                    //If address is longer than the configured field length, trim the address till the field length 
+                    this.newLocationFieldValue = selectedAddress.substring(0, this.locationFieldLength);
+                }
             }
         },
 
@@ -2172,6 +2187,7 @@ define([
                 locationFieldTextBox.value = "";
                 domClass.remove(locationFieldTextBox.parentElement, "has-success");
             }
+            this.newLocationFieldValue = null;
         }
     });
 });
