@@ -68,34 +68,23 @@
 	        "type": "string",
 	        "fieldName": "signInBackgroundImage"
 	    }, {
-	        "label": "URL of application logo",
+	        "label": "URL to a logo to display in the application header",
 	        "tooltip": "Logo displays in top left corner of application. Image should be 48px tall.",
 	        "type": "string",
 	        "fieldName": "applicationIcon"
 	    }, {
-	        "label": "Color scheme",
+	        "label": "URL to a favicon to display in browser tabs where your application is loaded",
+	        "tooltip": "Icon to display in browser tabs",
+	        "type": "string",
+	        "fieldName": "applicationFavicon"
+	    }, {
+	        "label": "Application color",
 	        "tooltip": "Application color scheme",
 	        "type": "color",
 	        "fieldName": "theme"
-	    }]
-	}, {
-	    "category": "<b>Content Settings</b>",
-	    "fields": [{
-	        "label": "Map zoom level for selected reports",
-	        "tooltip": "When a new report is selected in teh table, the map will zoom to the associated feature using this zoom level.",
-	        "type": "string",
-	        "fieldName": "zoomLevel"
 	    }, {
 	        "type": "paragraph",
-	        "value": "By default, Crowdsource Reporter apps will show only one editable layer at a time. Optionally, choose to display your non-editable map layers with each editable layer to provide additional context for the reports."
-	    }, {
-	        "label": "Show supporting layers",
-	        "tooltip": "Enable to show non-editable layers",
-	        "type": "boolean",
-	        "fieldName": "showNonEditableLayers"
-	    }, {
-	        "type": "paragraph",
-	        "value": "When the application loads, users will be asked to share their location to view nearby reports. Define the radius of this initial search for nearby reports. Users will be able to expand this search radius incrementally in the application."
+	        "value": "When the application loads, users will be asked to share their location to view nearby reports. Only reports in this radius will load, but users can expand this search radius incrementally in the application. Define the radius of this initial search for nearby reports. "
 	    }, {
 	        "label": "Initial search radius",
 	        "tooltip": "When location is shared, application will initially load all reports within this search radius",
@@ -121,8 +110,30 @@
 	        }]
 	    }]
 	}, {
-	    "category": "<b>Map Information Settings</b>",
+	    "category": "<b>Map Settings</b>",
 	    "fields": [{
+	        "type": "subcategory",
+	        "label": "Reference Layers"
+	    }, {
+	        "type": "paragraph",
+	        "value": "By default, Crowdsource Reporter apps will show only one editable layer at a time. Optionally, choose to also display non-editable map layers for additional context."
+	    }, {
+	        "label": "Show reference layers",
+	        "tooltip": "Enable to show non-editable layers",
+	        "type": "boolean",
+	        "fieldName": "showNonEditableLayers"
+	    }, {
+	        "type": "subcategory",
+	        "label": "Zoom Level"
+	    }, {
+	        "label": "When a report is selected from the list, the map will pan and zoom to show the location of that report. Specify how near (larger number) or far (smaller number) the map should zoom relative to the ground.",
+	        "tooltip": "When a report is selected the map will zoom to the associated feature using this zoom level.",
+	        "type": "string",
+	        "fieldName": "zoomLevel"
+	    }, {
+	        "type": "subcategory",
+	        "label": "Map Information"
+	    }, {
 	        "type": "paragraph",
 	        "value": "Select the item details elements that will be visible for each map:"
 	    }, {
@@ -180,43 +191,84 @@
 	    "category": "<b>Form Settings</b>",
 	    "fields": [{
 	        "type": "paragraph",
-	        "value": "Collect and store comments on submitted reports using a related table. Commenting is available for layers with geodatabase relationships to a single table. Choose to collect and display comments using a single field, or using the popup configuration of the table layer."
+	        "value": "The form for submitting new reports is built in three sections for providing the report details, supporting documents, and the location of the report."
 	    }, {
-	        "label": "Display related records using the popup configuration for the related table layer.",
-	        "tooltip": "Enable to display related records and the editing form based on the table layer's popup configuration instead of a single field. Fields that are marked editable in the popup will be editable in the application.",
-	        "type": "boolean",
-	        "fieldName": "usePopupConfigurationForComment"
+	        "type": "subcategory",
+	        "label": "Report Details"
 	    }, {
-	        "label": "Alternatively, provide the name of a field in the related table(s) to display content from a single field for each related record, regardless of the popup settings.",
-	        "tooltip": "Only content from related tables that have this field will be accessible through the application. This value is ignored if you choose to build the form from the comment table popup (previous option).",
-	        "type": "string",
-	        "fieldName": "commentField"
-	    }, {
-	        "label": "Field to store the vote count for each report",
-	        "tooltip": "Integer field that stores the vote count for each report. Layers without a field of this name will not have the option for submitting votes.",
-	        "type": "string",
-	        "fieldName": "likeField"
+	        "type": "paragraph",
+	        "value": "The details section of the form is built using the fields marked as editable in the popup configuration."
 	    }, {
 	        "label": "Header for the report details section of the form",
 	        "tooltip": "Header for the section of the form that is populated by the layer's editable fields.",
 	        "type": "string",
 	        "fieldName": "geoformDetailsSectionLabel"
 	    }, {
-	        "label": "Header for the report location section of the form",
+	        "type": "subcategory",
+	        "label": "Attachments"
+	    }, {
+	        "label": "Header for section of the form where photos and other supporting files can be added to the report. This section is only available when attachments are enabled on the layer.",
+	        "tooltip": "Header for the section of the form where supporting files can be attached to the report.",
+	        "type": "string",
+	        "fieldName": "geoformAttachmentSectionLabel"
+	    }, {
+	        "type": "subcategory",
+	        "label": "Location"
+	    }, {
+	        "label": "Header for the report location section of the form. The report location can be drawn on the map or found by searching for an address.",
 	        "tooltip": "Header for the section of the form containing the map and location search options.",
 	        "type": "string",
 	        "fieldName": "geoformLocationSectionLabel"
 	    }, {
-	        "label": "Header for the attachments and supporting documents section of the form",
-	        "tooltip": "Header for the section of the form where supporting files can be attached to the report. This section is only available when attachments are eneabled on the layer.",
+	        "label": "Optionally, store a text form of the report location. This location-storing functionality will only be available for layers with a field of the specified (case-sensitive) name.",
+	        "tooltip": "Allows user to configure location field",
 	        "type": "string",
-	        "fieldName": "geoformAttachmentSectionLabel"
+	        "fieldName": "locationField"
+	    }, {
+	        "type": "subcategory",
+	        "label": "Submission Message"
 	    }, {
 	        "label": "Message displayed after a report is submitted",
 	        "tooltip": "Message displayed when a report is submitted successfully",
 	        "type": "string",
 	        "stringFieldOption": "textarea",
 	        "fieldName": "submitMessage"
+	    }, {
+	        "type": "paragraph",
+	        "value": "For more information on setting up the report form, check out the <a href=\"http://links.esri.com/localgovernment/help/crowdsource-reporter\" target=\"_blank\">Crowdsource Reporter documentation<\/a>."
+	    }]
+	}, {
+	    "category": "<b>Comments & Votes Settings</b>",
+	    "fields": [{
+	        "type": "subcategory",
+	        "label": "Comments"
+	    }, {
+	        "type": "paragraph",
+	        "value": "Collect and store comments on reports using a related table. Commenting is available for layers with geodatabase relationships to a single table. Choose to collect and display comments using a single field, or using the popup configuration of the table layer."
+	    }, {
+	        "label": "Display comments using the popup configuration of the table layer where the comments are stored.",
+	        "tooltip": "Enable to display related records and the editing form based on the table layer's popup configuration instead of a single field. Fields that are marked editable in the popup will be editable in the application.",
+	        "type": "boolean",
+	        "fieldName": "usePopupConfigurationForComment"
+	    }, {
+	        "label": "Alternatively, provide the name of a field to display, regardless of the popup settings. This value is ignored if you choose to build the form from the comment table popup (previous option). Commenting will only be available for layers related to tables that have a field of this name.",
+	        "tooltip": "Only content from related tables that have this field will be accessible through the application. This value is ignored if you choose to build the form from the comment table popup (previous option).",
+	        "type": "string",
+	        "fieldName": "commentField"
+	    }, {
+	        "type": "subcategory",
+	        "label": "Votes"
+	    }, {
+	        "label": "Allow users to vote for reports by specifying a numeric field from one or many of the layers that will be shown in your app. A vote button will appear on reports submitted to any layer that has a field of this name, and clicking this button will increment the vote count stored in this field.",
+	        "tooltip": "Integer field that stores the vote count for each report. Layers without a field of this name will not have the option for submitting votes.",
+	        "type": "string",
+	        "fieldName": "likeField"
+	    }, {
+	        "type": "paragraph",
+	        "value": "Voting will not be available on layers that do not have a field of this (case-sensitive) name. Voting requires a service that allows updating existing records."
+	    }, {
+	        "type": "paragraph",
+	        "value": "For more information on setting up comments and votes, check out the <a href=\"http://links.esri.com/localgovernment/help/crowdsource-reporter\" target=\"_blank\">Crowdsource Reporter documentation<\/a>."
 	    }]
 	}, {
 	    "category": "<b>Search Settings</b>",
@@ -238,17 +290,12 @@
 	        "tooltip": "Enable latitude/longitude search",
 	        "type": "boolean",
 	        "fieldName": "enableLatLongSearch"
-	    }, {
-	        "label": "Location Field (optional)",
-	        "tooltip": "Allows user to configure location field",
-	        "type": "string",
-	        "fieldName": "locationField"
 	    }]
 	}, {
 	    "category": "<b>Access Settings</b>",
 	    "fields": [{
 	        "type": "paragraph",
-	        "value": "Configure how users will be able to access your application. See the <a href='http://solutions.arcgis.com/local-government/help/crowdsource-polling/get-started/configure-social-media-signin/' target='_blank'>help</a> for the steps to register your app with Facebook and Google+."
+	        "value": "Configure how users will be able to access your application. See the <a href='http://links.esri.com/localgovernment/help/CrowdsourcePolling/SocialSignIn/' target='_blank'>help</a> for the steps to register your app with Facebook to get an AppId and Google+ to get a Client ID."
 	    }, {
 	        "label": "Allow anonymous access",
 	        "tooltip": "Enable to allow users to sign in as a guest user",
