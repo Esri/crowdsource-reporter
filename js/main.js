@@ -51,6 +51,7 @@ define([
     "esri/geometry/geometryEngine",
     "esri/geometry/webMercatorUtils",
     "esri/dijit/PopupTemplate",
+    "esri/toolbars/draw",
     "widgets/app-header/app-header",
     "widgets/webmap-list/webmap-list",
     "widgets/issue-wall/issue-wall",
@@ -98,6 +99,7 @@ define([
     geometryEngine,
     webMercatorUtils,
     PopupTemplate,
+    Draw,
     ApplicationHeader,
     WebMapList,
     IssueWall,
@@ -135,12 +137,15 @@ define([
         layerGraphicsArray: [],
         featuresInCurrentBuffer: [],
         displaygraphicsLayer: null,
+        featureGraphicLayer: null,
         geoLocationPoint: null,
         newlyAddedFeatures: [],
         basemapExtent: null,
         maxBufferLimit: 0,
         geolocationgGraphicsLayer: null,
         _isWebmapListRequired: true,
+        firstMapClickPoint: null,
+        _existingLayerIndex: null,
         startup: function (boilerPlateTemplateObject, loggedInUser) {
             // config will contain application and user defined info for the template such as i18n strings, the web map id
             // and application id
@@ -162,6 +167,25 @@ define([
                 aspect.before(this.mapSearch, "_validateAddress", lang.hitch(this, function () {
                     if (this.geolocationgGraphicsLayer) {
                         this.geolocationgGraphicsLayer.clear();
+                    }
+                    if (this.featureGraphicLayer) {
+                        this.featureGraphicLayer.clear();
+                    }
+
+                }));
+
+                //On click of address from main map, show it in geoform  
+                this.mapSearch.onAddressClicked = lang.hitch(this, function (geometry) {
+                    var evt = { "geometry": geometry };
+                    if (this.geoformInstance && !domClass.contains(dom.byId('geoformContainer'), "esriCTHidden")) {
+                        this.geoformInstance._addToGraphicsLayer(evt, false);
+                    }
+                });
+
+                //Populate location field after the address is validated
+                aspect.after(this.mapSearch, "_validateAddress", lang.hitch(this, function () {
+                    if (this.geoformInstance && this.selectedLayer.geometryType === "esriGeometryPoint" && !domClass.contains(dom.byId('geoformContainer'), "esriCTHidden")) {
+                        this.geoformInstance._populateLocationField(this.mapSearch.locatorSearch.txtSearch.value);
                     }
                 }));
 
@@ -215,6 +239,8 @@ define([
                 domClass.replace(dom.byId("sideContainer"), "esriCTBorderRight", "esriCTBorderLeft");
                 domClass.replace(dom.byId("geoformContainer"), "esriCTBorderRight", "esriCTBorderLeft");
             }
+            //Create esri geocoder instance, this will be needed in the process of reverse geocoding
+            this.appUtils.createGeocoderInstance();
         },
 
         /**
@@ -621,6 +647,8 @@ define([
                     this.filteredBufferIds = [];
                     this.maxBufferLimit = 0;
                     this.map = details.map;
+                    // Create instance of Draw tool to draw the graphics on graphics layer
+                    this.toolbar = new Draw(this.map);
                     this.newlyAddedFeatures = [];
                     this._selectedMapDetails = details;
                     this._initializeLayer(details);
@@ -637,6 +665,15 @@ define([
                             this.geoformInstance.setMapExtent(this.changedExtent);
                         }
                     }));
+
+                    // clear previous graphic, if present on map
+                    this.map.on("click", lang.hitch(this, function (evt) {
+                        if (!this.firstMapClickPoint) {
+                            this.firstMapClickPoint = evt.mapPoint;
+                        }
+                        this._clearSubmissionGraphic();
+                    }));
+
                     //Set the comments form Instance to null if it exsist
                     if (this._itemDetails && this._itemDetails.commentformInstance) {
                         this._itemDetails.commentformInstance = null;
@@ -648,7 +685,7 @@ define([
                 });
 
                 this.appUtils.onGeolocationComplete = lang.hitch(this, function (evt, addGraphic) {
-                    var symbol;
+                    var symbol, selectedGeometry = {};
                     if (!this.geolocationgGraphicsLayer) {
                         this.geolocationgGraphicsLayer = new GraphicsLayer();
                         this.map.addLayer(this.geolocationgGraphicsLayer);
@@ -664,7 +701,12 @@ define([
                     } else if (this.basemapExtent.contains(evt.graphic.geometry)) {
                         // add graphics on map if geolocation is called from geoform widget
                         if (addGraphic) {
-                            this.geoformInstance._locateSelectedAddress(evt.graphic.geometry);
+                            if (this.selectedLayer.geometryType === "esriGeometryPoint") {
+                                selectedGeometry.geometry = evt.graphic.geometry;
+                                this._addToGraphicsLayer(selectedGeometry);
+                                this.geoformInstance._addToGraphicsLayer(selectedGeometry, true);
+                                this.geoformInstance._zoomToSelectedFeature(selectedGeometry.geometry);
+                            }
                         } else {
                             // zoom the map to configured zoom level
                             this._selectedMapDetails.map.setLevel(this.config.zoomLevel);
@@ -719,6 +761,30 @@ define([
                     this._toggleMapView();
                 });
                 this._issueWallWidget.onSubmit = lang.hitch(this, function (evt) {
+                    if (!this.map.getLayer("featureLayerGraphics")) {
+                        this.featureGraphicLayer = new GraphicsLayer({ "id": "featureLayerGraphics" });
+                        this.map.addLayer(this.featureGraphicLayer);
+                    }
+                    // activate draw tool
+                    this._activateDrawTool();
+                    // Handle draw_activateDrawTool-end event which will be fired on selecting location
+                    on(this.toolbar, "draw-complete", lang.hitch(this, function (evt) {
+                        this._addToGraphicsLayer(evt);
+                        if (this.geoformInstance) {
+                            this.geoformInstance._addToGraphicsLayer(evt);
+                        }
+                        if (evt.geometry.type === "point") {
+                            this.appUtils.locatorInstance.locationToAddress(webMercatorUtils.webMercatorToGeographic(evt.geometry), 100);
+                        } else {
+                            this.appUtils.locatorInstance.locationToAddress(webMercatorUtils.webMercatorToGeographic(this.firstMapClickPoint), 100);
+                        }
+
+                        //Check if pusphin is aleady present on map, if it exsist clear the same
+                        if (this.mapSearch && this.mapSearch.countyLayer) {
+                            this.mapSearch.countyLayer.clear();
+                        }
+                        this.firstMapClickPoint = null;
+                    }));
                     this._createGeoForm();
                 });
                 this._issueWallWidget.onLoadMoreClick = lang.hitch(this, function (evt) {
@@ -835,15 +901,36 @@ define([
                             //refresh main map so that newly created issue will be shown on it.
                             var layer = this._selectedMapDetails.map.getLayer(this._selectedMapDetails.operationalLayerId);
                             layer.refresh();
+                            if (this.config.showNonEditableLayers) {
+                                //Refresh label layers to fetch label of updated feature
+                                this.appUtils.refreshLabelLayers(this._selectedMapDetails.itemInfo.itemData.operationalLayers);
+                            }
                             this._addNewFeature(objectId, this.selectedLayer, "geoform").then(lang.hitch(this, function () {
                                 //update my issue list when new issue is added
                                 if (this._myIssuesWidget) {
                                     this._myIssuesWidget.updateIssueList(this._selectedMapDetails, null, true);
                                 }
                             }));
+                            //clear graphics drawn on layer after feature has been submmited
+                            this.featureGraphicLayer.clear();
                         } catch (ex) {
                             this.appUtils.showError(ex.message);
                         }
+                    });
+                    //deactivate the draw tool on main map after closing geoform
+                    this.geoformInstance.onFormClose = lang.hitch(this, function () {
+                        this.toolbar.deactivate();
+                        if (this.featureGraphicLayer) {
+                            this.featureGraphicLayer.clear();
+                        }
+                    });
+
+                    //clear any graphics present on main map after graphic has been drawn on geoform map
+                    this.geoformInstance.onDrawComplete = lang.hitch(this, function (evt) {
+                        if (this.featureGraphicLayer) {
+                            this.featureGraphicLayer.clear();
+                        }
+                        this._addToGraphicsLayer(evt);
                     });
                     this.geoformInstance.startup();
                 }
@@ -862,7 +949,6 @@ define([
             queryFeature = new Query();
             queryFeature.objectIds = [parseInt(objectId, 10)];
             queryFeature.outFields = ["*"];
-            queryFeature.outSpatialReference = layer.spatialReference;
             queryFeature.where = currentDateTime + "=" + currentDateTime;
             queryFeature.returnGeometry = true;
             layer.queryFeatures(queryFeature, lang.hitch(this, function (result) {
@@ -1059,7 +1145,7 @@ define([
         * @param{object} map
         */
         highLightFeatureOnClick: function (layer, objectId, selectedGraphicsLayer, map) {
-            var esriQuery, highlightSymbol;
+            var esriQuery, highlightSymbol, currentDateTime = new Date().getTime();
             this.mapInstance = map;
             if (selectedGraphicsLayer) {
                 // clear graphics layer
@@ -1067,6 +1153,7 @@ define([
             }
             esriQuery = new Query();
             esriQuery.objectIds = [parseInt(objectId, 10)];
+            esriQuery.where = currentDateTime + "=" + currentDateTime;
             esriQuery.returnGeometry = true;
             layer.queryFeatures(esriQuery, lang.hitch(this, function (featureSet) {
                 // Check if feature is valid and have valid geometry, if not prompt with no geometry message
@@ -1300,6 +1387,144 @@ define([
             }));
         },
 
+        /**
+        * Active draw tool
+        * @memberOf widgets/geo-form/geo-form
+        */
+        _activateDrawTool: function () {
+            var tool, type;
+            // Select layer type
+            type = this._selectLayerType();
+            tool = type.toUpperCase();
+            // active draw tool
+            this.toolbar.activate(Draw[tool]);
+            // clear graphics on the map
+            this._clearSubmissionGraphic();
+        },
+
+        /**
+        * Get geometry type of the selected layer
+        * @memberOf widgets/geo-form/geo-form
+        */
+        _selectLayerType: function () {
+            var type;
+            //set type for selected geometry type of the layer
+            switch (this.selectedLayer.geometryType) {
+            case "esriGeometryPoint":
+                type = "point";
+                break;
+            case "esriGeometryPolyline":
+                type = "polyline";
+                break;
+            case "esriGeometryPolygon":
+                type = "polygon";
+                break;
+            }
+            // return Value
+            return type;
+        },
+
+        /**
+        * Add graphic on the map
+        * @param{object} evt, draw tool bar event
+        * @memberOf widgets/geo-form/geo-form
+        */
+        _addToGraphicsLayer: function (evt) {
+            var symbol, graphic, graphicGeometry;
+            // clear graphics on the map
+            this._clearSubmissionGraphic();
+            // get geometry
+            if (evt.geometry) {
+                graphicGeometry = evt.geometry.type === "extent" ? this._createPolygonFromExtent(evt.geometry) : evt.geometry;
+            } else {
+                graphicGeometry = evt;
+            }
+            symbol = this._createFeatureSymbol(graphicGeometry.type);
+            // create new graphic
+            graphic = new Graphic(graphicGeometry, symbol);
+            // add graphics
+            this.featureGraphicLayer.add(graphic);
+        },
+
+        /**
+        * Clear graphics
+        * @memberOf widgets/geo-form/geo-form
+        */
+        _clearSubmissionGraphic: function () {
+            if (this.featureGraphicLayer) {
+                this.featureGraphicLayer.clear();
+            }
+        },
+
+        /**
+        * Convert extent type of geometry to polygon geometry
+        * @param{object} geometry, geometry of the graphics plotted on the map
+        * @memberOf widgets/geo-form/geo-form
+        */
+        _createPolygonFromExtent: function (geometry) {
+            var polygon = new Polygon(geometry.spatialReference);
+            // set geometry ring to the polygon layer
+            polygon.addRing([
+                [geometry.xmin, geometry.ymin],
+                [geometry.xmin, geometry.ymax],
+                [geometry.xmax, geometry.ymax],
+                [geometry.xmax, geometry.ymin],
+                [geometry.xmin, geometry.ymin]
+            ]);
+            // return polygon geometry
+            return polygon;
+        },
+
+        /**
+        * Create symbol for draw tool geometries in draw tab
+        * @param{string} geometryType, type of geometry
+        * @memberOf widgets/geo-form/geo-form
+        */
+        _createFeatureSymbol: function (geometryType) {
+            var symbol;
+            //set symbol for selected geometry type of the layer
+            switch (geometryType) {
+            case "point":
+                symbol = new SimpleMarkerSymbol();
+                break;
+            case "polyline":
+                symbol = new SimpleLineSymbol();
+                break;
+            case "polygon":
+                symbol = new SimpleFillSymbol();
+                break;
+            }
+            //return symbol
+            return symbol;
+        },
+
+        /**
+        * This function is used to reorder all the layers on map
+        * @memberOf widgets/main/main
+        */
+        _reorderAllLayers: function () {
+            var layer, i, layerInstance, index, basemapLength;
+            basemapLength = 1;
+            if ((this.map.layerIds) && (this.map.layerIds.length > 0)) {
+                basemapLength = this.map.layerIds.length;
+            }
+            for (i = 0; i < this._selectedMapDetails.itemInfo.itemData.operationalLayers.length; i++) {
+                for (layer in this.map._layers) {
+                    if (this.map._layers.hasOwnProperty(layer)) {
+                        if (this.map._layers[layer].id === this._selectedMapDetails.itemInfo.itemData.operationalLayers[i].id) {
+                            if (this.selectedLayer.id === this.map._layers[layer].id) {
+                                layerInstance = this.map.getLayer("Graphics" + this._selectedMapDetails.itemInfo.itemData.operationalLayers[i].id);
+                            } else {
+                                layerInstance = this.map.getLayer(this._selectedMapDetails.itemInfo.itemData.operationalLayers[i].id);
+                            }
+                            index = i + basemapLength;
+                            this.map.reorderLayer(layerInstance, index);
+                        }
+                    }
+                }
+            }
+        },
+
         /*-------  Begining of section for Geographical Filtering  -------*/
 
         /**
@@ -1324,6 +1549,8 @@ define([
             //Fetch defination expression of selected feature layer
             this._getExistingDefinitionExpression(details.itemInfo, selectedOperationalLayer);
             selectedOperationalLayer.hide();
+            // get index of layer
+            this._getExistingIndex(layerID);
             //Check if graphics layer already exsists
             if (this.displaygraphicsLayer) {
                 this.map.removeLayer(this.displaygraphicsLayer);
@@ -1332,8 +1559,24 @@ define([
             this.displaygraphicsLayer.setRenderer(cloneRenderer);
             this.displaygraphicsLayer.setInfoTemplate(cloneInfoTemplate);
             this.displaygraphicsLayer.setOpacity(layerOpacity);
-            this.map.addLayer(this.displaygraphicsLayer);
+            this.map.addLayer(this.displaygraphicsLayer, this._existingLayerIndex);
             this._getFeatureLayerCount(details, selectedOperationalLayer);
+            this._reorderAllLayers();
+        },
+
+        /**
+        * This function is used get existing index of layer
+        * @memberOf widgets/main/main
+        */
+        _getExistingIndex: function (layerID) {
+            var index, i;
+            this._existingLayerIndex = null;
+            for (i = 0; i < this._selectedMapDetails.itemInfo.itemData.operationalLayers.length; i++) {
+                if (this._selectedMapDetails.itemInfo.itemData.operationalLayers[i].id === layerID) {
+                    index = i + 1;
+                    this._existingLayerIndex = index;
+                }
+            }
         },
 
         /**
@@ -1460,7 +1703,7 @@ define([
                     if (this.filteredBufferIds.length + this.layerGraphicsArray.length > this.featureLayerCount) {
                         this.featureLayerCount = this.filteredBufferIds.length + this.layerGraphicsArray.length;
                     }
-                    //Divide the obtained faetures into batches based on maxRecordCount(server limit)
+                    //Divide the obtained features into batches based on maxRecordCount(server limit)
                     this.numberOfChunk = Math.floor(this.filteredBufferIds.length / (featureLayer.maxRecordCount || 999));
                     chunk = (featureLayer.maxRecordCount || 999);
                     if (chunk > response.length) {

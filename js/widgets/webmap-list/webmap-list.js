@@ -18,6 +18,7 @@
 define([
     "dojo/_base/declare",
     "dojo/_base/lang",
+    "dojo/_base/array",
     "dijit/_WidgetBase",
     "dijit/_TemplatedMixin",
     "dojo/text!./templates/webmap-list.html",
@@ -33,12 +34,14 @@ define([
     "dojo/dom",
     "dojo/dom-class",
     'dojo/dom-style',
+    'dojo/aspect',
     "widgets/bootstrapmap/bootstrapmap",
     "dijit/_WidgetsInTemplateMixin",
     "dojo/query"
 ], function (
     declare,
     lang,
+    array,
     _WidgetBase,
     _TemplatedMixin,
     dijitTemplate,
@@ -54,6 +57,7 @@ define([
     dom,
     domClass,
     domStyle,
+    aspect,
     BootstrapMap,
     _WidgetsInTemplateMixin,
     query
@@ -71,7 +75,8 @@ define([
         lastSelectedWebMapItemInfo: null, // to store item info of web-map that was last selected
         changeExtentOnLayerChange: null, // whether to change extent on click of operational layer
         _layersToRemove: {}, //object of arrays for each webmap item having list of operational id's which are not valid.
-
+        selectedMapResponse: null, //object of selected map response object, this will reduce the unnecessary calls to API to get all the required properties of layer or map
+        selectedLayerId: null,
         /**
         * This function is called when widget is constructed.
         * @param{object} options to be mixed
@@ -89,6 +94,13 @@ define([
         startup: function () {
             this.filteredWebMapResponseArr = [];
             this._createFilteredWebMapArr();
+            //Check for the flag and accordingly show/hide non editable layers
+            if (this.appConfig.showNonEditableLayers) {
+                //Show all the non editable feature servers in webmap after selecting a layer from webmap list
+                aspect.after(this, "_displaySelectedOperationalLayer", lang.hitch(this, function () {
+                    this._displayNonEditableLayers();
+                }));
+            }
         },
 
         /**
@@ -169,6 +181,7 @@ define([
             });
             webMapInstance.then(lang.hitch(this, function (response) {
                 this.map = response.map;
+                this.selectedMapResponse = response;
                 //Disable default infowindow
                 this.map.infoWindow.set("popupWindow", false);
                 //Enable default symbol highlighting of infowindow
@@ -218,7 +231,17 @@ define([
                             if (!this._layersToRemove[response[i][1].itemInfo.item.id]) {
                                 this._layersToRemove[response[i][1].itemInfo.item.id] = [];
                             }
-                            this._layersToRemove[response[i][1].itemInfo.item.id].push(response[i][1].itemInfo.itemData.operationalLayers[j].id);
+
+                            if (this.appConfig.showNonEditableLayers) {
+                                if (!(response[i][1].itemInfo.itemData.operationalLayers[j].visibility)) {
+                                    this._layersToRemove[response[i][1].itemInfo.item.id].push(response[i][1].itemInfo.itemData.operationalLayers[j].id);
+                                }
+                            } else {
+                                if (!(response[i][1].itemInfo.itemData.operationalLayers[j].layerType === "ArcGISFeatureLayer" && response[i][1].itemInfo.itemData.operationalLayers[j].visibility)) {
+                                    this._layersToRemove[response[i][1].itemInfo.item.id].push(response[i][1].itemInfo.itemData.operationalLayers[j].id);
+                                }
+                            }
+
                             response[i][1].itemInfo.itemData.operationalLayers.splice(j, 1);
                             operationalLayerCount = response[i][1].itemInfo.itemData.operationalLayers.length;
                             j--;
@@ -346,7 +369,7 @@ define([
                     "webMapId": this.filteredWebMapResponseArr[0][1].itemInfo.item.id,
                     "operationalLayerId": this.filteredWebMapResponseArr[0][1].itemInfo.itemData.operationalLayers[operationalLayersLength - 1].id,
                     "operationalLayerDetails": this.filteredWebMapResponseArr[0][1].itemInfo.itemData.operationalLayers[operationalLayersLength - 1],
-                    "itemInfo": this.filteredWebMapResponseArr[0][1].itemInfo
+                    "itemInfo": this.lastSelectedWebMapItemInfo
                 };
                 this._displaySelectedOperationalLayer(obj);
                 // by default select first webmap in list
@@ -363,6 +386,7 @@ define([
         */
         _displaySelectedOperationalLayer: function (obj) {
             var layer, featureLayer, i;
+            this.selectedLayerId = obj.operationalLayerId;
             if (this.map) {
                 for (layer in this.map._layers) {
                     if (this.map._layers.hasOwnProperty(layer)) {
@@ -701,6 +725,68 @@ define([
                         if (popupInfo.fieldInfos[i].fieldName === fields[j].name) {
                             // check if field is Editable
                             if (popupInfo.fieldInfos[i].isEditable) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
+        },
+
+        /**
+        * This function is used to display non editable layers along with single selected editable layer
+        * @memberOf widgets/webmap-list/webmap-list
+        */
+        _displayNonEditableLayers: function () {
+            array.forEach(this.selectedMapResponse.itemInfo.itemData.operationalLayers, lang.hitch(this, function (currentLayer, index) {
+                if (currentLayer.resourceInfo && currentLayer.resourceInfo.capabilities && currentLayer.layerType === "ArcGISFeatureLayer") {
+                    // condition to check if feature layer is non-editable & it is visible in the TOC
+                    if ((currentLayer.resourceInfo.capabilities.indexOf("Create") === -1) &&
+                            ((currentLayer.resourceInfo.capabilities.indexOf("Update") === -1) ||
+                            (currentLayer.resourceInfo.capabilities.indexOf("Editing") === -1)) && currentLayer.visibility) {
+                        if (currentLayer.layerObject.showLabels && currentLayer.layerObject.labelingInfo) {
+                            currentLayer.layerObject.visible = true;
+                        }
+                        currentLayer.layerObject.show();
+                        // condition to check feature layer with create, edit, delete permissions and popup enabled, but all fields marked display only
+                    } else if ((currentLayer.resourceInfo.capabilities.indexOf("Create") !== -1) &&
+                            (currentLayer.resourceInfo.capabilities.indexOf("Editing") !== -1) &&
+                            (currentLayer.resourceInfo.capabilities.indexOf("Update") !== -1) &&
+                            (currentLayer.popupInfo) &&
+                            this._checkDisplayPropertyOfFields(currentLayer.popupInfo, currentLayer.layerObject.fields) && this.selectedLayerId !== currentLayer.id) {
+                        if (currentLayer.layerObject.showLabels && currentLayer.layerObject.labelingInfo) {
+                            currentLayer.layerObject.visible = true;
+                        }
+                        currentLayer.layerObject.show(); // display non-editable layer
+                    } else {
+                        currentLayer.layerObject.hide();
+                    }
+                }
+            }));
+        },
+
+        /**
+        * This function is used to check whether all fields are marked display or not
+        * @memberOf widgets/webmap-list/webmap-list
+        */
+        _checkDisplayPropertyOfFields: function (popupInfo, fields) {
+            var i, j;
+            if (!popupInfo) {
+                return false;
+            }
+            for (i = 0; i < popupInfo.fieldInfos.length; i++) {
+                if (popupInfo.fieldInfos[i].isEditable) {
+                    return false;
+                }
+            }
+            // check if popup-info is available if not then return false
+            if (popupInfo) {
+                for (i = 0; i < popupInfo.fieldInfos.length; i++) {
+                    for (j = 0; j < fields.length; j++) {
+                        if (popupInfo.fieldInfos[i].fieldName === fields[j].name) {
+                            // check if at least one field is visible in popup
+                            if (popupInfo.fieldInfos[i].visible) {
                                 return true;
                             }
                         }

@@ -138,6 +138,11 @@
     float:left;
 }
 
+.dj_rtl .esriCTFileButtonContainer 
+{
+    float: right;
+}
+
 /* End of RTL for Geoform */
 
 /* RTL for Details panel */

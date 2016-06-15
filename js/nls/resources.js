@@ -24,7 +24,7 @@ define({
         },
         main: {
             noGroup: "No group configured", // Shown when no group is configured in the configuration file
-            submitReportButtonText: "Submit a report", //Submit report  text for buttons on map and list
+            submitReportButtonText: "Submit a Report", //Submit report  text for buttons on map and list
             gotoListViewTooltip: "List view", // Go to List view tooltip text
             noFeatureGeomtery: "Feature cannot be displayed" // Error message when geomtery is not available
         },
@@ -92,9 +92,9 @@ define({
             attachmentUploadStatus: "${failed} of ${total} attachment(s) failed to upload", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Current location not available",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "Current location is out of basemap extent",  // Shown when the current geographical position is out of the basemap extent
-            submitButtonTooltip: "Report It", // Command button to open the geoform
+            submitButtonTooltip: "Submit", // Command button to open the geoform
             cancelButtonTooltip: "Cancel", //tooltip for cancel button
-            geoformBackButtonTooltip: "Go to the report list" //tooltip for Geoform back button
+            geoformBackButtonTooltip: "Return to the report list" //tooltip for Geoform back button
 
         },
         locator: {
@@ -114,7 +114,7 @@ define({
             noResultsFound: "No reports found" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Like", // Command button for up-voting a report
+            likeButtonLabel: "Vote", // Command button for up-voting a report
             likeButtonTooltip: "Vote for this report",  // Tooltip for Like button
             commentButtonLabel: "Comment", // Command button for submitting feedback
             commentButtonTooltip: "Comment on this report", // Tooltip for Comment button
@@ -155,6 +155,7 @@ define({
     "fi": 1,
     "fr": 1,
     "he": 1,
+    "hr": 1,
     "it": 1,
     "ja": 1,
     "ko": 1,
@@ -167,6 +168,7 @@ define({
     "pt-pt": 1,
     "ro": 1,
     "ru": 1,
+    "sr": 1,
     "sv": 1,
     "th": 1,
     "tr": 1,

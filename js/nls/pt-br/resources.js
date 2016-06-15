@@ -14,135 +14,132 @@
  | See the License for the specific language governing permissions and
  | limitations under the License.
  */
-define(
-     ({
-        map: {
-            error: "Não foi possível criar o mapa",
-            zoomInTooltip: "Mais Zoom",  // Command button to zoom in to the map
-            zoomOutTooltip: "Menos Zoom",  // Command button to zoom out of the map
-            geolocationTooltip: "Local Atual"  // Command button to navigate to the current geographical position
-        },
-        main: {
-            noGroup: "Nenhum grupo configurado", // Shown when no group is configured in the configuration file
-            submitReportButtonText: "Enviar um relatório", //Submit report  text for buttons on map and list
-            gotoListViewTooltip: "Visualização da lista", // Go to List view tooltip text
-            noFeatureGeomtery: "A feição não pode ser exibida" // Error message when geomtery is not available
-        },
-        signin: {
-            guestSigninText: "Prosseguir como Convidado", // Shown in the 'Sign in' page below the icon for accessing application as an anonymous user
-            signInOrText: "Ou", // Or text on sign in screen
-            signinOptionsText: "Entrar com:", // Shown in the 'Sign in' page above the icons for social media sign in
-            noGroupNameText: "Entrar", // Shown when the group title is not available or the group is private
-            guestLoginTooltip: "Entrar como um convidado", // Command button to access the application as an anonymous user
-            facebookLoginTooltip: "Entrar com Facebook", // Command button to access the application via Facebook login
-            twitterLoginTooltip: "Entrar com Twitter", // Command button to access the application via Twitter login
-            googlePlusLoginTooltip: "Entrar com Google+", // Command button to access the application via Google+ login
-            agolLoginTooltip: "Entrar com ArcGIS" // Command button to access the application via AGOL login
-        },
-        webMapList: {
-            owner: "Proprietário", // Shown in the 'Map information' section indicating the owner of the webmap
-            created: "Data de criação", // Shown in the 'Map information' section indicating the date when the webmap was created
-            modified: "Data modificada", // Shown in the 'Map information' section indicating the date when the webmap was modified
-            description: "Descrição", // Shown in the 'Map information' section describing the webmap
-            snippet: "Resumo", // Shown in the 'Map information' section providing the summary of the webmap
-            licenseInfo: "Restrições de uso e acesso", // Shown in the map information section indicating the webmap license information
-            accessInformation: "Créditos", // Shown in the 'Map information' section indicating account credits
-            tags: "Tags", // Shown in the 'Map information' section indicating tags of the webmap
-            numViews: "Número de visualizações", // Shown in the 'Map information' section indicating number of times the webmap has been viewed
-            avgRating: "Classificação", // Shown in the 'Map information' section indicating webmap rating
-            noWebMapInGroup: "O grupo configurado é inválido ou nenhum item ainda foi compartilhado com este grupo.", // Shown when the configured group is invalid/private or no items have been shared with the group
-            infoBtnToolTip: "Informações do Mapa" // Command button to view the 'Map information'
-        },
-        issueWall: {
-            noResultsFound: "Nenhuma feição localizada", // Shown in the issue wall when no issues are present in layer
-            noResultsFoundInCurrentBuffer: "Nenhuma feição localizada próximo de você", // Shown in the issue wall when no issues are present in the current buffer extent
-            unableToFetchFeatureError: "Não foi possível completar a operação", // Shown in the issue wall when layer does not return any features and throws an error
-            gotoWebmapListTooltip: "Ir para lista principal", // Tooltip for back icon in list header
-            gotoMapViewTooltip: "Visualização do mapa" // Tooltip for map-it icon in list header
-        },
-        appHeader: {
-            myReport: "Meus Relatórios", // Command button shown in mobile menu list
-            signIn: "Acessar", // Command button shown in mobile menu list and in appheader
-            signOut: "Sair", // Command button shown in mobile menu list
-            signInTooltip: "Registrar", // Tooltip to 'Sign in' option
-            signOutTooltip: "Sair", // Tooltip  to 'Sign out' option
-            myReportTooltip: "Visualizar meus relatórios" // Tooltip  to 'My Reports' option
-        },
-        geoform: {
-            enterInformation: "Detalhes", // Shown as the first section of the geoform, where the user can enter details of the issue
-            selectAttachments: "Anexos", // Appears above 'Select file' button indicating option to attach files
-            selectFileText: "Procurar", // Command button to open a dialog box to select file(s) to be attached
-            enterLocation: "Localização", // Shown as the second section of the geoform, where the user can select a location on the map
-            reportItButton: "Reportar Isto", // Command button to submit the geoform to report an issue
-            cancelButton: "Cancelar", //Command button to close the geoform
-            requiredField: "(exigido)", // Shown next to the field in which the data is mandatory
-            selectDefaultText: "Selecionar&hellip;", // Shown in the dropdown field indicating to select an option
-            invalidInputValue: "Insira um valor válido.", // Shown when user clicks/taps the required field but does not enter the data and comes out of the required field
-            noFieldsConfiguredMessage: "Os campos da camada não configurados para capturar dados", // Shown when all the fields of the selected layer are disabled
-            invalidSmallNumber: "Digite um número inteiro", // Shown when the entered value is beyond the specified range (valid ${openStrong}integer${closeStrong} value between -32768 and 32767.)
-            invalidNumber: "Digite um número inteiro", // Shown when the entered value is beyond the specified range (valid ${openStrong}integer${closeStrong} value between -2147483648 and 2147483647.)
-            invalidFloat: "Digite um número", // Shown when the entered value is beyond the specified range (valid ${openStrong}floating point${closeStrong} value between -3.4E38 and 1.2E38 )
-            invalidDouble: "Digite um número", // Shown when the entered value is beyond the specified range (valid ${openStrong}double${closeStrong} value between -2.2E308 and 1.8E308)
-            requiredFields: "Forneça valores para todos os campos exigidos", // Shown when user submits the geoform without entering data in the mandatory field(s)
-            selectLocation: "Selecione o local para seu relatório", // Shown when user submits the geoform without selecting location on the map
-            numericRangeHintMessage: "${openStrong}Dica:${closeStrong} valor Mínimo ${minValue} e valor Máximo ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
-            dateRangeHintMessage: "${openStrong}Dica:${closeStrong} Data Mínima ${minValue} e Data Máxima ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Não foi possível enviar o relatório", // Shown when there is an error in any of the services while submitting the geoform
-            attachmentSelectedMsg: "anexos selecionados", // Shown besides the select file button indicating the number of files attached
-            attachmentUploadStatus: "Falha ao carregar ${failed} de ${total} anexos", // Shown when there is error while uploading the attachment, while submitting the geoform
-            geoLocationError: "O local atual não está disponível",  // Shown when the browser returns an error instead of the current geographical position
-            geoLocationOutOfExtent: "O local atual está fora da extensão do mapa base",  // Shown when the current geographical position is out of the basemap extent
-            submitButtonTooltip: "Reportar Isto", // Command button to open the geoform
-            cancelButtonTooltip: "Cancelar", //tooltip for cancel button
-            geoformBackButtonTooltip: "Ir para a lista do relatório" //tooltip for Geoform back button
-
-        },
-        locator: {
-            addressText: "Endereço:", // Shown as a title for a group of addresses returned on performing unified search
-            usngText: "USNG", // Shown as a title for a group of USNG values returned on performing unified search
-            mgrsText: "MGRS", // Shown as a title for a group of MGRS values returned on performing unified search
-            latLongText: "Latitude/Longitude", // Shown as a title for a group of latitude longitude values returned on performing unified search
-            invalidSearch: "Nenhum resultado encontrado", // Shown in the address container when no results are returned on performing unified search
-            locatorPlaceholder: "Digite um endereço para pesquisar", // Shown in the address container textbox as a placeholder
-            locationOutOfExtent: "O endereço localizado está fora da extensão do mapa base", // Shown as an alert when the selected address in the search result is out of basemap extent
-            searchButtonTooltip: "Pesquisar", // Tooltip for search button
-            clearButtonTooltip: "Limpar valor de pesquisa" // Tooltip for Geocoder clear button
-        },
-        myIssues: {
-            title: "Meus Relatórios", // Shown as a title in 'My issues' panel
-            myIssuesTooltip: "Meus Relatórios", // Command button to access issues reported by the logged in user
-            noResultsFound: "Nenhum relatório localizado" // Shown when no issues are reported by the logged in user
-        },
-        itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Como", // Command button for up-voting a report
-            likeButtonTooltip: "Vote por este relatório",  // Tooltip for Like button
-            commentButtonLabel: "Comentário", // Command button for submitting feedback
-            commentButtonTooltip: "Comente sobre este relatório", // Tooltip for Comment button
-            galleryButtonLabel: "Galeria", // Command button for opening and closing attachment file gallery
-            galleryButtonTooltip: "Visualize documentos anexados", // Tooltip for command button shown in details panel
-            mapButtonLabel: "Visualizar no Mapa", // Command button shown in details panel
-            mapButtonTooltip: "Visualize o local deste relatório", // Tooltip for Gallery button
-            commentsListHeading: "Comentários", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "Seu voto não pode ser contado neste momento.", // Error message for feature unable to update
-            gotoIssueListTooltip: "Ir para a lista do relatório" // Tooltip for back icon in Issue list header
-        },
-        itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Vote por este relatório", //Shown on hovering of the like icon in my-issues and issue-wall
-            loadMoreButtonText: "Carregar Mais..." //Text for load more button
-        },
-        comment: {
-            commentsFormSubmitButton: "Enviar Comentário",
-            commentsFormCancelButton: "Cancelar",
-            errorInSubmittingComment: "Não foi possível enviar o comentário.", // Shown when user is unable to add comments
-            emptyCommentMessage: "Por favor, insira um comentário.", // Shown when user submits a comment without any text/character
-            placeHolderText: "Digite um comentário", // Shown as a placeholder in comments textbox
-            noCommentsAvailableText: "Nenhum comentário disponível", // Shown when no comments are available for the selected issue
-            remainingTextCount: "${0} caracteres restantes", // Shown below the comments textbox indicating the number of characters that can be added
-            showNoText: "Não" // Shown when comments character limit is exceeded
-        },
-        gallery: {
-            galleryHeaderText: "Galeria",
-            noAttachmentsAvailableText: "Nenhum anexo encontrado" // Shown when no comments are available for the selected issue
-        }
-    })
-);
+define({
+  "map": {
+    "error": "Não foi possível criar o mapa",
+    "zoomInTooltip": "Mais Zoom",
+    "zoomOutTooltip": "Menos Zoom",
+    "geolocationTooltip": "Local Atual"
+  },
+  "main": {
+    "noGroup": "Nenhum grupo configurado",
+    "submitReportButtonText": "ã_Submit a Report______Ç",
+    "gotoListViewTooltip": "Visualização da lista",
+    "noFeatureGeomtery": "A feição não pode ser exibida"
+  },
+  "signin": {
+    "guestSigninText": "Prosseguir como Convidado",
+    "signInOrText": "Ou",
+    "signinOptionsText": "Entrar com:",
+    "noGroupNameText": "Entrar",
+    "guestLoginTooltip": "Entrar como um convidado",
+    "facebookLoginTooltip": "Entrar com Facebook",
+    "twitterLoginTooltip": "Entrar com Twitter",
+    "googlePlusLoginTooltip": "Entrar com Google+",
+    "agolLoginTooltip": "Entrar com ArcGIS"
+  },
+  "webMapList": {
+    "owner": "Proprietário",
+    "created": "Data de criação",
+    "modified": "Data modificada",
+    "description": "Descrição",
+    "snippet": "Resumo",
+    "licenseInfo": "Restrições de uso e acesso",
+    "accessInformation": "Créditos",
+    "tags": "Tags",
+    "numViews": "Número de visualizações",
+    "avgRating": "Classificação",
+    "noWebMapInGroup": "O grupo configurado é inválido ou nenhum item ainda foi compartilhado com este grupo.",
+    "infoBtnToolTip": "Informações do Mapa"
+  },
+  "issueWall": {
+    "noResultsFound": "Nenhuma feição localizada",
+    "noResultsFoundInCurrentBuffer": "Nenhuma feição localizada próximo de você",
+    "unableToFetchFeatureError": "Não foi possível completar a operação",
+    "gotoWebmapListTooltip": "Ir para lista principal",
+    "gotoMapViewTooltip": "Visualização do mapa"
+  },
+  "appHeader": {
+    "myReport": "Meus Relatórios",
+    "signIn": "Acessar",
+    "signOut": "Sair",
+    "signInTooltip": "Registrar",
+    "signOutTooltip": "Sair",
+    "myReportTooltip": "Visualizar meus relatórios"
+  },
+  "geoform": {
+    "enterInformation": "Detalhes",
+    "selectAttachments": "Anexos",
+    "selectFileText": "Procurar",
+    "enterLocation": "Localização",
+    "reportItButton": "Reportar Isto",
+    "cancelButton": "Cancelar",
+    "requiredField": "(exigido)",
+    "selectDefaultText": "Selecionar&hellip;",
+    "invalidInputValue": "Insira um valor válido.",
+    "noFieldsConfiguredMessage": "Os campos da camada não configurados para capturar dados",
+    "invalidSmallNumber": "Digite um número inteiro",
+    "invalidNumber": "Digite um número inteiro",
+    "invalidFloat": "Digite um número",
+    "invalidDouble": "Digite um número",
+    "requiredFields": "Forneça valores para todos os campos exigidos",
+    "selectLocation": "Selecione o local para seu relatório",
+    "numericRangeHintMessage": "${openStrong}Dica:${closeStrong} valor Mínimo ${minValue} e valor Máximo ${maxValue}",
+    "dateRangeHintMessage": "${openStrong}Dica:${closeStrong} Data Mínima ${minValue} e Data Máxima ${maxValue}",
+    "errorsInApplyEdits": "Não foi possível enviar o relatório",
+    "attachmentSelectedMsg": "anexos selecionados",
+    "attachmentUploadStatus": "Falha ao carregar ${failed} de ${total} anexos",
+    "geoLocationError": "O local atual não está disponível",
+    "geoLocationOutOfExtent": "O local atual está fora da extensão do mapa base",
+    "submitButtonTooltip": "ã_Submit___Ç",
+    "cancelButtonTooltip": "Cancelar",
+    "geoformBackButtonTooltip": "ã_Return to the report list_________Ç"
+  },
+  "locator": {
+    "addressText": "Endereço:",
+    "usngText": "USNG",
+    "mgrsText": "MGRS",
+    "latLongText": "Latitude/Longitude",
+    "invalidSearch": "Nenhum resultado encontrado",
+    "locatorPlaceholder": "Digite um endereço para pesquisar",
+    "locationOutOfExtent": "O endereço localizado está fora da extensão do mapa base",
+    "searchButtonTooltip": "Pesquisar",
+    "clearButtonTooltip": "Limpar valor de pesquisa"
+  },
+  "myIssues": {
+    "title": "Meus Relatórios",
+    "myIssuesTooltip": "Meus Relatórios",
+    "noResultsFound": "Nenhum relatório localizado"
+  },
+  "itemDetails": {
+    "likeButtonLabel": "ã_Vote__Ç",
+    "likeButtonTooltip": "Vote por este relatório",
+    "commentButtonLabel": "Comentário",
+    "commentButtonTooltip": "Comente sobre este relatório",
+    "galleryButtonLabel": "Galeria",
+    "galleryButtonTooltip": "Visualize documentos anexados",
+    "mapButtonLabel": "Visualizar no Mapa",
+    "mapButtonTooltip": "Visualize o local deste relatório",
+    "commentsListHeading": "Comentários",
+    "unableToUpdateVoteField": "Seu voto não pode ser contado neste momento.",
+    "gotoIssueListTooltip": "Ir para a lista do relatório"
+  },
+  "itemList": {
+    "likesForThisItemTooltip": "Vote por este relatório",
+    "loadMoreButtonText": "Carregar Mais..."
+  },
+  "comment": {
+    "commentsFormSubmitButton": "Enviar Comentário",
+    "commentsFormCancelButton": "Cancelar",
+    "errorInSubmittingComment": "Não foi possível enviar o comentário.",
+    "emptyCommentMessage": "Por favor, insira um comentário.",
+    "placeHolderText": "Digite um comentário",
+    "noCommentsAvailableText": "Nenhum comentário disponível",
+    "remainingTextCount": "${0} caracteres restantes",
+    "showNoText": "Não"
+  },
+  "gallery": {
+    "galleryHeaderText": "Galeria",
+    "noAttachmentsAvailableText": "Nenhum anexo encontrado"
+  }
+});

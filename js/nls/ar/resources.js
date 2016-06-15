@@ -14,135 +14,132 @@
  | See the License for the specific language governing permissions and
  | limitations under the License.
  */
-define(
-     ({
-        map: {
-            error: "يتعذر إنشاء الخريطة",
-            zoomInTooltip: "التكبير",  // Command button to zoom in to the map
-            zoomOutTooltip: "التصغير.",  // Command button to zoom out of the map
-            geolocationTooltip: "الموقع الحالي"  // Command button to navigate to the current geographical position
-        },
-        main: {
-            noGroup: "لم يتم تكوين المجموعة", // Shown when no group is configured in the configuration file
-            submitReportButtonText: "إرسال تقرير", //Submit report  text for buttons on map and list
-            gotoListViewTooltip: "عرض القائمة", // Go to List view tooltip text
-            noFeatureGeomtery: "يتعذر عرض المعالم" // Error message when geomtery is not available
-        },
-        signin: {
-            guestSigninText: "تابع بصفتك ضيف", // Shown in the 'Sign in' page below the icon for accessing application as an anonymous user
-            signInOrText: "أو", // Or text on sign in screen
-            signinOptionsText: "تسجيل الدخول باستخدام:", // Shown in the 'Sign in' page above the icons for social media sign in
-            noGroupNameText: "الرجاء تسجيل الدخول", // Shown when the group title is not available or the group is private
-            guestLoginTooltip: "تسجيل الدخول بصفتك ضيف", // Command button to access the application as an anonymous user
-            facebookLoginTooltip: "تسجيل الدخول باستخدام Facebook", // Command button to access the application via Facebook login
-            twitterLoginTooltip: "تسجيل الدخول باستخدام Twitter", // Command button to access the application via Twitter login
-            googlePlusLoginTooltip: "تسجيل الدخول باستخدام Google+", // Command button to access the application via Google+ login
-            agolLoginTooltip: "تسجيل الدخول باستخدام ArcGIS" // Command button to access the application via AGOL login
-        },
-        webMapList: {
-            owner: "المالك", // Shown in the 'Map information' section indicating the owner of the webmap
-            created: "التاريخ الذي تم إنشائه", // Shown in the 'Map information' section indicating the date when the webmap was created
-            modified: "تاريخ التعديل", // Shown in the 'Map information' section indicating the date when the webmap was modified
-            description: "الوصف", // Shown in the 'Map information' section describing the webmap
-            snippet: "الملخص", // Shown in the 'Map information' section providing the summary of the webmap
-            licenseInfo: "الدخول والاستخدام", // Shown in the map information section indicating the webmap license information
-            accessInformation: "اعتمادات", // Shown in the 'Map information' section indicating account credits
-            tags: "علامات", // Shown in the 'Map information' section indicating tags of the webmap
-            numViews: "عدد مرات العرض", // Shown in the 'Map information' section indicating number of times the webmap has been viewed
-            avgRating: "التقييم", // Shown in the 'Map information' section indicating webmap rating
-            noWebMapInGroup: "المجموعات التي تم تكوينها غير صحيحة أو لم تتم مشاركة العناصر مع هذه المجموعة بعد.", // Shown when the configured group is invalid/private or no items have been shared with the group
-            infoBtnToolTip: "معلومات الخريطة" // Command button to view the 'Map information'
-        },
-        issueWall: {
-            noResultsFound: "لم يتم العثور على أي معلم", // Shown in the issue wall when no issues are present in layer
-            noResultsFoundInCurrentBuffer: "لم يتم العثور على أي معالم بجوارك", // Shown in the issue wall when no issues are present in the current buffer extent
-            unableToFetchFeatureError: "يتعذر إكمال العملية", // Shown in the issue wall when layer does not return any features and throws an error
-            gotoWebmapListTooltip: "الانتقال إلى القائمة الرئيسية", // Tooltip for back icon in list header
-            gotoMapViewTooltip: "عرض الخريطة" // Tooltip for map-it icon in list header
-        },
-        appHeader: {
-            myReport: "التقارير خاصتي", // Command button shown in mobile menu list
-            signIn: "تسجيل الدخول", // Command button shown in mobile menu list and in appheader
-            signOut: "تسجيل الخروج", // Command button shown in mobile menu list
-            signInTooltip: "تسجيل الدخول", // Tooltip to 'Sign in' option
-            signOutTooltip: "تسجيل الخروج", // Tooltip  to 'Sign out' option
-            myReportTooltip: "عرض التقارير" // Tooltip  to 'My Reports' option
-        },
-        geoform: {
-            enterInformation: "التفاصيل", // Shown as the first section of the geoform, where the user can enter details of the issue
-            selectAttachments: "المرفقات", // Appears above 'Select file' button indicating option to attach files
-            selectFileText: "مربع حوار", // Command button to open a dialog box to select file(s) to be attached
-            enterLocation: "موقع", // Shown as the second section of the geoform, where the user can select a location on the map
-            reportItButton: "تقريرها", // Command button to submit the geoform to report an issue
-            cancelButton: "إلغاء الأمر", //Command button to close the geoform
-            requiredField: "(مطلوب)", // Shown next to the field in which the data is mandatory
-            selectDefaultText: "حدد&hellip;", // Shown in the dropdown field indicating to select an option
-            invalidInputValue: "يرجى إدخال قيمة صحيحة.", // Shown when user clicks/taps the required field but does not enter the data and comes out of the required field
-            noFieldsConfiguredMessage: "لم يتم تكوين حقول الطبقة لالتقاط البيانات", // Shown when all the fields of the selected layer are disabled
-            invalidSmallNumber: "برجاء إدخال عدد صحيح", // Shown when the entered value is beyond the specified range (valid ${openStrong}integer${closeStrong} value between -32768 and 32767.)
-            invalidNumber: "برجاء إدخال عدد صحيح", // Shown when the entered value is beyond the specified range (valid ${openStrong}integer${closeStrong} value between -2147483648 and 2147483647.)
-            invalidFloat: "Please enter a number", // Shown when the entered value is beyond the specified range (valid ${openStrong}floating point${closeStrong} value between -3.4E38 and 1.2E38 )
-            invalidDouble: "Please enter a number", // Shown when the entered value is beyond the specified range (valid ${openStrong}double${closeStrong} value between -2.2E308 and 1.8E308)
-            requiredFields: "برجاء توفير قيم لجميع الحقول المطلوبة", // Shown when user submits the geoform without entering data in the mandatory field(s)
-            selectLocation: "برجاء تحديد موقع التقرير", // Shown when user submits the geoform without selecting location on the map
-            numericRangeHintMessage: "${openStrong}تلميح:${closeStrong} القيمة الدنيا ${minValue} والقيمة العليا ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
-            dateRangeHintMessage: "${openStrong}تلميح:${closeStrong} التاريخ الأدنى ${minValue} والتاريخ الأقصى ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "يتعذر إرسال التقرير", // Shown when there is an error in any of the services while submitting the geoform
-            attachmentSelectedMsg: "المرفقات المحددة", // Shown besides the select file button indicating the number of files attached
-            attachmentUploadStatus: "فشل تحميل المرفقات ${failed} من ${total}", // Shown when there is error while uploading the attachment, while submitting the geoform
-            geoLocationError: "الموقع الحالي غير متاح",  // Shown when the browser returns an error instead of the current geographical position
-            geoLocationOutOfExtent: "الموقع الحالي خارج نطاق الخريطة",  // Shown when the current geographical position is out of the basemap extent
-            submitButtonTooltip: "تقريرها", // Command button to open the geoform
-            cancelButtonTooltip: "إلغاء الأمر", //tooltip for cancel button
-            geoformBackButtonTooltip: "الانتقال إلى قائمة التقرير" //tooltip for Geoform back button
-
-        },
-        locator: {
-            addressText: "العنوان:", // Shown as a title for a group of addresses returned on performing unified search
-            usngText: "USNG", // Shown as a title for a group of USNG values returned on performing unified search
-            mgrsText: "MGRS", // Shown as a title for a group of MGRS values returned on performing unified search
-            latLongText: "دائرة العرض/خط الطول", // Shown as a title for a group of latitude longitude values returned on performing unified search
-            invalidSearch: "لم يتم العثور على أية نتائج", // Shown in the address container when no results are returned on performing unified search
-            locatorPlaceholder: "أدخل عنوان للبحث", // Shown in the address container textbox as a placeholder
-            locationOutOfExtent: "العنوان الحالي خارج نطاق خريطة الأساس", // Shown as an alert when the selected address in the search result is out of basemap extent
-            searchButtonTooltip: "بحث", // Tooltip for search button
-            clearButtonTooltip: "مسح قيمة البحث" // Tooltip for Geocoder clear button
-        },
-        myIssues: {
-            title: "التقارير خاصتي", // Shown as a title in 'My issues' panel
-            myIssuesTooltip: "التقارير خاصتي", // Command button to access issues reported by the logged in user
-            noResultsFound: "لم يتم العثور على أي تقارير" // Shown when no issues are reported by the logged in user
-        },
-        itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "مثل", // Command button for up-voting a report
-            likeButtonTooltip: "التصويت لهذا التقرير",  // Tooltip for Like button
-            commentButtonLabel: "التعليق", // Command button for submitting feedback
-            commentButtonTooltip: "التعليق على هذا التقرير", // Tooltip for Comment button
-            galleryButtonLabel: "معرض الصور", // Command button for opening and closing attachment file gallery
-            galleryButtonTooltip: "مراجعة المستندات المرفقة", // Tooltip for command button shown in details panel
-            mapButtonLabel: "العرض على الخريطة", // Command button shown in details panel
-            mapButtonTooltip: "عرض موقع هذا التقرير", // Tooltip for Gallery button
-            commentsListHeading: "التعليقات", // List heading for Comments section in details panel
-            unableToUpdateVoteField: "يتعذر حساب التصويت الآن.", // Error message for feature unable to update
-            gotoIssueListTooltip: "الانتقال إلى قائمة التقرير" // Tooltip for back icon in Issue list header
-        },
-        itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "عمليات التصويت لهذا التقرير", //Shown on hovering of the like icon in my-issues and issue-wall
-            loadMoreButtonText: "تحميل المزيد..." //Text for load more button
-        },
-        comment: {
-            commentsFormSubmitButton: "تقديم تعليق",
-            commentsFormCancelButton: "إلغاء الأمر",
-            errorInSubmittingComment: "يتعذر إرسال التعليق.", // Shown when user is unable to add comments
-            emptyCommentMessage: "الرجاء إدخال تعليق.", // Shown when user submits a comment without any text/character
-            placeHolderText: "اكتب تعليق", // Shown as a placeholder in comments textbox
-            noCommentsAvailableText: "لا توجد تعليقات متاحة", // Shown when no comments are available for the selected issue
-            remainingTextCount: "يتبقى ${0} حرف", // Shown below the comments textbox indicating the number of characters that can be added
-            showNoText: "لا" // Shown when comments character limit is exceeded
-        },
-        gallery: {
-            galleryHeaderText: "معرض الصور",
-            noAttachmentsAvailableText: "لا توجد مرفقات." // Shown when no comments are available for the selected issue
-        }
-    })
-);
+define({
+  "map": {
+    "error": "يتعذر إنشاء الخريطة",
+    "zoomInTooltip": "التكبير",
+    "zoomOutTooltip": "التصغير.",
+    "geolocationTooltip": "الموقع الحالي"
+  },
+  "main": {
+    "noGroup": "لم يتم تكوين المجموعة",
+    "submitReportButtonText": "بيت_Submit a Report______لاحقة",
+    "gotoListViewTooltip": "عرض القائمة",
+    "noFeatureGeomtery": "يتعذر عرض المعالم"
+  },
+  "signin": {
+    "guestSigninText": "تابع بصفتك ضيف",
+    "signInOrText": "أو",
+    "signinOptionsText": "تسجيل الدخول باستخدام:",
+    "noGroupNameText": "الرجاء تسجيل الدخول",
+    "guestLoginTooltip": "تسجيل الدخول بصفتك ضيف",
+    "facebookLoginTooltip": "تسجيل الدخول باستخدام Facebook",
+    "twitterLoginTooltip": "تسجيل الدخول باستخدام Twitter",
+    "googlePlusLoginTooltip": "تسجيل الدخول باستخدام Google+",
+    "agolLoginTooltip": "تسجيل الدخول باستخدام ArcGIS"
+  },
+  "webMapList": {
+    "owner": "المالك",
+    "created": "التاريخ الذي تم إنشائه",
+    "modified": "تاريخ التعديل",
+    "description": "الوصف",
+    "snippet": "الملخص",
+    "licenseInfo": "الدخول والاستخدام",
+    "accessInformation": "اعتمادات",
+    "tags": "علامات",
+    "numViews": "عدد مرات العرض",
+    "avgRating": "التقييم",
+    "noWebMapInGroup": "المجموعات التي تم تكوينها غير صحيحة أو لم تتم مشاركة العناصر مع هذه المجموعة بعد.",
+    "infoBtnToolTip": "معلومات الخريطة"
+  },
+  "issueWall": {
+    "noResultsFound": "لم يتم العثور على أي معلم",
+    "noResultsFoundInCurrentBuffer": "لم يتم العثور على أي معالم بجوارك",
+    "unableToFetchFeatureError": "يتعذر إكمال العملية",
+    "gotoWebmapListTooltip": "الانتقال إلى القائمة الرئيسية",
+    "gotoMapViewTooltip": "عرض الخريطة"
+  },
+  "appHeader": {
+    "myReport": "التقارير خاصتي",
+    "signIn": "تسجيل الدخول",
+    "signOut": "تسجيل الخروج",
+    "signInTooltip": "تسجيل الدخول",
+    "signOutTooltip": "تسجيل الخروج",
+    "myReportTooltip": "عرض التقارير"
+  },
+  "geoform": {
+    "enterInformation": "التفاصيل",
+    "selectAttachments": "المرفقات",
+    "selectFileText": "مربع حوار",
+    "enterLocation": "موقع",
+    "reportItButton": "تقريرها",
+    "cancelButton": "إلغاء الأمر",
+    "requiredField": "(مطلوب)",
+    "selectDefaultText": "حدد&hellip;",
+    "invalidInputValue": "يرجى إدخال قيمة صحيحة.",
+    "noFieldsConfiguredMessage": "لم يتم تكوين حقول الطبقة لالتقاط البيانات",
+    "invalidSmallNumber": "برجاء إدخال عدد صحيح",
+    "invalidNumber": "برجاء إدخال عدد صحيح",
+    "invalidFloat": "Please enter a number",
+    "invalidDouble": "Please enter a number",
+    "requiredFields": "برجاء توفير قيم لجميع الحقول المطلوبة",
+    "selectLocation": "برجاء تحديد موقع التقرير",
+    "numericRangeHintMessage": "${openStrong}تلميح:${closeStrong} القيمة الدنيا ${minValue} والقيمة العليا ${maxValue}",
+    "dateRangeHintMessage": "${openStrong}تلميح:${closeStrong} التاريخ الأدنى ${minValue} والتاريخ الأقصى ${maxValue}",
+    "errorsInApplyEdits": "يتعذر إرسال التقرير",
+    "attachmentSelectedMsg": "المرفقات المحددة",
+    "attachmentUploadStatus": "فشل تحميل المرفقات ${failed} من ${total}",
+    "geoLocationError": "الموقع الحالي غير متاح",
+    "geoLocationOutOfExtent": "الموقع الحالي خارج نطاق الخريطة",
+    "submitButtonTooltip": "بيت_Submit___لاحقة",
+    "cancelButtonTooltip": "إلغاء الأمر",
+    "geoformBackButtonTooltip": "بيت_Return to the report list_________لاحقة"
+  },
+  "locator": {
+    "addressText": "العنوان:",
+    "usngText": "USNG",
+    "mgrsText": "MGRS",
+    "latLongText": "دائرة العرض/خط الطول",
+    "invalidSearch": "لم يتم العثور على أية نتائج",
+    "locatorPlaceholder": "أدخل عنوان للبحث",
+    "locationOutOfExtent": "العنوان الحالي خارج نطاق خريطة الأساس",
+    "searchButtonTooltip": "بحث",
+    "clearButtonTooltip": "مسح قيمة البحث"
+  },
+  "myIssues": {
+    "title": "التقارير خاصتي",
+    "myIssuesTooltip": "التقارير خاصتي",
+    "noResultsFound": "لم يتم العثور على أي تقارير"
+  },
+  "itemDetails": {
+    "likeButtonLabel": "بيت_Vote__لاحقة",
+    "likeButtonTooltip": "التصويت لهذا التقرير",
+    "commentButtonLabel": "التعليق",
+    "commentButtonTooltip": "التعليق على هذا التقرير",
+    "galleryButtonLabel": "معرض الصور",
+    "galleryButtonTooltip": "مراجعة المستندات المرفقة",
+    "mapButtonLabel": "العرض على الخريطة",
+    "mapButtonTooltip": "عرض موقع هذا التقرير",
+    "commentsListHeading": "التعليقات",
+    "unableToUpdateVoteField": "يتعذر حساب التصويت الآن.",
+    "gotoIssueListTooltip": "الانتقال إلى قائمة التقرير"
+  },
+  "itemList": {
+    "likesForThisItemTooltip": "عمليات التصويت لهذا التقرير",
+    "loadMoreButtonText": "تحميل المزيد..."
+  },
+  "comment": {
+    "commentsFormSubmitButton": "تقديم تعليق",
+    "commentsFormCancelButton": "إلغاء الأمر",
+    "errorInSubmittingComment": "يتعذر إرسال التعليق.",
+    "emptyCommentMessage": "الرجاء إدخال تعليق.",
+    "placeHolderText": "اكتب تعليق",
+    "noCommentsAvailableText": "لا توجد تعليقات متاحة",
+    "remainingTextCount": "يتبقى ${0} حرف",
+    "showNoText": "لا"
+  },
+  "gallery": {
+    "galleryHeaderText": "معرض الصور",
+    "noAttachmentsAvailableText": "لا توجد مرفقات."
+  }
+});

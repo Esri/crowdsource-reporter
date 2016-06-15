@@ -20,31 +20,39 @@ define([
     "dojo/dom",
     "dojo/_base/fx",
     "dojo/_base/lang",
+    "dojo/_base/array",
     "dojo/dom-construct",
     "dojo/dom-geometry",
     "dojo/dom-class",
     "dojo/dom-attr",
+    "dojo/dom-style",
     "dojo/on",
     "dojo/has",
     "dojo/query",
     "dijit/_WidgetBase",
     "esri/dijit/LocateButton",
-    "esri/dijit/HomeButton"
+    "esri/dijit/HomeButton",
+    "esri/tasks/locator",
+    "esri/geometry/webMercatorUtils"
 ], function (
     declare,
     dom,
     coreFx,
     lang,
+    array,
     domConstruct,
     domGeometry,
     domClass,
     domAttr,
+    domStyle,
     on,
     has,
     query,
     _WidgetBase,
     LocateButton,
-    HomeButton
+    HomeButton,
+    Locator,
+    webMercatorUtils
 ) {
     return declare([_WidgetBase], {
         showLoadingIndicator: function () {
@@ -154,7 +162,7 @@ define([
         createGeoLocationButton: function (basemapLayers, map, parentNode, addGraphic) {
             var currentLocation, createLocationDiv;
             // create geolocation div
-            createLocationDiv = domConstruct.create("div", { "class": "esriCTLocationButton" }, parentNode);
+            createLocationDiv = domConstruct.create("div", {}, parentNode);
             domAttr.set(createLocationDiv, "title", this.config.i18n.map.geolocationTooltip);
             // initialize object of locate button
             currentLocation = new LocateButton({
@@ -162,13 +170,10 @@ define([
                 highlightLocation: false,
                 setScale: false,
                 centerAt: false
-            }, domConstruct.create('div'));
+            }, createLocationDiv);
             currentLocation.startup();
-            // handle click event of geolocate button
-            on(createLocationDiv, 'click', lang.hitch(this, function (evt) {
-                // trigger locate method of locate button widget
-                currentLocation.locate();
-            }));
+            domStyle.set(parentNode, 'display', currentLocation.domNode.style["display"]);
+
             // event on locate
             on(currentLocation, "locate", lang.hitch(this, function (evt) {
                 this.onGeolocationComplete(evt, addGraphic);
@@ -184,7 +189,7 @@ define([
             createHomeButtonDiv = domConstruct.create("div", { "class": "esriCTHomeButton" }, parentNode);
             homeButton = new HomeButton({
                 map: map,
-                class: "esriCTHomeButton"
+                "class": "esriCTHomeButton"
             }, createHomeButtonDiv);
             homeButton.startup();
         },
@@ -247,6 +252,40 @@ define([
         isAndroid: function () {
             var ua = navigator.userAgent.toLowerCase();
             return ua.indexOf("android") > -1;
+        },
+
+        /**
+        * This function is used create geocoder object based on the portal settings
+        * @memberOf widgets/utils/utils
+        */
+        createGeocoderInstance: function () {
+            //Default geocoder url
+            var geocodeURL = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";
+            if (this.config.helperServices && this.config.helperServices.geocode && this.config.helperServices.geocode[0] && this.config.helperServices.geocode[0].url) {
+                geocodeURL = this.config.helperServices.geocode[0].url;
+            }
+            //create the locator instance to reverse geocode the address
+            this.locatorInstance = new Locator(geocodeURL);
+            //Listen for location to address complete event
+            this.locatorInstance.on("location-to-address-complete", lang.hitch(this, function (result) {
+                this.onLocationToAddressComplete(result);
+            }));
+            //Listen for error in locator
+            this.locatorInstance.onError = lang.hitch(this, function (err) {
+                this.onLocationToAddressFailed(err);
+            });
+        },
+
+        /**
+        * This function is used to refresh the supporting label layers
+        * @memberOf widgets/utils/utils
+        */
+        refreshLabelLayers: function (operationalLayers) {
+            array.forEach(operationalLayers, lang.hitch(this, function (currentLayer) {
+                if (currentLayer.layerObject.showLabels && currentLayer.layerObject.labelingInfo) {
+                    currentLayer.layerObject.refresh();
+                }
+            }));
         }
     });
 });
