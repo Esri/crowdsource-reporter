@@ -23,7 +23,7 @@ define({
   },
   "main": {
     "noGroup": "Niciun grup configurat",
-    "submitReportButtonText": "Ă_Submit a Report______ș",
+    "submitReportButtonText": "Trimiteţi un raport",
     "gotoListViewTooltip": "Vizualizare tip listă",
     "noFeatureGeomtery": "Obiectul spaţial nu poate fi afişat"
   },
@@ -91,9 +91,9 @@ define({
     "attachmentUploadStatus": "${failed} din ${total} ataşări nu au fost încărcate",
     "geoLocationError": "Locaţia curentă nu este disponibilă",
     "geoLocationOutOfExtent": "Locaţia curentă se află în afara extinderii hărţii fundal",
-    "submitButtonTooltip": "Ă_Submit___ș",
+    "submitButtonTooltip": "Trimitere",
     "cancelButtonTooltip": "Anulare",
-    "geoformBackButtonTooltip": "Ă_Return to the report list_________ș"
+    "geoformBackButtonTooltip": "Reveniţi la lista de rapoarte"
   },
   "locator": {
     "addressText": "Adresă:",
@@ -112,7 +112,7 @@ define({
     "noResultsFound": "Nu a fost găsit niciun raport"
   },
   "itemDetails": {
-    "likeButtonLabel": "Ă_Vote__ș",
+    "likeButtonLabel": "Votaţi",
     "likeButtonTooltip": "Votaţi pentru acest raport",
     "commentButtonLabel": "Comentariu",
     "commentButtonTooltip": "Comentaţi acest raport",

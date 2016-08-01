@@ -23,7 +23,7 @@ define({
   },
   "main": {
     "noGroup": "Не задана группа",
-    "submitReportButtonText": "Ж_Submit a Report______Я",
+    "submitReportButtonText": "Отправить отчет",
     "gotoListViewTooltip": "Вид - список",
     "noFeatureGeomtery": "Объекты невозможно отобразить"
   },
@@ -91,9 +91,9 @@ define({
     "attachmentUploadStatus": "${failed} из ${total} вложений не удалось выгрузить.",
     "geoLocationError": "Текущее местоположение недоступно",
     "geoLocationOutOfExtent": "Текущее местоположение вне экстента базовой карты",
-    "submitButtonTooltip": "Ж_Submit___Я",
+    "submitButtonTooltip": "Подтвердить",
     "cancelButtonTooltip": "Отменить",
-    "geoformBackButtonTooltip": "Ж_Return to the report list_________Я"
+    "geoformBackButtonTooltip": "Вернуться к списку отчетов"
   },
   "locator": {
     "addressText": "Адрес:",
@@ -112,7 +112,7 @@ define({
     "noResultsFound": "Отчеты не найдены."
   },
   "itemDetails": {
-    "likeButtonLabel": "Ж_Vote__Я",
+    "likeButtonLabel": "Голосовать",
     "likeButtonTooltip": "Голосовать за этот отчет",
     "commentButtonLabel": "Комментарий",
     "commentButtonTooltip": "Комментировать этот отчет",

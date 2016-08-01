@@ -23,7 +23,7 @@ define({
   },
   "main": {
     "noGroup": "ยังไม่กำหนดกลุ่ม",
-    "submitReportButtonText": "ก้_Submit a Report______ษฺ",
+    "submitReportButtonText": "ส่งรายงาน",
     "gotoListViewTooltip": "รายการยอดเข้าชม",
     "noFeatureGeomtery": "ไม่สามารถแสดงฟีเจอร์ได้"
   },
@@ -91,9 +91,9 @@ define({
     "attachmentUploadStatus": "${failed} จาก ${total} ไฟล์แนบที่ไม่สามารถอัพโหลดได้",
     "geoLocationError": "ไม่พร้อมใช้ตำแหน่งปัจจุบัน",
     "geoLocationOutOfExtent": "ตำแหน่งปัจจุบันอยู่นอกขอบเขตของแผนที่ฐาน",
-    "submitButtonTooltip": "ก้_Submit___ษฺ",
+    "submitButtonTooltip": "ส่ง",
     "cancelButtonTooltip": "ยกเลิก",
-    "geoformBackButtonTooltip": "ก้_Return to the report list_________ษฺ"
+    "geoformBackButtonTooltip": "กลับสู่ลิสต์ของรายงาน"
   },
   "locator": {
     "addressText": "ที่อยู่:",
@@ -112,7 +112,7 @@ define({
     "noResultsFound": "ไม่พบรายงาน"
   },
   "itemDetails": {
-    "likeButtonLabel": "ก้_Vote__ษฺ",
+    "likeButtonLabel": "โหวต",
     "likeButtonTooltip": "โหวตให้รายงานนี้",
     "commentButtonLabel": "คำอธิบาย",
     "commentButtonTooltip": "แสดงความคิดเห็นเกี่ยวกับรายงานนี้",

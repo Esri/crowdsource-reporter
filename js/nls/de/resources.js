@@ -23,7 +23,7 @@ define({
   },
   "main": {
     "noGroup": "Keine Gruppe konfiguriert",
-    "submitReportButtonText": "ä_Submit a Report______Ü",
+    "submitReportButtonText": "Bericht senden",
     "gotoListViewTooltip": "Listenansicht",
     "noFeatureGeomtery": "Feature kann nicht angezeigt werden"
   },
@@ -91,9 +91,9 @@ define({
     "attachmentUploadStatus": "${failed} von ${total} Anlage(n) konnte(n) nicht hochgeladen werden",
     "geoLocationError": "Aktuelle Position ist nicht verfügbar",
     "geoLocationOutOfExtent": "Aktuelle Position befindet sich außerhalb der Grundkartenausdehnung",
-    "submitButtonTooltip": "ä_Submit___Ü",
+    "submitButtonTooltip": "Senden",
     "cancelButtonTooltip": "Abbrechen",
-    "geoformBackButtonTooltip": "ä_Return to the report list_________Ü"
+    "geoformBackButtonTooltip": "Zur Berichtsliste zurückkehren"
   },
   "locator": {
     "addressText": "Adresse:",
@@ -112,7 +112,7 @@ define({
     "noResultsFound": "Keine Berichte gefunden"
   },
   "itemDetails": {
-    "likeButtonLabel": "ä_Vote__Ü",
+    "likeButtonLabel": "Abstimmen",
     "likeButtonTooltip": "Für diesen Bericht stimmen",
     "commentButtonLabel": "Kommentar",
     "commentButtonTooltip": "Diesen Bericht kommentieren",
