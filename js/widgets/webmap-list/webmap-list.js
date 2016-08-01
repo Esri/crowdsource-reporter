@@ -397,7 +397,7 @@ define([
                                 if (this.map._layers[layer].id !== obj.operationalLayerId) {
                                     this.map._layers[layer].hide();
                                 } else {
-                                    this.map._layers[layer].hide();
+                                    this.map._layers[layer].show();
                                     this.map.getLayer(obj.operationalLayerId).refresh();
                                     featureLayer = new FeatureLayer(this.map._layers[layer].url);
                                     this._onFeatureLayerLoad(featureLayer, obj.webMapId, obj.operationalLayerId, obj.operationalLayerDetails, obj.itemInfo);
@@ -745,19 +745,18 @@ define([
                     if ((currentLayer.resourceInfo.capabilities.indexOf("Create") === -1) &&
                             ((currentLayer.resourceInfo.capabilities.indexOf("Update") === -1) ||
                             (currentLayer.resourceInfo.capabilities.indexOf("Editing") === -1)) && currentLayer.visibility) {
+                        currentLayer.layerObject.show();
                         if (currentLayer.layerObject.showLabels && currentLayer.layerObject.labelingInfo) {
                             currentLayer.layerObject.visible = true;
+                            //Workarund to show labels on layer load
+                            currentLayer.layerObject.refresh();
                         }
-                        currentLayer.layerObject.show();
                         // condition to check feature layer with create, edit, delete permissions and popup enabled, but all fields marked display only
                     } else if ((currentLayer.resourceInfo.capabilities.indexOf("Create") !== -1) &&
                             (currentLayer.resourceInfo.capabilities.indexOf("Editing") !== -1) &&
                             (currentLayer.resourceInfo.capabilities.indexOf("Update") !== -1) &&
                             (currentLayer.popupInfo) &&
                             this._checkDisplayPropertyOfFields(currentLayer.popupInfo, currentLayer.layerObject.fields) && this.selectedLayerId !== currentLayer.id) {
-                        if (currentLayer.layerObject.showLabels && currentLayer.layerObject.labelingInfo) {
-                            currentLayer.layerObject.visible = true;
-                        }
                         currentLayer.layerObject.show(); // display non-editable layer
                     } else {
                         currentLayer.layerObject.hide();

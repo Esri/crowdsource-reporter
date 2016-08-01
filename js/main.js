@@ -355,6 +355,10 @@ define([
                     }
                     this._isMyIssues = false;
                     this._toggleListView();
+                    //Clear map selection when navigating to web map list
+                    if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
+                        this._selectedMapDetails.map.getLayer("selectionGraphicsLayer").clear();
+                    }
                     this._sidebarCnt.showPanel("webMapList");
                 }));
                 domAttr.set(dom.byId("toggleListViewButton"), "title", this.config.i18n.main.gotoListViewTooltip);
@@ -491,6 +495,10 @@ define([
                     this._myIssuesWidget.itemsList.refreshList();
                     this._isMyIssues = false;
                     if (this._isWebmapListRequired) {
+                        //Clear map selection when navigating to web map list
+                        if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
+                            this._selectedMapDetails.map.getLayer("selectionGraphicsLayer").clear();
+                        }
                         this._sidebarCnt.showPanel("webMapList");
                     } else {
                         this._sidebarCnt.showPanel("issueWall");
@@ -755,6 +763,10 @@ define([
                     this._itemSelected(selectedFeature, false);
                 });
                 this._issueWallWidget.onListCancel = lang.hitch(this, function (selectedFeature) {
+                    //Clear map selection when navigating to web map list
+                    if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
+                        this._selectedMapDetails.map.getLayer("selectionGraphicsLayer").clear();
+                    }
                     this._sidebarCnt.showPanel("webMapList");
                 });
                 this._issueWallWidget.onMapButtonClick = lang.hitch(this, function (evt) {
@@ -1533,7 +1545,7 @@ define([
         * @memberOf @memberOf main
         */
         _initializeLayer: function (details) {
-            var selectedOperationalLayer, layerUrl, layerID, cloneRenderer, cloneInfoTemplate, layerOpacity;
+            var selectedOperationalLayer, layerUrl, layerID, cloneRenderer, cloneInfoTemplate, layerOpacity, minScale, maxScale;
             selectedOperationalLayer = this.map.getLayer(details.operationalLayerDetails.id);
             this.selectedLayer = selectedOperationalLayer;
             //If layer is changed through my issues widget, we need to update the layer instance in my issues widget
@@ -1546,6 +1558,8 @@ define([
             layerID = details.operationalLayerDetails.id;
             cloneRenderer = lang.clone(selectedOperationalLayer.renderer);
             cloneInfoTemplate = lang.clone(selectedOperationalLayer.infoTemplate);
+            minScale = lang.clone(selectedOperationalLayer.minScale);
+            maxScale = lang.clone(selectedOperationalLayer.maxScale);
             //Fetch defination expression of selected feature layer
             this._getExistingDefinitionExpression(details.itemInfo, selectedOperationalLayer);
             selectedOperationalLayer.hide();
@@ -1559,6 +1573,9 @@ define([
             this.displaygraphicsLayer.setRenderer(cloneRenderer);
             this.displaygraphicsLayer.setInfoTemplate(cloneInfoTemplate);
             this.displaygraphicsLayer.setOpacity(layerOpacity);
+            //Set minimum and maximum scale to layer if exist
+            this.displaygraphicsLayer.setMaxScale(maxScale);
+            this.displaygraphicsLayer.setMinScale(minScale);
             this.map.addLayer(this.displaygraphicsLayer, this._existingLayerIndex);
             this._getFeatureLayerCount(details, selectedOperationalLayer);
             this._reorderAllLayers();

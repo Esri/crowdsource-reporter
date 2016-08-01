@@ -28,7 +28,8 @@
                         </div>
                     </div>
                     <div class="gf-map panel panel-default esriCTmapParentContainer" data-dojo-attach-point="map_container">
-                        <div id="gf-mapDiv" class="map-div esriCTGeoFormMapContainer">
+                        <!-- The ArcGIS API for JavaScript provides bidirectional support.  When viewing the application in an right to left (rtl) language like Hebrew and Arabic the map needs to remain in left-to-right (ltr) mode. Specify this by setting the dir attribute on the div to ltr. -->
+                        <div id="gf-mapDiv" dir="ltr" class="map-div esriCTGeoFormMapContainer">
                         </div>
                     </div>
                     <div class="clearfix">

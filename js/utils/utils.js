@@ -113,11 +113,11 @@ define([
                 obj.showTime = true;
                 return obj;
             case "shortDateShortTime":
-                obj.dateFormat = "DD/MM/YYYY h:mm a";
+                obj.dateFormat = "MM/DD/YYYY h:mm a";
                 obj.showTime = true;
                 return obj;
             case "shortDateLEShortTime":
-                obj.dateFormat = "MM/DD/YYYY h:mm a";
+                obj.dateFormat = "DD/MM/YYYY h:mm a";
                 obj.showTime = true;
                 return obj;
             case "shortDateShortTime24":

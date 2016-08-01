@@ -72,6 +72,23 @@
 
 /* RTL for side bar container */
 
+.dj_rtl .esriCTRightArrow 
+{
+    float : left;
+    background-image: url(../images/left-arrow.png);
+}
+
+.dj_rtl .esriCTWebMapLayerTitle 
+{
+    margin-right : 25px;
+}
+
+.dj_rtl .esriCTBackButton 
+{
+    float : right;
+    background-image: url('../images/next.png');
+}
+
 .dj_rtl #sideContainer, .dj_rtl .esriCTInfoImg, .dj_rtl .esriCTVotesDetails, .dj_rtl .esriCTItemFav 
 {
     float:left !important;
