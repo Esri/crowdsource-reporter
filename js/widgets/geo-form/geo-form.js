@@ -177,6 +177,13 @@ define([
                 this.locator = new Locator({ "map": this.map, "config": this.config, "appUtils": this.appUtils, "itemInfo": response.itemInfo.itemData, "layerId": this.layerId, "locatorContainer": this.geoformLocator, "handleFeatureSearch": false });
                 // function call on selection of search result
                 this.locator.onLocationCompleted = lang.hitch(this, this._validateAddress);
+                //Listen for address list open/close event
+                this.locator.onAddressListToggle = lang.hitch(this, function () {
+                    //After list is populated with all the valid locations, resize the map because map changes its position
+                    if (this.map) {
+                        this.map.resize();
+                    }
+                });
                 //Set placeholder text on load, if application is running in IE9
                 if (has("ie") === 9) {
                     this.appUtils.displayPlaceHolderText(this.locator.txtSearch, response.itemInfo, this.config.i18n);
@@ -192,6 +199,8 @@ define([
                     }
                 }));
                 on(this.locator.close, "click", lang.hitch(this, function () {
+                    //Resize the map
+                    this.map.resize();
                     if (has("ie") === 9) {
                         this.appUtils.displayPlaceHolderText(this.locator.txtSearch, response.itemInfo, this.config.i18n);
                     }

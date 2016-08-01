@@ -124,9 +124,9 @@ html, body
 .esriSimpleSliderDecrementButton, .esriSimpleSliderIncrementButton, .esriSimpleSlider .esriCTMapGeoLocationContainer, .esriSimpleSlider .esriCTHomeButton, .esriSimpleSlider .esriCTMapSearchContainer
 {
     background-color: #fff !important;
-    -webkit-box-shadow: 1px 1px 10px #888;
-    -moz-box-shadow: 1px 1px 10px #888;
-    box-shadow: 1px 1px 10px #888;
+    -webkit-box-shadow: 1px 1px 5px #888;
+    -moz-box-shadow: 1px 1px 5px #888;
+    box-shadow: 1px 1px 5px #888;
 }
 
 .esriSimpleSlider .esriCTHomeButton
@@ -1100,6 +1100,7 @@ label
 {
     margin: 10px;
     position: relative;
+    min-height: 49px;
 }
 
 .esriCTSuccessMsgClose
@@ -1824,10 +1825,6 @@ label
 {
     background-color: #007ac2;
     color: #fff;
-}
-
-.esriCTMapItButton
-{
 }
 
 .esriCTDetailButtonContainer

@@ -487,6 +487,8 @@ define([
                 this.mapPoint = null;
                 this._locatorErrBack();
             }
+            //Listen for event when address list is open
+            this.onAddressListToggle();
         },
 
         /**
@@ -725,6 +727,16 @@ define([
         */
         onFeatureSearchCompleted: function (feature) {
             return feature;
+        },
+
+
+        /**
+        * Fires when address list is populated
+        * @param {} event
+        * @memberOf widgets/locator/locator
+        */
+        onAddressListToggle: function (evt) {
+        return evt;
         },
 
         /**

@@ -27,6 +27,7 @@
 		"bufferRadius": 3,
 		"bufferUnit": "miles",
 		"submitMessage": "Thank you. Your report has been submitted.",
+		"submitReportButtonColor":"#35ac46",
 		"likeField": "NUMVOTES",
 		"commentField": "COMMENTS",
 		"locationField": "",
@@ -82,6 +83,11 @@
 	        "tooltip": "Application color scheme",
 	        "type": "color",
 	        "fieldName": "theme"
+	    }, {
+	        "label": "Submit report button color",
+	        "tooltip": "Color for submit report button",
+	        "type": "color",
+	        "fieldName": "submitReportButtonColor"
 	    }, {
 	        "type": "paragraph",
 	        "value": "When the application loads, users will be asked to share their location to view nearby reports. Only reports in this radius will load, but users can expand this search radius incrementally in the application. Define the radius of this initial search for nearby reports. "
