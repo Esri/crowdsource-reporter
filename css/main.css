@@ -1648,6 +1648,7 @@ label
 
 .esriCTItemDetail .esriCTTtemDescription
 {
+    background-color: #fff;
     color: #999;
     float: left;
     width: 100%;
@@ -1700,6 +1701,11 @@ label
 .esriCTItemDetail .esriCTRightEdge
 {
     margin-right: 0;
+}
+
+.esriCTItemDetail .esriCTSpaceBelow
+{
+    margin-bottom: 10px;
 }
 
 .esriCTItemDetail .esriCTLargeText
@@ -1829,9 +1835,9 @@ label
 .esriCTItemDescFooter
 {
     width: 100%;
-    padding: 10px 10px;
+    padding: 0 10px;
+    margin-bottom: 10px;
     float: left;
-    background-color: #fff;
 }
 
 .esriCTItemDetailHeader
@@ -1971,9 +1977,6 @@ label
     color: #515151;
     padding: 5px 10px !important;
     overflow-x: auto;
-    float: left;
-    width: 100%;
-    background-color: #fff;
 }
 
 .esriCTCommentsList .commentRow
