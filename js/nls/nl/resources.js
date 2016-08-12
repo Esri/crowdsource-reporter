@@ -23,7 +23,7 @@ define({
   },
   "main": {
     "noGroup": "Geen groep geconfigureerd",
-    "submitReportButtonText": "Ĳ_Submit a Report______ä",
+    "submitReportButtonText": "Een rapport indienen",
     "gotoListViewTooltip": "Lijstweergave",
     "noFeatureGeomtery": "Object kan niet worden weergegeven"
   },
@@ -91,9 +91,9 @@ define({
     "attachmentUploadStatus": "${failed} van ${total} bijlage(n) is niet geupload",
     "geoLocationError": "Huidige locatie niet beschikbaar",
     "geoLocationOutOfExtent": "Huidige locatie ligt buiten het basiskaartbereik",
-    "submitButtonTooltip": "Ĳ_Submit___ä",
+    "submitButtonTooltip": "Verzenden",
     "cancelButtonTooltip": "Annuleren",
-    "geoformBackButtonTooltip": "Ĳ_Return to the report list_________ä"
+    "geoformBackButtonTooltip": "Terug naar de meldlijst"
   },
   "locator": {
     "addressText": "Adres:",
@@ -112,7 +112,7 @@ define({
     "noResultsFound": "Geen rapporten gevonden"
   },
   "itemDetails": {
-    "likeButtonLabel": "Ĳ_Vote__ä",
+    "likeButtonLabel": "Stemmen",
     "likeButtonTooltip": "Op dit rapport stemmen",
     "commentButtonLabel": "Opmerking",
     "commentButtonTooltip": "Op dit rapporten reageren",

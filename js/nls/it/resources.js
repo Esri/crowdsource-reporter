@@ -23,7 +23,7 @@ define({
   },
   "main": {
     "noGroup": "Nessun gruppo configurato",
-    "submitReportButtonText": "é_Submit a Report______È",
+    "submitReportButtonText": "Invia un report",
     "gotoListViewTooltip": "Vista elenco",
     "noFeatureGeomtery": "Impossibile visualizzare la feature"
   },
@@ -91,9 +91,9 @@ define({
     "attachmentUploadStatus": "Impossibile caricare ${failed} di ${total} allegati",
     "geoLocationError": "Posizione corrente non disponibile",
     "geoLocationOutOfExtent": "Posizione corrente esterna all'estensione della mappa di base",
-    "submitButtonTooltip": "é_Submit___È",
+    "submitButtonTooltip": "Invia",
     "cancelButtonTooltip": "Annulla",
-    "geoformBackButtonTooltip": "é_Return to the report list_________È"
+    "geoformBackButtonTooltip": "Torna all'elenco dei report"
   },
   "locator": {
     "addressText": "Indirizzo:",
@@ -112,7 +112,7 @@ define({
     "noResultsFound": "Nessun report trovato"
   },
   "itemDetails": {
-    "likeButtonLabel": "é_Vote__È",
+    "likeButtonLabel": "Vota",
     "likeButtonTooltip": "Vota per questo report",
     "commentButtonLabel": "Commento",
     "commentButtonTooltip": "Commenta questo report",

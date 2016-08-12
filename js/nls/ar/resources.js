@@ -23,7 +23,7 @@ define({
   },
   "main": {
     "noGroup": "لم يتم تكوين المجموعة",
-    "submitReportButtonText": "بيت_Submit a Report______لاحقة",
+    "submitReportButtonText": "إرسال تقرير",
     "gotoListViewTooltip": "عرض القائمة",
     "noFeatureGeomtery": "يتعذر عرض المعالم"
   },
@@ -91,9 +91,9 @@ define({
     "attachmentUploadStatus": "فشل تحميل المرفقات ${failed} من ${total}",
     "geoLocationError": "الموقع الحالي غير متاح",
     "geoLocationOutOfExtent": "الموقع الحالي خارج نطاق الخريطة",
-    "submitButtonTooltip": "بيت_Submit___لاحقة",
+    "submitButtonTooltip": "إرسال",
     "cancelButtonTooltip": "إلغاء الأمر",
-    "geoformBackButtonTooltip": "بيت_Return to the report list_________لاحقة"
+    "geoformBackButtonTooltip": "الرجوع إلى قائمة التقرير"
   },
   "locator": {
     "addressText": "العنوان:",
@@ -112,7 +112,7 @@ define({
     "noResultsFound": "لم يتم العثور على أي تقارير"
   },
   "itemDetails": {
-    "likeButtonLabel": "بيت_Vote__لاحقة",
+    "likeButtonLabel": "تصويت",
     "likeButtonTooltip": "التصويت لهذا التقرير",
     "commentButtonLabel": "التعليق",
     "commentButtonTooltip": "التعليق على هذا التقرير",

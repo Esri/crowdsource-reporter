@@ -23,7 +23,7 @@ define({
   },
   "main": {
     "noGroup": "Ingen grupp konfigurerad",
-    "submitReportButtonText": "Å_Submit a Report______ö",
+    "submitReportButtonText": "Skicka in en rapport",
     "gotoListViewTooltip": "Listvy",
     "noFeatureGeomtery": "Geoobjektet kan inte visas"
   },
@@ -91,9 +91,9 @@ define({
     "attachmentUploadStatus": "${failed} av ${total} bilagor kunde inte överföras",
     "geoLocationError": "Aktuell plats finns inte tillgänglig",
     "geoLocationOutOfExtent": "Aktuell plats är utanför baskartans utbredning",
-    "submitButtonTooltip": "Å_Submit___ö",
+    "submitButtonTooltip": "Skicka",
     "cancelButtonTooltip": "Avbryt",
-    "geoformBackButtonTooltip": "Å_Return to the report list_________ö"
+    "geoformBackButtonTooltip": "Återgå till rapportlistan"
   },
   "locator": {
     "addressText": "Adress:",
@@ -112,7 +112,7 @@ define({
     "noResultsFound": "Inga rapporter hittades"
   },
   "itemDetails": {
-    "likeButtonLabel": "Å_Vote__ö",
+    "likeButtonLabel": "Rösta",
     "likeButtonTooltip": "Rösta för den här rapporten",
     "commentButtonLabel": "Kommentar",
     "commentButtonTooltip": "Kommentera den här rapporten",

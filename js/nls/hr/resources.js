@@ -23,7 +23,7 @@ define({
   },
   "main": {
     "noGroup": "Nema konfiguriranih grupa",
-    "submitReportButtonText": "Č_Submit a Report______ž",
+    "submitReportButtonText": "Podnesi izvješće",
     "gotoListViewTooltip": "Prikaz u popisu",
     "noFeatureGeomtery": "Geoobjekt se ne može prikazati"
   },
@@ -91,9 +91,9 @@ define({
     "attachmentUploadStatus": "${failed} od ${total} privit(a)ka nije poslano",
     "geoLocationError": "Trenutačna lokacija nije dostupna",
     "geoLocationOutOfExtent": "Trenutačna lokacija izvan je obuhvata kartografske podloge",
-    "submitButtonTooltip": "Č_Submit___ž",
+    "submitButtonTooltip": "Pošalji",
     "cancelButtonTooltip": "Odustani",
-    "geoformBackButtonTooltip": "Č_Return to the report list_________ž"
+    "geoformBackButtonTooltip": "Povratak na popis izvješća"
   },
   "locator": {
     "addressText": "Adresa:",
@@ -112,7 +112,7 @@ define({
     "noResultsFound": "Nema izvješća"
   },
   "itemDetails": {
-    "likeButtonLabel": "Č_Vote__ž",
+    "likeButtonLabel": "Glasovanje",
     "likeButtonTooltip": "Glasaj za ovo izvješće",
     "commentButtonLabel": "Komentar",
     "commentButtonTooltip": "Komentiraj ovo izvješće",

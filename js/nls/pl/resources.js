@@ -23,7 +23,7 @@ define({
   },
   "main": {
     "noGroup": "Nie skonfigurowano żadnej grupy",
-    "submitReportButtonText": "ł_Submit a Report______ą",
+    "submitReportButtonText": "Prześlij raport",
     "gotoListViewTooltip": "Widok listy",
     "noFeatureGeomtery": "Nie można wyświetlić obiektu"
   },
@@ -91,9 +91,9 @@ define({
     "attachmentUploadStatus": "Nie udało się przesłać ${failed} z ${total} załączników",
     "geoLocationError": "Bieżąca lokalizacja nie jest dostępna",
     "geoLocationOutOfExtent": "Bieżąca lokalizacja jest poza zakresem mapy bazowej",
-    "submitButtonTooltip": "ł_Submit___ą",
+    "submitButtonTooltip": "Prześlij",
     "cancelButtonTooltip": "Anuluj",
-    "geoformBackButtonTooltip": "ł_Return to the report list_________ą"
+    "geoformBackButtonTooltip": "Wróć do listy raportów"
   },
   "locator": {
     "addressText": "Adres:",
@@ -112,7 +112,7 @@ define({
     "noResultsFound": "Nie znaleziono raportów"
   },
   "itemDetails": {
-    "likeButtonLabel": "ł_Vote__ą",
+    "likeButtonLabel": "Głosuj",
     "likeButtonTooltip": "Głosuj na ten raport",
     "commentButtonLabel": "Komentarz",
     "commentButtonTooltip": "Dodaj komentarz do tego raportu",

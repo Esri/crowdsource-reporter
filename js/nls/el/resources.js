@@ -23,7 +23,7 @@ define({
   },
   "main": {
     "noGroup": "Δεν έχει παραμετροποιηθεί κάποια ομάδα",
-    "submitReportButtonText": "Đ_Submit a Report______ớ",
+    "submitReportButtonText": "Υποβολή αναφοράς",
     "gotoListViewTooltip": "Προβολή λίστας",
     "noFeatureGeomtery": "Δεν είναι δυνατή η εμφάνιση του στοιχείου"
   },
@@ -91,9 +91,9 @@ define({
     "attachmentUploadStatus": "Απέτυχε η μεταφόρτωση ${failed} από ${total} συνημμένων",
     "geoLocationError": "Η τρέχουσα τοποθεσία δεν είναι διαθέσιμη",
     "geoLocationOutOfExtent": "Η τρέχουσα τοποθεσία είναι εκτός της έκτασης του υποβάθρου",
-    "submitButtonTooltip": "Đ_Submit___ớ",
+    "submitButtonTooltip": "Υποβολή",
     "cancelButtonTooltip": "Ακύρωση",
-    "geoformBackButtonTooltip": "Đ_Return to the report list_________ớ"
+    "geoformBackButtonTooltip": "Επιστροφή στη λίστα αναφορών"
   },
   "locator": {
     "addressText": "Διεύθυνση:",
@@ -112,7 +112,7 @@ define({
     "noResultsFound": "Δεν βρέθηκαν αναφορές."
   },
   "itemDetails": {
-    "likeButtonLabel": "Đ_Vote__ớ",
+    "likeButtonLabel": "Ψήφος",
     "likeButtonTooltip": "Ψηφίστε για αυτήν την αναφορά",
     "commentButtonLabel": "Σχόλιο",
     "commentButtonTooltip": "Σχολιάστε αυτήν την αναφορά",

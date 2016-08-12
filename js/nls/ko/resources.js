@@ -23,7 +23,7 @@ define({
   },
   "main": {
     "noGroup": "구성된 그룹 없음",
-    "submitReportButtonText": "한_Submit a Report______빠",
+    "submitReportButtonText": "보고서 제출",
     "gotoListViewTooltip": "목록 보기",
     "noFeatureGeomtery": "피처를 표시할 수 없음"
   },
@@ -91,9 +91,9 @@ define({
     "attachmentUploadStatus": "${total}개 중 ${failed}개 첨부 파일 업로드 실패",
     "geoLocationError": "현재 위치를 사용할 수 없음",
     "geoLocationOutOfExtent": "현재 위치가 베이스맵 범위를 벗어남",
-    "submitButtonTooltip": "한_Submit___빠",
+    "submitButtonTooltip": "제출",
     "cancelButtonTooltip": "취소",
-    "geoformBackButtonTooltip": "한_Return to the report list_________빠"
+    "geoformBackButtonTooltip": "보고서 목록으로 돌아가기"
   },
   "locator": {
     "addressText": "주소:",
@@ -112,7 +112,7 @@ define({
     "noResultsFound": "보고서를 찾을 수 없음"
   },
   "itemDetails": {
-    "likeButtonLabel": "한_Vote__빠",
+    "likeButtonLabel": "투표",
     "likeButtonTooltip": "이 보고서에 투표",
     "commentButtonLabel": "의견",
     "commentButtonTooltip": "이 보고서에 대한 의견",

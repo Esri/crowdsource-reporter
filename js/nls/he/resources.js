@@ -23,7 +23,7 @@ define({
   },
   "main": {
     "noGroup": "לא הוגדרה קבוצה",
-    "submitReportButtonText": "כן_Submit a Report______ש",
+    "submitReportButtonText": "שלח דו\"ח",
     "gotoListViewTooltip": "תצוגת רשימה",
     "noFeatureGeomtery": "לא ניתן להציג את הישות"
   },
@@ -91,9 +91,9 @@ define({
     "attachmentUploadStatus": "נכשלה ההעלאה של ${failed} מתוך ${total} קבצים מצורפים",
     "geoLocationError": "מיקום נוכחי לא זמין",
     "geoLocationOutOfExtent": "המיקום נוכחי נמצא מחוץ לגבולות מפת הבסיס",
-    "submitButtonTooltip": "כן_Submit___ש",
+    "submitButtonTooltip": "שלח",
     "cancelButtonTooltip": "בטל",
-    "geoformBackButtonTooltip": "כן_Return to the report list_________ש"
+    "geoformBackButtonTooltip": "חזור לרשימת הדו\"חות"
   },
   "locator": {
     "addressText": "כתובת:",
@@ -112,7 +112,7 @@ define({
     "noResultsFound": "לא נמצאו דוחות"
   },
   "itemDetails": {
-    "likeButtonLabel": "כן_Vote__ש",
+    "likeButtonLabel": "הצבע",
     "likeButtonTooltip": "הצבע עבור דוח זה",
     "commentButtonLabel": "הערה",
     "commentButtonTooltip": "הוסף תגובה לדוח",

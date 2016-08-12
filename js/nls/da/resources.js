@@ -23,7 +23,7 @@ define({
   },
   "main": {
     "noGroup": "Ingen gruppe konfigureret",
-    "submitReportButtonText": "ø_Submit a Report______å",
+    "submitReportButtonText": "Send en rapport",
     "gotoListViewTooltip": "Listevisning",
     "noFeatureGeomtery": "Objekt kan ikke vises"
   },
@@ -91,9 +91,9 @@ define({
     "attachmentUploadStatus": "${mislykkedes} af ${total} vedhæftning(er) kunne ikke overføres",
     "geoLocationError": "Aktuel position er ikke tilgængelig",
     "geoLocationOutOfExtent": "Aktuel position ligger uden for baggrundskortets udstrækning",
-    "submitButtonTooltip": "ø_Submit___å",
+    "submitButtonTooltip": "Indsend",
     "cancelButtonTooltip": "Annuller",
-    "geoformBackButtonTooltip": "ø_Return to the report list_________å"
+    "geoformBackButtonTooltip": "Vend tilbage til rapportlisten"
   },
   "locator": {
     "addressText": "Adresse:",
@@ -112,7 +112,7 @@ define({
     "noResultsFound": "ingen rapporter fundet"
   },
   "itemDetails": {
-    "likeButtonLabel": "ø_Vote__å",
+    "likeButtonLabel": "Stem",
     "likeButtonTooltip": "Stem på denne rapport",
     "commentButtonLabel": "Kommentar",
     "commentButtonTooltip": "Kommentér på denne rapport",
