@@ -104,12 +104,18 @@
     padding: 10px 10px 0 10px;
 }
 
+.dj_rtl .esriCTIssueImgSpan 
+{
+    float: right;
+    margin: 0 0 5px 5px;
+}
+
 .dj_rtl .esriCTDetailsNoResult 
 {
     padding: 5px 10px 5px 10px;
 }
 
-.dj_rtl .esriCTItemDetail .esriCTTtemDescription, .dj_rtl .esriCTItemDescFooter, .dj_rtl .esriCTDetailsPanel    
+.dj_rtl .esriCTItemDetail .esriCTTtemDescription, .dj_rtl .esriCTDetailsPanel    
 {
     float: none !important;
     
@@ -163,12 +169,6 @@
 /* End of RTL for Geoform */
 
 /* RTL for Details panel */
-
-.dj_rtl .esriCTItemDescFooter 
-{
-    padding: 0 10px 10px 10px;
-    margin-bottom: 0px;
-}
 
 .dj_rtl .esriCTGalleryButton, .dj_rtl .esriCTCancelCommentButton
 {
