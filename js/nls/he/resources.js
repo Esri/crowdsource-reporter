@@ -61,9 +61,9 @@ define({
   },
   "appHeader": {
     "myReport": "הדוחות שלי",
-    "signIn": "הירשם",
+    "signIn": "התחבר",
     "signOut": "התנתק",
-    "signInTooltip": "הרשם",
+    "signInTooltip": "התחבר",
     "signOutTooltip": "יציאה",
     "myReportTooltip": "הצג את הדוחות שלי"
   },
