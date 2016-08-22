@@ -177,22 +177,10 @@ define([
             on(this.applicationHeaderIcon, "click", lang.hitch(this, this._navigateToHome));
             on(this.applicationHeaderName, "click", lang.hitch(this, this._navigateToHome));
 
-            // load application shortcut icons
-            this._setApplicationShortcutIcon();
             this._loadIcons("apple-touch-icon-precomposed", applicationIcon);
             this._loadIcons("apple-touch-icon", applicationIcon);
-
         },
 
-        /**
-        * Set application shortcut icon
-        * @memberOf widgets/app-header/app-header
-        */
-        _setApplicationShortcutIcon: function () {
-            if (this.appConfig.applicationFavicon && lang.trim(this.appConfig.applicationFavicon).length !== 0) {
-                this._loadIcons("shortcut icon", this.appConfig.applicationFavicon);
-            }
-        },
 
         /**
         * Load icons
