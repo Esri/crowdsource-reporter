@@ -72,6 +72,23 @@
 
 /* RTL for side bar container */
 
+.dj_rtl .esriCTRightArrow 
+{
+    float : left;
+    background-image: url(../images/left-arrow.png);
+}
+
+.dj_rtl .esriCTWebMapLayerTitle 
+{
+    margin-right : 25px;
+}
+
+.dj_rtl .esriCTBackButton 
+{
+    float : right;
+    background-image: url('../images/next.png');
+}
+
 .dj_rtl #sideContainer, .dj_rtl .esriCTInfoImg, .dj_rtl .esriCTVotesDetails, .dj_rtl .esriCTItemFav 
 {
     float:left !important;
@@ -87,12 +104,18 @@
     padding: 10px 10px 0 10px;
 }
 
+.dj_rtl .esriCTIssueImgSpan 
+{
+    float: right;
+    margin: 0 0 5px 5px;
+}
+
 .dj_rtl .esriCTDetailsNoResult 
 {
     padding: 5px 10px 5px 10px;
 }
 
-.dj_rtl .esriCTItemDetail .esriCTTtemDescription, .dj_rtl .esriCTItemDescFooter, .dj_rtl .esriCTDetailsPanel    
+.dj_rtl .esriCTItemDetail .esriCTTtemDescription, .dj_rtl .esriCTDetailsPanel    
 {
     float: none !important;
     
@@ -146,12 +169,6 @@
 /* End of RTL for Geoform */
 
 /* RTL for Details panel */
-
-.dj_rtl .esriCTItemDescFooter 
-{
-    padding: 0 10px 10px 10px;
-    margin-bottom: 0px;
-}
 
 .dj_rtl .esriCTGalleryButton, .dj_rtl .esriCTCancelCommentButton
 {

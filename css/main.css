@@ -124,9 +124,9 @@ html, body
 .esriSimpleSliderDecrementButton, .esriSimpleSliderIncrementButton, .esriSimpleSlider .esriCTMapGeoLocationContainer, .esriSimpleSlider .esriCTHomeButton, .esriSimpleSlider .esriCTMapSearchContainer
 {
     background-color: #fff !important;
-    -webkit-box-shadow: 1px 1px 10px #888;
-    -moz-box-shadow: 1px 1px 10px #888;
-    box-shadow: 1px 1px 10px #888;
+    -webkit-box-shadow: 1px 1px 5px #888;
+    -moz-box-shadow: 1px 1px 5px #888;
+    box-shadow: 1px 1px 5px #888;
 }
 
 .esriSimpleSlider .esriCTHomeButton
@@ -1100,6 +1100,7 @@ label
 {
     margin: 10px;
     position: relative;
+    min-height: 49px;
 }
 
 .esriCTSuccessMsgClose
@@ -1647,7 +1648,6 @@ label
 
 .esriCTItemDetail .esriCTTtemDescription
 {
-    background-color: #fff;
     color: #999;
     float: left;
     width: 100%;
@@ -1700,11 +1700,6 @@ label
 .esriCTItemDetail .esriCTRightEdge
 {
     margin-right: 0;
-}
-
-.esriCTItemDetail .esriCTSpaceBelow
-{
-    margin-bottom: 10px;
 }
 
 .esriCTItemDetail .esriCTLargeText
@@ -1826,10 +1821,6 @@ label
     color: #fff;
 }
 
-.esriCTMapItButton
-{
-}
-
 .esriCTDetailButtonContainer
 {
     display: inline;
@@ -1838,9 +1829,9 @@ label
 .esriCTItemDescFooter
 {
     width: 100%;
-    padding: 0 10px;
-    margin-bottom: 10px;
+    padding: 10px 10px;
     float: left;
+    background-color: #fff;
 }
 
 .esriCTItemDetailHeader
@@ -1980,6 +1971,9 @@ label
     color: #515151;
     padding: 5px 10px !important;
     overflow-x: auto;
+    float: left;
+    width: 100%;
+    background-color: #fff;
 }
 
 .esriCTCommentsList .commentRow

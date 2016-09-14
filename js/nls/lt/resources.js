@@ -23,7 +23,7 @@ define({
   },
   "main": {
     "noGroup": "Sukonfigūruotų grupių nėra",
-    "submitReportButtonText": "Į_Submit a Report______š",
+    "submitReportButtonText": "Pateikti ataskaitą",
     "gotoListViewTooltip": "Sąrašo vaizdas",
     "noFeatureGeomtery": "Elemento parodyti negalima"
   },
@@ -91,9 +91,9 @@ define({
     "attachmentUploadStatus": "Nepavyko įkelti ${failed} iš ${total} priedo (-ų)",
     "geoLocationError": "Informacijos apie esamą vietą nėra",
     "geoLocationOutOfExtent": "Dabartinė vieta yra už pagrindo žemėlapio ribų",
-    "submitButtonTooltip": "Į_Submit___š",
+    "submitButtonTooltip": "Pateikti",
     "cancelButtonTooltip": "Atšaukti",
-    "geoformBackButtonTooltip": "Į_Return to the report list_________š"
+    "geoformBackButtonTooltip": "Grįžti į ataskaitų sąrašą"
   },
   "locator": {
     "addressText": "Adresas:",
@@ -112,7 +112,7 @@ define({
     "noResultsFound": "Ataskaitų nerasta"
   },
   "itemDetails": {
-    "likeButtonLabel": "Į_Vote__š",
+    "likeButtonLabel": "Balsuoti",
     "likeButtonTooltip": "Balsuokite už šią ataskaitą",
     "commentButtonLabel": "Komentuoti",
     "commentButtonTooltip": "Pakomentuoti šią ataskaitą",

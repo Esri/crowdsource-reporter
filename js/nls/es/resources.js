@@ -23,7 +23,7 @@ define({
   },
   "main": {
     "noGroup": "No hay ningún grupo configurado",
-    "submitReportButtonText": "á_Submit a Report______Ó",
+    "submitReportButtonText": "Enviar un informe",
     "gotoListViewTooltip": "Vista de lista",
     "noFeatureGeomtery": "No se puede mostrar la entidad"
   },
@@ -91,9 +91,9 @@ define({
     "attachmentUploadStatus": "Error al cargar ${failed} de ${total} adjuntos",
     "geoLocationError": "Ubicación actual no disponible",
     "geoLocationOutOfExtent": "La ubicación actual está fuera de la extensión del mapa base",
-    "submitButtonTooltip": "á_Submit___Ó",
+    "submitButtonTooltip": "Enviar",
     "cancelButtonTooltip": "Cancelar",
-    "geoformBackButtonTooltip": "á_Return to the report list_________Ó"
+    "geoformBackButtonTooltip": "Volver a la lista de informes"
   },
   "locator": {
     "addressText": "Dirección:",
@@ -112,7 +112,7 @@ define({
     "noResultsFound": "No se encontraron informes"
   },
   "itemDetails": {
-    "likeButtonLabel": "á_Vote__Ó",
+    "likeButtonLabel": "Votar",
     "likeButtonTooltip": "Votar este informe",
     "commentButtonLabel": "Comentario",
     "commentButtonTooltip": "Comentar este informe",

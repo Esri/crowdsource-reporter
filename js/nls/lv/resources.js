@@ -23,7 +23,7 @@ define({
   },
   "main": {
     "noGroup": "Nav konfigurētas grupas",
-    "submitReportButtonText": "ķ_Submit a Report______ū",
+    "submitReportButtonText": "Iesniegt pārskatu",
     "gotoListViewTooltip": "Saraksta skats",
     "noFeatureGeomtery": "Funkciju nevar parādīt"
   },
@@ -91,9 +91,9 @@ define({
     "attachmentUploadStatus": "${failed} no ${total} pielikuma(-iem) neizdevās augšupielādēt",
     "geoLocationError": "Pašreizējā vieta nav pieejama",
     "geoLocationOutOfExtent": "Pašreizējā vieta ir ārpus pamatkartes tvēruma",
-    "submitButtonTooltip": "ķ_Submit___ū",
+    "submitButtonTooltip": "Iesniegt",
     "cancelButtonTooltip": "Atcelt",
-    "geoformBackButtonTooltip": "ķ_Return to the report list_________ū"
+    "geoformBackButtonTooltip": "Atgriezties pārskatu sarakstā"
   },
   "locator": {
     "addressText": "Adrese:",
@@ -112,7 +112,7 @@ define({
     "noResultsFound": "Nav atrasts neviens ziņojums"
   },
   "itemDetails": {
-    "likeButtonLabel": "ķ_Vote__ū",
+    "likeButtonLabel": "Balsot",
     "likeButtonTooltip": "Balsot par šo ziņojumu",
     "commentButtonLabel": "Komentārs",
     "commentButtonTooltip": "Komentēt šo ziņojumu",

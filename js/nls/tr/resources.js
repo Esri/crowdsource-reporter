@@ -23,7 +23,7 @@ define({
   },
   "main": {
     "noGroup": "Yapılandırılan grup yok",
-    "submitReportButtonText": "ı_Submit a Report______İ",
+    "submitReportButtonText": "Rapor Gönder",
     "gotoListViewTooltip": "Liste görünümü",
     "noFeatureGeomtery": "Detay görüntülenemiyor"
   },
@@ -91,9 +91,9 @@ define({
     "attachmentUploadStatus": "${failed} / ${total} ek yüklenemedi",
     "geoLocationError": "Geçerli konum kullanılamıyor",
     "geoLocationOutOfExtent": "Geçerli konum altlık haritası yayılımı dışında",
-    "submitButtonTooltip": "ı_Submit___İ",
+    "submitButtonTooltip": "Gönder",
     "cancelButtonTooltip": "İptal",
-    "geoformBackButtonTooltip": "ı_Return to the report list_________İ"
+    "geoformBackButtonTooltip": "Rapor listesine dön"
   },
   "locator": {
     "addressText": "Adres:",
@@ -112,7 +112,7 @@ define({
     "noResultsFound": "Herhangi bir rapor bulunamadı"
   },
   "itemDetails": {
-    "likeButtonLabel": "ı_Vote__İ",
+    "likeButtonLabel": "Oy ver",
     "likeButtonTooltip": "Bu rapora oy ver",
     "commentButtonLabel": "Açıklama",
     "commentButtonTooltip": "Bu rapora yorum yap",

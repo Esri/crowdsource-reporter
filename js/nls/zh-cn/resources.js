@@ -23,7 +23,7 @@ define({
   },
   "main": {
     "noGroup": "未配置任何群组",
-    "submitReportButtonText": "试_Submit a Report______验",
+    "submitReportButtonText": "提交报告",
     "gotoListViewTooltip": "列表视图",
     "noFeatureGeomtery": "无法显示要素"
   },
@@ -91,9 +91,9 @@ define({
     "attachmentUploadStatus": "${failed} 个附件(共有 ${total} 个)上传失败",
     "geoLocationError": "当前位置不可用",
     "geoLocationOutOfExtent": "当前位置不在底图范围之内",
-    "submitButtonTooltip": "试_Submit___验",
+    "submitButtonTooltip": "提交",
     "cancelButtonTooltip": "取消",
-    "geoformBackButtonTooltip": "试_Return to the report list_________验"
+    "geoformBackButtonTooltip": "返回至报告列表"
   },
   "locator": {
     "addressText": "地址:",
@@ -112,7 +112,7 @@ define({
     "noResultsFound": "未找到任何报告"
   },
   "itemDetails": {
-    "likeButtonLabel": "试_Vote__验",
+    "likeButtonLabel": "投票",
     "likeButtonTooltip": "投票支持此报告",
     "commentButtonLabel": "评论",
     "commentButtonTooltip": "评论此报告",

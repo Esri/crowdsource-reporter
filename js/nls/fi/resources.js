@@ -23,7 +23,7 @@ define({
   },
   "main": {
     "noGroup": "Yhtään ryhmää ei ole määritetty",
-    "submitReportButtonText": "Å_Submit a Report______ö",
+    "submitReportButtonText": "Lähetä rapotti",
     "gotoListViewTooltip": "Luettelonäkymä",
     "noFeatureGeomtery": "Kohdetta ei voi näyttää"
   },
@@ -91,9 +91,9 @@ define({
     "attachmentUploadStatus": "${failed}/${total} liitteen lataus epäonnistui",
     "geoLocationError": "Nykyinen sijainti ei ole käytettävissä",
     "geoLocationOutOfExtent": "Nykyinen sijainti ei ole taustakartan rajoissa",
-    "submitButtonTooltip": "Å_Submit___ö",
+    "submitButtonTooltip": "Lähetä",
     "cancelButtonTooltip": "Peruuta",
-    "geoformBackButtonTooltip": "Å_Return to the report list_________ö"
+    "geoformBackButtonTooltip": "Palaa raporttiluetteloon"
   },
   "locator": {
     "addressText": "Osoite:",
@@ -112,7 +112,7 @@ define({
     "noResultsFound": "Yhtään raporttia ei löytynyt"
   },
   "itemDetails": {
-    "likeButtonLabel": "Å_Vote__ö",
+    "likeButtonLabel": "Äänestä",
     "likeButtonTooltip": "Äänestä tätä raporttia",
     "commentButtonLabel": "Kommentti",
     "commentButtonTooltip": "Kommentoi tätä raporttia",

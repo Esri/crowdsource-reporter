@@ -23,7 +23,7 @@ define({
   },
   "main": {
     "noGroup": "Ühtki rühma ei ole konfigureeritud",
-    "submitReportButtonText": "Š_Submit a Report______ä",
+    "submitReportButtonText": "Edasta aruanne",
     "gotoListViewTooltip": "Loendivaade",
     "noFeatureGeomtery": "Funktsiooni ei saa kuvada."
   },
@@ -91,9 +91,9 @@ define({
     "attachmentUploadStatus": "Manust /kokku manusest ei õnnestunud üles laadida.",
     "geoLocationError": "Hetke asukoht pole kättesaadav.",
     "geoLocationOutOfExtent": "Hetke asukoht on lubatud vahemikust väljas.",
-    "submitButtonTooltip": "Š_Submit___ä",
+    "submitButtonTooltip": "Esita",
     "cancelButtonTooltip": "Tühista",
-    "geoformBackButtonTooltip": "Š_Return to the report list_________ä"
+    "geoformBackButtonTooltip": "Tagasi aruandelehele"
   },
   "locator": {
     "addressText": "Aadress:",
@@ -112,7 +112,7 @@ define({
     "noResultsFound": "Ühtki aruannet ei leitud"
   },
   "itemDetails": {
-    "likeButtonLabel": "Š_Vote__ä",
+    "likeButtonLabel": "Hääleta",
     "likeButtonTooltip": "Hääletage selle aruande kohta",
     "commentButtonLabel": "Kommentaar",
     "commentButtonTooltip": "Kommenteerige seda aruannet",

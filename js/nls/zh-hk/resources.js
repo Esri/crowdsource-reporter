@@ -23,7 +23,7 @@ define({
   },
   "main": {
     "noGroup": "未配置任何群組",
-    "submitReportButtonText": "試_Submit a Report______驗",
+    "submitReportButtonText": "提交報告",
     "gotoListViewTooltip": "清單視圖",
     "noFeatureGeomtery": "無法顯示圖徵"
   },
@@ -91,9 +91,9 @@ define({
     "attachmentUploadStatus": "${failed} 個附件（共有 ${total} 個）上傳失敗",
     "geoLocationError": "目前位置不可用",
     "geoLocationOutOfExtent": "目前位置不在底圖範圍之內",
-    "submitButtonTooltip": "試_Submit___驗",
+    "submitButtonTooltip": "提交",
     "cancelButtonTooltip": "取消",
-    "geoformBackButtonTooltip": "試_Return to the report list_________驗"
+    "geoformBackButtonTooltip": "傳回至報告清單"
   },
   "locator": {
     "addressText": "地址(E):",
@@ -112,7 +112,7 @@ define({
     "noResultsFound": "未找到任何報告"
   },
   "itemDetails": {
-    "likeButtonLabel": "試_Vote__驗",
+    "likeButtonLabel": "票選",
     "likeButtonTooltip": "為此報告投票",
     "commentButtonLabel": "評論",
     "commentButtonTooltip": "評論此報告",

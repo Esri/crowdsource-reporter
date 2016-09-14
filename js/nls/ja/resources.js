@@ -23,7 +23,7 @@ define({
   },
   "main": {
     "noGroup": "グループが構成されていません",
-    "submitReportButtonText": "須_Submit a Report______鷗",
+    "submitReportButtonText": "レポートの送信",
     "gotoListViewTooltip": "リスト ビュー",
     "noFeatureGeomtery": "フィーチャを表示できません"
   },
@@ -91,9 +91,9 @@ define({
     "attachmentUploadStatus": "${total} 件のうち、${failed} 件の添付ファイルをアップロードできませんでした",
     "geoLocationError": "現在の位置は利用できません",
     "geoLocationOutOfExtent": "現在の位置はベースマップの範囲外です",
-    "submitButtonTooltip": "須_Submit___鷗",
+    "submitButtonTooltip": "送信",
     "cancelButtonTooltip": "キャンセル",
-    "geoformBackButtonTooltip": "須_Return to the report list_________鷗"
+    "geoformBackButtonTooltip": "レポート リストに戻る"
   },
   "locator": {
     "addressText": "住所:",
@@ -112,7 +112,7 @@ define({
     "noResultsFound": "レポートがありません"
   },
   "itemDetails": {
-    "likeButtonLabel": "須_Vote__鷗",
+    "likeButtonLabel": "投票",
     "likeButtonTooltip": "このレポートに投票",
     "commentButtonLabel": "コメント",
     "commentButtonTooltip": "このレポートにコメント",

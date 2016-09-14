@@ -23,7 +23,7 @@ define({
   },
   "main": {
     "noGroup": "Không có nhóm nào được cấu hình",
-    "submitReportButtonText": "Đ_Submit a Report______ớ",
+    "submitReportButtonText": "Đệ trình Báo cáo",
     "gotoListViewTooltip": "Chế độ xem dạng danh sách",
     "noFeatureGeomtery": "Không thể hiển thị đối tượng"
   },
@@ -91,9 +91,9 @@ define({
     "attachmentUploadStatus": "Không thể tải lên ${failed} trên ${total} tệp đính kèm",
     "geoLocationError": "Vị trí hiện tại không khả dụng",
     "geoLocationOutOfExtent": "Vị trí hiện tại ngoài phạm vi bản đồ nền",
-    "submitButtonTooltip": "Đ_Submit___ớ",
+    "submitButtonTooltip": "Gửi",
     "cancelButtonTooltip": "Hủy",
-    "geoformBackButtonTooltip": "Đ_Return to the report list_________ớ"
+    "geoformBackButtonTooltip": "Quay lại danh sách báo cáo"
   },
   "locator": {
     "addressText": "Địa chỉ:",
@@ -112,7 +112,7 @@ define({
     "noResultsFound": "Không tìm thấy báo cáo"
   },
   "itemDetails": {
-    "likeButtonLabel": "Đ_Vote__ớ",
+    "likeButtonLabel": "Bình chọn",
     "likeButtonTooltip": "Bình chọn cho báo cáo này",
     "commentButtonLabel": "Bình luận",
     "commentButtonTooltip": "Bình luận về báo cáo này",

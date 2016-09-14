@@ -56,6 +56,7 @@ define([
         selectedLayer: null,
         commentformInstance: null,
         isCommentFormOpen: false,
+        votesUpdatedArray: [],
         i18n: {
             likeButtonLabel: "Like",
             likeButtonTooltip: "Vote for this",
@@ -132,6 +133,7 @@ define([
             domStyle.set(this.commentButton, 'display', this.actionVisibilities.showComments ? 'inline-block' : 'none');
             domStyle.set(this.galleryButton, 'display', this.actionVisibilities.showGallery ? 'inline-block' : 'none');
             domStyle.set(this.domNode, 'display', '');
+            this._setLikeButtonState();
         },
 
         hide: function () {
@@ -157,11 +159,13 @@ define([
                 this.onCancel(self.item);
             }));
 
-            on(this.likeButton, 'click', function () {
-                self._fetchVotesCount(self.item).then(lang.hitch(this, function (item) {
-                    self._incrementVote(item);
-                }));
-            });
+            on(this.likeButton, 'click', lang.hitch(this, function () {
+                if (!domClass.contains(this.likeButton, "esriCTDetailButtonSelected")) {
+                    self._fetchVotesCount(self.item).then(lang.hitch(this, function (item) {
+                        self._incrementVote(item);
+                    }));
+                }
+            }));
 
             on(this.commentButton, 'click', function () {
                 topic.publish('getComment', self.item);
@@ -223,6 +227,7 @@ define([
         * @param {item} the current item for which count is to be incremented.
         */
         _incrementVote: function (item) {
+            var selectedFeatureOID;
             item.attributes[this.appConfig.likeField] = item.attributes[this.appConfig.likeField] + 1;
             // Update the item in the feature layer
             this.appUtils.showLoadingIndicator();
@@ -235,6 +240,14 @@ define([
                     //highlight like button to indicate user all-ready clicked it
                     if (!domClass.contains(this.likeButton, "esriCTDetailButtonSelected")) {
                         domClass.add(this.likeButton, "esriCTDetailButtonSelected");
+                        this.likeButton.disabled = true;
+                    }
+                    selectedFeatureOID = item.webMapId + "_" +
+                        this.selectedLayer.id + "_" +
+                        item.attributes[this.selectedLayer.objectIdField];
+                    //If selected features object id is not present in the array, push it
+                    if (this.votesUpdatedArray.indexOf(selectedFeatureOID) === -1) {
+                        this.votesUpdatedArray.push(selectedFeatureOID);
                     }
                     //fire event to indicate feature is updated
                     this.onFeatureUpdated(item);
@@ -704,6 +717,23 @@ define([
                 setTimeout(lang.hitch(this, function () {
                     domStyle.set(this.itemDetailsContainer, "display", "block");
                 }), 100);
+            }
+        },
+
+        /**
+        * Set like button state based upon it is clicked or not
+        * @memberOf widgets/item-details-controller/item-details-controller
+        */
+        _setLikeButtonState: function () {
+            var selectedFeatureId;
+            selectedFeatureId = this.item.webMapId + "_" +
+                    this.selectedLayer.id + "_" +
+                    this.item.attributes[this.selectedLayer.objectIdField];
+            if (this.votesUpdatedArray.indexOf(selectedFeatureId) !== -1) {
+                domClass.add(this.likeButton, "esriCTDetailButtonSelected");
+                this.likeButton.disabled = true;
+            } else {
+                this.likeButton.disabled = false;
             }
         }
     });

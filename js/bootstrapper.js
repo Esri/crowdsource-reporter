@@ -1,4 +1,4 @@
-﻿/*global define,document,dojo,window,alert,setTimeout,$ */
+﻿/*global define,document,dojo,dojoConfig,window,alert,setTimeout,$ */
 /*jslint browser:true,sloppy:true,nomen:true,unparam:true,plusplus:true,indent:4 */
 /*
  | Copyright 2014 Esri
@@ -21,6 +21,7 @@ define([
     "application/template",
     "widgets/sign-in/sign-in",
     "application/utils/utils",
+    "dojo/dom-construct",
     "dojo/_base/lang"
 ], function (
     declare,
@@ -28,6 +29,7 @@ define([
     Template,
     ApplicationSignIn,
     ApplicationUtils,
+    domConstruct,
     lang
 ) {
     return declare(null, {
@@ -45,7 +47,7 @@ define([
                 "config": this.boilerPlateTemplateObject
             });
             this.boilerPlateTemplateObject.startup().then(lang.hitch(this, function (config) {
-            //By default geolocation will be set to false
+                //By default geolocation will be set to false
                 config.geolocation = false;
                 //Check whether browser supprots geolocation
                 navigator.geolocation.getCurrentPosition(lang.hitch(this, function (position) {
@@ -63,6 +65,8 @@ define([
                     this.appUtils.showErrorScreen(this.boilerPlateTemplateObject.config.i18n.main.noGroup);
                     this.appUtils.hideLoadingIndicator();
                 }
+                // Set shortcut icon
+                this._setApplicationShortcutIcon(config);
             }), lang.hitch(this, function (error) {
                 var message = error.message;
                 // handle error when group is not configured
@@ -83,6 +87,45 @@ define([
             // create citizenApp and pass the boiler plate instance to it
             citizenApp = new ApplicationSignIn();
             citizenApp.startup(this.boilerPlateTemplateObject, this.appUtils);
+        },
+
+        /**
+        * Set application shortcut icon
+        * @memberOf js/bootstrapper
+        */
+        _setApplicationShortcutIcon: function (config) {
+            var favIcon;
+            //If fav icon is present use it
+            if (config.applicationFavicon && lang.trim(config.applicationFavicon).length !== 0) {
+                favIcon = config.applicationFavicon;
+            } else if (config.applicationIcon && lang.trim(config.applicationIcon).length !== 0) {
+                //If fav icon is not present, use application icon
+                favIcon = config.applicationIcon;
+            } else if (config.groupInfo.results.length > 0 && config.groupInfo.results[0].thumbnailUrl) {
+                //If application icon is not present, use group icon
+                favIcon = config.groupInfo.results[0].thumbnailUrl;
+            } else {
+                //else use default fav icon
+                favIcon = "/images/favicon.ico";
+            }
+            this._loadIcons("shortcut icon", favIcon);
+        },
+
+        /**
+        * Load icons
+        * @memberOf js/bootstrapper
+        */
+        _loadIcons: function (rel, iconPath) {
+            var icon;
+            icon = domConstruct.create("link");
+            icon.rel = rel;
+            icon.type = "image/x-icon";
+            if (iconPath.indexOf("http") === 0) {
+                icon.href = iconPath;
+            } else {
+                icon.href = dojoConfig.baseURL + iconPath;
+            }
+            document.getElementsByTagName('head')[0].appendChild(icon);
         }
     });
 });

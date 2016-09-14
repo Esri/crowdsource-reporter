@@ -23,7 +23,7 @@ define({
   },
   "main": {
     "noGroup": "Není nakonfigurována žádná skupina",
-    "submitReportButtonText": "Ř_Submit a Report______ů",
+    "submitReportButtonText": "Odeslat zprávu",
     "gotoListViewTooltip": "Zobrazení seznamu",
     "noFeatureGeomtery": "Prvek nelze zobrazit."
   },
@@ -91,9 +91,9 @@ define({
     "attachmentUploadStatus": "nepodařilo se nahrát ${failed} z ${total} příloh",
     "geoLocationError": "Současné umístění není k dispozici",
     "geoLocationOutOfExtent": "Aktuální umístění se nachází mimo rozsah podkladové mapy.",
-    "submitButtonTooltip": "Ř_Submit___ů",
+    "submitButtonTooltip": "Odeslat",
     "cancelButtonTooltip": "Storno",
-    "geoformBackButtonTooltip": "Ř_Return to the report list_________ů"
+    "geoformBackButtonTooltip": "Vrátit se do seznamu zpráv"
   },
   "locator": {
     "addressText": "Adresa:",
@@ -112,7 +112,7 @@ define({
     "noResultsFound": "Nebyly nalezeny žádné zprávy."
   },
   "itemDetails": {
-    "likeButtonLabel": "Ř_Vote__ů",
+    "likeButtonLabel": "Hlasovat",
     "likeButtonTooltip": "Hlasovat pro tuto zprávu",
     "commentButtonLabel": "Komentář",
     "commentButtonTooltip": "Odeslat komentář pro tuto zprávu",
