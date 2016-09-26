@@ -175,6 +175,16 @@
     float: left !important;
 }
 
+.dj_rtl .esriCTCommentsList .esriCTAttachmentHeader
+ {
+     margin-right: 5px;
+ }
+ 
+ .dj_rtl .esriCTNonImageContainer
+ {
+    float: right;
+    margin: 0px 5px 10px 5px;
+}   
 /* End of RTL for Details panel */
 
 @media only screen and (max-width: 767px)

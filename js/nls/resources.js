@@ -26,7 +26,8 @@ define({
             noGroup: "No group configured", // Shown when no group is configured in the configuration file
             submitReportButtonText: "Submit a Report", //Submit report  text for buttons on map and list
             gotoListViewTooltip: "List view", // Go to List view tooltip text
-            noFeatureGeomtery: "Feature cannot be displayed" // Error message when geomtery is not available
+            noFeatureGeomtery: "Feature cannot be displayed", // Error message when geomtery is not available
+            featureOutsideAOIMessage: "Feature cannot be added outside study area" // Erro message when feature edits are performed outside the study area
         },
         signin: {
             guestSigninText: "Proceed as Guest", // Shown in the 'Sign in' page below the icon for accessing application as an anonymous user
@@ -138,7 +139,12 @@ define({
             placeHolderText: "Type a comment", // Shown as a placeholder in comments textbox
             noCommentsAvailableText: "No comments available", // Shown when no comments are available for the selected issue
             remainingTextCount: "${0} character(s) remain", // Shown below the comments textbox indicating the number of characters that can be added
-            showNoText: "No" // Shown when comments character limit is exceeded
+            showNoText: "No", // Shown when comments character limit is exceeded
+            selectAttachments: "Attachments", // Appears above 'Select file' button indicating option to attach files while adding comments
+            selectFileText: "Browse", // Command button to open a dialog box to select file(s) to be attached
+            attachmentSelectedMsg: "attachment(s) selected", // Shown besides the select file button indicating the number of files attached
+            attachmentHeaderText: "Attachments", //attachment header Text
+            unknownCommentAttachment:"FILE", // displayed for attached file having unknown extension
         },
         gallery: {
             galleryHeaderText: "Gallery",

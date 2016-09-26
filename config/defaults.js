@@ -101,8 +101,13 @@ define({
     "enableUSNGSearch": false,
     "enableMGRSSearch": false,
     "enableLatLongSearch": false,
+    "geographicalExtentLayer": "",
     //Lower level configuration
+    "submitReportButtonText" : "Submit a Report", // Text for submit report button
     "submitReportButtonColor": "#35ac46", //Color for Submit Report button.If EMPTY default color will be  #35ac46.
+    "splashScreenTextColor": "#FFF", // Color of splash screen content
+    "imageBackgroundColor": "gray", // Background color icons
+    "imageForeGroundColor": "white", // Foreground color of icons values (gray or white)
     //Configurable text for help dialog and help link
     "enableHelp":true,
     "helpLinkText": "Help",
@@ -112,5 +117,8 @@ define({
     "bufferUnit": "miles",
     "geoformDetailsSectionLabel": "Details", //label for details section in geoform
     "geoformLocationSectionLabel": "Location", //label for location section in geoform
-    "geoformAttachmentSectionLabel": "Attachments" //label for attachment section in geoform
+    "geoformAttachmentSectionLabel": "Attachments", //label for attachment section in geoform
+    "noWebmapInGroupText": "Configured group is invalid or no items have been shared with this group yet.",
+    // to show as a label for attachment section in comments form where attachments can be added
+    "commentFormAttachmentSectionLabel": "Attachments"
 });

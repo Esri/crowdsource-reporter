@@ -72,6 +72,11 @@ html, body
 {
     margin-top: 2px;
 }
+
+.esriCTHintStyle 
+{
+    font-style: italic;
+}
 /* Overridden Styles */
 
 .esriViewPopup .header, .esriViewPopup .attrTable
@@ -339,7 +344,6 @@ html, body
     display: table-cell;
     vertical-align: middle;
     background-repeat: no-repeat;
-    text-shadow: rgb(0, 0, 0) 0px 0px 16px;
 }
 
 .esriCTSignInScreenBack
@@ -359,7 +363,6 @@ html, body
 
 .esriCTSigninAppNameDiv
 {
-    color: #fff;
     font-size: 22px;
     word-wrap: break-word;
     width: 250px;
@@ -370,7 +373,6 @@ html, body
 
 .esriCTSigninAppCaptionDiv
 {
-    color: #fff;
     display: inline-block;
     max-height: 31px;
     overflow: hidden;
@@ -381,65 +383,70 @@ html, body
 {
     height: 50px;
     width: 50px;
-    background-image: url(../images/guest-user.png);
     background-repeat: no-repeat;
     background-size: 50px;
     display: inline-block;
     cursor: pointer;
+    background-position: center center;
+    border-radius:25px;
+    margin: 0 6px 0 6px;
 }
 
 .esriCTSigninWithTxt
 {
-    color: #fff;
     margin-bottom: 7px;
 }
 
 .esriCTSigninFBButton
 {
     height: 50px;
-    width: 62px;
-    background-image: url(../images/facebook.png);
+    width: 50px;
     display: inline-block;
     background-repeat: no-repeat;
     background-size: 50px;
     cursor: pointer;
     background-position: center center;
+    border-radius:25px;
+    margin: 0 6px 0 6px;
 }
 
 .esriCTSigninTwitterButton
 {
     height: 50px;
-    width: 62px;
-    background-image: url(../images/twitter.png);
+    width: 50px;
     display: inline-block;
     background-repeat: no-repeat;
     background-size: 50px;
     cursor: pointer;
     background-position: center center;
+    border-radius:25px;
+    margin: 0 6px 0 6px;
 }
 
 .esriCTSigninGPlusButton
 {
     height: 50px;
-    width: 62px;
-    background-image: url(../images/googleplus.png);
+    width: 50px;
     display: inline-block;
     background-repeat: no-repeat;
     background-size: 50px;
     cursor: pointer;
     background-position: center center;
+    border-radius:25px;
+    margin: 0 6px 0 6px;
 }
 
 .esriCTSigninEsriButton
 {
     height: 50px;
-    width: 62px;
-    background-image: url(../images/esri.png);
+    width: 50px;
     display: inline-block;
     background-repeat: no-repeat;
     background-size: 50px;
     cursor: pointer;
     background-position: center center;
+    border-radius:25px;
+    margin: 0 6px 0 6px;
 }
 
 .esriCTSigninCenterDiv, .esrictsigninSocialdiv
@@ -473,7 +480,6 @@ html, body
 
 .esriCTSigninOrDiv
 {
-    background-image: url(../images/seperator.png);
     background-repeat: no-repeat;
     background-size: 145px 35px;
     height: 35px;
@@ -484,26 +490,18 @@ html, body
 
 .esriCTOrdiv
 {
-    background-color: #fff;
     padding: 10px;
     padding-bottom: 8px;
     padding-top: 9px;
-    border-radius: 16px;
+    border-radius: 20px;
     text-shadow: none;
     max-width: 100px;
     display: inline-block;
 }
 
-.esriCTSigninGuestBtnCaption
-{
-    color: #fff;
-}
-
 .esriCTSigninHelpLink
 {
-    color: white;
     cursor: pointer;
-    border-bottom: 1px solid white;
     margin-top: 10px;
     text-shadow: rgb(0, 0, 0) 0px 0px 16px;
 }
@@ -1985,6 +1983,7 @@ label
 .esriCTCommentsList .dijitContentPane
 {
     padding: 0px !important;
+    margin-bottom: 10px;
 }
 
 /* ---------- End Of ItemDetail ---------- */
@@ -2195,3 +2194,104 @@ label
 {
     min-height: 56px;
 }
+
+/** Comments form starts **/
+
+.esriCTCommentsFormAttachmentLabel {
+    position: relative;
+    width: 100%;
+}
+
+.esriCTCommentFormTitles {
+    margin: 5px 0 5px 0;
+    font-size: 18px;
+    font-weight: bold !important;
+}
+
+.esriCTCommentFormButton {
+    border-radius: 0px !important;
+    height: 35px;
+    font-size: 14px;
+    font-family: Verdana;
+}
+
+.esriCTFileAttachMenuList {
+    padding-top: 10px;
+    float: left;
+    width: 100%;
+}
+
+.esriCTAddCommentAttachmentsWrapperContainer {
+    padding: 0px 10px 0px 10px;
+}
+
+/** Comments form end **/
+
+/** Attachment section styles for popup and comments **/
+
+.esriCTCommentsList .esriCTThumbnailContainer {
+    margin: 2px;
+}
+
+.esriCTCommentsList .esriCTAttachmentHeader {
+    margin: 2px;
+    word-wrap: break-word;
+    color: #888888;
+    border-bottom: 1px solid;
+}
+
+.esriCTCommentsList .esriCTAttachmentHeader {
+    border: none;
+}
+
+.esriCTCommentsList .esriCTAttachmentImg {
+    cursor: pointer;
+    height: 60px !important;
+    width: 83px !important;
+}
+
+.esriCTNonImageName {
+    text-align: center;
+    height: 75px;
+    line-height: 75px;
+    width: 100%;
+    position: absolute;
+    overflow: hidden;
+    display: none;
+    word-break: break-all;
+    cursor: pointer;
+}
+
+.esriCTNonImageNameMiddle {
+    display: inline-block;
+    vertical-align: middle;
+    /** vertical alignment of the inline element **/
+    line-height: normal;
+    color: #fff;
+}
+
+.esriCTNonImageContainer {
+    float: left;
+    margin: 5px 10px 5px 0;
+    position: relative;
+    background-color: #c4bd97;
+    height: 82px;
+    width: 83px;
+}
+
+.esriCTNonImageContainer:hover .esriCTNonImageName {
+    display: block;
+}
+
+.esriCTNonImageContainer:hover .esriCTNonImageContent {
+    display: none;
+}
+
+.esriCTNonFileTypeContent {
+    text-align: center;
+    color: #ffffff;
+    line-height: 23px;
+}
+
+
+/** Attachment section styles for popup and comments ends **/

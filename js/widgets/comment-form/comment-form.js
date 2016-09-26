@@ -24,6 +24,7 @@ define([
     "dojo/_base/kernel",
     "dojo/dom-construct",
     "dojo/dom-class",
+    "dojo/dom-style",
     "dojo/query",
     "dojo/dom",
     "dojo/string",
@@ -33,7 +34,7 @@ define([
     "esri/graphic",
     "esri/tasks/RelationshipQuery",
     "dojo/text!./templates/comment-form.html"
-], function (declare, _WidgetBase, _TemplatedMixin, lang, array, kernel, domConstruct, domClass, query, dom, string, on, domAttr, locale, Graphic, RelationshipQuery, commentForm) {
+], function (declare, _WidgetBase, _TemplatedMixin, lang, array, kernel, domConstruct, domClass, domStyle, query, dom, string, on, domAttr, locale, Graphic, RelationshipQuery, commentForm) {
     return declare([_WidgetBase, _TemplatedMixin], {
         templateString: commentForm,
         sortedFields: [],
@@ -43,6 +44,12 @@ define([
         rangeHelpText: null,
         _layerHasReportedByField: false,
         selectedLayer: null,
+        fileAttachmentList: null, // list of files that is been attached
+        _fileInputIcon: null, // browse button to attach files
+        _fileAttachmentCounter: 1, // to display number of attachments that is been added or removed
+        _totalFileAttachedCounter: 0, // to store total number of file that is been attached
+        _fileAttachedCounter: 0, // to store number of files that is been attached
+        _fileFailedCounter: 0, // to store number of files that is been failed to attached
 
         /**
         * This function is called when widget is constructed.
@@ -69,8 +76,6 @@ define([
             on(this.cancelCommentButton, 'click', lang.hitch(this, function (evt) {
                 this.onCancelButtonClick(evt);
             }));
-
-
         },
 
         startup: function () {
@@ -81,6 +86,170 @@ define([
             this._filterLayerFields();
             // Sort fields array by type
             this._sortedTypeFormElement();
+            //Clear previous attachments
+            this._clearAttachments();
+            // create attachment button if comment table has attachments
+            this._createAttachments();
+        },
+
+        /**
+        * Create attachment button while adding comments
+        * @memberOf widgets/comment-form/comment-form
+        */
+        _createAttachments: function () {
+            var fileInput, formContent, fileChange, fileAttachmentContainer, fileContainer, commentFormAttachmentSectionLabel, userFormNode;
+            // If layer has hasAttachments true
+            if (this.commentTable.hasAttachments) {
+                userFormNode = dom.byId("addCommentAttachmentsWrapperContainer");
+                // Create container for hasAttachment
+                formContent = domConstruct.create("div", {
+                    "class": "form-group hasAttachment esriCTCommentsFormAttachmentLabel"
+                }, userFormNode);
+                if (this.config.commentFormAttachmentSectionLabel) {
+                    if (this.config.commentFormAttachmentSectionLabel === "Attachments") {
+                        commentFormAttachmentSectionLabel = this.config.i18n.comment.selectAttachments;
+                    } else {
+                        commentFormAttachmentSectionLabel = this.config.commentFormAttachmentSectionLabel;
+                    }
+                } else {
+                    commentFormAttachmentSectionLabel = this.config.i18n.comment.selectAttachments;
+                }
+                // Select attachment label
+                domConstruct.create("label", {
+                    "innerHTML": commentFormAttachmentSectionLabel,
+                    "id": "commentFormAttachmentTitleLabel",
+                    "class": "esriCTCommentFormTitles"
+                }, formContent);
+                domConstruct.create("br", {}, formContent);
+                // Create div for Attachment button
+                fileContainer = domConstruct.create("div", { "class": "esriCTFileButtonContainer", "title": this.config.i18n.comment.selectFileText }, formContent);
+                this._fileInputIcon = domConstruct.create("button", {
+                    "type": "button",
+                    "innerHTML": this.config.i18n.comment.selectFileText,
+                    "class": "btn btn-default esriCTAddCommentAttachmentsButton esriCTEllipsis esriCTApplicationColor"
+                }, fileContainer);
+                // Show photo selected count
+                domConstruct.create("div", {
+                    "id": "attachmentSelectedCount",
+                    "class": "esriCTAttachmentSelectedCount"
+                }, formContent);
+                fileAttachmentContainer = domConstruct.create("div", {
+                    "class": "container esriCTAttachmentContainer"
+                }, formContent);
+                this.fileAttachmentList = domConstruct.create("div", {
+                    "class": "row esriCTFileAttachMenuList"
+                }, fileAttachmentContainer);
+                // Create input container for attachments
+                fileInput = domConstruct.create("input", {
+                    "type": "file",
+                    "accept": "image/*",
+                    "name": "attachment",
+                    "style": {
+                        "height": "38px",
+                        "width": "80px"
+                    },
+                    "class": "esriCTPointerCursor"
+                }, domConstruct.create("form", {
+                    "id": "commentFormAttachment" + this._fileAttachmentCounter++,
+                    "class": "esriCTHideFileInputUI"
+                }, fileContainer));
+                // domClass.add(fileInput, "esriCTPointerCursor");
+                // Handle change event for file control
+                fileChange = on(fileInput, "change", lang.hitch(this, function (evt) {
+                    fileChange.remove();
+                    this._onFileSelected(evt);
+                }));
+            }
+        },
+
+        /**
+        * This function will update attachment count based on count will show/hide message in comments form
+        * @memberOf widgets/comment-form/comment-form
+        */
+        _updateAttachmentCount: function () {
+            var photoSelectedDiv = dom.byId("attachmentSelectedCount"), selectedAttachmentsCount;
+            if (photoSelectedDiv) {
+                selectedAttachmentsCount = query(".alert-dismissable", this.fileAttachmentList).length;
+                if (selectedAttachmentsCount > 0) {
+                    domAttr.set(photoSelectedDiv, "innerHTML", selectedAttachmentsCount + " " + this.config.i18n.comment.attachmentSelectedMsg);
+                } else {
+                    domAttr.set(photoSelectedDiv, "innerHTML", "");
+                }
+            }
+        },
+
+        /**
+        * Show selected file on comment form and create new fileControl so that multiple files can be selected.
+        * @param{object} evt - Event object which will be generated on file input change event.
+        * @memberOf widgets/comment-form/comment-form
+        */
+        _onFileSelected: function (evt) {
+            var newFormControl, fileInput, fileName, fileChange, alertHtml, target = evt.currentTarget || evt.srcElement;
+            if (target && target.value) {
+                fileName = target.value;
+                fileName = fileName.split("\\")[fileName.split("\\").length - 1];
+            } else {
+                fileName = "";
+            }
+            //once file is selected change class so that the selected file will be added as attachment
+            domClass.replace(target.parentNode, "esriCTFileToSubmit", "esriCTHideFileInputUI");
+            domStyle.set(target.parentNode, "display", "none");
+            //Add dismiss-able alert for each file, and show file name and file size in it.
+            alertHtml = "<div id=" + target.parentNode.id + "_Close" + " class=\"esriCTFileAlert alert alert-dismissable alert-success\">";
+            alertHtml += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">" + "X" + "</button>";
+            alertHtml += "<span>" + fileName + "</span>";
+            alertHtml += "</div>";
+            alertHtml = domConstruct.place(alertHtml, this.fileAttachmentList, "last");
+            //if file is removed then
+            //replace the class from esriCTFileToSubmit to esriCTHideFileInputUI and update the file selected count
+            $('#' + target.parentNode.id + "_Close").bind('closed.bs.alert', lang.hitch(this, function (evt) {
+                domClass.replace(dom.byId(evt.target.id.split("_")[0]), "esriCTHideFileInputUI", "esriCTFileToSubmit");
+                this._updateAttachmentCount();
+            }));
+            //once filename is shown, update file attachments count
+            this._updateAttachmentCount();
+            //Check if file input container is present
+            if ($(".hasAttachment")[0]) {
+                newFormControl = domConstruct.create("form", { "id": "commentFormAttachment" + this._fileAttachmentCounter++, "class": "esriCTHideFileInputUI" }, $(".hasAttachment")[0]);
+                //create new file input control so that multiple files can be attached
+                fileInput = domConstruct.create("input", {
+                    "type": "file",
+                    "accept": "image/*",
+                    "name": "attachment",
+                    "style": { "height": dojo.coords(this._fileInputIcon).h + "px", "width": dojo.coords(this._fileInputIcon).w + "px" }
+                }, newFormControl);
+                //place the newly created file-input control after file selection icon
+                domConstruct.place(newFormControl, this._fileInputIcon, "after");
+                //handle change event for file control if file size is
+                fileChange = on(fileInput, "change", lang.hitch(this, function (evt) {
+                    fileChange.remove();
+                    this._onFileSelected(evt);
+                }));
+            }
+        },
+
+        /**
+        * Clear previous attachment count and hide the message
+        * @memberOf widgets/comment-form/comment-form
+        */
+        _clearAttachments: function () {
+            var fileList, i;
+            // Check for the file attachment container
+            if (this.fileAttachmentList) {
+                fileList = query(".alert-dismissable", this.fileAttachmentList);
+                for (i = 0; i < fileList.length; i++) {
+                    // Check for attachments file and replace the class
+                    if (dom.byId(fileList[i].id.split("_")[0])) {
+                        domClass.replace(dom.byId(fileList[i].id.split("_")[0]), "esriCTHideFileInputUI", "esriCTFileToSubmit");
+                    }
+                    // Destroy node by Id
+                    if (dom.byId(fileList[i].id)) {
+                        domConstruct.destroy(fileList[i].id);
+                    }
+                }
+                // Update count of attachment
+                this._updateAttachmentCount();
+            }
         },
 
         /**
@@ -170,11 +339,11 @@ define([
         _submitCommentForm: function () {
             var featureData, editedFields = [], key, picker, datePicker, value, erroneousFields = [], commentFormDiv;
             erroneousFields = this._checkForFields();
-            commentFormDiv = this.commentsForm;
+            commentFormDiv = query(".esriCTItemDetailsContainer")[0];
             if (erroneousFields.length !== 0) {
                 // Scroll to the erroneous field node
                 $(commentFormDiv).animate({
-                    scrollTop: erroneousFields[0].offsetTop
+                    scrollTop: erroneousFields[0].offsetTop - 50 // deduct heigt of panel to calculate exact offset
                 }, 1000);
             } else {
                 // Create instance of graphic
@@ -217,11 +386,31 @@ define([
                 featureData.attributes[this._foreignKeyField] = this.item.attributes[this._primaryKeyField];
                 // Add the comment to the comment table
                 this.commentTable.applyEdits([featureData], null, null, lang.hitch(this, function (results) {
-                    //Hide loading indicator
-                    this.appUtils.hideLoadingIndicator();
                     if (results[0].success) {
-                        this._clearFormFields();
-                        this.onCommentFormSubmitted(this.item);
+                        var fileList, i, userFormNode;
+                        userFormNode = dom.byId("addCommentAttachmentsWrapperContainer");
+                        // if layer has attachments then add those attachments
+                        if (this.commentTable.hasAttachments && query(".esriCTFileToSubmit", userFormNode).length > 0) {
+                            // get all the attachments
+                            fileList = query(".esriCTFileToSubmit", userFormNode);
+                            // reset fileAttached and failed counter
+                            this._fileAttachedCounter = 0;
+                            this._fileFailedCounter = 0;
+                            // set total file attached counter
+                            this._totalFileAttachedCounter = fileList.length;
+                            for (i = 0; i < fileList.length; i++) {
+                                // handle success and error callback for add attachments
+                                this.commentTable.addAttachment(results[0].objectId, fileList[i],
+                                    lang.hitch(this, this._onAttachmentUploadComplete),
+                                    lang.hitch(this, this._onAttachmentUploadFailed));
+                            }
+                        } else {
+                            //Hide loading indicator
+                            this.appUtils.hideLoadingIndicator();
+                            this._clearFormFields();
+                            this.onCommentFormSubmitted(this.item, true);
+
+                        }
                     } else {
                         // Show error message in header
                         this._showHeaderMessageDiv();
@@ -234,6 +423,48 @@ define([
                     // Show error message in header
                     this._showHeaderMessageDiv();
                 }));
+            }
+        },
+
+        /**
+        * Callback handler for attachment upload Complete event
+        * @memberOf widgets/comment-form/comment-form
+        */
+        _onAttachmentUploadComplete: function () {
+            this._fileAttachedCounter++;
+            this._updateFileAttachedCounter();
+        },
+
+        /**
+        * Callback handler for attachment upload failed event
+        * @memberOf widgets/comment-form/comment-form
+        */
+        _onAttachmentUploadFailed: function () {
+            this._fileFailedCounter++;
+            this._updateFileAttachedCounter();
+        },
+
+        /**
+        * On attachment upload
+        * @memberOf widgets/comment-form/comment-form
+        */
+        _updateFileAttachedCounter: function () {
+            var attachmentFailedMsg;
+            if (this._totalFileAttachedCounter === (this._fileAttachedCounter + this._fileFailedCounter)) {
+                //Hide loading indicator
+                this.appUtils.hideLoadingIndicator();
+                this._clearAttachments();
+                if (this._fileFailedCounter > 0) {
+                    attachmentFailedMsg = string.substitute(this.config.i18n.geoform.attachmentUploadStatus, {
+                        "failed": this._fileFailedCounter,
+                        "total": this._totalFileAttachedCounter
+                    });
+                    // Show Thank you message on Success
+                    this._showHeaderMessageDiv(attachmentFailedMsg);
+                    this.onCommentFormSubmitted(this.item, false);
+                } else {
+                    this.onCommentFormSubmitted(this.item, true);
+                }
             }
         },
 
@@ -286,7 +517,16 @@ define([
         * Display message on header of form
         * @memberOf widgets/comment-form/comment-form
         */
-        _showHeaderMessageDiv: function () {
+        _showHeaderMessageDiv: function (isAttachmentFailed) {
+            if (isAttachmentFailed) {
+                var commentDiv = query(".esriCTItemDetailsContainer")[0];
+                domClass.replace(this.headerMessageType, "alert-warning", "alert-danger");
+                domAttr.set(this.headerMessageContent, "innerHTML", isAttachmentFailed);
+                // Scroll geoform to top
+                $(commentDiv).animate({
+                    scrollTop: this.headerMessageType.offsetTop - 80
+                }, 1000);
+            }
             on(this.headerMessageButton, "click", lang.hitch(this, function () {
                 if (domClass.contains(this.headerMessageDiv, "esriCTVisible")) {
                     domClass.replace(this.headerMessageDiv, "esriCTHidden", "esriCTVisible");
@@ -372,6 +612,8 @@ define([
                 }
             }
 
+            // Set hint text for range domain Value
+            this._createRangeText(currentField, formContent, fieldname);
             // If field has coded domain value and typeField set to true then create form elements for domain fields
             // else create form elements for non domain fields
             if (currentField.domain || currentField.typeField) {
@@ -379,8 +621,6 @@ define([
             } else {
                 this._createInputFormElements(currentField, formContent, fieldname);
             }
-            // Set hint text for range domain Value
-            this._createRangeText(currentField, formContent, fieldname);
         },
 
 
@@ -401,7 +641,7 @@ define([
             // if info pop has tooltip then create info popup hint text
             if (currentField.tooltip) {
                 domConstruct.create("p", {
-                    className: "help-block",
+                    className: "help-block esriCTHintStyle",
                     innerHTML: currentField.tooltip
                 }, formContent);
             }
@@ -437,6 +677,7 @@ define([
                     inputRangeDateGroupContainer = this._addNotationIcon(formContent, "glyphicon-calendar");
                     // create date field
                     this.inputContent = this._createDateField(inputRangeDateGroupContainer, true, fieldname, currentField);
+
                     if (currentField.defaultValue) {
                         date = new Date(currentField.defaultValue);
                         // set current date to date field
@@ -898,7 +1139,9 @@ define([
 
             domConstruct.empty(query(".esriCTResultContainer")[0]);
             domClass.add(query(".esriCTResultContainer")[0], "esriCTHidden");
-            this.clearHeaderMessage();
+            if (this._fileFailedCounter <= 0) {
+                this.clearHeaderMessage();
+            }
         },
 
         /**

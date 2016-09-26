@@ -37,7 +37,9 @@ define([
     'dojo/aspect',
     "widgets/bootstrapmap/bootstrapmap",
     "dijit/_WidgetsInTemplateMixin",
-    "dojo/query"
+    "dojo/query",
+    "esri/geometry/Extent",
+    "esri/geometry/Point"
 ], function (
     declare,
     lang,
@@ -60,7 +62,9 @@ define([
     aspect,
     BootstrapMap,
     _WidgetsInTemplateMixin,
-    query
+    query,
+    Extent,
+    Point
 ) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: dijitTemplate,
@@ -77,6 +81,7 @@ define([
         _layersToRemove: {}, //object of arrays for each webmap item having list of operational id's which are not valid.
         selectedMapResponse: null, //object of selected map response object, this will reduce the unnecessary calls to API to get all the required properties of layer or map
         selectedLayerId: null,
+        geographicalExtent: null, //defines study area for feature edits
         /**
         * This function is called when widget is constructed.
         * @param{object} options to be mixed
@@ -385,7 +390,7 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         _displaySelectedOperationalLayer: function (obj) {
-            var layer, featureLayer, i;
+            var layer, featureLayer, i, geolocationPoint;
             this.selectedLayerId = obj.operationalLayerId;
             if (this.map) {
                 for (layer in this.map._layers) {
@@ -406,6 +411,20 @@ define([
                         }
                     }
                 }
+                //Before removing layers check for extent layer
+                //If limit geographical flag is on, fetch configurable layer's extent
+                if (lang.trim(this.appConfig.geographicalExtentLayer) !== "") {
+                    this._fetchNonEditableExtentLayer(obj);
+                }
+                //If geolocation and limit feature editing is enabled, check if user's location is inside study area
+                if (this.appConfig.geolocation && this.geographicalExtent) {
+                    geolocationPoint = new Point(this.appConfig.geolocation.coords.longitude,
+                        this.appConfig.geolocation.coords.latitude);
+                    // If users location is outside the study area, zoom to default webmaps extent and turned off geo-filtering
+                    if (!this.geographicalExtent.contains(geolocationPoint)) {
+                        this.appConfig.geolocation = false;
+                    }
+                }
                 //Remove Invalid Layers from map
                 if (this._layersToRemove[obj.webMapId]) {
                     for (i = 0; i < this._layersToRemove[obj.webMapId].length; i++) {
@@ -416,6 +435,38 @@ define([
                 }
             } else {
                 this.appUtils.hideLoadingIndicator();
+            }
+        },
+
+        /**
+        * Fetch non editable layer specified in configuration
+        * @param{object} wep map details 
+        * @memberOf widgets/webmap-list/webmap-list
+        */
+        _fetchNonEditableExtentLayer: function (obj) {
+            var layerFullExtent;
+            array.forEach(obj.itemInfo.itemData.operationalLayers, lang.hitch(this, function (currentLayer) {
+                if (currentLayer.title === this.appConfig.geographicalExtentLayer) {
+                    if ((currentLayer.layerType === "ArcGISMapServiceLayer" || currentLayer.layerType === "ArcGISTiledMapServiceLayer")
+                            && currentLayer.resourceInfo.capabilities.indexOf("Create") === -1) {
+                        layerFullExtent = currentLayer.layerObject.fullExtent;
+                    } else if (currentLayer.layerType === "ArcGISFeatureLayer" && currentLayer.resourceInfo.capabilities.indexOf("Create") === -1) {
+                        layerFullExtent = currentLayer.layerObject.fullExtent;
+                    } else if (currentLayer.layerType === "ArcGISFeatureLayer" && currentLayer.resourceInfo.capabilities.indexOf("Create") > -1 &&
+                            !this._validatePopupFields(currentLayer.popupInfo, currentLayer.layerObject.fields)) {
+                        layerFullExtent = currentLayer.layerObject.fullExtent;
+                    }
+                }
+            }));
+            //Create new extent object
+            if (layerFullExtent) {
+                this.geographicalExtent = new Extent({
+                    "xmin": layerFullExtent.xmin,
+                    "ymin": layerFullExtent.ymin,
+                    "xmax": layerFullExtent.xmax,
+                    "ymax": layerFullExtent.ymax,
+                    "spatialReference": layerFullExtent.spatialReference
+                });
             }
         },
 

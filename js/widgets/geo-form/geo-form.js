@@ -749,6 +749,8 @@ define([
                     }
                 }
             }
+            // Set hint text for range domain Value
+            this._createRangeText(currentField, formContent, fieldname);
             // If field has coded domain value and typeField set to true then create form elements for domain fields
             // else create form elements for non domain fields
             if (currentField.domain || currentField.typeField) {
@@ -756,8 +758,6 @@ define([
             } else {
                 this._createInputFormElements(currentField, formContent, fieldname);
             }
-            // Set hint text for range domain Value
-            this._createRangeText(currentField, formContent, fieldname);
             //hide Loading Indicator
             this.appUtils.hideLoadingIndicator();
             // Resize Map
@@ -781,7 +781,7 @@ define([
             // if info pop has tooltip then create info popup hint text
             if (currentField.tooltip) {
                 domConstruct.create("p", {
-                    className: "help-block",
+                    className: "help-block esriCTHintStyle",
                     innerHTML: currentField.tooltip
                 }, formContent);
             }
