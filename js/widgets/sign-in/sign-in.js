@@ -26,6 +26,7 @@ define([
     "dojo/dom-attr",
     "dojo/dom-class",
     "dojo/_base/lang",
+    "dojo/_base/array",
     "dojo/on",
     "dojo/dom",
     "dojo/Deferred",
@@ -41,7 +42,7 @@ define([
     "widgets/help/help",
     "dojo/query"
 
-], function (templateConfig, MainTemplate, Main, declare, domConstruct, domStyle, domAttr, domClass, lang, on, dom, Deferred, all, esriPortal, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, IdentityManager, FBHelper, TWHelper, Help, query) {
+], function (templateConfig, MainTemplate, Main, declare, domConstruct, domStyle, domAttr, domClass, lang, array, on, dom, Deferred, all, esriPortal, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, IdentityManager, FBHelper, TWHelper, Help, query) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         _config: null,
@@ -64,7 +65,7 @@ define([
                 //Initialize splash screen
                 this._helpScreen = new Help({ "config": this._config });
             } else {
-            //If help is turned off, then hide the help link
+                //If help is turned off, then hide the help link
                 domClass.add(this.signinHelpLink, "esriCTHidden");
             }
             this.appUtils = appUtils;
@@ -78,6 +79,25 @@ define([
             } else {
                 this._handleEvents();
             }
+            this._handleSplashScreenVisibility();
+        },
+
+        /**
+        * Check if splash is required based on boolean values of all social media sign in options
+        * @memberOf widgets/sign-in/sign-in
+        */
+        _handleSplashScreenVisibility: function () {
+            var isSplashScreenRequired = false;
+            //Check for all social media sign in options and decide wehter to show splash screen or not 
+            if (this._config.enableGuestAccess || this._config.enableFacebook ||
+                     this._config.enableTwitter || this._config.enableGoogleplus
+                    || this._config.enablePortalLogin) {
+                isSplashScreenRequired = true;
+            }
+            //If all the sign in options are disabled, dont show sign in screen. Directly log in as guest.
+            if (!isSplashScreenRequired) {
+                this._guestButtonClicked();
+            }
         },
 
         /**
@@ -87,6 +107,7 @@ define([
         */
         _createLoginScreenUI: function () {
             var applicationName;
+            this._setLoginScreenStyles();
             this.domNode = domConstruct.create("div", {}, dojo.body());
             this.domNode.appendChild(this.signinOuterContainer);
             if (this._config.applicationName && lang.trim(this._config.applicationName).length !== 0) {
@@ -127,6 +148,68 @@ define([
             domAttr.set(this.signinGPlusButton, "title", this._config.i18n.signin.googlePlusLoginTooltip);
             domAttr.set(this.signinEsriButton, "title", this._config.i18n.signin.agolLoginTooltip);
             this._enableDisableSocialMedia();
+        },
+
+        /**
+        * Function to set icons and color as per configuration
+        * @memberOf widgets/sign-in/sign-in handle
+        */
+        _setLoginScreenStyles: function () {
+            var iconColor, loginScreenFontColor;
+            //set icon images and color as per configuration
+            if (this._config.imageForeGroundColor === "gray") {
+                iconColor = "gray-";
+            } else {
+                iconColor = "";
+            }
+            loginScreenFontColor = (this._config && this._config.splashScreenTextColor) ? this._config.splashScreenTextColor : "#FFF";
+            //Set color to splash screen content as per configuration
+            this._setLoginScreenColors(loginScreenFontColor);
+            //Set icons as per configuration
+            this._setLoginScreenIcons(iconColor);
+        },
+
+        /**
+        * Set font, background and foreground color of splash screen content
+        * @memberOf widgets/sign-in/sign-in handle
+        */
+        _setLoginScreenColors: function (loginScreenFontColor) {
+            var imageForeGroundColor, imageBackgroundColor;
+            if (lang.trim(this._config.imageForeGroundColor) === "") {
+                imageForeGroundColor = "white";
+            } else {
+                imageForeGroundColor = this._config.imageForeGroundColor;
+            }
+            if (lang.trim(this._config.imageBackgroundColor) === "") {
+                imageBackgroundColor = "gray";
+            } else {
+                imageBackgroundColor = this._config.imageBackgroundColor;
+            }
+            domStyle.set(this.signInMainContainer, "color", loginScreenFontColor);
+            domStyle.set(this.signinOrText, "color", loginScreenFontColor);
+            domStyle.set(this.signinOrText, "backgroundColor", imageBackgroundColor);
+            domStyle.set(this.signinOrText, "border", "2px solid " + imageForeGroundColor);
+            domStyle.set(this.signinHelpLink, "borderBottom", "1px solid " + loginScreenFontColor);
+            //Set image background color
+            array.forEach(query(".esriCTIconsBackground", this.domNode), lang.hitch(this, function (currentIcon) {
+                domStyle.set(currentIcon, "backgroundColor", imageBackgroundColor);
+                domStyle.set(currentIcon, "border", "3px solid " + imageForeGroundColor);
+            }));
+        },
+
+        /**
+        * Set social media icons as per configuration
+        * @memberOf widgets/sign-in/sign-in handle
+        */
+        _setLoginScreenIcons: function (iconColor) {
+            var imageBaseURL;
+            imageBaseURL = dojoConfig.baseURL + "/images/" + iconColor;
+            domStyle.set(this.signinGuestButton, "backgroundImage", 'url(' + imageBaseURL + "guest-user.png" + ')');
+            domStyle.set(this.signinFBButton, "backgroundImage", 'url(' + imageBaseURL + "facebook.png" + ')');
+            domStyle.set(this.signinTwitterButton, "backgroundImage", 'url(' + imageBaseURL + "twitter.png" + ')');
+            domStyle.set(this.signinGPlusButton, "backgroundImage", 'url(' + imageBaseURL + "googleplus.png" + ')');
+            domStyle.set(this.signinEsriButton, "backgroundImage", 'url(' + imageBaseURL + "esri.png" + ')');
+            domStyle.set(this.signinOrDiv, "backgroundImage", 'url(' + imageBaseURL + "seperator.png" + ')');
         },
 
         /**
@@ -174,7 +257,7 @@ define([
             }
 
             if (domClass.contains(this.signinOptions, "esriCTHidden") && !this._config.enableGuestAccess && this._config.enableHelp) {
-              domClass.add(this.signinHelpContainer, "esriCTSigninOptionDisabled");
+                domClass.add(this.signinHelpContainer, "esriCTSigninOptionDisabled");
             }
 
         },
@@ -258,6 +341,7 @@ define([
         * @memberOf widgets/sign-in/sign-in
         */
         _esriButtonClicked: function () {
+            var noMapMessage;
             this.hideSignInDialog();
             this.portal = new esriPortal.Portal(this._config.sharinghost);
             this.portal.on("load", lang.hitch(this, function () {
@@ -278,7 +362,12 @@ define([
                             this.domNode.style.display = "none";
                             this.appUtils.hideLoadingIndicator();
                             domClass.remove(dom.byId("noWebMapParentDiv"), "esriCTHidden");
-                            domAttr.set(dom.byId("noWebMapChildDiv"), "innerHTML", this._boilerPlateTemplate.config.i18n.webMapList.noWebMapInGroup);
+                            if (this._boilerPlateTemplate.config && lang.trim(this._boilerPlateTemplate.config.noWebmapInGroupText) === "") {
+                                noMapMessage = this._boilerPlateTemplate.config.i18n.webMapList.noWebMapInGroup;
+                            } else {
+                                noMapMessage = this._boilerPlateTemplate.config.noWebmapInGroupText;
+                            }
+                            domAttr.set(dom.byId("noWebMapChildDiv"), "innerHTML", noMapMessage);
                         }
                     }));
 

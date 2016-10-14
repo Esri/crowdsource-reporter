@@ -3,6 +3,9 @@
         "group": "",
 		"theme": "#137DB9",
 		"signInSubtitle": "",
+        	"splashScreenTextColor": "#FFF",
+        	"imageBackgroundColor": "cyan",
+        	"imageForeGroundColor": "white",
 		"signInBackgroundImage": "/images/signinbg.png",
 		"enableFacebook": false,
 		"facebookAppId": "",
@@ -27,12 +30,14 @@
 		"bufferRadius": 3,
 		"bufferUnit": "miles",
 		"submitMessage": "Thank you. Your report has been submitted.",
-		"submitReportButtonColor":"#35ac46",
+		"submitReportButtonText" : "Submit a Report",
+        	"submitReportButtonColor":"#35ac46",
 		"likeField": "NUMVOTES",
 		"commentField": "COMMENTS",
 		"locationField": "",
 		"usePopupConfigurationForComment": false,
 		"showNonEditableLayers": false,
+        	"geographicalExtentLayer": "",
 		"reportedByField": "USERID",
 		"zoomLevel": 12,
 		"enableUSNGSearch": false,
@@ -44,7 +49,8 @@
 		"helpDialogContent": "<p>Crowdsource Reporter is a configurable gallery application template that allows users to submit problems or observations. The application has been optimized for smartphones but is responsively designed to be used on smartphones, tablets, and desktop computers.</p><p>The Crowdsource Reporter application presents one or more maps that can be used to report a problem or observation. Users can anonymously submit new reports, review existing reports, and comment and vote on reports or observations submitted by other users. They also can authenticate with their social media or ArcGIS Online credentials and track the status of problems or observations they have reported.</p>",
 		"geoformDetailsSectionLabel": "Details",
 		"geoformLocationSectionLabel": "Location",
-		"geoformAttachmentSectionLabel": "Attachments"
+		"geoformAttachmentSectionLabel": "Attachments",
+		"noWebmapInGroupText": "Configured group is invalid or no items have been shared with this group yet."
     },
 	"configurationSettings": [{
 	    "category": "<b>App Settings</b>",
@@ -64,6 +70,28 @@
 	        "stringFieldOption": "textarea",
 	        "fieldName": "signInSubtitle"
 	    }, {
+	        "label": "Splash screen text color",
+	        "tooltip": "Color for splash screen content",
+	        "type": "color",
+	        "fieldName": "splashScreenTextColor"
+	    },{
+	        "label": "Image background color",
+	        "tooltip": "Background image color of social media and guest icon",
+	        "type": "color",
+	        "fieldName": "imageBackgroundColor"
+	    },{
+	        "label": "Image foreground color",
+	        "tooltip": "Foreground image color of social media and guest icon",
+	        "type": "options",
+	        "fieldName": "imageForeGroundColor",
+            "options": [{
+	            "label": "Grey",
+	            "value": "gray"
+	        }, {
+	            "label": "White",
+	            "value": "white"
+	        }]
+	    },{
 	        "label": "Splash screen image",
 	        "tooltip": "Background image for login screen. Recommended 640x960.",
 	        "type": "string",
@@ -83,6 +111,11 @@
 	        "tooltip": "Application color scheme",
 	        "type": "color",
 	        "fieldName": "theme"
+	    }, {
+	        "label": "Submit report button text",
+	        "tooltip": "text for submit report button",
+	        "type": "string",
+	        "fieldName": "submitReportButtonText"
 	    }, {
 	        "label": "Submit report button color",
 	        "tooltip": "Color for submit report button",
@@ -114,6 +147,16 @@
 	            "label": "Feet",
 	            "value": "feet"
 	        }]
+	    }, {
+	        "label": "Geographical extent layer",
+	        "tooltip": "Non editable layers which defines the area of interset where user can Add/Edit records",
+	        "type": "string",
+	        "fieldName": "geographicalExtentLayer"
+	    }, {
+	        "label": "Message displayed after no webmap is found in configured group",
+	        "tooltip": "Message displayed after no webmap is found in configured group",
+	        "type": "string",
+	        "fieldName": "noWebmapInGroupText"
 	    }]
 	}, {
 	    "category": "<b>Map Settings</b>",

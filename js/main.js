@@ -337,8 +337,14 @@ define([
                     }
                 });
 
-                domAttr.set(dom.byId("submitFromMapText"), "innerHTML", this.config.i18n.main.submitReportButtonText);
-                var submitButtonColor = (this.config && this.config.submitReportButtonColor) ? this.config.submitReportButtonColor : "#35ac46";
+                var submitButtonText, submitButtonColor;
+                if (this.config && lang.trim(this.config.submitReportButtonText) === "") {
+                    submitButtonText = this.config.i18n.main.submitReportButtonText;
+                } else {
+                    submitButtonText = this.config.submitReportButtonText;
+                }
+                domAttr.set(dom.byId("submitFromMapText"), "innerHTML", submitButtonText);
+                submitButtonColor = (this.config && this.config.submitReportButtonColor) ? this.config.submitReportButtonColor : "#35ac46";
                 domStyle.set(dom.byId("submitFromMap"), "background-color", submitButtonColor);
 
                 on(dom.byId("submitFromMap"), "click", lang.hitch(this, function (evt) {
@@ -373,6 +379,7 @@ define([
         * @memberOf main
         */
         _handleNoWebMapToDisplay: function () {
+            var noMapMessage;
             try {
                 //Remove all menus except sign in/sign out
                 this._menusList.homeMenu = false;
@@ -383,7 +390,12 @@ define([
                 domClass.add(dom.byId("layoutContainer"), "esriCTHidden");
                 this.appUtils.hideLoadingIndicator();
                 domClass.remove(dom.byId("noWebMapParentDiv"), "esriCTHidden");
-                domAttr.set(dom.byId("noWebMapChildDiv"), "innerHTML", this.config.i18n.webMapList.noWebMapInGroup);
+                if (this.config && lang.trim(this.config.noWebmapInGroupText) === "") {
+                    noMapMessage = this.config.i18n.webMapList.noWebMapInGroup;
+                } else {
+                    noMapMessage = this.config.noWebmapInGroupText;
+                }
+                domAttr.set(dom.byId("noWebMapChildDiv"), "innerHTML", noMapMessage);
             } catch (err) {
                 this.appUtils.showError(err.message);
             }
@@ -782,6 +794,15 @@ define([
                     // Handle draw_activateDrawTool-end event which will be fired on selecting location
                     on(this.toolbar, "draw-complete", lang.hitch(this, function (evt) {
                         this._addToGraphicsLayer(evt);
+                        if (!this._canDrawFeature(evt)) {
+                            if (this.geoformInstance) {
+                                this.geoformInstance._clearSubmissionGraphic();
+                                if (this.featureGraphicLayer) {
+                                    this.featureGraphicLayer.clear();
+                                }
+                            }
+                            return;
+                        }
                         if (this.geoformInstance) {
                             this.geoformInstance._addToGraphicsLayer(evt);
                         }
@@ -875,6 +896,29 @@ define([
         },
 
         /**
+        * Decide wehter to draw the feature or not based on geographical extent
+        * @param{string} evt : graphics object from draw toolbar
+        * @memberOf main
+        */
+        _canDrawFeature: function (evt) {
+            var canDraw = true, featureGeometry;
+            if (this._webMapListWidget && this._webMapListWidget.geographicalExtent) {
+                //For line and polygon geometry take the feature extent
+                if (evt.geometry.type !== "point") {
+                    featureGeometry = evt.geometry.getExtent();
+                } else {
+                    featureGeometry = evt.geometry;
+                }
+                //Check if drawn geometry is inside the geographical extent
+                if (!this._webMapListWidget.geographicalExtent.contains(featureGeometry)) {
+                    alert(this.config.i18n.main.featureOutsideAOIMessage);
+                    canDraw = false;
+                }
+            }
+            return canDraw;
+        },
+
+        /**
         * Instantiate geo-form widget
         * @memberOf main
         */
@@ -939,8 +983,12 @@ define([
 
                     //clear any graphics present on main map after graphic has been drawn on geoform map
                     this.geoformInstance.onDrawComplete = lang.hitch(this, function (evt) {
-                        if (this.featureGraphicLayer) {
-                            this.featureGraphicLayer.clear();
+                        if (!this._canDrawFeature(evt)) {
+                            this.geoformInstance._clearSubmissionGraphic();
+                            if (this.featureGraphicLayer) {
+                                this.featureGraphicLayer.clear();
+                            }
+                            return;
                         }
                         this._addToGraphicsLayer(evt);
                     });
@@ -1098,7 +1146,7 @@ define([
         _itemSelected: function (item, isMapClicked) {
             var operationalLayer;
             //Highlight Feature on map
-            operationalLayer = this._selectedMapDetails.operationalLayerDetails.layerObject;
+            operationalLayer = this.map.getLayer(this._selectedMapDetails.operationalLayerId);
             if (operationalLayer && operationalLayer.objectIdField && this._selectedMapDetails.map) {
                 this.highLightFeatureOnClick(operationalLayer, item.attributes[operationalLayer.objectIdField], this._selectedMapDetails.map.getLayer("selectionGraphicsLayer"), this._selectedMapDetails.map);
             }

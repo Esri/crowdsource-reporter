@@ -39,11 +39,12 @@ define([
     'dijit/layout/ContentPane',
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
+    'dojo/DeferredList',
     'dojo/text!./templates/item-details-view.html',
     "widgets/comment-form/comment-form"
 ], function (declare, lang, arrayUtil, domConstruct, domStyle, domClass, domAttr, dojoQuery, on, dom, string, topic, touch, nld, Deferred, Graphic, PopupTemplate, Query, QueryTask, RelationshipQuery,
     ContentPane,
-    _WidgetBase, _TemplatedMixin,
+    _WidgetBase, _TemplatedMixin, DeferredList,
     template, CommentForm) {
 
     return declare([_WidgetBase, _TemplatedMixin], {
@@ -57,6 +58,7 @@ define([
         commentformInstance: null,
         isCommentFormOpen: false,
         votesUpdatedArray: [],
+        _entireAttachmentsArr: null,
         i18n: {
             likeButtonLabel: "Like",
             likeButtonTooltip: "Vote for this",
@@ -417,7 +419,7 @@ define([
         * @param {object} comment Comment to display; its contents come from calling
         * getContent() on it
         */
-        _buildCommentDiv: function (comment) {
+        _buildCommentDiv: function (comment, index) {
             var commentDiv;
             commentDiv = domConstruct.create('div', {
                 'class': 'comment'
@@ -427,6 +429,7 @@ define([
                 'class': 'content small-text',
                 'content': comment.getContent()
             }, commentDiv).startup();
+            this._checkAttachments(commentDiv, index);
         },
 
         /**
@@ -450,6 +453,7 @@ define([
             updateQuery.relationshipId = this.selectedLayer.relationships[0].id;
             //Show loading indicator
             this.appUtils.showLoadingIndicator();
+            this._entireAttachmentsArr = null;
             this.selectedLayer.queryRelatedFeatures(updateQuery, lang.hitch(this, function (results) {
                 var pThis = this, fset, features, i;
                 // Function for descending-OID-order sort
@@ -480,7 +484,11 @@ define([
                 if (features.length > 0) {
                     // Sort by descending OID order
                     features.sort(sortByOID);
-                    this._setComments(results[item.attributes[this.selectedLayer.objectIdField]].features);
+                    if (this._commentTable.hasAttachments) {
+                        this._getAllAttachments(results[item.attributes[this.selectedLayer.objectIdField]].features);
+                    } else {
+                        this._setComments(results[item.attributes[this.selectedLayer.objectIdField]].features);
+                    }
                     domClass.add(this.noCommentsDiv, "esriCTHidden");
                 } else {
                     domClass.remove(this.noCommentsDiv, "esriCTHidden");
@@ -493,6 +501,113 @@ define([
                 //Hide loading indicator
                 this.appUtils.hideLoadingIndicator();
             }));
+        },
+
+        /**
+        * This function is used to get all the attachments
+        */
+        _getAllAttachments: function (commentsFeature) {
+            var deferredList, deferredListArr, i;
+            deferredListArr = [];
+            for (i = 0; i < commentsFeature.length; i++) {
+                deferredListArr.push(this._commentTable.queryAttachmentInfos(commentsFeature[i].attributes[this.selectedLayer.objectIdField]));
+            }
+            deferredList = new DeferredList(deferredListArr);
+            deferredList.then(lang.hitch(this, function (response) {
+                this._entireAttachmentsArr = response;
+                this._setComments(commentsFeature);
+            }), lang.hitch(this, function () {
+                this.hideCommentsTab();
+                this.appUtils.hideLoadingIndicator();
+            }));
+        },
+
+        /**
+        * Check whether attachments are available in layer and enabled in webmap
+        **/
+        _checkAttachments: function (commentContentPaneContainer, index) {
+            if (this._commentTable.hasAttachments) {
+                var attachmentsDiv = $(".attachmentsSection", commentContentPaneContainer)[0];
+                if (attachmentsDiv) {
+                    domConstruct.empty(attachmentsDiv);
+                    domStyle.set(attachmentsDiv, "display", "block");
+                    domClass.remove(attachmentsDiv, "hidden");
+                    this._showAttachmentsInComment(attachmentsDiv, index);
+                }
+            }
+        },
+
+        /**
+        * Query layer to get attachments
+        * @param{object} graphic
+        * @param{object} attachmentContainer
+        * @memberOf widgets/details-panel/comments
+        **/
+        _showAttachmentsInComment: function (attachmentContainer, index) {
+            var fieldContent, i, attachmentWrapper, imageThumbnailContainer, imageThumbnailContent, imageContainer, fileTypeContainer, isAttachmentAvailable, imagePath, imageDiv;
+            //check if attachments found
+            if (this._entireAttachmentsArr[index][1] && this._entireAttachmentsArr[index][1].length > 0) {
+                //Create attachment header text
+                domConstruct.create("div", { "innerHTML": this.appConfig.i18n.comment.attachmentHeaderText, "class": "esriCTAttachmentHeader" }, attachmentContainer);
+                fieldContent = domConstruct.create("div", { "class": "esriCTThumbnailContainer" }, attachmentContainer);
+                // display all attached images in thumbnails
+                for (i = 0; i < this._entireAttachmentsArr[index][1].length; i++) {
+                    attachmentWrapper = domConstruct.create("div", {}, fieldContent);
+                    imageThumbnailContainer = domConstruct.create("div", { "class": "esriCTNonImageContainer", "alt": this._entireAttachmentsArr[index][1][i].url }, attachmentWrapper);
+                    imageThumbnailContent = domConstruct.create("div", { "class": "esriCTNonImageContent" }, imageThumbnailContainer);
+                    imageContainer = domConstruct.create("div", {}, imageThumbnailContent);
+                    fileTypeContainer = domConstruct.create("div", { "class": "esriCTNonFileTypeContent" }, imageThumbnailContent);
+                    isAttachmentAvailable = true;
+                    // set default image path if attachment has no image URL
+                    imagePath = dojoConfig.baseURL + this.appConfig.noAttachmentIcon;
+                    imageDiv = domConstruct.create("img", { "alt": this._entireAttachmentsArr[index][1][i].url, "class": "esriCTAttachmentImg", "src": imagePath }, imageContainer);
+                    this._fetchDocumentContentType(this._entireAttachmentsArr[index][1][i], fileTypeContainer);
+                    this._fetchDocumentName(this._entireAttachmentsArr[index][1][i], imageThumbnailContainer);
+                    on(imageThumbnailContainer, "click", lang.hitch(this, this._displayImageAttachments));
+                }
+                if (!isAttachmentAvailable) {
+                    domClass.add(attachmentContainer, "hidden");
+                }
+            }
+        },
+
+        /**
+        * Function to fetch document content type
+        * @param{object} attachment object
+        **/
+        _fetchDocumentContentType: function (attachmentData, fileTypeContainer) {
+            var typeText, fileExtensionRegEx, fileExtension;
+            fileExtensionRegEx = /(?:\.([^.]+))?$/; //ignore jslint
+            fileExtension = fileExtensionRegEx.exec(attachmentData.name);
+            if (fileExtension && fileExtension[1]) {
+                typeText = "." + fileExtension[1].toUpperCase();
+            } else {
+                typeText = this.appConfig.i18n.comment.unknownCommentAttachment;
+            }
+            domAttr.set(fileTypeContainer, "innerHTML", typeText);
+        },
+
+
+        /**
+        * Function to fetch document name
+        * @param{object} attachment object
+        * @param{object} dom node
+        **/
+        _fetchDocumentName: function (attachmentData, container) {
+            var attachmentNameWrapper, attachmentName;
+            attachmentNameWrapper = domConstruct.create("div", { "class": "esriCTNonImageName" }, container);
+            attachmentName = domConstruct.create("div", {
+                "class": "esriCTNonImageNameMiddle",
+                "innerHTML": attachmentData.name
+            }, attachmentNameWrapper);
+        },
+
+        /**
+        * This function is used to show attachments in new window when user clicks on the attachment thumbnail
+        * @param{object} evt
+        **/
+        _displayImageAttachments: function (evt) {
+            window.open(domAttr.get(evt.currentTarget, "alt"));
         },
 
         /**
@@ -655,9 +770,11 @@ define([
                         this.toggleDetailsPanel();
                     }
                 });
-                this.commentformInstance.onCommentFormSubmitted = lang.hitch(this, function (item) {
-                    //close the comment form after submitting new comment
-                    this._showPanel(this.commentDetails, this.commentButton, false);
+                this.commentformInstance.onCommentFormSubmitted = lang.hitch(this, function (item, canClose) {
+                    if (canClose) {
+                        //close the comment form after submitting new comment
+                        this._showPanel(this.commentDetails, this.commentButton, false);
+                    }
                     this.commentformInstance._clearFormFields();
                     this.isCommentFormOpen = false;
                     //update comment list
