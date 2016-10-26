@@ -133,7 +133,7 @@ define({
             loadMoreButtonText: "Load More..." //Text for load more button
         },
         comment: {
-            commentsFormHeading: "Comments Form",
+            commentsFormHeading: "Comment",
             commentsFormSubmitButton: "Submit Comment",
             commentsFormEditButton: "Update Comment",
             commentsFormCancelButton: "Cancel",
