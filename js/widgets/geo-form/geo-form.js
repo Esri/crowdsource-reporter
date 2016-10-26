@@ -2036,7 +2036,7 @@ define([
                 } else {
                     this._onUpdateOperationComplete();
                 }
-				this._clearFormFields();
+                this._clearFormFields();
             }
         },
 
