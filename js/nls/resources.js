@@ -75,6 +75,7 @@ define({
             selectFileText: "Browse", // Command button to open a dialog box to select file(s) to be attached
             enterLocation: "Location", // Shown as the second section of the geoform, where the user can select a location on the map
             reportItButton: "Report It", // Command button to submit the geoform to report an issue
+            editReportButton: "Update", // Command button to edit reported issue
             cancelButton: "Cancel", //Command button to close the geoform
             requiredField: "(required)", // Shown next to the field in which the data is mandatory
             selectDefaultText: "Select&hellip;", // Shown in the dropdown field indicating to select an option
@@ -132,7 +133,9 @@ define({
             loadMoreButtonText: "Load More..." //Text for load more button
         },
         comment: {
+            commentsFormHeading: "Comments Form",
             commentsFormSubmitButton: "Submit Comment",
+            commentsFormEditButton: "Update Comment",
             commentsFormCancelButton: "Cancel",
             errorInSubmittingComment: "Comment could not be submitted.", // Shown when user is unable to add comments
             emptyCommentMessage: "Please enter a comment.", // Shown when user submits a comment without any text/character
@@ -144,7 +147,10 @@ define({
             selectFileText: "Browse", // Command button to open a dialog box to select file(s) to be attached
             attachmentSelectedMsg: "attachment(s) selected", // Shown besides the select file button indicating the number of files attached
             attachmentHeaderText: "Attachments", //attachment header Text
-            unknownCommentAttachment:"FILE", // displayed for attached file having unknown extension
+            unknownCommentAttachment: "FILE", // displayed for attached file having unknown extension
+            editRecordText: "Edit", // Displayed on hover of edit comment button
+            deleteRecordText: "Delete", // Displayed on hover of delete comment button
+            deleteCommentFailedMessage: "Unable to delete comment" // Displayed when delete comment operation gets failed
         },
         gallery: {
             galleryHeaderText: "Gallery",

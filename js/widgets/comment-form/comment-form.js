@@ -34,11 +34,29 @@ define([
     "esri/graphic",
     "esri/tasks/RelationshipQuery",
     "dojo/text!./templates/comment-form.html"
-], function (declare, _WidgetBase, _TemplatedMixin, lang, array, kernel, domConstruct, domClass, domStyle, query, dom, string, on, domAttr, locale, Graphic, RelationshipQuery, commentForm) {
+], function (
+    declare,
+    _WidgetBase,
+    _TemplatedMixin,
+    lang,
+    array,
+    kernel,
+    domConstruct,
+    domClass,
+    domStyle,
+    query,
+    dom,
+    string,
+    on,
+    domAttr,
+    locale,
+    Graphic,
+    RelationshipQuery,
+    commentForm
+) {
     return declare([_WidgetBase, _TemplatedMixin], {
         templateString: commentForm,
         sortedFields: [],
-        defaultValueArray: [],
         i18n: {},
         item: null,
         rangeHelpText: null,
@@ -50,6 +68,7 @@ define([
         _totalFileAttachedCounter: 0, // to store total number of file that is been attached
         _fileAttachedCounter: 0, // to store number of files that is been attached
         _fileFailedCounter: 0, // to store number of files that is been failed to attached
+        _deletedAttachmentsArr: [], // to store deleted attachments
 
         /**
         * This function is called when widget is constructed.
@@ -67,14 +86,24 @@ define([
         },
 
         postCreate: function () {
+            var submitCommentText;
             this.inherited(arguments);
             this._initializeCommentForm();
+            if (this.addComments) {
+                submitCommentText = this.config.i18n.comment.commentsFormSubmitButton;
+            } else {
+                submitCommentText = this.config.i18n.comment.commentsFormEditButton;
+            }
+            domAttr.set(this.postCommentButton, "innerHTML", submitCommentText);
             // click event for submit comment form on submit button click
-            on(this.postCommentButton, 'click', lang.hitch(this, function () {
+            on(this.postCommentButton, "click", lang.hitch(this, function () {
+                this.appUtils.showLoadingIndicator();
                 this._submitCommentForm();
             }));
-            on(this.cancelCommentButton, 'click', lang.hitch(this, function (evt) {
+            on(this.cancelCommentButton, "click", lang.hitch(this, function (evt) {
+                this.appUtils.showLoadingIndicator();
                 this.onCancelButtonClick(evt);
+                this.appUtils.hideLoadingIndicator();
             }));
         },
 
@@ -83,6 +112,7 @@ define([
         },
 
         _initializeCommentForm: function () {
+            this._deletedAttachmentsArr = [];
             this._filterLayerFields();
             // Sort fields array by type
             this._sortedTypeFormElement();
@@ -90,6 +120,55 @@ define([
             this._clearAttachments();
             // create attachment button if comment table has attachments
             this._createAttachments();
+            this._addExistingAttachments();
+        },
+
+        /**
+        * This function is used to display the existing attachments
+        * @memberOf widgets/comment-form/comment-form
+        */
+        _addExistingAttachments: function () {
+            var i;
+            if (this.existingAttachmentsObjectsArr && this.existingAttachmentsObjectsArr.length > 0) {
+                for (i = 0; i < this.existingAttachmentsObjectsArr.length; i++) {
+                    this._createExistingAttachment(this.existingAttachmentsObjectsArr[i], i);
+                    this._updateAttachmentCount();
+                }
+            }
+        },
+
+        /**
+        * This function is used to create existing attachments
+        * @param{object} existingAttachment - existing attachment whose UI needs to be created
+        * @memberOf widgets/comment-form/comment-form
+        */
+        _createExistingAttachment: function (existingAttachment) {
+            var alertHtml, existingAttachmentNode;
+            alertHtml = "<div class=\"esriCTFileAlert alert alert-dismissable alert-success\">";
+            alertHtml += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">" + "X" + "</button>";
+            alertHtml += "<span>" + existingAttachment.attachmentFileName + "</span>";
+            alertHtml += "</div>";
+            existingAttachmentNode = domConstruct.toDom(alertHtml);
+            domAttr.set(existingAttachmentNode.children[0], "attachmentObjectID", existingAttachment.attachmentObjectID);
+            this._onExistingAttachmentCloseButtonClick(existingAttachmentNode.children[0]);
+            domConstruct.place(existingAttachmentNode, this.fileAttachmentList, "last");
+        },
+
+        /**
+        * This function is used to update the attachment count when clicked on existing attachment close button
+        * @param{object} existingAttachmentCloseButton - close button to which click event needs to be attached
+        * @memberOf widgets/comment-form/comment-form
+        */
+        _onExistingAttachmentCloseButtonClick: function (existingAttachmentCloseButton) {
+            on(existingAttachmentCloseButton, "click", lang.hitch(this, function (evt) {
+                setTimeout(lang.hitch(this, function () {
+                    var attachmentObjectID;
+                    attachmentObjectID = domAttr.get(evt.target, "attachmentObjectID");
+                    attachmentObjectID = parseInt(attachmentObjectID, 10);
+                    this._deletedAttachmentsArr.push(attachmentObjectID);
+                    this._updateAttachmentCount();
+                }), 1);
+            }));
         },
 
         /**
@@ -300,7 +379,6 @@ define([
             }
         },
 
-
         /**
         * Sort form elements by type
         * @memberOf widgets/comment-form/comment-form
@@ -345,16 +423,17 @@ define([
                 $(commentFormDiv).animate({
                     scrollTop: erroneousFields[0].offsetTop - 50 // deduct heigt of panel to calculate exact offset
                 }, 1000);
+                this.appUtils.hideLoadingIndicator();
             } else {
                 // Create instance of graphic
                 featureData = new Graphic();
                 // create an empty array object
                 featureData.attributes = {};
                 // for all the fields
-                array.forEach(query(".commentFormQuestionare .form-control", this.enterCommentContainer), function (currentField) {
+                array.forEach(query(".commentFormQuestionare .form-control", this.enterCommentContainer), lang.hitch(this, function (currentField) {
+                    // get id of the field
+                    key = domAttr.get(currentField, "id");
                     if (currentField.value !== "") {
-                        // get id of the field
-                        key = domAttr.get(currentField, "id");
                         // check for date time picker and assign value
                         if (domClass.contains(currentField, "hasDatetimepicker")) {
                             picker = $(currentField.parentNode).data('DateTimePicker');
@@ -369,8 +448,11 @@ define([
                         // Assign value to the attributes
                         featureData.attributes[key] = value;
                         editedFields.push(key);
+                    } else if (!this.addComments) {
+                        featureData.attributes[key] = null;
+                        editedFields.push(key);
                     }
-                });
+                }));
 
                 // If layer has ReportedBy Field then Add logged in username in it
                 // Add ReportedBy field to editedFields array so that it will not get the default value from template
@@ -378,21 +460,82 @@ define([
                     featureData.attributes[this.config.reportedByField] = this.config.logInDetails.processedUserName;
                     editedFields.push(key);
                 }
-                //Show loading indicator
-                this.appUtils.showLoadingIndicator();
 
-                this._primaryKeyField = this.selectedLayer.relationships[0].keyField;
-                this._foreignKeyField = this.commentTable.relationships[0].keyField;
-                featureData.attributes[this._foreignKeyField] = this.item.attributes[this._primaryKeyField];
-                // Add the comment to the comment table
-                this.commentTable.applyEdits([featureData], null, null, lang.hitch(this, function (results) {
-                    if (results[0].success) {
-                        var fileList, i, userFormNode;
-                        userFormNode = dom.byId("addCommentAttachmentsWrapperContainer");
-                        // if layer has attachments then add those attachments
-                        if (this.commentTable.hasAttachments && query(".esriCTFileToSubmit", userFormNode).length > 0) {
-                            // get all the attachments
-                            fileList = query(".esriCTFileToSubmit", userFormNode);
+                if (this.addComments) {
+                    this._primaryKeyField = this.selectedLayer.relationships[0].keyField;
+                    this._foreignKeyField = this.commentTable.relationships[0].keyField;
+                    if (this.item.attributes[this._primaryKeyField]) {
+                        featureData.attributes[this._foreignKeyField] = this.item.attributes[this._primaryKeyField];
+                    }
+                    this._addNewComments(featureData);
+                } else {
+                    this._updateComments(featureData);
+                }
+            }
+        },
+
+        /**
+        * This function is used to add new comments
+        * @memberOf widgets/comment-form/comment-form
+        */
+        _addNewComments: function (featureData) {
+            // Add the comment to the comment table
+            this.commentTable.applyEdits([featureData], null, null, lang.hitch(this, function (results) {
+                if (results[0].success) {
+                    var fileList, i, userFormNode;
+                    userFormNode = dom.byId("addCommentAttachmentsWrapperContainer");
+                    // if layer has attachments then add those attachments
+                    if (this.commentTable.hasAttachments && query(".esriCTFileToSubmit", userFormNode).length > 0) {
+                        // get all the attachments
+                        fileList = query(".esriCTFileToSubmit", userFormNode);
+                        // reset fileAttached and failed counter
+                        this._fileAttachedCounter = 0;
+                        this._fileFailedCounter = 0;
+                        // set total file attached counter
+                        this._totalFileAttachedCounter = fileList.length;
+                        for (i = 0; i < fileList.length; i++) {
+                            // handle success and error callback for add attachments
+                            this.commentTable.addAttachment(results[0].objectId, fileList[i],
+                                lang.hitch(this, this._onAttachmentUploadComplete),
+                                lang.hitch(this, this._onAttachmentUploadFailed));
+                        }
+                    } else {
+                        this._clearFormFields();
+                        this.onCommentFormSubmitted(this.item, true);
+                    }
+                } else {
+                    this.appUtils.hideLoadingIndicator();
+                    // Show error message in header
+                    this._showHeaderMessageDiv();
+                }
+            }), lang.hitch(this, function (err) {
+                //Hide loading indicator
+                this.appUtils.hideLoadingIndicator();
+                // Show error message
+                this.appUtils.showError(err);
+                // Show error message in header
+                this._showHeaderMessageDiv();
+            }));
+        },
+
+        /**
+        * This function is used to update comments
+        * @memberOf widgets/comment-form/comment-form
+        */
+        _updateComments: function (featureData) {
+            //as we are updating feature we need object Id field inside for successful updation
+            featureData.attributes[this.selectedLayer.objectIdField] = this.item.attributes[this.selectedLayer.objectIdField];
+            // Update the comment to the comment table
+            this.commentTable.applyEdits(null, [featureData], null, lang.hitch(this, function (addResult, updateResult, deleteResult) { //ignore jslint
+                var fileList, i, userFormNode;
+                //for update we only need updateResult parameter
+                if (updateResult && updateResult.length > 0 && updateResult[0].success) {
+                    userFormNode = dom.byId("addCommentAttachmentsWrapperContainer");
+                    // if layer has attachments then add those attachments
+                    // get all the attachments
+                    fileList = query(".esriCTFileToSubmit", userFormNode);
+                    if (this.commentTable.hasAttachments && (fileList.length > 0 || this._deletedAttachmentsArr.length > 0)) {
+                        if (fileList.length > 0) {
                             // reset fileAttached and failed counter
                             this._fileAttachedCounter = 0;
                             this._fileFailedCounter = 0;
@@ -400,30 +543,41 @@ define([
                             this._totalFileAttachedCounter = fileList.length;
                             for (i = 0; i < fileList.length; i++) {
                                 // handle success and error callback for add attachments
-                                this.commentTable.addAttachment(results[0].objectId, fileList[i],
+                                this.commentTable.addAttachment(updateResult[0].objectId, fileList[i],
                                     lang.hitch(this, this._onAttachmentUploadComplete),
                                     lang.hitch(this, this._onAttachmentUploadFailed));
                             }
                         } else {
-                            //Hide loading indicator
-                            this.appUtils.hideLoadingIndicator();
-                            this._clearFormFields();
-                            this.onCommentFormSubmitted(this.item, true);
-
+                            this._deleteAttachments();
                         }
                     } else {
-                        // Show error message in header
-                        this._showHeaderMessageDiv();
+                        this._clearFormFields();
+                        this.onCommentFormSubmitted(this.item, true);
                     }
-                }), lang.hitch(this, function (err) {
-                    //Hide loading indicator
+                } else {
                     this.appUtils.hideLoadingIndicator();
-                    // Show error message
-                    this.appUtils.showError(err);
                     // Show error message in header
                     this._showHeaderMessageDiv();
-                }));
-            }
+                }
+            }), lang.hitch(this, function (err) {
+                //Hide loading indicator
+                this.appUtils.hideLoadingIndicator();
+                // Show error message
+                this.appUtils.showError(err);
+                // Show error message in header
+                this._showHeaderMessageDiv();
+            }));
+        },
+
+        /**
+        * This function is used to delete the attachments
+        * @memberOf widgets/comment-form/comment-form
+        */
+        _deleteAttachments: function () {
+            this.commentTable.deleteAttachments(this.item.attributes[this.commentTable.objectIdField],
+                this._deletedAttachmentsArr,
+                lang.hitch(this, this._onAttachmentDeleteComplete),
+                lang.hitch(this, this._onAttachmentDeleteFailed));
         },
 
         /**
@@ -445,26 +599,52 @@ define([
         },
 
         /**
+        * This function is called when attachments are deleted successfully
+        * @memberOf widgets/comment-form/comment-form
+        */
+        _onAttachmentDeleteComplete: function (response) {
+            this._commentOperationComplete();
+        },
+
+        /**
+        * This function is called when delete attachments operation is failed
+        * @memberOf widgets/comment-form/comment-form
+        */
+        _onAttachmentDeleteFailed: function (err) {
+            this._commentOperationComplete();
+        },
+
+        /**
         * On attachment upload
         * @memberOf widgets/comment-form/comment-form
         */
         _updateFileAttachedCounter: function () {
-            var attachmentFailedMsg;
             if (this._totalFileAttachedCounter === (this._fileAttachedCounter + this._fileFailedCounter)) {
-                //Hide loading indicator
-                this.appUtils.hideLoadingIndicator();
-                this._clearAttachments();
-                if (this._fileFailedCounter > 0) {
-                    attachmentFailedMsg = string.substitute(this.config.i18n.geoform.attachmentUploadStatus, {
-                        "failed": this._fileFailedCounter,
-                        "total": this._totalFileAttachedCounter
-                    });
-                    // Show Thank you message on Success
-                    this._showHeaderMessageDiv(attachmentFailedMsg);
-                    this.onCommentFormSubmitted(this.item, false);
+                if (this._deletedAttachmentsArr.length > 0) {
+                    this._deleteAttachments();
                 } else {
-                    this.onCommentFormSubmitted(this.item, true);
+                    this._commentOperationComplete();
                 }
+            }
+        },
+
+        /**
+        * This function is executed when all applicable comment operations like add, update or delete is completed
+        * @memberOf widgets/comment-form/comment-form
+        */
+        _commentOperationComplete: function () {
+            var attachmentFailedMsg;
+            this._clearAttachments();
+            if (this._fileFailedCounter > 0) {
+                attachmentFailedMsg = string.substitute(this.config.i18n.geoform.attachmentUploadStatus, {
+                    "failed": this._fileFailedCounter,
+                    "total": this._totalFileAttachedCounter
+                });
+                // Show Thank you message on Success
+                this._showHeaderMessageDiv(attachmentFailedMsg);
+                this.onCommentFormSubmitted(this.item, false);
+            } else {
+                this.onCommentFormSubmitted(this.item, true);
             }
         },
 
@@ -494,7 +674,6 @@ define([
             }));
             return erroneousFields;
         },
-
 
         /**
         * Create error message container
@@ -599,6 +778,7 @@ define([
             if (requireField && labelContent) {
                 domConstruct.place(requireField, labelContent, "last");
             }
+            currentField.defaultValue = null;
             // set default Values to the fields
             if (this.commentTable.templates[0] && !currentField.defaultValue) {
                 for (fieldAttribute in this.commentTable.templates[0].prototype.attributes) {
@@ -622,7 +802,6 @@ define([
                 this._createInputFormElements(currentField, formContent, fieldname);
             }
         },
-
 
         /**
         * Create range help text for elements.
@@ -667,7 +846,11 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _createDomainValueFormElements: function (currentField, formContent, fieldname) {
-            var date, inputRangeDateGroupContainer, rangeDefaultDate, currentSelectedDate, formatedDate;
+            var date, inputRangeDateGroupContainer, rangeDefaultDate, currentSelectedDate, formatedDate, defaultValue;
+            if (!this.addComments) {
+                //get field value
+                defaultValue = this.item.attributes[fieldname];
+            }
             if ((currentField.domain && (currentField.domain.type === 'undefined' || currentField.domain.type === undefined || currentField.domain.type === 'codedValue')) || currentField.typeField) {
                 this._createCodedValueFormElements(currentField, formContent, fieldname);
             } else {
@@ -684,8 +867,6 @@ define([
                         $(inputRangeDateGroupContainer).data("DateTimePicker").setDate(date);
                         // set format to the current date
                         rangeDefaultDate = moment(date).format($(inputRangeDateGroupContainer).data("DateTimePicker").format);
-                        // set default value and id to the array
-                        this.defaultValueArray.push({ defaultValue: currentField.defaultValue, id: this.inputContent.id, type: currentField.type });
                     } else {
                         //Check if todays date falls between minimum and maximum date
                         if (currentField.domain.maxValue > Date.now() && currentField.domain.minValue < Date.now()) {
@@ -696,7 +877,6 @@ define([
                         }
                         formatedDate = moment(new Date(currentSelectedDate)).format($(inputRangeDateGroupContainer).data("DateTimePicker").format);
                         $(inputRangeDateGroupContainer).data("DateTimePicker").setDate(formatedDate);
-                        this.defaultValueArray.push({ defaultValue: currentSelectedDate, id: this.inputContent.id, type: currentField.type });
                     }
                     // Assign value to the range help text
                     this.rangeHelpText = string.substitute(this.i18n.geoform.dateRangeHintMessage, {
@@ -711,7 +891,6 @@ define([
                 }
             }
         },
-
 
         /**
         * Create coded value elements of form
@@ -746,8 +925,6 @@ define([
                         domAttr.set(selectOptions, "selected", true);
                         domAttr.set(selectOptions, "defaultSelected", true);
                         domClass.add(this.inputContent.parentNode, "has-success");
-                        // set default value and id into the array
-                        this.defaultValueArray.push({ defaultValue: currentField.defaultValue, id: this.inputContent.id });
                     }
                 }));
             } else {
@@ -853,7 +1030,6 @@ define([
             }
         },
 
-
         /**
         * Populate domain properties for current field in form elements
         * @param{string} selectedType, current selected type
@@ -930,7 +1106,6 @@ define([
             if (currentField.defaultValue) {
                 setDefault = currentField.defaultValue;
                 domClass.add(this.inputContent.parentNode, "has-success");
-                this.defaultValueArray.push({ defaultValue: setDefault, id: this.inputContent.id, type: "range" });
             }
             // Set minimum and maximum value in range domain
             if (domAttr.get(this.inputContent, "data-input-type") === "Double" || domAttr.get(this.inputContent, "data-input-type") === "Single") {
@@ -968,7 +1143,6 @@ define([
             return rangeHelpText;
         },
 
-
         /**
         * Event to address validations for manual entry in the touch-spinner input
         * @param{object} inputcontentSpinner, container of TouchSpin
@@ -997,6 +1171,7 @@ define([
                 this.inputContent.setAttribute("required", "");
             }
         },
+
         /**
         * Create input elements of form.
         * @param{object} currentField, object of current field in the info pop
@@ -1077,7 +1252,7 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _clearFormFields: function () {
-            var node, index;
+            var node;
             // remove error and success messages for each form field
             array.forEach(query(".form-control", this.domNode), lang.hitch(this, function (currentInput) {
                 node = currentInput.parentElement;
@@ -1116,27 +1291,6 @@ define([
 
             // Reset Form
             this.commentForm.reset();
-            // Set default Values and success to the controls
-            array.forEach(query(".form-control", this.domNode), lang.hitch(this, function (currentInput) {
-                for (index = 0; index < this.defaultValueArray.length; index++) {
-                    if (this.defaultValueArray[index].id === currentInput.id) {
-                        if (this.defaultValueArray[index].type === "esriFieldTypeDate" || this.defaultValueArray[index].type === "range") {
-                            domClass.add(currentInput.parentElement.parentElement, "has-success");
-                        } else {
-                            domClass.add(currentInput.parentElement, "has-success");
-                        }
-                        if (!domClass.contains(currentInput, "selectDomain")) {
-                            domAttr.set(currentInput, "value", this.defaultValueArray[index].defaultValue);
-                        }
-                        if (this.defaultValueArray[index].type === "esriFieldTypeDate") {
-                            var date = new Date(this.defaultValueArray[index].defaultValue);
-                            // set current date to date field
-                            $(currentInput.parentElement).data('DateTimePicker').setDate(date);
-                        }
-                    }
-                }
-            }));
-
             domConstruct.empty(query(".esriCTResultContainer")[0]);
             domClass.add(query(".esriCTResultContainer")[0], "esriCTHidden");
             if (this._fileFailedCounter <= 0) {
@@ -1164,6 +1318,10 @@ define([
         */
         _addInputElementsValue: function (currentField, formContent, inputDateGroupContainer) {
             var defaultDate, date;
+            if (!this.addComments) {
+                //get default field value if t is not exist in feature attributes
+                currentField.defaultValue = this.item.attributes[this.inputContent.id];
+            }
             // If default values is present assign it to the field
             if (currentField.defaultValue) {
                 // If field type is date assign date to date time picker
@@ -1174,11 +1332,9 @@ define([
                     $(inputDateGroupContainer).data("DateTimePicker").setDate(date);
                     // set format to the current date
                     defaultDate = moment(date).format($(inputDateGroupContainer).data("DateTimePicker").format);
-                    this.defaultValueArray.push({ defaultValue: currentField.defaultValue, id: this.inputContent.id, type: currentField.type });
                 } else {
                     domAttr.set(this.inputContent, "value", currentField.defaultValue);
                     domClass.add(formContent, "has-success");
-                    this.defaultValueArray.push({ defaultValue: currentField.defaultValue, id: this.inputContent.id });
                 }
             } else {
                 // else assign current date to the date time picker
@@ -1187,7 +1343,6 @@ define([
                     $(inputDateGroupContainer).data("DateTimePicker").setDate(new Date());
                     // set format to the current date
                     defaultDate = moment(new Date()).format($(inputDateGroupContainer).data("DateTimePicker").format);
-                    this.defaultValueArray.push({ defaultValue: new Date(), id: this.inputContent.id, type: currentField.type });
                 }
             }
             // If field type is not date, validate fields on focus out
@@ -1198,7 +1353,6 @@ define([
                 }));
             }
         },
-
 
         /**
         * Validate form field
@@ -1307,7 +1461,6 @@ define([
                 domAttr.set(node, "value", toFixedValue);
             }
         },
-
 
         /**
         * Validate form input

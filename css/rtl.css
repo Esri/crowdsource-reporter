@@ -89,7 +89,18 @@
     background-image: url('../images/next.png');
 }
 
-.dj_rtl #sideContainer, .dj_rtl .esriCTInfoImg, .dj_rtl .esriCTVotesDetails, .dj_rtl .esriCTItemFav 
+.dj_rtl .esriCTEditingButtons
+{
+    right: auto;
+    left: 5px;
+}
+
+.dj_rtl .esriCTEditButton, .dj_rtl .esriCTDeleteButton
+{
+    float: right;
+}
+
+.dj_rtl #sideContainer, .dj_rtl .esriCTInfoImg, .dj_rtl .esriCTVotesDetails, .dj_rtl .esriCTItemFav
 {
     float:left !important;
 }
@@ -170,7 +181,7 @@
 
 /* RTL for Details panel */
 
-.dj_rtl .esriCTGalleryButton, .dj_rtl .esriCTCancelCommentButton
+.dj_rtl .esriCTGalleryButton
 {
     float: left !important;
 }
@@ -179,7 +190,15 @@
  {
      margin-right: 5px;
  }
- 
+.dj_rtl .esriCTPostCommentButton
+{
+    float: left;
+}
+
+.dj_rtl .esriCTCommentButtons
+{
+    padding: 0 10px 30px 10px;
+}
  .dj_rtl .esriCTNonImageContainer
  {
     float: right;
@@ -195,3 +214,13 @@
     }
     
 }
+
+/* CSS for modal dialog */
+
+.dj_rtl .modal-title
+{
+    float: left;
+    text-align: left;
+}
+
+/* End Of CSS For Modal dialog */
