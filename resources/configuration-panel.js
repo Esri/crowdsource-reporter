@@ -50,7 +50,7 @@
 		"geoformDetailsSectionLabel": "Details",
 		"geoformLocationSectionLabel": "Location",
 		"geoformAttachmentSectionLabel": "Attachments",
-		"noWebmapInGroupText": "Configured group is invalid or no items have been shared with this group yet."
+		"noWebmapInGroupText": ""
     },
 	"configurationSettings": [{
 	    "category": "<b>App Settings</b>",
