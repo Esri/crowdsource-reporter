@@ -73,7 +73,7 @@ html, body
     margin-top: 2px;
 }
 
-.esriCTHintStyle 
+.esriCTHintStyle
 {
     font-style: italic;
 }
@@ -82,6 +82,11 @@ html, body
 .esriViewPopup .header, .esriViewPopup .attrTable
 {
     word-wrap: break-word;
+}
+
+.esriViewPopup .header
+{
+    max-width: calc(100% - 40px);
 }
 /* Override identity manager color to default*/
 
@@ -987,7 +992,7 @@ html, body
 {
     margin: 0 auto !important;
     width: 100% !important;
-    background: #EDEDED;
+    background: #FFF;
     height: 100%;
 }
 
@@ -1594,11 +1599,6 @@ label
     height: 100%;
 }
 
-.esriCTCommentsList
-{
-    margin: 10px 10px 0 10px;
-}
-
 .esriCTCommentsForm1
 {
     border-top: 1px solid #ccc;
@@ -1972,6 +1972,7 @@ label
     float: left;
     width: 100%;
     background-color: #fff;
+    position: relative;
 }
 
 .esriCTCommentsList .commentRow
@@ -1982,8 +1983,60 @@ label
 
 .esriCTCommentsList .dijitContentPane
 {
-    padding: 0px !important;
     margin-bottom: 10px;
+    padding: 5px 10px !important;
+ }
+
+ .esriCTEditingButtons {
+     top: 4px;
+     position: absolute;
+     right: 5px;
+ }
+
+.esriCTEditButton {
+    height: 22px;
+    width: 22px;
+    background-size: 22px;
+    cursor: pointer;
+    background-color: #fff;
+    background: url('../images/pencil.png') no-repeat center;
+    float: left;
+}
+
+.esriCTDeleteButton {
+    height: 22px;
+    width: 22px;
+    background-size:22px;
+    cursor: pointer;
+    background-color: #fff;
+    background: url('../images/delete.png') no-repeat center;
+    float: left;
+}
+
+/* Override styles for buttons in comment section */
+.esriCTCommentsList .esriCTEditButton {
+    right: 18px;
+}
+
+.esriCTCommentsList .esriCTDeleteButton {
+    right: 0px;
+}
+
+.esriCTItemDetail .esriCTCommentsFormTitle
+{
+    width: 100%;
+    padding: 0 0 10px 0;
+    font-weight: bold;
+}
+
+.esriCTCommentsPopup {
+    position: relative;
+}
+
+.esriCTEditModePopupContainer
+{
+    padding-bottom: 15px;
+    background-color: #FFF;
 }
 
 /* ---------- End Of ItemDetail ---------- */

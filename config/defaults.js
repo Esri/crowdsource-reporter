@@ -94,6 +94,8 @@ define({
     "likeField": "NUMVOTES",
     "commentField": "COMMENTS",
     "usePopupConfigurationForComment":false,
+    "enableFeatureEdit": false,
+    "enableFeatureDelete" : false,
     "reportedByField": "USERID",
     "locationField": "LONG_TEXT",
 

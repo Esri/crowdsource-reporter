@@ -157,6 +157,16 @@
 	        "tooltip": "Message displayed after no webmap is found in configured group",
 	        "type": "string",
 	        "fieldName": "noWebmapInGroupText"
+	    }, {
+	        "label": "Enable feature edit",
+	        "tooltip": "Enable feature editing",
+	        "type": "boolean",
+	        "fieldName": "enableFeatureEdit"
+	    }, {
+	        "label": "Enable feature delete",
+	        "tooltip": "Enable feature delete",
+	        "type": "boolean",
+	        "fieldName": "enableFeatureDelete"
 	    }]
 	}, {
 	    "category": "<b>Map Settings</b>",

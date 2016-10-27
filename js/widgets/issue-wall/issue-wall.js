@@ -228,6 +228,9 @@ define([
                     if (this._commentsTable && this._commentsTable.url) {
                         if (currentTable.url === this._commentsTable.url && currentTable.popupInfo) {
                             this._commentPopupTable = currentTable;
+                            if (currentTable.layerDefinition && currentTable.layerDefinition.definitionExpression) {
+                                this._commentsTable.setDefinitionExpression(currentTable.layerDefinition.definitionExpression);
+                            }
                         }
                     }
                 }));
