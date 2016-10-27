@@ -30,7 +30,7 @@
 		"bufferRadius": 3,
 		"bufferUnit": "miles",
 		"submitMessage": "Thank you. Your report has been submitted.",
-		"submitReportButtonText" : "Submit a Report",
+		"submitReportButtonText" : "",
         	"submitReportButtonColor":"#35ac46",
 		"likeField": "NUMVOTES",
 		"commentField": "COMMENTS",
@@ -149,7 +149,7 @@
 	        }]
 	    }, {
 	        "label": "Geographical extent layer",
-	        "tooltip": "Non editable layers which defines the area of interset where user can Add/Edit records",
+	        "tooltip": "Non editable layers which defines the area of interest where user can Add/Edit records",
 	        "type": "string",
 	        "fieldName": "geographicalExtentLayer"
 	    }, {
