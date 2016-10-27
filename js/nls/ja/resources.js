@@ -25,7 +25,8 @@ define({
     "noGroup": "グループが構成されていません",
     "submitReportButtonText": "レポートの送信",
     "gotoListViewTooltip": "リスト ビュー",
-    "noFeatureGeomtery": "フィーチャを表示できません"
+    "noFeatureGeomtery": "フィーチャを表示できません",
+    "featureOutsideAOIMessage": "須_Feature cannot be added outside study area______________鷗"
   },
   "signin": {
     "guestSigninText": "ゲストとして続行",
@@ -136,7 +137,12 @@ define({
     "placeHolderText": "コメントの入力",
     "noCommentsAvailableText": "コメントがありません",
     "remainingTextCount": "${0} 文字が残っています",
-    "showNoText": "なし"
+    "showNoText": "なし",
+    "selectAttachments": "須_Attachments____鷗",
+    "selectFileText": "須_Browse___鷗",
+    "attachmentSelectedMsg": "須_attachment(s) selected________鷗",
+    "attachmentHeaderText": "須_Attachments____鷗",
+    "unknownCommentAttachment": "須_FILE__鷗"
   },
   "gallery": {
     "galleryHeaderText": "ギャラリー",

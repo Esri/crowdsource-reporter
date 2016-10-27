@@ -25,7 +25,8 @@ define({
     "noGroup": "Nema konfiguriranih grupa",
     "submitReportButtonText": "Podnesi izvješće",
     "gotoListViewTooltip": "Prikaz u popisu",
-    "noFeatureGeomtery": "Geoobjekt se ne može prikazati"
+    "noFeatureGeomtery": "Geoobjekt se ne može prikazati",
+    "featureOutsideAOIMessage": "Č_Feature cannot be added outside study area______________ž"
   },
   "signin": {
     "guestSigninText": "Nastavi kao gost",
@@ -136,7 +137,12 @@ define({
     "placeHolderText": "Upišite komentar",
     "noCommentsAvailableText": "Nema dostupnih komentara",
     "remainingTextCount": "preostalo ${0} znakova",
-    "showNoText": "Ne"
+    "showNoText": "Ne",
+    "selectAttachments": "Č_Attachments____ž",
+    "selectFileText": "Č_Browse___ž",
+    "attachmentSelectedMsg": "Č_attachment(s) selected________ž",
+    "attachmentHeaderText": "Č_Attachments____ž",
+    "unknownCommentAttachment": "Č_FILE__ž"
   },
   "gallery": {
     "galleryHeaderText": "Galerija",

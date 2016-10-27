@@ -25,7 +25,8 @@ define({
     "noGroup": "Nessun gruppo configurato",
     "submitReportButtonText": "Invia un report",
     "gotoListViewTooltip": "Vista elenco",
-    "noFeatureGeomtery": "Impossibile visualizzare la feature"
+    "noFeatureGeomtery": "Impossibile visualizzare la feature",
+    "featureOutsideAOIMessage": "é_Feature cannot be added outside study area______________È"
   },
   "signin": {
     "guestSigninText": "Continua come ospite",
@@ -136,7 +137,12 @@ define({
     "placeHolderText": "Immettere un commento",
     "noCommentsAvailableText": "Nessun commento disponibile",
     "remainingTextCount": "${0} caratteri rimanenti",
-    "showNoText": "No"
+    "showNoText": "No",
+    "selectAttachments": "é_Attachments____È",
+    "selectFileText": "é_Browse___È",
+    "attachmentSelectedMsg": "é_attachment(s) selected________È",
+    "attachmentHeaderText": "é_Attachments____È",
+    "unknownCommentAttachment": "é_FILE__È"
   },
   "gallery": {
     "galleryHeaderText": "Galleria",

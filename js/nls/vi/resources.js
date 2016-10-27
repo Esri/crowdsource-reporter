@@ -25,7 +25,8 @@ define({
     "noGroup": "Không có nhóm nào được cấu hình",
     "submitReportButtonText": "Đệ trình Báo cáo",
     "gotoListViewTooltip": "Chế độ xem dạng danh sách",
-    "noFeatureGeomtery": "Không thể hiển thị đối tượng"
+    "noFeatureGeomtery": "Không thể hiển thị đối tượng",
+    "featureOutsideAOIMessage": "Đ_Feature cannot be added outside study area______________ớ"
   },
   "signin": {
     "guestSigninText": "Tiến hành dưới dạng Khách",
@@ -136,7 +137,12 @@ define({
     "placeHolderText": "Nhập bình luận",
     "noCommentsAvailableText": "Không có bình luận",
     "remainingTextCount": "Còn ${0} ký tự",
-    "showNoText": "Không"
+    "showNoText": "Không",
+    "selectAttachments": "Đ_Attachments____ớ",
+    "selectFileText": "Đ_Browse___ớ",
+    "attachmentSelectedMsg": "Đ_attachment(s) selected________ớ",
+    "attachmentHeaderText": "Đ_Attachments____ớ",
+    "unknownCommentAttachment": "Đ_FILE__ớ"
   },
   "gallery": {
     "galleryHeaderText": "Bộ sưu tập",

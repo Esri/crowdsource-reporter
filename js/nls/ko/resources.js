@@ -25,7 +25,8 @@ define({
     "noGroup": "구성된 그룹 없음",
     "submitReportButtonText": "보고서 제출",
     "gotoListViewTooltip": "목록 보기",
-    "noFeatureGeomtery": "피처를 표시할 수 없음"
+    "noFeatureGeomtery": "피처를 표시할 수 없음",
+    "featureOutsideAOIMessage": "한_Feature cannot be added outside study area______________빠"
   },
   "signin": {
     "guestSigninText": "게스트로 진행",
@@ -136,7 +137,12 @@ define({
     "placeHolderText": "의견 입력",
     "noCommentsAvailableText": "의견을 사용할 수 없음",
     "remainingTextCount": "${0}자 남음",
-    "showNoText": "아니요"
+    "showNoText": "아니요",
+    "selectAttachments": "한_Attachments____빠",
+    "selectFileText": "한_Browse___빠",
+    "attachmentSelectedMsg": "한_attachment(s) selected________빠",
+    "attachmentHeaderText": "한_Attachments____빠",
+    "unknownCommentAttachment": "한_FILE__빠"
   },
   "gallery": {
     "galleryHeaderText": "갤러리",

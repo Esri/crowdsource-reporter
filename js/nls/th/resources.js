@@ -25,7 +25,8 @@ define({
     "noGroup": "ยังไม่กำหนดกลุ่ม",
     "submitReportButtonText": "ส่งรายงาน",
     "gotoListViewTooltip": "รายการยอดเข้าชม",
-    "noFeatureGeomtery": "ไม่สามารถแสดงฟีเจอร์ได้"
+    "noFeatureGeomtery": "ไม่สามารถแสดงฟีเจอร์ได้",
+    "featureOutsideAOIMessage": "ก้_Feature cannot be added outside study area______________ษฺ"
   },
   "signin": {
     "guestSigninText": "ดำเนินการในฐานะผู้เยี่ยมชม",
@@ -136,7 +137,12 @@ define({
     "placeHolderText": "ประเภทของความเห็น",
     "noCommentsAvailableText": "ไม่มีความคิดเห็น",
     "remainingTextCount": "${0} ตัวอักษร ที่เหลือ",
-    "showNoText": "ไม่"
+    "showNoText": "ไม่",
+    "selectAttachments": "ก้_Attachments____ษฺ",
+    "selectFileText": "ก้_Browse___ษฺ",
+    "attachmentSelectedMsg": "ก้_attachment(s) selected________ษฺ",
+    "attachmentHeaderText": "ก้_Attachments____ษฺ",
+    "unknownCommentAttachment": "ก้_FILE__ษฺ"
   },
   "gallery": {
     "galleryHeaderText": "แกลเลอรี",

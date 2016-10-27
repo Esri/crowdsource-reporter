@@ -25,7 +25,8 @@ define({
     "noGroup": "Ingen grupp konfigurerad",
     "submitReportButtonText": "Skicka in en rapport",
     "gotoListViewTooltip": "Listvy",
-    "noFeatureGeomtery": "Geoobjektet kan inte visas"
+    "noFeatureGeomtery": "Geoobjektet kan inte visas",
+    "featureOutsideAOIMessage": "Å_Feature cannot be added outside study area______________ö"
   },
   "signin": {
     "guestSigninText": "Fortsätt som gäst",
@@ -136,7 +137,12 @@ define({
     "placeHolderText": "Skriv en kommentar",
     "noCommentsAvailableText": "Inga kommentarer tillgängliga",
     "remainingTextCount": "${0} tecken återstår",
-    "showNoText": "Nej"
+    "showNoText": "Nej",
+    "selectAttachments": "Å_Attachments____ö",
+    "selectFileText": "Å_Browse___ö",
+    "attachmentSelectedMsg": "Å_attachment(s) selected________ö",
+    "attachmentHeaderText": "Å_Attachments____ö",
+    "unknownCommentAttachment": "Å_FILE__ö"
   },
   "gallery": {
     "galleryHeaderText": "Galleri",

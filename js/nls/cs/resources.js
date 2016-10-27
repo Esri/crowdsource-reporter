@@ -25,7 +25,8 @@ define({
     "noGroup": "Není nakonfigurována žádná skupina",
     "submitReportButtonText": "Odeslat zprávu",
     "gotoListViewTooltip": "Zobrazení seznamu",
-    "noFeatureGeomtery": "Prvek nelze zobrazit."
+    "noFeatureGeomtery": "Prvek nelze zobrazit.",
+    "featureOutsideAOIMessage": "Ř_Feature cannot be added outside study area______________ů"
   },
   "signin": {
     "guestSigninText": "Pokračovat jako host",
@@ -136,7 +137,12 @@ define({
     "placeHolderText": "Napište komentář",
     "noCommentsAvailableText": "Nejsou k dispozici žádné komentáře.",
     "remainingTextCount": "Počet zbývajících znaků: ${0}",
-    "showNoText": "Ne"
+    "showNoText": "Ne",
+    "selectAttachments": "Ř_Attachments____ů",
+    "selectFileText": "Ř_Browse___ů",
+    "attachmentSelectedMsg": "Ř_attachment(s) selected________ů",
+    "attachmentHeaderText": "Ř_Attachments____ů",
+    "unknownCommentAttachment": "Ř_FILE__ů"
   },
   "gallery": {
     "galleryHeaderText": "Galerie",

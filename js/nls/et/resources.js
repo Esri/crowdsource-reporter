@@ -25,7 +25,8 @@ define({
     "noGroup": "Ühtki rühma ei ole konfigureeritud",
     "submitReportButtonText": "Edasta aruanne",
     "gotoListViewTooltip": "Loendivaade",
-    "noFeatureGeomtery": "Funktsiooni ei saa kuvada."
+    "noFeatureGeomtery": "Funktsiooni ei saa kuvada.",
+    "featureOutsideAOIMessage": "Š_Feature cannot be added outside study area______________ä"
   },
   "signin": {
     "guestSigninText": "Jätkake külalisena",
@@ -136,7 +137,12 @@ define({
     "placeHolderText": "Sisestage kommentaar",
     "noCommentsAvailableText": "Ühtki kommentaari ei ole saadaval.",
     "remainingTextCount": "${0} kasutamata tähemärgid",
-    "showNoText": "Ei"
+    "showNoText": "Ei",
+    "selectAttachments": "Š_Attachments____ä",
+    "selectFileText": "Š_Browse___ä",
+    "attachmentSelectedMsg": "Š_attachment(s) selected________ä",
+    "attachmentHeaderText": "Š_Attachments____ä",
+    "unknownCommentAttachment": "Š_FILE__ä"
   },
   "gallery": {
     "galleryHeaderText": "Galerii",

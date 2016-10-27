@@ -25,7 +25,8 @@ define({
     "noGroup": "Yhtään ryhmää ei ole määritetty",
     "submitReportButtonText": "Lähetä rapotti",
     "gotoListViewTooltip": "Luettelonäkymä",
-    "noFeatureGeomtery": "Kohdetta ei voi näyttää"
+    "noFeatureGeomtery": "Kohdetta ei voi näyttää",
+    "featureOutsideAOIMessage": "Å_Feature cannot be added outside study area______________ö"
   },
   "signin": {
     "guestSigninText": "Jatka käyttöä vierailijana",
@@ -136,7 +137,12 @@ define({
     "placeHolderText": "Kirjoita kommentti",
     "noCommentsAvailableText": "Yhtään kommenttia ei ole saatavilla",
     "remainingTextCount": "${0} merkki(ä) jäljellä",
-    "showNoText": "Ei"
+    "showNoText": "Ei",
+    "selectAttachments": "Å_Attachments____ö",
+    "selectFileText": "Å_Browse___ö",
+    "attachmentSelectedMsg": "Å_attachment(s) selected________ö",
+    "attachmentHeaderText": "Å_Attachments____ö",
+    "unknownCommentAttachment": "Å_FILE__ö"
   },
   "gallery": {
     "galleryHeaderText": "Gallery",

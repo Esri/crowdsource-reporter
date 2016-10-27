@@ -25,7 +25,8 @@ define({
     "noGroup": "لم يتم تكوين المجموعة",
     "submitReportButtonText": "إرسال تقرير",
     "gotoListViewTooltip": "عرض القائمة",
-    "noFeatureGeomtery": "يتعذر عرض المعالم"
+    "noFeatureGeomtery": "يتعذر عرض المعالم",
+    "featureOutsideAOIMessage": "بيت_Feature cannot be added outside study area______________لاحقة"
   },
   "signin": {
     "guestSigninText": "تابع بصفتك ضيف",
@@ -136,7 +137,12 @@ define({
     "placeHolderText": "اكتب تعليق",
     "noCommentsAvailableText": "لا توجد تعليقات متاحة",
     "remainingTextCount": "يتبقى ${0} حرف",
-    "showNoText": "لا"
+    "showNoText": "لا",
+    "selectAttachments": "بيت_Attachments____لاحقة",
+    "selectFileText": "بيت_Browse___لاحقة",
+    "attachmentSelectedMsg": "بيت_attachment(s) selected________لاحقة",
+    "attachmentHeaderText": "بيت_Attachments____لاحقة",
+    "unknownCommentAttachment": "بيت_FILE__لاحقة"
   },
   "gallery": {
     "galleryHeaderText": "معرض الصور",

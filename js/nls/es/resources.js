@@ -25,7 +25,8 @@ define({
     "noGroup": "No hay ningún grupo configurado",
     "submitReportButtonText": "Enviar un informe",
     "gotoListViewTooltip": "Vista de lista",
-    "noFeatureGeomtery": "No se puede mostrar la entidad"
+    "noFeatureGeomtery": "No se puede mostrar la entidad",
+    "featureOutsideAOIMessage": "á_Feature cannot be added outside study area______________Ó"
   },
   "signin": {
     "guestSigninText": "Continuar como invitado",
@@ -136,7 +137,12 @@ define({
     "placeHolderText": "Escribe un comentario",
     "noCommentsAvailableText": "No hay comentarios disponibles",
     "remainingTextCount": "${0} caracteres restantes",
-    "showNoText": "No"
+    "showNoText": "No",
+    "selectAttachments": "á_Attachments____Ó",
+    "selectFileText": "á_Browse___Ó",
+    "attachmentSelectedMsg": "á_attachment(s) selected________Ó",
+    "attachmentHeaderText": "á_Attachments____Ó",
+    "unknownCommentAttachment": "á_FILE__Ó"
   },
   "gallery": {
     "galleryHeaderText": "Galería",

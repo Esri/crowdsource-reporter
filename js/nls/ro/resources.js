@@ -25,7 +25,8 @@ define({
     "noGroup": "Niciun grup configurat",
     "submitReportButtonText": "Trimiteţi un raport",
     "gotoListViewTooltip": "Vizualizare tip listă",
-    "noFeatureGeomtery": "Obiectul spaţial nu poate fi afişat"
+    "noFeatureGeomtery": "Obiectul spaţial nu poate fi afişat",
+    "featureOutsideAOIMessage": "Ă_Feature cannot be added outside study area______________ș"
   },
   "signin": {
     "guestSigninText": "Continuare ca oaspete",
@@ -136,7 +137,12 @@ define({
     "placeHolderText": "Introduceţi un comentariu",
     "noCommentsAvailableText": "Niciun comentariu disponibil",
     "remainingTextCount": "${0} caractere rămase",
-    "showNoText": "Nu"
+    "showNoText": "Nu",
+    "selectAttachments": "Ă_Attachments____ș",
+    "selectFileText": "Ă_Browse___ș",
+    "attachmentSelectedMsg": "Ă_attachment(s) selected________ș",
+    "attachmentHeaderText": "Ă_Attachments____ș",
+    "unknownCommentAttachment": "Ă_FILE__ș"
   },
   "gallery": {
     "galleryHeaderText": "Galerie",

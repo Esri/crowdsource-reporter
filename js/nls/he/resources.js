@@ -25,7 +25,8 @@ define({
     "noGroup": "לא הוגדרה קבוצה",
     "submitReportButtonText": "שלח דו\"ח",
     "gotoListViewTooltip": "תצוגת רשימה",
-    "noFeatureGeomtery": "לא ניתן להציג את הישות"
+    "noFeatureGeomtery": "לא ניתן להציג את הישות",
+    "featureOutsideAOIMessage": "כן_Feature cannot be added outside study area______________ש"
   },
   "signin": {
     "guestSigninText": "המשך כאורח",
@@ -136,7 +137,12 @@ define({
     "placeHolderText": "הקלד תגובה",
     "noCommentsAvailableText": "אין תגובות זמינות",
     "remainingTextCount": "נותרו ${0} תווים",
-    "showNoText": "לא"
+    "showNoText": "לא",
+    "selectAttachments": "כן_Attachments____ש",
+    "selectFileText": "כן_Browse___ש",
+    "attachmentSelectedMsg": "כן_attachment(s) selected________ש",
+    "attachmentHeaderText": "כן_Attachments____ש",
+    "unknownCommentAttachment": "כן_FILE__ש"
   },
   "gallery": {
     "galleryHeaderText": "גלריה",

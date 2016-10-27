@@ -25,7 +25,8 @@ define({
     "noGroup": "Ingen gruppe konfigureret",
     "submitReportButtonText": "Send en rapport",
     "gotoListViewTooltip": "Listevisning",
-    "noFeatureGeomtery": "Objekt kan ikke vises"
+    "noFeatureGeomtery": "Objekt kan ikke vises",
+    "featureOutsideAOIMessage": "ø_Feature cannot be added outside study area______________å"
   },
   "signin": {
     "guestSigninText": "Fortsæt som gæst",
@@ -136,7 +137,12 @@ define({
     "placeHolderText": "Skriv en kommentar",
     "noCommentsAvailableText": "ingen kommentarer tilgængelige",
     "remainingTextCount": "${0} tegn tilbage",
-    "showNoText": "Nej"
+    "showNoText": "Nej",
+    "selectAttachments": "ø_Attachments____å",
+    "selectFileText": "ø_Browse___å",
+    "attachmentSelectedMsg": "ø_attachment(s) selected________å",
+    "attachmentHeaderText": "ø_Attachments____å",
+    "unknownCommentAttachment": "ø_FILE__å"
   },
   "gallery": {
     "galleryHeaderText": "Galleri",

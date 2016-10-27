@@ -25,7 +25,8 @@ define({
     "noGroup": "Yapılandırılan grup yok",
     "submitReportButtonText": "Rapor Gönder",
     "gotoListViewTooltip": "Liste görünümü",
-    "noFeatureGeomtery": "Detay görüntülenemiyor"
+    "noFeatureGeomtery": "Detay görüntülenemiyor",
+    "featureOutsideAOIMessage": "ı_Feature cannot be added outside study area______________İ"
   },
   "signin": {
     "guestSigninText": "Konuk olarak devam et",
@@ -136,7 +137,12 @@ define({
     "placeHolderText": "Yorum yaz",
     "noCommentsAvailableText": "Kullanılabilir yorum yok",
     "remainingTextCount": "${0} karakter kaldı",
-    "showNoText": "Hayır"
+    "showNoText": "Hayır",
+    "selectAttachments": "ı_Attachments____İ",
+    "selectFileText": "ı_Browse___İ",
+    "attachmentSelectedMsg": "ı_attachment(s) selected________İ",
+    "attachmentHeaderText": "ı_Attachments____İ",
+    "unknownCommentAttachment": "ı_FILE__İ"
   },
   "gallery": {
     "galleryHeaderText": "Galeri",

@@ -25,7 +25,8 @@ define({
     "noGroup": "Δεν έχει παραμετροποιηθεί κάποια ομάδα",
     "submitReportButtonText": "Υποβολή αναφοράς",
     "gotoListViewTooltip": "Προβολή λίστας",
-    "noFeatureGeomtery": "Δεν είναι δυνατή η εμφάνιση του στοιχείου"
+    "noFeatureGeomtery": "Δεν είναι δυνατή η εμφάνιση του στοιχείου",
+    "featureOutsideAOIMessage": "Đ_Feature cannot be added outside study area______________ớ"
   },
   "signin": {
     "guestSigninText": "Συνέχεια ως επισκέπτης",
@@ -136,7 +137,12 @@ define({
     "placeHolderText": "Πληκτρολογήστε ένα σχόλιο",
     "noCommentsAvailableText": "Δεν υπάρχουν διαθέσιμα σχόλια",
     "remainingTextCount": "Απομένουν ${0} χαρακτήρες",
-    "showNoText": "Όχι"
+    "showNoText": "Όχι",
+    "selectAttachments": "Đ_Attachments____ớ",
+    "selectFileText": "Đ_Browse___ớ",
+    "attachmentSelectedMsg": "Đ_attachment(s) selected________ớ",
+    "attachmentHeaderText": "Đ_Attachments____ớ",
+    "unknownCommentAttachment": "Đ_FILE__ớ"
   },
   "gallery": {
     "galleryHeaderText": "ΣΥΛΛΟΓΗ",

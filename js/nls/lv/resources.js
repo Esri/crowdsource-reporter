@@ -25,7 +25,8 @@ define({
     "noGroup": "Nav konfigurētas grupas",
     "submitReportButtonText": "Iesniegt pārskatu",
     "gotoListViewTooltip": "Saraksta skats",
-    "noFeatureGeomtery": "Funkciju nevar parādīt"
+    "noFeatureGeomtery": "Funkciju nevar parādīt",
+    "featureOutsideAOIMessage": "ķ_Feature cannot be added outside study area______________ū"
   },
   "signin": {
     "guestSigninText": "Turpināt kā viesim",
@@ -136,7 +137,12 @@ define({
     "placeHolderText": "Ierakstiet komentāru",
     "noCommentsAvailableText": "Nav pieejamu komentāru",
     "remainingTextCount": "Palikusi(-šas) ${0} rakstzīme(-s)",
-    "showNoText": "Nē"
+    "showNoText": "Nē",
+    "selectAttachments": "ķ_Attachments____ū",
+    "selectFileText": "ķ_Browse___ū",
+    "attachmentSelectedMsg": "ķ_attachment(s) selected________ū",
+    "attachmentHeaderText": "ķ_Attachments____ū",
+    "unknownCommentAttachment": "ķ_FILE__ū"
   },
   "gallery": {
     "galleryHeaderText": "Galerija",

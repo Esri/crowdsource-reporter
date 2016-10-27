@@ -25,7 +25,8 @@ define({
     "noGroup": "Geen groep geconfigureerd",
     "submitReportButtonText": "Een rapport indienen",
     "gotoListViewTooltip": "Lijstweergave",
-    "noFeatureGeomtery": "Object kan niet worden weergegeven"
+    "noFeatureGeomtery": "Object kan niet worden weergegeven",
+    "featureOutsideAOIMessage": "Ĳ_Feature cannot be added outside study area______________ä"
   },
   "signin": {
     "guestSigninText": "Doorgaan als gast",
@@ -136,7 +137,12 @@ define({
     "placeHolderText": "Type een reactie",
     "noCommentsAvailableText": "Geen reacties beschikbaar",
     "remainingTextCount": "${0} teken(s) over",
-    "showNoText": "Nee"
+    "showNoText": "Nee",
+    "selectAttachments": "Ĳ_Attachments____ä",
+    "selectFileText": "Ĳ_Browse___ä",
+    "attachmentSelectedMsg": "Ĳ_attachment(s) selected________ä",
+    "attachmentHeaderText": "Ĳ_Attachments____ä",
+    "unknownCommentAttachment": "Ĳ_FILE__ä"
   },
   "gallery": {
     "galleryHeaderText": "Gallery",

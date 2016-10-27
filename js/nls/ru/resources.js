@@ -25,7 +25,8 @@ define({
     "noGroup": "Не задана группа",
     "submitReportButtonText": "Отправить отчет",
     "gotoListViewTooltip": "Вид - список",
-    "noFeatureGeomtery": "Объекты невозможно отобразить"
+    "noFeatureGeomtery": "Объекты невозможно отобразить",
+    "featureOutsideAOIMessage": "Ж_Feature cannot be added outside study area______________Я"
   },
   "signin": {
     "guestSigninText": "Продолжить как гость",
@@ -136,7 +137,12 @@ define({
     "placeHolderText": "Введите комментарий",
     "noCommentsAvailableText": "Нет доступных комментариев",
     "remainingTextCount": "Символов осталось: ${0}",
-    "showNoText": "Нет"
+    "showNoText": "Нет",
+    "selectAttachments": "Ж_Attachments____Я",
+    "selectFileText": "Ж_Browse___Я",
+    "attachmentSelectedMsg": "Ж_attachment(s) selected________Я",
+    "attachmentHeaderText": "Ж_Attachments____Я",
+    "unknownCommentAttachment": "Ж_FILE__Я"
   },
   "gallery": {
     "galleryHeaderText": "Галерея",

@@ -25,7 +25,8 @@ define({
     "noGroup": "Sukonfigūruotų grupių nėra",
     "submitReportButtonText": "Pateikti ataskaitą",
     "gotoListViewTooltip": "Sąrašo vaizdas",
-    "noFeatureGeomtery": "Elemento parodyti negalima"
+    "noFeatureGeomtery": "Elemento parodyti negalima",
+    "featureOutsideAOIMessage": "Į_Feature cannot be added outside study area______________š"
   },
   "signin": {
     "guestSigninText": "Tęsti svečio teisėmis",
@@ -136,7 +137,12 @@ define({
     "placeHolderText": "Įvesti komentarą",
     "noCommentsAvailableText": "Komentarų nėra",
     "remainingTextCount": "liko simbolių: ${0}",
-    "showNoText": "Ne"
+    "showNoText": "Ne",
+    "selectAttachments": "Į_Attachments____š",
+    "selectFileText": "Į_Browse___š",
+    "attachmentSelectedMsg": "Į_attachment(s) selected________š",
+    "attachmentHeaderText": "Į_Attachments____š",
+    "unknownCommentAttachment": "Į_FILE__š"
   },
   "gallery": {
     "galleryHeaderText": "Galerija",

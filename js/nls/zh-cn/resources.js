@@ -25,7 +25,8 @@ define({
     "noGroup": "未配置任何群组",
     "submitReportButtonText": "提交报告",
     "gotoListViewTooltip": "列表视图",
-    "noFeatureGeomtery": "无法显示要素"
+    "noFeatureGeomtery": "无法显示要素",
+    "featureOutsideAOIMessage": "试_Feature cannot be added outside study area______________验"
   },
   "signin": {
     "guestSigninText": "以访客身份继续进行",
@@ -136,7 +137,12 @@ define({
     "placeHolderText": "输入一条评论",
     "noCommentsAvailableText": "没有任何评论可用",
     "remainingTextCount": "剩余 ${0} 个字符",
-    "showNoText": "否"
+    "showNoText": "否",
+    "selectAttachments": "试_Attachments____验",
+    "selectFileText": "试_Browse___验",
+    "attachmentSelectedMsg": "试_attachment(s) selected________验",
+    "attachmentHeaderText": "试_Attachments____验",
+    "unknownCommentAttachment": "试_FILE__验"
   },
   "gallery": {
     "galleryHeaderText": "图库",
