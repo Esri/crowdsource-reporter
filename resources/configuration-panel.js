@@ -50,7 +50,9 @@
 		"geoformDetailsSectionLabel": "Details",
 		"geoformLocationSectionLabel": "Location",
 		"geoformAttachmentSectionLabel": "Attachments",
-		"noWebmapInGroupText": ""
+		"noWebmapInGroupText": "",
+        "enableFeatureEdit": false,
+        "enableFeatureDelete" : false
     },
 	"configurationSettings": [{
 	    "category": "<b>App Settings</b>",
