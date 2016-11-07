@@ -126,7 +126,8 @@ define({
             mapButtonTooltip: "View the location of this report", // Tooltip for Gallery button
             commentsListHeading: "Comments", // List heading for Comments section in details panel
             unableToUpdateVoteField: "Your vote cannot be counted at this time.", // Error message for feature unable to update
-            gotoIssueListTooltip: "Go to the report list" // Tooltip for back icon in Issue list header
+            gotoIssueListTooltip: "Go to the report list", // Tooltip for back icon in Issue list header
+            deleteMessage : "Are you sure you want to delete?", //shown when user tries to delete a report or comment
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
             likesForThisItemTooltip: "Votes for this report", //Shown on hovering of the like icon in my-issues and issue-wall

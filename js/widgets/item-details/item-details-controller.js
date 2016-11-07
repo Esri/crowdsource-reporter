@@ -1,4 +1,4 @@
-/*global define,dojo,Modernizr,alert,$,console,dojoConfig*/
+/*global define,dojo,Modernizr,alert,$,console,dojoConfig,confirm*/
 /*jslint browser:true,sloppy:true,nomen:true,unparam:true,plusplus:true */
 /*
  | Copyright 2014 Esri
@@ -514,7 +514,7 @@ define([
         * @memberOf widgets/details-panel/comments
         */
         _createEditButton: function (parentDiv, graphic, isGeoform) {
-            var editBtn, deleteBtn, existingAttachmentsObjectsArr, buttonContainer;
+            var editBtn, deleteBtn, existingAttachmentsObjectsArr, buttonContainer, confirmDelete;
             buttonContainer = domConstruct.create("div", { "class": "esriCTEditingButtons" }, parentDiv);
             if (graphic.canEdit) {
                 editBtn = domConstruct.create("div", { "class": "esriCTEditButton", "title": this.appConfig.i18n.comment.editRecordText }, buttonContainer);
@@ -536,11 +536,14 @@ define([
             if (graphic.canDelete) {
                 deleteBtn = domConstruct.create("div", { "class": "esriCTDeleteButton", "title": this.appConfig.i18n.comment.deleteRecordText }, buttonContainer);
                 on(deleteBtn, "click", lang.hitch(this, function (evt) {
-                    this.appUtils.showLoadingIndicator();
-                    if (isGeoform) {
-                        this.deleteSelectedFeature();
-                    } else {
-                        this._deleteSelectedComment(graphic, evt.currentTarget.parentNode);
+                    confirmDelete = confirm(this.appConfig.i18n.itemDetails.deleteMessage);
+                    if (confirmDelete) {
+                        this.appUtils.showLoadingIndicator();
+                        if (isGeoform) {
+                            this.deleteSelectedFeature();
+                        } else {
+                            this._deleteSelectedComment(graphic, evt.currentTarget.parentNode);
+                        }
                     }
                 }));
             }
