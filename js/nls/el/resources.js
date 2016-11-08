@@ -74,6 +74,7 @@ define({
     "selectFileText": "Αναζήτηση",
     "enterLocation": "Τοποθεσία",
     "reportItButton": "Αναφορά",
+    "editReportButton": "Đ_Update___ớ",
     "cancelButton": "Ακύρωση",
     "requiredField": "(απαιτούμενο)",
     "selectDefaultText": "Επιλέξτε&hellip;",
@@ -130,7 +131,9 @@ define({
     "loadMoreButtonText": "Φόρτωση περισσότερων δεδομένων..."
   },
   "comment": {
+    "commentsFormHeading": "Đ_Comment___ớ",
     "commentsFormSubmitButton": "Υποβολή σχολίου",
+    "commentsFormEditButton": "Đ_Update Comment_____ớ",
     "commentsFormCancelButton": "Ακύρωση",
     "errorInSubmittingComment": "Δεν ήταν δυνατή η υποβολή του σχολίου.",
     "emptyCommentMessage": "Εισαγάγετε ένα σχόλιο.",
@@ -142,7 +145,10 @@ define({
     "selectFileText": "Đ_Browse___ớ",
     "attachmentSelectedMsg": "Đ_attachment(s) selected________ớ",
     "attachmentHeaderText": "Đ_Attachments____ớ",
-    "unknownCommentAttachment": "Đ_FILE__ớ"
+    "unknownCommentAttachment": "Đ_FILE__ớ",
+    "editRecordText": "Đ_Edit__ớ",
+    "deleteRecordText": "Đ_Delete___ớ",
+    "deleteCommentFailedMessage": "Đ_Unable to delete comment________ớ"
   },
   "gallery": {
     "galleryHeaderText": "ΣΥΛΛΟΓΗ",

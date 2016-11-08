@@ -74,6 +74,7 @@ define({
     "selectFileText": "瀏覽(B)",
     "enterLocation": "位置",
     "reportItButton": "進行報告",
+    "editReportButton": "試_Update___驗",
     "cancelButton": "取消",
     "requiredField": "(必填)",
     "selectDefaultText": "選擇&hellip;",
@@ -130,7 +131,9 @@ define({
     "loadMoreButtonText": "載入更多..."
   },
   "comment": {
+    "commentsFormHeading": "試_Comment___驗",
     "commentsFormSubmitButton": "提交評論",
+    "commentsFormEditButton": "試_Update Comment_____驗",
     "commentsFormCancelButton": "取消",
     "errorInSubmittingComment": "無法提交評論。",
     "emptyCommentMessage": "請輸入一條評論。",
@@ -142,7 +145,10 @@ define({
     "selectFileText": "試_Browse___驗",
     "attachmentSelectedMsg": "試_attachment(s) selected________驗",
     "attachmentHeaderText": "試_Attachments____驗",
-    "unknownCommentAttachment": "試_FILE__驗"
+    "unknownCommentAttachment": "試_FILE__驗",
+    "editRecordText": "試_Edit__驗",
+    "deleteRecordText": "試_Delete___驗",
+    "deleteCommentFailedMessage": "試_Unable to delete comment________驗"
   },
   "gallery": {
     "galleryHeaderText": "圖庫",

@@ -74,6 +74,7 @@ define({
     "selectFileText": "Parcurgere",
     "enterLocation": "Locaţie",
     "reportItButton": "Raportare",
+    "editReportButton": "Ă_Update___ș",
     "cancelButton": "Anulare",
     "requiredField": "(obligatoriu)",
     "selectDefaultText": "Selectare&hellip;",
@@ -130,7 +131,9 @@ define({
     "loadMoreButtonText": "Se încarcă mai multe..."
   },
   "comment": {
+    "commentsFormHeading": "Ă_Comment___ș",
     "commentsFormSubmitButton": "Trimitere comentariu",
+    "commentsFormEditButton": "Ă_Update Comment_____ș",
     "commentsFormCancelButton": "Anulare",
     "errorInSubmittingComment": "Comentariul nu a putut fi transmis.",
     "emptyCommentMessage": "Introduceţi un comentariu.",
@@ -142,7 +145,10 @@ define({
     "selectFileText": "Ă_Browse___ș",
     "attachmentSelectedMsg": "Ă_attachment(s) selected________ș",
     "attachmentHeaderText": "Ă_Attachments____ș",
-    "unknownCommentAttachment": "Ă_FILE__ș"
+    "unknownCommentAttachment": "Ă_FILE__ș",
+    "editRecordText": "Ă_Edit__ș",
+    "deleteRecordText": "Ă_Delete___ș",
+    "deleteCommentFailedMessage": "Ă_Unable to delete comment________ș"
   },
   "gallery": {
     "galleryHeaderText": "Galerie",

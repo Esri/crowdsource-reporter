@@ -74,6 +74,7 @@ define({
     "selectFileText": "Просмотр",
     "enterLocation": "Расположение",
     "reportItButton": "Отчет",
+    "editReportButton": "Ж_Update___Я",
     "cancelButton": "Отменить",
     "requiredField": "(необходимо)",
     "selectDefaultText": "Выбрать&hellip;",
@@ -130,7 +131,9 @@ define({
     "loadMoreButtonText": "Загрузить больше..."
   },
   "comment": {
+    "commentsFormHeading": "Ж_Comment___Я",
     "commentsFormSubmitButton": "Отправить комментарий",
+    "commentsFormEditButton": "Ж_Update Comment_____Я",
     "commentsFormCancelButton": "Отменить",
     "errorInSubmittingComment": "Комментарий не может быть добавлен.",
     "emptyCommentMessage": "Введите комментарий.",
@@ -142,7 +145,10 @@ define({
     "selectFileText": "Ж_Browse___Я",
     "attachmentSelectedMsg": "Ж_attachment(s) selected________Я",
     "attachmentHeaderText": "Ж_Attachments____Я",
-    "unknownCommentAttachment": "Ж_FILE__Я"
+    "unknownCommentAttachment": "Ж_FILE__Я",
+    "editRecordText": "Ж_Edit__Я",
+    "deleteRecordText": "Ж_Delete___Я",
+    "deleteCommentFailedMessage": "Ж_Unable to delete comment________Я"
   },
   "gallery": {
     "galleryHeaderText": "Галерея",

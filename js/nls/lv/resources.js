@@ -74,6 +74,7 @@ define({
     "selectFileText": "Pārlūks",
     "enterLocation": "Izvietojums",
     "reportItButton": "Ziņot par to",
+    "editReportButton": "ķ_Update___ū",
     "cancelButton": "Atcelt",
     "requiredField": "(nepieciešams)",
     "selectDefaultText": "Izvēlēties&hellip;",
@@ -130,7 +131,9 @@ define({
     "loadMoreButtonText": "Ielādēt vēl..."
   },
   "comment": {
+    "commentsFormHeading": "ķ_Comment___ū",
     "commentsFormSubmitButton": "Iesniegt komentāru",
+    "commentsFormEditButton": "ķ_Update Comment_____ū",
     "commentsFormCancelButton": "Atcelt",
     "errorInSubmittingComment": "Komentāru nevarēja iesniegt.",
     "emptyCommentMessage": "Lūdzu ievadiet komentāru.",
@@ -142,7 +145,10 @@ define({
     "selectFileText": "ķ_Browse___ū",
     "attachmentSelectedMsg": "ķ_attachment(s) selected________ū",
     "attachmentHeaderText": "ķ_Attachments____ū",
-    "unknownCommentAttachment": "ķ_FILE__ū"
+    "unknownCommentAttachment": "ķ_FILE__ū",
+    "editRecordText": "ķ_Edit__ū",
+    "deleteRecordText": "ķ_Delete___ū",
+    "deleteCommentFailedMessage": "ķ_Unable to delete comment________ū"
   },
   "gallery": {
     "galleryHeaderText": "Galerija",

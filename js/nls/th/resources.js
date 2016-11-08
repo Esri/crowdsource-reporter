@@ -74,6 +74,7 @@ define({
     "selectFileText": "ค้นหา",
     "enterLocation": "ตำแหน่ง",
     "reportItButton": "รายการสิ่งนี้",
+    "editReportButton": "ก้_Update___ษฺ",
     "cancelButton": "ยกเลิก",
     "requiredField": "(จำเป็นต้องใช้)",
     "selectDefaultText": "เลือก;",
@@ -130,7 +131,9 @@ define({
     "loadMoreButtonText": "โหลดเพิ่มเติม"
   },
   "comment": {
+    "commentsFormHeading": "ก้_Comment___ษฺ",
     "commentsFormSubmitButton": "ส่งความคิดเห็น",
+    "commentsFormEditButton": "ก้_Update Comment_____ษฺ",
     "commentsFormCancelButton": "ยกเลิก",
     "errorInSubmittingComment": "ความคิดเห็นนี้ไม่สามารถส่งได้",
     "emptyCommentMessage": "โปรดกรอกความเห็น",
@@ -142,7 +145,10 @@ define({
     "selectFileText": "ก้_Browse___ษฺ",
     "attachmentSelectedMsg": "ก้_attachment(s) selected________ษฺ",
     "attachmentHeaderText": "ก้_Attachments____ษฺ",
-    "unknownCommentAttachment": "ก้_FILE__ษฺ"
+    "unknownCommentAttachment": "ก้_FILE__ษฺ",
+    "editRecordText": "ก้_Edit__ษฺ",
+    "deleteRecordText": "ก้_Delete___ษฺ",
+    "deleteCommentFailedMessage": "ก้_Unable to delete comment________ษฺ"
   },
   "gallery": {
     "galleryHeaderText": "แกลเลอรี",

@@ -74,6 +74,7 @@ define({
     "selectFileText": "Procurar",
     "enterLocation": "Localização",
     "reportItButton": "Reportar Isto",
+    "editReportButton": "ã_Update___Ç",
     "cancelButton": "Cancelar",
     "requiredField": "(exigido)",
     "selectDefaultText": "Selecionar&hellip;",
@@ -130,7 +131,9 @@ define({
     "loadMoreButtonText": "Carregar Mais..."
   },
   "comment": {
+    "commentsFormHeading": "ã_Comment___Ç",
     "commentsFormSubmitButton": "Enviar Comentário",
+    "commentsFormEditButton": "ã_Update Comment_____Ç",
     "commentsFormCancelButton": "Cancelar",
     "errorInSubmittingComment": "Não foi possível enviar o comentário.",
     "emptyCommentMessage": "Por favor, insira um comentário.",
@@ -142,7 +145,10 @@ define({
     "selectFileText": "ã_Browse___Ç",
     "attachmentSelectedMsg": "ã_attachment(s) selected________Ç",
     "attachmentHeaderText": "ã_Attachments____Ç",
-    "unknownCommentAttachment": "ã_FILE__Ç"
+    "unknownCommentAttachment": "ã_FILE__Ç",
+    "editRecordText": "ã_Edit__Ç",
+    "deleteRecordText": "ã_Delete___Ç",
+    "deleteCommentFailedMessage": "ã_Unable to delete comment________Ç"
   },
   "gallery": {
     "galleryHeaderText": "Galeria",

@@ -74,6 +74,7 @@ define({
     "selectFileText": "Pregledanje",
     "enterLocation": "Lokacija",
     "reportItButton": "Prijavi",
+    "editReportButton": "Č_Update___ž",
     "cancelButton": "Otkaži",
     "requiredField": "(obavezno)",
     "selectDefaultText": "Izaberi&hellip;",
@@ -130,7 +131,9 @@ define({
     "loadMoreButtonText": "Učitaj više..."
   },
   "comment": {
+    "commentsFormHeading": "Č_Comment___ž",
     "commentsFormSubmitButton": "Prosledi komentar",
+    "commentsFormEditButton": "Č_Update Comment_____ž",
     "commentsFormCancelButton": "Otkaži",
     "errorInSubmittingComment": "Prosleđivanje komentara nije moguće.",
     "emptyCommentMessage": "Unesite komentar.",
@@ -142,7 +145,10 @@ define({
     "selectFileText": "Č_Browse___ž",
     "attachmentSelectedMsg": "Č_attachment(s) selected________ž",
     "attachmentHeaderText": "Č_Attachments____ž",
-    "unknownCommentAttachment": "Č_FILE__ž"
+    "unknownCommentAttachment": "Č_FILE__ž",
+    "editRecordText": "Č_Edit__ž",
+    "deleteRecordText": "Č_Delete___ž",
+    "deleteCommentFailedMessage": "Č_Unable to delete comment________ž"
   },
   "gallery": {
     "galleryHeaderText": "Galerija",

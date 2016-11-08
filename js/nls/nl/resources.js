@@ -74,6 +74,7 @@ define({
     "selectFileText": "Bladeren",
     "enterLocation": "Locatie",
     "reportItButton": "Melden",
+    "editReportButton": "Ĳ_Update___ä",
     "cancelButton": "Annuleren",
     "requiredField": "(vereist)",
     "selectDefaultText": "Selecteren&hellip;",
@@ -130,7 +131,9 @@ define({
     "loadMoreButtonText": "Meer laden..."
   },
   "comment": {
+    "commentsFormHeading": "Ĳ_Comment___ä",
     "commentsFormSubmitButton": "Opmerking verzenden",
+    "commentsFormEditButton": "Ĳ_Update Comment_____ä",
     "commentsFormCancelButton": "Annuleren",
     "errorInSubmittingComment": "Reactie kon niet worden ingediend.",
     "emptyCommentMessage": "Voer een reactie in.",
@@ -142,7 +145,10 @@ define({
     "selectFileText": "Ĳ_Browse___ä",
     "attachmentSelectedMsg": "Ĳ_attachment(s) selected________ä",
     "attachmentHeaderText": "Ĳ_Attachments____ä",
-    "unknownCommentAttachment": "Ĳ_FILE__ä"
+    "unknownCommentAttachment": "Ĳ_FILE__ä",
+    "editRecordText": "Ĳ_Edit__ä",
+    "deleteRecordText": "Ĳ_Delete___ä",
+    "deleteCommentFailedMessage": "Ĳ_Unable to delete comment________ä"
   },
   "gallery": {
     "galleryHeaderText": "Gallery",

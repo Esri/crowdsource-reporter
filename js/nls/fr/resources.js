@@ -74,6 +74,7 @@ define({
     "selectFileText": "Parcourir",
     "enterLocation": "Emplacement",
     "reportItButton": "Signaler",
+    "editReportButton": "æ_Update___Â",
     "cancelButton": "Annuler",
     "requiredField": "(requis)",
     "selectDefaultText": "Sélectionner&hellip;",
@@ -130,7 +131,9 @@ define({
     "loadMoreButtonText": "Charger plus..."
   },
   "comment": {
+    "commentsFormHeading": "æ_Comment___Â",
     "commentsFormSubmitButton": "Envoyer un commentaire",
+    "commentsFormEditButton": "æ_Update Comment_____Â",
     "commentsFormCancelButton": "Annuler",
     "errorInSubmittingComment": "Impossible d'envoyer le commentaire.",
     "emptyCommentMessage": "Saisissez un commentaire.",
@@ -142,7 +145,10 @@ define({
     "selectFileText": "æ_Browse___Â",
     "attachmentSelectedMsg": "æ_attachment(s) selected________Â",
     "attachmentHeaderText": "æ_Attachments____Â",
-    "unknownCommentAttachment": "æ_FILE__Â"
+    "unknownCommentAttachment": "æ_FILE__Â",
+    "editRecordText": "æ_Edit__Â",
+    "deleteRecordText": "æ_Delete___Â",
+    "deleteCommentFailedMessage": "æ_Unable to delete comment________Â"
   },
   "gallery": {
     "galleryHeaderText": "Bibliothèque",

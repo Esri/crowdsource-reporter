@@ -74,6 +74,7 @@ define({
     "selectFileText": "Esplora",
     "enterLocation": "Località",
     "reportItButton": "Segnala",
+    "editReportButton": "é_Update___È",
     "cancelButton": "Annulla",
     "requiredField": "(obbligatorio)",
     "selectDefaultText": "Seleziona&hellip;",
@@ -130,7 +131,9 @@ define({
     "loadMoreButtonText": "Carica altro..."
   },
   "comment": {
+    "commentsFormHeading": "é_Comment___È",
     "commentsFormSubmitButton": "Invia commento",
+    "commentsFormEditButton": "é_Update Comment_____È",
     "commentsFormCancelButton": "Annulla",
     "errorInSubmittingComment": "Impossibile inviare il commento.",
     "emptyCommentMessage": "Immettere un commento.",
@@ -142,7 +145,10 @@ define({
     "selectFileText": "é_Browse___È",
     "attachmentSelectedMsg": "é_attachment(s) selected________È",
     "attachmentHeaderText": "é_Attachments____È",
-    "unknownCommentAttachment": "é_FILE__È"
+    "unknownCommentAttachment": "é_FILE__È",
+    "editRecordText": "é_Edit__È",
+    "deleteRecordText": "é_Delete___È",
+    "deleteCommentFailedMessage": "é_Unable to delete comment________È"
   },
   "gallery": {
     "galleryHeaderText": "Galleria",

@@ -74,6 +74,7 @@ define({
     "selectFileText": "Selaa",
     "enterLocation": "Sijainti",
     "reportItButton": "Raportoi",
+    "editReportButton": "Å_Update___ö",
     "cancelButton": "Peruuta",
     "requiredField": "(pakollinen)",
     "selectDefaultText": "Valitse&hellip;",
@@ -130,7 +131,9 @@ define({
     "loadMoreButtonText": "Lataa lisää..."
   },
   "comment": {
+    "commentsFormHeading": "Å_Comment___ö",
     "commentsFormSubmitButton": "Lähetä kommentti",
+    "commentsFormEditButton": "Å_Update Comment_____ö",
     "commentsFormCancelButton": "Peruuta",
     "errorInSubmittingComment": "Kommentin lähetys ei onnistunut.",
     "emptyCommentMessage": "Kirjoita kommentti.",
@@ -142,7 +145,10 @@ define({
     "selectFileText": "Å_Browse___ö",
     "attachmentSelectedMsg": "Å_attachment(s) selected________ö",
     "attachmentHeaderText": "Å_Attachments____ö",
-    "unknownCommentAttachment": "Å_FILE__ö"
+    "unknownCommentAttachment": "Å_FILE__ö",
+    "editRecordText": "Å_Edit__ö",
+    "deleteRecordText": "Å_Delete___ö",
+    "deleteCommentFailedMessage": "Å_Unable to delete comment________ö"
   },
   "gallery": {
     "galleryHeaderText": "Gallery",

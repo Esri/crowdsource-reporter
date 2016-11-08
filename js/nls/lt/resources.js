@@ -74,6 +74,7 @@ define({
     "selectFileText": "Parinkti",
     "enterLocation": "Vieta",
     "reportItButton": "Pranešti apie tai",
+    "editReportButton": "Į_Update___š",
     "cancelButton": "Atšaukti",
     "requiredField": "(privalomas)",
     "selectDefaultText": "Pasirinkti&hellip;",
@@ -130,7 +131,9 @@ define({
     "loadMoreButtonText": "Įkelti daugiau..."
   },
   "comment": {
+    "commentsFormHeading": "Į_Comment___š",
     "commentsFormSubmitButton": "Pateikti komentarą",
+    "commentsFormEditButton": "Į_Update Comment_____š",
     "commentsFormCancelButton": "Atšaukti",
     "errorInSubmittingComment": "Komentaro pateikti nepavyko.",
     "emptyCommentMessage": "Įveskite komentarą.",
@@ -142,7 +145,10 @@ define({
     "selectFileText": "Į_Browse___š",
     "attachmentSelectedMsg": "Į_attachment(s) selected________š",
     "attachmentHeaderText": "Į_Attachments____š",
-    "unknownCommentAttachment": "Į_FILE__š"
+    "unknownCommentAttachment": "Į_FILE__š",
+    "editRecordText": "Į_Edit__š",
+    "deleteRecordText": "Į_Delete___š",
+    "deleteCommentFailedMessage": "Į_Unable to delete comment________š"
   },
   "gallery": {
     "galleryHeaderText": "Galerija",

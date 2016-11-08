@@ -74,6 +74,7 @@ define({
     "selectFileText": "مربع حوار",
     "enterLocation": "موقع",
     "reportItButton": "تقريرها",
+    "editReportButton": "بيت_Update___لاحقة",
     "cancelButton": "إلغاء الأمر",
     "requiredField": "(مطلوب)",
     "selectDefaultText": "حدد&hellip;",
@@ -130,7 +131,9 @@ define({
     "loadMoreButtonText": "تحميل المزيد..."
   },
   "comment": {
+    "commentsFormHeading": "بيت_Comment___لاحقة",
     "commentsFormSubmitButton": "تقديم تعليق",
+    "commentsFormEditButton": "بيت_Update Comment_____لاحقة",
     "commentsFormCancelButton": "إلغاء الأمر",
     "errorInSubmittingComment": "يتعذر إرسال التعليق.",
     "emptyCommentMessage": "الرجاء إدخال تعليق.",
@@ -142,7 +145,10 @@ define({
     "selectFileText": "بيت_Browse___لاحقة",
     "attachmentSelectedMsg": "بيت_attachment(s) selected________لاحقة",
     "attachmentHeaderText": "بيت_Attachments____لاحقة",
-    "unknownCommentAttachment": "بيت_FILE__لاحقة"
+    "unknownCommentAttachment": "بيت_FILE__لاحقة",
+    "editRecordText": "بيت_Edit__لاحقة",
+    "deleteRecordText": "بيت_Delete___لاحقة",
+    "deleteCommentFailedMessage": "بيت_Unable to delete comment________لاحقة"
   },
   "gallery": {
     "galleryHeaderText": "معرض الصور",

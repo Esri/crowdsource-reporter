@@ -74,6 +74,7 @@ define({
     "selectFileText": "Bläddra",
     "enterLocation": "Plats",
     "reportItButton": "Rapportera",
+    "editReportButton": "Å_Update___ö",
     "cancelButton": "Avbryt",
     "requiredField": "(obligatoriskt)",
     "selectDefaultText": "Välj&hellip;",
@@ -130,7 +131,9 @@ define({
     "loadMoreButtonText": "Läs in mer ..."
   },
   "comment": {
+    "commentsFormHeading": "Å_Comment___ö",
     "commentsFormSubmitButton": "Skicka en kommentar",
+    "commentsFormEditButton": "Å_Update Comment_____ö",
     "commentsFormCancelButton": "Avbryt",
     "errorInSubmittingComment": "Det gick inte att skicka kommentaren.",
     "emptyCommentMessage": "Ange en kommentar.",
@@ -142,7 +145,10 @@ define({
     "selectFileText": "Å_Browse___ö",
     "attachmentSelectedMsg": "Å_attachment(s) selected________ö",
     "attachmentHeaderText": "Å_Attachments____ö",
-    "unknownCommentAttachment": "Å_FILE__ö"
+    "unknownCommentAttachment": "Å_FILE__ö",
+    "editRecordText": "Å_Edit__ö",
+    "deleteRecordText": "Å_Delete___ö",
+    "deleteCommentFailedMessage": "Å_Unable to delete comment________ö"
   },
   "gallery": {
     "galleryHeaderText": "Galleri",

@@ -74,6 +74,7 @@ define({
     "selectFileText": "Gennemse",
     "enterLocation": "Sted",
     "reportItButton": "Rapportér det",
+    "editReportButton": "ø_Update___å",
     "cancelButton": "Annuller",
     "requiredField": "(obligatorisk)",
     "selectDefaultText": "Select&hellip;",
@@ -130,7 +131,9 @@ define({
     "loadMoreButtonText": "Indlæs mere..."
   },
   "comment": {
+    "commentsFormHeading": "ø_Comment___å",
     "commentsFormSubmitButton": "Send kommentar",
+    "commentsFormEditButton": "ø_Update Comment_____å",
     "commentsFormCancelButton": "Annuller",
     "errorInSubmittingComment": "Kommentar kunne ikke indsendes.",
     "emptyCommentMessage": "Indtast en kommentar.",
@@ -142,7 +145,10 @@ define({
     "selectFileText": "ø_Browse___å",
     "attachmentSelectedMsg": "ø_attachment(s) selected________å",
     "attachmentHeaderText": "ø_Attachments____å",
-    "unknownCommentAttachment": "ø_FILE__å"
+    "unknownCommentAttachment": "ø_FILE__å",
+    "editRecordText": "ø_Edit__å",
+    "deleteRecordText": "ø_Delete___å",
+    "deleteCommentFailedMessage": "ø_Unable to delete comment________å"
   },
   "gallery": {
     "galleryHeaderText": "Galleri",

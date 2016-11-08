@@ -74,6 +74,7 @@ define({
     "selectFileText": "...",
     "enterLocation": "Konum",
     "reportItButton": "Bildir",
+    "editReportButton": "ı_Update___İ",
     "cancelButton": "İptal",
     "requiredField": "(gerekli)",
     "selectDefaultText": "Seç&hellip;",
@@ -130,7 +131,9 @@ define({
     "loadMoreButtonText": "Daha Fazla Yükle..."
   },
   "comment": {
+    "commentsFormHeading": "ı_Comment___İ",
     "commentsFormSubmitButton": "Yorum Gönder",
+    "commentsFormEditButton": "ı_Update Comment_____İ",
     "commentsFormCancelButton": "İptal",
     "errorInSubmittingComment": "Yorum gönderilemedi.",
     "emptyCommentMessage": "Lütfen bir yorum girin.",
@@ -142,7 +145,10 @@ define({
     "selectFileText": "ı_Browse___İ",
     "attachmentSelectedMsg": "ı_attachment(s) selected________İ",
     "attachmentHeaderText": "ı_Attachments____İ",
-    "unknownCommentAttachment": "ı_FILE__İ"
+    "unknownCommentAttachment": "ı_FILE__İ",
+    "editRecordText": "ı_Edit__İ",
+    "deleteRecordText": "ı_Delete___İ",
+    "deleteCommentFailedMessage": "ı_Unable to delete comment________İ"
   },
   "gallery": {
     "galleryHeaderText": "Galeri",

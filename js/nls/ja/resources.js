@@ -74,6 +74,7 @@ define({
     "selectFileText": "参照",
     "enterLocation": "場所",
     "reportItButton": "レポートする",
+    "editReportButton": "須_Update___鷗",
     "cancelButton": "キャンセル",
     "requiredField": "(必須)",
     "selectDefaultText": "選択&hellip;",
@@ -130,7 +131,9 @@ define({
     "loadMoreButtonText": "さらに読み込み..."
   },
   "comment": {
+    "commentsFormHeading": "須_Comment___鷗",
     "commentsFormSubmitButton": "コメントの送信",
+    "commentsFormEditButton": "須_Update Comment_____鷗",
     "commentsFormCancelButton": "キャンセル",
     "errorInSubmittingComment": "コメントを送信できませんでした。",
     "emptyCommentMessage": "コメントを入力してください。",
@@ -142,7 +145,10 @@ define({
     "selectFileText": "須_Browse___鷗",
     "attachmentSelectedMsg": "須_attachment(s) selected________鷗",
     "attachmentHeaderText": "須_Attachments____鷗",
-    "unknownCommentAttachment": "須_FILE__鷗"
+    "unknownCommentAttachment": "須_FILE__鷗",
+    "editRecordText": "須_Edit__鷗",
+    "deleteRecordText": "須_Delete___鷗",
+    "deleteCommentFailedMessage": "須_Unable to delete comment________鷗"
   },
   "gallery": {
     "galleryHeaderText": "ギャラリー",

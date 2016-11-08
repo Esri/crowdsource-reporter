@@ -74,6 +74,7 @@ define({
     "selectFileText": "נתב",
     "enterLocation": "מיקום",
     "reportItButton": "דווח על כך",
+    "editReportButton": "כן_Update___ש",
     "cancelButton": "בטל",
     "requiredField": "(נדרש)",
     "selectDefaultText": "בחר&hellip;",
@@ -130,7 +131,9 @@ define({
     "loadMoreButtonText": "טען עוד..."
   },
   "comment": {
+    "commentsFormHeading": "כן_Comment___ש",
     "commentsFormSubmitButton": "שלח תגובה",
+    "commentsFormEditButton": "כן_Update Comment_____ש",
     "commentsFormCancelButton": "בטל",
     "errorInSubmittingComment": "לא ניתן לשלוח תגובה.",
     "emptyCommentMessage": "שלח תגובה.",
@@ -142,7 +145,10 @@ define({
     "selectFileText": "כן_Browse___ש",
     "attachmentSelectedMsg": "כן_attachment(s) selected________ש",
     "attachmentHeaderText": "כן_Attachments____ש",
-    "unknownCommentAttachment": "כן_FILE__ש"
+    "unknownCommentAttachment": "כן_FILE__ש",
+    "editRecordText": "כן_Edit__ש",
+    "deleteRecordText": "כן_Delete___ש",
+    "deleteCommentFailedMessage": "כן_Unable to delete comment________ש"
   },
   "gallery": {
     "galleryHeaderText": "גלריה",

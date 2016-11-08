@@ -74,6 +74,7 @@ define({
     "selectFileText": "Sirvi",
     "enterLocation": "Asukoht",
     "reportItButton": "Aruanne It",
+    "editReportButton": "Š_Update___ä",
     "cancelButton": "Tühista",
     "requiredField": "(nõutud)",
     "selectDefaultText": "Vali&hellip;",
@@ -130,7 +131,9 @@ define({
     "loadMoreButtonText": "Laadi rohkem..."
   },
   "comment": {
+    "commentsFormHeading": "Š_Comment___ä",
     "commentsFormSubmitButton": "Saada kommentaar",
+    "commentsFormEditButton": "Š_Update Comment_____ä",
     "commentsFormCancelButton": "Tühista",
     "errorInSubmittingComment": "Kommentaari ei saanud esitada.",
     "emptyCommentMessage": "Palun sisestage kommentaar.",
@@ -142,7 +145,10 @@ define({
     "selectFileText": "Š_Browse___ä",
     "attachmentSelectedMsg": "Š_attachment(s) selected________ä",
     "attachmentHeaderText": "Š_Attachments____ä",
-    "unknownCommentAttachment": "Š_FILE__ä"
+    "unknownCommentAttachment": "Š_FILE__ä",
+    "editRecordText": "Š_Edit__ä",
+    "deleteRecordText": "Š_Delete___ä",
+    "deleteCommentFailedMessage": "Š_Unable to delete comment________ä"
   },
   "gallery": {
     "galleryHeaderText": "Galerii",

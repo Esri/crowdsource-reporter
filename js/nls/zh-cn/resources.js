@@ -74,6 +74,7 @@ define({
     "selectFileText": "浏览",
     "enterLocation": "位置",
     "reportItButton": "提交报告",
+    "editReportButton": "试_Update___验",
     "cancelButton": "取消",
     "requiredField": "(必填)",
     "selectDefaultText": "选择&hellip;",
@@ -130,7 +131,9 @@ define({
     "loadMoreButtonText": "加载更多..."
   },
   "comment": {
+    "commentsFormHeading": "试_Comment___验",
     "commentsFormSubmitButton": "提交评论",
+    "commentsFormEditButton": "试_Update Comment_____验",
     "commentsFormCancelButton": "取消",
     "errorInSubmittingComment": "无法提交评论。",
     "emptyCommentMessage": "请输入一条评论。",
@@ -142,7 +145,10 @@ define({
     "selectFileText": "试_Browse___验",
     "attachmentSelectedMsg": "试_attachment(s) selected________验",
     "attachmentHeaderText": "试_Attachments____验",
-    "unknownCommentAttachment": "试_FILE__验"
+    "unknownCommentAttachment": "试_FILE__验",
+    "editRecordText": "试_Edit__验",
+    "deleteRecordText": "试_Delete___验",
+    "deleteCommentFailedMessage": "试_Unable to delete comment________验"
   },
   "gallery": {
     "galleryHeaderText": "图库",

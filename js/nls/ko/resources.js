@@ -74,6 +74,7 @@ define({
     "selectFileText": "찾아보기",
     "enterLocation": "위치",
     "reportItButton": "보고",
+    "editReportButton": "한_Update___빠",
     "cancelButton": "취소",
     "requiredField": "(필수)",
     "selectDefaultText": "선택&hellip;",
@@ -130,7 +131,9 @@ define({
     "loadMoreButtonText": "추가로 불러오기..."
   },
   "comment": {
+    "commentsFormHeading": "한_Comment___빠",
     "commentsFormSubmitButton": "의견 제출",
+    "commentsFormEditButton": "한_Update Comment_____빠",
     "commentsFormCancelButton": "취소",
     "errorInSubmittingComment": "의견을 제출할 수 없습니다.",
     "emptyCommentMessage": "의견을 입력하세요.",
@@ -142,7 +145,10 @@ define({
     "selectFileText": "한_Browse___빠",
     "attachmentSelectedMsg": "한_attachment(s) selected________빠",
     "attachmentHeaderText": "한_Attachments____빠",
-    "unknownCommentAttachment": "한_FILE__빠"
+    "unknownCommentAttachment": "한_FILE__빠",
+    "editRecordText": "한_Edit__빠",
+    "deleteRecordText": "한_Delete___빠",
+    "deleteCommentFailedMessage": "한_Unable to delete comment________빠"
   },
   "gallery": {
     "galleryHeaderText": "갤러리",

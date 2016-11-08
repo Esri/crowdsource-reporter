@@ -74,6 +74,7 @@ define({
     "selectFileText": "Procházet",
     "enterLocation": "Poloha",
     "reportItButton": "Vytvořit zprávu",
+    "editReportButton": "Ř_Update___ů",
     "cancelButton": "Storno",
     "requiredField": "(vyžadováno)",
     "selectDefaultText": "Výběr&hellip;",
@@ -130,7 +131,9 @@ define({
     "loadMoreButtonText": "Načíst další..."
   },
   "comment": {
+    "commentsFormHeading": "Ř_Comment___ů",
     "commentsFormSubmitButton": "Odeslat komentář",
+    "commentsFormEditButton": "Ř_Update Comment_____ů",
     "commentsFormCancelButton": "Storno",
     "errorInSubmittingComment": "Komentář se nepodařilo odeslat.",
     "emptyCommentMessage": "Zadejte komentář.",
@@ -142,7 +145,10 @@ define({
     "selectFileText": "Ř_Browse___ů",
     "attachmentSelectedMsg": "Ř_attachment(s) selected________ů",
     "attachmentHeaderText": "Ř_Attachments____ů",
-    "unknownCommentAttachment": "Ř_FILE__ů"
+    "unknownCommentAttachment": "Ř_FILE__ů",
+    "editRecordText": "Ř_Edit__ů",
+    "deleteRecordText": "Ř_Delete___ů",
+    "deleteCommentFailedMessage": "Ř_Unable to delete comment________ů"
   },
   "gallery": {
     "galleryHeaderText": "Galerie",

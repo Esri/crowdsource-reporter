@@ -74,6 +74,7 @@ define({
     "selectFileText": "Bla gjennom",
     "enterLocation": "Lokasjon",
     "reportItButton": "Rapporter det",
+    "editReportButton": "å_Update___ø",
     "cancelButton": "Avbryt",
     "requiredField": "(obligatorisk)",
     "selectDefaultText": "Select&hellip;",
@@ -130,7 +131,9 @@ define({
     "loadMoreButtonText": "Last inn flere..."
   },
   "comment": {
+    "commentsFormHeading": "å_Comment___ø",
     "commentsFormSubmitButton": "Send inn kommentar",
+    "commentsFormEditButton": "å_Update Comment_____ø",
     "commentsFormCancelButton": "Avbryt",
     "errorInSubmittingComment": "Kommentar kan ikke sendes.",
     "emptyCommentMessage": "Skriv en kommentar.",
@@ -142,7 +145,10 @@ define({
     "selectFileText": "å_Browse___ø",
     "attachmentSelectedMsg": "å_attachment(s) selected________ø",
     "attachmentHeaderText": "å_Attachments____ø",
-    "unknownCommentAttachment": "å_FILE__ø"
+    "unknownCommentAttachment": "å_FILE__ø",
+    "editRecordText": "å_Edit__ø",
+    "deleteRecordText": "å_Delete___ø",
+    "deleteCommentFailedMessage": "å_Unable to delete comment________ø"
   },
   "gallery": {
     "galleryHeaderText": "Galleri",

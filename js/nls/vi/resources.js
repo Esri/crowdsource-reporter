@@ -74,6 +74,7 @@ define({
     "selectFileText": "Duyệt",
     "enterLocation": "Vị trí",
     "reportItButton": "Báo cáo Nó",
+    "editReportButton": "Đ_Update___ớ",
     "cancelButton": "Hủy",
     "requiredField": "(bắt buộc)",
     "selectDefaultText": "Chọn&hellip;",
@@ -130,7 +131,9 @@ define({
     "loadMoreButtonText": "Tải Thêm..."
   },
   "comment": {
+    "commentsFormHeading": "Đ_Comment___ớ",
     "commentsFormSubmitButton": "Gửi bình luận",
+    "commentsFormEditButton": "Đ_Update Comment_____ớ",
     "commentsFormCancelButton": "Hủy",
     "errorInSubmittingComment": "Không thể gửi bình luận.",
     "emptyCommentMessage": "Vui lòng nhập bình luận.",
@@ -142,7 +145,10 @@ define({
     "selectFileText": "Đ_Browse___ớ",
     "attachmentSelectedMsg": "Đ_attachment(s) selected________ớ",
     "attachmentHeaderText": "Đ_Attachments____ớ",
-    "unknownCommentAttachment": "Đ_FILE__ớ"
+    "unknownCommentAttachment": "Đ_FILE__ớ",
+    "editRecordText": "Đ_Edit__ớ",
+    "deleteRecordText": "Đ_Delete___ớ",
+    "deleteCommentFailedMessage": "Đ_Unable to delete comment________ớ"
   },
   "gallery": {
     "galleryHeaderText": "Bộ sưu tập",
