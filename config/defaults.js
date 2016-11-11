@@ -108,7 +108,7 @@ define({
     "submitReportButtonText" : "Submit a Report", // Text for submit report button
     "submitReportButtonColor": "#35ac46", //Color for Submit Report button.If EMPTY default color will be  #35ac46.
     "splashScreenTextColor": "#FFF", // Color of splash screen content
-    "imageBackgroundColor": "gray", // Background color icons
+    "imageBackgroundColor": "#999999", // Background color icons
     "imageForeGroundColor": "white", // Foreground color of icons values (gray or white)
     //Configurable text for help dialog and help link
     "enableHelp":true,
