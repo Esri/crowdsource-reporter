@@ -116,11 +116,11 @@ define({
             noResultsFound: "No reports found" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Vote", // Command button for up-voting a report
-            likeButtonTooltip: "Vote for this report",  // Tooltip for Like button
-            commentButtonLabel: "Comment", // Command button for submitting feedback
-            commentButtonTooltip: "Comment on this report", // Tooltip for Comment button
-            galleryButtonLabel: "Gallery", // Command button for opening and closing attachment file gallery
+            likeButtonLabel: "", // Command button for up-voting a report
+            likeButtonTooltip: "I agree",  // Tooltip for Like button
+            commentButtonLabel: "", // Command button for submitting feedback
+            commentButtonTooltip: "Leave a reply", // Tooltip for Comment button
+            galleryButtonLabel: "", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "See attached documents", // Tooltip for command button shown in details panel
             mapButtonLabel: "View on Map", // Command button shown in details panel
             mapButtonTooltip: "View the location of this report", // Tooltip for Gallery button
