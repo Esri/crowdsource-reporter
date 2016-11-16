@@ -924,6 +924,8 @@ define([
                 innerHTML: this.appConfig.i18n.geoform.selectDefaultText,
                 value: ""
             }, this.inputContent);
+            // On selection Change
+            this._codedValueOnChange(currentField);
             // check for domain value and create control for drop down list
             if (currentField.domain && !currentField.typeField) {
                 array.forEach(currentField.domain.codedValues, lang.hitch(this, function (currentOption) {
@@ -932,7 +934,7 @@ define([
                         value: currentOption.code
                     }, this.inputContent);
                     // if field contain default value, make that option selected
-                    if (currentField.defaultValue === currentOption.code) {
+                    if (currentField.defaultValue !== undefined && currentField.defaultValue !== null && currentField.defaultValue !== "" && currentField.defaultValue.toString() === currentOption.code.toString()) {
                         // set selected is true
                         domAttr.set(selectOptions, "selected", true);
                         domAttr.set(selectOptions, "defaultSelected", true);
@@ -949,10 +951,16 @@ define([
                     selectOptions = domConstruct.create("option", {}, this.inputContent);
                     selectOptions.text = currentOption.name;
                     selectOptions.value = currentOption.id;
+                    // if field contain default value, make that option selected
+                    if (this.item && this.item.attributes[fieldname] !== undefined && this.item.attributes[fieldname] !== null && this.item.attributes[fieldname] !== "" && this.item.attributes[fieldname].toString() === currentOption.id.toString()) {
+                        domAttr.set(this.inputContent, "value", currentOption.id);
+                        domClass.add(this.inputContent.parentNode, "has-success");
+                    }
                 }));
+                if (currentField.typeField) {
+                    this._validateTypeFields({ 'currentTarget': this.inputContent }, currentField);
+                }
             }
-            // On selection Change
-            this._codedValueOnChange(currentField);
         },
 
         /**
@@ -1239,7 +1247,12 @@ define([
                 referenceNode = dom.byId(this.layer.typeIdField).parentNode;
                 // code to populate type dependent fields
                 array.forEach(this.sortedFields, lang.hitch(this, function (currentInput, index) {
-                    var field = null, fieldAttribute;
+                    var field = null, fieldAttribute, hasDomainValue, hasDefaultValue;
+                    hasDomainValue = selectedType.domains[currentInput.name];
+                    hasDefaultValue = selectedType.templates[0].prototype.attributes[currentInput.name];
+                    if ((hasDomainValue && hasDomainValue.type !== "inherited") || (hasDefaultValue && !currentInput.typeField) || (hasDefaultValue === 0 && !currentInput.typeField)) {
+                        currentInput.isTypeDependent = true;
+                    }
                     // condition to filter out fields independent of subtypes
                     if (!currentInput.isTypeDependent) {
                         return true;
@@ -1713,7 +1726,7 @@ define([
         _submitForm: function () {
             var erroneousFields = [], errorMessage;
             // for all the fields in geo form
-            array.forEach(query(".geoFormQuestionare"), lang.hitch(this, function (currentField) {
+            array.forEach(query(".geoFormQuestionare", this.domNode), lang.hitch(this, function (currentField) {
                 // to check for errors in form before submitting.
                 if ((query(".form-control", currentField)[0])) {
                     // condition to check if the entered values are erroneous.

@@ -318,8 +318,8 @@ define([
             queryString = this.appConfig.reportedByField + "='" + this.appConfig.logInDetails.processedUserName + "' AND " + dateobj + "=" + dateobj;
 
             // add layer definition in query parameters if it is available in layer object
-            if (opLayer.layerObject.getDefinitionExpression()) {
-                queryString += " AND " + opLayer.layerObject.getDefinitionExpression();
+            if (opLayer.layerObject.defaultDefinitionExpression) {
+                queryString += " AND " + opLayer.layerObject.defaultDefinitionExpression;
             }
 
             parameters.where = queryString;

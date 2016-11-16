@@ -1,4 +1,4 @@
-/*global define,dojo,alert,document */
+/*global define,dojo,alert,document, esriConfig */
 /*jslint browser:true,sloppy:true,nomen:true,unparam:true,plusplus:true,indent:4 */
 /*
 | Copyright 2014 Esri
@@ -33,7 +33,8 @@ define([
     "esri/dijit/LocateButton",
     "esri/dijit/HomeButton",
     "esri/tasks/locator",
-    "esri/geometry/webMercatorUtils"
+    "esri/geometry/webMercatorUtils",
+    "dojo/Deferred"
 ], function (
     declare,
     dom,
@@ -52,7 +53,8 @@ define([
     LocateButton,
     HomeButton,
     Locator,
-    webMercatorUtils
+    webMercatorUtils,
+    Deferred
 ) {
     return declare([_WidgetBase], {
         showLoadingIndicator: function () {
@@ -282,10 +284,34 @@ define([
         */
         refreshLabelLayers: function (operationalLayers) {
             array.forEach(operationalLayers, lang.hitch(this, function (currentLayer) {
-                if (currentLayer.layerObject.showLabels && currentLayer.layerObject.labelingInfo) {
+                if (currentLayer.layerObject && currentLayer.layerObject.showLabels && currentLayer.layerObject.labelingInfo) {
                     currentLayer.layerObject.refresh();
                 }
             }));
+        },
+
+        /**
+        * Returns the projected geometry in outSR
+        * @memberOf widgets/utils/utils
+        **/
+        getProjectedGeometry: function (geometry, outSR) {
+            var deferred, result;
+            deferred = new Deferred();
+            if (webMercatorUtils.canProject(geometry, outSR)) {
+                result = webMercatorUtils.project(geometry, outSR);
+                deferred.resolve(result);
+            } else {
+                if (esriConfig.defaults.geometryService) {
+                    esriConfig.defaults.geometryService.project([geometry], outSR,
+                        function (projectedGeometries) {
+                            result = projectedGeometries[0];
+                            deferred.resolve(result);
+                        });
+                } else {
+                    deferred.resolve(null);
+                }
+            }
+            return deferred.promise;
         }
     });
 });
