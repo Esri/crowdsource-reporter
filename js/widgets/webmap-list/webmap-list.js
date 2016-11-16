@@ -411,6 +411,7 @@ define([
                         }
                     }
                 }
+				this.geographicalExtent = null;
                 //Before removing layers check for extent layer
                 //If limit geographical flag is on, fetch configurable layer's extent
                 if (lang.trim(this.appConfig.geographicalExtentLayer) !== "") {
@@ -460,13 +461,10 @@ define([
             }));
             //Create new extent object
             if (layerFullExtent) {
-                this.geographicalExtent = new Extent({
-                    "xmin": layerFullExtent.xmin,
-                    "ymin": layerFullExtent.ymin,
-                    "xmax": layerFullExtent.xmax,
-                    "ymax": layerFullExtent.ymax,
-                    "spatialReference": layerFullExtent.spatialReference
-                });
+                this.appUtils.getProjectedGeometry(layerFullExtent, this.map.spatialReference).then(lang.hitch(this,
+                    function (projectedExtent) {
+                        this.geographicalExtent = projectedExtent;
+                    }));
             }
         },
 
@@ -812,6 +810,15 @@ define([
                     } else {
                         currentLayer.layerObject.hide();
                     }
+                } else if (currentLayer.featureCollection) {
+                    //Handle feature collection layers and show them on the map as non-editable layer
+                    array.forEach(currentLayer.featureCollection.layers, lang.hitch(this, function (featureCollectionLayer) {
+                        if (featureCollectionLayer.layerObject && (featureCollectionLayer.layerObject.capabilities.indexOf("Create") === -1) &&
+                            ((featureCollectionLayer.layerObject.capabilities.indexOf("Editing") === -1) ||
+                                (featureCollectionLayer.layerObject.capabilities.indexOf("Update") === -1)) && currentLayer.visibility) {
+                            featureCollectionLayer.layerObject.show();
+                        }
+                    }));
                 }
             }));
         },

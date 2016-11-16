@@ -371,7 +371,7 @@ define([
                                         this._updateFeatureInIssueWall(updatedFeature, true);
                                         this._itemDetails.handleComponentsVisibility();
                                     } else {
-                                        this._updateFeatureInIssueWall(updatedFeature, false);
+                                        this._updateFeatureInIssueWall(updatedFeature, false, false);
                                     }
                                 }));
                             } catch (ex) {
@@ -397,7 +397,7 @@ define([
                         //refresh main map so that newly created issue will be shown on it.
                         layer = this._selectedMapDetails.map.getLayer(this._selectedMapDetails.operationalLayerId);
                         layer.refresh();
-                        this._updateFeatureInIssueWall(this._itemDetails.item, false);
+                        this._updateFeatureInIssueWall(this._itemDetails.item, false, true);
                     }
                 });
 
@@ -474,7 +474,7 @@ define([
         * @param{boolean} flag to check for edit or delete feature
         * @memberOf main
         */
-        _updateFeatureInIssueWall: function (updatedFeature, isUpdated) {
+        _updateFeatureInIssueWall: function (updatedFeature, isUpdated, canDeleteFromMyIssue) {
             var nodeToUpdate, nodeToUpdateAttr;
             if (this._issueWallWidget.itemsList) {
                 nodeToUpdateAttr = updatedFeature.attributes[this.selectedLayer.objectIdField] + "_" +
@@ -484,7 +484,7 @@ define([
                 if (isUpdated) {
                     this._updateFeature(updatedFeature);
                 } else {
-                    this._deleteFeature(nodeToUpdate);
+                    this._deleteFeature(nodeToUpdate, canDeleteFromMyIssue);
                 }
             }
             //Update geoform map instance
@@ -514,7 +514,7 @@ define([
         * @param{object} node to be deleted
         * @memberOf main
         */
-        _deleteFeature: function (nodeToUpdate) {
+        _deleteFeature: function (nodeToUpdate, canDeleteFromMyIssue) {
             //Remove graphics from graphic layer
             array.some(this.displaygraphicsLayer.graphics, lang.hitch(this, function (currentGraphics, index) {
                 if (currentGraphics.attributes[this.selectedLayer.objectIdField] === this._itemDetails.item.attributes[this.selectedLayer.objectIdField]) {
@@ -528,10 +528,15 @@ define([
                 this._selectedMapDetails.map.getLayer("selectionGraphicsLayer").clear();
             }
 
-            // Delete the node from issue list, my issue list and clear selection
-            array.forEach(nodeToUpdate, lang.hitch(this, function (currentItemNode) {
-                domConstruct.destroy(currentItemNode);
-            }));
+            if (canDeleteFromMyIssue) {
+                // Delete the node from issue list, my issue list and clear selection
+                array.forEach(nodeToUpdate, lang.hitch(this, function (currentItemNode) {
+                    domConstruct.destroy(currentItemNode);
+                }));
+            } else {
+                // Delete feature only from issue list
+                domConstruct.destroy(nodeToUpdate[0]);
+            }
 
             this._issueWallWidget.itemsList.clearSelection();
 
@@ -553,9 +558,11 @@ define([
             } else {
                 this._sidebarCnt.showPanel("issueWall");
             }
-            //Remove graphics instance from my issues array list
-            if (this._myIssuesWidget) {
-                this._myIssuesWidget.updateMyIssuesList(this._itemDetails.item, this._selectedMapDetails);
+            if (canDeleteFromMyIssue) {
+                //Remove graphics instance from my issues array list
+                if (this._myIssuesWidget) {
+                    this._myIssuesWidget.updateMyIssuesList(this._itemDetails.item, this._selectedMapDetails);
+                }
             }
             this.appUtils.hideLoadingIndicator();
         },
@@ -1220,6 +1227,9 @@ define([
         */
         _createFeature: function (newFeature, layer, addedFrom) {
             var newGraphic, featureExsist = false;
+            if (!newFeature) {
+                return;
+            }
             newFeature._layer = layer;
             //Add infotemplate to newly created feature
             newFeature.setInfoTemplate(layer.infoTemplate);
@@ -1265,7 +1275,7 @@ define([
             }
         },
 
-        /**s
+        /**
         * Create feature object
         * @param{object} New feature
         * @param{object} Distance of feature from current location

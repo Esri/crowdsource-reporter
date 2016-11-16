@@ -188,6 +188,7 @@ define([
             domStyle.set(this.signInMainContainer, "color", loginScreenFontColor);
             domStyle.set(this.signinOrText, "color", loginScreenFontColor);
             domStyle.set(this.signinOrText, "backgroundColor", imageBackgroundColor);
+            domStyle.set(this.signinCaptionSeparator, "borderColor", imageForeGroundColor);
             domStyle.set(this.signinOrText, "border", "2px solid " + imageForeGroundColor);
             domStyle.set(this.signinHelpLink, "borderBottom", "1px solid " + loginScreenFontColor);
             //Set image background color

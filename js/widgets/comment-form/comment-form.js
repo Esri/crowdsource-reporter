@@ -397,7 +397,7 @@ define([
                     if (hasDefaultValue === 0) {
                         hasDefaultValue = true;
                     }
-                    if ((hasDomainValue && hasDomainValue.type !== "inherited") || (hasDefaultValue && !currentField.typeField)) {
+                    if ((hasDomainValue && hasDomainValue.type !== "inherited") || (hasDefaultValue && !currentField.typeField) || (hasDefaultValue === 0 && !currentField.typeField)) {
                         currentField.isTypeDependent = true;
                     }
                 });
@@ -780,7 +780,7 @@ define([
             }
             currentField.defaultValue = null;
             // set default Values to the fields
-            if (this.commentTable.templates[0] && !currentField.defaultValue) {
+            if (this.commentTable.templates[0] && !currentField.defaultValue && this.addComments) {
                 for (fieldAttribute in this.commentTable.templates[0].prototype.attributes) {
                     if (this.commentTable.templates[0].prototype.attributes.hasOwnProperty(fieldAttribute)) {
                         if (fieldAttribute.toLowerCase() === fieldname.toLowerCase()) {
@@ -846,10 +846,10 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _createDomainValueFormElements: function (currentField, formContent, fieldname) {
-            var date, inputRangeDateGroupContainer, rangeDefaultDate, currentSelectedDate, formatedDate, defaultValue;
+            var date, inputRangeDateGroupContainer, rangeDefaultDate, currentSelectedDate, formatedDate;
             if (!this.addComments) {
                 //get field value
-                defaultValue = this.item.attributes[fieldname];
+                currentField.defaultValue = this.item.attributes[fieldname];
             }
             if ((currentField.domain && (currentField.domain.type === 'undefined' || currentField.domain.type === undefined || currentField.domain.type === 'codedValue')) || currentField.typeField) {
                 this._createCodedValueFormElements(currentField, formContent, fieldname);
@@ -912,6 +912,8 @@ define([
                 innerHTML: this.config.i18n.geoform.selectDefaultText,
                 value: ""
             }, this.inputContent);
+            // On selection Change
+            this._codedValueOnChange(currentField);
             // check for domain value and create control for drop down list
             if (currentField.domain && !currentField.typeField) {
                 array.forEach(currentField.domain.codedValues, lang.hitch(this, function (currentOption) {
@@ -920,7 +922,7 @@ define([
                         value: currentOption.code
                     }, this.inputContent);
                     // if field contain default value, make that option selected
-                    if (currentField.defaultValue === currentOption.code) {
+                    if (currentField.defaultValue !== undefined && currentField.defaultValue !== null && currentField.defaultValue !== "" && currentField.defaultValue.toString() === currentOption.code.toString()) {
                         // set selected is true
                         domAttr.set(selectOptions, "selected", true);
                         domAttr.set(selectOptions, "defaultSelected", true);
@@ -933,10 +935,16 @@ define([
                     selectOptions = domConstruct.create("option", {}, this.inputContent);
                     selectOptions.text = currentOption.name;
                     selectOptions.value = currentOption.id;
+                    // if field contain default value, make that option selected
+                    if (this.item && this.item.attributes[fieldname] !== undefined && this.item.attributes[fieldname] !== null && this.item.attributes[fieldname] !== "" && this.item.attributes[fieldname].toString() === currentOption.id.toString()) {
+                        domAttr.set(this.inputContent, "value", currentOption.id);
+                        domClass.add(this.inputContent.parentNode, "has-success");
+                    }
                 }));
+                if (currentField.typeField) {
+                    this._validateTypeFields({ 'currentTarget': this.inputContent }, currentField);
+                }
             }
-            // On selection Change
-            this._codedValueOnChange(currentField);
         },
 
         /**
@@ -973,7 +981,7 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _validateTypeFields: function (evt, currentField) {
-            var selectedType, defaultValue, referenceNode, currentTarget = evt.currentTarget || evt.srcElement;
+            var selectedType, defaultValue, referenceNode, currentTarget = evt.currentTarget || evt.srcElement, hasDomainValue, hasDefaultValue;
             // Validation for empty field
             // if field value is empty reset subtypes field
             if (currentTarget.value === "") {
@@ -995,16 +1003,21 @@ define([
                 });
 
                 // initial point of reference to put elements
-                referenceNode = dom.byId(this.layer.typeIdField).parentNode;
+                referenceNode = dom.byId(this.commentTable.typeIdField).parentNode;
                 // code to populate type dependent fields
                 array.forEach(this.sortedFields, lang.hitch(this, function (currentInput, index) {
                     var field = null, fieldAttribute;
+                    hasDomainValue = selectedType.domains[currentInput.name];
+                    hasDefaultValue = selectedType.templates[0].prototype.attributes[currentInput.name];
+                    if ((hasDomainValue && hasDomainValue.type !== "inherited") || (hasDefaultValue && !currentInput.typeField) || (hasDefaultValue === 0 && !currentInput.typeField)) {
+                        currentInput.isTypeDependent = true;
+                    }
                     // condition to filter out fields independent of subtypes
                     if (!currentInput.isTypeDependent) {
                         return true;
                     }
                     // mixin array of sorted field and info pop field
-                    array.some(this.layer.fields, function (layerField) {
+                    array.some(this.commentTable.fields, function (layerField) {
                         if (layerField.name === currentInput.name) {
                             field = lang.clone(lang.mixin(layerField, currentInput));
                             return true;
@@ -1487,6 +1500,23 @@ define([
             if (iskeyPress && inputValue.length === 0 && !domClass.contains(node, "mandatory")) {
                 domClass.remove(node, "has-error");
                 domClass.remove(node, "has-success");
+            }
+        },
+
+        /**
+        * Reset subtype fields
+        * @param{object} currentInput, parent node to destroy dependent field
+        * @memberOf widgets/comment-form/comment-form
+        */
+        _resetSubTypeFields: function (currentInput) {
+            if (currentInput.type === "esriFieldTypeDate" || ((currentInput.type === "esriFieldTypeSmallFloat" || currentInput.type === "esriFieldTypeSmallInteger" || currentInput.type === "esriFieldTypeDouble" || currentInput.type === "esriFieldTypeInteger") && (currentInput.domain && currentInput.domain.type && currentInput.domain.type === "range"))) {
+                if (dom.byId(currentInput.name)) {
+                    domConstruct.destroy(dom.byId(currentInput.name).parentNode.parentNode);
+                }
+            } else {
+                if (dom.byId(currentInput.name)) {
+                    domConstruct.destroy(dom.byId(currentInput.name).parentNode);
+                }
             }
         },
 
