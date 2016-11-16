@@ -114,17 +114,18 @@ define({
     "noResultsFound": "Tidak ditemukan laporan apa pun"
   },
   "itemDetails": {
-    "likeButtonLabel": "Beri suara",
-    "likeButtonTooltip": "Pilih laporan ini",
-    "commentButtonLabel": "Komentar",
-    "commentButtonTooltip": "Komentari laporan ini",
-    "galleryButtonLabel": "Galeri",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "ng_I agree___ny",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "ng_Leave a reply_____ny",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Lihat dokumen terlampir",
     "mapButtonLabel": "Tampilkan pada peta",
     "mapButtonTooltip": "Tampilkan lokasi laporan ini",
     "commentsListHeading": "Komentar",
     "unableToUpdateVoteField": "Pilihan Anda tidak dapat dihitung saat ini.",
-    "gotoIssueListTooltip": "Buka daftar laporan"
+    "gotoIssueListTooltip": "Buka daftar laporan",
+    "deleteMessage": "ng_Are you sure you want to delete___________ny?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Pilihan untuk laporan ini",

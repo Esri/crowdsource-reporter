@@ -114,17 +114,18 @@ define({
     "noResultsFound": "Δεν βρέθηκαν αναφορές."
   },
   "itemDetails": {
-    "likeButtonLabel": "Ψήφος",
-    "likeButtonTooltip": "Ψηφίστε για αυτήν την αναφορά",
-    "commentButtonLabel": "Σχόλιο",
-    "commentButtonTooltip": "Σχολιάστε αυτήν την αναφορά",
-    "galleryButtonLabel": "ΣΥΛΛΟΓΗ",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "Đ_I agree___ớ",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "Đ_Leave a reply_____ớ",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Δείτε τα συνημμένα έγγραφα",
     "mapButtonLabel": "Προβολή στο χάρτη",
     "mapButtonTooltip": "Προβολή της τοποθεσίας αυτής της αναφοράς",
     "commentsListHeading": "Σχόλια",
     "unableToUpdateVoteField": "Δεν είναι δυνατή η μέτρηση της ψήφου σας αυτήν τη στιγμή.",
-    "gotoIssueListTooltip": "Μετάβαση στη λίστα αναφορών"
+    "gotoIssueListTooltip": "Μετάβαση στη λίστα αναφορών",
+    "deleteMessage": "Đ_Are you sure you want to delete___________ớ?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Ψήφοι για αυτήν την αναφορά",

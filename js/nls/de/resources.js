@@ -114,17 +114,18 @@ define({
     "noResultsFound": "Keine Berichte gefunden"
   },
   "itemDetails": {
-    "likeButtonLabel": "Abstimmen",
-    "likeButtonTooltip": "Für diesen Bericht stimmen",
-    "commentButtonLabel": "Kommentar",
-    "commentButtonTooltip": "Diesen Bericht kommentieren",
-    "galleryButtonLabel": "Galerie",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "ä_I agree___Ü",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "ä_Leave a reply_____Ü",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Angehängte Dokumente anzeigen",
     "mapButtonLabel": "Auf Karte anzeigen",
     "mapButtonTooltip": "Speicherort dieses Berichts anzeigen",
     "commentsListHeading": "Bemerkungen",
     "unableToUpdateVoteField": "Ihre Stimme kann zurzeit nicht gezählt werden.",
-    "gotoIssueListTooltip": "Zur Berichtsliste wechseln"
+    "gotoIssueListTooltip": "Zur Berichtsliste wechseln",
+    "deleteMessage": "ä_Are you sure you want to delete___________Ü?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Stimmen für diesen Bericht",

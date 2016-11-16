@@ -114,17 +114,18 @@ define({
     "noResultsFound": "Nema pronađenih izveštaja"
   },
   "itemDetails": {
-    "likeButtonLabel": "Glasaj",
-    "likeButtonTooltip": "Glasaj za ovaj izveštaj",
-    "commentButtonLabel": "Komentariši",
-    "commentButtonTooltip": "Komentariši ovaj izveštaj",
-    "galleryButtonLabel": "Galerija",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "Č_I agree___ž",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "Č_Leave a reply_____ž",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Pogledaj priložena dokumenta",
     "mapButtonLabel": "Prikaži na mapi",
     "mapButtonTooltip": "Prikaži lokaciju ovog izveštaja",
     "commentsListHeading": "Komentari",
     "unableToUpdateVoteField": "Vaš glas ne može da bude uračunat ovoga puta.",
-    "gotoIssueListTooltip": "Idi na listu izveštaja"
+    "gotoIssueListTooltip": "Idi na listu izveštaja",
+    "deleteMessage": "Č_Are you sure you want to delete___________ž?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Glasovi za ovaj izveštaj",

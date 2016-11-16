@@ -114,17 +114,18 @@ define({
     "noResultsFound": "Nebyly nalezeny žádné zprávy."
   },
   "itemDetails": {
-    "likeButtonLabel": "Hlasovat",
-    "likeButtonTooltip": "Hlasovat pro tuto zprávu",
-    "commentButtonLabel": "Komentář",
-    "commentButtonTooltip": "Odeslat komentář pro tuto zprávu",
-    "galleryButtonLabel": "Galerie",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "Ř_I agree___ů",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "Ř_Leave a reply_____ů",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Zobrazit připojené dokumenty",
     "mapButtonLabel": "Zobrazit na mapě",
     "mapButtonTooltip": "Zobrazit umístění této zprávy",
     "commentsListHeading": "Komentáře",
     "unableToUpdateVoteField": "Váš hlas v tuto chvíli nelze započítat.",
-    "gotoIssueListTooltip": "Přejít na seznam zpráv"
+    "gotoIssueListTooltip": "Přejít na seznam zpráv",
+    "deleteMessage": "Ř_Are you sure you want to delete___________ů?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Hlasy pro tuto zprávu",

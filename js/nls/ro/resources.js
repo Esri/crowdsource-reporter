@@ -114,17 +114,18 @@ define({
     "noResultsFound": "Nu a fost găsit niciun raport"
   },
   "itemDetails": {
-    "likeButtonLabel": "Votaţi",
-    "likeButtonTooltip": "Votaţi pentru acest raport",
-    "commentButtonLabel": "Comentariu",
-    "commentButtonTooltip": "Comentaţi acest raport",
-    "galleryButtonLabel": "Galerie",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "Ă_I agree___ș",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "Ă_Leave a reply_____ș",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Consultaţi documentele ataşate",
     "mapButtonLabel": "Vizualizare pe hartă",
     "mapButtonTooltip": "Vizualizaţi locaţia acestui raport",
     "commentsListHeading": "Comentarii",
     "unableToUpdateVoteField": "Votul dumneavoastră nu poate fi luat în considerare în acest moment.",
-    "gotoIssueListTooltip": "Accesare listă rapoarte"
+    "gotoIssueListTooltip": "Accesare listă rapoarte",
+    "deleteMessage": "Ă_Are you sure you want to delete___________ș?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Voturi pentru acest raport",

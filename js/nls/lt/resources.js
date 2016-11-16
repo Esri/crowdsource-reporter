@@ -114,17 +114,18 @@ define({
     "noResultsFound": "Ataskaitų nerasta"
   },
   "itemDetails": {
-    "likeButtonLabel": "Balsuoti",
-    "likeButtonTooltip": "Balsuokite už šią ataskaitą",
-    "commentButtonLabel": "Komentuoti",
-    "commentButtonTooltip": "Pakomentuoti šią ataskaitą",
-    "galleryButtonLabel": "Galerija",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "Į_I agree___š",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "Į_Leave a reply_____š",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Žr. pridėtus dokumentus",
     "mapButtonLabel": "Žiūrėti žemėlapyje",
     "mapButtonTooltip": "Žiūrėti šios ataskaitos vietą",
     "commentsListHeading": "Komentarai",
     "unableToUpdateVoteField": "Šiuo metu jūsų balso įskaičiuoti negalima.",
-    "gotoIssueListTooltip": "Eiti į ataskaitų sąrašą"
+    "gotoIssueListTooltip": "Eiti į ataskaitų sąrašą",
+    "deleteMessage": "Į_Are you sure you want to delete___________š?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Balsai už šią ataskaitą",

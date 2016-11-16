@@ -114,17 +114,18 @@ define({
     "noResultsFound": "Отчеты не найдены."
   },
   "itemDetails": {
-    "likeButtonLabel": "Голосовать",
-    "likeButtonTooltip": "Голосовать за этот отчет",
-    "commentButtonLabel": "Комментарий",
-    "commentButtonTooltip": "Комментировать этот отчет",
-    "galleryButtonLabel": "Галерея",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "Ж_I agree___Я",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "Ж_Leave a reply_____Я",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Просмотр вложенных документов",
     "mapButtonLabel": "Просмотр на карте",
     "mapButtonTooltip": "Просмотреть местоположение этого отчета",
     "commentsListHeading": "Комментарии",
     "unableToUpdateVoteField": "Ваш голос не может быть учтен сейчас.",
-    "gotoIssueListTooltip": "Перейти к списку отчетов"
+    "gotoIssueListTooltip": "Перейти к списку отчетов",
+    "deleteMessage": "Ж_Are you sure you want to delete___________Я?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Число голосов отданных за отчет",

@@ -114,17 +114,18 @@ define({
     "noResultsFound": "Nema izvješća"
   },
   "itemDetails": {
-    "likeButtonLabel": "Glasovanje",
-    "likeButtonTooltip": "Glasaj za ovo izvješće",
-    "commentButtonLabel": "Komentar",
-    "commentButtonTooltip": "Komentiraj ovo izvješće",
-    "galleryButtonLabel": "Galerija",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "Č_I agree___ž",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "Č_Leave a reply_____ž",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Vidi priložene dokumente",
     "mapButtonLabel": "Prikaži na karti",
     "mapButtonTooltip": "Prikaz lokacije ovog izvješća",
     "commentsListHeading": "Komentari",
     "unableToUpdateVoteField": "Vaš se glas trenutačno ne može pribrojiti.",
-    "gotoIssueListTooltip": "Idi na popis izvješća"
+    "gotoIssueListTooltip": "Idi na popis izvješća",
+    "deleteMessage": "Č_Are you sure you want to delete___________ž?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Glasovi za ovo izvješće",

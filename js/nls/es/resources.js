@@ -114,17 +114,18 @@ define({
     "noResultsFound": "No se encontraron informes"
   },
   "itemDetails": {
-    "likeButtonLabel": "Votar",
-    "likeButtonTooltip": "Votar este informe",
-    "commentButtonLabel": "Comentario",
-    "commentButtonTooltip": "Comentar este informe",
-    "galleryButtonLabel": "Galería",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "á_I agree___Ó",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "á_Leave a reply_____Ó",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Ver documentos adjuntos",
     "mapButtonLabel": "Ver en mapa",
     "mapButtonTooltip": "Ver la ubicación de este informe",
     "commentsListHeading": "Comentarios",
     "unableToUpdateVoteField": "No es posible contar tu voto en este momento.",
-    "gotoIssueListTooltip": "Ir a lista de informes"
+    "gotoIssueListTooltip": "Ir a lista de informes",
+    "deleteMessage": "á_Are you sure you want to delete___________Ó?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Vota este informe",

@@ -114,17 +114,18 @@ define({
     "noResultsFound": "Nie znaleziono raportów"
   },
   "itemDetails": {
-    "likeButtonLabel": "Głosuj",
-    "likeButtonTooltip": "Głosuj na ten raport",
-    "commentButtonLabel": "Komentarz",
-    "commentButtonTooltip": "Dodaj komentarz do tego raportu",
-    "galleryButtonLabel": "Galeria",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "ł_I agree___ą",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "ł_Leave a reply_____ą",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Zobacz załączone dokumenty",
     "mapButtonLabel": "Wyświetl na mapie",
     "mapButtonTooltip": "Wyświetl lokalizację tego raportu",
     "commentsListHeading": "Comments",
     "unableToUpdateVoteField": "Oddanego głosu nie można teraz zliczyć.",
-    "gotoIssueListTooltip": "Przejdź do listy raportów"
+    "gotoIssueListTooltip": "Przejdź do listy raportów",
+    "deleteMessage": "ł_Are you sure you want to delete___________ą?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Głosy na ten raport",

@@ -114,17 +114,18 @@ define({
     "noResultsFound": "Geen rapporten gevonden"
   },
   "itemDetails": {
-    "likeButtonLabel": "Stemmen",
-    "likeButtonTooltip": "Op dit rapport stemmen",
-    "commentButtonLabel": "Opmerking",
-    "commentButtonTooltip": "Op dit rapporten reageren",
-    "galleryButtonLabel": "Gallery",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "Ĳ_I agree___ä",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "Ĳ_Leave a reply_____ä",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Zie bijgesloten documenten",
     "mapButtonLabel": "Op kaart weergeven",
     "mapButtonTooltip": "Bekijk de locatie van dit rapport",
     "commentsListHeading": "Opmerkingen",
     "unableToUpdateVoteField": "Uw stem kan nu niet worden geteld.",
-    "gotoIssueListTooltip": "Ga naar de meldlijst"
+    "gotoIssueListTooltip": "Ga naar de meldlijst",
+    "deleteMessage": "Ĳ_Are you sure you want to delete___________ä?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Stemmen op dit rapport",

@@ -114,17 +114,18 @@ define({
     "noResultsFound": "Herhangi bir rapor bulunamadı"
   },
   "itemDetails": {
-    "likeButtonLabel": "Oy ver",
-    "likeButtonTooltip": "Bu rapora oy ver",
-    "commentButtonLabel": "Açıklama",
-    "commentButtonTooltip": "Bu rapora yorum yap",
-    "galleryButtonLabel": "Galeri",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "ı_I agree___İ",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "ı_Leave a reply_____İ",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Ekli belgeleri incele",
     "mapButtonLabel": "Haritada görüntüle",
     "mapButtonTooltip": "Bu raporun konumunu görüntüle",
     "commentsListHeading": "Yorumlar",
     "unableToUpdateVoteField": "Oyunuz şu anda sayılamıyor.",
-    "gotoIssueListTooltip": "Rapor listesine git"
+    "gotoIssueListTooltip": "Rapor listesine git",
+    "deleteMessage": "ı_Are you sure you want to delete___________İ?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Bu rapora verilen oylar",

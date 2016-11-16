@@ -114,17 +114,18 @@ define({
     "noResultsFound": "Nav atrasts neviens ziņojums"
   },
   "itemDetails": {
-    "likeButtonLabel": "Balsot",
-    "likeButtonTooltip": "Balsot par šo ziņojumu",
-    "commentButtonLabel": "Komentārs",
-    "commentButtonTooltip": "Komentēt šo ziņojumu",
-    "galleryButtonLabel": "Galerija",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "ķ_I agree___ū",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "ķ_Leave a reply_____ū",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Skatīt pievienotos dokumentus",
     "mapButtonLabel": "Skatīt kartē",
     "mapButtonTooltip": "Skatiet šī ziņojuma vietu",
     "commentsListHeading": "Komentāri",
     "unableToUpdateVoteField": "Jūsu balsi šobrīd nevar pievienot.",
-    "gotoIssueListTooltip": "Doties uz ziņojumu sarakstu"
+    "gotoIssueListTooltip": "Doties uz ziņojumu sarakstu",
+    "deleteMessage": "ķ_Are you sure you want to delete___________ū?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Balsis par šo ziņojumu",

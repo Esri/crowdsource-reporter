@@ -114,17 +114,18 @@ define({
     "noResultsFound": "לא נמצאו דוחות"
   },
   "itemDetails": {
-    "likeButtonLabel": "הצבע",
-    "likeButtonTooltip": "הצבע עבור דוח זה",
-    "commentButtonLabel": "הערה",
-    "commentButtonTooltip": "הוסף תגובה לדוח",
-    "galleryButtonLabel": "גלריה",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "כן_I agree___ש",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "כן_Leave a reply_____ש",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "ראה מסמכים מצורפים",
     "mapButtonLabel": "הצג במפה",
     "mapButtonTooltip": "הצג את מיקום הדוח",
     "commentsListHeading": "הערות",
     "unableToUpdateVoteField": "לא ניתן לקחת בחשבון את ההצבעה שלך כעת.",
-    "gotoIssueListTooltip": "עבור לרשימת הדוחות"
+    "gotoIssueListTooltip": "עבור לרשימת הדוחות",
+    "deleteMessage": "כן_Are you sure you want to delete___________ש?"
   },
   "itemList": {
     "likesForThisItemTooltip": "הצבעות לדוח זה",

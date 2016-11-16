@@ -114,17 +114,18 @@ define({
     "noResultsFound": "Không tìm thấy báo cáo"
   },
   "itemDetails": {
-    "likeButtonLabel": "Bình chọn",
-    "likeButtonTooltip": "Bình chọn cho báo cáo này",
-    "commentButtonLabel": "Bình luận",
-    "commentButtonTooltip": "Bình luận về báo cáo này",
-    "galleryButtonLabel": "Bộ sưu tập",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "Đ_I agree___ớ",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "Đ_Leave a reply_____ớ",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Xem tài liệu đính kèm",
     "mapButtonLabel": "Xem trên Bản đồ",
     "mapButtonTooltip": "Xem vị trí của báo cáo này",
     "commentsListHeading": "Bình luận",
     "unableToUpdateVoteField": "Không thể tính bình chọn của bạn vào lúc này.",
-    "gotoIssueListTooltip": "Đến danh sách báo cáo"
+    "gotoIssueListTooltip": "Đến danh sách báo cáo",
+    "deleteMessage": "Đ_Are you sure you want to delete___________ớ?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Các bình chọn cho báo cáo này",

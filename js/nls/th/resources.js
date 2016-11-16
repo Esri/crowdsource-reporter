@@ -114,17 +114,18 @@ define({
     "noResultsFound": "ไม่พบรายงาน"
   },
   "itemDetails": {
-    "likeButtonLabel": "โหวต",
-    "likeButtonTooltip": "โหวตให้รายงานนี้",
-    "commentButtonLabel": "คำอธิบาย",
-    "commentButtonTooltip": "แสดงความคิดเห็นเกี่ยวกับรายงานนี้",
-    "galleryButtonLabel": "แกลเลอรี",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "ก้_I agree___ษฺ",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "ก้_Leave a reply_____ษฺ",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "แสดงเอกสารแนบ",
     "mapButtonLabel": "แสดงบนแผนที่",
     "mapButtonTooltip": "แสดงตำแหน่งของรายงานนี้",
     "commentsListHeading": "ความคิดเห็น",
     "unableToUpdateVoteField": "ผลโหวตของคุณไม่สามารถนับได้ในขณะนี้",
-    "gotoIssueListTooltip": "ไปที่รายการรายงาน"
+    "gotoIssueListTooltip": "ไปที่รายการรายงาน",
+    "deleteMessage": "ก้_Are you sure you want to delete___________ษฺ?"
   },
   "itemList": {
     "likesForThisItemTooltip": "โหวตให้รายงานนี้",

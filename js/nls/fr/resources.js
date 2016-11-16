@@ -114,17 +114,18 @@ define({
     "noResultsFound": "Aucun rapport trouvé"
   },
   "itemDetails": {
-    "likeButtonLabel": "Voter",
-    "likeButtonTooltip": "Voter pour ce rapport",
-    "commentButtonLabel": "Commentaire",
-    "commentButtonTooltip": "Commenter ce rapport",
-    "galleryButtonLabel": "Bibliothèque",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "æ_I agree___Â",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "æ_Leave a reply_____Â",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Voir les documents joints",
     "mapButtonLabel": "Afficher sur la carte",
     "mapButtonTooltip": "Afficher l'emplacement de ce rapport",
     "commentsListHeading": "Commentaires",
     "unableToUpdateVoteField": "Il est actuellement impossible de comptabiliser votre vote.",
-    "gotoIssueListTooltip": "Accéder à la liste des rapports"
+    "gotoIssueListTooltip": "Accéder à la liste des rapports",
+    "deleteMessage": "æ_Are you sure you want to delete___________Â?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Votes pour ce rapport",

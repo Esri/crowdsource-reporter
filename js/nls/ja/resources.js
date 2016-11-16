@@ -114,17 +114,18 @@ define({
     "noResultsFound": "レポートがありません"
   },
   "itemDetails": {
-    "likeButtonLabel": "投票",
-    "likeButtonTooltip": "このレポートに投票",
-    "commentButtonLabel": "コメント",
-    "commentButtonTooltip": "このレポートにコメント",
-    "galleryButtonLabel": "ギャラリー",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "須_I agree___鷗",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "須_Leave a reply_____鷗",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "添付したドキュメントを参照",
     "mapButtonLabel": "マップ上で表示",
     "mapButtonTooltip": "このレポートの位置を表示",
     "commentsListHeading": "コメント",
     "unableToUpdateVoteField": "この時点では投票をカウントできません。",
-    "gotoIssueListTooltip": "レポート リストへ移動"
+    "gotoIssueListTooltip": "レポート リストへ移動",
+    "deleteMessage": "須_Are you sure you want to delete___________鷗?"
   },
   "itemList": {
     "likesForThisItemTooltip": "このレポートに投票する",

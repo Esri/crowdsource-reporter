@@ -114,17 +114,18 @@ define({
     "noResultsFound": "보고서를 찾을 수 없음"
   },
   "itemDetails": {
-    "likeButtonLabel": "투표",
-    "likeButtonTooltip": "이 보고서에 투표",
-    "commentButtonLabel": "의견",
-    "commentButtonTooltip": "이 보고서에 대한 의견",
-    "galleryButtonLabel": "갤러리",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "한_I agree___빠",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "한_Leave a reply_____빠",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "첨부된 문서 보기",
     "mapButtonLabel": "맵에서 보기",
     "mapButtonTooltip": "이 보고서의 위치 보기",
     "commentsListHeading": "의견",
     "unableToUpdateVoteField": "지금은 투표를 계산할 수 없습니다.",
-    "gotoIssueListTooltip": "보고서 목록으로 이동"
+    "gotoIssueListTooltip": "보고서 목록으로 이동",
+    "deleteMessage": "한_Are you sure you want to delete___________빠?"
   },
   "itemList": {
     "likesForThisItemTooltip": "이 보고서에 투표",

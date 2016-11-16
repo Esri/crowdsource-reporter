@@ -114,17 +114,18 @@ define({
     "noResultsFound": "Nessun report trovato"
   },
   "itemDetails": {
-    "likeButtonLabel": "Vota",
-    "likeButtonTooltip": "Vota per questo report",
-    "commentButtonLabel": "Commento",
-    "commentButtonTooltip": "Commenta questo report",
-    "galleryButtonLabel": "Galleria",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "é_I agree___È",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "é_Leave a reply_____È",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Vedi documenti allegati",
     "mapButtonLabel": "Visualizza su mappa",
     "mapButtonTooltip": "Visualizza la posizione di questo report",
     "commentsListHeading": "Commenti",
     "unableToUpdateVoteField": "Impossibile conteggiare il voto al momento.",
-    "gotoIssueListTooltip": "Vai all'elenco dei report"
+    "gotoIssueListTooltip": "Vai all'elenco dei report",
+    "deleteMessage": "é_Are you sure you want to delete___________È?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Voti per questo report",

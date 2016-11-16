@@ -114,17 +114,18 @@ define({
     "noResultsFound": "Inga rapporter hittades"
   },
   "itemDetails": {
-    "likeButtonLabel": "Rösta",
-    "likeButtonTooltip": "Rösta för den här rapporten",
-    "commentButtonLabel": "Kommentar",
-    "commentButtonTooltip": "Kommentera den här rapporten",
-    "galleryButtonLabel": "Galleri",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "Å_I agree___ö",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "Å_Leave a reply_____ö",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Se bifogade dokument",
     "mapButtonLabel": "Visa på kartan",
     "mapButtonTooltip": "Visa platsen för rapporten",
     "commentsListHeading": "Kommentarer",
     "unableToUpdateVoteField": "Det går inte att räkna din röst just nu.",
-    "gotoIssueListTooltip": "Gå till rapportlistan"
+    "gotoIssueListTooltip": "Gå till rapportlistan",
+    "deleteMessage": "Å_Are you sure you want to delete___________ö?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Röster för den här rapporten",

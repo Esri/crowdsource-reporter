@@ -114,17 +114,18 @@ define({
     "noResultsFound": "未找到任何報告"
   },
   "itemDetails": {
-    "likeButtonLabel": "票選",
-    "likeButtonTooltip": "為此報告投票",
-    "commentButtonLabel": "評論",
-    "commentButtonTooltip": "評論此報告",
-    "galleryButtonLabel": "圖庫",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "試_I agree___驗",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "試_Leave a reply_____驗",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "參閱隨附的說明文件",
     "mapButtonLabel": "檢視地圖",
     "mapButtonTooltip": "檢視此報告的位置",
     "commentsListHeading": "評論",
     "unableToUpdateVoteField": "您的投票此時無法進行計數。",
-    "gotoIssueListTooltip": "轉至報告清單"
+    "gotoIssueListTooltip": "轉至報告清單",
+    "deleteMessage": "試_Are you sure you want to delete___________驗?"
   },
   "itemList": {
     "likesForThisItemTooltip": "為此報告投票",

@@ -114,17 +114,18 @@ define({
     "noResultsFound": "Yhtään raporttia ei löytynyt"
   },
   "itemDetails": {
-    "likeButtonLabel": "Äänestä",
-    "likeButtonTooltip": "Äänestä tätä raporttia",
-    "commentButtonLabel": "Kommentti",
-    "commentButtonTooltip": "Kommentoi tätä raporttia",
-    "galleryButtonLabel": "Gallery",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "Å_I agree___ö",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "Å_Leave a reply_____ö",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Näytä liitetyt dokumentit",
     "mapButtonLabel": "Näytä kartalla",
     "mapButtonTooltip": "Näytä tämän raportin sijainti",
     "commentsListHeading": "Comments",
     "unableToUpdateVoteField": "Ääntäsi ei voi laskea tällä kertaa.",
-    "gotoIssueListTooltip": "Siirry raporttiluetteloon"
+    "gotoIssueListTooltip": "Siirry raporttiluetteloon",
+    "deleteMessage": "Å_Are you sure you want to delete___________ö?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Tämän raportin äänet",

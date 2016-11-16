@@ -114,17 +114,18 @@ define({
     "noResultsFound": "未找到任何报告"
   },
   "itemDetails": {
-    "likeButtonLabel": "投票",
-    "likeButtonTooltip": "投票支持此报告",
-    "commentButtonLabel": "评论",
-    "commentButtonTooltip": "评论此报告",
-    "galleryButtonLabel": "图库",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "试_I agree___验",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "试_Leave a reply_____验",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "参见随附文档",
     "mapButtonLabel": "在地图中查看",
     "mapButtonTooltip": "查看此报告的位置",
     "commentsListHeading": "评论",
     "unableToUpdateVoteField": "目前无法计数您的投票。",
-    "gotoIssueListTooltip": "转至报告列表"
+    "gotoIssueListTooltip": "转至报告列表",
+    "deleteMessage": "试_Are you sure you want to delete___________验?"
   },
   "itemList": {
     "likesForThisItemTooltip": "投票支持此报告",

@@ -114,17 +114,18 @@ define({
     "noResultsFound": "ingen rapporter fundet"
   },
   "itemDetails": {
-    "likeButtonLabel": "Stem",
-    "likeButtonTooltip": "Stem på denne rapport",
-    "commentButtonLabel": "Kommentar",
-    "commentButtonTooltip": "Kommentér på denne rapport",
-    "galleryButtonLabel": "Galleri",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "ø_I agree___å",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "ø_Leave a reply_____å",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Se vedhæftede dokumenter",
     "mapButtonLabel": "Vis på kort",
     "mapButtonTooltip": "Vis denne rapports placering",
     "commentsListHeading": "Comments",
     "unableToUpdateVoteField": "Din stemme kan ikke tælles på nuværende tidspunkt.",
-    "gotoIssueListTooltip": "Gå til rapportlisten"
+    "gotoIssueListTooltip": "Gå til rapportlisten",
+    "deleteMessage": "ø_Are you sure you want to delete___________å?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Stemmer på denne rapport",

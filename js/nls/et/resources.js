@@ -114,17 +114,18 @@ define({
     "noResultsFound": "Ühtki aruannet ei leitud"
   },
   "itemDetails": {
-    "likeButtonLabel": "Hääleta",
-    "likeButtonTooltip": "Hääletage selle aruande kohta",
-    "commentButtonLabel": "Kommentaar",
-    "commentButtonTooltip": "Kommenteerige seda aruannet",
-    "galleryButtonLabel": "Galerii",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "Š_I agree___ä",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "Š_Leave a reply_____ä",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Vaadake manustatud dokumente",
     "mapButtonLabel": "Vaata kaardil",
     "mapButtonTooltip": "Vaata selle aruande asukohta",
     "commentsListHeading": "Kommentaari",
     "unableToUpdateVoteField": "Teie häält ei saa seekord lisada.",
-    "gotoIssueListTooltip": "Liigu aruande loendisse"
+    "gotoIssueListTooltip": "Liigu aruande loendisse",
+    "deleteMessage": "Š_Are you sure you want to delete___________ä?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Selle aruande kohta antud hääled.",

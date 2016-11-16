@@ -114,17 +114,18 @@ define({
     "noResultsFound": "لم يتم العثور على أي تقارير"
   },
   "itemDetails": {
-    "likeButtonLabel": "تصويت",
-    "likeButtonTooltip": "التصويت لهذا التقرير",
-    "commentButtonLabel": "التعليق",
-    "commentButtonTooltip": "التعليق على هذا التقرير",
-    "galleryButtonLabel": "معرض الصور",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "بيت_I agree___لاحقة",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "بيت_Leave a reply_____لاحقة",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "مراجعة المستندات المرفقة",
     "mapButtonLabel": "العرض على الخريطة",
     "mapButtonTooltip": "عرض موقع هذا التقرير",
     "commentsListHeading": "التعليقات",
     "unableToUpdateVoteField": "يتعذر حساب التصويت الآن.",
-    "gotoIssueListTooltip": "الانتقال إلى قائمة التقرير"
+    "gotoIssueListTooltip": "الانتقال إلى قائمة التقرير",
+    "deleteMessage": "بيت_Are you sure you want to delete___________لاحقة?"
   },
   "itemList": {
     "likesForThisItemTooltip": "عمليات التصويت لهذا التقرير",
