@@ -411,6 +411,7 @@ define([
                         }
                     }
                 }
+				this.geographicalExtent = null;
                 //Before removing layers check for extent layer
                 //If limit geographical flag is on, fetch configurable layer's extent
                 if (lang.trim(this.appConfig.geographicalExtentLayer) !== "") {
