@@ -68,9 +68,9 @@ define([
         _webmapResponse: null,
         newLocationFieldValue: null,
         locationFieldLength: null,
-        _existingPopupAttachmentsArray : [],
+        _existingPopupAttachmentsArray: [],
         _deletedAttachmentsPopupArr: [], // to store deleted attachments
-        currentGeoformNode : null, // Refers to node for geoform(add/edit)
+        currentGeoformNode: null, // Refers to node for geoform(add/edit)
         /**
         * This function is called when widget is constructed.
         * @param{object} options to be mixed
@@ -388,7 +388,18 @@ define([
                             }
                         }
                     } else {
-                        opLayers[i].layerObject.hide();
+                        if (opLayers[i].layerObject) {
+                            opLayers[i].layerObject.hide();
+                        } else if (opLayers[i].featureCollection) {
+                            //Handle feature collection layers and show them on the map as non-editable layer
+                            array.forEach(opLayers[i].featureCollection.layers, lang.hitch(this, function (featureCollectionLayer) {
+                                if (featureCollectionLayer.layerObject && (featureCollectionLayer.layerObject.capabilities.indexOf("Create") === -1) &&
+                                        ((featureCollectionLayer.layerObject.capabilities.indexOf("Editing") === -1) ||
+                                        (featureCollectionLayer.layerObject.capabilities.indexOf("Update") === -1)) && opLayers[i].visibility) {
+                                    featureCollectionLayer.layerObject.hide();
+                                }
+                            }));
+                        }
                     }
                 }
             }
@@ -1903,7 +1914,7 @@ define([
         * Updated feature in layer
         * @memberOf widgets/geo-form/geo-form
         */
-        updateFeatureToLayer : function () {
+        updateFeatureToLayer: function () {
             var userFormNode = this.userForm, featureData, key, value, datePicker, picker, editedFields = [], i, fileList;
             // show loading indicator
             this.appUtils.showLoadingIndicator();
