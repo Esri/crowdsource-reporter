@@ -55,7 +55,7 @@
         "enableFeatureDelete" : false
     },
 	"configurationSettings": [{
-	    "category": "<b>App Settings</b>",
+	    "category": "<b>App</b>",
 	    "fields": [{
 	        "type": "paragraph",
 	        "value": "For more information on configuring this application, please see the <a href=\"http://links.esri.com/localgovernment/help/crowdsource-reporter\" target=\"_blank\">Crowdsource Reporter documentation<\/a>."
@@ -90,40 +90,6 @@
 	        "type": "color",
 	        "fieldName": "theme"
 	    }, {
-	        "label": "Message to display when the configured group does not contain at least one map with at least one editable layer that is accessible to the currenet user.",
-	        "tooltip": "Use this message to prompt users to sign in to the organization hosting the content or to prompt the application configurer to verify the content of the group.",
-	        "type": "string",
-	        "fieldName": "noWebmapInGroupText"
-	    }, {
-	        "type": "paragraph",
-	        "value": "When the application loads, users will be asked to share their location to view nearby reports. Only reports within this radius will load, but users can expand this search radius incrementally in the application. Define the radius of this initial search for nearby reports. "
-	    }, {
-	        "label": "Initial search radius",
-	        "tooltip": "When location is shared, application will initially load all reports within this search radius",
-	        "type": "number",
-	        "fieldName": "bufferRadius"
-	    }, {
-	        "tooltip": "Unit of distance for the search radius",
-	        "label": "Search radius unit:",
-	        "type": "options",
-	        "fieldName": "bufferUnit",
-	        "options": [{
-	            "label": "Miles",
-	            "value": "miles"
-	        }, {
-	            "label": "Kilometers",
-	            "value": "kilometers"
-	        }, {
-	            "label": "Meters",
-	            "value": "meters"
-	        }, {
-	            "label": "Feet",
-	            "value": "feet"
-	        }]
-	    }, {
-	        "type": "subcategory",
-	        "label": "Splash Screen Settings"
-	    }, {
 	        "label": "Splash screen image",
 	        "tooltip": "Background image for login screen. Recommended 640x960.",
 	        "type": "string",
@@ -134,54 +100,14 @@
 	        "type": "color",
 	        "fieldName": "splashScreenTextColor"
 	    }, {
-	        "label": "Sign in icon foreground color",
-	        "tooltip": "Foreground image color of social media and guest icons",
-	        "type": "options",
-	        "fieldName": "imageForeGroundColor",
-            "options": [{
-	            "label": "Grey",
-	            "value": "gray"
-	        }, {
-	            "label": "White",
-	            "value": "white"
-	        }]
-	    }, {
-	        "label": "Sign in icon background color",
-	        "tooltip": "Background image color of social media and guest icons",
-	        "type": "color",
-	        "fieldName": "imageBackgroundColor"
-	    }, {
-	        "type": "subcategory",
-	        "label": "Help Settings"
-	    }, {
-	        "type": "paragraph",
-	        "value": "A help window can be accessed from a link on the spash page and from an icon within the app. Configure this dialog to display instructions for using the app, or any other information that may be useful to your users."
-	    }, {
-	        "label": "Enable the help window",
-	        "tooltip": "When disabled, the help window will not be accessible.",
-	        "type": "conditional",
-			"condition":false,
-	        "fieldName": "enableHelp",
-			"items":[{
-				"label": "Splash page link text",
-				"tooltip": "Clicking this text will open the help dialog.",
-				"type": "string",
-				"fieldName": "helpLinkText"
-			}, {
-				"label": "Help window title",
-				"tooltip": "Text displayed at the top of the help window",
-				"type": "string",
-				"fieldName": "helpDialogTitle"
-			}, {
-				"label": "Dialog content",
-				"tooltip": "Text and graphics that will display in the help window.",
-				"type": "string",
-				"fieldName": "helpDialogContent",
-				"stringFieldOption": "richtext"
-			}]
+	        "label": "Message to display when the configured group does not contain at least one map with at least one editable layer that is accessible to the current user.",
+	        "tooltip": "Use this message to prompt users to sign in to the organization hosting the content or to prompt the application configurer to verify the content of the group.",
+	        "type": "string",
+	        "fieldName": "noWebmapInGroupText"
 	    }]
+	    
 	}, {
-	    "category": "<b>Map Settings</b>",
+	    "category": "<b>Map</b>",
 	    "fields": [{
 	        "type": "subcategory",
 	        "label": "Reference Layers"
@@ -193,14 +119,6 @@
 	        "tooltip": "Enable to show non-editable layers",
 	        "type": "boolean",
 	        "fieldName": "showNonEditableLayers"
-	    }, {
-	        "type": "subcategory",
-	        "label": "Zoom Level"
-	    }, {
-	        "label": "When a report is selected from the list, the map will pan and zoom to show the location of that report. Specify how near (larger number) or far (smaller number) the map should zoom relative to the ground.",
-	        "tooltip": "When a report is selected the map will zoom to the associated feature using this zoom level.",
-	        "type": "string",
-	        "fieldName": "zoomLevel"
 	    }, {
 	        "type": "subcategory",
 	        "label": "Map Information"
@@ -278,9 +196,17 @@
 	        "tooltip": "Enable latitude/longitude search",
 	        "type": "boolean",
 	        "fieldName": "enableLatLongSearch"
+	    }, {
+	        "type": "subcategory",
+	        "label": "Zoom Level"
+	    }, {
+	        "label": "When a report is selected from the list, the map will pan and zoom to show the location of that report. Specify how near (larger number) or far (smaller number) the map should zoom relative to the ground.",
+	        "tooltip": "When a report is selected the map will zoom to the associated feature using this zoom level.",
+	        "type": "string",
+	        "fieldName": "zoomLevel"
 	    }]
 	}, {
-	    "category": "<b>Report Settings</b>",
+	    "category": "<b>Form</b>",
 	    "fields": [{
 	        "type": "subcategory",
 	        "label": "Submission Form"
@@ -310,6 +236,9 @@
 	        "type": "string",
 	        "fieldName": "geographicalExtentLayer"
 	    }, {
+	        "type": "subcategory",
+	        "label": "Submission Form"
+	    }, {
 	        "label": "Submit report button text",
 	        "tooltip": "Text for the button that opens the submission form",
 	        "type": "string",
@@ -327,6 +256,35 @@
 	        "tooltip": "Message displayed at the top of the form acknowledging report submission",
 	        "type": "string",
 	        "fieldName": "submitMessage"
+	    }]
+	},  {
+	    "category": "<b>Reports</b>",
+	    "fields": [{
+	        "type": "paragraph",
+	        "value": "When the application loads, users will be asked to share their location to view nearby reports. Only reports within this radius will load, but users can expand this search radius incrementally in the application. Define the radius of this initial search for nearby reports. "
+	    }, {
+	        "label": "Initial search radius",
+	        "tooltip": "When location is shared, application will initially load all reports within this search radius",
+	        "type": "number",
+	        "fieldName": "bufferRadius"
+	    }, {
+	        "tooltip": "Unit of distance for the search radius",
+	        "label": "Search radius unit:",
+	        "type": "options",
+	        "fieldName": "bufferUnit",
+	        "options": [{
+	            "label": "Miles",
+	            "value": "miles"
+	        }, {
+	            "label": "Kilometers",
+	            "value": "kilometers"
+	        }, {
+	            "label": "Meters",
+	            "value": "meters"
+	        }, {
+	            "label": "Feet",
+	            "value": "feet"
+	        }]
 	    }, {
 	        "type": "subcategory",
 	        "label": "Editing Reports and Comments"
@@ -343,7 +301,10 @@
 	        "tooltip": "Allow authenticated reporters to delete their own reports and comments",
 	        "type": "boolean",
 	        "fieldName": "enableFeatureDelete"
-	    }, {
+	    }]
+	}, {
+	    "category": "<b>Votes & Comments</b>",
+	    "fields": [{
 	        "type": "subcategory",
 	        "label": "Votes"
 	    }, {
@@ -373,8 +334,9 @@
 				"fieldName": "commentField"
 	    }]
 	    }]
-	}, {
-	    "category": "<b>Access Settings</b>",
+	}, 
+		{
+	    "category": "<b>Access</b>",
 	    "fields": [{
 	        "type": "paragraph",
 	        "value": "Configure how users will be able to access your application. See the <a href='http://links.esri.com/localgovernment/help/CrowdsourcePolling/SocialSignIn/' target='_blank'>help</a> for the steps to register your app with Facebook and Google+."
@@ -425,6 +387,51 @@
 	        "tooltip": "Text field that stores the ID of the person who submitted or commented on a report. Field name must be the same across all layers and maps.",
 	        "type": "string",
 	        "fieldName": "reportedByField"
+	    }, {
+	        "label": "Sign in icon foreground color",
+	        "tooltip": "Foreground image color of social media and guest icons",
+	        "type": "options",
+	        "fieldName": "imageForeGroundColor",
+            "options": [{
+	            "label": "Grey",
+	            "value": "gray"
+	        }, {
+	            "label": "White",
+	            "value": "white"
+	        }]
+	    }, {
+	        "label": "Sign in icon background color",
+	        "tooltip": "Background image color of social media and guest icons",
+	        "type": "color",
+	        "fieldName": "imageBackgroundColor"
 	    }]
+	}, {
+	    "category": "<b>Help</b>",
+	    "fields": [{
+	        "type": "paragraph",
+	        "value": "A help window can be accessed from a link on the spash page and from an icon within the app. Configure this dialog to display instructions for using the app, or any other information that may be useful to your users."
+	    }, {
+	        "label": "Enable the help window",
+	        "tooltip": "When disabled, the help window will not be accessible.",
+	        "type": "conditional",
+			"condition":false,
+	        "fieldName": "enableHelp",
+			"items":[{
+				"label": "Splash page link text",
+				"tooltip": "Clicking this text will open the help dialog.",
+				"type": "string",
+				"fieldName": "helpLinkText"
+			}, {
+				"label": "Help window title",
+				"tooltip": "Text displayed at the top of the help window",
+				"type": "string",
+				"fieldName": "helpDialogTitle"
+			}, {
+				"label": "Dialog content",
+				"tooltip": "Text and graphics that will display in the help window.",
+				"type": "string",
+				"fieldName": "helpDialogContent",
+				"stringFieldOption": "richtext"
+		}]}]
 	}]
 }
