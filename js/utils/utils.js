@@ -288,30 +288,6 @@ define([
                     currentLayer.layerObject.refresh();
                 }
             }));
-        },
-
-        /**
-        * Returns the projected geometry in outSR
-        * @memberOf widgets/utils/utils
-        **/
-        getProjectedGeometry: function (geometry, outSR) {
-            var deferred, result;
-            deferred = new Deferred();
-            if (webMercatorUtils.canProject(geometry, outSR)) {
-                result = webMercatorUtils.project(geometry, outSR);
-                deferred.resolve(result);
-            } else {
-                if (esriConfig.defaults.geometryService) {
-                    esriConfig.defaults.geometryService.project([geometry], outSR,
-                        function (projectedGeometries) {
-                            result = projectedGeometries[0];
-                            deferred.resolve(result);
-                        });
-                } else {
-                    deferred.resolve(null);
-                }
-            }
-            return deferred.promise;
         }
     });
 });
