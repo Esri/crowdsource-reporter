@@ -1,4 +1,4 @@
-/*global define,dojo,alert,moment,console,dojoConfig,$ */
+/*global define,dojo,alert,moment,console,dojoConfig,$,jQuery */
 /*jslint browser:true,sloppy:true,nomen:true,unparam:true,plusplus:true,indent:4 */
 /*
 | Copyright 2014 Esri
@@ -146,6 +146,8 @@ define([
         _isWebmapListRequired: true,
         firstMapClickPoint: null,
         _existingLayerIndex: null,
+        clonedGeolocation: null,
+        drawToolBarHandler : null,
         startup: function (boilerPlateTemplateObject, loggedInUser) {
             // config will contain application and user defined info for the template such as i18n strings, the web map id
             // and application id
@@ -154,6 +156,10 @@ define([
             if (boilerPlateTemplateObject) {
                 this.boilerPlateTemplate = boilerPlateTemplateObject;
                 this.config = boilerPlateTemplateObject.config;
+                //Make a copy of geolocation, this will be used to check for extent layer functionality whenever layer is selected from webmap list
+                if (this.config.geolocation) {
+                    this.clonedGeolocation = jQuery.extend(true, {}, this.config.geolocation);
+                }
                 this.appUtils = new ApplicationUtils({
                     "config": this.config
                 });
@@ -163,7 +169,7 @@ define([
                 this.mapSearch.onFeatureFound = lang.hitch(this, function (feature) {
                     this._addNewFeature(feature.attributes[this.selectedLayer.objectIdField], this.selectedLayer, "search");
                 });
-                //Check if pusphin is aleady present on map, if it exsist clear the same
+                //Check if pusphin is already present on map, if it exist clear the same
                 aspect.before(this.mapSearch, "_validateAddress", lang.hitch(this, function () {
                     if (this.geolocationgGraphicsLayer) {
                         this.geolocationgGraphicsLayer.clear();
@@ -777,7 +783,7 @@ define([
         */
         _createWebMapList: function () {
             try {
-                var webMapDescriptionFields, webMapListConfigData, zoomInBtn, zoomOutBtn;
+                var webMapDescriptionFields, webMapListConfigData, zoomInBtn, zoomOutBtn, geolocationPoint;
                 //construct json data for the fields to be shown in descriptions, based on the configuration
                 webMapDescriptionFields = {
                     "description": this.config.webMapInfoDescription,
@@ -846,49 +852,23 @@ define([
                 //Create/Clear Selection graphics layer used for highlighting in issue wall
                 //Update Issue wall
                 this._webMapListWidget.onOperationalLayerSelected = lang.hitch(this, function (details) {
-                    //Reset all properties required for fetching features in chunks
-                    this.firstTimeLayerLoad = true;
-                    this.bufferPageNumber = 0;
-                    this.bufferRadius = this.config.bufferRadius;
-                    this.bufferRadiusInterval = this.config.bufferRadius;
-                    this.sortedBufferArray = [];
-                    this.previousBufferGeometry = null;
-                    this.previousBufferIds = null;
-                    this.currentBufferIds = null;
-                    this.layerGraphicsArray = [];
-                    this.sortedFeaturesArray = [];
-                    this.filteredBufferIds = [];
-                    this.maxBufferLimit = 0;
-                    this.map = details.map;
-                    // Create instance of Draw tool to draw the graphics on graphics layer
-                    this.toolbar = new Draw(this.map);
-                    this.newlyAddedFeatures = [];
-                    this._selectedMapDetails = details;
-                    this._initializeLayer(details);
-                    this._initializeApp(details);
-                    //If graphics layer object exsist, clear it and remove the instance
-                    if (this.geolocationgGraphicsLayer) {
-                        this.geolocationgGraphicsLayer.clear();
-                        this.geolocationgGraphicsLayer = null;
+                    if (this.clonedGeolocation) {
+                        this.config.geolocation = this.clonedGeolocation;
                     }
-                    // storing changed instance on extent change
-                    this.map.on("extent-change", lang.hitch(this, function (extent) {
-                        this.changedExtent = extent.extent;
-                        if (this.geoformInstance) {
-                            this.geoformInstance.setMapExtent(this.changedExtent);
-                        }
-                    }));
-
-                    // clear previous graphic, if present on map
-                    this.map.on("click", lang.hitch(this, function (evt) {
-                        if (!this.firstMapClickPoint) {
-                            this.firstMapClickPoint = evt.mapPoint;
-                        }
-                        this._clearSubmissionGraphic();
-                    }));
-                    //Set the selects features id value to null
-                    if (this._issueWallWidget) {
-                        this._issueWallWidget.itemsList.clearSelection();
+                    //If geolocation and limit feature editing is enabled, check if user's location is inside study area
+                    if (this.config.geolocation && this._webMapListWidget.geographicalExtentLayer) {
+                        geolocationPoint = new Point(this.config.geolocation.coords.longitude,
+                            this.config.geolocation.coords.latitude);
+                        var evt = {};
+                        evt.geometry = geolocationPoint;
+                        this._canDrawFeature(evt).then(lang.hitch(this, function (canDraw) {
+                            if (!canDraw) {
+                                this.config.geolocation = false;
+                            }
+                            this._initializeLayerDetails(details);
+                        }));
+                    } else {
+                        this._initializeLayerDetails(details);
                     }
                 });
 
@@ -911,9 +891,18 @@ define([
                         if (addGraphic) {
                             selectedGeometry.geometry = evt.graphic.geometry;
                             if (this.selectedLayer.geometryType === "esriGeometryPoint") {
-                                this._addToGraphicsLayer(selectedGeometry);
-                                this.geoformInstance._addToGraphicsLayer(selectedGeometry, true);
-                                this.geoformInstance._zoomToSelectedFeature(selectedGeometry.geometry);
+                                this._canDrawFeature(evt.graphic).then(lang.hitch(this, function (canDraw) {
+                                    this._addToGraphicsLayer(selectedGeometry);
+                                    this.geoformInstance._addToGraphicsLayer(selectedGeometry, true);
+                                    this.geoformInstance._zoomToSelectedFeature(selectedGeometry.geometry);
+                                    setTimeout(lang.hitch(this, function () {
+                                        if (!canDraw) {
+                                            alert(this.config.i18n.main.featureOutsideAOIMessage);
+                                            this.geoformInstance._clearSubmissionGraphic();
+                                            this._clearSubmissionGraphic();
+                                        }
+                                    }), 1000);
+                                }));
                             } else {
                                 this.geoformInstance._zoomToSelectedFeature(selectedGeometry.geometry);
                             }
@@ -942,6 +931,57 @@ define([
                 this._sidebarCnt.showPanel("webMapList");
             } catch (err) {
                 this.appUtils.showError(err.message);
+            }
+        },
+
+        /**
+        * Perform all the required operations after layer is selected from webmap list
+        * @memberOf main
+        */
+        _initializeLayerDetails: function (details) {
+            //Reset all properties required for fetching features in chunks
+            this.firstTimeLayerLoad = true;
+            this.bufferPageNumber = 0;
+            this.bufferRadius = this.config.bufferRadius;
+            this.bufferRadiusInterval = this.config.bufferRadius;
+            this.sortedBufferArray = [];
+            this.previousBufferGeometry = null;
+            this.previousBufferIds = null;
+            this.currentBufferIds = null;
+            this.layerGraphicsArray = [];
+            this.sortedFeaturesArray = [];
+            this.filteredBufferIds = [];
+            this.maxBufferLimit = 0;
+            this.map = details.map;
+            // Create instance of Draw tool to draw the graphics on graphics layer
+            this.toolbar = new Draw(this.map);
+            this.newlyAddedFeatures = [];
+            this._selectedMapDetails = details;
+            this._initializeLayer(details);
+            this._initializeApp(details);
+            //If graphics layer object exsist, clear it and remove the instance
+            if (this.geolocationgGraphicsLayer) {
+                this.geolocationgGraphicsLayer.clear();
+                this.geolocationgGraphicsLayer = null;
+            }
+            // storing changed instance on extent change
+            this.map.on("extent-change", lang.hitch(this, function (extent) {
+                this.changedExtent = extent.extent;
+                if (this.geoformInstance) {
+                    this.geoformInstance.setMapExtent(this.changedExtent);
+                }
+            }));
+
+            // clear previous graphic, if present on map
+            this.map.on("click", lang.hitch(this, function (evt) {
+                if (!this.firstMapClickPoint) {
+                    this.firstMapClickPoint = evt.mapPoint;
+                }
+                this._clearSubmissionGraphic();
+            }));
+            //Set the selects features id value to null
+            if (this._issueWallWidget) {
+                this._issueWallWidget.itemsList.clearSelection();
             }
         },
 
@@ -981,32 +1021,39 @@ define([
                     }
                     // activate draw tool
                     this._activateDrawTool();
+                    //Check for toolbar handler
+                    if (this.drawToolBarHandler) {
+                        this.drawToolBarHandler.remove();
+                    }
                     // Handle draw_activateDrawTool-end event which will be fired on selecting location
-                    on(this.toolbar, "draw-complete", lang.hitch(this, function (evt) {
+                    this.drawToolBarHandler = on(this.toolbar, "draw-complete", lang.hitch(this, function (evt) {
                         this._addToGraphicsLayer(evt);
-                        if (!this._canDrawFeature(evt)) {
-                            if (this.geoformInstance) {
-                                this.geoformInstance._clearSubmissionGraphic();
-                                if (this.featureGraphicLayer) {
-                                    this.featureGraphicLayer.clear();
+                        this._canDrawFeature(evt).then(lang.hitch(this, function (canDraw) {
+                            if (!canDraw) {
+                                alert(this.config.i18n.main.featureOutsideAOIMessage);
+                                if (this.geoformInstance) {
+                                    this.geoformInstance._clearSubmissionGraphic();
+                                    if (this.featureGraphicLayer) {
+                                        this.featureGraphicLayer.clear();
+                                    }
                                 }
-                            }
-                            return;
-                        }
-                        if (this.geoformInstance) {
-                            this.geoformInstance._addToGraphicsLayer(evt);
-                        }
-                        if (evt.geometry.type === "point") {
-                            this.appUtils.locatorInstance.locationToAddress(webMercatorUtils.webMercatorToGeographic(evt.geometry), 100);
-                        } else {
-                            this.appUtils.locatorInstance.locationToAddress(webMercatorUtils.webMercatorToGeographic(this.firstMapClickPoint), 100);
-                        }
+                            } else {
+                                if (this.geoformInstance) {
+                                    this.geoformInstance._addToGraphicsLayer(evt);
+                                }
+                                if (evt.geometry.type === "point") {
+                                    this.appUtils.locatorInstance.locationToAddress(webMercatorUtils.webMercatorToGeographic(evt.geometry), 100);
+                                } else {
+                                    this.appUtils.locatorInstance.locationToAddress(webMercatorUtils.webMercatorToGeographic(this.firstMapClickPoint), 100);
+                                }
 
-                        //Check if pusphin is aleady present on map, if it exsist clear the same
-                        if (this.mapSearch && this.mapSearch.countyLayer) {
-                            this.mapSearch.countyLayer.clear();
-                        }
-                        this.firstMapClickPoint = null;
+                                //Check if pusphin is aleady present on map, if it exsist clear the same
+                                if (this.mapSearch && this.mapSearch.countyLayer) {
+                                    this.mapSearch.countyLayer.clear();
+                                }
+                                this.firstMapClickPoint = null;
+                            }
+                        }));
                     }));
                     this._createGeoForm();
                 });
@@ -1094,21 +1141,30 @@ define([
         * @memberOf main
         */
         _canDrawFeature: function (evt) {
-            var canDraw = true, featureGeometry;
-            if (this._webMapListWidget && this._webMapListWidget.geographicalExtent) {
-                //For line and polygon geometry take the feature extent
-                if (evt.geometry.type !== "point") {
-                    featureGeometry = evt.geometry.getExtent();
-                } else {
-                    featureGeometry = evt.geometry;
-                }
-                //Check if drawn geometry is inside the geographical extent
-                if (!this._webMapListWidget.geographicalExtent.contains(featureGeometry)) {
-                    alert(this.config.i18n.main.featureOutsideAOIMessage);
-                    canDraw = false;
-                }
+            var def = new Deferred(), query, queryTask;
+            if (!evt || !evt.geometry || !this._webMapListWidget ||
+                    !this._webMapListWidget.geographicalExtentLayer) {
+                //If valid extent layer is not configured allow user to add feature without any restrictions
+                def.resolve(true);
+            } else {
+                this.appUtils.showLoadingIndicator();
+                query = new Query();
+                queryTask = new QueryTask(this._webMapListWidget.geographicalExtentLayer);
+                query.geometry = evt.geometry;
+                queryTask.executeForCount(query, lang.hitch(this, function (count) {
+                    //If count is less than or equals to 0. it means drawn feature is not overlapping the extent layer and hence show the error message
+                    if (!count || count <= 0) {
+                        def.resolve(false);
+                    } else {
+                        def.resolve(true);
+                    }
+                    this.appUtils.hideLoadingIndicator();
+                }), lang.hitch(this, function () {
+                    def.resolve(false);
+                    this.appUtils.hideLoadingIndicator();
+                }));
             }
-            return canDraw;
+            return def.promise;
         },
 
         /**
@@ -1177,14 +1233,17 @@ define([
 
                     //clear any graphics present on main map after graphic has been drawn on geoform map
                     this.geoformInstance.onDrawComplete = lang.hitch(this, function (evt) {
-                        if (!this._canDrawFeature(evt)) {
-                            this.geoformInstance._clearSubmissionGraphic();
-                            if (this.featureGraphicLayer) {
-                                this.featureGraphicLayer.clear();
+                        this._canDrawFeature(evt).then(lang.hitch(this, function (canDraw) {
+                            if (!canDraw) {
+                                alert(this.config.i18n.main.featureOutsideAOIMessage);
+                                this.geoformInstance._clearSubmissionGraphic();
+                                if (this.featureGraphicLayer) {
+                                    this.featureGraphicLayer.clear();
+                                }
+                            } else {
+                                this._addToGraphicsLayer(evt);
                             }
-                            return;
-                        }
-                        this._addToGraphicsLayer(evt);
+                        }));
                     });
                     this.geoformInstance.startup();
                 }
