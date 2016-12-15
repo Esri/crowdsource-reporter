@@ -661,7 +661,7 @@ define([
                 this.txtSearch.value = domAttr.get(this.txtSearch, "defaultAddress");
                 // selected candidate is address
                 if (candidate.attributes && candidate.attributes.location) {
-                    mapPoint = new Point(domAttr.get(evt.currentTarget, "x"), domAttr.get(evt.currentTarget, "y"), this.map.spatialReference);
+                    mapPoint = new Point(parseFloat(domAttr.get(evt.currentTarget, "x")), parseFloat(domAttr.get(evt.currentTarget, "y")), this.map.spatialReference);
                     this.candidateGeometry = mapPoint;
                     // selected candidate is latitude and longitude value
                 } else if (candidate.name) {
@@ -736,7 +736,7 @@ define([
         * @memberOf widgets/locator/locator
         */
         onAddressListToggle: function (evt) {
-        return evt;
+            return evt;
         },
 
         /**

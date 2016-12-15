@@ -68,6 +68,9 @@ define([
         _webmapResponse: null,
         newLocationFieldValue: null,
         locationFieldLength: null,
+        _existingPopupAttachmentsArray: [],
+        _deletedAttachmentsPopupArr: [], // to store deleted attachments
+        currentGeoformNode: null, // Refers to node for geoform(add/edit)
         /**
         * This function is called when widget is constructed.
         * @param{object} options to be mixed
@@ -89,12 +92,42 @@ define([
                 // Clear previous attachments
                 this._clearAttachements();
                 this.sortedFields = [];
-                // Initialize geo form
-                this._init();
+                //Change ui and configuration based on add/edit feature
+                if (this.isEdit) {
+                    domConstruct.empty(this.userForm);
+                    this._changeGeoformStyles();
+                    this._deletedAttachmentsPopupArr = [];
+                    this.currentGeoformNode = $('.esriCTItemDetailsContainer');
+                } else {
+                    this.currentGeoformNode = $('#geoFormBody');
+                }
+                if (this.isMapRequired) {
+                    // Initialize geo form
+                    this._init();
+                } else {
+                    // show only selected layer and remove other layer from Webmap
+                    this._filterOperationalLayers(this._webmapResponse.itemInfo.itemData.operationalLayers);
+                    // Filters selected layer fields according to Popup info, Data Types and fields not to be shown in GeoForm
+                    this._filterLayerFields(this._webmapResponse);
+                    // Creates Geoform UI According to Filtered data
+                    this._createGeoFormUI();
+                }
+
             } catch (err) {
                 // Show error message
                 this.appUtils.showError(err.message);
             }
+        },
+
+        /**
+        * Change geoform styles based on add/edit feature mode
+        * @memberOf widgets/geo-form/geo-form
+        */
+        _changeGeoformStyles: function () {
+            domStyle.set(this.formHeader, "display", "none");
+            domStyle.set(this.select_location, "display", "none");
+            domStyle.set(this.location_panel_body, "display", "none");
+            domStyle.set(this.map_container, "display", "none");
         },
 
         /**
@@ -110,7 +143,7 @@ define([
             }).then(lang.hitch(this, function (response) {
                 var zoomInBtn, zoomOutBtn;
                 // Scroll geoform to top
-                $('#geoFormBody').animate({
+                this.currentGeoformNode.animate({
                     scrollTop: 0
                 }, 1000);
                 // Once the map is created we get access to the response which provides map, operational layers, popup info.
@@ -232,13 +265,17 @@ define([
                 //Populate location field after successfully fetching the address
                 this.appUtils.onLocationToAddressComplete = lang.hitch(this, function (result) {
                     if (result.address && result.address.address) {
-                        this._populateLocationField(result.address.address.Address);
+                        if (this.config.locationField !== "") {
+                            this._populateLocationField(result.address.address.Address);
+                        }
                     }
                 });
 
                 //Reset the field in case of error
                 this.appUtils.onLocationToAddressFailed = lang.hitch(this, function () {
-                    this._resetLocationField();
+                    if (this.config.locationField !== "") {
+                        this._resetLocationField();
+                    }
                 });
 
                 //Check if valid location field is configured
@@ -249,7 +286,6 @@ define([
         },
 
         _onCancelClick: function () {
-            this._clearFormFields();
             if (domClass.contains(this.headerMessageDiv, "esriCTVisible")) {
                 domClass.replace(this.headerMessageDiv, "esriCTHidden", "esriCTVisible");
             }
@@ -257,6 +293,7 @@ define([
             this._clearSubmissionGraphic();
             setTimeout(lang.hitch(this, function () {
                 this.closeForm();
+                this._clearFormFields();
             }), 500);
         },
 
@@ -323,6 +360,9 @@ define([
                     if (this.layer.showLabels) {
                         this.layer.showLabels = false;
                     }
+                    if (this.isEdit && this.layer.hasAttachments) {
+                        this._fetchExistingAttachment();
+                    }
                 } else {
                     if (this.appConfig.showNonEditableLayers) {
                         if (this.map.getLayer(opLayers[i].id)) {
@@ -348,7 +388,18 @@ define([
                             }
                         }
                     } else {
-                        opLayers[i].layerObject.hide();
+                        if (opLayers[i].layerObject) {
+                            opLayers[i].layerObject.hide();
+                        } else if (opLayers[i].featureCollection) {
+                            //Handle feature collection layers and show them on the map as non-editable layer
+                            array.forEach(opLayers[i].featureCollection.layers, lang.hitch(this, function (featureCollectionLayer) {
+                                if (featureCollectionLayer.layerObject && (featureCollectionLayer.layerObject.capabilities.indexOf("Create") === -1) &&
+                                        ((featureCollectionLayer.layerObject.capabilities.indexOf("Editing") === -1) ||
+                                        (featureCollectionLayer.layerObject.capabilities.indexOf("Update") === -1)) && opLayers[i].visibility) {
+                                    featureCollectionLayer.layerObject.hide();
+                                }
+                            }));
+                        }
                     }
                 }
             }
@@ -442,7 +493,7 @@ define([
         * @memberOf widgets/geo-form/geo-form
         */
         _createGeoFormUI: function () {
-            var geoformDetailsSectionLabel, geoformLocationSectionLabel;
+            var geoformDetailsSectionLabel, geoformLocationSectionLabel, submitButtonText;
             domConstruct.empty(this.layerTitleDiv);
             // Set innerHTML for geo form header sections
             domAttr.set(this.layerTitleDiv, "innerHTML", this.layerTitle);
@@ -473,7 +524,12 @@ define([
 
             domAttr.set(this.enter_Information, "innerHTML", geoformDetailsSectionLabel);
             domAttr.set(this.select_location, "innerHTML", geoformLocationSectionLabel);
-            domAttr.set(this.submitButton, "innerHTML", this.appConfig.i18n.geoform.reportItButton);
+            if (this.isEdit) {
+                submitButtonText = this.appConfig.i18n.geoform.editReportButton;
+            } else {
+                submitButtonText = this.appConfig.i18n.geoform.reportItButton;
+            }
+            domAttr.set(this.submitButton, "innerHTML", submitButtonText);
             domAttr.set(this.cancelButton, "innerHTML", this.appConfig.i18n.geoform.cancelButton);
             // If sorted field array length is zero
             if (this.sortedFields.length === 0) {
@@ -749,6 +805,8 @@ define([
                     }
                 }
             }
+            // Set hint text for range domain Value
+            this._createRangeText(currentField, formContent, fieldname);
             // If field has coded domain value and typeField set to true then create form elements for domain fields
             // else create form elements for non domain fields
             if (currentField.domain || currentField.typeField) {
@@ -756,8 +814,6 @@ define([
             } else {
                 this._createInputFormElements(currentField, formContent, fieldname);
             }
-            // Set hint text for range domain Value
-            this._createRangeText(currentField, formContent, fieldname);
             //hide Loading Indicator
             this.appUtils.hideLoadingIndicator();
             // Resize Map
@@ -781,7 +837,7 @@ define([
             // if info pop has tooltip then create info popup hint text
             if (currentField.tooltip) {
                 domConstruct.create("p", {
-                    className: "help-block",
+                    className: "help-block esriCTHintStyle",
                     innerHTML: currentField.tooltip
                 }, formContent);
             }
@@ -808,6 +864,10 @@ define([
         */
         _createDomainValueFormElements: function (currentField, formContent, fieldname) {
             var date, inputRangeDateGroupContainer, rangeDefaultDate, currentSelectedDate, formatedDate;
+            if (this.isEdit) {
+                //get field value
+                currentField.defaultValue = this.item.attributes[fieldname];
+            }
             if ((currentField.domain && (currentField.domain.type === 'undefined' || currentField.domain.type === undefined || currentField.domain.type === 'codedValue')) || currentField.typeField) {
                 this._createCodedValueFormElements(currentField, formContent, fieldname);
             } else {
@@ -823,8 +883,10 @@ define([
                         $(inputRangeDateGroupContainer).data("DateTimePicker").setDate(date);
                         // set format to the current date
                         rangeDefaultDate = moment(date).format($(inputRangeDateGroupContainer).data("DateTimePicker").format);
-                        // set default value and id to the array
-                        this.defaultValueArray.push({ defaultValue: currentField.defaultValue, id: this.inputContent.id, type: currentField.type });
+                        if (!this.isEdit) {
+                            // set default value and id to the array
+                            this.defaultValueArray.push({ defaultValue: currentField.defaultValue, id: this.inputContent.id, type: currentField.type });
+                        }
                     } else {
                         ////Check if todays date falls between minimum and maximum date
                         if (currentField.domain.maxValue > Date.now() && currentField.domain.minValue < Date.now()) {
@@ -835,7 +897,9 @@ define([
                         }
                         formatedDate = moment(new Date(currentSelectedDate)).format($(inputRangeDateGroupContainer).data("DateTimePicker").format);
                         $(inputRangeDateGroupContainer).data("DateTimePicker").setDate(formatedDate);
-                        this.defaultValueArray.push({ defaultValue: currentSelectedDate, id: this.inputContent.id, type: currentField.type });
+                        if (!this.isEdit) {
+                            this.defaultValueArray.push({ defaultValue: currentSelectedDate, id: this.inputContent.id, type: currentField.type });
+                        }
                     }
                     // Assign value to the range help text
                     this.rangeHelpText = string.substitute(this.appConfig.i18n.geoform.dateRangeHintMessage, {
@@ -871,6 +935,8 @@ define([
                 innerHTML: this.appConfig.i18n.geoform.selectDefaultText,
                 value: ""
             }, this.inputContent);
+            // On selection Change
+            this._codedValueOnChange(currentField);
             // check for domain value and create control for drop down list
             if (currentField.domain && !currentField.typeField) {
                 array.forEach(currentField.domain.codedValues, lang.hitch(this, function (currentOption) {
@@ -879,13 +945,15 @@ define([
                         value: currentOption.code
                     }, this.inputContent);
                     // if field contain default value, make that option selected
-                    if (currentField.defaultValue === currentOption.code) {
+                    if (currentField.defaultValue !== undefined && currentField.defaultValue !== null && currentField.defaultValue !== "" && currentField.defaultValue.toString() === currentOption.code.toString()) {
                         // set selected is true
                         domAttr.set(selectOptions, "selected", true);
                         domAttr.set(selectOptions, "defaultSelected", true);
                         domClass.add(this.inputContent.parentNode, "has-success");
-                        // set default value and id into the array
-                        this.defaultValueArray.push({ defaultValue: currentField.defaultValue, id: this.inputContent.id });
+                        if (!this.isEdit) {
+                            // set default value and id into the array
+                            this.defaultValueArray.push({ defaultValue: currentField.defaultValue, id: this.inputContent.id });
+                        }
                     }
                 }));
             } else {
@@ -894,10 +962,16 @@ define([
                     selectOptions = domConstruct.create("option", {}, this.inputContent);
                     selectOptions.text = currentOption.name;
                     selectOptions.value = currentOption.id;
+                    // if field contain default value, make that option selected
+                    if (this.item && this.item.attributes[fieldname] !== undefined && this.item.attributes[fieldname] !== null && this.item.attributes[fieldname] !== "" && this.item.attributes[fieldname].toString() === currentOption.id.toString()) {
+                        domAttr.set(this.inputContent, "value", currentOption.id);
+                        domClass.add(this.inputContent.parentNode, "has-success");
+                    }
                 }));
+                if (currentField.typeField) {
+                    this._validateTypeFields({ 'currentTarget': this.inputContent }, currentField);
+                }
             }
-            // On selection Change
-            this._codedValueOnChange(currentField);
         },
 
         /**
@@ -1011,6 +1085,10 @@ define([
         */
         _addInputElementsValue: function (currentField, formContent, inputDateGroupContainer) {
             var defaultDate, date;
+            if (this.isEdit) {
+                //get default field value if t is not exist in feature attributes
+                currentField.defaultValue = this.item.attributes[this.inputContent.id];
+            }
             // If default values is present assign it to the field
             if (currentField.defaultValue) {
                 // If field type is date assign date to date time picker
@@ -1021,11 +1099,15 @@ define([
                     $(inputDateGroupContainer).data("DateTimePicker").setDate(date);
                     // set format to the current date
                     defaultDate = moment(date).format($(inputDateGroupContainer).data("DateTimePicker").format);
-                    this.defaultValueArray.push({ defaultValue: currentField.defaultValue, id: this.inputContent.id, type: currentField.type });
+                    if (!this.isEdit) {
+                        this.defaultValueArray.push({ defaultValue: currentField.defaultValue, id: this.inputContent.id, type: currentField.type });
+                    }
                 } else {
                     domAttr.set(this.inputContent, "value", currentField.defaultValue);
                     domClass.add(formContent, "has-success");
-                    this.defaultValueArray.push({ defaultValue: currentField.defaultValue, id: this.inputContent.id });
+                    if (!this.isEdit) {
+                        this.defaultValueArray.push({ defaultValue: currentField.defaultValue, id: this.inputContent.id });
+                    }
                 }
             } else {
                 // else assign current date to the date time picker
@@ -1034,7 +1116,9 @@ define([
                     $(inputDateGroupContainer).data("DateTimePicker").setDate(new Date());
                     // set format to the current date
                     defaultDate = moment(new Date()).format($(inputDateGroupContainer).data("DateTimePicker").format);
-                    this.defaultValueArray.push({ defaultValue: new Date(), id: this.inputContent.id, type: currentField.type });
+                    if (!this.isEdit) {
+                        this.defaultValueArray.push({ defaultValue: new Date(), id: this.inputContent.id, type: currentField.type });
+                    }
                 }
             }
             // If field type is not date, validate fields on focus out
@@ -1071,7 +1155,9 @@ define([
             if (currentField.defaultValue) {
                 setDefault = currentField.defaultValue;
                 domClass.add(this.inputContent.parentNode, "has-success");
-                this.defaultValueArray.push({ defaultValue: setDefault, id: this.inputContent.id, type: "range" });
+                if (!this.isEdit) {
+                    this.defaultValueArray.push({ defaultValue: setDefault, id: this.inputContent.id, type: "range" });
+                }
             }
             // Set minimum and maximum value in range domain
             if (domAttr.get(this.inputContent, "data-input-type") === "Double" || domAttr.get(this.inputContent, "data-input-type") === "Single") {
@@ -1172,7 +1258,12 @@ define([
                 referenceNode = dom.byId(this.layer.typeIdField).parentNode;
                 // code to populate type dependent fields
                 array.forEach(this.sortedFields, lang.hitch(this, function (currentInput, index) {
-                    var field = null, fieldAttribute;
+                    var field = null, fieldAttribute, hasDomainValue, hasDefaultValue;
+                    hasDomainValue = selectedType.domains[currentInput.name];
+                    hasDefaultValue = selectedType.templates[0].prototype.attributes[currentInput.name];
+                    if ((hasDomainValue && hasDomainValue.type !== "inherited") || (hasDefaultValue && !currentInput.typeField) || (hasDefaultValue === 0 && !currentInput.typeField)) {
+                        currentInput.isTypeDependent = true;
+                    }
                     // condition to filter out fields independent of subtypes
                     if (!currentInput.isTypeDependent) {
                         return true;
@@ -1646,7 +1737,7 @@ define([
         _submitForm: function () {
             var erroneousFields = [], errorMessage;
             // for all the fields in geo form
-            array.forEach(query(".geoFormQuestionare"), lang.hitch(this, function (currentField) {
+            array.forEach(query(".geoFormQuestionare", this.domNode), lang.hitch(this, function (currentField) {
                 // to check for errors in form before submitting.
                 if ((query(".form-control", currentField)[0])) {
                     // condition to check if the entered values are erroneous.
@@ -1667,10 +1758,10 @@ define([
             // If any error found
             if (erroneousFields.length !== 0) {
                 // Scroll to the erroneous field node
-                $('#geoFormBody').animate({
+                this.currentGeoformNode.animate({
                     scrollTop: erroneousFields[0].offsetTop
                 }, 1000);
-                if (!this.addressGeometry) {
+                if (!this.addressGeometry && !this.isEdit) {
                     // error message
                     errorMessage = this.appConfig.i18n.geoform.selectLocation;
                     this._showErrorMessageDiv(errorMessage, this.select_location);
@@ -1681,13 +1772,17 @@ define([
                     // Add feature to the layer
                     this._addFeatureToLayer();
                 } else {
-                    // error message
-                    errorMessage = this.appConfig.i18n.geoform.selectLocation;
-                    this._showErrorMessageDiv(errorMessage, this.select_location);
-                    // Scroll to the selected location
-                    $('#geoFormBody').animate({
-                        scrollTop: this.select_location.offsetTop
-                    }, 1000);
+                    if (this.isEdit) {
+                        this.updateFeatureToLayer();
+                    } else {
+                        // error message
+                        errorMessage = this.appConfig.i18n.geoform.selectLocation;
+                        this._showErrorMessageDiv(errorMessage, this.select_location);
+                        // Scroll to the selected location
+                        this.currentGeoformNode.animate({
+                            scrollTop: this.select_location.offsetTop
+                        }, 1000);
+                    }
                 }
             }
         },
@@ -1705,7 +1800,8 @@ define([
             // create an empty array object
             featureData.attributes = {};
             // for all the fields
-            array.forEach(query(".geoFormQuestionare .form-control"), function (currentField) {
+            //Limit scope the current domNode to avoid the conflicts
+            array.forEach(query(".geoFormQuestionare .form-control", this.domNode), function (currentField) {
                 if (currentField.value !== "") {
                     // get id of the field
                     key = domAttr.get(currentField, "id");
@@ -1795,6 +1891,8 @@ define([
                     }
                     // Successfully feature is added on the layer
                     this.geoformSubmitted(addResults[0].objectId);
+                    //Refresh the layer on geoform map
+                    this.updateLayerOnMap();
                 } else {
                     domConstruct.destroy(query(".errorMessage")[0]);
                     // Show Error message on Failure
@@ -1808,6 +1906,102 @@ define([
                 // Show error message on Failure
                 this._showHeaderMessageDiv(this.appConfig.i18n.geoform.errorsInApplyEdits, "error");
                 //hide loading indicator started in _addFeatureToLayer method
+                this.appUtils.hideLoadingIndicator();
+            }));
+        },
+
+        /**
+        * Updated feature in layer
+        * @memberOf widgets/geo-form/geo-form
+        */
+        updateFeatureToLayer: function () {
+            var userFormNode = this.userForm, featureData, key, value, datePicker, picker, editedFields = [], i, fileList;
+            // show loading indicator
+            this.appUtils.showLoadingIndicator();
+            // Create instance of graphic
+            featureData = new Graphic();
+            // create an empty array object
+            featureData.attributes = {};
+            // for all the fields
+            //Limit scope the current domNode to avoid the conflicts
+            array.forEach(query(".geoFormQuestionare .form-control", this.domNode), lang.hitch(this, function (currentField) {
+                // get id of the field
+                key = domAttr.get(currentField, "id");
+                if (currentField.value !== "") {
+                    // check for datetime picker and assign value
+                    if (domClass.contains(currentField, "hasDatetimepicker")) {
+                        picker = $(currentField.parentNode).data('DateTimePicker');
+                        datePicker = picker.getDate();
+                        if (datePicker) {
+                            // need to get time of date in ms for service
+                            value = datePicker.valueOf();
+                        }
+                    } else {
+                        value = lang.trim(currentField.value);
+                    }
+                    // Assign value to the attributes
+                    featureData.attributes[key] = value;
+                    editedFields.push(key);
+                } else if (this.isEdit) {
+                    // Assign value to the attributes
+                    featureData.attributes[key] = null;
+                    editedFields.push(key);
+                }
+            }));
+
+            // If layer has ReportedBy Field then Add logged in username in it
+            // Add ReportedBy field to editedFields array so that it will not get the default value from template
+            if (this._layerHasReportedByField) {
+                featureData.attributes[this.config.reportedByField] = this.config.logInDetails.processedUserName;
+                editedFields.push(key);
+            }
+            //add object id to featureData targetNode
+            featureData.attributes[this.layer.objectIdField] = this.item.attributes[this.layer.objectIdField];
+            // Add feature to the layer
+            this.layer.applyEdits(null, [featureData], null, lang.hitch(this, function (addResults, updateResults, deleteResults) {
+                // Add attachment on success
+                if (updateResults[0].success) {
+                    //get all the attachments and append it in form element
+                    fileList = query(".esriCTFileToSubmit", userFormNode);
+                    //if layer has attachments then add those attachments
+                    if (this.layer.hasAttachments && (fileList.length > 0 || this._deletedAttachmentsPopupArr.length > 0)) {
+                        if (fileList.length > 0) {
+                            //reset fileAttached and failed counter
+                            this._fileAttachedCounter = 0;
+                            this._fileFailedCounter = 0;
+                            //set total file attached counter
+                            this._totalFileAttachedCounter = fileList.length;
+                            for (i = 0; i < fileList.length; i++) {
+                                //handle success and error callback for add attachments
+                                this.layer.addAttachment(updateResults[0].objectId, fileList[i], lang.hitch(this, this._onAttachmentUploadComplete), lang.hitch(this, this._onAttachmentUploadFailed));
+                            }
+                        } else {
+                            this._deleteAttachments();
+                        }
+                    } else {
+                        //hide loading indicator started in _addFeatureToLayer method
+                        this.appUtils.hideLoadingIndicator();
+                        // reset form
+                        this._clearFormFields();
+                    }
+                    //Change the selected item's attributes
+                    lang.mixin(this.item.attributes, featureData.attributes);
+                    //mixin makesure's all te other required atrributes are not overrriden
+                    // Successfully feature is added on the layer
+                    this.geoformFeatureUpdated(this.item);
+                } else {
+                    domConstruct.destroy(query(".errorMessage")[0]);
+                    // Show Error message on Failure
+                    this._showHeaderMessageDiv(this.appConfig.i18n.geoform.errorsInApplyEdits, "error");
+                    //hide loading indicator
+                    this.appUtils.hideLoadingIndicator();
+                }
+            }), lang.hitch(this, function () {
+                // remove error
+                domConstruct.destroy(query(".errorMessage")[0]);
+                // Show error message on Failure
+                this._showHeaderMessageDiv(this.appConfig.i18n.geoform.errorsInApplyEdits, "error");
+                //hide loading indicator
                 this.appUtils.hideLoadingIndicator();
             }));
         },
@@ -1860,21 +2054,37 @@ define([
         * @memberOf widgets/geo-form/geo-form
         */
         _updateFileAttachedCounter: function () {
-            var attachmentFailedMsg;
             if (this._totalFileAttachedCounter === (this._fileAttachedCounter + this._fileFailedCounter)) {
-                //hide loading indicator started in _addFeatureToLayer method
-                this.appUtils.hideLoadingIndicator();
-                // reset form
-                this._clearFormFields();
-                if (this._fileFailedCounter > 0) {
-                    attachmentFailedMsg = string.substitute(this.appConfig.i18n.geoform.attachmentUploadStatus, {
-                        "failed": this._fileFailedCounter,
-                        "total": this._totalFileAttachedCounter
-                    });
-                    // Show Thank you message on Success
-                    this._showHeaderMessageDiv(this.config.submitMessage + "<br /><br />" + attachmentFailedMsg, "warning");
+                if (this._deletedAttachmentsPopupArr.length > 0) {
+                    this._deleteAttachments();
+                } else {
+                    this._onUpdateOperationComplete();
                 }
+                this._clearFormFields();
             }
+        },
+
+        /**
+        * This function is executed when all applicable comment operations like add, update or delete is completed
+        * @memberOf widgets/geo-form/geo-form
+        */
+        _onUpdateOperationComplete: function () {
+            var attachmentFailedMsg;
+            this._clearAttachements();
+            if (this._fileFailedCounter > 0) {
+                attachmentFailedMsg = string.substitute(this.config.i18n.geoform.attachmentUploadStatus, {
+                    "failed": this._fileFailedCounter,
+                    "total": this._totalFileAttachedCounter
+                });
+                // Show Thank you message on Success
+                this._showHeaderMessageDiv(attachmentFailedMsg);
+                // Successfully feature is added on the layer
+                this.geoformFeatureUpdated(this.item);
+            } else {
+                // Successfully feature is added on the layer
+                this.geoformFeatureUpdated(this.item);
+            }
+            this.appUtils.hideLoadingIndicator();
         },
 
         /**
@@ -1908,7 +2118,7 @@ define([
 
         /**
         * Remove the error message container.
-        * @param{object} node, node to bind error massage
+        * @param{object} node, node to bind error message
         * @memberOf widgets/geo-form/geo-form
         */
         _removeErrorNode: function (node) {
@@ -1944,7 +2154,7 @@ define([
                 }
             }));
             // Scroll geoform to top
-            $('#geoFormBody').animate({
+            this.currentGeoformNode.animate({
                 scrollTop: 0
             }, 1000);
             // resize map
@@ -2117,6 +2327,16 @@ define([
         },
 
         /**
+        * Executed when feature is updated successfully on the layer
+        * @param{string} isEdited, set flag for edited form
+        * @memberOf widgets/geo-form/geo-form
+        */
+        geoformFeatureUpdated: function (isEdited) {
+            // return value
+            return isEdited;
+        },
+
+        /**
         * Set extent of main map to geoform map
         * @memberOf widgets/geo-form/geo-form
         */
@@ -2166,7 +2386,7 @@ define([
 
         /**
         * This function is used to set selected address to location field
-        * @memberOf geo-form/geo-form
+        * @memberOf widgets/geo-form/geo-form
         */
         _populateLocationField: function (selectedAddress) {
             var locationFieldTextBox = $("#geoformContainer").find("#" + this.config.locationField)[0];
@@ -2180,7 +2400,7 @@ define([
                 if (selectedAddress.length <= this.locationFieldLength) {
                     this.newLocationFieldValue = selectedAddress;
                 } else {
-                    //If address is longer than the configured field length, trim the address till the field length 
+                    //If address is longer than the configured field length, trim the address till the field length
                     this.newLocationFieldValue = selectedAddress.substring(0, this.locationFieldLength);
                 }
             }
@@ -2188,7 +2408,7 @@ define([
 
         /**
         * This function is used to reset location field
-        * @memberOf geo-form/geo-form
+        * @memberOf widgets/geo-form/geo-form
         */
         _resetLocationField: function () {
             var locationFieldTextBox = $("#geoformContainer").find("#" + this.config.locationField)[0];
@@ -2197,6 +2417,98 @@ define([
                 domClass.remove(locationFieldTextBox.parentElement, "has-success");
             }
             this.newLocationFieldValue = null;
+        },
+
+        /* Section for fetching and showing existing attachments */
+
+        /**
+        * This function is used to fetch existing comment Attachments
+        * @memberOf widgets/geo-form/geo-form
+        */
+        _fetchExistingAttachment: function () {
+            var existingAttachmentObject;
+            this._existingPopupAttachmentsArray = [];
+            this.layer.queryAttachmentInfos(this.item.attributes[this.layer.objectIdField], lang.hitch(this, function (infos) {
+                array.forEach(infos, lang.hitch(this, function (currentAttachment) {
+                    existingAttachmentObject = {};
+                    existingAttachmentObject.attachmentFileName = currentAttachment.name;
+                    existingAttachmentObject.attachmentObjectID = currentAttachment.id;
+                    this._existingPopupAttachmentsArray.push(existingAttachmentObject);
+                    this._createExistingAttachment(existingAttachmentObject);
+                    this._updateAttachmentCount();
+                }));
+            }));
+        },
+
+        /**
+        * This function is used to create existing attachments
+        * @param{object} existingAttachment - existing attachment whose UI needs to be created
+        * @memberOf widgets/geo-form/geo-form
+        */
+        _createExistingAttachment: function (existingAttachment) {
+            var alertHtml, existingAttachmentNode;
+            alertHtml = "<div class=\"esriCTFileAlert alert alert-dismissable alert-success\">";
+            alertHtml += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">" + "X" + "</button>";
+            alertHtml += "<span>" + existingAttachment.attachmentFileName + "</span>";
+            alertHtml += "</div>";
+            existingAttachmentNode = domConstruct.toDom(alertHtml);
+            domAttr.set(existingAttachmentNode.children[0], "attachmentObjectID", existingAttachment.attachmentObjectID);
+            this._onExistingAttachmentCloseButtonClick(existingAttachmentNode.children[0]);
+            domConstruct.place(existingAttachmentNode, this.fileAttachmentList, "last");
+        },
+
+        /**
+        * This function is used to update the attachment count when clicked on existing attachment close button
+        * @param{object} existingAttachmentCloseButton - close button to which click event needs to be attached
+        * @memberOf widgets/geo-form/geo-form
+        */
+        _onExistingAttachmentCloseButtonClick: function (existingAttachmentCloseButton) {
+            on(existingAttachmentCloseButton, "click", lang.hitch(this, function (evt) {
+                setTimeout(lang.hitch(this, function () {
+                    var attachmentObjectID;
+                    attachmentObjectID = domAttr.get(evt.target, "attachmentObjectID");
+                    attachmentObjectID = parseInt(attachmentObjectID, 10);
+                    this._deletedAttachmentsPopupArr.push(attachmentObjectID);
+                    this._updateAttachmentCount();
+                }), 1);
+            }));
+        },
+
+        /**
+        * This function is used to delete the attachments
+        * @memberOf widgets/geo-form/geo-form
+        */
+        _deleteAttachments: function () {
+            this.layer.deleteAttachments(this.item.attributes[this.layer.objectIdField],
+                this._deletedAttachmentsPopupArr,
+                lang.hitch(this, this._onAttachmentDeleteComplete),
+                lang.hitch(this, this._onAttachmentDeleteFailed));
+        },
+
+        /**
+        * This function is called when attachments are deleted successfully
+        * @memberOf widgets/geo-form/geo-form
+        */
+        _onAttachmentDeleteComplete: function (response) {
+            this._onUpdateOperationComplete();
+        },
+
+        /**
+        * This function is called when delete attachments operation is failed
+        * @memberOf widgets/geo-form/geo-form
+        */
+        _onAttachmentDeleteFailed: function (err) {
+            this._onUpdateOperationComplete();
+        },
+
+        /**
+        * Update layer in the geoform map once a featue is deleted from main map
+        * @memberOf widgets/geo-form/geo-form
+        */
+        updateLayerOnMap: function () {
+            if (this.map && this.map._layers[this.layer.id]) {
+                this.map._layers[this.layer.id].refresh();
+            }
         }
     });
 });

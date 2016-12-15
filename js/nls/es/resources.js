@@ -25,7 +25,8 @@ define({
     "noGroup": "No hay ningún grupo configurado",
     "submitReportButtonText": "Enviar un informe",
     "gotoListViewTooltip": "Vista de lista",
-    "noFeatureGeomtery": "No se puede mostrar la entidad"
+    "noFeatureGeomtery": "No se puede mostrar la entidad",
+    "featureOutsideAOIMessage": "á_Feature cannot be added outside study area______________Ó"
   },
   "signin": {
     "guestSigninText": "Continuar como invitado",
@@ -73,6 +74,7 @@ define({
     "selectFileText": "Examinar",
     "enterLocation": "Ubicación",
     "reportItButton": "Informar",
+    "editReportButton": "á_Update___Ó",
     "cancelButton": "Cancelar",
     "requiredField": "(necesario)",
     "selectDefaultText": "Seleccionar&hellip;",
@@ -112,31 +114,42 @@ define({
     "noResultsFound": "No se encontraron informes"
   },
   "itemDetails": {
-    "likeButtonLabel": "Votar",
-    "likeButtonTooltip": "Votar este informe",
-    "commentButtonLabel": "Comentario",
-    "commentButtonTooltip": "Comentar este informe",
-    "galleryButtonLabel": "Galería",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "á_I agree___Ó",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "á_Leave a reply_____Ó",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Ver documentos adjuntos",
     "mapButtonLabel": "Ver en mapa",
     "mapButtonTooltip": "Ver la ubicación de este informe",
     "commentsListHeading": "Comentarios",
     "unableToUpdateVoteField": "No es posible contar tu voto en este momento.",
-    "gotoIssueListTooltip": "Ir a lista de informes"
+    "gotoIssueListTooltip": "Ir a lista de informes",
+    "deleteMessage": "á_Are you sure you want to delete___________Ó?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Vota este informe",
     "loadMoreButtonText": "Cargar más..."
   },
   "comment": {
+    "commentsFormHeading": "á_Comment___Ó",
     "commentsFormSubmitButton": "Enviar comentario",
+    "commentsFormEditButton": "á_Update Comment_____Ó",
     "commentsFormCancelButton": "Cancelar",
     "errorInSubmittingComment": "No se pudo enviar el comentario.",
     "emptyCommentMessage": "Introduzca un comentario.",
     "placeHolderText": "Escribe un comentario",
     "noCommentsAvailableText": "No hay comentarios disponibles",
     "remainingTextCount": "${0} caracteres restantes",
-    "showNoText": "No"
+    "showNoText": "No",
+    "selectAttachments": "á_Attachments____Ó",
+    "selectFileText": "á_Browse___Ó",
+    "attachmentSelectedMsg": "á_attachment(s) selected________Ó",
+    "attachmentHeaderText": "á_Attachments____Ó",
+    "unknownCommentAttachment": "á_FILE__Ó",
+    "editRecordText": "á_Edit__Ó",
+    "deleteRecordText": "á_Delete___Ó",
+    "deleteCommentFailedMessage": "á_Unable to delete comment________Ó"
   },
   "gallery": {
     "galleryHeaderText": "Galería",

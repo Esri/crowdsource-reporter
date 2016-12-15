@@ -25,7 +25,8 @@ define({
     "noGroup": "Ingen grupp konfigurerad",
     "submitReportButtonText": "Skicka in en rapport",
     "gotoListViewTooltip": "Listvy",
-    "noFeatureGeomtery": "Geoobjektet kan inte visas"
+    "noFeatureGeomtery": "Geoobjektet kan inte visas",
+    "featureOutsideAOIMessage": "Å_Feature cannot be added outside study area______________ö"
   },
   "signin": {
     "guestSigninText": "Fortsätt som gäst",
@@ -73,6 +74,7 @@ define({
     "selectFileText": "Bläddra",
     "enterLocation": "Plats",
     "reportItButton": "Rapportera",
+    "editReportButton": "Å_Update___ö",
     "cancelButton": "Avbryt",
     "requiredField": "(obligatoriskt)",
     "selectDefaultText": "Välj&hellip;",
@@ -112,31 +114,42 @@ define({
     "noResultsFound": "Inga rapporter hittades"
   },
   "itemDetails": {
-    "likeButtonLabel": "Rösta",
-    "likeButtonTooltip": "Rösta för den här rapporten",
-    "commentButtonLabel": "Kommentar",
-    "commentButtonTooltip": "Kommentera den här rapporten",
-    "galleryButtonLabel": "Galleri",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "Å_I agree___ö",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "Å_Leave a reply_____ö",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Se bifogade dokument",
     "mapButtonLabel": "Visa på kartan",
     "mapButtonTooltip": "Visa platsen för rapporten",
     "commentsListHeading": "Kommentarer",
     "unableToUpdateVoteField": "Det går inte att räkna din röst just nu.",
-    "gotoIssueListTooltip": "Gå till rapportlistan"
+    "gotoIssueListTooltip": "Gå till rapportlistan",
+    "deleteMessage": "Å_Are you sure you want to delete___________ö?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Röster för den här rapporten",
     "loadMoreButtonText": "Läs in mer ..."
   },
   "comment": {
+    "commentsFormHeading": "Å_Comment___ö",
     "commentsFormSubmitButton": "Skicka en kommentar",
+    "commentsFormEditButton": "Å_Update Comment_____ö",
     "commentsFormCancelButton": "Avbryt",
     "errorInSubmittingComment": "Det gick inte att skicka kommentaren.",
     "emptyCommentMessage": "Ange en kommentar.",
     "placeHolderText": "Skriv en kommentar",
     "noCommentsAvailableText": "Inga kommentarer tillgängliga",
     "remainingTextCount": "${0} tecken återstår",
-    "showNoText": "Nej"
+    "showNoText": "Nej",
+    "selectAttachments": "Å_Attachments____ö",
+    "selectFileText": "Å_Browse___ö",
+    "attachmentSelectedMsg": "Å_attachment(s) selected________ö",
+    "attachmentHeaderText": "Å_Attachments____ö",
+    "unknownCommentAttachment": "Å_FILE__ö",
+    "editRecordText": "Å_Edit__ö",
+    "deleteRecordText": "Å_Delete___ö",
+    "deleteCommentFailedMessage": "Å_Unable to delete comment________ö"
   },
   "gallery": {
     "galleryHeaderText": "Galleri",

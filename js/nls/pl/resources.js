@@ -25,7 +25,8 @@ define({
     "noGroup": "Nie skonfigurowano żadnej grupy",
     "submitReportButtonText": "Prześlij raport",
     "gotoListViewTooltip": "Widok listy",
-    "noFeatureGeomtery": "Nie można wyświetlić obiektu"
+    "noFeatureGeomtery": "Nie można wyświetlić obiektu",
+    "featureOutsideAOIMessage": "ł_Feature cannot be added outside study area______________ą"
   },
   "signin": {
     "guestSigninText": "Kontynuuj jako gość",
@@ -73,6 +74,7 @@ define({
     "selectFileText": "Przeglądaj",
     "enterLocation": "Lokalizacja",
     "reportItButton": "Zgłoś",
+    "editReportButton": "ł_Update___ą",
     "cancelButton": "Anuluj",
     "requiredField": "(wymagane)",
     "selectDefaultText": "Wybierz&hellip;",
@@ -112,31 +114,42 @@ define({
     "noResultsFound": "Nie znaleziono raportów"
   },
   "itemDetails": {
-    "likeButtonLabel": "Głosuj",
-    "likeButtonTooltip": "Głosuj na ten raport",
-    "commentButtonLabel": "Komentarz",
-    "commentButtonTooltip": "Dodaj komentarz do tego raportu",
-    "galleryButtonLabel": "Galeria",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "ł_I agree___ą",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "ł_Leave a reply_____ą",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Zobacz załączone dokumenty",
     "mapButtonLabel": "Wyświetl na mapie",
     "mapButtonTooltip": "Wyświetl lokalizację tego raportu",
     "commentsListHeading": "Comments",
     "unableToUpdateVoteField": "Oddanego głosu nie można teraz zliczyć.",
-    "gotoIssueListTooltip": "Przejdź do listy raportów"
+    "gotoIssueListTooltip": "Przejdź do listy raportów",
+    "deleteMessage": "ł_Are you sure you want to delete___________ą?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Głosy na ten raport",
     "loadMoreButtonText": "Wczytaj więcej..."
   },
   "comment": {
+    "commentsFormHeading": "ł_Comment___ą",
     "commentsFormSubmitButton": "Prześlij komentarz",
+    "commentsFormEditButton": "ł_Update Comment_____ą",
     "commentsFormCancelButton": "Anuluj",
     "errorInSubmittingComment": "Nie można przesłać komentarza.",
     "emptyCommentMessage": "Wprowadź komentarz.",
     "placeHolderText": "Wpisz komentarz",
     "noCommentsAvailableText": "Brak dostępnych komentarzy",
     "remainingTextCount": "Pozostało znaków: ${0}",
-    "showNoText": "Nie"
+    "showNoText": "Nie",
+    "selectAttachments": "ł_Attachments____ą",
+    "selectFileText": "ł_Browse___ą",
+    "attachmentSelectedMsg": "ł_attachment(s) selected________ą",
+    "attachmentHeaderText": "ł_Attachments____ą",
+    "unknownCommentAttachment": "ł_FILE__ą",
+    "editRecordText": "ł_Edit__ą",
+    "deleteRecordText": "ł_Delete___ą",
+    "deleteCommentFailedMessage": "ł_Unable to delete comment________ą"
   },
   "gallery": {
     "galleryHeaderText": "Galeria",

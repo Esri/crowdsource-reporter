@@ -25,7 +25,8 @@ define({
     "noGroup": "Не задана группа",
     "submitReportButtonText": "Отправить отчет",
     "gotoListViewTooltip": "Вид - список",
-    "noFeatureGeomtery": "Объекты невозможно отобразить"
+    "noFeatureGeomtery": "Объекты невозможно отобразить",
+    "featureOutsideAOIMessage": "Ж_Feature cannot be added outside study area______________Я"
   },
   "signin": {
     "guestSigninText": "Продолжить как гость",
@@ -73,6 +74,7 @@ define({
     "selectFileText": "Просмотр",
     "enterLocation": "Расположение",
     "reportItButton": "Отчет",
+    "editReportButton": "Ж_Update___Я",
     "cancelButton": "Отменить",
     "requiredField": "(необходимо)",
     "selectDefaultText": "Выбрать&hellip;",
@@ -112,31 +114,42 @@ define({
     "noResultsFound": "Отчеты не найдены."
   },
   "itemDetails": {
-    "likeButtonLabel": "Голосовать",
-    "likeButtonTooltip": "Голосовать за этот отчет",
-    "commentButtonLabel": "Комментарий",
-    "commentButtonTooltip": "Комментировать этот отчет",
-    "galleryButtonLabel": "Галерея",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "Ж_I agree___Я",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "Ж_Leave a reply_____Я",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Просмотр вложенных документов",
     "mapButtonLabel": "Просмотр на карте",
     "mapButtonTooltip": "Просмотреть местоположение этого отчета",
     "commentsListHeading": "Комментарии",
     "unableToUpdateVoteField": "Ваш голос не может быть учтен сейчас.",
-    "gotoIssueListTooltip": "Перейти к списку отчетов"
+    "gotoIssueListTooltip": "Перейти к списку отчетов",
+    "deleteMessage": "Ж_Are you sure you want to delete___________Я?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Число голосов отданных за отчет",
     "loadMoreButtonText": "Загрузить больше..."
   },
   "comment": {
+    "commentsFormHeading": "Ж_Comment___Я",
     "commentsFormSubmitButton": "Отправить комментарий",
+    "commentsFormEditButton": "Ж_Update Comment_____Я",
     "commentsFormCancelButton": "Отменить",
     "errorInSubmittingComment": "Комментарий не может быть добавлен.",
     "emptyCommentMessage": "Введите комментарий.",
     "placeHolderText": "Введите комментарий",
     "noCommentsAvailableText": "Нет доступных комментариев",
     "remainingTextCount": "Символов осталось: ${0}",
-    "showNoText": "Нет"
+    "showNoText": "Нет",
+    "selectAttachments": "Ж_Attachments____Я",
+    "selectFileText": "Ж_Browse___Я",
+    "attachmentSelectedMsg": "Ж_attachment(s) selected________Я",
+    "attachmentHeaderText": "Ж_Attachments____Я",
+    "unknownCommentAttachment": "Ж_FILE__Я",
+    "editRecordText": "Ж_Edit__Я",
+    "deleteRecordText": "Ж_Delete___Я",
+    "deleteCommentFailedMessage": "Ж_Unable to delete comment________Я"
   },
   "gallery": {
     "galleryHeaderText": "Галерея",

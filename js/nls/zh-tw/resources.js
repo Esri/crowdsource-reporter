@@ -25,7 +25,8 @@ define({
     "noGroup": "未配置任何群組",
     "submitReportButtonText": "提交報告",
     "gotoListViewTooltip": "清單視圖",
-    "noFeatureGeomtery": "無法顯示圖徵"
+    "noFeatureGeomtery": "無法顯示圖徵",
+    "featureOutsideAOIMessage": "試_Feature cannot be added outside study area______________驗"
   },
   "signin": {
     "guestSigninText": "以訪客身份繼續進行",
@@ -73,6 +74,7 @@ define({
     "selectFileText": "瀏覽(B)",
     "enterLocation": "位置",
     "reportItButton": "進行報告",
+    "editReportButton": "試_Update___驗",
     "cancelButton": "取消",
     "requiredField": "(必填)",
     "selectDefaultText": "選擇&hellip;",
@@ -112,31 +114,42 @@ define({
     "noResultsFound": "未找到任何報告"
   },
   "itemDetails": {
-    "likeButtonLabel": "票選",
-    "likeButtonTooltip": "為此報告投票",
-    "commentButtonLabel": "評論",
-    "commentButtonTooltip": "評論此報告",
-    "galleryButtonLabel": "圖庫",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "試_I agree___驗",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "試_Leave a reply_____驗",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "參閱隨附的說明文件",
     "mapButtonLabel": "檢視地圖",
     "mapButtonTooltip": "檢視此報告的位置",
     "commentsListHeading": "評論",
     "unableToUpdateVoteField": "您的投票此時無法進行計數。",
-    "gotoIssueListTooltip": "轉至報告清單"
+    "gotoIssueListTooltip": "轉至報告清單",
+    "deleteMessage": "試_Are you sure you want to delete___________驗?"
   },
   "itemList": {
     "likesForThisItemTooltip": "為此報告投票",
     "loadMoreButtonText": "載入更多..."
   },
   "comment": {
+    "commentsFormHeading": "試_Comment___驗",
     "commentsFormSubmitButton": "提交評論",
+    "commentsFormEditButton": "試_Update Comment_____驗",
     "commentsFormCancelButton": "取消",
     "errorInSubmittingComment": "無法提交評論。",
     "emptyCommentMessage": "請輸入一條評論。",
     "placeHolderText": "輸入一條評論",
     "noCommentsAvailableText": "沒有任何評論可用",
     "remainingTextCount": "剩餘 ${0} 個字元",
-    "showNoText": "否(N)"
+    "showNoText": "否(N)",
+    "selectAttachments": "試_Attachments____驗",
+    "selectFileText": "試_Browse___驗",
+    "attachmentSelectedMsg": "試_attachment(s) selected________驗",
+    "attachmentHeaderText": "試_Attachments____驗",
+    "unknownCommentAttachment": "試_FILE__驗",
+    "editRecordText": "試_Edit__驗",
+    "deleteRecordText": "試_Delete___驗",
+    "deleteCommentFailedMessage": "試_Unable to delete comment________驗"
   },
   "gallery": {
     "galleryHeaderText": "圖庫",

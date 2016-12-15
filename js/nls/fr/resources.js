@@ -25,7 +25,8 @@ define({
     "noGroup": "Aucun groupe configuré",
     "submitReportButtonText": "Envoyer un rapport",
     "gotoListViewTooltip": "Vue Liste",
-    "noFeatureGeomtery": "Impossible d'afficher l'entité"
+    "noFeatureGeomtery": "Impossible d'afficher l'entité",
+    "featureOutsideAOIMessage": "æ_Feature cannot be added outside study area______________Â"
   },
   "signin": {
     "guestSigninText": "Continuer comme invité",
@@ -73,6 +74,7 @@ define({
     "selectFileText": "Parcourir",
     "enterLocation": "Emplacement",
     "reportItButton": "Signaler",
+    "editReportButton": "æ_Update___Â",
     "cancelButton": "Annuler",
     "requiredField": "(requis)",
     "selectDefaultText": "Sélectionner&hellip;",
@@ -112,31 +114,42 @@ define({
     "noResultsFound": "Aucun rapport trouvé"
   },
   "itemDetails": {
-    "likeButtonLabel": "Voter",
-    "likeButtonTooltip": "Voter pour ce rapport",
-    "commentButtonLabel": "Commentaire",
-    "commentButtonTooltip": "Commenter ce rapport",
-    "galleryButtonLabel": "Bibliothèque",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "æ_I agree___Â",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "æ_Leave a reply_____Â",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Voir les documents joints",
     "mapButtonLabel": "Afficher sur la carte",
     "mapButtonTooltip": "Afficher l'emplacement de ce rapport",
     "commentsListHeading": "Commentaires",
     "unableToUpdateVoteField": "Il est actuellement impossible de comptabiliser votre vote.",
-    "gotoIssueListTooltip": "Accéder à la liste des rapports"
+    "gotoIssueListTooltip": "Accéder à la liste des rapports",
+    "deleteMessage": "æ_Are you sure you want to delete___________Â?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Votes pour ce rapport",
     "loadMoreButtonText": "Charger plus..."
   },
   "comment": {
+    "commentsFormHeading": "æ_Comment___Â",
     "commentsFormSubmitButton": "Envoyer un commentaire",
+    "commentsFormEditButton": "æ_Update Comment_____Â",
     "commentsFormCancelButton": "Annuler",
     "errorInSubmittingComment": "Impossible d'envoyer le commentaire.",
     "emptyCommentMessage": "Saisissez un commentaire.",
     "placeHolderText": "Saisir un commentaire",
     "noCommentsAvailableText": "Aucun commentaire disponible",
     "remainingTextCount": "${0} caractère(s) restant(s)",
-    "showNoText": "Non"
+    "showNoText": "Non",
+    "selectAttachments": "æ_Attachments____Â",
+    "selectFileText": "æ_Browse___Â",
+    "attachmentSelectedMsg": "æ_attachment(s) selected________Â",
+    "attachmentHeaderText": "æ_Attachments____Â",
+    "unknownCommentAttachment": "æ_FILE__Â",
+    "editRecordText": "æ_Edit__Â",
+    "deleteRecordText": "æ_Delete___Â",
+    "deleteCommentFailedMessage": "æ_Unable to delete comment________Â"
   },
   "gallery": {
     "galleryHeaderText": "Bibliothèque",

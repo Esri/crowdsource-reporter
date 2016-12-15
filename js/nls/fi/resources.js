@@ -25,7 +25,8 @@ define({
     "noGroup": "Yhtään ryhmää ei ole määritetty",
     "submitReportButtonText": "Lähetä rapotti",
     "gotoListViewTooltip": "Luettelonäkymä",
-    "noFeatureGeomtery": "Kohdetta ei voi näyttää"
+    "noFeatureGeomtery": "Kohdetta ei voi näyttää",
+    "featureOutsideAOIMessage": "Å_Feature cannot be added outside study area______________ö"
   },
   "signin": {
     "guestSigninText": "Jatka käyttöä vierailijana",
@@ -73,6 +74,7 @@ define({
     "selectFileText": "Selaa",
     "enterLocation": "Sijainti",
     "reportItButton": "Raportoi",
+    "editReportButton": "Å_Update___ö",
     "cancelButton": "Peruuta",
     "requiredField": "(pakollinen)",
     "selectDefaultText": "Valitse&hellip;",
@@ -112,31 +114,42 @@ define({
     "noResultsFound": "Yhtään raporttia ei löytynyt"
   },
   "itemDetails": {
-    "likeButtonLabel": "Äänestä",
-    "likeButtonTooltip": "Äänestä tätä raporttia",
-    "commentButtonLabel": "Kommentti",
-    "commentButtonTooltip": "Kommentoi tätä raporttia",
-    "galleryButtonLabel": "Gallery",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "Å_I agree___ö",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "Å_Leave a reply_____ö",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Näytä liitetyt dokumentit",
     "mapButtonLabel": "Näytä kartalla",
     "mapButtonTooltip": "Näytä tämän raportin sijainti",
     "commentsListHeading": "Comments",
     "unableToUpdateVoteField": "Ääntäsi ei voi laskea tällä kertaa.",
-    "gotoIssueListTooltip": "Siirry raporttiluetteloon"
+    "gotoIssueListTooltip": "Siirry raporttiluetteloon",
+    "deleteMessage": "Å_Are you sure you want to delete___________ö?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Tämän raportin äänet",
     "loadMoreButtonText": "Lataa lisää..."
   },
   "comment": {
+    "commentsFormHeading": "Å_Comment___ö",
     "commentsFormSubmitButton": "Lähetä kommentti",
+    "commentsFormEditButton": "Å_Update Comment_____ö",
     "commentsFormCancelButton": "Peruuta",
     "errorInSubmittingComment": "Kommentin lähetys ei onnistunut.",
     "emptyCommentMessage": "Kirjoita kommentti.",
     "placeHolderText": "Kirjoita kommentti",
     "noCommentsAvailableText": "Yhtään kommenttia ei ole saatavilla",
     "remainingTextCount": "${0} merkki(ä) jäljellä",
-    "showNoText": "Ei"
+    "showNoText": "Ei",
+    "selectAttachments": "Å_Attachments____ö",
+    "selectFileText": "Å_Browse___ö",
+    "attachmentSelectedMsg": "Å_attachment(s) selected________ö",
+    "attachmentHeaderText": "Å_Attachments____ö",
+    "unknownCommentAttachment": "Å_FILE__ö",
+    "editRecordText": "Å_Edit__ö",
+    "deleteRecordText": "Å_Delete___ö",
+    "deleteCommentFailedMessage": "Å_Unable to delete comment________ö"
   },
   "gallery": {
     "galleryHeaderText": "Gallery",

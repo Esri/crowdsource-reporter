@@ -262,9 +262,9 @@ define([
                     if (updatedIssue.attributes[this.appConfig.reportedByField] === this.appConfig.logInDetails.processedUserName) {
                         //loop through all the features of selected layer and update the votes count for the selected feature
                         array.forEach(layerObject.graphics, lang.hitch(this, function (currentFeature) {
-                            //update the votes count for the selected feature
+                            //update feature attributes of selected feature in my issues list
                             if (currentFeature.attributes[layerObject.objectIdField] === updatedIssue.attributes[layerObject.objectIdField]) {
-                                currentFeature.attributes[this.appConfig.likeField] = updatedIssue.attributes[this.appConfig.likeField];
+                                currentFeature.attributes = updatedIssue.attributes;
                             }
                             this._updateFeaturesList();
                         }));
@@ -492,7 +492,28 @@ define([
             if (this.itemsList) {
                 this.itemsList.selectedLayer = selectedLayer;
             }
-        }
+        },
 
+        /**
+        * update myissues widget and item list after feature is deleted
+        * @param{feature} deleted feature
+        * @param{selectedMapDetails} selected map details
+        * @memberOf widgets/my-issues/my-issues
+        */
+        updateMyIssuesList: function (feature, selectedMapDetails) {
+            var layerIndex, objectIdField;
+            layerIndex = this._getSelectedLayer(selectedMapDetails.webMapId, selectedMapDetails.operationalLayerId,
+                selectedMapDetails.operationalLayerDetails.title);
+            objectIdField = selectedMapDetails.operationalLayerDetails.layerObject.objectIdField;
+            // layer index is not less than zero which means issue belongs to the logged in user
+            if (layerIndex >= 0) {
+                array.some(this.opLayersArr[layerIndex].layerObject.graphics, lang.hitch(this, function (currentFeature, index) {
+                    if (currentFeature.attributes[objectIdField] === feature.attributes[objectIdField]) {
+                        this.opLayersArr[layerIndex].layerObject.graphics.splice(index, 1);
+                        this._updateFeaturesList();
+                    }
+                }));
+            }
+        }
     });
 });

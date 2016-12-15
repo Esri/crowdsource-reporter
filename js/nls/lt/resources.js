@@ -25,7 +25,8 @@ define({
     "noGroup": "Sukonfigūruotų grupių nėra",
     "submitReportButtonText": "Pateikti ataskaitą",
     "gotoListViewTooltip": "Sąrašo vaizdas",
-    "noFeatureGeomtery": "Elemento parodyti negalima"
+    "noFeatureGeomtery": "Elemento parodyti negalima",
+    "featureOutsideAOIMessage": "Į_Feature cannot be added outside study area______________š"
   },
   "signin": {
     "guestSigninText": "Tęsti svečio teisėmis",
@@ -73,6 +74,7 @@ define({
     "selectFileText": "Parinkti",
     "enterLocation": "Vieta",
     "reportItButton": "Pranešti apie tai",
+    "editReportButton": "Į_Update___š",
     "cancelButton": "Atšaukti",
     "requiredField": "(privalomas)",
     "selectDefaultText": "Pasirinkti&hellip;",
@@ -112,31 +114,42 @@ define({
     "noResultsFound": "Ataskaitų nerasta"
   },
   "itemDetails": {
-    "likeButtonLabel": "Balsuoti",
-    "likeButtonTooltip": "Balsuokite už šią ataskaitą",
-    "commentButtonLabel": "Komentuoti",
-    "commentButtonTooltip": "Pakomentuoti šią ataskaitą",
-    "galleryButtonLabel": "Galerija",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "Į_I agree___š",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "Į_Leave a reply_____š",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Žr. pridėtus dokumentus",
     "mapButtonLabel": "Žiūrėti žemėlapyje",
     "mapButtonTooltip": "Žiūrėti šios ataskaitos vietą",
     "commentsListHeading": "Komentarai",
     "unableToUpdateVoteField": "Šiuo metu jūsų balso įskaičiuoti negalima.",
-    "gotoIssueListTooltip": "Eiti į ataskaitų sąrašą"
+    "gotoIssueListTooltip": "Eiti į ataskaitų sąrašą",
+    "deleteMessage": "Į_Are you sure you want to delete___________š?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Balsai už šią ataskaitą",
     "loadMoreButtonText": "Įkelti daugiau..."
   },
   "comment": {
+    "commentsFormHeading": "Į_Comment___š",
     "commentsFormSubmitButton": "Pateikti komentarą",
+    "commentsFormEditButton": "Į_Update Comment_____š",
     "commentsFormCancelButton": "Atšaukti",
     "errorInSubmittingComment": "Komentaro pateikti nepavyko.",
     "emptyCommentMessage": "Įveskite komentarą.",
     "placeHolderText": "Įvesti komentarą",
     "noCommentsAvailableText": "Komentarų nėra",
     "remainingTextCount": "liko simbolių: ${0}",
-    "showNoText": "Ne"
+    "showNoText": "Ne",
+    "selectAttachments": "Į_Attachments____š",
+    "selectFileText": "Į_Browse___š",
+    "attachmentSelectedMsg": "Į_attachment(s) selected________š",
+    "attachmentHeaderText": "Į_Attachments____š",
+    "unknownCommentAttachment": "Į_FILE__š",
+    "editRecordText": "Į_Edit__š",
+    "deleteRecordText": "Į_Delete___š",
+    "deleteCommentFailedMessage": "Į_Unable to delete comment________š"
   },
   "gallery": {
     "galleryHeaderText": "Galerija",

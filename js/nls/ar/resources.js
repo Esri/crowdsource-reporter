@@ -25,7 +25,8 @@ define({
     "noGroup": "لم يتم تكوين المجموعة",
     "submitReportButtonText": "إرسال تقرير",
     "gotoListViewTooltip": "عرض القائمة",
-    "noFeatureGeomtery": "يتعذر عرض المعالم"
+    "noFeatureGeomtery": "يتعذر عرض المعالم",
+    "featureOutsideAOIMessage": "بيت_Feature cannot be added outside study area______________لاحقة"
   },
   "signin": {
     "guestSigninText": "تابع بصفتك ضيف",
@@ -73,6 +74,7 @@ define({
     "selectFileText": "مربع حوار",
     "enterLocation": "موقع",
     "reportItButton": "تقريرها",
+    "editReportButton": "بيت_Update___لاحقة",
     "cancelButton": "إلغاء الأمر",
     "requiredField": "(مطلوب)",
     "selectDefaultText": "حدد&hellip;",
@@ -112,31 +114,42 @@ define({
     "noResultsFound": "لم يتم العثور على أي تقارير"
   },
   "itemDetails": {
-    "likeButtonLabel": "تصويت",
-    "likeButtonTooltip": "التصويت لهذا التقرير",
-    "commentButtonLabel": "التعليق",
-    "commentButtonTooltip": "التعليق على هذا التقرير",
-    "galleryButtonLabel": "معرض الصور",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "بيت_I agree___لاحقة",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "بيت_Leave a reply_____لاحقة",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "مراجعة المستندات المرفقة",
     "mapButtonLabel": "العرض على الخريطة",
     "mapButtonTooltip": "عرض موقع هذا التقرير",
     "commentsListHeading": "التعليقات",
     "unableToUpdateVoteField": "يتعذر حساب التصويت الآن.",
-    "gotoIssueListTooltip": "الانتقال إلى قائمة التقرير"
+    "gotoIssueListTooltip": "الانتقال إلى قائمة التقرير",
+    "deleteMessage": "بيت_Are you sure you want to delete___________لاحقة?"
   },
   "itemList": {
     "likesForThisItemTooltip": "عمليات التصويت لهذا التقرير",
     "loadMoreButtonText": "تحميل المزيد..."
   },
   "comment": {
+    "commentsFormHeading": "بيت_Comment___لاحقة",
     "commentsFormSubmitButton": "تقديم تعليق",
+    "commentsFormEditButton": "بيت_Update Comment_____لاحقة",
     "commentsFormCancelButton": "إلغاء الأمر",
     "errorInSubmittingComment": "يتعذر إرسال التعليق.",
     "emptyCommentMessage": "الرجاء إدخال تعليق.",
     "placeHolderText": "اكتب تعليق",
     "noCommentsAvailableText": "لا توجد تعليقات متاحة",
     "remainingTextCount": "يتبقى ${0} حرف",
-    "showNoText": "لا"
+    "showNoText": "لا",
+    "selectAttachments": "بيت_Attachments____لاحقة",
+    "selectFileText": "بيت_Browse___لاحقة",
+    "attachmentSelectedMsg": "بيت_attachment(s) selected________لاحقة",
+    "attachmentHeaderText": "بيت_Attachments____لاحقة",
+    "unknownCommentAttachment": "بيت_FILE__لاحقة",
+    "editRecordText": "بيت_Edit__لاحقة",
+    "deleteRecordText": "بيت_Delete___لاحقة",
+    "deleteCommentFailedMessage": "بيت_Unable to delete comment________لاحقة"
   },
   "gallery": {
     "galleryHeaderText": "معرض الصور",

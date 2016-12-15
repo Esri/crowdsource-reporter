@@ -126,7 +126,7 @@ define([
         * Refresh the items list
         */
         refreshList: function (item) {
-            var currentNode, itemVotes, favIconDiv, votesNode;
+            var currentNode, itemVotes, favIconDiv, votesNode, titleNode;
             //Clear all the previously selected feature
             arrayUtil.forEach(dojoQuery(".esriCTItemSummaryParentSelected", this.domNode), lang.hitch(this, function (currentNode) {
                 domClass.remove(currentNode, "esriCTItemSummaryParentSelected");
@@ -147,6 +147,15 @@ define([
                     favIconDiv.title = itemVotes.label + " " + this.i18n.likesForThisItemTooltip;
                     votesNode = dojoQuery(".esriCTItemVotes", currentNode[0])[0];
                     votesNode.innerHTML = itemVotes.label;
+                }
+                //Update the title for issue wall or my issue list
+                if (dojoQuery(".esriCTMyIssuePopupTitle", currentNode[0]).length > 0) {
+                    titleNode = dojoQuery(".esriCTMyIssuePopupTitle", currentNode[0])[0];
+                } else {
+                    titleNode = dojoQuery(".esriCTItemTitle", currentNode[0])[0];
+                }
+                if (titleNode) {
+                    titleNode.innerHTML = this.getItemTitle(item);
                 }
             }
         },
@@ -183,7 +192,7 @@ define([
             }
             itemSummaryParent = domConstruct.create('div', {
                 'class': 'esriCTtemSummaryParent, ' + item.attributes[objectIdFieldName] + "_" + item.webMapId + "_" + selectedLayerId,
-                'click': lang.partial(this.summaryClick, this, item)
+                "click": lang.partial(this.summaryClick, this, item)
             }, this.list);
 
             itemSummaryHighlighter = domConstruct.create('div', {
