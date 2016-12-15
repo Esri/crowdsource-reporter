@@ -26,10 +26,7 @@ define({
     //Enter the url to the proxy if needed by the application. See the 'Using the proxy page' help topic for details
     //http://developers.arcgis.com/en/javascript/jshelp/ags_proxy.html
     "proxyurl": "proxy.ashx",
-    //Example of a template specific property. If your template had several color schemes
-    //you could define the default here and setup configuration settings to allow users to choose a different
-    //color theme.
-    "theme": "#137DB9",
+
     "bingKey": "", //Enter the url to your organizations bing maps key if you want to use bing basemaps
     //Defaults to arcgis.com. Set this value to your portal or organization host name.
     "sharinghost": location.protocol + "//" + "arcgis.com",
@@ -51,6 +48,8 @@ define({
        "url": null
          }]
   },
+      //color theme.
+    "theme": "#137DB9",
     "applicationName": "",
     "applicationIcon": "",
     "applicationFavicon": "/images/favicon.ico",
@@ -94,6 +93,8 @@ define({
     "likeField": "NUMVOTES",
     "commentField": "COMMENTS",
     "usePopupConfigurationForComment":false,
+    "enableFeatureEdit": false,
+    "enableFeatureDelete" : false,
     "reportedByField": "USERID",
     "locationField": "LONG_TEXT",
 
@@ -101,16 +102,24 @@ define({
     "enableUSNGSearch": false,
     "enableMGRSSearch": false,
     "enableLatLongSearch": false,
+    "geographicalExtentLayer": "",
     //Lower level configuration
+    "submitReportButtonText" : "Submit a Report", // Text for submit report button
     "submitReportButtonColor": "#35ac46", //Color for Submit Report button.If EMPTY default color will be  #35ac46.
+    "splashScreenTextColor": "#FFF", // Color of splash screen content
+    "imageBackgroundColor": "#999999", // Background color icons
+    "imageForeGroundColor": "white", // Foreground color of icons values (gray or white)
     //Configurable text for help dialog and help link
     "enableHelp":true,
     "helpLinkText": "Help",
-    "helpDialogTitle":"Help Page",
+    "helpDialogTitle":"Help",
     "helpDialogContent": "<p>Crowdsource Reporter is a configurable gallery application template that allows users to submit problems or observations. The application has been optimized for smartphones but is responsively designed to be used on smartphones, tablets, and desktop computers.</p><p>The Crowdsource Reporter application presents one or more maps that can be used to report a problem or observation. Users can anonymously submit new reports, review existing reports, and comment and vote on reports or observations submitted by other users. They also can authenticate with their social media or ArcGIS Online credentials and track the status of problems or observations they have reported.</p>",
     "bufferRadius": 3, //Buffer radius will be used to create inital buffer on applicaiton load
     "bufferUnit": "miles",
     "geoformDetailsSectionLabel": "Details", //label for details section in geoform
     "geoformLocationSectionLabel": "Location", //label for location section in geoform
-    "geoformAttachmentSectionLabel": "Attachments" //label for attachment section in geoform
+    "geoformAttachmentSectionLabel": "Attachments", //label for attachment section in geoform
+    "noWebmapInGroupText": "Configured group is invalid or no items have been shared with this group yet.",
+    // to show as a label for attachment section in comments form where attachments can be added
+    "commentFormAttachmentSectionLabel": "Attachments"
 });

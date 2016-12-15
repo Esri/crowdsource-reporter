@@ -25,7 +25,8 @@ define({
     "noGroup": "Nav konfigurētas grupas",
     "submitReportButtonText": "Iesniegt pārskatu",
     "gotoListViewTooltip": "Saraksta skats",
-    "noFeatureGeomtery": "Funkciju nevar parādīt"
+    "noFeatureGeomtery": "Funkciju nevar parādīt",
+    "featureOutsideAOIMessage": "ķ_Feature cannot be added outside study area______________ū"
   },
   "signin": {
     "guestSigninText": "Turpināt kā viesim",
@@ -73,6 +74,7 @@ define({
     "selectFileText": "Pārlūks",
     "enterLocation": "Izvietojums",
     "reportItButton": "Ziņot par to",
+    "editReportButton": "ķ_Update___ū",
     "cancelButton": "Atcelt",
     "requiredField": "(nepieciešams)",
     "selectDefaultText": "Izvēlēties&hellip;",
@@ -112,31 +114,42 @@ define({
     "noResultsFound": "Nav atrasts neviens ziņojums"
   },
   "itemDetails": {
-    "likeButtonLabel": "Balsot",
-    "likeButtonTooltip": "Balsot par šo ziņojumu",
-    "commentButtonLabel": "Komentārs",
-    "commentButtonTooltip": "Komentēt šo ziņojumu",
-    "galleryButtonLabel": "Galerija",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "ķ_I agree___ū",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "ķ_Leave a reply_____ū",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Skatīt pievienotos dokumentus",
     "mapButtonLabel": "Skatīt kartē",
     "mapButtonTooltip": "Skatiet šī ziņojuma vietu",
     "commentsListHeading": "Komentāri",
     "unableToUpdateVoteField": "Jūsu balsi šobrīd nevar pievienot.",
-    "gotoIssueListTooltip": "Doties uz ziņojumu sarakstu"
+    "gotoIssueListTooltip": "Doties uz ziņojumu sarakstu",
+    "deleteMessage": "ķ_Are you sure you want to delete___________ū?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Balsis par šo ziņojumu",
     "loadMoreButtonText": "Ielādēt vēl..."
   },
   "comment": {
+    "commentsFormHeading": "ķ_Comment___ū",
     "commentsFormSubmitButton": "Iesniegt komentāru",
+    "commentsFormEditButton": "ķ_Update Comment_____ū",
     "commentsFormCancelButton": "Atcelt",
     "errorInSubmittingComment": "Komentāru nevarēja iesniegt.",
     "emptyCommentMessage": "Lūdzu ievadiet komentāru.",
     "placeHolderText": "Ierakstiet komentāru",
     "noCommentsAvailableText": "Nav pieejamu komentāru",
     "remainingTextCount": "Palikusi(-šas) ${0} rakstzīme(-s)",
-    "showNoText": "Nē"
+    "showNoText": "Nē",
+    "selectAttachments": "ķ_Attachments____ū",
+    "selectFileText": "ķ_Browse___ū",
+    "attachmentSelectedMsg": "ķ_attachment(s) selected________ū",
+    "attachmentHeaderText": "ķ_Attachments____ū",
+    "unknownCommentAttachment": "ķ_FILE__ū",
+    "editRecordText": "ķ_Edit__ū",
+    "deleteRecordText": "ķ_Delete___ū",
+    "deleteCommentFailedMessage": "ķ_Unable to delete comment________ū"
   },
   "gallery": {
     "galleryHeaderText": "Galerija",

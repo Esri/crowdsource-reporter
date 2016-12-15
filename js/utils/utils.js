@@ -1,4 +1,4 @@
-/*global define,dojo,alert,document */
+/*global define,dojo,alert,document, esriConfig */
 /*jslint browser:true,sloppy:true,nomen:true,unparam:true,plusplus:true,indent:4 */
 /*
 | Copyright 2014 Esri
@@ -33,7 +33,8 @@ define([
     "esri/dijit/LocateButton",
     "esri/dijit/HomeButton",
     "esri/tasks/locator",
-    "esri/geometry/webMercatorUtils"
+    "esri/geometry/webMercatorUtils",
+    "dojo/Deferred"
 ], function (
     declare,
     dom,
@@ -52,7 +53,8 @@ define([
     LocateButton,
     HomeButton,
     Locator,
-    webMercatorUtils
+    webMercatorUtils,
+    Deferred
 ) {
     return declare([_WidgetBase], {
         showLoadingIndicator: function () {
@@ -282,7 +284,7 @@ define([
         */
         refreshLabelLayers: function (operationalLayers) {
             array.forEach(operationalLayers, lang.hitch(this, function (currentLayer) {
-                if (currentLayer.layerObject.showLabels && currentLayer.layerObject.labelingInfo) {
+                if (currentLayer.layerObject && currentLayer.layerObject.showLabels && currentLayer.layerObject.labelingInfo) {
                     currentLayer.layerObject.refresh();
                 }
             }));

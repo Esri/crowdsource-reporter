@@ -70,7 +70,7 @@ define([
                 "appUtils": this.appUtils,
                 "linkToMapView": true
             }).placeAt(this.listContainer); // placeAt triggers a startup call to _itemsList
-            
+
             //If webmap list is not required, we need to hide the back button
             if (!this.appUtils.isWebmapListRequired) {
                 domStyle.set(this.listBackButton, "display", "none");
@@ -106,8 +106,14 @@ define([
             this.own(on(this.submitReport, "click", lang.hitch(this, function (evt) {
                 this.onSubmit(evt);
             })));
-
-            var submitButtonColor = (this.appConfig && this.appConfig.submitReportButtonColor) ? this.appConfig.submitReportButtonColor : "#35ac46";
+            var submitButtonText, submitButtonColor;
+            if (this.appConfig && lang.trim(this.appConfig.submitReportButtonText) === "") {
+                submitButtonText = this.appConfig.i18n.main.submitReportButtonText;
+            } else {
+                submitButtonText = this.appConfig.submitReportButtonText;
+            }
+            domAttr.set(this.submitReportButton, "innerHTML", submitButtonText);
+            submitButtonColor = (this.appConfig && this.appConfig.submitReportButtonColor) ? this.appConfig.submitReportButtonColor : "#35ac46";
             domStyle.set(this.submitReport, "background-color", submitButtonColor);
 
             domAttr.set(this.noIssuesMessage, "innerHTML", this.appConfig.i18n.issueWall.noResultsFound);
@@ -222,6 +228,9 @@ define([
                     if (this._commentsTable && this._commentsTable.url) {
                         if (currentTable.url === this._commentsTable.url && currentTable.popupInfo) {
                             this._commentPopupTable = currentTable;
+                            if (currentTable.layerDefinition && currentTable.layerDefinition.definitionExpression) {
+                                this._commentsTable.setDefinitionExpression(currentTable.layerDefinition.definitionExpression);
+                            }
                         }
                     }
                 }));

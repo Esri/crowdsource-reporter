@@ -25,7 +25,8 @@ define({
     "noGroup": "Není nakonfigurována žádná skupina",
     "submitReportButtonText": "Odeslat zprávu",
     "gotoListViewTooltip": "Zobrazení seznamu",
-    "noFeatureGeomtery": "Prvek nelze zobrazit."
+    "noFeatureGeomtery": "Prvek nelze zobrazit.",
+    "featureOutsideAOIMessage": "Ř_Feature cannot be added outside study area______________ů"
   },
   "signin": {
     "guestSigninText": "Pokračovat jako host",
@@ -73,6 +74,7 @@ define({
     "selectFileText": "Procházet",
     "enterLocation": "Poloha",
     "reportItButton": "Vytvořit zprávu",
+    "editReportButton": "Ř_Update___ů",
     "cancelButton": "Storno",
     "requiredField": "(vyžadováno)",
     "selectDefaultText": "Výběr&hellip;",
@@ -112,31 +114,42 @@ define({
     "noResultsFound": "Nebyly nalezeny žádné zprávy."
   },
   "itemDetails": {
-    "likeButtonLabel": "Hlasovat",
-    "likeButtonTooltip": "Hlasovat pro tuto zprávu",
-    "commentButtonLabel": "Komentář",
-    "commentButtonTooltip": "Odeslat komentář pro tuto zprávu",
-    "galleryButtonLabel": "Galerie",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "Ř_I agree___ů",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "Ř_Leave a reply_____ů",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Zobrazit připojené dokumenty",
     "mapButtonLabel": "Zobrazit na mapě",
     "mapButtonTooltip": "Zobrazit umístění této zprávy",
     "commentsListHeading": "Komentáře",
     "unableToUpdateVoteField": "Váš hlas v tuto chvíli nelze započítat.",
-    "gotoIssueListTooltip": "Přejít na seznam zpráv"
+    "gotoIssueListTooltip": "Přejít na seznam zpráv",
+    "deleteMessage": "Ř_Are you sure you want to delete___________ů?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Hlasy pro tuto zprávu",
     "loadMoreButtonText": "Načíst další..."
   },
   "comment": {
+    "commentsFormHeading": "Ř_Comment___ů",
     "commentsFormSubmitButton": "Odeslat komentář",
+    "commentsFormEditButton": "Ř_Update Comment_____ů",
     "commentsFormCancelButton": "Storno",
     "errorInSubmittingComment": "Komentář se nepodařilo odeslat.",
     "emptyCommentMessage": "Zadejte komentář.",
     "placeHolderText": "Napište komentář",
     "noCommentsAvailableText": "Nejsou k dispozici žádné komentáře.",
     "remainingTextCount": "Počet zbývajících znaků: ${0}",
-    "showNoText": "Ne"
+    "showNoText": "Ne",
+    "selectAttachments": "Ř_Attachments____ů",
+    "selectFileText": "Ř_Browse___ů",
+    "attachmentSelectedMsg": "Ř_attachment(s) selected________ů",
+    "attachmentHeaderText": "Ř_Attachments____ů",
+    "unknownCommentAttachment": "Ř_FILE__ů",
+    "editRecordText": "Ř_Edit__ů",
+    "deleteRecordText": "Ř_Delete___ů",
+    "deleteCommentFailedMessage": "Ř_Unable to delete comment________ů"
   },
   "gallery": {
     "galleryHeaderText": "Galerie",

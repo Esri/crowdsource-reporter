@@ -25,7 +25,8 @@ define({
     "noGroup": "Ühtki rühma ei ole konfigureeritud",
     "submitReportButtonText": "Edasta aruanne",
     "gotoListViewTooltip": "Loendivaade",
-    "noFeatureGeomtery": "Funktsiooni ei saa kuvada."
+    "noFeatureGeomtery": "Funktsiooni ei saa kuvada.",
+    "featureOutsideAOIMessage": "Š_Feature cannot be added outside study area______________ä"
   },
   "signin": {
     "guestSigninText": "Jätkake külalisena",
@@ -73,6 +74,7 @@ define({
     "selectFileText": "Sirvi",
     "enterLocation": "Asukoht",
     "reportItButton": "Aruanne It",
+    "editReportButton": "Š_Update___ä",
     "cancelButton": "Tühista",
     "requiredField": "(nõutud)",
     "selectDefaultText": "Vali&hellip;",
@@ -112,31 +114,42 @@ define({
     "noResultsFound": "Ühtki aruannet ei leitud"
   },
   "itemDetails": {
-    "likeButtonLabel": "Hääleta",
-    "likeButtonTooltip": "Hääletage selle aruande kohta",
-    "commentButtonLabel": "Kommentaar",
-    "commentButtonTooltip": "Kommenteerige seda aruannet",
-    "galleryButtonLabel": "Galerii",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "Š_I agree___ä",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "Š_Leave a reply_____ä",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Vaadake manustatud dokumente",
     "mapButtonLabel": "Vaata kaardil",
     "mapButtonTooltip": "Vaata selle aruande asukohta",
     "commentsListHeading": "Kommentaari",
     "unableToUpdateVoteField": "Teie häält ei saa seekord lisada.",
-    "gotoIssueListTooltip": "Liigu aruande loendisse"
+    "gotoIssueListTooltip": "Liigu aruande loendisse",
+    "deleteMessage": "Š_Are you sure you want to delete___________ä?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Selle aruande kohta antud hääled.",
     "loadMoreButtonText": "Laadi rohkem..."
   },
   "comment": {
+    "commentsFormHeading": "Š_Comment___ä",
     "commentsFormSubmitButton": "Saada kommentaar",
+    "commentsFormEditButton": "Š_Update Comment_____ä",
     "commentsFormCancelButton": "Tühista",
     "errorInSubmittingComment": "Kommentaari ei saanud esitada.",
     "emptyCommentMessage": "Palun sisestage kommentaar.",
     "placeHolderText": "Sisestage kommentaar",
     "noCommentsAvailableText": "Ühtki kommentaari ei ole saadaval.",
     "remainingTextCount": "${0} kasutamata tähemärgid",
-    "showNoText": "Ei"
+    "showNoText": "Ei",
+    "selectAttachments": "Š_Attachments____ä",
+    "selectFileText": "Š_Browse___ä",
+    "attachmentSelectedMsg": "Š_attachment(s) selected________ä",
+    "attachmentHeaderText": "Š_Attachments____ä",
+    "unknownCommentAttachment": "Š_FILE__ä",
+    "editRecordText": "Š_Edit__ä",
+    "deleteRecordText": "Š_Delete___ä",
+    "deleteCommentFailedMessage": "Š_Unable to delete comment________ä"
   },
   "gallery": {
     "galleryHeaderText": "Galerii",

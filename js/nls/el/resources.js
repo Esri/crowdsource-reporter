@@ -25,7 +25,8 @@ define({
     "noGroup": "Δεν έχει παραμετροποιηθεί κάποια ομάδα",
     "submitReportButtonText": "Υποβολή αναφοράς",
     "gotoListViewTooltip": "Προβολή λίστας",
-    "noFeatureGeomtery": "Δεν είναι δυνατή η εμφάνιση του στοιχείου"
+    "noFeatureGeomtery": "Δεν είναι δυνατή η εμφάνιση του στοιχείου",
+    "featureOutsideAOIMessage": "Đ_Feature cannot be added outside study area______________ớ"
   },
   "signin": {
     "guestSigninText": "Συνέχεια ως επισκέπτης",
@@ -73,6 +74,7 @@ define({
     "selectFileText": "Αναζήτηση",
     "enterLocation": "Τοποθεσία",
     "reportItButton": "Αναφορά",
+    "editReportButton": "Đ_Update___ớ",
     "cancelButton": "Ακύρωση",
     "requiredField": "(απαιτούμενο)",
     "selectDefaultText": "Επιλέξτε&hellip;",
@@ -112,31 +114,42 @@ define({
     "noResultsFound": "Δεν βρέθηκαν αναφορές."
   },
   "itemDetails": {
-    "likeButtonLabel": "Ψήφος",
-    "likeButtonTooltip": "Ψηφίστε για αυτήν την αναφορά",
-    "commentButtonLabel": "Σχόλιο",
-    "commentButtonTooltip": "Σχολιάστε αυτήν την αναφορά",
-    "galleryButtonLabel": "ΣΥΛΛΟΓΗ",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "Đ_I agree___ớ",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "Đ_Leave a reply_____ớ",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Δείτε τα συνημμένα έγγραφα",
     "mapButtonLabel": "Προβολή στο χάρτη",
     "mapButtonTooltip": "Προβολή της τοποθεσίας αυτής της αναφοράς",
     "commentsListHeading": "Σχόλια",
     "unableToUpdateVoteField": "Δεν είναι δυνατή η μέτρηση της ψήφου σας αυτήν τη στιγμή.",
-    "gotoIssueListTooltip": "Μετάβαση στη λίστα αναφορών"
+    "gotoIssueListTooltip": "Μετάβαση στη λίστα αναφορών",
+    "deleteMessage": "Đ_Are you sure you want to delete___________ớ?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Ψήφοι για αυτήν την αναφορά",
     "loadMoreButtonText": "Φόρτωση περισσότερων δεδομένων..."
   },
   "comment": {
+    "commentsFormHeading": "Đ_Comment___ớ",
     "commentsFormSubmitButton": "Υποβολή σχολίου",
+    "commentsFormEditButton": "Đ_Update Comment_____ớ",
     "commentsFormCancelButton": "Ακύρωση",
     "errorInSubmittingComment": "Δεν ήταν δυνατή η υποβολή του σχολίου.",
     "emptyCommentMessage": "Εισαγάγετε ένα σχόλιο.",
     "placeHolderText": "Πληκτρολογήστε ένα σχόλιο",
     "noCommentsAvailableText": "Δεν υπάρχουν διαθέσιμα σχόλια",
     "remainingTextCount": "Απομένουν ${0} χαρακτήρες",
-    "showNoText": "Όχι"
+    "showNoText": "Όχι",
+    "selectAttachments": "Đ_Attachments____ớ",
+    "selectFileText": "Đ_Browse___ớ",
+    "attachmentSelectedMsg": "Đ_attachment(s) selected________ớ",
+    "attachmentHeaderText": "Đ_Attachments____ớ",
+    "unknownCommentAttachment": "Đ_FILE__ớ",
+    "editRecordText": "Đ_Edit__ớ",
+    "deleteRecordText": "Đ_Delete___ớ",
+    "deleteCommentFailedMessage": "Đ_Unable to delete comment________ớ"
   },
   "gallery": {
     "galleryHeaderText": "ΣΥΛΛΟΓΗ",

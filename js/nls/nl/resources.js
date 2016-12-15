@@ -25,7 +25,8 @@ define({
     "noGroup": "Geen groep geconfigureerd",
     "submitReportButtonText": "Een rapport indienen",
     "gotoListViewTooltip": "Lijstweergave",
-    "noFeatureGeomtery": "Object kan niet worden weergegeven"
+    "noFeatureGeomtery": "Object kan niet worden weergegeven",
+    "featureOutsideAOIMessage": "Ĳ_Feature cannot be added outside study area______________ä"
   },
   "signin": {
     "guestSigninText": "Doorgaan als gast",
@@ -73,6 +74,7 @@ define({
     "selectFileText": "Bladeren",
     "enterLocation": "Locatie",
     "reportItButton": "Melden",
+    "editReportButton": "Ĳ_Update___ä",
     "cancelButton": "Annuleren",
     "requiredField": "(vereist)",
     "selectDefaultText": "Selecteren&hellip;",
@@ -112,31 +114,42 @@ define({
     "noResultsFound": "Geen rapporten gevonden"
   },
   "itemDetails": {
-    "likeButtonLabel": "Stemmen",
-    "likeButtonTooltip": "Op dit rapport stemmen",
-    "commentButtonLabel": "Opmerking",
-    "commentButtonTooltip": "Op dit rapporten reageren",
-    "galleryButtonLabel": "Gallery",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "Ĳ_I agree___ä",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "Ĳ_Leave a reply_____ä",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Zie bijgesloten documenten",
     "mapButtonLabel": "Op kaart weergeven",
     "mapButtonTooltip": "Bekijk de locatie van dit rapport",
     "commentsListHeading": "Opmerkingen",
     "unableToUpdateVoteField": "Uw stem kan nu niet worden geteld.",
-    "gotoIssueListTooltip": "Ga naar de meldlijst"
+    "gotoIssueListTooltip": "Ga naar de meldlijst",
+    "deleteMessage": "Ĳ_Are you sure you want to delete___________ä?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Stemmen op dit rapport",
     "loadMoreButtonText": "Meer laden..."
   },
   "comment": {
+    "commentsFormHeading": "Ĳ_Comment___ä",
     "commentsFormSubmitButton": "Opmerking verzenden",
+    "commentsFormEditButton": "Ĳ_Update Comment_____ä",
     "commentsFormCancelButton": "Annuleren",
     "errorInSubmittingComment": "Reactie kon niet worden ingediend.",
     "emptyCommentMessage": "Voer een reactie in.",
     "placeHolderText": "Type een reactie",
     "noCommentsAvailableText": "Geen reacties beschikbaar",
     "remainingTextCount": "${0} teken(s) over",
-    "showNoText": "Nee"
+    "showNoText": "Nee",
+    "selectAttachments": "Ĳ_Attachments____ä",
+    "selectFileText": "Ĳ_Browse___ä",
+    "attachmentSelectedMsg": "Ĳ_attachment(s) selected________ä",
+    "attachmentHeaderText": "Ĳ_Attachments____ä",
+    "unknownCommentAttachment": "Ĳ_FILE__ä",
+    "editRecordText": "Ĳ_Edit__ä",
+    "deleteRecordText": "Ĳ_Delete___ä",
+    "deleteCommentFailedMessage": "Ĳ_Unable to delete comment________ä"
   },
   "gallery": {
     "galleryHeaderText": "Gallery",

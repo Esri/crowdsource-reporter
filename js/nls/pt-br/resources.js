@@ -25,7 +25,8 @@ define({
     "noGroup": "Nenhum grupo configurado",
     "submitReportButtonText": "Enviar um Relatório",
     "gotoListViewTooltip": "Visualização da lista",
-    "noFeatureGeomtery": "A feição não pode ser exibida"
+    "noFeatureGeomtery": "A feição não pode ser exibida",
+    "featureOutsideAOIMessage": "ã_Feature cannot be added outside study area______________Ç"
   },
   "signin": {
     "guestSigninText": "Prosseguir como Convidado",
@@ -73,6 +74,7 @@ define({
     "selectFileText": "Procurar",
     "enterLocation": "Localização",
     "reportItButton": "Reportar Isto",
+    "editReportButton": "ã_Update___Ç",
     "cancelButton": "Cancelar",
     "requiredField": "(exigido)",
     "selectDefaultText": "Selecionar&hellip;",
@@ -112,31 +114,42 @@ define({
     "noResultsFound": "Nenhum relatório localizado"
   },
   "itemDetails": {
-    "likeButtonLabel": "Votar",
-    "likeButtonTooltip": "Vote por este relatório",
-    "commentButtonLabel": "Comentário",
-    "commentButtonTooltip": "Comente sobre este relatório",
-    "galleryButtonLabel": "Galeria",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "ã_I agree___Ç",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "ã_Leave a reply_____Ç",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Visualize documentos anexados",
     "mapButtonLabel": "Visualizar no Mapa",
     "mapButtonTooltip": "Visualize o local deste relatório",
     "commentsListHeading": "Comentários",
     "unableToUpdateVoteField": "Seu voto não pode ser contado neste momento.",
-    "gotoIssueListTooltip": "Ir para a lista do relatório"
+    "gotoIssueListTooltip": "Ir para a lista do relatório",
+    "deleteMessage": "ã_Are you sure you want to delete___________Ç?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Vote por este relatório",
     "loadMoreButtonText": "Carregar Mais..."
   },
   "comment": {
+    "commentsFormHeading": "ã_Comment___Ç",
     "commentsFormSubmitButton": "Enviar Comentário",
+    "commentsFormEditButton": "ã_Update Comment_____Ç",
     "commentsFormCancelButton": "Cancelar",
     "errorInSubmittingComment": "Não foi possível enviar o comentário.",
     "emptyCommentMessage": "Por favor, insira um comentário.",
     "placeHolderText": "Digite um comentário",
     "noCommentsAvailableText": "Nenhum comentário disponível",
     "remainingTextCount": "${0} caracteres restantes",
-    "showNoText": "Não"
+    "showNoText": "Não",
+    "selectAttachments": "ã_Attachments____Ç",
+    "selectFileText": "ã_Browse___Ç",
+    "attachmentSelectedMsg": "ã_attachment(s) selected________Ç",
+    "attachmentHeaderText": "ã_Attachments____Ç",
+    "unknownCommentAttachment": "ã_FILE__Ç",
+    "editRecordText": "ã_Edit__Ç",
+    "deleteRecordText": "ã_Delete___Ç",
+    "deleteCommentFailedMessage": "ã_Unable to delete comment________Ç"
   },
   "gallery": {
     "galleryHeaderText": "Galeria",

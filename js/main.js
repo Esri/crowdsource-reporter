@@ -1,4 +1,4 @@
-/*global define,dojo,alert,moment,console,dojoConfig,$ */
+/*global define,dojo,alert,moment,console,dojoConfig,$,jQuery */
 /*jslint browser:true,sloppy:true,nomen:true,unparam:true,plusplus:true,indent:4 */
 /*
 | Copyright 2014 Esri
@@ -146,6 +146,8 @@ define([
         _isWebmapListRequired: true,
         firstMapClickPoint: null,
         _existingLayerIndex: null,
+        clonedGeolocation: null,
+        drawToolBarHandler : null,
         startup: function (boilerPlateTemplateObject, loggedInUser) {
             // config will contain application and user defined info for the template such as i18n strings, the web map id
             // and application id
@@ -154,6 +156,10 @@ define([
             if (boilerPlateTemplateObject) {
                 this.boilerPlateTemplate = boilerPlateTemplateObject;
                 this.config = boilerPlateTemplateObject.config;
+                //Make a copy of geolocation, this will be used to check for extent layer functionality whenever layer is selected from webmap list
+                if (this.config.geolocation) {
+                    this.clonedGeolocation = jQuery.extend(true, {}, this.config.geolocation);
+                }
                 this.appUtils = new ApplicationUtils({
                     "config": this.config
                 });
@@ -163,7 +169,7 @@ define([
                 this.mapSearch.onFeatureFound = lang.hitch(this, function (feature) {
                     this._addNewFeature(feature.attributes[this.selectedLayer.objectIdField], this.selectedLayer, "search");
                 });
-                //Check if pusphin is aleady present on map, if it exsist clear the same
+                //Check if pusphin is already present on map, if it exist clear the same
                 aspect.before(this.mapSearch, "_validateAddress", lang.hitch(this, function () {
                     if (this.geolocationgGraphicsLayer) {
                         this.geolocationgGraphicsLayer.clear();
@@ -174,7 +180,7 @@ define([
 
                 }));
 
-                //On click of address from main map, show it in geoform  
+                //On click of address from main map, show it in geoform
                 this.mapSearch.onAddressClicked = lang.hitch(this, function (geometry) {
                     var evt = { "geometry": geometry };
                     if (this.geoformInstance && !domClass.contains(dom.byId('geoformContainer'), "esriCTHidden")) {
@@ -337,8 +343,78 @@ define([
                     }
                 });
 
-                domAttr.set(dom.byId("submitFromMapText"), "innerHTML", this.config.i18n.main.submitReportButtonText);
-                var submitButtonColor = (this.config && this.config.submitReportButtonColor) ? this.config.submitReportButtonColor : "#35ac46";
+                this._itemDetails._createGeoformForEdits = lang.hitch(this, function (parentDiv) {
+                    //Create new instance of geoForm
+                    if (!this.geoformEditInstance) {
+                        this.geoformEditInstance = new GeoForm({
+                            config: this.config,
+                            webMapID: this._webMapListWidget.lastWebMapSelected,
+                            layerId: this._selectedMapDetails.operationalLayerId,
+                            layerTitle: this._selectedMapDetails.operationalLayerDetails.title,
+                            basemapId: this._selectedMapDetails.itemInfo.itemData.baseMap.baseMapLayers[0].id,
+                            changedExtent: this.changedExtent,
+                            appConfig: this.config,
+                            appUtils: this.appUtils,
+                            isEdit: true,
+                            item: this._itemDetails.item,
+                            isMapRequired: true
+                        }, domConstruct.create("div", {}, parentDiv));
+                        this.geoformEditInstance.startup();
+
+                        //on submitting issues in geoform update issue wall and main map to show newly updated issue.
+                        this.geoformEditInstance.geoformFeatureUpdated = lang.hitch(this, function (updatedFeature) {
+                            try {
+                                this._checkForFeatureAvailability(updatedFeature).then(lang.hitch(this, function (isFeatureFound) {
+                                    if (isFeatureFound) {
+                                        //refresh main map so that newly created issue will be shown on it.
+                                        var layer = this._selectedMapDetails.map.getLayer(this._selectedMapDetails.operationalLayerId);
+                                        layer.refresh();
+                                        if (this.config.showNonEditableLayers) {
+                                            //Refresh label layers to fetch label of updated feature
+                                            this.appUtils.refreshLabelLayers(this._selectedMapDetails.itemInfo.itemData.operationalLayers);
+                                        }
+                                        this._itemSelected(updatedFeature, false);
+                                        this._updateFeatureInIssueWall(updatedFeature, true);
+                                        this._itemDetails.handleComponentsVisibility();
+                                    } else {
+                                        this._updateFeatureInIssueWall(updatedFeature, false, false);
+                                    }
+                                }));
+                            } catch (ex) {
+                                this.appUtils.showError(ex.message);
+                            }
+                        });
+                        //deactivate the draw tool on main map after closing geoform
+                        this.geoformEditInstance.onFormClose = lang.hitch(this, function () {
+                            this._itemDetails.handleComponentsVisibility();
+                            this._itemDetails.scrollToTop();
+                        });
+                    } else {
+                        this.geoformEditInstance.item = this._itemDetails.item;
+                        this.geoformEditInstance.isMapRequired = false;
+                        this.geoformEditInstance.startup();
+                        domClass.remove(this._itemDetails.popupDetailsDiv, "esriCTHidden");
+                    }
+                });
+
+                this._itemDetails.onFeatureDeleted = lang.hitch(this, function (isDeleted) {
+                    var layer;
+                    if (isDeleted) {
+                        //refresh main map so that newly created issue will be shown on it.
+                        layer = this._selectedMapDetails.map.getLayer(this._selectedMapDetails.operationalLayerId);
+                        layer.refresh();
+                        this._updateFeatureInIssueWall(this._itemDetails.item, false, true);
+                    }
+                });
+
+                var submitButtonText, submitButtonColor;
+                if (this.config && lang.trim(this.config.submitReportButtonText) === "") {
+                    submitButtonText = this.config.i18n.main.submitReportButtonText;
+                } else {
+                    submitButtonText = this.config.submitReportButtonText;
+                }
+                domAttr.set(dom.byId("submitFromMapText"), "innerHTML", submitButtonText);
+                submitButtonColor = (this.config && this.config.submitReportButtonColor) ? this.config.submitReportButtonColor : "#35ac46";
                 domStyle.set(dom.byId("submitFromMap"), "background-color", submitButtonColor);
 
                 on(dom.byId("submitFromMap"), "click", lang.hitch(this, function (evt) {
@@ -369,10 +445,140 @@ define([
         },
 
         /**
+        * Check if edited feature falls under the definition expression critera
+        * @param{feature} updasted feature
+        * @memberOf main
+        */
+        _checkForFeatureAvailability: function (feature) {
+            var countDef, countQuery, queryTask, layersIds = [], featureFound = true;
+            countDef = new Deferred();
+            countQuery = new Query();
+            queryTask = new QueryTask(this.selectedLayer.url);
+            if (this._existingDefinitionExpression) {
+                countQuery.where = this._existingDefinitionExpression;
+                queryTask.executeForIds(countQuery, lang.hitch(this, function (results) {
+                    //If server returns null values, set feature layer count to 0 and proceed
+                    layersIds = results;
+                    if (layersIds.indexOf(feature.attributes[this.selectedLayer.objectIdField]) === -1) {
+                        featureFound = false;
+                    } else {
+                        featureFound = true;
+                    }
+                    countDef.resolve(featureFound);
+                }), function () {
+                    countDef.resolve(false);
+                });
+            } else {
+                countDef.resolve(true);
+            }
+            return countDef.promise;
+        },
+
+        /**
+        * Update feature instance in issu wall and issue details
+        * @param{object} updated feature
+        * @param{boolean} flag to check for edit or delete feature
+        * @memberOf main
+        */
+        _updateFeatureInIssueWall: function (updatedFeature, isUpdated, canDeleteFromMyIssue) {
+            var nodeToUpdate, nodeToUpdateAttr;
+            if (this._issueWallWidget.itemsList) {
+                nodeToUpdateAttr = updatedFeature.attributes[this.selectedLayer.objectIdField] + "_" +
+                    this._selectedMapDetails.webMapId + "_" +
+                    this.selectedLayer.id;
+                nodeToUpdate = query("." + nodeToUpdateAttr);
+                if (isUpdated) {
+                    this._updateFeature(updatedFeature);
+                } else {
+                    this._deleteFeature(nodeToUpdate, canDeleteFromMyIssue);
+                }
+            }
+            //Update geoform map instance
+            if (this.geoformInstance) {
+                this.geoformInstance.updateLayerOnMap();
+            }
+        },
+
+        /**
+        * Update feature instance
+        * @param{object} node who's value needs to be updated'
+        * @param{object} instance of updated feature
+        * @memberOf main
+        */
+        _updateFeature: function (updatedFeature) {
+            var updatedFeatureTitle;
+            updatedFeatureTitle = this._issueWallWidget.itemsList.getItemTitle(updatedFeature);
+            domAttr.set(this._itemDetails.itemTitleDiv, "innerHTML", updatedFeatureTitle);
+            //If the updated issue is present in my issues list then update it accrodingly
+            if (this._myIssuesWidget && this._myIssuesWidget.itemsList && this.config.logInDetails && updatedFeature.attributes[this.config.reportedByField] && updatedFeature.attributes[this.config.reportedByField] === this.config.logInDetails.processedUserName) {
+                this._myIssuesWidget.updateIssueList(this._selectedMapDetails, updatedFeature);
+            }
+        },
+
+        /**
+        * Delete feature instance
+        * @param{object} node to be deleted
+        * @memberOf main
+        */
+        _deleteFeature: function (nodeToUpdate, canDeleteFromMyIssue) {
+            //Remove graphics from graphic layer
+            array.some(this.displaygraphicsLayer.graphics, lang.hitch(this, function (currentGraphics, index) {
+                if (currentGraphics.attributes[this.selectedLayer.objectIdField] === this._itemDetails.item.attributes[this.selectedLayer.objectIdField]) {
+                    this.displaygraphicsLayer.remove(this.displaygraphicsLayer.graphics[index]);
+                    return true;
+                }
+            }));
+
+            //Clear map selection when navigating to web map list
+            if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
+                this._selectedMapDetails.map.getLayer("selectionGraphicsLayer").clear();
+            }
+
+            if (canDeleteFromMyIssue) {
+                // Delete the node from issue list, my issue list and clear selection
+                array.forEach(nodeToUpdate, lang.hitch(this, function (currentItemNode) {
+                    domConstruct.destroy(currentItemNode);
+                }));
+            } else {
+                // Delete feature only from issue list
+                domConstruct.destroy(nodeToUpdate[0]);
+            }
+
+            this._issueWallWidget.itemsList.clearSelection();
+
+            //Remove graphics instance from layerGraphicsArray
+            array.some(this.layerGraphicsArray, lang.hitch(this, function (currentGraphicsArray, index) {
+                if (currentGraphicsArray.graphic.attributes[this.selectedLayer.objectIdField] === this._itemDetails.item.attributes[this.selectedLayer.objectIdField]) {
+                    this.layerGraphicsArray.splice(index, 1);
+                    //Since the feature is deleted, decrease feature layer count by 1
+                    this.featureLayerCount -= 1;
+                    return true;
+                }
+            }));
+            //If all the features are deleted, create empty issue wall with appropriate message
+            if (!this._isMyIssues && this.layerGraphicsArray.length === 0 && this._issueWallWidget) {
+                this._createIssueWall(this._selectedMapDetails);
+            }
+            if (this._isMyIssues) {
+                this._sidebarCnt.showPanel("myIssues");
+            } else {
+                this._sidebarCnt.showPanel("issueWall");
+            }
+            if (canDeleteFromMyIssue) {
+                //Remove graphics instance from my issues array list
+                if (this._myIssuesWidget) {
+                    this._myIssuesWidget.updateMyIssuesList(this._itemDetails.item, this._selectedMapDetails);
+                }
+            }
+            this.appUtils.hideLoadingIndicator();
+        },
+
+        /**
         * Handle scenario when there is no web maps
         * @memberOf main
         */
         _handleNoWebMapToDisplay: function () {
+            var noMapMessage;
             try {
                 //Remove all menus except sign in/sign out
                 this._menusList.homeMenu = false;
@@ -383,7 +589,12 @@ define([
                 domClass.add(dom.byId("layoutContainer"), "esriCTHidden");
                 this.appUtils.hideLoadingIndicator();
                 domClass.remove(dom.byId("noWebMapParentDiv"), "esriCTHidden");
-                domAttr.set(dom.byId("noWebMapChildDiv"), "innerHTML", this.config.i18n.webMapList.noWebMapInGroup);
+                if (this.config && lang.trim(this.config.noWebmapInGroupText) === "") {
+                    noMapMessage = this.config.i18n.webMapList.noWebMapInGroup;
+                } else {
+                    noMapMessage = this.config.noWebmapInGroupText;
+                }
+                domAttr.set(dom.byId("noWebMapChildDiv"), "innerHTML", noMapMessage);
             } catch (err) {
                 this.appUtils.showError(err.message);
             }
@@ -572,7 +783,7 @@ define([
         */
         _createWebMapList: function () {
             try {
-                var webMapDescriptionFields, webMapListConfigData, zoomInBtn, zoomOutBtn;
+                var webMapDescriptionFields, webMapListConfigData, zoomInBtn, zoomOutBtn, geolocationPoint;
                 //construct json data for the fields to be shown in descriptions, based on the configuration
                 webMapDescriptionFields = {
                     "description": this.config.webMapInfoDescription,
@@ -641,54 +852,23 @@ define([
                 //Create/Clear Selection graphics layer used for highlighting in issue wall
                 //Update Issue wall
                 this._webMapListWidget.onOperationalLayerSelected = lang.hitch(this, function (details) {
-                    //Reset all properties required for fetching features in chunks
-                    this.firstTimeLayerLoad = true;
-                    this.bufferPageNumber = 0;
-                    this.bufferRadius = this.config.bufferRadius;
-                    this.bufferRadiusInterval = this.config.bufferRadius;
-                    this.sortedBufferArray = [];
-                    this.previousBufferGeometry = null;
-                    this.previousBufferIds = null;
-                    this.currentBufferIds = null;
-                    this.layerGraphicsArray = [];
-                    this.sortedFeaturesArray = [];
-                    this.filteredBufferIds = [];
-                    this.maxBufferLimit = 0;
-                    this.map = details.map;
-                    // Create instance of Draw tool to draw the graphics on graphics layer
-                    this.toolbar = new Draw(this.map);
-                    this.newlyAddedFeatures = [];
-                    this._selectedMapDetails = details;
-                    this._initializeLayer(details);
-                    this._initializeApp(details);
-                    //If graphics layer object exsist, clear it and remove the instance
-                    if (this.geolocationgGraphicsLayer) {
-                        this.geolocationgGraphicsLayer.clear();
-                        this.geolocationgGraphicsLayer = null;
+                    if (this.clonedGeolocation) {
+                        this.config.geolocation = this.clonedGeolocation;
                     }
-                    // storing changed instance on extent change
-                    this.map.on("extent-change", lang.hitch(this, function (extent) {
-                        this.changedExtent = extent.extent;
-                        if (this.geoformInstance) {
-                            this.geoformInstance.setMapExtent(this.changedExtent);
-                        }
-                    }));
-
-                    // clear previous graphic, if present on map
-                    this.map.on("click", lang.hitch(this, function (evt) {
-                        if (!this.firstMapClickPoint) {
-                            this.firstMapClickPoint = evt.mapPoint;
-                        }
-                        this._clearSubmissionGraphic();
-                    }));
-
-                    //Set the comments form Instance to null if it exsist
-                    if (this._itemDetails && this._itemDetails.commentformInstance) {
-                        this._itemDetails.commentformInstance = null;
-                    }
-                    //Set the selects features id value to null
-                    if (this._issueWallWidget) {
-                        this._issueWallWidget.itemsList.clearSelection();
+                    //If geolocation and limit feature editing is enabled, check if user's location is inside study area
+                    if (this.config.geolocation && this._webMapListWidget.geographicalExtentLayer) {
+                        geolocationPoint = new Point(this.config.geolocation.coords.longitude,
+                            this.config.geolocation.coords.latitude);
+                        var evt = {};
+                        evt.geometry = geolocationPoint;
+                        this._canDrawFeature(evt).then(lang.hitch(this, function (canDraw) {
+                            if (!canDraw) {
+                                this.config.geolocation = false;
+                            }
+                            this._initializeLayerDetails(details);
+                        }));
+                    } else {
+                        this._initializeLayerDetails(details);
                     }
                 });
 
@@ -709,10 +889,21 @@ define([
                     } else if (this.basemapExtent.contains(evt.graphic.geometry)) {
                         // add graphics on map if geolocation is called from geoform widget
                         if (addGraphic) {
+                            selectedGeometry.geometry = evt.graphic.geometry;
                             if (this.selectedLayer.geometryType === "esriGeometryPoint") {
-                                selectedGeometry.geometry = evt.graphic.geometry;
-                                this._addToGraphicsLayer(selectedGeometry);
-                                this.geoformInstance._addToGraphicsLayer(selectedGeometry, true);
+                                this._canDrawFeature(evt.graphic).then(lang.hitch(this, function (canDraw) {
+                                    this._addToGraphicsLayer(selectedGeometry);
+                                    this.geoformInstance._addToGraphicsLayer(selectedGeometry, true);
+                                    this.geoformInstance._zoomToSelectedFeature(selectedGeometry.geometry);
+                                    setTimeout(lang.hitch(this, function () {
+                                        if (!canDraw) {
+                                            alert(this.config.i18n.main.featureOutsideAOIMessage);
+                                            this.geoformInstance._clearSubmissionGraphic();
+                                            this._clearSubmissionGraphic();
+                                        }
+                                    }), 1000);
+                                }));
+                            } else {
                                 this.geoformInstance._zoomToSelectedFeature(selectedGeometry.geometry);
                             }
                         } else {
@@ -740,6 +931,57 @@ define([
                 this._sidebarCnt.showPanel("webMapList");
             } catch (err) {
                 this.appUtils.showError(err.message);
+            }
+        },
+
+        /**
+        * Perform all the required operations after layer is selected from webmap list
+        * @memberOf main
+        */
+        _initializeLayerDetails: function (details) {
+            //Reset all properties required for fetching features in chunks
+            this.firstTimeLayerLoad = true;
+            this.bufferPageNumber = 0;
+            this.bufferRadius = this.config.bufferRadius;
+            this.bufferRadiusInterval = this.config.bufferRadius;
+            this.sortedBufferArray = [];
+            this.previousBufferGeometry = null;
+            this.previousBufferIds = null;
+            this.currentBufferIds = null;
+            this.layerGraphicsArray = [];
+            this.sortedFeaturesArray = [];
+            this.filteredBufferIds = [];
+            this.maxBufferLimit = 0;
+            this.map = details.map;
+            // Create instance of Draw tool to draw the graphics on graphics layer
+            this.toolbar = new Draw(this.map);
+            this.newlyAddedFeatures = [];
+            this._selectedMapDetails = details;
+            this._initializeLayer(details);
+            this._initializeApp(details);
+            //If graphics layer object exsist, clear it and remove the instance
+            if (this.geolocationgGraphicsLayer) {
+                this.geolocationgGraphicsLayer.clear();
+                this.geolocationgGraphicsLayer = null;
+            }
+            // storing changed instance on extent change
+            this.map.on("extent-change", lang.hitch(this, function (extent) {
+                this.changedExtent = extent.extent;
+                if (this.geoformInstance) {
+                    this.geoformInstance.setMapExtent(this.changedExtent);
+                }
+            }));
+
+            // clear previous graphic, if present on map
+            this.map.on("click", lang.hitch(this, function (evt) {
+                if (!this.firstMapClickPoint) {
+                    this.firstMapClickPoint = evt.mapPoint;
+                }
+                this._clearSubmissionGraphic();
+            }));
+            //Set the selects features id value to null
+            if (this._issueWallWidget) {
+                this._issueWallWidget.itemsList.clearSelection();
             }
         },
 
@@ -779,23 +1021,39 @@ define([
                     }
                     // activate draw tool
                     this._activateDrawTool();
+                    //Check for toolbar handler
+                    if (this.drawToolBarHandler) {
+                        this.drawToolBarHandler.remove();
+                    }
                     // Handle draw_activateDrawTool-end event which will be fired on selecting location
-                    on(this.toolbar, "draw-complete", lang.hitch(this, function (evt) {
+                    this.drawToolBarHandler = on(this.toolbar, "draw-complete", lang.hitch(this, function (evt) {
                         this._addToGraphicsLayer(evt);
-                        if (this.geoformInstance) {
-                            this.geoformInstance._addToGraphicsLayer(evt);
-                        }
-                        if (evt.geometry.type === "point") {
-                            this.appUtils.locatorInstance.locationToAddress(webMercatorUtils.webMercatorToGeographic(evt.geometry), 100);
-                        } else {
-                            this.appUtils.locatorInstance.locationToAddress(webMercatorUtils.webMercatorToGeographic(this.firstMapClickPoint), 100);
-                        }
+                        this._canDrawFeature(evt).then(lang.hitch(this, function (canDraw) {
+                            if (!canDraw) {
+                                alert(this.config.i18n.main.featureOutsideAOIMessage);
+                                if (this.geoformInstance) {
+                                    this.geoformInstance._clearSubmissionGraphic();
+                                    if (this.featureGraphicLayer) {
+                                        this.featureGraphicLayer.clear();
+                                    }
+                                }
+                            } else {
+                                if (this.geoformInstance) {
+                                    this.geoformInstance._addToGraphicsLayer(evt);
+                                }
+                                if (evt.geometry.type === "point") {
+                                    this.appUtils.locatorInstance.locationToAddress(webMercatorUtils.webMercatorToGeographic(evt.geometry), 100);
+                                } else {
+                                    this.appUtils.locatorInstance.locationToAddress(webMercatorUtils.webMercatorToGeographic(this.firstMapClickPoint), 100);
+                                }
 
-                        //Check if pusphin is aleady present on map, if it exsist clear the same
-                        if (this.mapSearch && this.mapSearch.countyLayer) {
-                            this.mapSearch.countyLayer.clear();
-                        }
-                        this.firstMapClickPoint = null;
+                                //Check if pusphin is aleady present on map, if it exsist clear the same
+                                if (this.mapSearch && this.mapSearch.countyLayer) {
+                                    this.mapSearch.countyLayer.clear();
+                                }
+                                this.firstMapClickPoint = null;
+                            }
+                        }));
                     }));
                     this._createGeoForm();
                 });
@@ -842,6 +1100,9 @@ define([
                     if (!selectedFeature.webMapId) {
                         selectedFeature.webMapId = this._selectedMapDetails.webMapId;
                     }
+                    if (selectedFeature.originalFeature) {
+                        selectedFeature.attributes = selectedFeature.originalFeature.attributes;
+                    }
                     this._itemSelected(selectedFeature, true);
                 });
                 this._sidebarCnt.addPanel("issueWall", this._issueWallWidget);
@@ -866,12 +1127,44 @@ define([
             }
 
             //In mobile view when user selects locate in issue wall user should be navigated to map view.
-            //so handle showMapViewOnLocate and check is user is in mobile view then show mapview.
+            //so handle showMapViewOnLocate and check if user is in mobile view and then show map view.
             this._issueWallWidget.showMapViewOnLocate = lang.hitch(this, function () {
                 if (dojowindow.getBox().w < 768) {
                     this.appHeader.mobileMenu.showMapView();
                 }
             });
+        },
+
+        /**
+        * Decide wehter to draw the feature or not based on geographical extent
+        * @param{string} evt : graphics object from draw toolbar
+        * @memberOf main
+        */
+        _canDrawFeature: function (evt) {
+            var def = new Deferred(), query, queryTask;
+            if (!evt || !evt.geometry || !this._webMapListWidget ||
+                    !this._webMapListWidget.geographicalExtentLayer) {
+                //If valid extent layer is not configured allow user to add feature without any restrictions
+                def.resolve(true);
+            } else {
+                this.appUtils.showLoadingIndicator();
+                query = new Query();
+                queryTask = new QueryTask(this._webMapListWidget.geographicalExtentLayer);
+                query.geometry = evt.geometry;
+                queryTask.executeForCount(query, lang.hitch(this, function (count) {
+                    //If count is less than or equals to 0. it means drawn feature is not overlapping the extent layer and hence show the error message
+                    if (!count || count <= 0) {
+                        def.resolve(false);
+                    } else {
+                        def.resolve(true);
+                    }
+                    this.appUtils.hideLoadingIndicator();
+                }), lang.hitch(this, function () {
+                    def.resolve(false);
+                    this.appUtils.hideLoadingIndicator();
+                }));
+            }
+            return def.promise;
         },
 
         /**
@@ -904,7 +1197,8 @@ define([
                         basemapId: this._selectedMapDetails.itemInfo.itemData.baseMap.baseMapLayers[0].id,
                         changedExtent: this.changedExtent,
                         appConfig: this.config,
-                        appUtils: this.appUtils
+                        appUtils: this.appUtils,
+                        isMapRequired: true
 
                     }, domConstruct.create("div", {}, dom.byId("geoformContainer")));
                     //on submitting issues in geoform update issue wall and main map to show newly updated issue.
@@ -939,10 +1233,17 @@ define([
 
                     //clear any graphics present on main map after graphic has been drawn on geoform map
                     this.geoformInstance.onDrawComplete = lang.hitch(this, function (evt) {
-                        if (this.featureGraphicLayer) {
-                            this.featureGraphicLayer.clear();
-                        }
-                        this._addToGraphicsLayer(evt);
+                        this._canDrawFeature(evt).then(lang.hitch(this, function (canDraw) {
+                            if (!canDraw) {
+                                alert(this.config.i18n.main.featureOutsideAOIMessage);
+                                this.geoformInstance._clearSubmissionGraphic();
+                                if (this.featureGraphicLayer) {
+                                    this.featureGraphicLayer.clear();
+                                }
+                            } else {
+                                this._addToGraphicsLayer(evt);
+                            }
+                        }));
                     });
                     this.geoformInstance.startup();
                 }
@@ -957,13 +1258,18 @@ define([
         * @memberOf main
         */
         _addNewFeature: function (objectId, layer, addedFrom) {
-            var queryFeature, featureDef = new Deferred(), currentDateTime = new Date().getTime();
-            queryFeature = new Query();
-            queryFeature.objectIds = [parseInt(objectId, 10)];
-            queryFeature.outFields = ["*"];
-            queryFeature.where = currentDateTime + "=" + currentDateTime;
-            queryFeature.returnGeometry = true;
-            layer.queryFeatures(queryFeature, lang.hitch(this, function (result) {
+            var queryTask, queryParams, featureDef = new Deferred(), currentDateTime = new Date().getTime();
+            queryParams = new Query();
+            queryParams.objectIds = [parseInt(objectId, 10)];
+            queryParams.outFields = ["*"];
+            queryParams.where = currentDateTime + "=" + currentDateTime;
+            queryParams.returnGeometry = true;
+            queryParams.outSpatialReference = this.map.spatialReference;
+            if (this._existingDefinitionExpression) {
+                queryParams.where += " AND " + this._existingDefinitionExpression;
+            }
+            queryTask = new QueryTask(layer.url);
+            queryTask.execute(queryParams, lang.hitch(this, function (result) {
                 this._createFeature(result.features[0], layer, addedFrom);
                 featureDef.resolve();
             }), function (error) {
@@ -980,6 +1286,10 @@ define([
         */
         _createFeature: function (newFeature, layer, addedFrom) {
             var newGraphic, featureExsist = false;
+            if (!newFeature) {
+                return;
+            }
+            newFeature._layer = layer;
             //Add infotemplate to newly created feature
             newFeature.setInfoTemplate(layer.infoTemplate);
             newGraphic = this._createFeatureAttributes(newFeature, layer);
@@ -1024,7 +1334,7 @@ define([
             }
         },
 
-        /**s
+        /**
         * Create feature object
         * @param{object} New feature
         * @param{object} Distance of feature from current location
@@ -1062,6 +1372,11 @@ define([
                 domConstruct.empty(dom.byId("geoformContainer"));
                 this.geoformInstance = null;
             }
+            if (this.geoformEditInstance) {
+                //destroy edit geoform
+                this.geoformEditInstance.destroyInstance();
+                this.geoformEditInstance = null;
+            }
         },
 
         /**
@@ -1098,7 +1413,7 @@ define([
         _itemSelected: function (item, isMapClicked) {
             var operationalLayer;
             //Highlight Feature on map
-            operationalLayer = this._selectedMapDetails.operationalLayerDetails.layerObject;
+            operationalLayer = this.map.getLayer(this._selectedMapDetails.operationalLayerId);
             if (operationalLayer && operationalLayer.objectIdField && this._selectedMapDetails.map) {
                 this.highLightFeatureOnClick(operationalLayer, item.attributes[operationalLayer.objectIdField], this._selectedMapDetails.map.getLayer("selectionGraphicsLayer"), this._selectedMapDetails.map);
             }
@@ -1119,12 +1434,15 @@ define([
             if (this._isMyIssues) {
                 this.actionVisibilities = {};
                 this.actionVisibilities = this._myIssuesWidget.setActionVisibilities(item);
+                if (item.commentPopupTable && item.commentPopupTable.layerDefinition && item.commentPopupTable.layerDefinition.definitionExpression) {
+                    item.relatedTable.setDefinitionExpression(item.commentPopupTable.layerDefinition.definitionExpression);
+                }
                 this._itemDetails.setActionsVisibility(this.actionVisibilities, this.actionVisibilities.commentTable, this.response.itemInfo, this.actionVisibilities.commentPopupTable);
             } else {
                 this._itemDetails.setActionsVisibility(this._issueWallWidget.actionVisibilities, this._issueWallWidget._commentsTable, this.response.itemInfo, this._issueWallWidget._commentPopupTable);
             }
             this._itemDetails.setItemFields(this.config.likeField, this._issueWallWidget.selectedLayer);
-            this._itemDetails.setItem(item);
+            this._itemDetails.setItem(item, this._selectedMapDetails.operationalLayerDetails);
             this._sidebarCnt.showPanel("itemDetails");
             //if item is selected from map and user is in mobile view navigate screen to details view
             if (isMapClicked) {
@@ -1157,7 +1475,7 @@ define([
         * @param{object} map
         */
         highLightFeatureOnClick: function (layer, objectId, selectedGraphicsLayer, map) {
-            var esriQuery, highlightSymbol, currentDateTime = new Date().getTime();
+            var queryTask, esriQuery, highlightSymbol, currentDateTime = new Date().getTime();
             this.mapInstance = map;
             if (selectedGraphicsLayer) {
                 // clear graphics layer
@@ -1167,7 +1485,12 @@ define([
             esriQuery.objectIds = [parseInt(objectId, 10)];
             esriQuery.where = currentDateTime + "=" + currentDateTime;
             esriQuery.returnGeometry = true;
-            layer.queryFeatures(esriQuery, lang.hitch(this, function (featureSet) {
+            esriQuery.outSpatialReference = this.map.spatialReference;
+            if (this._existingDefinitionExpression) {
+                esriQuery.where += " AND " + this._existingDefinitionExpression;
+            }
+            queryTask = new QueryTask(layer.url);
+            queryTask.execute(esriQuery, lang.hitch(this, function (featureSet) {
                 // Check if feature is valid and have valid geometry, if not prompt with no geometry message
                 if (featureSet && featureSet.features && featureSet.features.length > 0 && featureSet.features[0] && featureSet.features[0].geometry) {
                     highlightSymbol = this.getHighLightSymbol(featureSet.features[0], layer);
@@ -1639,7 +1962,7 @@ define([
                 if (this.config.geolocation) {
                     this._createBufferParameters(featureLayer, details, false);
                 } else {
-                    // Some layers return NULL if no feature are present, to handle that simply assign empty array to results 
+                    // Some layers return NULL if no feature are present, to handle that simply assign empty array to results
                     if (!results) { results = []; }
                     //Sort obtained object ids in descending order
                     results.sort(function (a, b) {
@@ -1826,16 +2149,21 @@ define([
         * @memberOf main
         */
         _selectFeaturesInBuffer: function (featureLayer, details, bufferedGeometries) {
-            var queryFeature, newGraphic, currentDateTime = new Date().getTime();
-            queryFeature = new Query();
-            queryFeature.objectIds = this.sortedBufferArray[this.bufferPageNumber];
-            queryFeature.outFields = ["*"];
-            queryFeature.returnGeometry = true;
-            queryFeature.where = currentDateTime + "=" + currentDateTime;
-            if (bufferedGeometries) {
-                queryFeature.geometry = bufferedGeometries;
+            var queryTask, queryParams, newGraphic, currentDateTime = new Date().getTime();
+            queryParams = new Query();
+            queryParams.objectIds = this.sortedBufferArray[this.bufferPageNumber];
+            queryParams.outFields = ["*"];
+            queryParams.returnGeometry = true;
+            queryParams.where = currentDateTime + "=" + currentDateTime;
+            queryParams.outSpatialReference = this.map.spatialReference;
+            if (this._existingDefinitionExpression) {
+                queryParams.where += " AND " + this._existingDefinitionExpression;
             }
-            this.selectedLayer.queryFeatures(queryFeature, lang.hitch(this, function (result) {
+            if (bufferedGeometries) {
+                queryParams.geometry = bufferedGeometries;
+            }
+            queryTask = new QueryTask(featureLayer.url);
+            queryTask.execute(queryParams, lang.hitch(this, function (result) {
                 var i, fields;
                 if (result.features) {
                     for (i = 0; i < result.features.length; i++) {
@@ -1853,6 +2181,7 @@ define([
                         //assign infotemplate for features
                         newGraphic.setInfoTemplate(new PopupTemplate(details.operationalLayerDetails.popupInfo));
                         result.features[i].infoTemplate = newGraphic.infoTemplate;
+                        result.features[i]["_layer"] = this.selectedLayer;
                         newGraphic.webMapId = result.features[i].webMapId = details.webMapId;
                         //Kepping instance of original feature for further use
                         newGraphic.originalFeature = result.features[i];

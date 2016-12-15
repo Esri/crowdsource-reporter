@@ -26,7 +26,8 @@ define({
             noGroup: "No group configured", // Shown when no group is configured in the configuration file
             submitReportButtonText: "Submit a Report", //Submit report  text for buttons on map and list
             gotoListViewTooltip: "List view", // Go to List view tooltip text
-            noFeatureGeomtery: "Feature cannot be displayed" // Error message when geomtery is not available
+            noFeatureGeomtery: "Feature cannot be displayed", // Error message when geomtery is not available
+            featureOutsideAOIMessage: "Feature cannot be added outside study area" // Erro message when feature edits are performed outside the study area
         },
         signin: {
             guestSigninText: "Proceed as Guest", // Shown in the 'Sign in' page below the icon for accessing application as an anonymous user
@@ -74,6 +75,7 @@ define({
             selectFileText: "Browse", // Command button to open a dialog box to select file(s) to be attached
             enterLocation: "Location", // Shown as the second section of the geoform, where the user can select a location on the map
             reportItButton: "Report It", // Command button to submit the geoform to report an issue
+            editReportButton: "Update", // Command button to edit reported issue
             cancelButton: "Cancel", //Command button to close the geoform
             requiredField: "(required)", // Shown next to the field in which the data is mandatory
             selectDefaultText: "Select&hellip;", // Shown in the dropdown field indicating to select an option
@@ -114,31 +116,42 @@ define({
             noResultsFound: "No reports found" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
-            likeButtonLabel: "Vote", // Command button for up-voting a report
-            likeButtonTooltip: "Vote for this report",  // Tooltip for Like button
-            commentButtonLabel: "Comment", // Command button for submitting feedback
-            commentButtonTooltip: "Comment on this report", // Tooltip for Comment button
-            galleryButtonLabel: "Gallery", // Command button for opening and closing attachment file gallery
+            likeButtonLabel: "", // Command button for up-voting a report
+            likeButtonTooltip: "I agree",  // Tooltip for Like button
+            commentButtonLabel: "", // Command button for submitting feedback
+            commentButtonTooltip: "Leave a reply", // Tooltip for Comment button
+            galleryButtonLabel: "", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "See attached documents", // Tooltip for command button shown in details panel
             mapButtonLabel: "View on Map", // Command button shown in details panel
             mapButtonTooltip: "View the location of this report", // Tooltip for Gallery button
             commentsListHeading: "Comments", // List heading for Comments section in details panel
             unableToUpdateVoteField: "Your vote cannot be counted at this time.", // Error message for feature unable to update
-            gotoIssueListTooltip: "Go to the report list" // Tooltip for back icon in Issue list header
+            gotoIssueListTooltip: "Go to the report list", // Tooltip for back icon in Issue list header
+            deleteMessage : "Are you sure you want to delete?", //shown when user tries to delete a report or comment
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
             likesForThisItemTooltip: "Votes for this report", //Shown on hovering of the like icon in my-issues and issue-wall
             loadMoreButtonText: "Load More..." //Text for load more button
         },
         comment: {
+            commentsFormHeading: "Comment",
             commentsFormSubmitButton: "Submit Comment",
+            commentsFormEditButton: "Update Comment",
             commentsFormCancelButton: "Cancel",
             errorInSubmittingComment: "Comment could not be submitted.", // Shown when user is unable to add comments
             emptyCommentMessage: "Please enter a comment.", // Shown when user submits a comment without any text/character
             placeHolderText: "Type a comment", // Shown as a placeholder in comments textbox
             noCommentsAvailableText: "No comments available", // Shown when no comments are available for the selected issue
             remainingTextCount: "${0} character(s) remain", // Shown below the comments textbox indicating the number of characters that can be added
-            showNoText: "No" // Shown when comments character limit is exceeded
+            showNoText: "No", // Shown when comments character limit is exceeded
+            selectAttachments: "Attachments", // Appears above 'Select file' button indicating option to attach files while adding comments
+            selectFileText: "Browse", // Command button to open a dialog box to select file(s) to be attached
+            attachmentSelectedMsg: "attachment(s) selected", // Shown besides the select file button indicating the number of files attached
+            attachmentHeaderText: "Attachments", //attachment header Text
+            unknownCommentAttachment: "FILE", // displayed for attached file having unknown extension
+            editRecordText: "Edit", // Displayed on hover of edit comment button
+            deleteRecordText: "Delete", // Displayed on hover of delete comment button
+            deleteCommentFailedMessage: "Unable to delete comment" // Displayed when delete comment operation gets failed
         },
         gallery: {
             galleryHeaderText: "Gallery",
@@ -146,6 +159,7 @@ define({
         }
     }),
     "ar": 1,
+    "bs": 1,
     "cs": 1,
     "da": 1,
     "de": 1,
@@ -156,6 +170,7 @@ define({
     "fr": 1,
     "he": 1,
     "hr": 1,
+    "id": 1,
     "it": 1,
     "ja": 1,
     "ko": 1,

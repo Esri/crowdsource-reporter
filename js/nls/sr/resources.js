@@ -25,7 +25,8 @@ define({
     "noGroup": "Nijedna grupa nije konfigurisana",
     "submitReportButtonText": "Prosledi izveštaj",
     "gotoListViewTooltip": "Prikaz liste",
-    "noFeatureGeomtery": "Funkcija ne može da bude prikazana"
+    "noFeatureGeomtery": "Funkcija ne može da bude prikazana",
+    "featureOutsideAOIMessage": "Č_Feature cannot be added outside study area______________ž"
   },
   "signin": {
     "guestSigninText": "Nastavite kao gost",
@@ -73,6 +74,7 @@ define({
     "selectFileText": "Pregledanje",
     "enterLocation": "Lokacija",
     "reportItButton": "Prijavi",
+    "editReportButton": "Č_Update___ž",
     "cancelButton": "Otkaži",
     "requiredField": "(obavezno)",
     "selectDefaultText": "Izaberi&hellip;",
@@ -112,31 +114,42 @@ define({
     "noResultsFound": "Nema pronađenih izveštaja"
   },
   "itemDetails": {
-    "likeButtonLabel": "Glasaj",
-    "likeButtonTooltip": "Glasaj za ovaj izveštaj",
-    "commentButtonLabel": "Komentariši",
-    "commentButtonTooltip": "Komentariši ovaj izveštaj",
-    "galleryButtonLabel": "Galerija",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "Č_I agree___ž",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "Č_Leave a reply_____ž",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Pogledaj priložena dokumenta",
     "mapButtonLabel": "Prikaži na mapi",
     "mapButtonTooltip": "Prikaži lokaciju ovog izveštaja",
     "commentsListHeading": "Komentari",
     "unableToUpdateVoteField": "Vaš glas ne može da bude uračunat ovoga puta.",
-    "gotoIssueListTooltip": "Idi na listu izveštaja"
+    "gotoIssueListTooltip": "Idi na listu izveštaja",
+    "deleteMessage": "Č_Are you sure you want to delete___________ž?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Glasovi za ovaj izveštaj",
     "loadMoreButtonText": "Učitaj više..."
   },
   "comment": {
+    "commentsFormHeading": "Č_Comment___ž",
     "commentsFormSubmitButton": "Prosledi komentar",
+    "commentsFormEditButton": "Č_Update Comment_____ž",
     "commentsFormCancelButton": "Otkaži",
     "errorInSubmittingComment": "Prosleđivanje komentara nije moguće.",
     "emptyCommentMessage": "Unesite komentar.",
     "placeHolderText": "Iskucajte komentar",
     "noCommentsAvailableText": "Nema dostupnih komentara",
     "remainingTextCount": "preostalo ${0} karaktera",
-    "showNoText": "Ne"
+    "showNoText": "Ne",
+    "selectAttachments": "Č_Attachments____ž",
+    "selectFileText": "Č_Browse___ž",
+    "attachmentSelectedMsg": "Č_attachment(s) selected________ž",
+    "attachmentHeaderText": "Č_Attachments____ž",
+    "unknownCommentAttachment": "Č_FILE__ž",
+    "editRecordText": "Č_Edit__ž",
+    "deleteRecordText": "Č_Delete___ž",
+    "deleteCommentFailedMessage": "Č_Unable to delete comment________ž"
   },
   "gallery": {
     "galleryHeaderText": "Galerija",

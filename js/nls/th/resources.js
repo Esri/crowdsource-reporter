@@ -25,7 +25,8 @@ define({
     "noGroup": "ยังไม่กำหนดกลุ่ม",
     "submitReportButtonText": "ส่งรายงาน",
     "gotoListViewTooltip": "รายการยอดเข้าชม",
-    "noFeatureGeomtery": "ไม่สามารถแสดงฟีเจอร์ได้"
+    "noFeatureGeomtery": "ไม่สามารถแสดงฟีเจอร์ได้",
+    "featureOutsideAOIMessage": "ก้_Feature cannot be added outside study area______________ษฺ"
   },
   "signin": {
     "guestSigninText": "ดำเนินการในฐานะผู้เยี่ยมชม",
@@ -73,6 +74,7 @@ define({
     "selectFileText": "ค้นหา",
     "enterLocation": "ตำแหน่ง",
     "reportItButton": "รายการสิ่งนี้",
+    "editReportButton": "ก้_Update___ษฺ",
     "cancelButton": "ยกเลิก",
     "requiredField": "(จำเป็นต้องใช้)",
     "selectDefaultText": "เลือก;",
@@ -112,31 +114,42 @@ define({
     "noResultsFound": "ไม่พบรายงาน"
   },
   "itemDetails": {
-    "likeButtonLabel": "โหวต",
-    "likeButtonTooltip": "โหวตให้รายงานนี้",
-    "commentButtonLabel": "คำอธิบาย",
-    "commentButtonTooltip": "แสดงความคิดเห็นเกี่ยวกับรายงานนี้",
-    "galleryButtonLabel": "แกลเลอรี",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "ก้_I agree___ษฺ",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "ก้_Leave a reply_____ษฺ",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "แสดงเอกสารแนบ",
     "mapButtonLabel": "แสดงบนแผนที่",
     "mapButtonTooltip": "แสดงตำแหน่งของรายงานนี้",
     "commentsListHeading": "ความคิดเห็น",
     "unableToUpdateVoteField": "ผลโหวตของคุณไม่สามารถนับได้ในขณะนี้",
-    "gotoIssueListTooltip": "ไปที่รายการรายงาน"
+    "gotoIssueListTooltip": "ไปที่รายการรายงาน",
+    "deleteMessage": "ก้_Are you sure you want to delete___________ษฺ?"
   },
   "itemList": {
     "likesForThisItemTooltip": "โหวตให้รายงานนี้",
     "loadMoreButtonText": "โหลดเพิ่มเติม"
   },
   "comment": {
+    "commentsFormHeading": "ก้_Comment___ษฺ",
     "commentsFormSubmitButton": "ส่งความคิดเห็น",
+    "commentsFormEditButton": "ก้_Update Comment_____ษฺ",
     "commentsFormCancelButton": "ยกเลิก",
     "errorInSubmittingComment": "ความคิดเห็นนี้ไม่สามารถส่งได้",
     "emptyCommentMessage": "โปรดกรอกความเห็น",
     "placeHolderText": "ประเภทของความเห็น",
     "noCommentsAvailableText": "ไม่มีความคิดเห็น",
     "remainingTextCount": "${0} ตัวอักษร ที่เหลือ",
-    "showNoText": "ไม่"
+    "showNoText": "ไม่",
+    "selectAttachments": "ก้_Attachments____ษฺ",
+    "selectFileText": "ก้_Browse___ษฺ",
+    "attachmentSelectedMsg": "ก้_attachment(s) selected________ษฺ",
+    "attachmentHeaderText": "ก้_Attachments____ษฺ",
+    "unknownCommentAttachment": "ก้_FILE__ษฺ",
+    "editRecordText": "ก้_Edit__ษฺ",
+    "deleteRecordText": "ก้_Delete___ษฺ",
+    "deleteCommentFailedMessage": "ก้_Unable to delete comment________ษฺ"
   },
   "gallery": {
     "galleryHeaderText": "แกลเลอรี",

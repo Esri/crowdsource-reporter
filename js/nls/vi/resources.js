@@ -25,7 +25,8 @@ define({
     "noGroup": "Không có nhóm nào được cấu hình",
     "submitReportButtonText": "Đệ trình Báo cáo",
     "gotoListViewTooltip": "Chế độ xem dạng danh sách",
-    "noFeatureGeomtery": "Không thể hiển thị đối tượng"
+    "noFeatureGeomtery": "Không thể hiển thị đối tượng",
+    "featureOutsideAOIMessage": "Đ_Feature cannot be added outside study area______________ớ"
   },
   "signin": {
     "guestSigninText": "Tiến hành dưới dạng Khách",
@@ -73,6 +74,7 @@ define({
     "selectFileText": "Duyệt",
     "enterLocation": "Vị trí",
     "reportItButton": "Báo cáo Nó",
+    "editReportButton": "Đ_Update___ớ",
     "cancelButton": "Hủy",
     "requiredField": "(bắt buộc)",
     "selectDefaultText": "Chọn&hellip;",
@@ -112,31 +114,42 @@ define({
     "noResultsFound": "Không tìm thấy báo cáo"
   },
   "itemDetails": {
-    "likeButtonLabel": "Bình chọn",
-    "likeButtonTooltip": "Bình chọn cho báo cáo này",
-    "commentButtonLabel": "Bình luận",
-    "commentButtonTooltip": "Bình luận về báo cáo này",
-    "galleryButtonLabel": "Bộ sưu tập",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "Đ_I agree___ớ",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "Đ_Leave a reply_____ớ",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Xem tài liệu đính kèm",
     "mapButtonLabel": "Xem trên Bản đồ",
     "mapButtonTooltip": "Xem vị trí của báo cáo này",
     "commentsListHeading": "Bình luận",
     "unableToUpdateVoteField": "Không thể tính bình chọn của bạn vào lúc này.",
-    "gotoIssueListTooltip": "Đến danh sách báo cáo"
+    "gotoIssueListTooltip": "Đến danh sách báo cáo",
+    "deleteMessage": "Đ_Are you sure you want to delete___________ớ?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Các bình chọn cho báo cáo này",
     "loadMoreButtonText": "Tải Thêm..."
   },
   "comment": {
+    "commentsFormHeading": "Đ_Comment___ớ",
     "commentsFormSubmitButton": "Gửi bình luận",
+    "commentsFormEditButton": "Đ_Update Comment_____ớ",
     "commentsFormCancelButton": "Hủy",
     "errorInSubmittingComment": "Không thể gửi bình luận.",
     "emptyCommentMessage": "Vui lòng nhập bình luận.",
     "placeHolderText": "Nhập bình luận",
     "noCommentsAvailableText": "Không có bình luận",
     "remainingTextCount": "Còn ${0} ký tự",
-    "showNoText": "Không"
+    "showNoText": "Không",
+    "selectAttachments": "Đ_Attachments____ớ",
+    "selectFileText": "Đ_Browse___ớ",
+    "attachmentSelectedMsg": "Đ_attachment(s) selected________ớ",
+    "attachmentHeaderText": "Đ_Attachments____ớ",
+    "unknownCommentAttachment": "Đ_FILE__ớ",
+    "editRecordText": "Đ_Edit__ớ",
+    "deleteRecordText": "Đ_Delete___ớ",
+    "deleteCommentFailedMessage": "Đ_Unable to delete comment________ớ"
   },
   "gallery": {
     "galleryHeaderText": "Bộ sưu tập",

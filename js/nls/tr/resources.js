@@ -25,7 +25,8 @@ define({
     "noGroup": "Yapılandırılan grup yok",
     "submitReportButtonText": "Rapor Gönder",
     "gotoListViewTooltip": "Liste görünümü",
-    "noFeatureGeomtery": "Detay görüntülenemiyor"
+    "noFeatureGeomtery": "Detay görüntülenemiyor",
+    "featureOutsideAOIMessage": "ı_Feature cannot be added outside study area______________İ"
   },
   "signin": {
     "guestSigninText": "Konuk olarak devam et",
@@ -73,6 +74,7 @@ define({
     "selectFileText": "...",
     "enterLocation": "Konum",
     "reportItButton": "Bildir",
+    "editReportButton": "ı_Update___İ",
     "cancelButton": "İptal",
     "requiredField": "(gerekli)",
     "selectDefaultText": "Seç&hellip;",
@@ -112,31 +114,42 @@ define({
     "noResultsFound": "Herhangi bir rapor bulunamadı"
   },
   "itemDetails": {
-    "likeButtonLabel": "Oy ver",
-    "likeButtonTooltip": "Bu rapora oy ver",
-    "commentButtonLabel": "Açıklama",
-    "commentButtonTooltip": "Bu rapora yorum yap",
-    "galleryButtonLabel": "Galeri",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "ı_I agree___İ",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "ı_Leave a reply_____İ",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Ekli belgeleri incele",
     "mapButtonLabel": "Haritada görüntüle",
     "mapButtonTooltip": "Bu raporun konumunu görüntüle",
     "commentsListHeading": "Yorumlar",
     "unableToUpdateVoteField": "Oyunuz şu anda sayılamıyor.",
-    "gotoIssueListTooltip": "Rapor listesine git"
+    "gotoIssueListTooltip": "Rapor listesine git",
+    "deleteMessage": "ı_Are you sure you want to delete___________İ?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Bu rapora verilen oylar",
     "loadMoreButtonText": "Daha Fazla Yükle..."
   },
   "comment": {
+    "commentsFormHeading": "ı_Comment___İ",
     "commentsFormSubmitButton": "Yorum Gönder",
+    "commentsFormEditButton": "ı_Update Comment_____İ",
     "commentsFormCancelButton": "İptal",
     "errorInSubmittingComment": "Yorum gönderilemedi.",
     "emptyCommentMessage": "Lütfen bir yorum girin.",
     "placeHolderText": "Yorum yaz",
     "noCommentsAvailableText": "Kullanılabilir yorum yok",
     "remainingTextCount": "${0} karakter kaldı",
-    "showNoText": "Hayır"
+    "showNoText": "Hayır",
+    "selectAttachments": "ı_Attachments____İ",
+    "selectFileText": "ı_Browse___İ",
+    "attachmentSelectedMsg": "ı_attachment(s) selected________İ",
+    "attachmentHeaderText": "ı_Attachments____İ",
+    "unknownCommentAttachment": "ı_FILE__İ",
+    "editRecordText": "ı_Edit__İ",
+    "deleteRecordText": "ı_Delete___İ",
+    "deleteCommentFailedMessage": "ı_Unable to delete comment________İ"
   },
   "gallery": {
     "galleryHeaderText": "Galeri",

@@ -25,7 +25,8 @@ define({
     "noGroup": "Ingen gruppe konfigureret",
     "submitReportButtonText": "Send en rapport",
     "gotoListViewTooltip": "Listevisning",
-    "noFeatureGeomtery": "Objekt kan ikke vises"
+    "noFeatureGeomtery": "Objekt kan ikke vises",
+    "featureOutsideAOIMessage": "ø_Feature cannot be added outside study area______________å"
   },
   "signin": {
     "guestSigninText": "Fortsæt som gæst",
@@ -73,6 +74,7 @@ define({
     "selectFileText": "Gennemse",
     "enterLocation": "Sted",
     "reportItButton": "Rapportér det",
+    "editReportButton": "ø_Update___å",
     "cancelButton": "Annuller",
     "requiredField": "(obligatorisk)",
     "selectDefaultText": "Select&hellip;",
@@ -112,31 +114,42 @@ define({
     "noResultsFound": "ingen rapporter fundet"
   },
   "itemDetails": {
-    "likeButtonLabel": "Stem",
-    "likeButtonTooltip": "Stem på denne rapport",
-    "commentButtonLabel": "Kommentar",
-    "commentButtonTooltip": "Kommentér på denne rapport",
-    "galleryButtonLabel": "Galleri",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "ø_I agree___å",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "ø_Leave a reply_____å",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "Se vedhæftede dokumenter",
     "mapButtonLabel": "Vis på kort",
     "mapButtonTooltip": "Vis denne rapports placering",
     "commentsListHeading": "Comments",
     "unableToUpdateVoteField": "Din stemme kan ikke tælles på nuværende tidspunkt.",
-    "gotoIssueListTooltip": "Gå til rapportlisten"
+    "gotoIssueListTooltip": "Gå til rapportlisten",
+    "deleteMessage": "ø_Are you sure you want to delete___________å?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Stemmer på denne rapport",
     "loadMoreButtonText": "Indlæs mere..."
   },
   "comment": {
+    "commentsFormHeading": "ø_Comment___å",
     "commentsFormSubmitButton": "Send kommentar",
+    "commentsFormEditButton": "ø_Update Comment_____å",
     "commentsFormCancelButton": "Annuller",
     "errorInSubmittingComment": "Kommentar kunne ikke indsendes.",
     "emptyCommentMessage": "Indtast en kommentar.",
     "placeHolderText": "Skriv en kommentar",
     "noCommentsAvailableText": "ingen kommentarer tilgængelige",
     "remainingTextCount": "${0} tegn tilbage",
-    "showNoText": "Nej"
+    "showNoText": "Nej",
+    "selectAttachments": "ø_Attachments____å",
+    "selectFileText": "ø_Browse___å",
+    "attachmentSelectedMsg": "ø_attachment(s) selected________å",
+    "attachmentHeaderText": "ø_Attachments____å",
+    "unknownCommentAttachment": "ø_FILE__å",
+    "editRecordText": "ø_Edit__å",
+    "deleteRecordText": "ø_Delete___å",
+    "deleteCommentFailedMessage": "ø_Unable to delete comment________å"
   },
   "gallery": {
     "galleryHeaderText": "Galleri",

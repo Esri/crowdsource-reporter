@@ -25,7 +25,8 @@ define({
     "noGroup": "구성된 그룹 없음",
     "submitReportButtonText": "보고서 제출",
     "gotoListViewTooltip": "목록 보기",
-    "noFeatureGeomtery": "피처를 표시할 수 없음"
+    "noFeatureGeomtery": "피처를 표시할 수 없음",
+    "featureOutsideAOIMessage": "한_Feature cannot be added outside study area______________빠"
   },
   "signin": {
     "guestSigninText": "게스트로 진행",
@@ -73,6 +74,7 @@ define({
     "selectFileText": "찾아보기",
     "enterLocation": "위치",
     "reportItButton": "보고",
+    "editReportButton": "한_Update___빠",
     "cancelButton": "취소",
     "requiredField": "(필수)",
     "selectDefaultText": "선택&hellip;",
@@ -112,31 +114,42 @@ define({
     "noResultsFound": "보고서를 찾을 수 없음"
   },
   "itemDetails": {
-    "likeButtonLabel": "투표",
-    "likeButtonTooltip": "이 보고서에 투표",
-    "commentButtonLabel": "의견",
-    "commentButtonTooltip": "이 보고서에 대한 의견",
-    "galleryButtonLabel": "갤러리",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "한_I agree___빠",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "한_Leave a reply_____빠",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "첨부된 문서 보기",
     "mapButtonLabel": "맵에서 보기",
     "mapButtonTooltip": "이 보고서의 위치 보기",
     "commentsListHeading": "의견",
     "unableToUpdateVoteField": "지금은 투표를 계산할 수 없습니다.",
-    "gotoIssueListTooltip": "보고서 목록으로 이동"
+    "gotoIssueListTooltip": "보고서 목록으로 이동",
+    "deleteMessage": "한_Are you sure you want to delete___________빠?"
   },
   "itemList": {
     "likesForThisItemTooltip": "이 보고서에 투표",
     "loadMoreButtonText": "추가로 불러오기..."
   },
   "comment": {
+    "commentsFormHeading": "한_Comment___빠",
     "commentsFormSubmitButton": "의견 제출",
+    "commentsFormEditButton": "한_Update Comment_____빠",
     "commentsFormCancelButton": "취소",
     "errorInSubmittingComment": "의견을 제출할 수 없습니다.",
     "emptyCommentMessage": "의견을 입력하세요.",
     "placeHolderText": "의견 입력",
     "noCommentsAvailableText": "의견을 사용할 수 없음",
     "remainingTextCount": "${0}자 남음",
-    "showNoText": "아니요"
+    "showNoText": "아니요",
+    "selectAttachments": "한_Attachments____빠",
+    "selectFileText": "한_Browse___빠",
+    "attachmentSelectedMsg": "한_attachment(s) selected________빠",
+    "attachmentHeaderText": "한_Attachments____빠",
+    "unknownCommentAttachment": "한_FILE__빠",
+    "editRecordText": "한_Edit__빠",
+    "deleteRecordText": "한_Delete___빠",
+    "deleteCommentFailedMessage": "한_Unable to delete comment________빠"
   },
   "gallery": {
     "galleryHeaderText": "갤러리",

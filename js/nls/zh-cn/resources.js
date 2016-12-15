@@ -25,7 +25,8 @@ define({
     "noGroup": "未配置任何群组",
     "submitReportButtonText": "提交报告",
     "gotoListViewTooltip": "列表视图",
-    "noFeatureGeomtery": "无法显示要素"
+    "noFeatureGeomtery": "无法显示要素",
+    "featureOutsideAOIMessage": "试_Feature cannot be added outside study area______________验"
   },
   "signin": {
     "guestSigninText": "以访客身份继续进行",
@@ -73,6 +74,7 @@ define({
     "selectFileText": "浏览",
     "enterLocation": "位置",
     "reportItButton": "提交报告",
+    "editReportButton": "试_Update___验",
     "cancelButton": "取消",
     "requiredField": "(必填)",
     "selectDefaultText": "选择&hellip;",
@@ -112,31 +114,42 @@ define({
     "noResultsFound": "未找到任何报告"
   },
   "itemDetails": {
-    "likeButtonLabel": "投票",
-    "likeButtonTooltip": "投票支持此报告",
-    "commentButtonLabel": "评论",
-    "commentButtonTooltip": "评论此报告",
-    "galleryButtonLabel": "图库",
+    "likeButtonLabel": "",
+    "likeButtonTooltip": "试_I agree___验",
+    "commentButtonLabel": "",
+    "commentButtonTooltip": "试_Leave a reply_____验",
+    "galleryButtonLabel": "",
     "galleryButtonTooltip": "参见随附文档",
     "mapButtonLabel": "在地图中查看",
     "mapButtonTooltip": "查看此报告的位置",
     "commentsListHeading": "评论",
     "unableToUpdateVoteField": "目前无法计数您的投票。",
-    "gotoIssueListTooltip": "转至报告列表"
+    "gotoIssueListTooltip": "转至报告列表",
+    "deleteMessage": "试_Are you sure you want to delete___________验?"
   },
   "itemList": {
     "likesForThisItemTooltip": "投票支持此报告",
     "loadMoreButtonText": "加载更多..."
   },
   "comment": {
+    "commentsFormHeading": "试_Comment___验",
     "commentsFormSubmitButton": "提交评论",
+    "commentsFormEditButton": "试_Update Comment_____验",
     "commentsFormCancelButton": "取消",
     "errorInSubmittingComment": "无法提交评论。",
     "emptyCommentMessage": "请输入一条评论。",
     "placeHolderText": "输入一条评论",
     "noCommentsAvailableText": "没有任何评论可用",
     "remainingTextCount": "剩余 ${0} 个字符",
-    "showNoText": "否"
+    "showNoText": "否",
+    "selectAttachments": "试_Attachments____验",
+    "selectFileText": "试_Browse___验",
+    "attachmentSelectedMsg": "试_attachment(s) selected________验",
+    "attachmentHeaderText": "试_Attachments____验",
+    "unknownCommentAttachment": "试_FILE__验",
+    "editRecordText": "试_Edit__验",
+    "deleteRecordText": "试_Delete___验",
+    "deleteCommentFailedMessage": "试_Unable to delete comment________验"
   },
   "gallery": {
     "galleryHeaderText": "图库",
