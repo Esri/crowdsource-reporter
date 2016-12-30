@@ -644,7 +644,7 @@ define([
                 this._fileInputIcon = domConstruct.create("button", {
                     "type": "button",
                     "innerHTML": this.appConfig.i18n.geoform.selectFileText,
-                    "class": "fileInputButton btn  btn-default esriCTPointerCursor esriCTGeoFormButton esriCTApplicationColor"
+                    "class": "fileInputButton btn  btn-default esriCTPointerCursor esriCTGeoFormButton esriCTApplicationColor esriCTButtonTextColor esriCTButtonBackgroundColor"
                 }, fileContainer);
                 // Show photo selected count
                 domConstruct.create("div", {

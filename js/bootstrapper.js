@@ -47,9 +47,10 @@ define([
                 "config": this.boilerPlateTemplateObject
             });
             this.boilerPlateTemplateObject.startup().then(lang.hitch(this, function (config) {
+                config.portalObject = this.boilerPlateTemplateObject.portal;
                 //By default geolocation will be set to false
                 config.geolocation = false;
-                //Check whether browser supprots geolocation
+                //Check whether browser supports geolocation
                 navigator.geolocation.getCurrentPosition(lang.hitch(this, function (position) {
                     config.geolocation = {};
                     config.geolocation = position;

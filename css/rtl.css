@@ -75,7 +75,6 @@
 .dj_rtl .esriCTRightArrow 
 {
     float : left;
-    background-image: url(../images/left-arrow.png);
 }
 
 .dj_rtl .esriCTWebMapLayerTitle 
@@ -86,7 +85,6 @@
 .dj_rtl .esriCTBackButton 
 {
     float : right;
-    background-image: url('../images/next.png');
 }
 
 .dj_rtl .esriCTEditingButtons
@@ -219,8 +217,33 @@
 
 .dj_rtl .modal-title
 {
+    float: right;
+    text-align: right;
+}
+
+.dj_rtl .esriCTClose
+{
     float: left;
-    text-align: left;
 }
 
 /* End Of CSS For Modal dialog */
+
+/** Common class for RTL for font icons **/
+
+.dj_rtl .esriCTInvertFontIcons
+{
+    -moz-transform: scale(-1, 1);
+    -webkit-transform: scale(-1, 1);
+    -o-transform: scale(-1, 1);
+    -ms-transform: scale(-1, 1);
+    transform: scale(-1, 1);
+}
+
+/** End of common class for RTL for font icons **/
+
+/** Issue List **/
+.dj_rtl .esriCTItemSummaryHighlighter
+{
+    float: right;
+}
+/** End of issue list**/

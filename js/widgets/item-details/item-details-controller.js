@@ -517,7 +517,7 @@ define([
             var editBtn, deleteBtn, existingAttachmentsObjectsArr, buttonContainer, confirmDelete;
             buttonContainer = domConstruct.create("div", { "class": "esriCTEditingButtons" }, parentDiv);
             if (graphic.canEdit) {
-                editBtn = domConstruct.create("div", { "class": "esriCTEditButton", "title": this.appConfig.i18n.comment.editRecordText }, buttonContainer);
+                editBtn = domConstruct.create("div", { "class": "esriCTEditButton icon icon-pencil esriCTBodyTextColor", "title": this.appConfig.i18n.comment.editRecordText }, buttonContainer);
                 on(editBtn, "click", lang.hitch(this, function (evt) {
                     if (isGeoform) {
                         domClass.add(parentDiv, "esriCTHidden");
@@ -534,7 +534,7 @@ define([
                 }));
             }
             if (graphic.canDelete) {
-                deleteBtn = domConstruct.create("div", { "class": "esriCTDeleteButton", "title": this.appConfig.i18n.comment.deleteRecordText }, buttonContainer);
+                deleteBtn = domConstruct.create("div", { "class": "esriCTDeleteButton icon icon-delete esriCTBodyTextColor", "title": this.appConfig.i18n.comment.deleteRecordText }, buttonContainer);
                 on(deleteBtn, "click", lang.hitch(this, function (evt) {
                     confirmDelete = confirm(this.appConfig.i18n.itemDetails.deleteMessage);
                     if (confirmDelete) {
@@ -788,7 +788,7 @@ define([
             //check if attachments found
             if (this._entireAttachmentsArr[index][1] && this._entireAttachmentsArr[index][1].length > 0) {
                 //Create attachment header text
-                domConstruct.create("div", { "innerHTML": this.appConfig.i18n.comment.attachmentHeaderText, "class": "esriCTAttachmentHeader" }, attachmentContainer);
+                domConstruct.create("div", { "innerHTML": this.appConfig.i18n.comment.attachmentHeaderText, "class": "esriCTAttachmentHeader esriCTBodyTextColor" }, attachmentContainer);
                 fieldContent = domConstruct.create("div", { "class": "esriCTThumbnailContainer" }, attachmentContainer);
                 // display all attached images in thumbnails
                 for (i = 0; i < this._entireAttachmentsArr[index][1].length; i++) {
@@ -891,7 +891,7 @@ define([
                 }, this.gallery);
                 domConstruct.create("div", {
                     "innerHTML": this.appConfig.i18n.gallery.galleryHeaderText,
-                    "class": "esriCTItemDetailHeader esriCTListItemHeader esriCTLargeText"
+                    "class": "esriCTItemDetailHeader esriCTListItemHeader esriCTLargeText esriCTCalculatedBodyTextColorAsBorder"
                 }, container);
                 // If attachments found
                 if (infos && infos.length > 0) {
@@ -905,7 +905,7 @@ define([
                             imagePath = infos[i].url;
                         }
                         imageContent = domConstruct.create("span", {
-                            "class": "esriCTIssueImgSpan col"
+                            "class": "esriCTIssueImgSpan col esriCTCalculatedBodyTextColorAsBorder"
                         }, fieldContent);
                         domClass.add(imageContent, "esriCTImageLoader");
                         imageDiv[i] = domConstruct.create("img", {

@@ -284,7 +284,7 @@ define([
                         } else {
                             value = webMapItem.itemInfo.item[field] || this.appConfig.showNullValueAs + "<br/>";
                         }
-                        descriptionInfo += "<div class='esriCTDetailsContainerRow'><div class='esriCTDetailsContainerCell'><div class='esriCTInfoHeader'>" + this.appConfig.i18n.webMapList[field] + "</div><div class='esriCTInfoDetails'>" + value + "</div></div></div>";
+                        descriptionInfo += "<div class='esriCTDetailsContainerRow'><div class='esriCTDetailsContainerCell'><div class='esriCTInfoHeader'>" + this.appConfig.i18n.webMapList[field] + "</div><div class='esriCTInfoDetails esriCTCalculatedBodyTextColorAsBorder'>" + value + "</div></div></div>";
                     }
                 }
             }
@@ -348,7 +348,7 @@ define([
                     InfoDescription: infoDescription
                 });
                 parentDiv = domConstruct.toDom(templateString);
-                domClass.add(parentDiv, "esriCTDisplayWebMapTemplate esriCTWebMapBorder");
+                domClass.add(parentDiv, "esriCTDisplayWebMapTemplate esriCTWebMapBorder esriCTHeaderTextColorAsBorder");
                 domAttr.set(parentDiv, "webMapID", this.filteredWebMapResponseArr[i][1].itemInfo.item.id);
                 if (query('.esriCTInfoImg', parentDiv).length > 0) {
                     domAttr.set(query('.esriCTInfoImg', parentDiv)[0], "title", this.appConfig.i18n.webMapList.infoBtnToolTip);

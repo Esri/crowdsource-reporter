@@ -205,7 +205,7 @@ define([
                 this._fileInputIcon = domConstruct.create("button", {
                     "type": "button",
                     "innerHTML": this.config.i18n.comment.selectFileText,
-                    "class": "btn btn-default esriCTAddCommentAttachmentsButton esriCTEllipsis esriCTApplicationColor"
+                    "class": "btn btn-default esriCTAddCommentAttachmentsButton esriCTEllipsis esriCTApplicationColor esriCTButtonTextColor esriCTButtonBackgroundColor"
                 }, fileContainer);
                 // Show photo selected count
                 domConstruct.create("div", {
