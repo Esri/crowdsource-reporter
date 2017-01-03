@@ -23,7 +23,7 @@
 		"webMapInfoAccessInformation": false,
 		"webMapInfoTags": false,
 		"webMapInfoNumViews": false,
-		"webMapInfoAvgRating": false,		
+		"webMapInfoAvgRating": false,
 		"showNonEditableLayers": false,
 		"submitMessage": "Thank you. Your report has been submitted.",
 		"likeField": "NUMVOTES",
@@ -53,7 +53,13 @@
 		"geoformDetailsSectionLabel": "Details",
 		"geoformLocationSectionLabel": "Location",
 		"geoformAttachmentSectionLabel": "Attachments",
-		"noWebmapInGroupText": "Configured group is invalid or no items have been shared with this group yet."
+		"noWebmapInGroupText": "Configured group is invalid or no items have been shared with this group yet.",
+		"headerBackgroundColor":"",
+		"headerTextColor":"",
+		"bodyBackgroundColor":"",
+		"bodyTextColor":"",
+		"buttonBackgroundColor":"",
+		"buttonTextColor":""
     },
 	"configurationSettings": [{
 	    "category": "<b>App</b>",
@@ -79,6 +85,7 @@
 	        "label": "URL to a logo to display in the application header",
 	        "tooltip": "Logo displays in top left corner of application. Image should be 48px tall.",
 	        "type": "string",
+	        "sharedThemeProperty":"logo.small",
 	        "fieldName": "applicationIcon"
 	    }, {
 	        "label": "URL to a favicon to display in browser tabs where your application is loaded",
@@ -434,5 +441,46 @@
 				"fieldName": "helpDialogContent",
 				"stringFieldOption": "richtext"
 		}]}]
-	}]
+	}, {
+	    "category": "<b>Org Theme</b>",
+	    "fields": [{
+	        "type": "paragraph",
+	        "value": "User can change the theme settings and choose different colors for header, body and button sections"
+	    }, {
+	        "label": "Header background color",
+	        "tooltip": "Set header background color",
+	        "type": "color",
+			"sharedThemeProperty":"header.background",
+	        "fieldName": "headerBackgroundColor"
+	    },  {
+	        "label": "Header text color",
+	        "tooltip": "Set header text color",
+	        "type": "color",
+			"sharedThemeProperty":"header.text",
+	        "fieldName": "headerTextColor"
+	    }, {
+	        "label": "Body background color",
+	        "tooltip": "Set body background color",
+	        "type": "color",
+			"sharedThemeProperty":"body.background",
+	        "fieldName": "bodyBackgroundColor"
+	    }, {
+	        "label": "Body text color",
+	        "tooltip": "Set body text color",
+	        "type": "color",
+			"sharedThemeProperty":"body.text",
+	        "fieldName": "bodyTextColor"
+	    }, {
+	        "label": "Button background color",
+	        "tooltip": "Set button background color",
+	        "type": "color",
+			"sharedThemeProperty":"button.background",
+	        "fieldName": "buttonBackgroundColor"
+	    }, {
+	        "label": "Button text color",
+	        "tooltip": "Set button text color",
+	        "type": "color",
+			"sharedThemeProperty":"button.text",
+	        "fieldName": "buttonTextColor"
+	    }]}]
 }

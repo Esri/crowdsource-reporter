@@ -122,24 +122,10 @@ define({
     "noWebmapInGroupText": "Configured group is invalid or no items have been shared with this group yet.",
     // to show as a label for attachment section in comments form where attachments can be added
     "commentFormAttachmentSectionLabel": "Attachments",
-    // to apply org theming
-    "appTheme": {
-        "header": {
-            "background": "#FFF",
-            "text": "#137DB9",
-            "calculatedBackground": "#3daceb",
-            "calculatedText": "#bababa"
-        },
-        "body": {
-            "background": "#fff",
-            "text": "#515151",
-            "calculatedBackground": "#f0f0f0",
-            "calculatedText": "#878787"
-        },
-        "button": {
-            "background": "#fff",
-            "text": "#137DB9"
-        }
-    }
-
+    "headerBackgroundColor":"",
+    "headerTextColor":"",
+    "bodyBackgroundColor":"",
+    "bodyTextColor":"",
+    "buttonBackgroundColor":"",
+    "buttonTextColor":""
 });
