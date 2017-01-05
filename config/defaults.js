@@ -121,5 +121,11 @@ define({
     "geoformAttachmentSectionLabel": "Attachments", //label for attachment section in geoform
     "noWebmapInGroupText": "Configured group is invalid or no items have been shared with this group yet.",
     // to show as a label for attachment section in comments form where attachments can be added
-    "commentFormAttachmentSectionLabel": "Attachments"
+    "commentFormAttachmentSectionLabel": "Attachments",
+    "headerBackgroundColor":"",
+    "headerTextColor":"",
+    "bodyBackgroundColor":"",
+    "bodyTextColor":"",
+    "buttonBackgroundColor":"",
+    "buttonTextColor":""
 });

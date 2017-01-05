@@ -200,7 +200,7 @@ define([
             }, itemSummaryParent);
 
             itemSummaryDiv = domConstruct.create('div', {
-                'class': 'esriCTItemSummary'
+                'class': 'esriCTItemSummary esriCTCalculatedBodyTextColorAsBorder'
             }, itemSummaryParent);
 
             if (this.isMyIssues) {
@@ -233,17 +233,17 @@ define([
             if (this.showLikes) {
                 itemVotes = this.getItemVotes(item);
                 favDiv = domConstruct.create('div', {
-                    'class': 'esriCTItemFav',
+                    'class': 'esriCTItemFav esriCTCalculatedBodyTextColor',
                     'title': itemVotes.label + " " + this.i18n.likesForThisItemTooltip
                 }, itemSummaryDiv);
 
                 domConstruct.create('div', {
-                    'class': 'esriCTItemVotes esriCTEllipsis',
+                    'class': 'esriCTItemVotes esriCTCalculatedBodyTextColor esriCTEllipsis',
                     'innerHTML': itemVotes.label
                 }, favDiv);
 
                 domConstruct.create('div', {
-                    'class': 'glyphicon glyphicon-heart esriCTFavDiv'
+                    'class': 'glyphicon glyphicon-heart esriCTFavDiv esriCTCalculatedBodyTextColor'
                 }, favDiv);
             } else {
                 //If like field is not configured use the entire space for issue title
@@ -311,7 +311,7 @@ define([
             }, this.list);
 
             itemSummaryDiv = domConstruct.create('div', {
-                'class': 'esriCTItemSummary'
+                'class': 'esriCTItemSummary esriCTCalculatedBodyTextColorAsBorder'
             }, loadMoreButton);
 
             itemTitleDivMyIssues = domConstruct.create('div', {
