@@ -26,7 +26,7 @@ define({
     "submitReportButtonText": "إرسال تقرير",
     "gotoListViewTooltip": "عرض القائمة",
     "noFeatureGeomtery": "يتعذر عرض المعالم",
-    "featureOutsideAOIMessage": "بيت_Feature cannot be added outside study area______________لاحقة"
+    "featureOutsideAOIMessage": "يتعذر إضافة المعلم خارج منطقة الدراسة"
   },
   "signin": {
     "guestSigninText": "تابع بصفتك ضيف",
@@ -74,7 +74,7 @@ define({
     "selectFileText": "مربع حوار",
     "enterLocation": "موقع",
     "reportItButton": "تقريرها",
-    "editReportButton": "بيت_Update___لاحقة",
+    "editReportButton": "تحديث",
     "cancelButton": "إلغاء الأمر",
     "requiredField": "(مطلوب)",
     "selectDefaultText": "حدد&hellip;",
@@ -115,9 +115,9 @@ define({
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "بيت_I agree___لاحقة",
+    "likeButtonTooltip": "أقبل",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "بيت_Leave a reply_____لاحقة",
+    "commentButtonTooltip": "اكتب ردًا",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "مراجعة المستندات المرفقة",
     "mapButtonLabel": "العرض على الخريطة",
@@ -125,16 +125,16 @@ define({
     "commentsListHeading": "التعليقات",
     "unableToUpdateVoteField": "يتعذر حساب التصويت الآن.",
     "gotoIssueListTooltip": "الانتقال إلى قائمة التقرير",
-    "deleteMessage": "بيت_Are you sure you want to delete___________لاحقة?"
+    "deleteMessage": "هل تريد الحذف بالتأكيد؟"
   },
   "itemList": {
     "likesForThisItemTooltip": "عمليات التصويت لهذا التقرير",
     "loadMoreButtonText": "تحميل المزيد..."
   },
   "comment": {
-    "commentsFormHeading": "بيت_Comment___لاحقة",
+    "commentsFormHeading": "تعليق",
     "commentsFormSubmitButton": "تقديم تعليق",
-    "commentsFormEditButton": "بيت_Update Comment_____لاحقة",
+    "commentsFormEditButton": "تحديث التعليق",
     "commentsFormCancelButton": "إلغاء الأمر",
     "errorInSubmittingComment": "يتعذر إرسال التعليق.",
     "emptyCommentMessage": "الرجاء إدخال تعليق.",
@@ -142,14 +142,14 @@ define({
     "noCommentsAvailableText": "لا توجد تعليقات متاحة",
     "remainingTextCount": "يتبقى ${0} حرف",
     "showNoText": "لا",
-    "selectAttachments": "بيت_Attachments____لاحقة",
-    "selectFileText": "بيت_Browse___لاحقة",
-    "attachmentSelectedMsg": "بيت_attachment(s) selected________لاحقة",
-    "attachmentHeaderText": "بيت_Attachments____لاحقة",
-    "unknownCommentAttachment": "بيت_FILE__لاحقة",
-    "editRecordText": "بيت_Edit__لاحقة",
-    "deleteRecordText": "بيت_Delete___لاحقة",
-    "deleteCommentFailedMessage": "بيت_Unable to delete comment________لاحقة"
+    "selectAttachments": "مرفقات",
+    "selectFileText": "مربع حوار",
+    "attachmentSelectedMsg": "المرفقات المحددة",
+    "attachmentHeaderText": "مرفقات",
+    "unknownCommentAttachment": "ملف",
+    "editRecordText": "تحرير",
+    "deleteRecordText": "حذف",
+    "deleteCommentFailedMessage": "يتعذر حذف التعليق"
   },
   "gallery": {
     "galleryHeaderText": "معرض الصور",

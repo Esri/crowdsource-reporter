@@ -26,7 +26,7 @@ define({
     "submitReportButtonText": "Kirim laporan",
     "gotoListViewTooltip": "Tampilan daftar",
     "noFeatureGeomtery": "Fitur tidak dapat ditampilkan",
-    "featureOutsideAOIMessage": "ng_Feature cannot be added outside study area______________ny"
+    "featureOutsideAOIMessage": "Fitur tidak dapat ditambahkan di luar area studi"
   },
   "signin": {
     "guestSigninText": "Lanjutkan sebagai Tamu",
@@ -74,7 +74,7 @@ define({
     "selectFileText": "Telusuri",
     "enterLocation": "Lokasi",
     "reportItButton": "Laporkan",
-    "editReportButton": "ng_Update___ny",
+    "editReportButton": "Pembaruan",
     "cancelButton": "Batal",
     "requiredField": "(diperlukan)",
     "selectDefaultText": "Pilih&hellip;",
@@ -115,9 +115,9 @@ define({
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "ng_I agree___ny",
+    "likeButtonTooltip": "Saya setuju",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "ng_Leave a reply_____ny",
+    "commentButtonTooltip": "Tinggalkan balasan",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Lihat dokumen terlampir",
     "mapButtonLabel": "Tampilkan pada peta",
@@ -125,16 +125,16 @@ define({
     "commentsListHeading": "Komentar",
     "unableToUpdateVoteField": "Pilihan Anda tidak dapat dihitung saat ini.",
     "gotoIssueListTooltip": "Buka daftar laporan",
-    "deleteMessage": "ng_Are you sure you want to delete___________ny?"
+    "deleteMessage": "Anda yakin ingin menghapus?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Pilihan untuk laporan ini",
     "loadMoreButtonText": "Muat Lebih Banyak..."
   },
   "comment": {
-    "commentsFormHeading": "ng_Comment___ny",
+    "commentsFormHeading": "Komentar",
     "commentsFormSubmitButton": "Kirim Komentar",
-    "commentsFormEditButton": "ng_Update Comment_____ny",
+    "commentsFormEditButton": "Perbarui Komentar",
     "commentsFormCancelButton": "Batal",
     "errorInSubmittingComment": "Komentar tidak dapat dikirimkan.",
     "emptyCommentMessage": "Harap masukkan komentar.",
@@ -145,11 +145,11 @@ define({
     "selectAttachments": "Lampiran",
     "selectFileText": "Telusuri",
     "attachmentSelectedMsg": "lampiran dipilih",
-    "attachmentHeaderText": "ng_Attachments____ny",
-    "unknownCommentAttachment": "ng_FILE__ny",
-    "editRecordText": "ng_Edit__ny",
-    "deleteRecordText": "ng_Delete___ny",
-    "deleteCommentFailedMessage": "ng_Unable to delete comment________ny"
+    "attachmentHeaderText": "Lampiran",
+    "unknownCommentAttachment": "FILE",
+    "editRecordText": "Edit",
+    "deleteRecordText": "Hapus",
+    "deleteCommentFailedMessage": "Tidak dapat menghapus komentar"
   },
   "gallery": {
     "galleryHeaderText": "Galeri",

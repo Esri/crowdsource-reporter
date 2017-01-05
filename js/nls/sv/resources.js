@@ -26,7 +26,7 @@ define({
     "submitReportButtonText": "Skicka in en rapport",
     "gotoListViewTooltip": "Listvy",
     "noFeatureGeomtery": "Geoobjektet kan inte visas",
-    "featureOutsideAOIMessage": "Å_Feature cannot be added outside study area______________ö"
+    "featureOutsideAOIMessage": "Geoobjektet går inte att lägga till utanför undersökningsområdet"
   },
   "signin": {
     "guestSigninText": "Fortsätt som gäst",
@@ -74,7 +74,7 @@ define({
     "selectFileText": "Bläddra",
     "enterLocation": "Plats",
     "reportItButton": "Rapportera",
-    "editReportButton": "Å_Update___ö",
+    "editReportButton": "Uppdatera",
     "cancelButton": "Avbryt",
     "requiredField": "(obligatoriskt)",
     "selectDefaultText": "Välj&hellip;",
@@ -115,9 +115,9 @@ define({
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "Å_I agree___ö",
+    "likeButtonTooltip": "Jag godkänner",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "Å_Leave a reply_____ö",
+    "commentButtonTooltip": "Lämna ett svar",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Se bifogade dokument",
     "mapButtonLabel": "Visa på kartan",
@@ -125,16 +125,16 @@ define({
     "commentsListHeading": "Kommentarer",
     "unableToUpdateVoteField": "Det går inte att räkna din röst just nu.",
     "gotoIssueListTooltip": "Gå till rapportlistan",
-    "deleteMessage": "Å_Are you sure you want to delete___________ö?"
+    "deleteMessage": "Vill du ta bort?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Röster för den här rapporten",
     "loadMoreButtonText": "Läs in mer ..."
   },
   "comment": {
-    "commentsFormHeading": "Å_Comment___ö",
+    "commentsFormHeading": "Kommentar",
     "commentsFormSubmitButton": "Skicka en kommentar",
-    "commentsFormEditButton": "Å_Update Comment_____ö",
+    "commentsFormEditButton": "Uppdatera kommentar",
     "commentsFormCancelButton": "Avbryt",
     "errorInSubmittingComment": "Det gick inte att skicka kommentaren.",
     "emptyCommentMessage": "Ange en kommentar.",
@@ -142,14 +142,14 @@ define({
     "noCommentsAvailableText": "Inga kommentarer tillgängliga",
     "remainingTextCount": "${0} tecken återstår",
     "showNoText": "Nej",
-    "selectAttachments": "Å_Attachments____ö",
-    "selectFileText": "Å_Browse___ö",
-    "attachmentSelectedMsg": "Å_attachment(s) selected________ö",
-    "attachmentHeaderText": "Å_Attachments____ö",
-    "unknownCommentAttachment": "Å_FILE__ö",
-    "editRecordText": "Å_Edit__ö",
-    "deleteRecordText": "Å_Delete___ö",
-    "deleteCommentFailedMessage": "Å_Unable to delete comment________ö"
+    "selectAttachments": "Bilagor",
+    "selectFileText": "Bläddra",
+    "attachmentSelectedMsg": "bilagor markerade",
+    "attachmentHeaderText": "Bilagor",
+    "unknownCommentAttachment": "ARKIV",
+    "editRecordText": "Redigera",
+    "deleteRecordText": "Ta bort",
+    "deleteCommentFailedMessage": "Det gick inte att ta bort kommentaren"
   },
   "gallery": {
     "galleryHeaderText": "Galleri",

@@ -26,7 +26,7 @@ define({
     "submitReportButtonText": "Een rapport indienen",
     "gotoListViewTooltip": "Lijstweergave",
     "noFeatureGeomtery": "Object kan niet worden weergegeven",
-    "featureOutsideAOIMessage": "Ĳ_Feature cannot be added outside study area______________ä"
+    "featureOutsideAOIMessage": "Object kan niet buiten studiegebied worden toegevoegd"
   },
   "signin": {
     "guestSigninText": "Doorgaan als gast",
@@ -74,7 +74,7 @@ define({
     "selectFileText": "Bladeren",
     "enterLocation": "Locatie",
     "reportItButton": "Melden",
-    "editReportButton": "Ĳ_Update___ä",
+    "editReportButton": "Actualiseren",
     "cancelButton": "Annuleren",
     "requiredField": "(vereist)",
     "selectDefaultText": "Selecteren&hellip;",
@@ -115,9 +115,9 @@ define({
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "Ĳ_I agree___ä",
+    "likeButtonTooltip": "Ik ga akkoord",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "Ĳ_Leave a reply_____ä",
+    "commentButtonTooltip": "Laat een reactie achter",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Zie bijgesloten documenten",
     "mapButtonLabel": "Op kaart weergeven",
@@ -125,16 +125,16 @@ define({
     "commentsListHeading": "Opmerkingen",
     "unableToUpdateVoteField": "Uw stem kan nu niet worden geteld.",
     "gotoIssueListTooltip": "Ga naar de meldlijst",
-    "deleteMessage": "Ĳ_Are you sure you want to delete___________ä?"
+    "deleteMessage": "Weet u zeker dat u het wilt verwijderen?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Stemmen op dit rapport",
     "loadMoreButtonText": "Meer laden..."
   },
   "comment": {
-    "commentsFormHeading": "Ĳ_Comment___ä",
+    "commentsFormHeading": "Opmerking",
     "commentsFormSubmitButton": "Opmerking verzenden",
-    "commentsFormEditButton": "Ĳ_Update Comment_____ä",
+    "commentsFormEditButton": "Reactie bijwerken",
     "commentsFormCancelButton": "Annuleren",
     "errorInSubmittingComment": "Reactie kon niet worden ingediend.",
     "emptyCommentMessage": "Voer een reactie in.",
@@ -142,14 +142,14 @@ define({
     "noCommentsAvailableText": "Geen reacties beschikbaar",
     "remainingTextCount": "${0} teken(s) over",
     "showNoText": "Nee",
-    "selectAttachments": "Ĳ_Attachments____ä",
-    "selectFileText": "Ĳ_Browse___ä",
-    "attachmentSelectedMsg": "Ĳ_attachment(s) selected________ä",
-    "attachmentHeaderText": "Ĳ_Attachments____ä",
-    "unknownCommentAttachment": "Ĳ_FILE__ä",
-    "editRecordText": "Ĳ_Edit__ä",
-    "deleteRecordText": "Ĳ_Delete___ä",
-    "deleteCommentFailedMessage": "Ĳ_Unable to delete comment________ä"
+    "selectAttachments": "Bijlagen",
+    "selectFileText": "Bladeren",
+    "attachmentSelectedMsg": "bijlage(n) geselecteerd",
+    "attachmentHeaderText": "Bijlagen",
+    "unknownCommentAttachment": "BESTAND",
+    "editRecordText": "Bewerken",
+    "deleteRecordText": "Verwijderen",
+    "deleteCommentFailedMessage": "Kan opmerking niet verwijderen"
   },
   "gallery": {
     "galleryHeaderText": "Gallery",

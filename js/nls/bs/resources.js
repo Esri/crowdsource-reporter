@@ -26,7 +26,7 @@ define({
     "submitReportButtonText": "Podnesi izvješće",
     "gotoListViewTooltip": "Prikaz u popisu",
     "noFeatureGeomtery": "Geoobjekt se ne može prikazati",
-    "featureOutsideAOIMessage": "Č_Feature cannot be added outside study area______________ž"
+    "featureOutsideAOIMessage": "Geoobjekt se ne može dodati izvan radnog područja"
   },
   "signin": {
     "guestSigninText": "Nastavi kao gost",
@@ -74,7 +74,7 @@ define({
     "selectFileText": "Pregledaj",
     "enterLocation": "Lokacija",
     "reportItButton": "Prijavi",
-    "editReportButton": "Č_Update___ž",
+    "editReportButton": "Ažuriraj",
     "cancelButton": "Odustani",
     "requiredField": "(obavezno)",
     "selectDefaultText": "Odabir&hellip;",
@@ -115,9 +115,9 @@ define({
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "Č_I agree___ž",
+    "likeButtonTooltip": "Slažem se",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "Č_Leave a reply_____ž",
+    "commentButtonTooltip": "Odgovori",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Vidi priložene dokumente",
     "mapButtonLabel": "Prikaži na karti",
@@ -125,16 +125,16 @@ define({
     "commentsListHeading": "Komentari",
     "unableToUpdateVoteField": "Vaš se glas trenutačno ne može pribrojiti.",
     "gotoIssueListTooltip": "Idi na popis izvješća",
-    "deleteMessage": "Č_Are you sure you want to delete___________ž?"
+    "deleteMessage": "Jeste li sigurni da želite izbrisati?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Glasovi za ovo izvješće",
     "loadMoreButtonText": "Učitaj više..."
   },
   "comment": {
-    "commentsFormHeading": "Č_Comment___ž",
+    "commentsFormHeading": "Komentiraj",
     "commentsFormSubmitButton": "Pošalji komentar",
-    "commentsFormEditButton": "Č_Update Comment_____ž",
+    "commentsFormEditButton": "Ažuriraj komentar",
     "commentsFormCancelButton": "Odustani",
     "errorInSubmittingComment": "Nije moguće poslati komentar.",
     "emptyCommentMessage": "Unesite komentar.",
@@ -142,14 +142,14 @@ define({
     "noCommentsAvailableText": "Nema dostupnih komentara",
     "remainingTextCount": "preostalo ${0} znakova",
     "showNoText": "Ne",
-    "selectAttachments": "Č_Attachments____ž",
-    "selectFileText": "Č_Browse___ž",
-    "attachmentSelectedMsg": "Č_attachment(s) selected________ž",
-    "attachmentHeaderText": "Č_Attachments____ž",
-    "unknownCommentAttachment": "Č_FILE__ž",
-    "editRecordText": "Č_Edit__ž",
-    "deleteRecordText": "Č_Delete___ž",
-    "deleteCommentFailedMessage": "Č_Unable to delete comment________ž"
+    "selectAttachments": "Privici",
+    "selectFileText": "Pregledaj",
+    "attachmentSelectedMsg": "odabrano privitaka",
+    "attachmentHeaderText": "Privici",
+    "unknownCommentAttachment": "DATOTEKA",
+    "editRecordText": "Uredi",
+    "deleteRecordText": "Izbriši",
+    "deleteCommentFailedMessage": "Nije moguće izbrisati komentar"
   },
   "gallery": {
     "galleryHeaderText": "Galerija",

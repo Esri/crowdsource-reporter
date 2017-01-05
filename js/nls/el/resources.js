@@ -26,7 +26,7 @@ define({
     "submitReportButtonText": "Υποβολή αναφοράς",
     "gotoListViewTooltip": "Προβολή λίστας",
     "noFeatureGeomtery": "Δεν είναι δυνατή η εμφάνιση του στοιχείου",
-    "featureOutsideAOIMessage": "Đ_Feature cannot be added outside study area______________ớ"
+    "featureOutsideAOIMessage": "Το στοιχείο δεν μπορεί να προστεθεί εκτός της περιοχής μελέτης"
   },
   "signin": {
     "guestSigninText": "Συνέχεια ως επισκέπτης",
@@ -74,7 +74,7 @@ define({
     "selectFileText": "Αναζήτηση",
     "enterLocation": "Τοποθεσία",
     "reportItButton": "Αναφορά",
-    "editReportButton": "Đ_Update___ớ",
+    "editReportButton": "Ενημέρωση",
     "cancelButton": "Ακύρωση",
     "requiredField": "(απαιτούμενο)",
     "selectDefaultText": "Επιλέξτε&hellip;",
@@ -115,9 +115,9 @@ define({
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "Đ_I agree___ớ",
+    "likeButtonTooltip": "Συμφωνώ",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "Đ_Leave a reply_____ớ",
+    "commentButtonTooltip": "Προσθήκη απάντησης",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Δείτε τα συνημμένα έγγραφα",
     "mapButtonLabel": "Προβολή στο χάρτη",
@@ -125,16 +125,16 @@ define({
     "commentsListHeading": "Σχόλια",
     "unableToUpdateVoteField": "Δεν είναι δυνατή η μέτρηση της ψήφου σας αυτήν τη στιγμή.",
     "gotoIssueListTooltip": "Μετάβαση στη λίστα αναφορών",
-    "deleteMessage": "Đ_Are you sure you want to delete___________ớ?"
+    "deleteMessage": "Είστε βέβαιοι ότι θέλετε να γίνει διαγραφή;"
   },
   "itemList": {
     "likesForThisItemTooltip": "Ψήφοι για αυτήν την αναφορά",
     "loadMoreButtonText": "Φόρτωση περισσότερων δεδομένων..."
   },
   "comment": {
-    "commentsFormHeading": "Đ_Comment___ớ",
+    "commentsFormHeading": "Σχόλιο",
     "commentsFormSubmitButton": "Υποβολή σχολίου",
-    "commentsFormEditButton": "Đ_Update Comment_____ớ",
+    "commentsFormEditButton": "Σχόλιο ενημέρωσης",
     "commentsFormCancelButton": "Ακύρωση",
     "errorInSubmittingComment": "Δεν ήταν δυνατή η υποβολή του σχολίου.",
     "emptyCommentMessage": "Εισαγάγετε ένα σχόλιο.",
@@ -142,14 +142,14 @@ define({
     "noCommentsAvailableText": "Δεν υπάρχουν διαθέσιμα σχόλια",
     "remainingTextCount": "Απομένουν ${0} χαρακτήρες",
     "showNoText": "Όχι",
-    "selectAttachments": "Đ_Attachments____ớ",
-    "selectFileText": "Đ_Browse___ớ",
-    "attachmentSelectedMsg": "Đ_attachment(s) selected________ớ",
-    "attachmentHeaderText": "Đ_Attachments____ớ",
-    "unknownCommentAttachment": "Đ_FILE__ớ",
-    "editRecordText": "Đ_Edit__ớ",
-    "deleteRecordText": "Đ_Delete___ớ",
-    "deleteCommentFailedMessage": "Đ_Unable to delete comment________ớ"
+    "selectAttachments": "Συνημμένα",
+    "selectFileText": "Αναζήτηση",
+    "attachmentSelectedMsg": "συνημμένα επιλέχθηκαν",
+    "attachmentHeaderText": "Συνημμένα",
+    "unknownCommentAttachment": "ΑΡΧΕΙΟ",
+    "editRecordText": "Επεξεργασία",
+    "deleteRecordText": "Διαγραφή",
+    "deleteCommentFailedMessage": "Δεν είναι δυνατή η διαγραφή του σχολίου"
   },
   "gallery": {
     "galleryHeaderText": "ΣΥΛΛΟΓΗ",

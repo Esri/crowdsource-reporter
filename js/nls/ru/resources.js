@@ -26,7 +26,7 @@ define({
     "submitReportButtonText": "Отправить отчет",
     "gotoListViewTooltip": "Вид - список",
     "noFeatureGeomtery": "Объекты невозможно отобразить",
-    "featureOutsideAOIMessage": "Ж_Feature cannot be added outside study area______________Я"
+    "featureOutsideAOIMessage": "Невозможно добавить объекты за пределами изучаемой области."
   },
   "signin": {
     "guestSigninText": "Продолжить как гость",
@@ -74,7 +74,7 @@ define({
     "selectFileText": "Просмотр",
     "enterLocation": "Расположение",
     "reportItButton": "Отчет",
-    "editReportButton": "Ж_Update___Я",
+    "editReportButton": "Обновить",
     "cancelButton": "Отменить",
     "requiredField": "(необходимо)",
     "selectDefaultText": "Выбрать&hellip;",
@@ -115,9 +115,9 @@ define({
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "Ж_I agree___Я",
+    "likeButtonTooltip": "Я согласен",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "Ж_Leave a reply_____Я",
+    "commentButtonTooltip": "Оставить отзыв",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Просмотр вложенных документов",
     "mapButtonLabel": "Просмотр на карте",
@@ -125,16 +125,16 @@ define({
     "commentsListHeading": "Комментарии",
     "unableToUpdateVoteField": "Ваш голос не может быть учтен сейчас.",
     "gotoIssueListTooltip": "Перейти к списку отчетов",
-    "deleteMessage": "Ж_Are you sure you want to delete___________Я?"
+    "deleteMessage": "Вы уверены, что хотите удалить?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Число голосов отданных за отчет",
     "loadMoreButtonText": "Загрузить больше..."
   },
   "comment": {
-    "commentsFormHeading": "Ж_Comment___Я",
+    "commentsFormHeading": "Комментарий",
     "commentsFormSubmitButton": "Отправить комментарий",
-    "commentsFormEditButton": "Ж_Update Comment_____Я",
+    "commentsFormEditButton": "Обновить комментарий",
     "commentsFormCancelButton": "Отменить",
     "errorInSubmittingComment": "Комментарий не может быть добавлен.",
     "emptyCommentMessage": "Введите комментарий.",
@@ -142,14 +142,14 @@ define({
     "noCommentsAvailableText": "Нет доступных комментариев",
     "remainingTextCount": "Символов осталось: ${0}",
     "showNoText": "Нет",
-    "selectAttachments": "Ж_Attachments____Я",
-    "selectFileText": "Ж_Browse___Я",
-    "attachmentSelectedMsg": "Ж_attachment(s) selected________Я",
-    "attachmentHeaderText": "Ж_Attachments____Я",
-    "unknownCommentAttachment": "Ж_FILE__Я",
-    "editRecordText": "Ж_Edit__Я",
-    "deleteRecordText": "Ж_Delete___Я",
-    "deleteCommentFailedMessage": "Ж_Unable to delete comment________Я"
+    "selectAttachments": "Вложения",
+    "selectFileText": "Просмотр",
+    "attachmentSelectedMsg": "выбранные вложения",
+    "attachmentHeaderText": "Вложения",
+    "unknownCommentAttachment": "ФАЙЛ",
+    "editRecordText": "Изменить",
+    "deleteRecordText": "Удалить",
+    "deleteCommentFailedMessage": "Невозможно удалить комментарий"
   },
   "gallery": {
     "galleryHeaderText": "Галерея",

@@ -26,7 +26,7 @@ define({
     "submitReportButtonText": "שלח דו\"ח",
     "gotoListViewTooltip": "תצוגת רשימה",
     "noFeatureGeomtery": "לא ניתן להציג את הישות",
-    "featureOutsideAOIMessage": "כן_Feature cannot be added outside study area______________ש"
+    "featureOutsideAOIMessage": "‏אין אפשרות להוסיף ישות מחוץ לאזור המחקר"
   },
   "signin": {
     "guestSigninText": "המשך כאורח",
@@ -74,7 +74,7 @@ define({
     "selectFileText": "נתב",
     "enterLocation": "מיקום",
     "reportItButton": "דווח על כך",
-    "editReportButton": "כן_Update___ש",
+    "editReportButton": "עדכון",
     "cancelButton": "בטל",
     "requiredField": "(נדרש)",
     "selectDefaultText": "בחר&hellip;",
@@ -115,9 +115,9 @@ define({
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "כן_I agree___ש",
+    "likeButtonTooltip": "אני מסכים",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "כן_Leave a reply_____ש",
+    "commentButtonTooltip": "השאר תגובה",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "ראה מסמכים מצורפים",
     "mapButtonLabel": "הצג במפה",
@@ -125,16 +125,16 @@ define({
     "commentsListHeading": "הערות",
     "unableToUpdateVoteField": "לא ניתן לקחת בחשבון את ההצבעה שלך כעת.",
     "gotoIssueListTooltip": "עבור לרשימת הדוחות",
-    "deleteMessage": "כן_Are you sure you want to delete___________ש?"
+    "deleteMessage": "האם אתה בטוח שברצונך למחוק?"
   },
   "itemList": {
     "likesForThisItemTooltip": "הצבעות לדוח זה",
     "loadMoreButtonText": "טען עוד..."
   },
   "comment": {
-    "commentsFormHeading": "כן_Comment___ש",
+    "commentsFormHeading": "הערה",
     "commentsFormSubmitButton": "שלח תגובה",
-    "commentsFormEditButton": "כן_Update Comment_____ש",
+    "commentsFormEditButton": "הערת עדכון",
     "commentsFormCancelButton": "בטל",
     "errorInSubmittingComment": "לא ניתן לשלוח תגובה.",
     "emptyCommentMessage": "שלח תגובה.",
@@ -142,14 +142,14 @@ define({
     "noCommentsAvailableText": "אין תגובות זמינות",
     "remainingTextCount": "נותרו ${0} תווים",
     "showNoText": "לא",
-    "selectAttachments": "כן_Attachments____ש",
-    "selectFileText": "כן_Browse___ש",
-    "attachmentSelectedMsg": "כן_attachment(s) selected________ש",
-    "attachmentHeaderText": "כן_Attachments____ש",
-    "unknownCommentAttachment": "כן_FILE__ש",
-    "editRecordText": "כן_Edit__ש",
-    "deleteRecordText": "כן_Delete___ש",
-    "deleteCommentFailedMessage": "כן_Unable to delete comment________ש"
+    "selectAttachments": "קבצים מצורפים",
+    "selectFileText": "נתב",
+    "attachmentSelectedMsg": "קבצים מצורפים נבחרו",
+    "attachmentHeaderText": "קבצים מצורפים",
+    "unknownCommentAttachment": "קובץ",
+    "editRecordText": "ערוך",
+    "deleteRecordText": "מחיקה",
+    "deleteCommentFailedMessage": "אין אפשרות למחוק הערה"
   },
   "gallery": {
     "galleryHeaderText": "גלריה",

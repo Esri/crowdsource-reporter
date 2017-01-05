@@ -26,7 +26,7 @@ define({
     "submitReportButtonText": "Trimiteţi un raport",
     "gotoListViewTooltip": "Vizualizare tip listă",
     "noFeatureGeomtery": "Obiectul spaţial nu poate fi afişat",
-    "featureOutsideAOIMessage": "Ă_Feature cannot be added outside study area______________ș"
+    "featureOutsideAOIMessage": "Obiectul spaţial nu poate fi adăugat în afara zonei de studiu"
   },
   "signin": {
     "guestSigninText": "Continuare ca oaspete",
@@ -74,7 +74,7 @@ define({
     "selectFileText": "Parcurgere",
     "enterLocation": "Locaţie",
     "reportItButton": "Raportare",
-    "editReportButton": "Ă_Update___ș",
+    "editReportButton": "Actualizare",
     "cancelButton": "Anulare",
     "requiredField": "(obligatoriu)",
     "selectDefaultText": "Selectare&hellip;",
@@ -115,9 +115,9 @@ define({
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "Ă_I agree___ș",
+    "likeButtonTooltip": "De acord",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "Ă_Leave a reply_____ș",
+    "commentButtonTooltip": "Lăsaţi un răspuns",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Consultaţi documentele ataşate",
     "mapButtonLabel": "Vizualizare pe hartă",
@@ -125,16 +125,16 @@ define({
     "commentsListHeading": "Comentarii",
     "unableToUpdateVoteField": "Votul dumneavoastră nu poate fi luat în considerare în acest moment.",
     "gotoIssueListTooltip": "Accesare listă rapoarte",
-    "deleteMessage": "Ă_Are you sure you want to delete___________ș?"
+    "deleteMessage": "Sigur doriţi să ştergeţi?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Voturi pentru acest raport",
     "loadMoreButtonText": "Se încarcă mai multe..."
   },
   "comment": {
-    "commentsFormHeading": "Ă_Comment___ș",
+    "commentsFormHeading": "Comentariu",
     "commentsFormSubmitButton": "Trimitere comentariu",
-    "commentsFormEditButton": "Ă_Update Comment_____ș",
+    "commentsFormEditButton": "Actualizare comentariu",
     "commentsFormCancelButton": "Anulare",
     "errorInSubmittingComment": "Comentariul nu a putut fi transmis.",
     "emptyCommentMessage": "Introduceţi un comentariu.",
@@ -142,14 +142,14 @@ define({
     "noCommentsAvailableText": "Niciun comentariu disponibil",
     "remainingTextCount": "${0} caractere rămase",
     "showNoText": "Nu",
-    "selectAttachments": "Ă_Attachments____ș",
-    "selectFileText": "Ă_Browse___ș",
-    "attachmentSelectedMsg": "Ă_attachment(s) selected________ș",
-    "attachmentHeaderText": "Ă_Attachments____ș",
-    "unknownCommentAttachment": "Ă_FILE__ș",
-    "editRecordText": "Ă_Edit__ș",
-    "deleteRecordText": "Ă_Delete___ș",
-    "deleteCommentFailedMessage": "Ă_Unable to delete comment________ș"
+    "selectAttachments": "Ataşări",
+    "selectFileText": "Răsfoire",
+    "attachmentSelectedMsg": "ataşări selectate",
+    "attachmentHeaderText": "Ataşări",
+    "unknownCommentAttachment": "FIŞIER",
+    "editRecordText": "Editare",
+    "deleteRecordText": "Ştergere",
+    "deleteCommentFailedMessage": "Nu se poate şterge comentariul"
   },
   "gallery": {
     "galleryHeaderText": "Galerie",

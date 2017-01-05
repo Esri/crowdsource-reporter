@@ -26,7 +26,7 @@ define({
     "submitReportButtonText": "Odeslat zprávu",
     "gotoListViewTooltip": "Zobrazení seznamu",
     "noFeatureGeomtery": "Prvek nelze zobrazit.",
-    "featureOutsideAOIMessage": "Ř_Feature cannot be added outside study area______________ů"
+    "featureOutsideAOIMessage": "Prvek nelze přidat mimo zájmovou oblast."
   },
   "signin": {
     "guestSigninText": "Pokračovat jako host",
@@ -74,7 +74,7 @@ define({
     "selectFileText": "Procházet",
     "enterLocation": "Poloha",
     "reportItButton": "Vytvořit zprávu",
-    "editReportButton": "Ř_Update___ů",
+    "editReportButton": "Aktualizovat (Update)",
     "cancelButton": "Storno",
     "requiredField": "(vyžadováno)",
     "selectDefaultText": "Výběr&hellip;",
@@ -115,9 +115,9 @@ define({
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "Ř_I agree___ů",
+    "likeButtonTooltip": "Souhlasím",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "Ř_Leave a reply_____ů",
+    "commentButtonTooltip": "Napsat odpověď",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Zobrazit připojené dokumenty",
     "mapButtonLabel": "Zobrazit na mapě",
@@ -125,16 +125,16 @@ define({
     "commentsListHeading": "Komentáře",
     "unableToUpdateVoteField": "Váš hlas v tuto chvíli nelze započítat.",
     "gotoIssueListTooltip": "Přejít na seznam zpráv",
-    "deleteMessage": "Ř_Are you sure you want to delete___________ů?"
+    "deleteMessage": "Určitě odstranit?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Hlasy pro tuto zprávu",
     "loadMoreButtonText": "Načíst další..."
   },
   "comment": {
-    "commentsFormHeading": "Ř_Comment___ů",
+    "commentsFormHeading": "Komentář",
     "commentsFormSubmitButton": "Odeslat komentář",
-    "commentsFormEditButton": "Ř_Update Comment_____ů",
+    "commentsFormEditButton": "Aktualizovat komentář",
     "commentsFormCancelButton": "Storno",
     "errorInSubmittingComment": "Komentář se nepodařilo odeslat.",
     "emptyCommentMessage": "Zadejte komentář.",
@@ -142,14 +142,14 @@ define({
     "noCommentsAvailableText": "Nejsou k dispozici žádné komentáře.",
     "remainingTextCount": "Počet zbývajících znaků: ${0}",
     "showNoText": "Ne",
-    "selectAttachments": "Ř_Attachments____ů",
-    "selectFileText": "Ř_Browse___ů",
-    "attachmentSelectedMsg": "Ř_attachment(s) selected________ů",
-    "attachmentHeaderText": "Ř_Attachments____ů",
-    "unknownCommentAttachment": "Ř_FILE__ů",
-    "editRecordText": "Ř_Edit__ů",
-    "deleteRecordText": "Ř_Delete___ů",
-    "deleteCommentFailedMessage": "Ř_Unable to delete comment________ů"
+    "selectAttachments": "Přílohy",
+    "selectFileText": "Procházet",
+    "attachmentSelectedMsg": "příloh vybráno",
+    "attachmentHeaderText": "Přílohy",
+    "unknownCommentAttachment": "SOUBOR",
+    "editRecordText": "Upravit",
+    "deleteRecordText": "Smazat (Delete)",
+    "deleteCommentFailedMessage": "Komentář nelze odstranit"
   },
   "gallery": {
     "galleryHeaderText": "Galerie",

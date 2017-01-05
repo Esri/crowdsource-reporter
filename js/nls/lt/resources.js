@@ -26,7 +26,7 @@ define({
     "submitReportButtonText": "Pateikti ataskaitą",
     "gotoListViewTooltip": "Sąrašo vaizdas",
     "noFeatureGeomtery": "Elemento parodyti negalima",
-    "featureOutsideAOIMessage": "Į_Feature cannot be added outside study area______________š"
+    "featureOutsideAOIMessage": "Elemento negalima pridėti už regiono ribų"
   },
   "signin": {
     "guestSigninText": "Tęsti svečio teisėmis",
@@ -74,7 +74,7 @@ define({
     "selectFileText": "Parinkti",
     "enterLocation": "Vieta",
     "reportItButton": "Pranešti apie tai",
-    "editReportButton": "Į_Update___š",
+    "editReportButton": "Atnaujinti",
     "cancelButton": "Atšaukti",
     "requiredField": "(privalomas)",
     "selectDefaultText": "Pasirinkti&hellip;",
@@ -115,9 +115,9 @@ define({
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "Į_I agree___š",
+    "likeButtonTooltip": "Sutinku",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "Į_Leave a reply_____š",
+    "commentButtonTooltip": "Palikti atsiliepimą",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Žr. pridėtus dokumentus",
     "mapButtonLabel": "Žiūrėti žemėlapyje",
@@ -125,16 +125,16 @@ define({
     "commentsListHeading": "Komentarai",
     "unableToUpdateVoteField": "Šiuo metu jūsų balso įskaičiuoti negalima.",
     "gotoIssueListTooltip": "Eiti į ataskaitų sąrašą",
-    "deleteMessage": "Į_Are you sure you want to delete___________š?"
+    "deleteMessage": "Ar tikrai norite ištrinti?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Balsai už šią ataskaitą",
     "loadMoreButtonText": "Įkelti daugiau..."
   },
   "comment": {
-    "commentsFormHeading": "Į_Comment___š",
+    "commentsFormHeading": "Komentuoti",
     "commentsFormSubmitButton": "Pateikti komentarą",
-    "commentsFormEditButton": "Į_Update Comment_____š",
+    "commentsFormEditButton": "Atnaujinti komentarą",
     "commentsFormCancelButton": "Atšaukti",
     "errorInSubmittingComment": "Komentaro pateikti nepavyko.",
     "emptyCommentMessage": "Įveskite komentarą.",
@@ -142,14 +142,14 @@ define({
     "noCommentsAvailableText": "Komentarų nėra",
     "remainingTextCount": "liko simbolių: ${0}",
     "showNoText": "Ne",
-    "selectAttachments": "Į_Attachments____š",
-    "selectFileText": "Į_Browse___š",
-    "attachmentSelectedMsg": "Į_attachment(s) selected________š",
-    "attachmentHeaderText": "Į_Attachments____š",
-    "unknownCommentAttachment": "Į_FILE__š",
-    "editRecordText": "Į_Edit__š",
-    "deleteRecordText": "Į_Delete___š",
-    "deleteCommentFailedMessage": "Į_Unable to delete comment________š"
+    "selectAttachments": "Priedai",
+    "selectFileText": "Parinkti",
+    "attachmentSelectedMsg": "pasirinktas (-i) priedas (-ai)",
+    "attachmentHeaderText": "Priedai",
+    "unknownCommentAttachment": "FAILAS",
+    "editRecordText": "Redaguoti",
+    "deleteRecordText": "Ištrinti",
+    "deleteCommentFailedMessage": "Komentaro ištrinti nepavyko"
   },
   "gallery": {
     "galleryHeaderText": "Galerija",

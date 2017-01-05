@@ -26,7 +26,7 @@ define({
     "submitReportButtonText": "Iesniegt pārskatu",
     "gotoListViewTooltip": "Saraksta skats",
     "noFeatureGeomtery": "Funkciju nevar parādīt",
-    "featureOutsideAOIMessage": "ķ_Feature cannot be added outside study area______________ū"
+    "featureOutsideAOIMessage": "Līdzekli nevar pievienot ārpus izpētes apgabala"
   },
   "signin": {
     "guestSigninText": "Turpināt kā viesim",
@@ -74,7 +74,7 @@ define({
     "selectFileText": "Pārlūks",
     "enterLocation": "Izvietojums",
     "reportItButton": "Ziņot par to",
-    "editReportButton": "ķ_Update___ū",
+    "editReportButton": "Atjaunināt",
     "cancelButton": "Atcelt",
     "requiredField": "(nepieciešams)",
     "selectDefaultText": "Izvēlēties&hellip;",
@@ -115,9 +115,9 @@ define({
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "ķ_I agree___ū",
+    "likeButtonTooltip": "Piekrītu",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "ķ_Leave a reply_____ū",
+    "commentButtonTooltip": "Atbildēt",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Skatīt pievienotos dokumentus",
     "mapButtonLabel": "Skatīt kartē",
@@ -125,16 +125,16 @@ define({
     "commentsListHeading": "Komentāri",
     "unableToUpdateVoteField": "Jūsu balsi šobrīd nevar pievienot.",
     "gotoIssueListTooltip": "Doties uz ziņojumu sarakstu",
-    "deleteMessage": "ķ_Are you sure you want to delete___________ū?"
+    "deleteMessage": "Vai tiešām vēlaties dzēst?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Balsis par šo ziņojumu",
     "loadMoreButtonText": "Ielādēt vēl..."
   },
   "comment": {
-    "commentsFormHeading": "ķ_Comment___ū",
+    "commentsFormHeading": "Komentārs",
     "commentsFormSubmitButton": "Iesniegt komentāru",
-    "commentsFormEditButton": "ķ_Update Comment_____ū",
+    "commentsFormEditButton": "Atjaunināt komentāru",
     "commentsFormCancelButton": "Atcelt",
     "errorInSubmittingComment": "Komentāru nevarēja iesniegt.",
     "emptyCommentMessage": "Lūdzu ievadiet komentāru.",
@@ -142,14 +142,14 @@ define({
     "noCommentsAvailableText": "Nav pieejamu komentāru",
     "remainingTextCount": "Palikusi(-šas) ${0} rakstzīme(-s)",
     "showNoText": "Nē",
-    "selectAttachments": "ķ_Attachments____ū",
-    "selectFileText": "ķ_Browse___ū",
-    "attachmentSelectedMsg": "ķ_attachment(s) selected________ū",
-    "attachmentHeaderText": "ķ_Attachments____ū",
-    "unknownCommentAttachment": "ķ_FILE__ū",
-    "editRecordText": "ķ_Edit__ū",
-    "deleteRecordText": "ķ_Delete___ū",
-    "deleteCommentFailedMessage": "ķ_Unable to delete comment________ū"
+    "selectAttachments": "Pielikumi",
+    "selectFileText": "Pārlūkot",
+    "attachmentSelectedMsg": "atlasītais(-ie) pielikums(-i)",
+    "attachmentHeaderText": "Uzdevumi",
+    "unknownCommentAttachment": "FAILS",
+    "editRecordText": "Rediģēt",
+    "deleteRecordText": "Izdzēst",
+    "deleteCommentFailedMessage": "Nevar izdzēst komentāru"
   },
   "gallery": {
     "galleryHeaderText": "Galerija",

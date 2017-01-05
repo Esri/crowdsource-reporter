@@ -26,7 +26,7 @@ define({
     "submitReportButtonText": "Edasta aruanne",
     "gotoListViewTooltip": "Loendivaade",
     "noFeatureGeomtery": "Funktsiooni ei saa kuvada.",
-    "featureOutsideAOIMessage": "Š_Feature cannot be added outside study area______________ä"
+    "featureOutsideAOIMessage": "Objekti ei saa lisada uuringualast väljapoole"
   },
   "signin": {
     "guestSigninText": "Jätkake külalisena",
@@ -74,7 +74,7 @@ define({
     "selectFileText": "Sirvi",
     "enterLocation": "Asukoht",
     "reportItButton": "Aruanne It",
-    "editReportButton": "Š_Update___ä",
+    "editReportButton": "Uuenda",
     "cancelButton": "Tühista",
     "requiredField": "(nõutud)",
     "selectDefaultText": "Vali&hellip;",
@@ -115,9 +115,9 @@ define({
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "Š_I agree___ä",
+    "likeButtonTooltip": "Nõustun",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "Š_Leave a reply_____ä",
+    "commentButtonTooltip": "Jätke vastus",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Vaadake manustatud dokumente",
     "mapButtonLabel": "Vaata kaardil",
@@ -125,16 +125,16 @@ define({
     "commentsListHeading": "Kommentaari",
     "unableToUpdateVoteField": "Teie häält ei saa seekord lisada.",
     "gotoIssueListTooltip": "Liigu aruande loendisse",
-    "deleteMessage": "Š_Are you sure you want to delete___________ä?"
+    "deleteMessage": "Kas soovite selle kindlasti kustutada?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Selle aruande kohta antud hääled.",
     "loadMoreButtonText": "Laadi rohkem..."
   },
   "comment": {
-    "commentsFormHeading": "Š_Comment___ä",
+    "commentsFormHeading": "Kommentaar",
     "commentsFormSubmitButton": "Saada kommentaar",
-    "commentsFormEditButton": "Š_Update Comment_____ä",
+    "commentsFormEditButton": "Uuenda kommentaari",
     "commentsFormCancelButton": "Tühista",
     "errorInSubmittingComment": "Kommentaari ei saanud esitada.",
     "emptyCommentMessage": "Palun sisestage kommentaar.",
@@ -142,14 +142,14 @@ define({
     "noCommentsAvailableText": "Ühtki kommentaari ei ole saadaval.",
     "remainingTextCount": "${0} kasutamata tähemärgid",
     "showNoText": "Ei",
-    "selectAttachments": "Š_Attachments____ä",
-    "selectFileText": "Š_Browse___ä",
-    "attachmentSelectedMsg": "Š_attachment(s) selected________ä",
-    "attachmentHeaderText": "Š_Attachments____ä",
-    "unknownCommentAttachment": "Š_FILE__ä",
-    "editRecordText": "Š_Edit__ä",
-    "deleteRecordText": "Š_Delete___ä",
-    "deleteCommentFailedMessage": "Š_Unable to delete comment________ä"
+    "selectAttachments": "Manused",
+    "selectFileText": "Sirvi",
+    "attachmentSelectedMsg": "valitud manus(ed)",
+    "attachmentHeaderText": "Manused",
+    "unknownCommentAttachment": "FAIL",
+    "editRecordText": "Muuda",
+    "deleteRecordText": "Kustuta",
+    "deleteCommentFailedMessage": "Kommentaari ei saa kustutada"
   },
   "gallery": {
     "galleryHeaderText": "Galerii",

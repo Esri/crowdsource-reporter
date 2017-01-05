@@ -26,7 +26,7 @@ define({
     "submitReportButtonText": "Send en rapport",
     "gotoListViewTooltip": "Listevisning",
     "noFeatureGeomtery": "Objekt kan ikke vises",
-    "featureOutsideAOIMessage": "ø_Feature cannot be added outside study area______________å"
+    "featureOutsideAOIMessage": "Objekt kan ikke tilføjes uden for undersøgelsesområdet"
   },
   "signin": {
     "guestSigninText": "Fortsæt som gæst",
@@ -74,7 +74,7 @@ define({
     "selectFileText": "Gennemse",
     "enterLocation": "Sted",
     "reportItButton": "Rapportér det",
-    "editReportButton": "ø_Update___å",
+    "editReportButton": "Apps",
     "cancelButton": "Annuller",
     "requiredField": "(obligatorisk)",
     "selectDefaultText": "Select&hellip;",
@@ -115,9 +115,9 @@ define({
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "ø_I agree___å",
+    "likeButtonTooltip": "Jeg accepterer",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "ø_Leave a reply_____å",
+    "commentButtonTooltip": "Efterlad et svar",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Se vedhæftede dokumenter",
     "mapButtonLabel": "Vis på kort",
@@ -125,16 +125,16 @@ define({
     "commentsListHeading": "Comments",
     "unableToUpdateVoteField": "Din stemme kan ikke tælles på nuværende tidspunkt.",
     "gotoIssueListTooltip": "Gå til rapportlisten",
-    "deleteMessage": "ø_Are you sure you want to delete___________å?"
+    "deleteMessage": "Er du sikker på, at du vil slette?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Stemmer på denne rapport",
     "loadMoreButtonText": "Indlæs mere..."
   },
   "comment": {
-    "commentsFormHeading": "ø_Comment___å",
+    "commentsFormHeading": "Kommentar",
     "commentsFormSubmitButton": "Send kommentar",
-    "commentsFormEditButton": "ø_Update Comment_____å",
+    "commentsFormEditButton": "Opdatér kommentar",
     "commentsFormCancelButton": "Annuller",
     "errorInSubmittingComment": "Kommentar kunne ikke indsendes.",
     "emptyCommentMessage": "Indtast en kommentar.",
@@ -142,14 +142,14 @@ define({
     "noCommentsAvailableText": "ingen kommentarer tilgængelige",
     "remainingTextCount": "${0} tegn tilbage",
     "showNoText": "Nej",
-    "selectAttachments": "ø_Attachments____å",
-    "selectFileText": "ø_Browse___å",
-    "attachmentSelectedMsg": "ø_attachment(s) selected________å",
-    "attachmentHeaderText": "ø_Attachments____å",
-    "unknownCommentAttachment": "ø_FILE__å",
-    "editRecordText": "ø_Edit__å",
-    "deleteRecordText": "ø_Delete___å",
-    "deleteCommentFailedMessage": "ø_Unable to delete comment________å"
+    "selectAttachments": "Vedhæftninger",
+    "selectFileText": "Gennemse",
+    "attachmentSelectedMsg": "vedhæftning(er) valgt",
+    "attachmentHeaderText": "Vedhæftninger",
+    "unknownCommentAttachment": "FIL",
+    "editRecordText": "Redigér",
+    "deleteRecordText": "download fuldført",
+    "deleteCommentFailedMessage": "Kan ikke slette kommentar"
   },
   "gallery": {
     "galleryHeaderText": "Galleri",

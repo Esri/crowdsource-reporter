@@ -26,7 +26,7 @@ define({
     "submitReportButtonText": "Bericht senden",
     "gotoListViewTooltip": "Listenansicht",
     "noFeatureGeomtery": "Feature kann nicht angezeigt werden",
-    "featureOutsideAOIMessage": "ä_Feature cannot be added outside study area______________Ü"
+    "featureOutsideAOIMessage": "Feature kann nicht außerhalb des Untersuchungsgebiets hinzugefügt werden."
   },
   "signin": {
     "guestSigninText": "Vorgang als Gast fortsetzen",
@@ -74,7 +74,7 @@ define({
     "selectFileText": "Durchsuchen",
     "enterLocation": "Speicherort",
     "reportItButton": "Melden",
-    "editReportButton": "ä_Update___Ü",
+    "editReportButton": "Aktualisieren",
     "cancelButton": "Abbrechen",
     "requiredField": "(erforderlich)",
     "selectDefaultText": "Auswählen&hellip;",
@@ -115,9 +115,9 @@ define({
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "ä_I agree___Ü",
+    "likeButtonTooltip": "Ich stimme zu",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "ä_Leave a reply_____Ü",
+    "commentButtonTooltip": "Antwort hinterlassen",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Angehängte Dokumente anzeigen",
     "mapButtonLabel": "Auf Karte anzeigen",
@@ -125,16 +125,16 @@ define({
     "commentsListHeading": "Bemerkungen",
     "unableToUpdateVoteField": "Ihre Stimme kann zurzeit nicht gezählt werden.",
     "gotoIssueListTooltip": "Zur Berichtsliste wechseln",
-    "deleteMessage": "ä_Are you sure you want to delete___________Ü?"
+    "deleteMessage": "Möchten Sie den Löschvorgang wirklich durchführen?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Stimmen für diesen Bericht",
     "loadMoreButtonText": "Weitere laden..."
   },
   "comment": {
-    "commentsFormHeading": "ä_Comment___Ü",
+    "commentsFormHeading": "Kommentieren",
     "commentsFormSubmitButton": "Kommentar senden",
-    "commentsFormEditButton": "ä_Update Comment_____Ü",
+    "commentsFormEditButton": "Kommentar aktualisieren",
     "commentsFormCancelButton": "Abbrechen",
     "errorInSubmittingComment": "Kommentar konnte nicht gesendet werden.",
     "emptyCommentMessage": "Geben Sie einen Kommentar ein.",
@@ -142,14 +142,14 @@ define({
     "noCommentsAvailableText": "Keine Kommentare verfügbar",
     "remainingTextCount": "${0} Zeichen verbleiben",
     "showNoText": "Nein",
-    "selectAttachments": "ä_Attachments____Ü",
-    "selectFileText": "ä_Browse___Ü",
-    "attachmentSelectedMsg": "ä_attachment(s) selected________Ü",
-    "attachmentHeaderText": "ä_Attachments____Ü",
-    "unknownCommentAttachment": "ä_FILE__Ü",
-    "editRecordText": "ä_Edit__Ü",
-    "deleteRecordText": "ä_Delete___Ü",
-    "deleteCommentFailedMessage": "ä_Unable to delete comment________Ü"
+    "selectAttachments": "Anlagen",
+    "selectFileText": "Durchsuchen",
+    "attachmentSelectedMsg": "Anlage(n) ausgewählt",
+    "attachmentHeaderText": "Anlagen",
+    "unknownCommentAttachment": "DATEI",
+    "editRecordText": "Bearbeiten",
+    "deleteRecordText": "Löschen",
+    "deleteCommentFailedMessage": "Der Kommentar kann nicht gelöscht werden."
   },
   "gallery": {
     "galleryHeaderText": "Galerie",

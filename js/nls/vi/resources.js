@@ -26,7 +26,7 @@ define({
     "submitReportButtonText": "Đệ trình Báo cáo",
     "gotoListViewTooltip": "Chế độ xem dạng danh sách",
     "noFeatureGeomtery": "Không thể hiển thị đối tượng",
-    "featureOutsideAOIMessage": "Đ_Feature cannot be added outside study area______________ớ"
+    "featureOutsideAOIMessage": "Không thể thêm đối tượng bên ngoài vùng nghiên cứu"
   },
   "signin": {
     "guestSigninText": "Tiến hành dưới dạng Khách",
@@ -74,7 +74,7 @@ define({
     "selectFileText": "Duyệt",
     "enterLocation": "Vị trí",
     "reportItButton": "Báo cáo Nó",
-    "editReportButton": "Đ_Update___ớ",
+    "editReportButton": "Cập nhật",
     "cancelButton": "Hủy",
     "requiredField": "(bắt buộc)",
     "selectDefaultText": "Chọn&hellip;",
@@ -115,9 +115,9 @@ define({
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "Đ_I agree___ớ",
+    "likeButtonTooltip": "Tôi đồng ý",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "Đ_Leave a reply_____ớ",
+    "commentButtonTooltip": "Để lại câu trả lời",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Xem tài liệu đính kèm",
     "mapButtonLabel": "Xem trên Bản đồ",
@@ -125,16 +125,16 @@ define({
     "commentsListHeading": "Bình luận",
     "unableToUpdateVoteField": "Không thể tính bình chọn của bạn vào lúc này.",
     "gotoIssueListTooltip": "Đến danh sách báo cáo",
-    "deleteMessage": "Đ_Are you sure you want to delete___________ớ?"
+    "deleteMessage": "Bạn có chắc chắn muốn xóa không?"
   },
   "itemList": {
     "likesForThisItemTooltip": "Các bình chọn cho báo cáo này",
     "loadMoreButtonText": "Tải Thêm..."
   },
   "comment": {
-    "commentsFormHeading": "Đ_Comment___ớ",
+    "commentsFormHeading": "Bình luận",
     "commentsFormSubmitButton": "Gửi bình luận",
-    "commentsFormEditButton": "Đ_Update Comment_____ớ",
+    "commentsFormEditButton": "Cập nhật Bình luận",
     "commentsFormCancelButton": "Hủy",
     "errorInSubmittingComment": "Không thể gửi bình luận.",
     "emptyCommentMessage": "Vui lòng nhập bình luận.",
@@ -142,14 +142,14 @@ define({
     "noCommentsAvailableText": "Không có bình luận",
     "remainingTextCount": "Còn ${0} ký tự",
     "showNoText": "Không",
-    "selectAttachments": "Đ_Attachments____ớ",
-    "selectFileText": "Đ_Browse___ớ",
-    "attachmentSelectedMsg": "Đ_attachment(s) selected________ớ",
-    "attachmentHeaderText": "Đ_Attachments____ớ",
-    "unknownCommentAttachment": "Đ_FILE__ớ",
-    "editRecordText": "Đ_Edit__ớ",
-    "deleteRecordText": "Đ_Delete___ớ",
-    "deleteCommentFailedMessage": "Đ_Unable to delete comment________ớ"
+    "selectAttachments": "Tệp đính kèm",
+    "selectFileText": "Duyệt",
+    "attachmentSelectedMsg": "(các) tệp đính kèm được chọn",
+    "attachmentHeaderText": "Tệp đính kèm",
+    "unknownCommentAttachment": "TỆP",
+    "editRecordText": "Chỉnh sửa",
+    "deleteRecordText": "Xóa",
+    "deleteCommentFailedMessage": "Không thể xóa bình luận"
   },
   "gallery": {
     "galleryHeaderText": "Bộ sưu tập",

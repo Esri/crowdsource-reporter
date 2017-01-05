@@ -26,7 +26,7 @@ define({
     "submitReportButtonText": "レポートの送信",
     "gotoListViewTooltip": "リスト ビュー",
     "noFeatureGeomtery": "フィーチャを表示できません",
-    "featureOutsideAOIMessage": "須_Feature cannot be added outside study area______________鷗"
+    "featureOutsideAOIMessage": "フィーチャを分析範囲外に追加することはできません"
   },
   "signin": {
     "guestSigninText": "ゲストとして続行",
@@ -74,7 +74,7 @@ define({
     "selectFileText": "参照",
     "enterLocation": "場所",
     "reportItButton": "レポートする",
-    "editReportButton": "須_Update___鷗",
+    "editReportButton": "更新",
     "cancelButton": "キャンセル",
     "requiredField": "(必須)",
     "selectDefaultText": "選択&hellip;",
@@ -115,9 +115,9 @@ define({
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "須_I agree___鷗",
+    "likeButtonTooltip": "同意します",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "須_Leave a reply_____鷗",
+    "commentButtonTooltip": "返信を残す",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "添付したドキュメントを参照",
     "mapButtonLabel": "マップ上で表示",
@@ -125,16 +125,16 @@ define({
     "commentsListHeading": "コメント",
     "unableToUpdateVoteField": "この時点では投票をカウントできません。",
     "gotoIssueListTooltip": "レポート リストへ移動",
-    "deleteMessage": "須_Are you sure you want to delete___________鷗?"
+    "deleteMessage": "本当に削除してよろしいですか？"
   },
   "itemList": {
     "likesForThisItemTooltip": "このレポートに投票する",
     "loadMoreButtonText": "さらに読み込み..."
   },
   "comment": {
-    "commentsFormHeading": "須_Comment___鷗",
+    "commentsFormHeading": "コメント",
     "commentsFormSubmitButton": "コメントの送信",
-    "commentsFormEditButton": "須_Update Comment_____鷗",
+    "commentsFormEditButton": "コメントの更新",
     "commentsFormCancelButton": "キャンセル",
     "errorInSubmittingComment": "コメントを送信できませんでした。",
     "emptyCommentMessage": "コメントを入力してください。",
@@ -142,14 +142,14 @@ define({
     "noCommentsAvailableText": "コメントがありません",
     "remainingTextCount": "${0} 文字が残っています",
     "showNoText": "なし",
-    "selectAttachments": "須_Attachments____鷗",
-    "selectFileText": "須_Browse___鷗",
-    "attachmentSelectedMsg": "須_attachment(s) selected________鷗",
-    "attachmentHeaderText": "須_Attachments____鷗",
-    "unknownCommentAttachment": "須_FILE__鷗",
-    "editRecordText": "須_Edit__鷗",
-    "deleteRecordText": "須_Delete___鷗",
-    "deleteCommentFailedMessage": "須_Unable to delete comment________鷗"
+    "selectAttachments": "添付ファイル",
+    "selectFileText": "参照",
+    "attachmentSelectedMsg": "添付ファイルが選択されています",
+    "attachmentHeaderText": "添付ファイル",
+    "unknownCommentAttachment": "ファイル",
+    "editRecordText": "編集",
+    "deleteRecordText": "削除",
+    "deleteCommentFailedMessage": "コメントを削除できません"
   },
   "gallery": {
     "galleryHeaderText": "ギャラリー",
