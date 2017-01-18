@@ -64,6 +64,7 @@ define([
         * Will be called on post creation of the widget.
         */
         postCreate: function () {
+            var submitButtonText, submitButtonColor;
             // Items list
             this.itemsList = new ItemList({
                 "appConfig": this.appConfig,
@@ -102,11 +103,14 @@ define([
                 //Stop event propagation
                 event.stop(evt);
             })));
-
             this.own(on(this.submitReport, "click", lang.hitch(this, function (evt) {
-                this.onSubmit(evt);
+                if (this.appConfig.logInDetails.canEditFeatures) {
+                    this.onSubmit(evt);
+                } else {
+                    this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
+                }
             })));
-            var submitButtonText, submitButtonColor;
+
             if (this.appConfig && lang.trim(this.appConfig.submitReportButtonText) === "") {
                 submitButtonText = this.appConfig.i18n.main.submitReportButtonText;
             } else {
@@ -115,7 +119,6 @@ define([
             domAttr.set(this.submitReportButton, "innerHTML", submitButtonText);
             submitButtonColor = (this.appConfig && this.appConfig.submitReportButtonColor) ? this.appConfig.submitReportButtonColor : "#35ac46";
             domStyle.set(this.submitReport, "background-color", submitButtonColor);
-
             domAttr.set(this.noIssuesMessage, "innerHTML", this.appConfig.i18n.issueWall.noResultsFound);
             domAttr.set(this.listBackButton, "title", this.appConfig.i18n.issueWall.gotoWebmapListTooltip);
             domAttr.set(this.listMapItButton, "title", this.appConfig.i18n.issueWall.gotoMapViewTooltip);

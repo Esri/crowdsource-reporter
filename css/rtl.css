@@ -21,7 +21,7 @@
 .dj_rtl .esriCTGeoFormBody .esriCTLocateContainer div.input-group-btn
 {
     right:auto;
-    left: 36px !important;
+    left: 35px !important;
 }
 
 .dj_rtl .esriCTGeoFormBody .esriCTSearchButton
@@ -29,6 +29,7 @@
     margin-left:auto;
     margin-right: 4px !important;
     border-right: 1px solid #ccc !important;
+    border-left: none !important;
 }
 
 .dj_rtl .esriCTGeoFormBody .esriCTSearchClose
@@ -247,3 +248,12 @@
     float: right;
 }
 /** End of issue list**/
+
+/** Overriden Styles **/
+
+.dj_rtl .esriCTGeoFormContainer .alert-dismissable .close, .dj_rtl .esriCTCommentsForm1 .alert-dismissable .close
+{
+    float: left;
+    right: 5px;
+}
+/** End of Overriden Styles **/

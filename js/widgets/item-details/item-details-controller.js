@@ -157,6 +157,7 @@ define([
         */
         show: function () {
             domStyle.set(this.likeButton, 'display', this.actionVisibilities.showVotes ? 'inline-block' : 'none');
+            //If editing capabilities are disabled, hide commetns button but show added comments
             domStyle.set(this.commentButton, 'display', this.actionVisibilities.showComments ? 'inline-block' : 'none');
             domStyle.set(this.galleryButton, 'display', this.actionVisibilities.showGallery ? 'inline-block' : 'none');
             domStyle.set(this.domNode, 'display', '');
@@ -185,19 +186,27 @@ define([
 
             on(this.likeButton, "click", lang.hitch(this, function () {
                 if (!domClass.contains(this.likeButton, "esriCTDetailButtonSelected")) {
-                    self._fetchVotesCount(self.item).then(lang.hitch(this, function (item) {
-                        self._incrementVote(item);
-                    }));
+                    if (this.appConfig.logInDetails.canEditFeatures) {
+                        self._fetchVotesCount(self.item).then(lang.hitch(this, function (item) {
+                            self._incrementVote(item);
+                        }));
+                    } else {
+                        this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
+                    }
                 }
             }));
 
             on(this.commentButton, "click", lang.hitch(this, function () {
-                this.appUtils.showLoadingIndicator();
-                this._showCommentHeaderAndListContainer();
-                this._hideCommentDetailsContainer();
-                topic.publish('getComment', self.item);
-                self._createCommentForm(self.item, true, null);
-                this.appUtils.hideLoadingIndicator();
+                if (this.appConfig.logInDetails.canEditFeatures) {
+                    this.appUtils.showLoadingIndicator();
+                    this._showCommentHeaderAndListContainer();
+                    this._hideCommentDetailsContainer();
+                    topic.publish('getComment', self.item);
+                    self._createCommentForm(self.item, true, null);
+                    this.appUtils.hideLoadingIndicator();
+                } else {
+                    this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
+                }
             }));
 
 
@@ -519,31 +528,39 @@ define([
             if (graphic.canEdit) {
                 editBtn = domConstruct.create("div", { "class": "esriCTEditButton icon icon-pencil esriCTBodyTextColor", "title": this.appConfig.i18n.comment.editRecordText }, buttonContainer);
                 on(editBtn, "click", lang.hitch(this, function (evt) {
-                    if (isGeoform) {
-                        domClass.add(parentDiv, "esriCTHidden");
-                        domClass.remove(this.popupDetailsDiv, "esriCTHidden");
-                        domClass.add(this.actionButtonsContainer, "esriCTHidden");
-                        this._createGeoformForEdits(this.popupDetailsDiv);
+                    if (this.appConfig.logInDetails.canEditFeatures) {
+                        if (isGeoform) {
+                            domClass.add(parentDiv, "esriCTHidden");
+                            domClass.remove(this.popupDetailsDiv, "esriCTHidden");
+                            domClass.add(this.actionButtonsContainer, "esriCTHidden");
+                            this._createGeoformForEdits(this.popupDetailsDiv);
 
+                        } else {
+                            this.appUtils.showLoadingIndicator();
+                            existingAttachmentsObjectsArr = this._getExistingAttachments(evt);
+                            this._showEditCommentForm(graphic, existingAttachmentsObjectsArr);
+                            this.appUtils.hideLoadingIndicator();
+                        }
                     } else {
-                        this.appUtils.showLoadingIndicator();
-                        existingAttachmentsObjectsArr = this._getExistingAttachments(evt);
-                        this._showEditCommentForm(graphic, existingAttachmentsObjectsArr);
-                        this.appUtils.hideLoadingIndicator();
+                        this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
                     }
                 }));
             }
             if (graphic.canDelete) {
                 deleteBtn = domConstruct.create("div", { "class": "esriCTDeleteButton icon icon-delete esriCTBodyTextColor", "title": this.appConfig.i18n.comment.deleteRecordText }, buttonContainer);
                 on(deleteBtn, "click", lang.hitch(this, function (evt) {
-                    confirmDelete = confirm(this.appConfig.i18n.itemDetails.deleteMessage);
-                    if (confirmDelete) {
-                        this.appUtils.showLoadingIndicator();
-                        if (isGeoform) {
-                            this.deleteSelectedFeature();
-                        } else {
-                            this._deleteSelectedComment(graphic, evt.currentTarget.parentNode);
+                    if (this.appConfig.logInDetails.canEditFeatures) {
+                        confirmDelete = confirm(this.appConfig.i18n.itemDetails.deleteMessage);
+                        if (confirmDelete) {
+                            this.appUtils.showLoadingIndicator();
+                            if (isGeoform) {
+                                this.deleteSelectedFeature();
+                            } else {
+                                this._deleteSelectedComment(graphic, evt.currentTarget.parentNode);
+                            }
                         }
+                    } else {
+                        this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
                     }
                 }));
             }

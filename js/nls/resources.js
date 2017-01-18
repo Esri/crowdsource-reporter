@@ -26,8 +26,9 @@ define({
             noGroup: "No group configured", // Shown when no group is configured in the configuration file
             submitReportButtonText: "Submit a Report", //Submit report  text for buttons on map and list
             gotoListViewTooltip: "List view", // Go to List view tooltip text
-            noFeatureGeomtery: "Feature cannot be displayed", // Error message when geomtery is not available
-            featureOutsideAOIMessage: "Feature cannot be added outside study area" // Erro message when feature edits are performed outside the study area
+            noFeatureGeomtery: "Feature cannot be displayed", // Error message when geometry is not available
+            featureOutsideAOIMessage: "Feature cannot be added outside study area", // Error message when feature edits are performed outside the study area
+            noEditingPermissionsMessage: "You do not have permission to perform this action." //Message when user do not have editing permissions
         },
         signin: {
             guestSigninText: "Proceed as Guest", // Shown in the 'Sign in' page below the icon for accessing application as an anonymous user

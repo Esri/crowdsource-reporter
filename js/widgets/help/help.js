@@ -37,8 +37,8 @@ define([
 
         postCreate: function () {
             domConstruct.place(template, document.body, 'last');
-            $('#myModal').find('.modal-title').html(this.config.helpDialogTitle);
-            $('#myModal').find('.modal-body').html(this.config.helpDialogContent);
+            $('#myModal').find('.modal-title').html(this.title);
+            $('#myModal').find('.modal-body').html(this.content);
         },
 
         startup: function () {
