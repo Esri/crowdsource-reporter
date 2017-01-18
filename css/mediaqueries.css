@@ -6,7 +6,7 @@
         height: calc(100% - 61px);
     }
 
-    #mapContainer
+   .esriCTMap
     {
         height: calc(100% - 105px);
     }

@@ -34,7 +34,7 @@ html, body
     height: 100%;
 }
 
-#mapContainer
+.esriCTMap
 {
     height: 100%;
 }
@@ -87,6 +87,11 @@ html, body
 .esriViewPopup .header
 {
     max-width: calc(100% - 45px);
+}
+
+.esriViewPopup .gallery .frame div.chart
+{
+    direction: ltr;
 }
 /* Override identity manager color to default*/
 
@@ -1215,14 +1220,14 @@ label
 
 .esriCTGeoFormGeoLocation
 {
-    height: 32px;
+    height: 34px;
     width: 34px;
     margin-left: 4px;
     background-size: 34px;
     background-repeat: no-repeat;
     float: right;
     margin: 0px;
-    margin-top: 1px;
+    border: 1px solid #ccc;
 }
 
 .esriCTGeoFormBody .esriCTMapGeoLocationContainer, .esriCTLocatorSearchButton

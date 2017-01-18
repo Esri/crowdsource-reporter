@@ -58,12 +58,26 @@ define([
         * @memberOf widgets/sign-in/sign-in
         */
         startup: function (boilerPlateTemplateObject, appUtils) {
-            var loadGPApi;
+            var loadGPApi, dialogTitle, dialogContent;
             this._boilerPlateTemplate = boilerPlateTemplateObject;
             this._config = boilerPlateTemplateObject.config;
             if (this._config.enableHelp) {
+                //Check if show different content flag is true pass modified content
+                if (this._config.enableDifferentHelpContent &&
+                        lang.trim(this._config.loginHelpDialogTitle) !== "" &&
+                        lang.trim(this._config.loginHelpDialogContent) !== "") {
+                    dialogTitle = this._config.loginHelpDialogTitle;
+                    dialogContent = this._config.loginHelpDialogContent;
+                } else {
+                    dialogTitle = this._config.helpDialogTitle;
+                    dialogContent = this._config.helpDialogContent;
+                }
                 //Initialize splash screen
-                this._helpScreen = new Help({ "config": this._config });
+                this._helpScreen = new Help({
+                    "config": this._config,
+                    "title": dialogTitle,
+                    "content": dialogContent
+                });
             } else {
                 //If help is turned off, then hide the help link
                 domClass.add(this.signinHelpLink, "esriCTHidden");
@@ -317,6 +331,10 @@ define([
                 } else {
                     userDetails.processedUserName = userDetails.credential.userId;
                 }
+                //If user is logged in through social media login's by default keep the 'canEditFeatures' to true
+                if (!userDetails.hasOwnProperty("canEditFeatures")) {
+                    userDetails.canEditFeatures = true;
+                }
                 this.isUserLoggedIn = true;
                 this.onLogIn(userDetails);
             }
@@ -356,6 +374,8 @@ define([
                             this._boilerPlateTemplate.config.groupInfo = response.groupInfo;
                             //As user is logged in with AGOL pass portal object, for feature reference
                             this._boilerPlateTemplate.config.portalObject = this.portal;
+                            //check for editing permissions
+                            this._checkUserPrivileges(loggedInUser);
                             //Now process the user details of logged in user
                             this.processUserDetails(loggedInUser);
                         } else {
@@ -380,6 +400,19 @@ define([
             }));
         },
 
+        /**
+        * Check for user account and his privileges to show/hide editing buttons
+        * @memberOf widgets/sign-in/sign-in
+        */
+        _checkUserPrivileges: function (loggedInUser) {
+            var userActLevel;
+            userActLevel = parseInt(loggedInUser.level, 10);
+            if (userActLevel > 1 && loggedInUser.privileges.indexOf("features:user:edit") >= 0) {
+                loggedInUser.canEditFeatures = true;
+            } else {
+                loggedInUser.canEditFeatures = false;
+            }
+        },
 
         /**
         * This function is executed when user clicks on facebook button

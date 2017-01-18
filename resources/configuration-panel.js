@@ -43,10 +43,15 @@
         "splashScreenTextColor": "#FFF",
         "imageBackgroundColor": "#999999",
         "imageForeGroundColor": "white",
+    	"showMapFirst":false,
 		"enableHelp": true,
+		"showHelpOnLoad": false,
+		"enableDifferentHelpContent":false,
 		"helpLinkText": "Help",
 		"helpDialogTitle": "Help",
 		"helpDialogContent": "<p>Crowdsource Reporter is a configurable gallery application template that allows users to submit problems or observations. The application has been optimized for smartphones but is responsively designed to be used on smartphones, tablets, and desktop computers.</p><p>The Crowdsource Reporter application presents one or more maps that can be used to report a problem or observation. Users can anonymously submit new reports, review existing reports, and comment and vote on reports or observations submitted by other users. They also can authenticate with their social media or ArcGIS Online credentials and track the status of problems or observations they have reported.</p>",
+		"loginHelpDialogTitle":"",
+		"loginHelpDialogContent": "",
 		"bufferRadius": 3,
 		"bufferUnit": "miles",
 
@@ -212,6 +217,11 @@
 	        "tooltip": "When a report is selected the map will zoom to the associated feature using this zoom level.",
 	        "type": "string",
 	        "fieldName": "zoomLevel"
+	    }, {
+	        "label": "Show map first",
+	        "tooltip": "Show map on application load",
+	        "type": "boolean",
+	        "fieldName": "showMapFirst"
 	    }]
 	}, {
 	    "category": "<b>Form</b>",
@@ -425,6 +435,11 @@
 			"condition":false,
 	        "fieldName": "enableHelp",
 			"items":[{
+				"label": "Show help on load",
+				"tooltip": "Show hep dialog on application load as a splash screen",
+				"type": "boolean",
+				"fieldName": "showHelpOnLoad"
+			}, {
 				"label": "Splash page link text",
 				"tooltip": "Clicking this text will open the help dialog.",
 				"type": "string",
@@ -440,7 +455,25 @@
 				"type": "string",
 				"fieldName": "helpDialogContent",
 				"stringFieldOption": "richtext"
-		}]}]
+			}, {
+				"label": "Display different content on sign in page",
+				"tooltip": "Different content in help dialog",
+				"type": "conditional",
+				"condition": false,
+				"fieldName": "enableDifferentHelpContent",
+				"items":[ {
+				"label": "Sign in Help window title",
+				"tooltip": "Text displayed at the top of the help window",
+				"type": "string",
+				"fieldName": "loginHelpDialogTitle"
+			}, {
+				"label": "Sign in Help Dialog content",
+				"tooltip": "Text and graphics that will display in the help window.",
+				"type": "string",
+				"fieldName": "loginHelpDialogContent",
+				"stringFieldOption": "richtext"
+			}]
+			}]}]
 	}, {
 	    "category": "<b>Org Theme</b>",
 	    "fields": [{

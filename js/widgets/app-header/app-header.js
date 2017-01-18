@@ -75,7 +75,11 @@ define([
         postCreate: function () {
             if (this.appConfig.enableHelp) {
                 //create help screen
-                this.helpScreen = new Help({ "config": this.appConfig });
+                this.helpScreen = new Help({
+                    "config": this.appConfig,
+                    "title": this.appConfig.helpDialogTitle,
+                    "content": this.appConfig.helpDialogContent
+                });
             }
             //set application title
             this._setApplicationTitle();
@@ -121,6 +125,12 @@ define([
 
             on(this.helpButton, "click", lang.hitch(this, this._helpClicked));
             domAttr.set(this.helpButton, "title", this.appConfig.helpLinkText);
+            //Load help screen on load based on configuration settings
+            setTimeout(lang.hitch(this, function () {
+                if (this.appConfig.showHelpOnLoad) {
+                    this._helpClicked();
+                }
+            }), 500);
         },
 
         /**
