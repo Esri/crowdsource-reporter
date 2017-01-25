@@ -77,6 +77,12 @@ html, body
 {
     font-style: italic;
 }
+
+/* This class makes sure map tooltip will always be shown */
+.map .tooltip
+{
+    opacity: 1 !important;
+}
 /* Overridden Styles */
 
 .esriViewPopup .header, .esriViewPopup .attrTable
@@ -1234,6 +1240,11 @@ label
 {
     background-color: #fff;
 }
+
+.esriGeoformCTLocationHint {
+    padding-bottom: 5px;
+}
+
 /* End of geo-form styles*/
 
 /* Address container Styles */

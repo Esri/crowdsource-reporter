@@ -32,6 +32,7 @@ define([
     "dojo/touch",
     "dojo/dom-style",
     "dojo/query",
+    "dojo/window",
     "dojo/text!./templates/geo-form.html",
     "dojo/string",
     "dojo/date/locale",
@@ -45,7 +46,7 @@ define([
     "esri/geometry/Polygon",
     "widgets/locator/locator",
     "widgets/bootstrapmap/bootstrapmap"
-], function (declare, kernel, lang, dateLocale, _WidgetBase, _TemplatedMixin, domConstruct, domClass, on, has, domAttr, array, dom, touch, domStyle, query, dijitTemplate, string, locale, GraphicsLayer, Graphic, Draw, webMercatorUtils, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Polygon, Locator, BootstrapMap) {
+], function (declare, kernel, lang, dateLocale, _WidgetBase, _TemplatedMixin, domConstruct, domClass, on, has, domAttr, array, dom, touch, domStyle, query, dojowindow, dijitTemplate, string, locale, GraphicsLayer, Graphic, Draw, webMercatorUtils, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Polygon, Locator, BootstrapMap) {
     return declare([_WidgetBase, _TemplatedMixin], {
         templateString: dijitTemplate,
         lastWebMapSelected: "",
@@ -71,6 +72,7 @@ define([
         _existingPopupAttachmentsArray: [],
         _deletedAttachmentsPopupArr: [], // to store deleted attachments
         currentGeoformNode: null, // Refers to node for geoform(add/edit)
+        componentOrder: [],
         /**
         * This function is called when widget is constructed.
         * @param{object} options to be mixed
@@ -89,6 +91,8 @@ define([
             try {
                 // Show loading indicator
                 this.appUtils.showLoadingIndicator();
+                //Reorder form components  as per configuration
+                this._reorderFormComponents();
                 // Clear previous attachments
                 this._clearAttachements();
                 this.sortedFields = [];
@@ -100,6 +104,8 @@ define([
                     this.currentGeoformNode = $('.esriCTItemDetailsContainer');
                 } else {
                     this.currentGeoformNode = $('#geoFormBody');
+                    //Check if app is running in desktop/tablet mode and hide the map
+                    this.setGeoformMapVisibility();
                 }
                 if (this.isMapRequired) {
                     // Initialize geo form
@@ -112,10 +118,96 @@ define([
                     // Creates Geoform UI According to Filtered data
                     this._createGeoFormUI();
                 }
-
             } catch (err) {
                 // Show error message
                 this.appUtils.showError(err.message);
+            }
+        },
+
+        /**
+        * This function will be used to check the current order and arrange them
+        * @memberOf widgets/geo-form/geo-form
+        */
+        _reorderFormComponents: function () {
+            var configuredOrderObj = {
+                "details": this.config.details,
+                "attachments": this.config.attachments,
+                "location": this.config.location
+            };
+            this.componentOrder = [];
+            this._checkComponentOrder(configuredOrderObj, "Top");
+            this._checkComponentOrder(configuredOrderObj, "Middle");
+            this._checkComponentOrder(configuredOrderObj, "Bottom");
+            this._setComponentOrder();
+        },
+
+        /**
+        * Check components current configured order and push it in array
+        * @memberOf widgets/geo-form/geo-form
+        */
+        _checkComponentOrder: function (configuredOrderObj, position) {
+            var key;
+            for (key in configuredOrderObj) {
+                if (configuredOrderObj[key] === position) {
+                    this.componentOrder.push(key);
+                }
+            }
+        },
+
+        /**
+        * Get dom node with the help of section key
+        * @memberOf widgets/geo-form/geo-form
+        */
+        _getNodeFromKey: function (key) {
+            var section;
+            switch (key) {
+            case "details":
+                section = this.detailSection;
+                break;
+            case "attachments":
+                section = this.attachmentSection;
+                break;
+            case "location":
+                section = this.locationSection;
+                break;
+            }
+            return section;
+        },
+
+        /**
+        * This function will be used to set order of components as configured
+        * @memberOf widgets/geo-form/geo-form
+        */
+        _setComponentOrder: function () {
+            var node, prevNode;
+            array.forEach(this.componentOrder, lang.hitch(this, function (currentNode, index) {
+                node = this._getNodeFromKey(currentNode);
+                //add component to the first position if index is 0
+                if (index === 0) {
+                    domConstruct.place(node, this.componentSection, "first");
+                    prevNode = node;
+                } else {
+                    domConstruct.place(node, prevNode, "after");
+                    prevNode = node;
+                }
+            }));
+        },
+
+        /**
+        * Set geoform map visibility based on device dimensions
+        * @memberOf widgets/geo-form/geo-form
+        */
+        setGeoformMapVisibility: function () {
+            if (dojowindow.getBox().w > 768) {
+                domStyle.set(this.map_container, "display", "none");
+                domStyle.set(this.locationSection, "display", "none");
+                if (domClass.contains(this.select_location.nextSibling, "errorMessage")) {
+                    this._removeErrorNode(this.select_location.nextSibling);
+                }
+            } else {
+                domStyle.set(this.map_container, "display", "block");
+                domStyle.set(this.locationSection, "display", "block");
+                this._resizeMap();
             }
         },
 
@@ -125,8 +217,7 @@ define([
         */
         _changeGeoformStyles: function () {
             domStyle.set(this.formHeader, "display", "none");
-            domStyle.set(this.select_location, "display", "none");
-            domStyle.set(this.location_panel_body, "display", "none");
+            domStyle.set(this.locationSection, "display", "none");
             domStyle.set(this.map_container, "display", "none");
         },
 
@@ -356,6 +447,13 @@ define([
                 // else remove that layer form map, so that only selected layer is visible on map.
                 if (opLayers[i].id === this.layerId) {
                     this.layer = this.map.getLayer(opLayers[i].id);
+                    if (this.layer.geometryType === "esriGeometryPoint") {
+                        domAttr.set(this.locationHintTextNode, "innerHTML",
+                            this.appConfig.i18n.geoform.locationSelectionHintForPointLayer);
+                    } else {
+                        domAttr.set(this.locationHintTextNode, "innerHTML",
+                            this.appConfig.i18n.geoform.locationSelectionHintForPolygonLayer);
+                    }
                     //Make sure we are not showing labels on geoform feature layer to make it consistent with main map
                     if (this.layer.showLabels) {
                         this.layer.showLabels = false;
@@ -617,11 +715,12 @@ define([
             var fileInput, formContent, userFormNode, fileChange, fileAttachmentContainer, fileContainer, geoformAttachmentSectionLabel;
             // If layer has hasAttachments true
             if (this.layer.hasAttachments) {
+                domConstruct.empty(this.attachmentSection);
                 userFormNode = this.userForm;
                 // Create container for hasAttachment
                 formContent = domConstruct.create("div", {
                     "class": "form-group hasAttachment geoFormQuestionare esriCTGeoFormAttachmentLabel"
-                }, userFormNode);
+                }, this.attachmentSection);
 
                 if (this.appConfig.geoformAttachmentSectionLabel) {
                     if (this.appConfig.geoformAttachmentSectionLabel === "Attachments") {
@@ -1777,11 +1876,15 @@ define([
                     } else {
                         // error message
                         errorMessage = this.appConfig.i18n.geoform.selectLocation;
-                        this._showErrorMessageDiv(errorMessage, this.select_location);
-                        // Scroll to the selected location
-                        this.currentGeoformNode.animate({
-                            scrollTop: this.select_location.offsetTop
-                        }, 1000);
+                        if (dojowindow.getBox().w <= 768) {
+                            this._showErrorMessageDiv(errorMessage, this.select_location);
+                            // Scroll to the selected location
+                            this.currentGeoformNode.animate({
+                                scrollTop: this.select_location.offsetTop
+                            }, 1000);
+                        } else {
+                            this.appUtils.showMessage(errorMessage);
+                        }
                     }
                 }
             }
@@ -1792,7 +1895,7 @@ define([
         * @memberOf widgets/geo-form/geo-form
         */
         _addFeatureToLayer: function () {
-            var userFormNode = this.userForm, featureData, key, value, datePicker, picker, fileList, i, type, editedFields = [];
+            var featureData, key, value, datePicker, picker, fileList, i, type, editedFields = [];
             // show loading indicator
             this.appUtils.showLoadingIndicator();
             // Create instance of graphic
@@ -1855,9 +1958,9 @@ define([
                 // Add attachment on success
                 if (addResults[0].success) {
                     //if layer has attachments then add those attachments
-                    if (this.layer.hasAttachments && query(".esriCTFileToSubmit", userFormNode).length > 0) {
+                    if (this.layer.hasAttachments && query(".esriCTFileToSubmit", this.attachmentSection).length > 0) {
                         //get all the attachments and append it in form element
-                        fileList = query(".esriCTFileToSubmit", userFormNode);
+                        fileList = query(".esriCTFileToSubmit", this.attachmentSection);
                         //reset fileAttached and failed counter
                         this._fileAttachedCounter = 0;
                         this._fileFailedCounter = 0;
@@ -1915,7 +2018,7 @@ define([
         * @memberOf widgets/geo-form/geo-form
         */
         updateFeatureToLayer: function () {
-            var userFormNode = this.userForm, featureData, key, value, datePicker, picker, editedFields = [], i, fileList;
+            var featureData, key, value, datePicker, picker, editedFields = [], i, fileList;
             // show loading indicator
             this.appUtils.showLoadingIndicator();
             // Create instance of graphic
@@ -1962,7 +2065,7 @@ define([
                 // Add attachment on success
                 if (updateResults[0].success) {
                     //get all the attachments and append it in form element
-                    fileList = query(".esriCTFileToSubmit", userFormNode);
+                    fileList = query(".esriCTFileToSubmit", this.attachmentSection);
                     //if layer has attachments then add those attachments
                     if (this.layer.hasAttachments && (fileList.length > 0 || this._deletedAttachmentsPopupArr.length > 0)) {
                         if (fileList.length > 0) {

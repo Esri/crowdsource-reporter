@@ -159,9 +159,24 @@ define([
             domStyle.set(this.likeButton, 'display', this.actionVisibilities.showVotes ? 'inline-block' : 'none');
             //If editing capabilities are disabled, hide commetns button but show added comments
             domStyle.set(this.commentButton, 'display', this.actionVisibilities.showComments ? 'inline-block' : 'none');
-            domStyle.set(this.galleryButton, 'display', this.actionVisibilities.showGallery ? 'inline-block' : 'none');
+            //We will keep gallery button OFF by default, if feature has valid attachments then button will automatically be turned ON
+            domStyle.set(this.galleryButton, 'display', 'none');
             domStyle.set(this.domNode, 'display', '');
             this._setLikeButtonState();
+        },
+
+        /**
+        * Decide wether to show/hide gallery button based on attachments in feature
+        */
+        _showGalleryButton: function () {
+            this.selectedLayer.queryAttachmentInfos(this.item.attributes[this.selectedLayer.objectIdField], lang.hitch(this, function (attachments) {
+                // If attachments found, enable gallery button
+                if (attachments && attachments.length > 0) {
+                    domStyle.set(this.galleryButton, 'display', 'inline-block');
+                }
+            }), function () {
+                //handle for error
+            });
         },
 
         hide: function () {
@@ -346,6 +361,8 @@ define([
             this._checkForLayerCapabilities(layerInfo, item);
             this.item.originalFeature.canEdit = this.item.canEdit;
             this.item.originalFeature.canDelete = this.item.canDelete;
+            //Check for attachments and enable gallery button
+            this._showGalleryButton();
             this._clearItemDisplay();
             this._buildItemDisplay();
         },

@@ -64,7 +64,10 @@
 		"bodyBackgroundColor":"",
 		"bodyTextColor":"",
 		"buttonBackgroundColor":"",
-		"buttonTextColor":""
+		"buttonTextColor":"",
+		"details" : "Top",
+		"attachments" : "Middle",
+		"location" : "Bottom"
     },
 	"configurationSettings": [{
 	    "category": "<b>App</b>",
@@ -274,6 +277,54 @@
 	        "tooltip": "Message displayed at the top of the form acknowledging report submission",
 	        "type": "string",
 	        "fieldName": "submitMessage"
+	    }, {
+	        "type": "subcategory",
+	        "label": "Form component order"
+	    }, {
+	        "label": "Details section order",
+	        "tooltip": "Set order of details section",
+	        "type": "options",
+	        "fieldName": "details",
+	        "options": [{
+	            "label": "Top",
+	            "value": "Top"
+	        }, {
+	            "label": "Middle",
+	            "value": "Middle"
+	        }, {
+	            "label": "Bottom",
+	            "value": "Bottom"
+	        }]
+	    }, {
+	        "label": "Attachments section order",
+	        "tooltip": "Set order of attachment section",
+	        "type": "options",
+	        "fieldName": "attachments",
+	        "options": [{
+	            "label": "Top",
+	            "value": "Top"
+	        }, {
+	            "label": "Middle",
+	            "value": "Middle"
+	        }, {
+	            "label": "Bottom",
+	            "value": "Bottom"
+	        }]
+	    }, {
+	        "label": "Location section order",
+	        "tooltip": "Set order of location section",
+	        "type": "options",
+	        "fieldName": "location",
+	        "options": [{
+	            "label": "Top",
+	            "value": "Top"
+	        }, {
+	            "label": "Middle",
+	            "value": "Middle"
+	        }, {
+	            "label": "Bottom",
+	            "value": "Bottom"
+	        }]
 	    }]
 	},  {
 	    "category": "<b>Reports</b>",
