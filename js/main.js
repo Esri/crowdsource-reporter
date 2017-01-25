@@ -303,6 +303,10 @@ define([
                     }
                 }
                 this._resizeMap();
+                //If geoform instance exist, reset map in geoform
+                if (this.geoformInstance) {
+                    this.geoformInstance.setGeoformMapVisibility();
+                }
             }));
 
             topic.subscribe("resizeMap", lang.hitch(this, function () {
@@ -1165,7 +1169,8 @@ define([
                         changedExtent: this.changedExtent,
                         appConfig: this.config,
                         appUtils: this.appUtils,
-                        isMapRequired: true
+                        isMapRequired: true,
+                        isEdit: false
 
                     }, domConstruct.create("div", {}, dom.byId("geoformContainer")));
                     //on submitting issues in geoform update issue wall and main map to show newly updated issue.

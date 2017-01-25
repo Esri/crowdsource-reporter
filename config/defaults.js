@@ -100,6 +100,11 @@ define({
     "showMapFirst":false,
     "showHelpOnLoad": false,
 
+    //Configure order of form components
+    "details" : "Top",
+    "attachments" : "Middle",
+    "location" : "Bottom",
+
     "zoomLevel": 12,
     "enableUSNGSearch": false,
     "enableMGRSSearch": false,

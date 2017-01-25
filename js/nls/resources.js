@@ -97,7 +97,9 @@ define({
             geoLocationOutOfExtent: "Current location is out of basemap extent",  // Shown when the current geographical position is out of the basemap extent
             submitButtonTooltip: "Submit", // Command button to open the geoform
             cancelButtonTooltip: "Cancel", //tooltip for cancel button
-            geoformBackButtonTooltip: "Return to the report list" //tooltip for Geoform back button
+            geoformBackButtonTooltip: "Return to the report list", //tooltip for Geoform back button
+            locationSelectionHintForPointLayer : "Tap the map to draw the location.", //hint text for selecting location incase of point layer
+            locationSelectionHintForPolygonLayer : "Tap the map to draw the location. Double tap to complete the drawing.", //hint text for selecting location incase of line and polygon layer
 
         },
         locator: {
