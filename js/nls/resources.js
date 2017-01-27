@@ -63,12 +63,12 @@ define({
             gotoMapViewTooltip: "Map view" // Tooltip for map-it icon in list header
         },
         appHeader: {
-            myReport: "My Reports", // Command button shown in mobile menu list
+            myReport: "My Submissions", // Command button shown in mobile menu list
             signIn: "Sign In", // Command button shown in mobile menu list and in appheader
             signOut: "Sign Out", // Command button shown in mobile menu list
             signInTooltip: "Sign in", // Tooltip to 'Sign in' option
             signOutTooltip: "Sign out", // Tooltip  to 'Sign out' option
-            myReportTooltip: "View my reports" // Tooltip  to 'My Reports' option
+            myReportTooltip: "View my submissions" // Tooltip  to 'My Reports' option
         },
         geoform: {
             enterInformation: "Details", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -90,14 +90,14 @@ define({
             selectLocation: "Please select the location for your report", // Shown when user submits the geoform without selecting location on the map
             numericRangeHintMessage: "${openStrong}Hint:${closeStrong} Minimum value ${minValue} and Maximum value ${maxValue}", // Shown as a pop over above the fields with numeric values, indicating the minimum and maximum range
             dateRangeHintMessage: "${openStrong}Hint:${closeStrong} Minimum Date ${minValue} and Maximum Date ${maxValue}", // Shown as a pop over above the fields with date values, indicating the minimum and maximum date range
-            errorsInApplyEdits: "Report could not be submitted", // Shown when there is an error in any of the services while submitting the geoform
+            errorsInApplyEdits: "Values could not be submitted.", // Shown when there is an error in any of the services while submitting the geoform
             attachmentSelectedMsg: "attachment(s) selected", // Shown besides the select file button indicating the number of files attached
             attachmentUploadStatus: "${failed} of ${total} attachment(s) failed to upload", // Shown when there is error while uploading the attachment, while submitting the geoform
             geoLocationError: "Current location not available",  // Shown when the browser returns an error instead of the current geographical position
             geoLocationOutOfExtent: "Current location is out of basemap extent",  // Shown when the current geographical position is out of the basemap extent
             submitButtonTooltip: "Submit", // Command button to open the geoform
             cancelButtonTooltip: "Cancel", //tooltip for cancel button
-            geoformBackButtonTooltip: "Return to the report list", //tooltip for Geoform back button
+            geoformBackButtonTooltip: "Return to the list", //tooltip for Geoform back button
             locationSelectionHintForPointLayer : "Tap the map to draw the location.", //hint text for selecting location incase of point layer
             locationSelectionHintForPolygonLayer : "Tap the map to draw the location. Double tap to complete the drawing.", //hint text for selecting location incase of line and polygon layer
 
@@ -109,14 +109,14 @@ define({
             latLongText: "Latitude/Longitude", // Shown as a title for a group of latitude longitude values returned on performing unified search
             invalidSearch: "No results found", // Shown in the address container when no results are returned on performing unified search
             locatorPlaceholder: "Enter an address to search", // Shown in the address container textbox as a placeholder
-            locationOutOfExtent: "Located address is out of basemap extent", // Shown as an alert when the selected address in the search result is out of basemap extent
+            locationOutOfExtent: "Location is outside the submission area", // Shown as an alert when the selected address in the search result is out of basemap extent
             searchButtonTooltip: "Search", // Tooltip for search button
             clearButtonTooltip: "Clear search value" // Tooltip for Geocoder clear button
         },
         myIssues: {
-            title: "My Reports", // Shown as a title in 'My issues' panel
-            myIssuesTooltip: "My Reports", // Command button to access issues reported by the logged in user
-            noResultsFound: "No reports found" // Shown when no issues are reported by the logged in user
+            title: "My Submissions", // Shown as a title in 'My issues' panel
+            myIssuesTooltip: "My Submissions", // Command button to access issues reported by the logged in user
+            noResultsFound: "No submissions found" // Shown when no issues are reported by the logged in user
         },
         itemDetails: {  // Detailed information about an item and a list of its comments
             likeButtonLabel: "", // Command button for up-voting a report
@@ -126,14 +126,14 @@ define({
             galleryButtonLabel: "", // Command button for opening and closing attachment file gallery
             galleryButtonTooltip: "See attached documents", // Tooltip for command button shown in details panel
             mapButtonLabel: "View on Map", // Command button shown in details panel
-            mapButtonTooltip: "View the location of this report", // Tooltip for Gallery button
+            mapButtonTooltip: "View the location of this submission", // Tooltip for Gallery button
             commentsListHeading: "Comments", // List heading for Comments section in details panel
             unableToUpdateVoteField: "Your vote cannot be counted at this time.", // Error message for feature unable to update
-            gotoIssueListTooltip: "Go to the report list", // Tooltip for back icon in Issue list header
+            gotoIssueListTooltip: "View the list of submissions", // Tooltip for back icon in Issue list header
             deleteMessage : "Are you sure you want to delete?", //shown when user tries to delete a report or comment
         },
         itemList: {  // List of feature layer items shown in my-issues and issue-wall
-            likesForThisItemTooltip: "Votes for this report", //Shown on hovering of the like icon in my-issues and issue-wall
+            likesForThisItemTooltip: "Number of votes", //Shown on hovering of the like icon in my-issues and issue-wall
             loadMoreButtonText: "Load More..." //Text for load more button
         },
         comment: {
