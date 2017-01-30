@@ -214,7 +214,7 @@ define([
                     };
                     this._menusList.signIn = true;
                     this._menusList.signOut = false;
-                    //If user is not logged in keep editing flag to false
+                    //If user is not logged in keep editing flag to true by default
                     this.config.logInDetails.canEditFeatures = true;
                 }
                 //By default we have disabled queryForGroupItems
