@@ -146,6 +146,7 @@ define([
         _existingLayerIndex: null,
         clonedGeolocation: null,
         drawToolBarHandler: null,
+        _featuresAddedFromMyIssues: [],
         startup: function (boilerPlateTemplateObject, loggedInUser) {
             // config will contain application and user defined info for the template such as i18n strings, the web map id
             // and application id
@@ -213,7 +214,7 @@ define([
                     };
                     this._menusList.signIn = true;
                     this._menusList.signOut = false;
-                    //If user is not logged in keep editing flag to true by default
+                    //If user is not logged in keep editing flag to false
                     this.config.logInDetails.canEditFeatures = true;
                 }
                 //By default we have disabled queryForGroupItems
@@ -342,6 +343,7 @@ define([
                         if (this._issueWallWidget && this._issueWallWidget.itemsList) {
                             this._issueWallWidget.itemsList.refreshList(item);
                         }
+                        this._clearMyIssuesFromMap();
                     }
                 });
 
@@ -380,6 +382,13 @@ define([
                                         this._itemDetails.handleComponentsVisibility();
                                     } else {
                                         this._updateFeatureInIssueWall(updatedFeature, false, false);
+                                        //Since feature is not found, clear selection in 'My Issues' list
+                                        if (this._myIssuesWidget) {
+                                            this._myIssuesWidget.updateIssueList(this._selectedMapDetails, updatedFeature);
+                                            if (this._myIssuesWidget.itemsList) {
+                                                this._myIssuesWidget.itemsList.clearSelection();
+                                            }
+                                        }
                                     }
                                 }));
                             } catch (ex) {
@@ -681,6 +690,7 @@ define([
                     } else {
                         this._sidebarCnt.showPanel("issueWall");
                     }
+                    this._clearMyIssuesFromMap();
                 });
                 this._myIssuesWidget.onItemSelected = lang.hitch(this, function (selectedFeature) {
                     this.appUtils.showLoadingIndicator();
@@ -918,6 +928,7 @@ define([
             this.layerGraphicsArray = [];
             this.sortedFeaturesArray = [];
             this.filteredBufferIds = [];
+            this._featuresAddedFromMyIssues = [];
             this.maxBufferLimit = 0;
             this.map = details.map;
             // Create instance of Draw tool to draw the graphics on graphics layer
@@ -1272,6 +1283,12 @@ define([
                     return true;
                 }
             }));
+            //If feature is added through my issues, just add it to map and break the Loop
+            if (addedFrom === "myissues" && !featureExsist) {
+                this.displaygraphicsLayer.add(newGraphic.graphic);
+                this._featuresAddedFromMyIssues.push(newGraphic.graphic);
+                return;
+            }
             //If feature is found through search widget, we need to set my issues flag to false if it is true
             if (addedFrom === "search") {
                 this._isMyIssues = false;
@@ -1387,7 +1404,7 @@ define([
             //Highlight Feature on map
             operationalLayer = this.map.getLayer(this._selectedMapDetails.operationalLayerId);
             if (operationalLayer && operationalLayer.objectIdField && this._selectedMapDetails.map) {
-                this.highLightFeatureOnClick(operationalLayer, item.attributes[operationalLayer.objectIdField], this._selectedMapDetails.map.getLayer("selectionGraphicsLayer"), this._selectedMapDetails.map);
+                this.highLightFeatureOnClick(operationalLayer, item.attributes[operationalLayer.objectIdField], this._selectedMapDetails.map, isMapClicked);
             }
             //set selection in item-list to maintain the highlight in list
             //added layer ID to selected item's object id to avoid duplicate value of object id across multiple layer
@@ -1446,8 +1463,9 @@ define([
         * @param{object} selectedGraphicsLayer
         * @param{object} map
         */
-        highLightFeatureOnClick: function (layer, objectId, selectedGraphicsLayer, map) {
-            var queryTask, esriQuery, highlightSymbol, currentDateTime = new Date().getTime();
+        highLightFeatureOnClick: function (layer, objectId, map, isMapClicked) {
+            var queryTask, esriQuery, highlightSymbol, currentDateTime = new Date().getTime(), selectedGraphicsLayer;
+            selectedGraphicsLayer = this._selectedMapDetails.map.getLayer("selectionGraphicsLayer");
             this.mapInstance = map;
             if (selectedGraphicsLayer) {
                 // clear graphics layer
@@ -1458,7 +1476,7 @@ define([
             esriQuery.where = currentDateTime + "=" + currentDateTime;
             esriQuery.returnGeometry = true;
             esriQuery.outSpatialReference = this.map.spatialReference;
-            if (this._existingDefinitionExpression) {
+            if (this._existingDefinitionExpression && !this._isMyIssues && !isMapClicked) {
                 esriQuery.where += " AND " + this._existingDefinitionExpression;
             }
             queryTask = new QueryTask(layer.url);
@@ -1876,6 +1894,31 @@ define([
             this._reorderAllLayers();
         },
 
+        /**
+        * This function is used to clear the issues added from 'My Issues' after coming out of my issues panel
+        * @memberOf @memberOf main
+        */
+        _clearMyIssuesFromMap: function () {
+            var isFeatureRemoved = false;
+            array.forEach(this._featuresAddedFromMyIssues, lang.hitch(this,
+                function (currentGraphic) {
+                    array.some(this.displaygraphicsLayer.graphics, lang.hitch(this, function (layerGraphic) {
+                        if (currentGraphic.attributes[this.selectedLayer.objectIdField] === layerGraphic.attributes[this.selectedLayer.objectIdField]) {
+                            this.displaygraphicsLayer.remove(layerGraphic);
+                            isFeatureRemoved = true;
+                            return true;
+                        }
+                    }));
+                }));
+            if (isFeatureRemoved) {
+                //Clear map selection when navigating to web map list
+                if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
+                    this._selectedMapDetails.map.getLayer("selectionGraphicsLayer").clear();
+                }
+            }
+            //Since all the featurtes added from my issues are removed from map, reset the array
+            this._featuresAddedFromMyIssues = [];
+        },
         /**
         * This function is used get existing index of layer
         * @memberOf widgets/main/main
