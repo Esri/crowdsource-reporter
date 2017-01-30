@@ -402,7 +402,7 @@ define([
                                 if (this.map._layers[layer].id !== obj.operationalLayerId) {
                                     this.map._layers[layer].hide();
                                 } else {
-                                    this.map._layers[layer].show();
+                                    this.map._layers[layer].hide();
                                     this.map.getLayer(obj.operationalLayerId).refresh();
                                     featureLayer = new FeatureLayer(this.map._layers[layer].url);
                                     this._onFeatureLayerLoad(featureLayer, obj.webMapId, obj.operationalLayerId, obj.operationalLayerDetails, obj.itemInfo);
@@ -616,7 +616,7 @@ define([
                 this._handleOperationalLayerClick(childListNode, webMap.itemInfo.itemData.operationalLayers[i]);
                 parentListNode.appendChild(childListNode);
             }
-            // stop event propogation so that no other event gets executed
+            // stop event propagation so that no other event gets executed
             on(parentListNode, "click", lang.hitch(this, function (evt) {
                 event.stop(evt);
             }));

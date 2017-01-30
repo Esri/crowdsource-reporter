@@ -100,7 +100,8 @@ define({
             geoformBackButtonTooltip: "Return to the list", //tooltip for Geoform back button
             locationSelectionHintForPointLayer : "Tap the map to draw the location.", //hint text for selecting location incase of point layer
             locationSelectionHintForPolygonLayer : "Tap the map to draw the location. Double tap to complete the drawing.", //hint text for selecting location incase of line and polygon layer
-
+            locationSelectionHintForPointLayerDesktop : "Click the map to draw the location.", //hint text for selecting location incase of point layer
+            locationSelectionHintForPolygonLayerDesktop : "Click the map to draw the location. Double click to complete the drawing." //hint text for selecting location incase of line and polygon layer
         },
         locator: {
             addressText: "Address:", // Shown as a title for a group of addresses returned on performing unified search
