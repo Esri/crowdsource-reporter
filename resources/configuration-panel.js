@@ -81,16 +81,18 @@
             "stringFieldOption": "string",
             "fieldName": "signInSubtitle"
         }, {
-            "label": "URL to a logo to display in the application header",
+            "label": "Application logo",
             "tooltip": "Logo displays in top left corner of application. Image should be 48px tall.",
             "type": "string",
             "sharedThemeProperty": "logo.small",
-            "fieldName": "applicationIcon"
+            "fieldName": "applicationIcon",
+            "placeHolder": "/images/app-icon.png"
         }, {
-            "label": "URL to a favicon to display in browser tabs where your application is loaded",
+            "label": "Application favicon",
             "tooltip": "Icon to display in browser tabs",
             "type": "string",
-            "fieldName": "applicationFavicon"
+            "fieldName": "applicationFavicon",
+            "placeHolder": "/images/favicon.ico"
         }, {
             "label": "Message to display when the configured group does not contain at least one map with at least one editable layer that is accessible to the current user.",
             "tooltip": "Use this message to prompt users to sign in to the organization hosting the content or to prompt the application configurer to verify the content of the group.",
@@ -105,7 +107,7 @@
             "type": "string",
             "fieldName": "signInBackgroundImage"
         }, {
-            "label": "Link to help text on splash screen",
+            "label": "Help link text",
             "tooltip": "Clicking this text will open the help dialog.",
             "type": "string",
             "fieldName": "helpLinkText"
@@ -223,8 +225,11 @@
             "type": "subcategory",
             "label": "Zoom Level"
         }, {
-            "label": "When a report is selected from the list, the map will pan and zoom to show the location of that report. Specify how near (larger number) or far (smaller number) the map should zoom relative to the ground.",
-            "tooltip": "When a report is selected the map will zoom to the associated feature using this zoom level.",
+            "type": "paragraph",
+            "value": "When a report is selected from the list, the map will pan and zoom to show the location of that report. Specify how near (larger number) or far (smaller number) the map should zoom relative to the ground."
+        }, {
+            "label": "Zoom level for selected report",
+            "tooltip": "Specify how near (larger number) or far (smaller number) the map should zoom relative to the ground.",
             "type": "string",
             "fieldName": "zoomLevel"
         }]
@@ -239,8 +244,11 @@
             "type": "subcategory",
             "label": "Details"
         }, {
-            "label": "Header for the details section of the form, which is built using the fields marked as editable in the popup configuration.",
-            "tooltip": "Header for the section of the form that is populated by the layer's editable fields.",
+            "type": "paragraph",
+            "value": "The details section of the form is built using the fields marked as editable in the popup configuration."
+        },{
+            "label": "Section header",
+            "tooltip": "Title for the details section of the form.",
             "type": "string",
             "fieldName": "geoformDetailsSectionLabel"
         }, {
@@ -262,8 +270,11 @@
             "type": "subcategory",
             "label": "Attachments"
         }, {
-            "label": "Header for section of the form where photos and other supporting files can be added to the report. This section is only available when attachments are enabled on the layer.",
-            "tooltip": "Header for the section of the form where supporting files can be attached to the report.",
+            "type": "paragraph",
+            "value": "The attachment section of the form where photos and other supporting files can be added to the report. This section is only available when attachments are enabled on the layer."
+        },{
+            "label": "Section header",
+            "tooltip": "Title for the attachments section of the form.",
             "type": "string",
             "fieldName": "geoformAttachmentSectionLabel"
         }, {
@@ -285,8 +296,11 @@
             "type": "subcategory",
             "label": "Location"
         }, {
-            "label": "Header for the report location section of the form. The report location can be drawn on the map or found by searching for an address.",
-            "tooltip": "Header for the section of the form containing the map and location search options.",
+            "type": "paragraph",
+            "value": "The location section of the form where reports can be drawn on the map or found by searching for an address."
+        },{
+            "label": "Section header",
+            "tooltip": "Title for the location section of the form.",
             "type": "string",
             "fieldName": "geoformLocationSectionLabel"
         }, {
@@ -305,12 +319,18 @@
                 "value": "Bottom"
             }]
         }, {
-            "label": "Optionally, store a text form of the report location. This location-storing functionality will only be available for layers with a field of the specified (case-sensitive) name.",
+            "type": "paragraph",
+            "value": "Optionally, store a text form of the report location. This location-storing functionality will only be available for layers with a field of the specified (case-sensitive) name."
+        },{
+            "label": "Name of the field to store report location",
             "tooltip": "Allows user to configure location field",
             "type": "string",
             "fieldName": "locationField"
+        },{
+            "type": "paragraph",
+            "value": "Restrict where reports can be drawn by specifying the name of an uneditable polygon layer. Reports will only be accepted within the boudaries of features in this layer. The locations of reports will only be restricted in maps that contain an uneditable polygon layer with this name."
         }, {
-            "label": "Restrict where reports can be drawn by specifying the name of an uneditable polygon layer. Reports will only be accepted within the boudaries of features in this layer. The locations of reports will only be restricted in maps that contain an uneditable polygon layer with this name.",
+            "label": "Name of an uneditable polygon layer",
             "tooltip": "Non editable layers which defines the area of interest where user can Add/Edit records",
             "type": "string",
             "fieldName": "geographicalExtentLayer"
