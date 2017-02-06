@@ -53,12 +53,12 @@
         "geoformLocationSectionLabel": "Location",
         "geoformAttachmentSectionLabel": "Attachments",
         "noWebmapInGroupText": "Configured group is invalid or no items have been shared with this group yet.",
-        "headerBackgroundColor": "",
-        "headerTextColor": "",
-        "bodyBackgroundColor": "",
-        "bodyTextColor": "",
-        "buttonBackgroundColor": "",
-        "buttonTextColor": ""
+        "headerBackgroundColor":"#fff",
+        "headerTextColor":"#137DB9",
+        "bodyBackgroundColor":"#fff",
+        "bodyTextColor":"#515151",
+        "buttonBackgroundColor":"#fff",
+        "buttonTextColor":"#137DB9"
     },
     "configurationSettings": [{
         "category": "<b>App</b>",
