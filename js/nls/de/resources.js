@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Bericht senden",
     "gotoListViewTooltip": "Listenansicht",
     "noFeatureGeomtery": "Feature kann nicht angezeigt werden",
-    "featureOutsideAOIMessage": "Feature kann nicht außerhalb des Untersuchungsgebiets hinzugefügt werden."
+    "featureOutsideAOIMessage": "Feature kann nicht außerhalb des Untersuchungsgebiets hinzugefügt werden.",
+    "noEditingPermissionsMessage": "ä_You do not have permission to perform this action________________Ü."
   },
   "signin": {
     "guestSigninText": "Vorgang als Gast fortsetzen",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Kartenansicht"
   },
   "appHeader": {
-    "myReport": "Eigene Berichte",
+    "myReport": "ä_My Submissions_____Ü",
     "signIn": "Anmelden",
     "signOut": "Abmelden",
     "signInTooltip": "Anmelden",
     "signOutTooltip": "Abmelden",
-    "myReportTooltip": "Eigene Berichte anzeigen"
+    "myReportTooltip": "ä_View my submissions_______Ü"
   },
   "geoform": {
     "enterInformation": "Details",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Wählen Sie den Speicherort für Ihren Bericht aus",
     "numericRangeHintMessage": "${openStrong}Hinweis:${closeStrong} Minimalwert ${minValue} und Maximalwert ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Hinweis:${closeStrong} Mindestdatum ${minValue} und maximal auswählbares Datum ${maxValue}",
-    "errorsInApplyEdits": "Bericht konnte nicht gesendet werden",
+    "errorsInApplyEdits": "ä_Values could not be submitted__________Ü.",
     "attachmentSelectedMsg": "Anlage(n) ausgewählt",
     "attachmentUploadStatus": "${failed} von ${total} Anlage(n) konnte(n) nicht hochgeladen werden",
     "geoLocationError": "Aktuelle Position ist nicht verfügbar",
     "geoLocationOutOfExtent": "Aktuelle Position befindet sich außerhalb der Grundkartenausdehnung",
     "submitButtonTooltip": "Senden",
     "cancelButtonTooltip": "Abbrechen",
-    "geoformBackButtonTooltip": "Zur Berichtsliste zurückkehren"
+    "geoformBackButtonTooltip": "ä_Return to the list______Ü",
+    "locationSelectionHintForPointLayer": "ä_Tap the map to draw the location___________Ü.",
+    "locationSelectionHintForPolygonLayer": "ä_Tap the map to draw the location. Double tap to complete the drawing______________________Ü.",
+    "locationSelectionHintForPointLayerDesktop": "ä_Click the map to draw the location____________Ü.",
+    "locationSelectionHintForPolygonLayerDesktop": "ä_Click the map to draw the location. Double click to complete the drawing_______________________Ü."
   },
   "locator": {
     "addressText": "Adresse:",
@@ -104,14 +109,14 @@ define({
     "latLongText": "Breitengrad/Längengrad",
     "invalidSearch": "Keine Ergebnisse gefunden",
     "locatorPlaceholder": "Zu suchende Adresse eingeben",
-    "locationOutOfExtent": "Verortete Adresse befindet sich außerhalb der Grundkartenausdehnung",
+    "locationOutOfExtent": "ä_Location is outside the submission area_____________Ü",
     "searchButtonTooltip": "Suche",
     "clearButtonTooltip": "Suchwert löschen"
   },
   "myIssues": {
-    "title": "Eigene Berichte",
-    "myIssuesTooltip": "Eigene Berichte",
-    "noResultsFound": "Keine Berichte gefunden"
+    "title": "ä_My Submissions_____Ü",
+    "myIssuesTooltip": "ä_My Submissions_____Ü",
+    "noResultsFound": "ä_No submissions found_______Ü"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -121,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Angehängte Dokumente anzeigen",
     "mapButtonLabel": "Auf Karte anzeigen",
-    "mapButtonTooltip": "Speicherort dieses Berichts anzeigen",
+    "mapButtonTooltip": "ä_View the location of this submission____________Ü",
     "commentsListHeading": "Bemerkungen",
     "unableToUpdateVoteField": "Ihre Stimme kann zurzeit nicht gezählt werden.",
-    "gotoIssueListTooltip": "Zur Berichtsliste wechseln",
+    "gotoIssueListTooltip": "ä_View the list of submissions_________Ü",
     "deleteMessage": "Möchten Sie den Löschvorgang wirklich durchführen?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Stimmen für diesen Bericht",
+    "likesForThisItemTooltip": "ä_Number of votes______Ü",
     "loadMoreButtonText": "Weitere laden..."
   },
   "comment": {

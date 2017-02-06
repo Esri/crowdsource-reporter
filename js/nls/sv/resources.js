@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Skicka in en rapport",
     "gotoListViewTooltip": "Listvy",
     "noFeatureGeomtery": "Geoobjektet kan inte visas",
-    "featureOutsideAOIMessage": "Geoobjektet går inte att lägga till utanför undersökningsområdet"
+    "featureOutsideAOIMessage": "Geoobjektet går inte att lägga till utanför undersökningsområdet",
+    "noEditingPermissionsMessage": "Å_You do not have permission to perform this action________________ö."
   },
   "signin": {
     "guestSigninText": "Fortsätt som gäst",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Kartvy"
   },
   "appHeader": {
-    "myReport": "Mina rapporter",
+    "myReport": "Å_My Submissions_____ö",
     "signIn": "Logga in",
     "signOut": "Logga ut",
     "signInTooltip": "Logga in",
     "signOutTooltip": "Logga ut",
-    "myReportTooltip": "Visa mina rapporter"
+    "myReportTooltip": "Å_View my submissions_______ö"
   },
   "geoform": {
     "enterInformation": "Detaljer",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Välj platsen för din rapport",
     "numericRangeHintMessage": "${openStrong}Tips:${closeStrong} minsta värde ${minValue} och största värde ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Tips:${closeStrong} minsta datum ${minValue} och största datum ${maxValue}",
-    "errorsInApplyEdits": "Det gick inte att skicka rapporten",
+    "errorsInApplyEdits": "Å_Values could not be submitted__________ö.",
     "attachmentSelectedMsg": "bilagor markerade",
     "attachmentUploadStatus": "${failed} av ${total} bilagor kunde inte överföras",
     "geoLocationError": "Aktuell plats finns inte tillgänglig",
     "geoLocationOutOfExtent": "Aktuell plats är utanför baskartans utbredning",
     "submitButtonTooltip": "Skicka",
     "cancelButtonTooltip": "Avbryt",
-    "geoformBackButtonTooltip": "Återgå till rapportlistan"
+    "geoformBackButtonTooltip": "Å_Return to the list______ö",
+    "locationSelectionHintForPointLayer": "Å_Tap the map to draw the location___________ö.",
+    "locationSelectionHintForPolygonLayer": "Å_Tap the map to draw the location. Double tap to complete the drawing______________________ö.",
+    "locationSelectionHintForPointLayerDesktop": "Å_Click the map to draw the location____________ö.",
+    "locationSelectionHintForPolygonLayerDesktop": "Å_Click the map to draw the location. Double click to complete the drawing_______________________ö."
   },
   "locator": {
     "addressText": "Adress:",
@@ -104,14 +109,14 @@ define({
     "latLongText": "Latitud/longitud",
     "invalidSearch": "Inga resultat hittades",
     "locatorPlaceholder": "Ange en adress att söka efter",
-    "locationOutOfExtent": "Den lokaliserade adressen är utanför baskartans utbredning",
+    "locationOutOfExtent": "Å_Location is outside the submission area_____________ö",
     "searchButtonTooltip": "Sök",
     "clearButtonTooltip": "Rensa sökvärde"
   },
   "myIssues": {
-    "title": "Mina rapporter",
-    "myIssuesTooltip": "Mina rapporter",
-    "noResultsFound": "Inga rapporter hittades"
+    "title": "Å_My Submissions_____ö",
+    "myIssuesTooltip": "Å_My Submissions_____ö",
+    "noResultsFound": "Å_No submissions found_______ö"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -121,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Se bifogade dokument",
     "mapButtonLabel": "Visa på kartan",
-    "mapButtonTooltip": "Visa platsen för rapporten",
+    "mapButtonTooltip": "Å_View the location of this submission____________ö",
     "commentsListHeading": "Kommentarer",
     "unableToUpdateVoteField": "Det går inte att räkna din röst just nu.",
-    "gotoIssueListTooltip": "Gå till rapportlistan",
+    "gotoIssueListTooltip": "Å_View the list of submissions_________ö",
     "deleteMessage": "Vill du ta bort?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Röster för den här rapporten",
+    "likesForThisItemTooltip": "Å_Number of votes______ö",
     "loadMoreButtonText": "Läs in mer ..."
   },
   "comment": {

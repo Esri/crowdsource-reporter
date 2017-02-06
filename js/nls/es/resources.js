@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Enviar un informe",
     "gotoListViewTooltip": "Vista de lista",
     "noFeatureGeomtery": "No se puede mostrar la entidad",
-    "featureOutsideAOIMessage": "La entidad no puede agregarse fuera del área de estudio"
+    "featureOutsideAOIMessage": "La entidad no puede agregarse fuera del área de estudio",
+    "noEditingPermissionsMessage": "á_You do not have permission to perform this action________________Ó."
   },
   "signin": {
     "guestSigninText": "Continuar como invitado",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Vista del mapa"
   },
   "appHeader": {
-    "myReport": "Mis informes",
+    "myReport": "á_My Submissions_____Ó",
     "signIn": "Iniciar sesión",
     "signOut": "Cerrar sesión",
     "signInTooltip": "Iniciar sesión",
     "signOutTooltip": "Cerrar sesión",
-    "myReportTooltip": "Ver mis informes"
+    "myReportTooltip": "á_View my submissions_______Ó"
   },
   "geoform": {
     "enterInformation": "Detalles",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Selecciona la ubicación para el informe",
     "numericRangeHintMessage": "${openStrong}Sugerencia:${closeStrong} Valor mínimo ${minValue} y valor máximo ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Sugerencia:${closeStrong} Fecha mínima ${minValue} y fecha máxima ${maxValue}",
-    "errorsInApplyEdits": "No se pudo enviar el informe",
+    "errorsInApplyEdits": "á_Values could not be submitted__________Ó.",
     "attachmentSelectedMsg": "adjuntos seleccionados",
     "attachmentUploadStatus": "Error al cargar ${failed} de ${total} adjuntos",
     "geoLocationError": "Ubicación actual no disponible",
     "geoLocationOutOfExtent": "La ubicación actual está fuera de la extensión del mapa base",
     "submitButtonTooltip": "Enviar",
     "cancelButtonTooltip": "Cancelar",
-    "geoformBackButtonTooltip": "Volver a la lista de informes"
+    "geoformBackButtonTooltip": "á_Return to the list______Ó",
+    "locationSelectionHintForPointLayer": "á_Tap the map to draw the location___________Ó.",
+    "locationSelectionHintForPolygonLayer": "á_Tap the map to draw the location. Double tap to complete the drawing______________________Ó.",
+    "locationSelectionHintForPointLayerDesktop": "á_Click the map to draw the location____________Ó.",
+    "locationSelectionHintForPolygonLayerDesktop": "á_Click the map to draw the location. Double click to complete the drawing_______________________Ó."
   },
   "locator": {
     "addressText": "Dirección:",
@@ -104,14 +109,14 @@ define({
     "latLongText": "Latitud/longitud",
     "invalidSearch": "Ningún resultado encontrado",
     "locatorPlaceholder": "Introduce una dirección para buscar",
-    "locationOutOfExtent": "La dirección localizada está fuera de la extensión del mapa base",
+    "locationOutOfExtent": "á_Location is outside the submission area_____________Ó",
     "searchButtonTooltip": "Búsqueda",
     "clearButtonTooltip": "Borrar valor de búsqueda"
   },
   "myIssues": {
-    "title": "Mis informes",
-    "myIssuesTooltip": "Mis informes",
-    "noResultsFound": "No se encontraron informes"
+    "title": "á_My Submissions_____Ó",
+    "myIssuesTooltip": "á_My Submissions_____Ó",
+    "noResultsFound": "á_No submissions found_______Ó"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -121,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Ver documentos adjuntos",
     "mapButtonLabel": "Ver en mapa",
-    "mapButtonTooltip": "Ver la ubicación de este informe",
+    "mapButtonTooltip": "á_View the location of this submission____________Ó",
     "commentsListHeading": "Comentarios",
     "unableToUpdateVoteField": "No es posible contar tu voto en este momento.",
-    "gotoIssueListTooltip": "Ir a lista de informes",
+    "gotoIssueListTooltip": "á_View the list of submissions_________Ó",
     "deleteMessage": "¿Está seguro de que desea eliminar?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Vota este informe",
+    "likesForThisItemTooltip": "á_Number of votes______Ó",
     "loadMoreButtonText": "Cargar más..."
   },
   "comment": {

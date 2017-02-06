@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Rapor Gönder",
     "gotoListViewTooltip": "Liste görünümü",
     "noFeatureGeomtery": "Detay görüntülenemiyor",
-    "featureOutsideAOIMessage": "Detay araştırma alanı dışına eklenemez"
+    "featureOutsideAOIMessage": "Detay araştırma alanı dışına eklenemez",
+    "noEditingPermissionsMessage": "ı_You do not have permission to perform this action________________İ."
   },
   "signin": {
     "guestSigninText": "Konuk olarak devam et",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Harita görünümü"
   },
   "appHeader": {
-    "myReport": "Raporlarım",
+    "myReport": "ı_My Submissions_____İ",
     "signIn": "Oturum Açma",
     "signOut": "Oturum Kapat",
     "signInTooltip": "Hesabınıza",
     "signOutTooltip": "Oturumu kapat",
-    "myReportTooltip": "Raporlarımı görüntüle"
+    "myReportTooltip": "ı_View my submissions_______İ"
   },
   "geoform": {
     "enterInformation": "Ayrıntılar",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Raporunuzun konumunu seçin",
     "numericRangeHintMessage": "${openStrong}İpucu:${closeStrong} Minimum değer ${minValue} ve Maksimum değer ${maxValue}",
     "dateRangeHintMessage": "${openStrong}İpucu:${closeStrong} Minimum Tarih ${minValue} ve Maksimum Tarih ${maxValue}",
-    "errorsInApplyEdits": "Rapor gönderilemedi",
+    "errorsInApplyEdits": "ı_Values could not be submitted__________İ.",
     "attachmentSelectedMsg": "ek seçildi",
     "attachmentUploadStatus": "${failed} / ${total} ek yüklenemedi",
     "geoLocationError": "Geçerli konum kullanılamıyor",
     "geoLocationOutOfExtent": "Geçerli konum altlık haritası yayılımı dışında",
     "submitButtonTooltip": "Gönder",
     "cancelButtonTooltip": "İptal",
-    "geoformBackButtonTooltip": "Rapor listesine dön"
+    "geoformBackButtonTooltip": "ı_Return to the list______İ",
+    "locationSelectionHintForPointLayer": "ı_Tap the map to draw the location___________İ.",
+    "locationSelectionHintForPolygonLayer": "ı_Tap the map to draw the location. Double tap to complete the drawing______________________İ.",
+    "locationSelectionHintForPointLayerDesktop": "ı_Click the map to draw the location____________İ.",
+    "locationSelectionHintForPolygonLayerDesktop": "ı_Click the map to draw the location. Double click to complete the drawing_______________________İ."
   },
   "locator": {
     "addressText": "Adres:",
@@ -104,14 +109,14 @@ define({
     "latLongText": "Enlem/Boylam",
     "invalidSearch": "Sonuç bulunamadı",
     "locatorPlaceholder": "Aranacak adres gir",
-    "locationOutOfExtent": "Bulunan adres altlık haritası yayılımı dışında",
+    "locationOutOfExtent": "ı_Location is outside the submission area_____________İ",
     "searchButtonTooltip": "Ara",
     "clearButtonTooltip": "Arama değerini temizle"
   },
   "myIssues": {
-    "title": "Raporlarım",
-    "myIssuesTooltip": "Raporlarım",
-    "noResultsFound": "Herhangi bir rapor bulunamadı"
+    "title": "ı_My Submissions_____İ",
+    "myIssuesTooltip": "ı_My Submissions_____İ",
+    "noResultsFound": "ı_No submissions found_______İ"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -121,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Ekli belgeleri incele",
     "mapButtonLabel": "Haritada görüntüle",
-    "mapButtonTooltip": "Bu raporun konumunu görüntüle",
+    "mapButtonTooltip": "ı_View the location of this submission____________İ",
     "commentsListHeading": "Yorumlar",
     "unableToUpdateVoteField": "Oyunuz şu anda sayılamıyor.",
-    "gotoIssueListTooltip": "Rapor listesine git",
+    "gotoIssueListTooltip": "ı_View the list of submissions_________İ",
     "deleteMessage": "Silmek istediğinizden emin misiniz?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Bu rapora verilen oylar",
+    "likesForThisItemTooltip": "ı_Number of votes______İ",
     "loadMoreButtonText": "Daha Fazla Yükle..."
   },
   "comment": {

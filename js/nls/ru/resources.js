@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Отправить отчет",
     "gotoListViewTooltip": "Вид - список",
     "noFeatureGeomtery": "Объекты невозможно отобразить",
-    "featureOutsideAOIMessage": "Невозможно добавить объекты за пределами изучаемой области."
+    "featureOutsideAOIMessage": "Невозможно добавить объекты за пределами изучаемой области.",
+    "noEditingPermissionsMessage": "Ж_You do not have permission to perform this action________________Я."
   },
   "signin": {
     "guestSigninText": "Продолжить как гость",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Вид карты"
   },
   "appHeader": {
-    "myReport": "Мои отчеты",
+    "myReport": "Ж_My Submissions_____Я",
     "signIn": "Вход",
     "signOut": "Выход",
     "signInTooltip": "Вход",
     "signOutTooltip": "Выход",
-    "myReportTooltip": "Просмотреть мои отчеты"
+    "myReportTooltip": "Ж_View my submissions_______Я"
   },
   "geoform": {
     "enterInformation": "Подробности",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Выберите местоположение для отчета",
     "numericRangeHintMessage": "${openStrong}Подсказка:${closeStrong} Минимальное значение ${minValue} и Максимальное значение ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Hint:${closeStrong} Минимальная дата ${minValue} и Максимальная дата ${maxValue}",
-    "errorsInApplyEdits": "Невозможно добавить отчет.",
+    "errorsInApplyEdits": "Ж_Values could not be submitted__________Я.",
     "attachmentSelectedMsg": "выбранные вложения",
     "attachmentUploadStatus": "${failed} из ${total} вложений не удалось выгрузить.",
     "geoLocationError": "Текущее местоположение недоступно",
     "geoLocationOutOfExtent": "Текущее местоположение вне экстента базовой карты",
     "submitButtonTooltip": "Подтвердить",
     "cancelButtonTooltip": "Отменить",
-    "geoformBackButtonTooltip": "Вернуться к списку отчетов"
+    "geoformBackButtonTooltip": "Ж_Return to the list______Я",
+    "locationSelectionHintForPointLayer": "Ж_Tap the map to draw the location___________Я.",
+    "locationSelectionHintForPolygonLayer": "Ж_Tap the map to draw the location. Double tap to complete the drawing______________________Я.",
+    "locationSelectionHintForPointLayerDesktop": "Ж_Click the map to draw the location____________Я.",
+    "locationSelectionHintForPolygonLayerDesktop": "Ж_Click the map to draw the location. Double click to complete the drawing_______________________Я."
   },
   "locator": {
     "addressText": "Адрес:",
@@ -104,14 +109,14 @@ define({
     "latLongText": "Широта/Долгота",
     "invalidSearch": "Результаты не найдены",
     "locatorPlaceholder": "Введите адрес для поиска",
-    "locationOutOfExtent": "Адрес находится вне экстента базовой карты",
+    "locationOutOfExtent": "Ж_Location is outside the submission area_____________Я",
     "searchButtonTooltip": "Поиск",
     "clearButtonTooltip": "Очистить значение поиска"
   },
   "myIssues": {
-    "title": "Мои отчеты",
-    "myIssuesTooltip": "Мои отчеты",
-    "noResultsFound": "Отчеты не найдены."
+    "title": "Ж_My Submissions_____Я",
+    "myIssuesTooltip": "Ж_My Submissions_____Я",
+    "noResultsFound": "Ж_No submissions found_______Я"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -121,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Просмотр вложенных документов",
     "mapButtonLabel": "Просмотр на карте",
-    "mapButtonTooltip": "Просмотреть местоположение этого отчета",
+    "mapButtonTooltip": "Ж_View the location of this submission____________Я",
     "commentsListHeading": "Комментарии",
     "unableToUpdateVoteField": "Ваш голос не может быть учтен сейчас.",
-    "gotoIssueListTooltip": "Перейти к списку отчетов",
+    "gotoIssueListTooltip": "Ж_View the list of submissions_________Я",
     "deleteMessage": "Вы уверены, что хотите удалить?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Число голосов отданных за отчет",
+    "likesForThisItemTooltip": "Ж_Number of votes______Я",
     "loadMoreButtonText": "Загрузить больше..."
   },
   "comment": {

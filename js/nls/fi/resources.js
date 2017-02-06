@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Lähetä rapotti",
     "gotoListViewTooltip": "Luettelonäkymä",
     "noFeatureGeomtery": "Kohdetta ei voi näyttää",
-    "featureOutsideAOIMessage": "Tarkastelualueen ulkopuolisia kohteita ei voi lisätä"
+    "featureOutsideAOIMessage": "Tarkastelualueen ulkopuolisia kohteita ei voi lisätä",
+    "noEditingPermissionsMessage": "Å_You do not have permission to perform this action________________ö."
   },
   "signin": {
     "guestSigninText": "Jatka käyttöä vierailijana",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Karttanäkymä"
   },
   "appHeader": {
-    "myReport": "Omat raportit",
+    "myReport": "Å_My Submissions_____ö",
     "signIn": "Kirjaudu sisään",
     "signOut": "Kirjaudu ulos",
     "signInTooltip": "Kirjaudu sisään",
     "signOutTooltip": "Kirjaudu ulos",
-    "myReportTooltip": "Näytä raporttini"
+    "myReportTooltip": "Å_View my submissions_______ö"
   },
   "geoform": {
     "enterInformation": "Yksityiskohdat",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Valitse raportin sijainti",
     "numericRangeHintMessage": "${openStrong}Vihje:${closeStrong} Vähimmäisarvo ${minValue} ja enimmäisarvo ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Vihje:${closeStrong} aikaisin ${minValue} ja myöhäisin päivämäärä ${maxValue}",
-    "errorsInApplyEdits": "Raportin lähetys ei onnistunut",
+    "errorsInApplyEdits": "Å_Values could not be submitted__________ö.",
     "attachmentSelectedMsg": "liite(ttä) on valittu",
     "attachmentUploadStatus": "${failed}/${total} liitteen lataus epäonnistui",
     "geoLocationError": "Nykyinen sijainti ei ole käytettävissä",
     "geoLocationOutOfExtent": "Nykyinen sijainti ei ole taustakartan rajoissa",
     "submitButtonTooltip": "Lähetä",
     "cancelButtonTooltip": "Peruuta",
-    "geoformBackButtonTooltip": "Palaa raporttiluetteloon"
+    "geoformBackButtonTooltip": "Å_Return to the list______ö",
+    "locationSelectionHintForPointLayer": "Å_Tap the map to draw the location___________ö.",
+    "locationSelectionHintForPolygonLayer": "Å_Tap the map to draw the location. Double tap to complete the drawing______________________ö.",
+    "locationSelectionHintForPointLayerDesktop": "Å_Click the map to draw the location____________ö.",
+    "locationSelectionHintForPolygonLayerDesktop": "Å_Click the map to draw the location. Double click to complete the drawing_______________________ö."
   },
   "locator": {
     "addressText": "Osoite:",
@@ -104,14 +109,14 @@ define({
     "latLongText": "Leveysaste/Pituusaste",
     "invalidSearch": "Tuloksia ei löytynyt",
     "locatorPlaceholder": "Anna haettava osoite",
-    "locationOutOfExtent": "Löydetty osoite ei ole taustakartan rajoissa",
+    "locationOutOfExtent": "Å_Location is outside the submission area_____________ö",
     "searchButtonTooltip": "Etsi",
     "clearButtonTooltip": "Tyhjennä etsintäarvo"
   },
   "myIssues": {
-    "title": "Omat raportit",
-    "myIssuesTooltip": "Omat raportit",
-    "noResultsFound": "Yhtään raporttia ei löytynyt"
+    "title": "Å_My Submissions_____ö",
+    "myIssuesTooltip": "Å_My Submissions_____ö",
+    "noResultsFound": "Å_No submissions found_______ö"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -121,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Näytä liitetyt dokumentit",
     "mapButtonLabel": "Näytä kartalla",
-    "mapButtonTooltip": "Näytä tämän raportin sijainti",
+    "mapButtonTooltip": "Å_View the location of this submission____________ö",
     "commentsListHeading": "Comments",
     "unableToUpdateVoteField": "Ääntäsi ei voi laskea tällä kertaa.",
-    "gotoIssueListTooltip": "Siirry raporttiluetteloon",
+    "gotoIssueListTooltip": "Å_View the list of submissions_________ö",
     "deleteMessage": "Haluatko varmasti poistaa kohteen?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Tämän raportin äänet",
+    "likesForThisItemTooltip": "Å_Number of votes______ö",
     "loadMoreButtonText": "Lataa lisää..."
   },
   "comment": {

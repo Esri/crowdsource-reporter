@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Kirim laporan",
     "gotoListViewTooltip": "Tampilan daftar",
     "noFeatureGeomtery": "Fitur tidak dapat ditampilkan",
-    "featureOutsideAOIMessage": "Fitur tidak dapat ditambahkan di luar area studi"
+    "featureOutsideAOIMessage": "Fitur tidak dapat ditambahkan di luar area studi",
+    "noEditingPermissionsMessage": "ng_You do not have permission to perform this action________________ny."
   },
   "signin": {
     "guestSigninText": "Lanjutkan sebagai Tamu",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Tampilan peta"
   },
   "appHeader": {
-    "myReport": "Laporan Saya",
+    "myReport": "ng_My Submissions_____ny",
     "signIn": "Masuk",
     "signOut": "Keluar",
     "signInTooltip": "Masuk",
     "signOutTooltip": "Keluar",
-    "myReportTooltip": "Tampilkan laporan saya"
+    "myReportTooltip": "ng_View my submissions_______ny"
   },
   "geoform": {
     "enterInformation": "Detail",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Pilih lokasi untuk laporan Anda",
     "numericRangeHintMessage": "${openStrong}Petunjuk:${closeStrong} Nilai minimum ${minValue} dan Nilai maksimum ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Petunjuk:${closeStrong} Tanggal Minimum ${minValue} dan Tanggal Maksimum ${maxValue}",
-    "errorsInApplyEdits": "Laporan tidak dapat dikirimkan.",
+    "errorsInApplyEdits": "ng_Values could not be submitted__________ny.",
     "attachmentSelectedMsg": "lampiran dipilih",
     "attachmentUploadStatus": "${failed} dari ${total} lampiran gagal diunggah",
     "geoLocationError": "Lokasi saat ini tidak tersedia",
     "geoLocationOutOfExtent": "Lokasi saat ini di luar jangkauan peta dasar",
     "submitButtonTooltip": "Kirim",
     "cancelButtonTooltip": "Batal",
-    "geoformBackButtonTooltip": "Kembali ke daftar laporan"
+    "geoformBackButtonTooltip": "ng_Return to the list______ny",
+    "locationSelectionHintForPointLayer": "ng_Tap the map to draw the location___________ny.",
+    "locationSelectionHintForPolygonLayer": "ng_Tap the map to draw the location. Double tap to complete the drawing______________________ny.",
+    "locationSelectionHintForPointLayerDesktop": "ng_Click the map to draw the location____________ny.",
+    "locationSelectionHintForPolygonLayerDesktop": "ng_Click the map to draw the location. Double click to complete the drawing_______________________ny."
   },
   "locator": {
     "addressText": "Alamat:",
@@ -104,14 +109,14 @@ define({
     "latLongText": "Garis Lintang/Garis Bujur",
     "invalidSearch": "Tidak ada hasil yang ditemukan",
     "locatorPlaceholder": "Masukkan alamat yang akan dicari",
-    "locationOutOfExtent": "Alamat yang ditemukan berada di luar jangkauan peta dasar",
+    "locationOutOfExtent": "ng_Location is outside the submission area_____________ny",
     "searchButtonTooltip": "Cari",
     "clearButtonTooltip": "Bersihkan nilai pencarian"
   },
   "myIssues": {
-    "title": "Laporan Saya",
-    "myIssuesTooltip": "Laporan Saya",
-    "noResultsFound": "Tidak ditemukan laporan apa pun"
+    "title": "ng_My Submissions_____ny",
+    "myIssuesTooltip": "ng_My Submissions_____ny",
+    "noResultsFound": "ng_No submissions found_______ny"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -121,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Lihat dokumen terlampir",
     "mapButtonLabel": "Tampilkan pada peta",
-    "mapButtonTooltip": "Tampilkan lokasi laporan ini",
+    "mapButtonTooltip": "ng_View the location of this submission____________ny",
     "commentsListHeading": "Komentar",
     "unableToUpdateVoteField": "Pilihan Anda tidak dapat dihitung saat ini.",
-    "gotoIssueListTooltip": "Buka daftar laporan",
+    "gotoIssueListTooltip": "ng_View the list of submissions_________ny",
     "deleteMessage": "Anda yakin ingin menghapus?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Pilihan untuk laporan ini",
+    "likesForThisItemTooltip": "ng_Number of votes______ny",
     "loadMoreButtonText": "Muat Lebih Banyak..."
   },
   "comment": {

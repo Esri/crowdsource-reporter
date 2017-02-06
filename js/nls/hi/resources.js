@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "रिपोर्ट जमा करें",
     "gotoListViewTooltip": "सूची दृश्य",
     "noFeatureGeomtery": "फीचर प्रदर्शित नहीं किया जा सकता है",
-    "featureOutsideAOIMessage": "फीचर अध्ययन क्षेत्र के बाहर नहीं जोड़ा जा सकता है"
+    "featureOutsideAOIMessage": "फीचर अध्ययन क्षेत्र के बाहर नहीं जोड़ा जा सकता है",
+    "noEditingPermissionsMessage": "आ_You do not have permission to perform this action________________ज."
   },
   "signin": {
     "guestSigninText": "अतिथि के रूप में आगे बढ़ें",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "मानचित्र दृश्य"
   },
   "appHeader": {
-    "myReport": "मेरी रिपोर्ट",
+    "myReport": "आ_My Submissions_____ज",
     "signIn": "साइन इन करें",
     "signOut": "साइन आउट करें",
     "signInTooltip": "साइन इन करें",
     "signOutTooltip": "साइन आउट करें",
-    "myReportTooltip": "मेरी रिपोर्ट देखें"
+    "myReportTooltip": "आ_View my submissions_______ज"
   },
   "geoform": {
     "enterInformation": "विवरण",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "कृपया अपनी रिपोर्ट के लिए स्थान चुनें",
     "numericRangeHintMessage": "${OpenStrong} संकेत: ${closeStrong} न्यूनतम संख्या ${minValue} और अधिकतम संख्या ${maxValue}",
     "dateRangeHintMessage": "${OpenStrong} संकेत: ${closeStrong} न्यूनतम संख्या ${minValue} और अधिकतम संख्या ${maxValue}",
-    "errorsInApplyEdits": "रिपोर्ट प्रस्तुत नहीं की जा सकी",
+    "errorsInApplyEdits": "आ_Values could not be submitted__________ज.",
     "attachmentSelectedMsg": "चयनित अनुलग्नक",
     "attachmentUploadStatus": "${total} अनुलग्नकों में से ${failed} अपलोड होने में विफल रहे",
     "geoLocationError": "वर्तमान स्थान उपलब्ध नहीं है",
     "geoLocationOutOfExtent": "वर्तमान स्थान बेसमैप की सीमा से बाहर है",
     "submitButtonTooltip": "सबमिट करें",
     "cancelButtonTooltip": "रद्द करें",
-    "geoformBackButtonTooltip": "रिपोर्ट सूची पर वापस जाएँ"
+    "geoformBackButtonTooltip": "आ_Return to the list______ज",
+    "locationSelectionHintForPointLayer": "आ_Tap the map to draw the location___________ज.",
+    "locationSelectionHintForPolygonLayer": "आ_Tap the map to draw the location. Double tap to complete the drawing______________________ज.",
+    "locationSelectionHintForPointLayerDesktop": "आ_Click the map to draw the location____________ज.",
+    "locationSelectionHintForPolygonLayerDesktop": "आ_Click the map to draw the location. Double click to complete the drawing_______________________ज."
   },
   "locator": {
     "addressText": "पता:",
@@ -104,31 +109,31 @@ define({
     "latLongText": "अक्षांश/रेखांश",
     "invalidSearch": "कोई परिणाम नहीं मिला",
     "locatorPlaceholder": "खोज करने के लिए पता दर्ज करें",
-    "locationOutOfExtent": "स्थित पता आधार मानचित्र की सीमा से बाहर है",
+    "locationOutOfExtent": "आ_Location is outside the submission area_____________ज",
     "searchButtonTooltip": "खोजें",
     "clearButtonTooltip": "खोज मान साफ़ करें"
   },
   "myIssues": {
-    "title": "मेरी रिपोर्ट",
-    "myIssuesTooltip": "मेरी रिपोर्ट",
-    "noResultsFound": "कोई रिपोर्ट नहीं मिली"
+    "title": "आ_My Submissions_____ज",
+    "myIssuesTooltip": "आ_My Submissions_____ज",
+    "noResultsFound": "आ_No submissions found_______ज"
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "आ_I agree___ज",
+    "likeButtonTooltip": "मैं सहमत हूँ",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "आ_Leave a reply_____ज",
+    "commentButtonTooltip": "जवाब दें",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "संलग्न दस्तावेज देखें",
     "mapButtonLabel": "मानचित्र पर देखें",
-    "mapButtonTooltip": "इस रिपोर्ट का स्थान देखें",
+    "mapButtonTooltip": "आ_View the location of this submission____________ज",
     "commentsListHeading": "टिप्पणियाँ",
     "unableToUpdateVoteField": "आपका वोट इस समय में गिना नहीं जा सकता है।",
-    "gotoIssueListTooltip": "रिपोर्ट सूची पर जाएं",
-    "deleteMessage": "आ_Are you sure you want to delete___________ज?"
+    "gotoIssueListTooltip": "आ_View the list of submissions_________ज",
+    "deleteMessage": "क्या आप वाकई मिटाना चाहते हैं?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "इस रिपोर्ट के लिए वोट",
+    "likesForThisItemTooltip": "आ_Number of votes______ज",
     "loadMoreButtonText": "और लोड करें.."
   },
   "comment": {

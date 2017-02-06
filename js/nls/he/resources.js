@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "שלח דו\"ח",
     "gotoListViewTooltip": "תצוגת רשימה",
     "noFeatureGeomtery": "לא ניתן להציג את הישות",
-    "featureOutsideAOIMessage": "‏אין אפשרות להוסיף ישות מחוץ לאזור המחקר"
+    "featureOutsideAOIMessage": "‏אין אפשרות להוסיף ישות מחוץ לאזור המחקר",
+    "noEditingPermissionsMessage": "כן_You do not have permission to perform this action________________ש."
   },
   "signin": {
     "guestSigninText": "המשך כאורח",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "מבט מפה"
   },
   "appHeader": {
-    "myReport": "הדוחות שלי",
+    "myReport": "כן_My Submissions_____ש",
     "signIn": "התחבר",
     "signOut": "התנתק",
     "signInTooltip": "התחבר",
     "signOutTooltip": "יציאה",
-    "myReportTooltip": "הצג את הדוחות שלי"
+    "myReportTooltip": "כן_View my submissions_______ש"
   },
   "geoform": {
     "enterInformation": "פרטים",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "בחר מיקום לדוח",
     "numericRangeHintMessage": "${openStrong}רמז:${closeStrong} ערך מינימום ${minValue} וערך מקסימום ${maxValue}",
     "dateRangeHintMessage": "${openStrong}רמז:${closeStrong} תאריך מינימום ${minValue} ותאריך מקסימום ${maxValue}",
-    "errorsInApplyEdits": "לא ניתן לשלוח דוח",
+    "errorsInApplyEdits": "כן_Values could not be submitted__________ש.",
     "attachmentSelectedMsg": "קבצים מצורפים נבחרו",
     "attachmentUploadStatus": "נכשלה ההעלאה של ${failed} מתוך ${total} קבצים מצורפים",
     "geoLocationError": "מיקום נוכחי לא זמין",
     "geoLocationOutOfExtent": "המיקום נוכחי נמצא מחוץ לגבולות מפת הבסיס",
     "submitButtonTooltip": "שלח",
     "cancelButtonTooltip": "בטל",
-    "geoformBackButtonTooltip": "חזור לרשימת הדו\"חות"
+    "geoformBackButtonTooltip": "כן_Return to the list______ש",
+    "locationSelectionHintForPointLayer": "כן_Tap the map to draw the location___________ש.",
+    "locationSelectionHintForPolygonLayer": "כן_Tap the map to draw the location. Double tap to complete the drawing______________________ש.",
+    "locationSelectionHintForPointLayerDesktop": "כן_Click the map to draw the location____________ש.",
+    "locationSelectionHintForPolygonLayerDesktop": "כן_Click the map to draw the location. Double click to complete the drawing_______________________ש."
   },
   "locator": {
     "addressText": "כתובת:",
@@ -104,14 +109,14 @@ define({
     "latLongText": "קו רוחב/אורך",
     "invalidSearch": "לא נמצאו תוצאות",
     "locatorPlaceholder": "הזן כתובת לחיפוש",
-    "locationOutOfExtent": "הכתובת שאותרה נמצאת מחוץ לגבולות מפת הבסיס",
+    "locationOutOfExtent": "כן_Location is outside the submission area_____________ש",
     "searchButtonTooltip": "חפש",
     "clearButtonTooltip": "נקה ערך חיפוש"
   },
   "myIssues": {
-    "title": "הדוחות שלי",
-    "myIssuesTooltip": "הדוחות שלי",
-    "noResultsFound": "לא נמצאו דוחות"
+    "title": "כן_My Submissions_____ש",
+    "myIssuesTooltip": "כן_My Submissions_____ש",
+    "noResultsFound": "כן_No submissions found_______ש"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -121,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "ראה מסמכים מצורפים",
     "mapButtonLabel": "הצג במפה",
-    "mapButtonTooltip": "הצג את מיקום הדוח",
+    "mapButtonTooltip": "כן_View the location of this submission____________ש",
     "commentsListHeading": "הערות",
     "unableToUpdateVoteField": "לא ניתן לקחת בחשבון את ההצבעה שלך כעת.",
-    "gotoIssueListTooltip": "עבור לרשימת הדוחות",
+    "gotoIssueListTooltip": "כן_View the list of submissions_________ש",
     "deleteMessage": "האם אתה בטוח שברצונך למחוק?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "הצבעות לדוח זה",
+    "likesForThisItemTooltip": "כן_Number of votes______ש",
     "loadMoreButtonText": "טען עוד..."
   },
   "comment": {

@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Prześlij raport",
     "gotoListViewTooltip": "Widok listy",
     "noFeatureGeomtery": "Nie można wyświetlić obiektu",
-    "featureOutsideAOIMessage": "Nie można dodać funkcji poza analizowanym obszarem"
+    "featureOutsideAOIMessage": "Nie można dodać funkcji poza analizowanym obszarem",
+    "noEditingPermissionsMessage": "ł_You do not have permission to perform this action________________ą."
   },
   "signin": {
     "guestSigninText": "Kontynuuj jako gość",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Widok mapy"
   },
   "appHeader": {
-    "myReport": "Moje raporty",
+    "myReport": "ł_My Submissions_____ą",
     "signIn": "Zaloguj się",
     "signOut": "Wyloguj się",
     "signInTooltip": "Sign in",
     "signOutTooltip": "Wyloguj się",
-    "myReportTooltip": "Wyświetl Moje raporty"
+    "myReportTooltip": "ł_View my submissions_______ą"
   },
   "geoform": {
     "enterInformation": "Szczegóły",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Wybierz lokalizację dla raportu",
     "numericRangeHintMessage": "${openStrong}Wskazówka:${closeStrong} Wartość minimalna ${minValue} i Wartość maksymalna ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Wskazówka:${closeStrong} Data minimalna ${minValue} i Data maksymalna ${maxValue}",
-    "errorsInApplyEdits": "Nie można przesłać raportu",
+    "errorsInApplyEdits": "ł_Values could not be submitted__________ą.",
     "attachmentSelectedMsg": "wybrany(-e/-ych) załącznik(-i/-ów)",
     "attachmentUploadStatus": "Nie udało się przesłać ${failed} z ${total} załączników",
     "geoLocationError": "Bieżąca lokalizacja nie jest dostępna",
     "geoLocationOutOfExtent": "Bieżąca lokalizacja jest poza zakresem mapy bazowej",
     "submitButtonTooltip": "Prześlij",
     "cancelButtonTooltip": "Anuluj",
-    "geoformBackButtonTooltip": "Wróć do listy raportów"
+    "geoformBackButtonTooltip": "ł_Return to the list______ą",
+    "locationSelectionHintForPointLayer": "ł_Tap the map to draw the location___________ą.",
+    "locationSelectionHintForPolygonLayer": "ł_Tap the map to draw the location. Double tap to complete the drawing______________________ą.",
+    "locationSelectionHintForPointLayerDesktop": "ł_Click the map to draw the location____________ą.",
+    "locationSelectionHintForPolygonLayerDesktop": "ł_Click the map to draw the location. Double click to complete the drawing_______________________ą."
   },
   "locator": {
     "addressText": "Adres:",
@@ -104,14 +109,14 @@ define({
     "latLongText": "Szer. geogr./dł. geogr.",
     "invalidSearch": "Nie znaleziono wyników",
     "locatorPlaceholder": "Wprowadź adres do wyszukania",
-    "locationOutOfExtent": "Zlokalizowany adres jest poza zakresem mapy bazowej",
+    "locationOutOfExtent": "ł_Location is outside the submission area_____________ą",
     "searchButtonTooltip": "Szukaj",
     "clearButtonTooltip": "Wyczyść wartość wyszukiwania"
   },
   "myIssues": {
-    "title": "Moje raporty",
-    "myIssuesTooltip": "Moje raporty",
-    "noResultsFound": "Nie znaleziono raportów"
+    "title": "ł_My Submissions_____ą",
+    "myIssuesTooltip": "ł_My Submissions_____ą",
+    "noResultsFound": "ł_No submissions found_______ą"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -121,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Zobacz załączone dokumenty",
     "mapButtonLabel": "Wyświetl na mapie",
-    "mapButtonTooltip": "Wyświetl lokalizację tego raportu",
+    "mapButtonTooltip": "ł_View the location of this submission____________ą",
     "commentsListHeading": "Comments",
     "unableToUpdateVoteField": "Oddanego głosu nie można teraz zliczyć.",
-    "gotoIssueListTooltip": "Przejdź do listy raportów",
+    "gotoIssueListTooltip": "ł_View the list of submissions_________ą",
     "deleteMessage": "Czy na pewno chcesz usunąć?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Głosy na ten raport",
+    "likesForThisItemTooltip": "ł_Number of votes______ą",
     "loadMoreButtonText": "Wczytaj więcej..."
   },
   "comment": {

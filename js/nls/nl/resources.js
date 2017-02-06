@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Een rapport indienen",
     "gotoListViewTooltip": "Lijstweergave",
     "noFeatureGeomtery": "Object kan niet worden weergegeven",
-    "featureOutsideAOIMessage": "Object kan niet buiten studiegebied worden toegevoegd"
+    "featureOutsideAOIMessage": "Object kan niet buiten studiegebied worden toegevoegd",
+    "noEditingPermissionsMessage": "Ĳ_You do not have permission to perform this action________________ä."
   },
   "signin": {
     "guestSigninText": "Doorgaan als gast",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Kaartweergave"
   },
   "appHeader": {
-    "myReport": "Mijn Rapporten",
+    "myReport": "Ĳ_My Submissions_____ä",
     "signIn": "Aanmelden",
     "signOut": "Afmelden",
     "signInTooltip": "Aanmelden",
     "signOutTooltip": "Meld u af",
-    "myReportTooltip": "Mijn rapporten bekijken"
+    "myReportTooltip": "Ĳ_View my submissions_______ä"
   },
   "geoform": {
     "enterInformation": "Details",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Selecteer de locatie voor uw rapport",
     "numericRangeHintMessage": "${openStrong}Tip:${closeStrong} Minimumwaarde ${minValue} en Maximumwaarde ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Tip:${closeStrong} Minimumdatum ${minValue} en Maximumdatum ${maxValue}",
-    "errorsInApplyEdits": "Rapport kon niet worden ingediend",
+    "errorsInApplyEdits": "Ĳ_Values could not be submitted__________ä.",
     "attachmentSelectedMsg": "bijlage(n) geselecteerd",
     "attachmentUploadStatus": "${failed} van ${total} bijlage(n) is niet geupload",
     "geoLocationError": "Huidige locatie niet beschikbaar",
     "geoLocationOutOfExtent": "Huidige locatie ligt buiten het basiskaartbereik",
     "submitButtonTooltip": "Verzenden",
     "cancelButtonTooltip": "Annuleren",
-    "geoformBackButtonTooltip": "Terug naar de meldlijst"
+    "geoformBackButtonTooltip": "Ĳ_Return to the list______ä",
+    "locationSelectionHintForPointLayer": "Ĳ_Tap the map to draw the location___________ä.",
+    "locationSelectionHintForPolygonLayer": "Ĳ_Tap the map to draw the location. Double tap to complete the drawing______________________ä.",
+    "locationSelectionHintForPointLayerDesktop": "Ĳ_Click the map to draw the location____________ä.",
+    "locationSelectionHintForPolygonLayerDesktop": "Ĳ_Click the map to draw the location. Double click to complete the drawing_______________________ä."
   },
   "locator": {
     "addressText": "Adres:",
@@ -104,14 +109,14 @@ define({
     "latLongText": "Breedtegraad/lengtegraad",
     "invalidSearch": "Geen resultaten gevonden",
     "locatorPlaceholder": "Voer een adres in om te zoeken",
-    "locationOutOfExtent": "Gezocht adres ligt buiten het basiskaartbereik",
+    "locationOutOfExtent": "Ĳ_Location is outside the submission area_____________ä",
     "searchButtonTooltip": "Zoeken",
     "clearButtonTooltip": "Zoekwaarde wissen"
   },
   "myIssues": {
-    "title": "Mijn Rapporten",
-    "myIssuesTooltip": "Mijn Rapporten",
-    "noResultsFound": "Geen rapporten gevonden"
+    "title": "Ĳ_My Submissions_____ä",
+    "myIssuesTooltip": "Ĳ_My Submissions_____ä",
+    "noResultsFound": "Ĳ_No submissions found_______ä"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -121,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Zie bijgesloten documenten",
     "mapButtonLabel": "Op kaart weergeven",
-    "mapButtonTooltip": "Bekijk de locatie van dit rapport",
+    "mapButtonTooltip": "Ĳ_View the location of this submission____________ä",
     "commentsListHeading": "Opmerkingen",
     "unableToUpdateVoteField": "Uw stem kan nu niet worden geteld.",
-    "gotoIssueListTooltip": "Ga naar de meldlijst",
+    "gotoIssueListTooltip": "Ĳ_View the list of submissions_________ä",
     "deleteMessage": "Weet u zeker dat u het wilt verwijderen?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Stemmen op dit rapport",
+    "likesForThisItemTooltip": "Ĳ_Number of votes______ä",
     "loadMoreButtonText": "Meer laden..."
   },
   "comment": {

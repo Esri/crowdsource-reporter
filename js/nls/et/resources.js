@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Edasta aruanne",
     "gotoListViewTooltip": "Loendivaade",
     "noFeatureGeomtery": "Funktsiooni ei saa kuvada.",
-    "featureOutsideAOIMessage": "Objekti ei saa lisada uuringualast väljapoole"
+    "featureOutsideAOIMessage": "Objekti ei saa lisada uuringualast väljapoole",
+    "noEditingPermissionsMessage": "Š_You do not have permission to perform this action________________ä."
   },
   "signin": {
     "guestSigninText": "Jätkake külalisena",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Kaardivaade"
   },
   "appHeader": {
-    "myReport": "Minu aruanded",
+    "myReport": "Š_My Submissions_____ä",
     "signIn": "Logi sisse",
     "signOut": "Logi välja",
     "signInTooltip": "Logi sisse",
     "signOutTooltip": "Logi välja",
-    "myReportTooltip": "Kuva minu aruanded"
+    "myReportTooltip": "Š_View my submissions_______ä"
   },
   "geoform": {
     "enterInformation": "Detailid",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Valige oma aruande asukoht.",
     "numericRangeHintMessage": "${openStrong}Vihje:${closeStrong} Miinimumväärtus ${minValue} ja maksimumväärtus ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Vihje:${closeStrong} Kuupäeva alampiir ${minValue} ja kuupäeva ülempiir ${maxValue}",
-    "errorsInApplyEdits": "Kommentaari ei saanud esitada.",
+    "errorsInApplyEdits": "Š_Values could not be submitted__________ä.",
     "attachmentSelectedMsg": "valitud manus(ed)",
     "attachmentUploadStatus": "Manust /kokku manusest ei õnnestunud üles laadida.",
     "geoLocationError": "Hetke asukoht pole kättesaadav.",
     "geoLocationOutOfExtent": "Hetke asukoht on lubatud vahemikust väljas.",
     "submitButtonTooltip": "Esita",
     "cancelButtonTooltip": "Tühista",
-    "geoformBackButtonTooltip": "Tagasi aruandelehele"
+    "geoformBackButtonTooltip": "Š_Return to the list______ä",
+    "locationSelectionHintForPointLayer": "Š_Tap the map to draw the location___________ä.",
+    "locationSelectionHintForPolygonLayer": "Š_Tap the map to draw the location. Double tap to complete the drawing______________________ä.",
+    "locationSelectionHintForPointLayerDesktop": "Š_Click the map to draw the location____________ä.",
+    "locationSelectionHintForPolygonLayerDesktop": "Š_Click the map to draw the location. Double click to complete the drawing_______________________ä."
   },
   "locator": {
     "addressText": "Aadress:",
@@ -104,14 +109,14 @@ define({
     "latLongText": "Laius/Pikkus",
     "invalidSearch": "Tulemusi ei leitud",
     "locatorPlaceholder": "Sisesta otsingusse aadress",
-    "locationOutOfExtent": "Asukoht on väljaspool aluskaardi piirkonda.",
+    "locationOutOfExtent": "Š_Location is outside the submission area_____________ä",
     "searchButtonTooltip": "Otsi",
     "clearButtonTooltip": "Tühjenda otsingu väärtus"
   },
   "myIssues": {
-    "title": "Minu aruanded",
-    "myIssuesTooltip": "Minu aruanded",
-    "noResultsFound": "Ühtki aruannet ei leitud"
+    "title": "Š_My Submissions_____ä",
+    "myIssuesTooltip": "Š_My Submissions_____ä",
+    "noResultsFound": "Š_No submissions found_______ä"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -121,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Vaadake manustatud dokumente",
     "mapButtonLabel": "Vaata kaardil",
-    "mapButtonTooltip": "Vaata selle aruande asukohta",
+    "mapButtonTooltip": "Š_View the location of this submission____________ä",
     "commentsListHeading": "Kommentaari",
     "unableToUpdateVoteField": "Teie häält ei saa seekord lisada.",
-    "gotoIssueListTooltip": "Liigu aruande loendisse",
+    "gotoIssueListTooltip": "Š_View the list of submissions_________ä",
     "deleteMessage": "Kas soovite selle kindlasti kustutada?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Selle aruande kohta antud hääled.",
+    "likesForThisItemTooltip": "Š_Number of votes______ä",
     "loadMoreButtonText": "Laadi rohkem..."
   },
   "comment": {

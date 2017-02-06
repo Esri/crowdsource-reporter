@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Send en rapport",
     "gotoListViewTooltip": "Listevisning",
     "noFeatureGeomtery": "Objekt kan ikke vises",
-    "featureOutsideAOIMessage": "Objekt kan ikke tilføjes uden for undersøgelsesområdet"
+    "featureOutsideAOIMessage": "Objekt kan ikke tilføjes uden for undersøgelsesområdet",
+    "noEditingPermissionsMessage": "ø_You do not have permission to perform this action________________å."
   },
   "signin": {
     "guestSigninText": "Fortsæt som gæst",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Kortvisning"
   },
   "appHeader": {
-    "myReport": "Mine rapporter",
+    "myReport": "ø_My Submissions_____å",
     "signIn": "Log ind",
     "signOut": "Log ud",
     "signInTooltip": "Sign in",
     "signOutTooltip": "Log ud",
-    "myReportTooltip": "Vis mine rapporter"
+    "myReportTooltip": "ø_View my submissions_______å"
   },
   "geoform": {
     "enterInformation": "Oplysninger",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Vælg en placering for din rapport",
     "numericRangeHintMessage": "${openStrong}Hint:${closeStrong} Minimumværdi ${minValue} og maksimumværdi ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Hint:${closeStrong} Minimumdato ${minValue} og maksimumdato ${maxValue}",
-    "errorsInApplyEdits": "Rapport kunne ikke sendes",
+    "errorsInApplyEdits": "ø_Values could not be submitted__________å.",
     "attachmentSelectedMsg": "vedhæftning(er) valgt",
     "attachmentUploadStatus": "${mislykkedes} af ${total} vedhæftning(er) kunne ikke overføres",
     "geoLocationError": "Aktuel position er ikke tilgængelig",
     "geoLocationOutOfExtent": "Aktuel position ligger uden for baggrundskortets udstrækning",
     "submitButtonTooltip": "Indsend",
     "cancelButtonTooltip": "Annuller",
-    "geoformBackButtonTooltip": "Vend tilbage til rapportlisten"
+    "geoformBackButtonTooltip": "ø_Return to the list______å",
+    "locationSelectionHintForPointLayer": "ø_Tap the map to draw the location___________å.",
+    "locationSelectionHintForPolygonLayer": "ø_Tap the map to draw the location. Double tap to complete the drawing______________________å.",
+    "locationSelectionHintForPointLayerDesktop": "ø_Click the map to draw the location____________å.",
+    "locationSelectionHintForPolygonLayerDesktop": "ø_Click the map to draw the location. Double click to complete the drawing_______________________å."
   },
   "locator": {
     "addressText": "Adresse:",
@@ -104,14 +109,14 @@ define({
     "latLongText": "Breddegrad/længdegrad",
     "invalidSearch": "Ingen resultater",
     "locatorPlaceholder": "Indtast en adresse, der skal søges efter",
-    "locationOutOfExtent": "Den fundne adresse ligger uden for baggrundskortets udstrækning",
+    "locationOutOfExtent": "ø_Location is outside the submission area_____________å",
     "searchButtonTooltip": "Search",
     "clearButtonTooltip": "Ryd søgeværdi"
   },
   "myIssues": {
-    "title": "Mine rapporter",
-    "myIssuesTooltip": "Mine rapporter",
-    "noResultsFound": "ingen rapporter fundet"
+    "title": "ø_My Submissions_____å",
+    "myIssuesTooltip": "ø_My Submissions_____å",
+    "noResultsFound": "ø_No submissions found_______å"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -121,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Se vedhæftede dokumenter",
     "mapButtonLabel": "Vis på kort",
-    "mapButtonTooltip": "Vis denne rapports placering",
+    "mapButtonTooltip": "ø_View the location of this submission____________å",
     "commentsListHeading": "Comments",
     "unableToUpdateVoteField": "Din stemme kan ikke tælles på nuværende tidspunkt.",
-    "gotoIssueListTooltip": "Gå til rapportlisten",
+    "gotoIssueListTooltip": "ø_View the list of submissions_________å",
     "deleteMessage": "Er du sikker på, at du vil slette?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Stemmer på denne rapport",
+    "likesForThisItemTooltip": "ø_Number of votes______å",
     "loadMoreButtonText": "Indlæs mere..."
   },
   "comment": {

@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Đệ trình Báo cáo",
     "gotoListViewTooltip": "Chế độ xem dạng danh sách",
     "noFeatureGeomtery": "Không thể hiển thị đối tượng",
-    "featureOutsideAOIMessage": "Không thể thêm đối tượng bên ngoài vùng nghiên cứu"
+    "featureOutsideAOIMessage": "Không thể thêm đối tượng bên ngoài vùng nghiên cứu",
+    "noEditingPermissionsMessage": "Đ_You do not have permission to perform this action________________ớ."
   },
   "signin": {
     "guestSigninText": "Tiến hành dưới dạng Khách",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Chế độ xem bản đồ"
   },
   "appHeader": {
-    "myReport": "Báo cáo của tôi",
+    "myReport": "Đ_My Submissions_____ớ",
     "signIn": "Đăng nhập",
     "signOut": "Đăng xuất",
     "signInTooltip": "Đăng nhập",
     "signOutTooltip": "Đăng xuất",
-    "myReportTooltip": "Xem báo cáo của tôi"
+    "myReportTooltip": "Đ_View my submissions_______ớ"
   },
   "geoform": {
     "enterInformation": "Chi tiết",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Vui lòng chọn vị trí cho báo cáo của bạn",
     "numericRangeHintMessage": "${openStrong}Gợi ý:${closeStrong} Giá trị tối thiểu ${minValue} và Giá trị tối đa ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Gợi ý:${closeStrong} Ngày tối thiểu ${minValue} và Ngày tối đa ${maxValue}",
-    "errorsInApplyEdits": "Không thể gửi báo cáo",
+    "errorsInApplyEdits": "Đ_Values could not be submitted__________ớ.",
     "attachmentSelectedMsg": "(các) tệp đính kèm được chọn",
     "attachmentUploadStatus": "Không thể tải lên ${failed} trên ${total} tệp đính kèm",
     "geoLocationError": "Vị trí hiện tại không khả dụng",
     "geoLocationOutOfExtent": "Vị trí hiện tại ngoài phạm vi bản đồ nền",
     "submitButtonTooltip": "Gửi",
     "cancelButtonTooltip": "Hủy",
-    "geoformBackButtonTooltip": "Quay lại danh sách báo cáo"
+    "geoformBackButtonTooltip": "Đ_Return to the list______ớ",
+    "locationSelectionHintForPointLayer": "Đ_Tap the map to draw the location___________ớ.",
+    "locationSelectionHintForPolygonLayer": "Đ_Tap the map to draw the location. Double tap to complete the drawing______________________ớ.",
+    "locationSelectionHintForPointLayerDesktop": "Đ_Click the map to draw the location____________ớ.",
+    "locationSelectionHintForPolygonLayerDesktop": "Đ_Click the map to draw the location. Double click to complete the drawing_______________________ớ."
   },
   "locator": {
     "addressText": "Địa chỉ:",
@@ -104,14 +109,14 @@ define({
     "latLongText": "Vĩ độ/Kinh độ",
     "invalidSearch": "Không tìm thấy kết quả",
     "locatorPlaceholder": "Nhập địa chỉ để tìm kiếm",
-    "locationOutOfExtent": "Địa chỉ được định vị ngoài phạm vi bản đồ nền",
+    "locationOutOfExtent": "Đ_Location is outside the submission area_____________ớ",
     "searchButtonTooltip": "Tìm kiếm",
     "clearButtonTooltip": "Xóa giá trị tìm kiếm"
   },
   "myIssues": {
-    "title": "Các báo cáo của tôi",
-    "myIssuesTooltip": "Các báo cáo của tôi",
-    "noResultsFound": "Không tìm thấy báo cáo"
+    "title": "Đ_My Submissions_____ớ",
+    "myIssuesTooltip": "Đ_My Submissions_____ớ",
+    "noResultsFound": "Đ_No submissions found_______ớ"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -121,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Xem tài liệu đính kèm",
     "mapButtonLabel": "Xem trên Bản đồ",
-    "mapButtonTooltip": "Xem vị trí của báo cáo này",
+    "mapButtonTooltip": "Đ_View the location of this submission____________ớ",
     "commentsListHeading": "Bình luận",
     "unableToUpdateVoteField": "Không thể tính bình chọn của bạn vào lúc này.",
-    "gotoIssueListTooltip": "Đến danh sách báo cáo",
+    "gotoIssueListTooltip": "Đ_View the list of submissions_________ớ",
     "deleteMessage": "Bạn có chắc chắn muốn xóa không?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Các bình chọn cho báo cáo này",
+    "likesForThisItemTooltip": "Đ_Number of votes______ớ",
     "loadMoreButtonText": "Tải Thêm..."
   },
   "comment": {

@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "إرسال تقرير",
     "gotoListViewTooltip": "عرض القائمة",
     "noFeatureGeomtery": "يتعذر عرض المعالم",
-    "featureOutsideAOIMessage": "يتعذر إضافة المعلم خارج منطقة الدراسة"
+    "featureOutsideAOIMessage": "يتعذر إضافة المعلم خارج منطقة الدراسة",
+    "noEditingPermissionsMessage": "بيت_You do not have permission to perform this action________________لاحقة."
   },
   "signin": {
     "guestSigninText": "تابع بصفتك ضيف",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "عرض الخريطة"
   },
   "appHeader": {
-    "myReport": "التقارير خاصتي",
+    "myReport": "بيت_My Submissions_____لاحقة",
     "signIn": "تسجيل الدخول",
     "signOut": "تسجيل الخروج",
     "signInTooltip": "تسجيل الدخول",
     "signOutTooltip": "تسجيل الخروج",
-    "myReportTooltip": "عرض التقارير"
+    "myReportTooltip": "بيت_View my submissions_______لاحقة"
   },
   "geoform": {
     "enterInformation": "التفاصيل",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "برجاء تحديد موقع التقرير",
     "numericRangeHintMessage": "${openStrong}تلميح:${closeStrong} القيمة الدنيا ${minValue} والقيمة العليا ${maxValue}",
     "dateRangeHintMessage": "${openStrong}تلميح:${closeStrong} التاريخ الأدنى ${minValue} والتاريخ الأقصى ${maxValue}",
-    "errorsInApplyEdits": "يتعذر إرسال التقرير",
+    "errorsInApplyEdits": "بيت_Values could not be submitted__________لاحقة.",
     "attachmentSelectedMsg": "المرفقات المحددة",
     "attachmentUploadStatus": "فشل تحميل المرفقات ${failed} من ${total}",
     "geoLocationError": "الموقع الحالي غير متاح",
     "geoLocationOutOfExtent": "الموقع الحالي خارج نطاق الخريطة",
     "submitButtonTooltip": "إرسال",
     "cancelButtonTooltip": "إلغاء الأمر",
-    "geoformBackButtonTooltip": "الرجوع إلى قائمة التقرير"
+    "geoformBackButtonTooltip": "بيت_Return to the list______لاحقة",
+    "locationSelectionHintForPointLayer": "بيت_Tap the map to draw the location___________لاحقة.",
+    "locationSelectionHintForPolygonLayer": "بيت_Tap the map to draw the location. Double tap to complete the drawing______________________لاحقة.",
+    "locationSelectionHintForPointLayerDesktop": "بيت_Click the map to draw the location____________لاحقة.",
+    "locationSelectionHintForPolygonLayerDesktop": "بيت_Click the map to draw the location. Double click to complete the drawing_______________________لاحقة."
   },
   "locator": {
     "addressText": "العنوان:",
@@ -104,14 +109,14 @@ define({
     "latLongText": "دائرة العرض/خط الطول",
     "invalidSearch": "لم يتم العثور على أية نتائج",
     "locatorPlaceholder": "أدخل عنوان للبحث",
-    "locationOutOfExtent": "العنوان الحالي خارج نطاق خريطة الأساس",
+    "locationOutOfExtent": "بيت_Location is outside the submission area_____________لاحقة",
     "searchButtonTooltip": "بحث",
     "clearButtonTooltip": "مسح قيمة البحث"
   },
   "myIssues": {
-    "title": "التقارير خاصتي",
-    "myIssuesTooltip": "التقارير خاصتي",
-    "noResultsFound": "لم يتم العثور على أي تقارير"
+    "title": "بيت_My Submissions_____لاحقة",
+    "myIssuesTooltip": "بيت_My Submissions_____لاحقة",
+    "noResultsFound": "بيت_No submissions found_______لاحقة"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -121,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "مراجعة المستندات المرفقة",
     "mapButtonLabel": "العرض على الخريطة",
-    "mapButtonTooltip": "عرض موقع هذا التقرير",
+    "mapButtonTooltip": "بيت_View the location of this submission____________لاحقة",
     "commentsListHeading": "التعليقات",
     "unableToUpdateVoteField": "يتعذر حساب التصويت الآن.",
-    "gotoIssueListTooltip": "الانتقال إلى قائمة التقرير",
+    "gotoIssueListTooltip": "بيت_View the list of submissions_________لاحقة",
     "deleteMessage": "هل تريد الحذف بالتأكيد؟"
   },
   "itemList": {
-    "likesForThisItemTooltip": "عمليات التصويت لهذا التقرير",
+    "likesForThisItemTooltip": "بيت_Number of votes______لاحقة",
     "loadMoreButtonText": "تحميل المزيد..."
   },
   "comment": {

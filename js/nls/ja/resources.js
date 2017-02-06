@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "レポートの送信",
     "gotoListViewTooltip": "リスト ビュー",
     "noFeatureGeomtery": "フィーチャを表示できません",
-    "featureOutsideAOIMessage": "フィーチャを分析範囲外に追加することはできません"
+    "featureOutsideAOIMessage": "フィーチャを分析範囲外に追加することはできません",
+    "noEditingPermissionsMessage": "須_You do not have permission to perform this action________________鷗."
   },
   "signin": {
     "guestSigninText": "ゲストとして続行",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "マップ ビュー"
   },
   "appHeader": {
-    "myReport": "マイ レポート",
+    "myReport": "須_My Submissions_____鷗",
     "signIn": "サイン イン",
     "signOut": "サイン アウト",
     "signInTooltip": "サイン イン",
     "signOutTooltip": "サイン アウト",
-    "myReportTooltip": "レポートの表示"
+    "myReportTooltip": "須_View my submissions_______鷗"
   },
   "geoform": {
     "enterInformation": "詳細",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "レポート対象の位置を選択してください",
     "numericRangeHintMessage": "${openStrong}ヒント:${closeStrong} 最小値 ${minValue} および最大値 ${maxValue}",
     "dateRangeHintMessage": "${openStrong}ヒント:${closeStrong} 最小日付 ${minValue} および最大日付 ${maxValue}",
-    "errorsInApplyEdits": "レポートを送信できませんでした",
+    "errorsInApplyEdits": "須_Values could not be submitted__________鷗.",
     "attachmentSelectedMsg": "添付ファイルが選択されています",
     "attachmentUploadStatus": "${total} 件のうち、${failed} 件の添付ファイルをアップロードできませんでした",
     "geoLocationError": "現在の位置は利用できません",
     "geoLocationOutOfExtent": "現在の位置はベースマップの範囲外です",
     "submitButtonTooltip": "送信",
     "cancelButtonTooltip": "キャンセル",
-    "geoformBackButtonTooltip": "レポート リストに戻る"
+    "geoformBackButtonTooltip": "須_Return to the list______鷗",
+    "locationSelectionHintForPointLayer": "須_Tap the map to draw the location___________鷗.",
+    "locationSelectionHintForPolygonLayer": "須_Tap the map to draw the location. Double tap to complete the drawing______________________鷗.",
+    "locationSelectionHintForPointLayerDesktop": "須_Click the map to draw the location____________鷗.",
+    "locationSelectionHintForPolygonLayerDesktop": "須_Click the map to draw the location. Double click to complete the drawing_______________________鷗."
   },
   "locator": {
     "addressText": "住所:",
@@ -104,14 +109,14 @@ define({
     "latLongText": "緯度/経度",
     "invalidSearch": "結果が見つかりませんでした",
     "locatorPlaceholder": "検索する住所を入力してください",
-    "locationOutOfExtent": "住所ロケーションがベースマップの範囲外です",
+    "locationOutOfExtent": "須_Location is outside the submission area_____________鷗",
     "searchButtonTooltip": "検索",
     "clearButtonTooltip": "検索値のクリア"
   },
   "myIssues": {
-    "title": "マイ レポート",
-    "myIssuesTooltip": "マイ レポート",
-    "noResultsFound": "レポートがありません"
+    "title": "須_My Submissions_____鷗",
+    "myIssuesTooltip": "須_My Submissions_____鷗",
+    "noResultsFound": "須_No submissions found_______鷗"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -121,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "添付したドキュメントを参照",
     "mapButtonLabel": "マップ上で表示",
-    "mapButtonTooltip": "このレポートの位置を表示",
+    "mapButtonTooltip": "須_View the location of this submission____________鷗",
     "commentsListHeading": "コメント",
     "unableToUpdateVoteField": "この時点では投票をカウントできません。",
-    "gotoIssueListTooltip": "レポート リストへ移動",
+    "gotoIssueListTooltip": "須_View the list of submissions_________鷗",
     "deleteMessage": "本当に削除してよろしいですか？"
   },
   "itemList": {
-    "likesForThisItemTooltip": "このレポートに投票する",
+    "likesForThisItemTooltip": "須_Number of votes______鷗",
     "loadMoreButtonText": "さらに読み込み..."
   },
   "comment": {

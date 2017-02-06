@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Trimiteţi un raport",
     "gotoListViewTooltip": "Vizualizare tip listă",
     "noFeatureGeomtery": "Obiectul spaţial nu poate fi afişat",
-    "featureOutsideAOIMessage": "Obiectul spaţial nu poate fi adăugat în afara zonei de studiu"
+    "featureOutsideAOIMessage": "Obiectul spaţial nu poate fi adăugat în afara zonei de studiu",
+    "noEditingPermissionsMessage": "Ă_You do not have permission to perform this action________________ș."
   },
   "signin": {
     "guestSigninText": "Continuare ca oaspete",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Vizualizare hartă"
   },
   "appHeader": {
-    "myReport": "Rapoartele mele",
+    "myReport": "Ă_My Submissions_____ș",
     "signIn": "Autentificare",
     "signOut": "Deconectare",
     "signInTooltip": "Autentificaţi-vă",
     "signOutTooltip": "Deconectare",
-    "myReportTooltip": "Vizualizare rapoartele mele"
+    "myReportTooltip": "Ă_View my submissions_______ș"
   },
   "geoform": {
     "enterInformation": "Detalii",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Selectaţi locaţia pentru raport",
     "numericRangeHintMessage": "${openStrong}Sugestie:${closeStrong} Valoarea minimă ${minValue} şi Valoarea maximă ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Sugestie:${closeStrong} Data minimă ${minValue} şi Data maximă ${maxValue}",
-    "errorsInApplyEdits": "Raportul nu a putut fi transmis",
+    "errorsInApplyEdits": "Ă_Values could not be submitted__________ș.",
     "attachmentSelectedMsg": "ataşări selectate",
     "attachmentUploadStatus": "${failed} din ${total} ataşări nu au fost încărcate",
     "geoLocationError": "Locaţia curentă nu este disponibilă",
     "geoLocationOutOfExtent": "Locaţia curentă se află în afara extinderii hărţii fundal",
     "submitButtonTooltip": "Trimitere",
     "cancelButtonTooltip": "Anulare",
-    "geoformBackButtonTooltip": "Reveniţi la lista de rapoarte"
+    "geoformBackButtonTooltip": "Ă_Return to the list______ș",
+    "locationSelectionHintForPointLayer": "Ă_Tap the map to draw the location___________ș.",
+    "locationSelectionHintForPolygonLayer": "Ă_Tap the map to draw the location. Double tap to complete the drawing______________________ș.",
+    "locationSelectionHintForPointLayerDesktop": "Ă_Click the map to draw the location____________ș.",
+    "locationSelectionHintForPolygonLayerDesktop": "Ă_Click the map to draw the location. Double click to complete the drawing_______________________ș."
   },
   "locator": {
     "addressText": "Adresă:",
@@ -104,14 +109,14 @@ define({
     "latLongText": "Latitudine/Longitudine",
     "invalidSearch": "Nu a fost găsit niciun rezultat",
     "locatorPlaceholder": "Introduceţi o adresă pentru a o căuta",
-    "locationOutOfExtent": "Adresa localizată se află în afara extinderii hărţii fundal",
+    "locationOutOfExtent": "Ă_Location is outside the submission area_____________ș",
     "searchButtonTooltip": "Căutare",
     "clearButtonTooltip": "Golire valoare căutare"
   },
   "myIssues": {
-    "title": "Rapoartele mele",
-    "myIssuesTooltip": "Rapoartele mele",
-    "noResultsFound": "Nu a fost găsit niciun raport"
+    "title": "Ă_My Submissions_____ș",
+    "myIssuesTooltip": "Ă_My Submissions_____ș",
+    "noResultsFound": "Ă_No submissions found_______ș"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -121,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Consultaţi documentele ataşate",
     "mapButtonLabel": "Vizualizare pe hartă",
-    "mapButtonTooltip": "Vizualizaţi locaţia acestui raport",
+    "mapButtonTooltip": "Ă_View the location of this submission____________ș",
     "commentsListHeading": "Comentarii",
     "unableToUpdateVoteField": "Votul dumneavoastră nu poate fi luat în considerare în acest moment.",
-    "gotoIssueListTooltip": "Accesare listă rapoarte",
+    "gotoIssueListTooltip": "Ă_View the list of submissions_________ș",
     "deleteMessage": "Sigur doriţi să ştergeţi?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Voturi pentru acest raport",
+    "likesForThisItemTooltip": "Ă_Number of votes______ș",
     "loadMoreButtonText": "Se încarcă mai multe..."
   },
   "comment": {

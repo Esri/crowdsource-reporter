@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Pateikti ataskaitą",
     "gotoListViewTooltip": "Sąrašo vaizdas",
     "noFeatureGeomtery": "Elemento parodyti negalima",
-    "featureOutsideAOIMessage": "Elemento negalima pridėti už regiono ribų"
+    "featureOutsideAOIMessage": "Elemento negalima pridėti už regiono ribų",
+    "noEditingPermissionsMessage": "Į_You do not have permission to perform this action________________š."
   },
   "signin": {
     "guestSigninText": "Tęsti svečio teisėmis",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Žemėlapio vaizdas"
   },
   "appHeader": {
-    "myReport": "Mano ataskaitos",
+    "myReport": "Į_My Submissions_____š",
     "signIn": "Prisijungti",
     "signOut": "Atsijungti",
     "signInTooltip": "Prisijunkite",
     "signOutTooltip": "Atsijungti",
-    "myReportTooltip": "Rodyti mano ataskaitas"
+    "myReportTooltip": "Į_View my submissions_______š"
   },
   "geoform": {
     "enterInformation": "Išsamiau",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Nurodykite ataskaitos vietą",
     "numericRangeHintMessage": "${openStrong}Užuomina:${closeStrong} minimali vertė ${minValue} ir maksimali vertė ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Užuomina:${closeStrong} minimali data ${minValue} ir maksimali data ${maxValue}",
-    "errorsInApplyEdits": "Komentaro pateikti nepavyko",
+    "errorsInApplyEdits": "Į_Values could not be submitted__________š.",
     "attachmentSelectedMsg": "pasirinktas (-i) priedas (-ai)",
     "attachmentUploadStatus": "Nepavyko įkelti ${failed} iš ${total} priedo (-ų)",
     "geoLocationError": "Informacijos apie esamą vietą nėra",
     "geoLocationOutOfExtent": "Dabartinė vieta yra už pagrindo žemėlapio ribų",
     "submitButtonTooltip": "Pateikti",
     "cancelButtonTooltip": "Atšaukti",
-    "geoformBackButtonTooltip": "Grįžti į ataskaitų sąrašą"
+    "geoformBackButtonTooltip": "Į_Return to the list______š",
+    "locationSelectionHintForPointLayer": "Į_Tap the map to draw the location___________š.",
+    "locationSelectionHintForPolygonLayer": "Į_Tap the map to draw the location. Double tap to complete the drawing______________________š.",
+    "locationSelectionHintForPointLayerDesktop": "Į_Click the map to draw the location____________š.",
+    "locationSelectionHintForPolygonLayerDesktop": "Į_Click the map to draw the location. Double click to complete the drawing_______________________š."
   },
   "locator": {
     "addressText": "Adresas:",
@@ -104,14 +109,14 @@ define({
     "latLongText": "Platuma/Ilguma",
     "invalidSearch": "Nieko nerasta",
     "locatorPlaceholder": "Įveskite ieškotiną adresą",
-    "locationOutOfExtent": "Rastas adresas yra už pagrindo žemėlapio ribų",
+    "locationOutOfExtent": "Į_Location is outside the submission area_____________š",
     "searchButtonTooltip": "Ieškoti",
     "clearButtonTooltip": "Išvalyti paieškos reikšmę"
   },
   "myIssues": {
-    "title": "Mano ataskaitos",
-    "myIssuesTooltip": "Mano ataskaitos",
-    "noResultsFound": "Ataskaitų nerasta"
+    "title": "Į_My Submissions_____š",
+    "myIssuesTooltip": "Į_My Submissions_____š",
+    "noResultsFound": "Į_No submissions found_______š"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -121,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Žr. pridėtus dokumentus",
     "mapButtonLabel": "Žiūrėti žemėlapyje",
-    "mapButtonTooltip": "Žiūrėti šios ataskaitos vietą",
+    "mapButtonTooltip": "Į_View the location of this submission____________š",
     "commentsListHeading": "Komentarai",
     "unableToUpdateVoteField": "Šiuo metu jūsų balso įskaičiuoti negalima.",
-    "gotoIssueListTooltip": "Eiti į ataskaitų sąrašą",
+    "gotoIssueListTooltip": "Į_View the list of submissions_________š",
     "deleteMessage": "Ar tikrai norite ištrinti?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Balsai už šią ataskaitą",
+    "likesForThisItemTooltip": "Į_Number of votes______š",
     "loadMoreButtonText": "Įkelti daugiau..."
   },
   "comment": {

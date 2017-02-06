@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Υποβολή αναφοράς",
     "gotoListViewTooltip": "Προβολή λίστας",
     "noFeatureGeomtery": "Δεν είναι δυνατή η εμφάνιση του στοιχείου",
-    "featureOutsideAOIMessage": "Το στοιχείο δεν μπορεί να προστεθεί εκτός της περιοχής μελέτης"
+    "featureOutsideAOIMessage": "Το στοιχείο δεν μπορεί να προστεθεί εκτός της περιοχής μελέτης",
+    "noEditingPermissionsMessage": "Đ_You do not have permission to perform this action________________ớ."
   },
   "signin": {
     "guestSigninText": "Συνέχεια ως επισκέπτης",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Προβολή χάρτη"
   },
   "appHeader": {
-    "myReport": "Οι αναφορές μου",
+    "myReport": "Đ_My Submissions_____ớ",
     "signIn": "Είσοδος",
     "signOut": "Έξοδος",
     "signInTooltip": "Εισέλθετε",
     "signOutTooltip": "Έξοδος",
-    "myReportTooltip": "Προβολή των αναφορών μου"
+    "myReportTooltip": "Đ_View my submissions_______ớ"
   },
   "geoform": {
     "enterInformation": "ΛΕΠΤΟΜΕΡΕΙΕΣ",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Επιλέξτε τη θέση για την αναφορά σας",
     "numericRangeHintMessage": "${openStrong}Υπόδειξη:${closeStrong} ελάχιστη τιμή ${minValue} και μέγιστη τιμή ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Υπόδειξη:${closeStrong} ελάχιστη ημερομηνία ${minValue} και μέγιστη ημερομηνία ${maxValue}",
-    "errorsInApplyEdits": "Δεν ήταν δυνατή η υποβολή της αναφοράς",
+    "errorsInApplyEdits": "Đ_Values could not be submitted__________ớ.",
     "attachmentSelectedMsg": "συνημμένα επιλέχθηκαν",
     "attachmentUploadStatus": "Απέτυχε η μεταφόρτωση ${failed} από ${total} συνημμένων",
     "geoLocationError": "Η τρέχουσα τοποθεσία δεν είναι διαθέσιμη",
     "geoLocationOutOfExtent": "Η τρέχουσα τοποθεσία είναι εκτός της έκτασης του υποβάθρου",
     "submitButtonTooltip": "Υποβολή",
     "cancelButtonTooltip": "Ακύρωση",
-    "geoformBackButtonTooltip": "Επιστροφή στη λίστα αναφορών"
+    "geoformBackButtonTooltip": "Đ_Return to the list______ớ",
+    "locationSelectionHintForPointLayer": "Đ_Tap the map to draw the location___________ớ.",
+    "locationSelectionHintForPolygonLayer": "Đ_Tap the map to draw the location. Double tap to complete the drawing______________________ớ.",
+    "locationSelectionHintForPointLayerDesktop": "Đ_Click the map to draw the location____________ớ.",
+    "locationSelectionHintForPolygonLayerDesktop": "Đ_Click the map to draw the location. Double click to complete the drawing_______________________ớ."
   },
   "locator": {
     "addressText": "Διεύθυνση:",
@@ -104,14 +109,14 @@ define({
     "latLongText": "Γεωγραφικό πλάτος/Γεωγραφικό μήκος",
     "invalidSearch": "Δεν βρέθηκαν αποτελέσματα",
     "locatorPlaceholder": "Εισαγάγετε μια διεύθυνση για αναζήτηση",
-    "locationOutOfExtent": "Η εντοπισμένη διεύθυνση είναι εκτός της έκτασης του υποβάθρου",
+    "locationOutOfExtent": "Đ_Location is outside the submission area_____________ớ",
     "searchButtonTooltip": "Αναζήτηση",
     "clearButtonTooltip": "Απαλοιφή τιμής αναζήτησης"
   },
   "myIssues": {
-    "title": "Οι αναφορές μου",
-    "myIssuesTooltip": "Οι αναφορές μου",
-    "noResultsFound": "Δεν βρέθηκαν αναφορές."
+    "title": "Đ_My Submissions_____ớ",
+    "myIssuesTooltip": "Đ_My Submissions_____ớ",
+    "noResultsFound": "Đ_No submissions found_______ớ"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -121,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Δείτε τα συνημμένα έγγραφα",
     "mapButtonLabel": "Προβολή στο χάρτη",
-    "mapButtonTooltip": "Προβολή της τοποθεσίας αυτής της αναφοράς",
+    "mapButtonTooltip": "Đ_View the location of this submission____________ớ",
     "commentsListHeading": "Σχόλια",
     "unableToUpdateVoteField": "Δεν είναι δυνατή η μέτρηση της ψήφου σας αυτήν τη στιγμή.",
-    "gotoIssueListTooltip": "Μετάβαση στη λίστα αναφορών",
+    "gotoIssueListTooltip": "Đ_View the list of submissions_________ớ",
     "deleteMessage": "Είστε βέβαιοι ότι θέλετε να γίνει διαγραφή;"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Ψήφοι για αυτήν την αναφορά",
+    "likesForThisItemTooltip": "Đ_Number of votes______ớ",
     "loadMoreButtonText": "Φόρτωση περισσότερων δεδομένων..."
   },
   "comment": {

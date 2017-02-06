@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Envoyer un rapport",
     "gotoListViewTooltip": "Vue Liste",
     "noFeatureGeomtery": "Impossible d'afficher l'entité",
-    "featureOutsideAOIMessage": "Impossible d’ajouter l'entité hors de la zone d'étude"
+    "featureOutsideAOIMessage": "Impossible d’ajouter l'entité hors de la zone d'étude",
+    "noEditingPermissionsMessage": "æ_You do not have permission to perform this action________________Â."
   },
   "signin": {
     "guestSigninText": "Continuer comme invité",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Vue cartographique"
   },
   "appHeader": {
-    "myReport": "Mes rapports",
+    "myReport": "æ_My Submissions_____Â",
     "signIn": "Connexion",
     "signOut": "Déconnexion",
     "signInTooltip": "Connexion",
     "signOutTooltip": "Déconnexion",
-    "myReportTooltip": "Afficher mes rapports"
+    "myReportTooltip": "æ_View my submissions_______Â"
   },
   "geoform": {
     "enterInformation": "Détails",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Sélectionnez l'emplacement de votre rapport",
     "numericRangeHintMessage": "${openStrong}Astuce :${closeStrong} valeur minimale ${minValue} et valeur maximale ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Astuce :${closeStrong} date minimum ${minValue} et date maximum ${maxValue}",
-    "errorsInApplyEdits": "Impossible d'envoyer le rapport",
+    "errorsInApplyEdits": "æ_Values could not be submitted__________Â.",
     "attachmentSelectedMsg": "pièce(s) jointe(s) sélectionnée(s)",
     "attachmentUploadStatus": "Echec du chargement de ${failed} sur ${total} pièce(s) jointe(s)",
     "geoLocationError": "Localisant actuel non disponible",
     "geoLocationOutOfExtent": "L'étendue courante est en dehors de l'étendue du fond de carte",
     "submitButtonTooltip": "Envoyer",
     "cancelButtonTooltip": "Annuler",
-    "geoformBackButtonTooltip": "Revenir à la liste des rapports"
+    "geoformBackButtonTooltip": "æ_Return to the list______Â",
+    "locationSelectionHintForPointLayer": "æ_Tap the map to draw the location___________Â.",
+    "locationSelectionHintForPolygonLayer": "æ_Tap the map to draw the location. Double tap to complete the drawing______________________Â.",
+    "locationSelectionHintForPointLayerDesktop": "æ_Click the map to draw the location____________Â.",
+    "locationSelectionHintForPolygonLayerDesktop": "æ_Click the map to draw the location. Double click to complete the drawing_______________________Â."
   },
   "locator": {
     "addressText": "Adresse :",
@@ -104,14 +109,14 @@ define({
     "latLongText": "Latitude/Longitude",
     "invalidSearch": "Aucun résultat trouvé",
     "locatorPlaceholder": "Entrer une adresse à rechercher",
-    "locationOutOfExtent": "L'adresse localisée est en dehors de l'étendue du fond de carte",
+    "locationOutOfExtent": "æ_Location is outside the submission area_____________Â",
     "searchButtonTooltip": "Rechercher",
     "clearButtonTooltip": "Effacer la valeur de recherche"
   },
   "myIssues": {
-    "title": "Mes rapports",
-    "myIssuesTooltip": "Mes rapports",
-    "noResultsFound": "Aucun rapport trouvé"
+    "title": "æ_My Submissions_____Â",
+    "myIssuesTooltip": "æ_My Submissions_____Â",
+    "noResultsFound": "æ_No submissions found_______Â"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -121,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Voir les documents joints",
     "mapButtonLabel": "Afficher sur la carte",
-    "mapButtonTooltip": "Afficher l'emplacement de ce rapport",
+    "mapButtonTooltip": "æ_View the location of this submission____________Â",
     "commentsListHeading": "Commentaires",
     "unableToUpdateVoteField": "Il est actuellement impossible de comptabiliser votre vote.",
-    "gotoIssueListTooltip": "Accéder à la liste des rapports",
+    "gotoIssueListTooltip": "æ_View the list of submissions_________Â",
     "deleteMessage": "Etes-vous sûr de vouloir le supprimer ?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Votes pour ce rapport",
+    "likesForThisItemTooltip": "æ_Number of votes______Â",
     "loadMoreButtonText": "Charger plus..."
   },
   "comment": {

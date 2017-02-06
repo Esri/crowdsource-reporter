@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "ส่งรายงาน",
     "gotoListViewTooltip": "รายการยอดเข้าชม",
     "noFeatureGeomtery": "ไม่สามารถแสดงฟีเจอร์ได้",
-    "featureOutsideAOIMessage": "ไม่สามารถเพิ่มฟีเจอร์นอกพื้นที่ศึกษาของคุณ"
+    "featureOutsideAOIMessage": "ไม่สามารถเพิ่มฟีเจอร์นอกพื้นที่ศึกษาของคุณ",
+    "noEditingPermissionsMessage": "ก้_You do not have permission to perform this action________________ษฺ."
   },
   "signin": {
     "guestSigninText": "ดำเนินการในฐานะผู้เยี่ยมชม",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "มุมมองแผนที่"
   },
   "appHeader": {
-    "myReport": "รายงาน",
+    "myReport": "ก้_My Submissions_____ษฺ",
     "signIn": "ลงชื่อเข้าใช้",
     "signOut": "ลงชื่อออก",
     "signInTooltip": "ลงชื่อเข้าใช้",
     "signOutTooltip": "ออกจากระบบ",
-    "myReportTooltip": "ดูรายงานของฉัน"
+    "myReportTooltip": "ก้_View my submissions_______ษฺ"
   },
   "geoform": {
     "enterInformation": "รายละเอียด",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "โปรดเลือกสถานที่สำหรับรายงานของคุณ",
     "numericRangeHintMessage": "${openStrong}เปรย:${closeStrong} ค่่าต่ำที่สุด ${minValue} และค่าสูงที่สุด ${maxValue}",
     "dateRangeHintMessage": "${openStrong}เปรย:${closeStrong} วันขั้นต่ำ ${minValue} และวันสูงสุด ${maxValue}",
-    "errorsInApplyEdits": "รายงานไม่สามารถส่งได้",
+    "errorsInApplyEdits": "ก้_Values could not be submitted__________ษฺ.",
     "attachmentSelectedMsg": "เลือกไฟล์แนบ",
     "attachmentUploadStatus": "${failed} จาก ${total} ไฟล์แนบที่ไม่สามารถอัพโหลดได้",
     "geoLocationError": "ไม่พร้อมใช้ตำแหน่งปัจจุบัน",
     "geoLocationOutOfExtent": "ตำแหน่งปัจจุบันอยู่นอกขอบเขตของแผนที่ฐาน",
     "submitButtonTooltip": "ส่ง",
     "cancelButtonTooltip": "ยกเลิก",
-    "geoformBackButtonTooltip": "กลับสู่ลิสต์ของรายงาน"
+    "geoformBackButtonTooltip": "ก้_Return to the list______ษฺ",
+    "locationSelectionHintForPointLayer": "ก้_Tap the map to draw the location___________ษฺ.",
+    "locationSelectionHintForPolygonLayer": "ก้_Tap the map to draw the location. Double tap to complete the drawing______________________ษฺ.",
+    "locationSelectionHintForPointLayerDesktop": "ก้_Click the map to draw the location____________ษฺ.",
+    "locationSelectionHintForPolygonLayerDesktop": "ก้_Click the map to draw the location. Double click to complete the drawing_______________________ษฺ."
   },
   "locator": {
     "addressText": "ที่อยู่:",
@@ -104,14 +109,14 @@ define({
     "latLongText": "ละติจูด/ลองจิจูด",
     "invalidSearch": "ไม่พบผลลัพธ์",
     "locatorPlaceholder": "กรอกที่อยู่ เพื่อค้นหา",
-    "locationOutOfExtent": "ตำแหน่งที่อยู่อยู่นอกขอบเขตของแผนที่ฐาน",
+    "locationOutOfExtent": "ก้_Location is outside the submission area_____________ษฺ",
     "searchButtonTooltip": "ค้นหา",
     "clearButtonTooltip": "ล้างค่าที่ใช้ค้นหา"
   },
   "myIssues": {
-    "title": "รายงาน",
-    "myIssuesTooltip": "รายงาน",
-    "noResultsFound": "ไม่พบรายงาน"
+    "title": "ก้_My Submissions_____ษฺ",
+    "myIssuesTooltip": "ก้_My Submissions_____ษฺ",
+    "noResultsFound": "ก้_No submissions found_______ษฺ"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -121,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "แสดงเอกสารแนบ",
     "mapButtonLabel": "แสดงบนแผนที่",
-    "mapButtonTooltip": "แสดงตำแหน่งของรายงานนี้",
+    "mapButtonTooltip": "ก้_View the location of this submission____________ษฺ",
     "commentsListHeading": "ความคิดเห็น",
     "unableToUpdateVoteField": "ผลโหวตของคุณไม่สามารถนับได้ในขณะนี้",
-    "gotoIssueListTooltip": "ไปที่รายการรายงาน",
+    "gotoIssueListTooltip": "ก้_View the list of submissions_________ษฺ",
     "deleteMessage": "คุณแน่ใจว่าต้องการลบ"
   },
   "itemList": {
-    "likesForThisItemTooltip": "โหวตให้รายงานนี้",
+    "likesForThisItemTooltip": "ก้_Number of votes______ษฺ",
     "loadMoreButtonText": "โหลดเพิ่มเติม"
   },
   "comment": {

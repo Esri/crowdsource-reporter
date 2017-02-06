@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "提交報告",
     "gotoListViewTooltip": "清單視圖",
     "noFeatureGeomtery": "無法顯示圖徵",
-    "featureOutsideAOIMessage": "無法在研究區域外部新增圖徵"
+    "featureOutsideAOIMessage": "無法在研究區域外部新增圖徵",
+    "noEditingPermissionsMessage": "試_You do not have permission to perform this action________________驗."
   },
   "signin": {
     "guestSigninText": "以訪客身份繼續進行",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "地圖視圖"
   },
   "appHeader": {
-    "myReport": "我的報告",
+    "myReport": "試_My Submissions_____驗",
     "signIn": "登入",
     "signOut": "登出",
     "signInTooltip": "登入",
     "signOutTooltip": "登出",
-    "myReportTooltip": "檢視我的報告"
+    "myReportTooltip": "試_View my submissions_______驗"
   },
   "geoform": {
     "enterInformation": "詳細資訊",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "請為您的報告選擇位置",
     "numericRangeHintMessage": "${openStrong}提示:${closeStrong} 最小值 ${minValue} 和最大值 ${maxValue}",
     "dateRangeHintMessage": "${openStrong}提示:${closeStrong} 最小日期 ${minValue} 和最大日期 ${maxValue}",
-    "errorsInApplyEdits": "無法提交報告",
+    "errorsInApplyEdits": "試_Values could not be submitted__________驗.",
     "attachmentSelectedMsg": "已選定附件",
     "attachmentUploadStatus": "${failed} 個附件（共有 ${total} 個）上傳失敗",
     "geoLocationError": "目前位置不可用",
     "geoLocationOutOfExtent": "目前位置不在底圖範圍之內",
     "submitButtonTooltip": "提交",
     "cancelButtonTooltip": "取消",
-    "geoformBackButtonTooltip": "傳回至報告清單"
+    "geoformBackButtonTooltip": "試_Return to the list______驗",
+    "locationSelectionHintForPointLayer": "試_Tap the map to draw the location___________驗.",
+    "locationSelectionHintForPolygonLayer": "試_Tap the map to draw the location. Double tap to complete the drawing______________________驗.",
+    "locationSelectionHintForPointLayerDesktop": "試_Click the map to draw the location____________驗.",
+    "locationSelectionHintForPolygonLayerDesktop": "試_Click the map to draw the location. Double click to complete the drawing_______________________驗."
   },
   "locator": {
     "addressText": "地址(E):",
@@ -104,14 +109,14 @@ define({
     "latLongText": "緯度/經度",
     "invalidSearch": "未找到任何結果",
     "locatorPlaceholder": "輸入一個搜尋位址",
-    "locationOutOfExtent": "已找到的地址不在底圖範圍之內",
+    "locationOutOfExtent": "試_Location is outside the submission area_____________驗",
     "searchButtonTooltip": "搜尋",
     "clearButtonTooltip": "清除搜尋值"
   },
   "myIssues": {
-    "title": "我的報告",
-    "myIssuesTooltip": "我的報告",
-    "noResultsFound": "未找到任何報告"
+    "title": "試_My Submissions_____驗",
+    "myIssuesTooltip": "試_My Submissions_____驗",
+    "noResultsFound": "試_No submissions found_______驗"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -121,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "參閱隨附的說明文件",
     "mapButtonLabel": "檢視地圖",
-    "mapButtonTooltip": "檢視此報告的位置",
+    "mapButtonTooltip": "試_View the location of this submission____________驗",
     "commentsListHeading": "評論",
     "unableToUpdateVoteField": "您的投票此時無法進行計數。",
-    "gotoIssueListTooltip": "轉至報告清單",
+    "gotoIssueListTooltip": "試_View the list of submissions_________驗",
     "deleteMessage": "是否確定要刪除?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "為此報告投票",
+    "likesForThisItemTooltip": "試_Number of votes______驗",
     "loadMoreButtonText": "載入更多..."
   },
   "comment": {

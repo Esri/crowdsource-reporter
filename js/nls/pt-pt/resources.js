@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Submeter um Relatório",
     "gotoListViewTooltip": "Vista de Lista",
     "noFeatureGeomtery": "Elemento não pode ser exibido",
-    "featureOutsideAOIMessage": "O elemento não pode ser adicionado fora da área de estudo"
+    "featureOutsideAOIMessage": "O elemento não pode ser adicionado fora da área de estudo",
+    "noEditingPermissionsMessage": "ã_You do not have permission to perform this action________________Ç."
   },
   "signin": {
     "guestSigninText": "Prosseguir como Convidado",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Vista de mapa"
   },
   "appHeader": {
-    "myReport": "Meus Relatórios",
+    "myReport": "ã_My Submissions_____Ç",
     "signIn": "Iniciar sessão",
     "signOut": "Terminar sessão",
     "signInTooltip": "Iniciar sessão",
     "signOutTooltip": "Terminar Sessão",
-    "myReportTooltip": "Visualizar os meus relatórios"
+    "myReportTooltip": "ã_View my submissions_______Ç"
   },
   "geoform": {
     "enterInformation": "Detalhes",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Por favor seleccione uma localização para o seu relatório",
     "numericRangeHintMessage": "${openStrong}Hint:${closeStrong} valor Mínimo ${minValue} e valor Máximo ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Hint:${closeStrong} Data Mínima ${minValue} e Data Máxima ${maxValue}",
-    "errorsInApplyEdits": "O relatório não pôde ser submetido",
+    "errorsInApplyEdits": "ã_Values could not be submitted__________Ç.",
     "attachmentSelectedMsg": "anexo(s) seleccionado(s)",
     "attachmentUploadStatus": "${failed} do ${total} anexo(s) falhou a carregar",
     "geoLocationError": "Localização actual não disponível",
     "geoLocationOutOfExtent": "Localização actual está fora da extensão de mapa",
     "submitButtonTooltip": "Submeter",
     "cancelButtonTooltip": "Cancelar",
-    "geoformBackButtonTooltip": "Regressar à lista de relatórios"
+    "geoformBackButtonTooltip": "ã_Return to the list______Ç",
+    "locationSelectionHintForPointLayer": "ã_Tap the map to draw the location___________Ç.",
+    "locationSelectionHintForPolygonLayer": "ã_Tap the map to draw the location. Double tap to complete the drawing______________________Ç.",
+    "locationSelectionHintForPointLayerDesktop": "ã_Click the map to draw the location____________Ç.",
+    "locationSelectionHintForPolygonLayerDesktop": "ã_Click the map to draw the location. Double click to complete the drawing_______________________Ç."
   },
   "locator": {
     "addressText": "Endereço:",
@@ -104,14 +109,14 @@ define({
     "latLongText": "Latitude/Longitude",
     "invalidSearch": "Nenhum resultado encontrado",
     "locatorPlaceholder": "Introduza um endereço de pesquisa",
-    "locationOutOfExtent": "Endereço localizado está fora da extensão do mapa base",
+    "locationOutOfExtent": "ã_Location is outside the submission area_____________Ç",
     "searchButtonTooltip": "Pesquisar",
     "clearButtonTooltip": "Limpar valor de pesquisa"
   },
   "myIssues": {
-    "title": "Meus Relatórios",
-    "myIssuesTooltip": "Meus Relatórios",
-    "noResultsFound": "Não foram descobertos relatórios"
+    "title": "ã_My Submissions_____Ç",
+    "myIssuesTooltip": "ã_My Submissions_____Ç",
+    "noResultsFound": "ã_No submissions found_______Ç"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -121,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Ver documentos anexados",
     "mapButtonLabel": "Ver no mapa",
-    "mapButtonTooltip": "Ver a localização deste relatório",
+    "mapButtonTooltip": "ã_View the location of this submission____________Ç",
     "commentsListHeading": "Comentários",
     "unableToUpdateVoteField": "Não é possível contar o seu voto neste momento.",
-    "gotoIssueListTooltip": "Vá para a lista de relatório",
+    "gotoIssueListTooltip": "ã_View the list of submissions_________Ç",
     "deleteMessage": "Tem certeza de que pretende eliminar?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Votos para este relatório",
+    "likesForThisItemTooltip": "ã_Number of votes______Ç",
     "loadMoreButtonText": "Carregar mais..."
   },
   "comment": {

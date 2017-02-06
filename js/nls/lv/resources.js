@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Iesniegt pārskatu",
     "gotoListViewTooltip": "Saraksta skats",
     "noFeatureGeomtery": "Funkciju nevar parādīt",
-    "featureOutsideAOIMessage": "Līdzekli nevar pievienot ārpus izpētes apgabala"
+    "featureOutsideAOIMessage": "Līdzekli nevar pievienot ārpus izpētes apgabala",
+    "noEditingPermissionsMessage": "ķ_You do not have permission to perform this action________________ū."
   },
   "signin": {
     "guestSigninText": "Turpināt kā viesim",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Kartes skats"
   },
   "appHeader": {
-    "myReport": "Mani ziņojumi",
+    "myReport": "ķ_My Submissions_____ū",
     "signIn": "Pierakstīties",
     "signOut": "Izrakstīties",
     "signInTooltip": "Pierakstīties",
     "signOutTooltip": "Izrakstīties",
-    "myReportTooltip": "Skatīt manus ziņojumus"
+    "myReportTooltip": "ķ_View my submissions_______ū"
   },
   "geoform": {
     "enterInformation": "Detaļas",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Lūdzu atlasiet vietu savam ziņojumam",
     "numericRangeHintMessage": "${openStrong}Norāde:${closeStrong} minimālā vērtība ${minValue} un maksimālā vērtība ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Norāde:${closeStrong} minimālais datums ${minValue} un maksimālais datums ${maxValue}",
-    "errorsInApplyEdits": "Neizdevās iesniegt ziņojumu",
+    "errorsInApplyEdits": "ķ_Values could not be submitted__________ū.",
     "attachmentSelectedMsg": "atlasītais(-ie) pielikums(-i)",
     "attachmentUploadStatus": "${failed} no ${total} pielikuma(-iem) neizdevās augšupielādēt",
     "geoLocationError": "Pašreizējā vieta nav pieejama",
     "geoLocationOutOfExtent": "Pašreizējā vieta ir ārpus pamatkartes tvēruma",
     "submitButtonTooltip": "Iesniegt",
     "cancelButtonTooltip": "Atcelt",
-    "geoformBackButtonTooltip": "Atgriezties pārskatu sarakstā"
+    "geoformBackButtonTooltip": "ķ_Return to the list______ū",
+    "locationSelectionHintForPointLayer": "ķ_Tap the map to draw the location___________ū.",
+    "locationSelectionHintForPolygonLayer": "ķ_Tap the map to draw the location. Double tap to complete the drawing______________________ū.",
+    "locationSelectionHintForPointLayerDesktop": "ķ_Click the map to draw the location____________ū.",
+    "locationSelectionHintForPolygonLayerDesktop": "ķ_Click the map to draw the location. Double click to complete the drawing_______________________ū."
   },
   "locator": {
     "addressText": "Adrese:",
@@ -104,14 +109,14 @@ define({
     "latLongText": "Platums/Garums",
     "invalidSearch": "Rezultāti nav atrasti",
     "locatorPlaceholder": "Ievadiet adresi meklēšanai",
-    "locationOutOfExtent": "Noteiktā adrese ir ārpus pamatkartes tvēruma",
+    "locationOutOfExtent": "ķ_Location is outside the submission area_____________ū",
     "searchButtonTooltip": "Meklēšana",
     "clearButtonTooltip": "Notīrīt meklēšanas vērtību"
   },
   "myIssues": {
-    "title": "Mani ziņojumi",
-    "myIssuesTooltip": "Mani ziņojumi",
-    "noResultsFound": "Nav atrasts neviens ziņojums"
+    "title": "ķ_My Submissions_____ū",
+    "myIssuesTooltip": "ķ_My Submissions_____ū",
+    "noResultsFound": "ķ_No submissions found_______ū"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -121,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Skatīt pievienotos dokumentus",
     "mapButtonLabel": "Skatīt kartē",
-    "mapButtonTooltip": "Skatiet šī ziņojuma vietu",
+    "mapButtonTooltip": "ķ_View the location of this submission____________ū",
     "commentsListHeading": "Komentāri",
     "unableToUpdateVoteField": "Jūsu balsi šobrīd nevar pievienot.",
-    "gotoIssueListTooltip": "Doties uz ziņojumu sarakstu",
+    "gotoIssueListTooltip": "ķ_View the list of submissions_________ū",
     "deleteMessage": "Vai tiešām vēlaties dzēst?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Balsis par šo ziņojumu",
+    "likesForThisItemTooltip": "ķ_Number of votes______ū",
     "loadMoreButtonText": "Ielādēt vēl..."
   },
   "comment": {

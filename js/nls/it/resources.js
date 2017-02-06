@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Invia un report",
     "gotoListViewTooltip": "Vista elenco",
     "noFeatureGeomtery": "Impossibile visualizzare la feature",
-    "featureOutsideAOIMessage": "La feature non può essere aggiunta esternamente all'area di studio"
+    "featureOutsideAOIMessage": "La feature non può essere aggiunta esternamente all'area di studio",
+    "noEditingPermissionsMessage": "é_You do not have permission to perform this action________________È."
   },
   "signin": {
     "guestSigninText": "Continua come ospite",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Vista mappa"
   },
   "appHeader": {
-    "myReport": "I miei report",
+    "myReport": "é_My Submissions_____È",
     "signIn": "Accedi",
     "signOut": "Esci",
     "signInTooltip": "l'accesso",
     "signOutTooltip": "Disconnetti",
-    "myReportTooltip": "Visualizza i miei report"
+    "myReportTooltip": "é_View my submissions_______È"
   },
   "geoform": {
     "enterInformation": "Dettagli",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Selezionare la posizione del report",
     "numericRangeHintMessage": "${openStrong}Suggerimento:${closeStrong} Valore minimo ${minValue} e valore massimo ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Suggerimento:${closeStrong} Data minima ${minValue} e data massima ${maxValue}",
-    "errorsInApplyEdits": "Impossibile inviare il rapporto",
+    "errorsInApplyEdits": "é_Values could not be submitted__________È.",
     "attachmentSelectedMsg": "allegato/i selezionato/i",
     "attachmentUploadStatus": "Impossibile caricare ${failed} di ${total} allegati",
     "geoLocationError": "Posizione corrente non disponibile",
     "geoLocationOutOfExtent": "Posizione corrente esterna all'estensione della mappa di base",
     "submitButtonTooltip": "Invia",
     "cancelButtonTooltip": "Annulla",
-    "geoformBackButtonTooltip": "Torna all'elenco dei report"
+    "geoformBackButtonTooltip": "é_Return to the list______È",
+    "locationSelectionHintForPointLayer": "é_Tap the map to draw the location___________È.",
+    "locationSelectionHintForPolygonLayer": "é_Tap the map to draw the location. Double tap to complete the drawing______________________È.",
+    "locationSelectionHintForPointLayerDesktop": "é_Click the map to draw the location____________È.",
+    "locationSelectionHintForPolygonLayerDesktop": "é_Click the map to draw the location. Double click to complete the drawing_______________________È."
   },
   "locator": {
     "addressText": "Indirizzo:",
@@ -104,14 +109,14 @@ define({
     "latLongText": "Latitudine/Longitudine",
     "invalidSearch": "Nessun risultato trovato",
     "locatorPlaceholder": "Immettere un indirizzo per la ricerca",
-    "locationOutOfExtent": "Indirizzo individuato esterno all'estensione della mappa di base",
+    "locationOutOfExtent": "é_Location is outside the submission area_____________È",
     "searchButtonTooltip": "Ricerca",
     "clearButtonTooltip": "Cancella valore di ricerca"
   },
   "myIssues": {
-    "title": "I miei report",
-    "myIssuesTooltip": "I miei report",
-    "noResultsFound": "Nessun report trovato"
+    "title": "é_My Submissions_____È",
+    "myIssuesTooltip": "é_My Submissions_____È",
+    "noResultsFound": "é_No submissions found_______È"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -121,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Vedi documenti allegati",
     "mapButtonLabel": "Visualizza su mappa",
-    "mapButtonTooltip": "Visualizza la posizione di questo report",
+    "mapButtonTooltip": "é_View the location of this submission____________È",
     "commentsListHeading": "Commenti",
     "unableToUpdateVoteField": "Impossibile conteggiare il voto al momento.",
-    "gotoIssueListTooltip": "Vai all'elenco dei report",
+    "gotoIssueListTooltip": "é_View the list of submissions_________È",
     "deleteMessage": "Eliminare?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Voti per questo report",
+    "likesForThisItemTooltip": "é_Number of votes______È",
     "loadMoreButtonText": "Carica altro..."
   },
   "comment": {
