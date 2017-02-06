@@ -304,9 +304,10 @@ define([
                     }
                 }
                 this._resizeMap();
-                //If geoform instance exist, reset map in geoform
+                //If geoform instance exist, reset map in geoform and change hint text in location panel
                 if (this.geoformInstance) {
                     this.geoformInstance.setGeoformMapVisibility();
+                    this.geoformInstance.setLocationPanelHint();
                 }
             }));
 

@@ -200,13 +200,11 @@ define([
         setGeoformMapVisibility: function () {
             if (dojowindow.getBox().w > 768) {
                 domStyle.set(this.map_container, "display", "none");
-                domStyle.set(this.locationSection, "display", "none");
                 if (domClass.contains(this.select_location.nextSibling, "errorMessage")) {
                     this._removeErrorNode(this.select_location.nextSibling);
                 }
             } else {
                 domStyle.set(this.map_container, "display", "block");
-                domStyle.set(this.locationSection, "display", "block");
                 this._resizeMap();
             }
         },
@@ -447,13 +445,7 @@ define([
                 // else remove that layer form map, so that only selected layer is visible on map.
                 if (opLayers[i].id === this.layerId) {
                     this.layer = this.map.getLayer(opLayers[i].id);
-                    if (this.layer.geometryType === "esriGeometryPoint") {
-                        domAttr.set(this.locationHintTextNode, "innerHTML",
-                            this.appConfig.i18n.geoform.locationSelectionHintForPointLayer);
-                    } else {
-                        domAttr.set(this.locationHintTextNode, "innerHTML",
-                            this.appConfig.i18n.geoform.locationSelectionHintForPolygonLayer);
-                    }
+                    this.setLocationPanelHint();
                     //Make sure we are not showing labels on geoform feature layer to make it consistent with main map
                     if (this.layer.showLabels) {
                         this.layer.showLabels = false;
@@ -1876,15 +1868,11 @@ define([
                     } else {
                         // error message
                         errorMessage = this.appConfig.i18n.geoform.selectLocation;
-                        if (dojowindow.getBox().w <= 768) {
-                            this._showErrorMessageDiv(errorMessage, this.select_location);
-                            // Scroll to the selected location
-                            this.currentGeoformNode.animate({
-                                scrollTop: this.select_location.offsetTop
-                            }, 1000);
-                        } else {
-                            this.appUtils.showMessage(errorMessage);
-                        }
+                        this._showErrorMessageDiv(errorMessage, this.select_location);
+                        // Scroll to the selected location
+                        this.currentGeoformNode.animate({
+                            scrollTop: this.select_location.offsetTop
+                        }, 1000);
                     }
                 }
             }
@@ -2611,6 +2599,26 @@ define([
         updateLayerOnMap: function () {
             if (this.map && this.map._layers[this.layer.id]) {
                 this.map._layers[this.layer.id].refresh();
+            }
+        },
+
+        /**
+        * Set location panel hint based on device dimensions
+        * @memberOf widgets/geo-form/geo-form
+        */
+        setLocationPanelHint: function () {
+            var pointLayerHintText, polygonLayerHintText;
+            if (dojowindow.getBox().w < 768) {
+                pointLayerHintText = this.appConfig.i18n.geoform.locationSelectionHintForPointLayer;
+                polygonLayerHintText = this.appConfig.i18n.geoform.locationSelectionHintForPolygonLayer;
+            } else {
+                pointLayerHintText = this.appConfig.i18n.geoform.locationSelectionHintForPointLayerDesktop;
+                polygonLayerHintText = this.appConfig.i18n.geoform.locationSelectionHintForPolygonLayerDesktop;
+            }
+            if (this.layer.geometryType === "esriGeometryPoint") {
+                domAttr.set(this.locationHintTextNode, "innerHTML", pointLayerHintText);
+            } else {
+                domAttr.set(this.locationHintTextNode, "innerHTML", polygonLayerHintText);
             }
         }
     });
