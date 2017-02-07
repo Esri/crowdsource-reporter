@@ -58,7 +58,10 @@
         "bodyBackgroundColor": "#fff",
         "bodyTextColor": "#515151",
         "buttonBackgroundColor": "#fff",
-        "buttonTextColor": "#137DB9"
+        "buttonTextColor": "#137DB9",
+        "details": "Top",
+        "attachments": "Middle",
+        "location": "Bottom"
     },
     "configurationSettings": [{
         "category": "<b>App</b>",
@@ -283,12 +286,12 @@
             "type": "options",
             "fieldName": "attachments",
             "options": [{
-                "label": "Middle",
-                "value": "Middle"
-
-            }, {
                 "label": "Top",
                 "value": "Top"
+
+            }, {
+                "label": "Middle",
+                "value": "Middle"
 
             }, {
                 "label": "Bottom",
@@ -311,14 +314,16 @@
             "type": "options",
             "fieldName": "location",
             "options": [{
-                "label": "Bottom",
-                "value": "Bottom"
-            }, {
                 "label": "Top",
                 "value": "Top"
+
             }, {
                 "label": "Middle",
                 "value": "Middle"
+
+            }, {
+                "label": "Bottom",
+                "value": "Bottom"
             }]
         }, {
             "type": "paragraph",
