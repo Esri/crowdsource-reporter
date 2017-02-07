@@ -437,6 +437,13 @@ define([
                 }));
                 on(dom.byId("mapBackButton"), "click", lang.hitch(this, function (evt) {
                     this._toggleListView();
+                    //If showMapFirst flag is turned on and app is running in mobile mode, show web list on click of back button
+                    if (this.config.showMapFirst && dojowindow.getBox().w < 768) {
+                        //If current panel is "issueDetails" then show the same panel instead of web map list
+                        if (this._sidebarCnt._currentPanelName !== "itemDetails") {
+                            this._sidebarCnt.showPanel("webMapList");
+                        }
+                    }
                 }));
                 on(dom.byId("toggleListViewButton"), "click", lang.hitch(this, function (evt) {
                     //Change myissues widget flag to false and refresh the list
@@ -446,11 +453,16 @@ define([
                     }
                     this._isMyIssues = false;
                     this._toggleListView();
-                    //Clear map selection when navigating to web map list
-                    if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
-                        this._selectedMapDetails.map.getLayer("selectionGraphicsLayer").clear();
+                    //If showMapFirst flag is turned on and app is running in mobile mode, show issue wall on click of toggle list button
+                    if (this.config.showMapFirst && dojowindow.getBox().w < 768) {
+                        this._sidebarCnt.showPanel("issueWall");
+                    } else {
+                        //Clear map selection when navigating to web map list
+                        if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
+                            this._selectedMapDetails.map.getLayer("selectionGraphicsLayer").clear();
+                        }
+                        this._sidebarCnt.showPanel("webMapList");
                     }
-                    this._sidebarCnt.showPanel("webMapList");
                 }));
                 domAttr.set(dom.byId("toggleListViewButton"), "title", this.config.i18n.main.gotoListViewTooltip);
                 this._createWebMapList();
