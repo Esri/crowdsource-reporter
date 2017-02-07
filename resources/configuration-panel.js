@@ -53,12 +53,12 @@
         "geoformLocationSectionLabel": "Location",
         "geoformAttachmentSectionLabel": "Attachments",
         "noWebmapInGroupText": "Configured group is invalid or no items have been shared with this group yet.",
-        "headerBackgroundColor":"#fff",
-        "headerTextColor":"#137DB9",
-        "bodyBackgroundColor":"#fff",
-        "bodyTextColor":"#515151",
-        "buttonBackgroundColor":"#fff",
-        "buttonTextColor":"#137DB9"
+        "headerBackgroundColor": "#fff",
+        "headerTextColor": "#137DB9",
+        "bodyBackgroundColor": "#fff",
+        "bodyTextColor": "#515151",
+        "buttonBackgroundColor": "#fff",
+        "buttonTextColor": "#137DB9"
     },
     "configurationSettings": [{
         "category": "<b>App</b>",
@@ -246,7 +246,7 @@
         }, {
             "type": "paragraph",
             "value": "The details section of the form is built using the fields marked as editable in the popup configuration."
-        },{
+        }, {
             "label": "Section header",
             "tooltip": "Title for the details section of the form.",
             "type": "string",
@@ -272,7 +272,7 @@
         }, {
             "type": "paragraph",
             "value": "The attachment section of the form where photos and other supporting files can be added to the report. This section is only available when attachments are enabled on the layer."
-        },{
+        }, {
             "label": "Section header",
             "tooltip": "Title for the attachments section of the form.",
             "type": "string",
@@ -283,11 +283,13 @@
             "type": "options",
             "fieldName": "attachments",
             "options": [{
-                "label": "Top",
-                "value": "Top"
-            }, {
                 "label": "Middle",
                 "value": "Middle"
+
+            }, {
+                "label": "Top",
+                "value": "Top"
+
             }, {
                 "label": "Bottom",
                 "value": "Bottom"
@@ -298,7 +300,7 @@
         }, {
             "type": "paragraph",
             "value": "The location section of the form where reports can be drawn on the map or found by searching for an address."
-        },{
+        }, {
             "label": "Section header",
             "tooltip": "Title for the location section of the form.",
             "type": "string",
@@ -309,24 +311,24 @@
             "type": "options",
             "fieldName": "location",
             "options": [{
+                "label": "Bottom",
+                "value": "Bottom"
+            }, {
                 "label": "Top",
                 "value": "Top"
             }, {
                 "label": "Middle",
                 "value": "Middle"
-            }, {
-                "label": "Bottom",
-                "value": "Bottom"
             }]
         }, {
             "type": "paragraph",
             "value": "Optionally, store a text form of the report location. This location-storing functionality will only be available for layers with a field of the specified (case-sensitive) name."
-        },{
+        }, {
             "label": "Name of the field to store report location",
             "tooltip": "Allows user to configure location field",
             "type": "string",
             "fieldName": "locationField"
-        },{
+        }, {
             "type": "paragraph",
             "value": "Restrict where reports can be drawn by specifying the name of an uneditable polygon layer. Reports will only be accepted within the boudaries of features in this layer. The locations of reports will only be restricted in maps that contain an uneditable polygon layer with this name."
         }, {
