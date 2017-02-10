@@ -158,6 +158,60 @@
           "fieldName": "splashScreenTextColor"
         }
       ]
+    },{
+      "category": "<b>App Colors</b>",
+      "fields": [
+       {
+          "type": "subcategory",
+          "label": "App colors"
+        },
+        {
+          "type": "paragraph",
+          "value": "Choose different colors for header, body and button sections"
+        },
+        {
+          "label": "Header background color",
+          "tooltip": "Set header background color.",
+          "type": "color",
+          "sharedThemeProperty": "header.background",
+          "fieldName": "headerBackgroundColor"
+        },
+        {
+          "label": "Header text color",
+          "tooltip": "Set header text color.",
+          "type": "color",
+          "sharedThemeProperty": "header.text",
+          "fieldName": "headerTextColor"
+        },
+        {
+          "label": "Body background color",
+          "tooltip": "Set body background color.",
+          "type": "color",
+          "sharedThemeProperty": "body.background",
+          "fieldName": "bodyBackgroundColor"
+        },
+        {
+          "label": "Body text color",
+          "tooltip": "Set body text color.",
+          "type": "color",
+          "sharedThemeProperty": "body.text",
+          "fieldName": "bodyTextColor"
+        },
+        {
+          "label": "Button background color",
+          "tooltip": "Set button background color.",
+          "type": "color",
+          "sharedThemeProperty": "button.background",
+          "fieldName": "buttonBackgroundColor"
+        },
+        {
+          "label": "Button text color",
+          "tooltip": "Set button text color.",
+          "type": "color",
+          "sharedThemeProperty": "button.text",
+          "fieldName": "buttonTextColor"
+        }
+      ]
     },
     {
       "category": "<b>Map</b>",
@@ -283,12 +337,6 @@
           "tooltip": "Specify how near (larger number) or far (smaller number) the map should zoom relative to the ground.",
           "type": "string",
           "fieldName": "zoomLevel"
-        },
-        {
-          "label": "Show map first",
-          "tooltip": "Show map on application load.",
-          "type": "boolean",
-          "fieldName": "showMapFirst"
         }
       ]
     },
@@ -450,6 +498,23 @@
       "fields": [
         {
           "type": "subcategory",
+          "label": "Mobile display settings"
+        },{
+          "type": "paragraph",
+          "value": "On smartphones choose to initially display the reports on a map or in a list. Users will be able to toggle between both views."
+        }, {
+            "type": "radio",
+           "fieldName": "showMapFirst",
+           "tooltip": "Show map or list on application load.",
+           "items": [{
+             "label": "Show map first",
+             "value": true
+           }, {
+             "label": "Show list first",
+             "value": false
+           }]
+        },{
+          "type": "subcategory",
           "label": "Search radius"
         },
         {
@@ -488,11 +553,11 @@
         },
         {
           "type": "subcategory",
-          "label": "Editing Reports and Comments"
+          "label": "Editing reports and comments"
         },
         {
           "type": "paragraph",
-          "value": "Allow users to edit and/or delete their own submissions. These capabilities will only be accessible on reports submitted by users who accessed the application using ArcGIS or social media accounts."
+          "value": "Allow users to edit and/or delete their own submissions. These capabilities will only be accessible on reports submitted by users who accessed the application using ArcGIS or social media accounts. Configure these sign in options on the Access tab."
         },
         {
           "label": "Allow editing of reports and comments",
@@ -692,61 +757,7 @@
           ]
         }
       ]
-    },
-    {
-      "category": "<b>App Color</b>",
-      "fields": [
-       {
-          "type": "subcategory",
-          "label": "App theme"
-        },
-        {
-          "type": "paragraph",
-          "value": "User can change the theme settings and choose different colors for header, body and button sections"
-        },
-        {
-          "label": "Header background color",
-          "tooltip": "Set header background color.",
-          "type": "color",
-          "sharedThemeProperty": "header.background",
-          "fieldName": "headerBackgroundColor"
-        },
-        {
-          "label": "Header text color",
-          "tooltip": "Set header text color.",
-          "type": "color",
-          "sharedThemeProperty": "header.text",
-          "fieldName": "headerTextColor"
-        },
-        {
-          "label": "Body background color",
-          "tooltip": "Set body background color.",
-          "type": "color",
-          "sharedThemeProperty": "body.background",
-          "fieldName": "bodyBackgroundColor"
-        },
-        {
-          "label": "Body text color",
-          "tooltip": "Set body text color.",
-          "type": "color",
-          "sharedThemeProperty": "body.text",
-          "fieldName": "bodyTextColor"
-        },
-        {
-          "label": "Button background color",
-          "tooltip": "Set button background color.",
-          "type": "color",
-          "sharedThemeProperty": "button.background",
-          "fieldName": "buttonBackgroundColor"
-        },
-        {
-          "label": "Button text color",
-          "tooltip": "Set button text color.",
-          "type": "color",
-          "sharedThemeProperty": "button.text",
-          "fieldName": "buttonTextColor"
-        }
-      ]
     }
+    
   ]
 }
