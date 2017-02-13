@@ -169,13 +169,6 @@
           "value": "Choose different colors for header, body and button sections"
         },
         {
-          "label": "Header background color",
-          "tooltip": "Set header background color.",
-          "type": "color",
-          "sharedThemeProperty": "header.background",
-          "fieldName": "headerBackgroundColor"
-        },
-        {
           "label": "Header text color",
           "tooltip": "Set header text color.",
           "type": "color",
