@@ -132,7 +132,6 @@ define({
     "noWebmapInGroupText": "Configured group is invalid or no items have been shared with this group yet.",
     // to show as a label for attachment section in comments form where attachments can be added
     "commentFormAttachmentSectionLabel": "Attachments",
-    "headerBackgroundColor":"#fff",
     "headerTextColor":"#137DB9",
     "bodyBackgroundColor":"#fff",
     "bodyTextColor":"#515151",
