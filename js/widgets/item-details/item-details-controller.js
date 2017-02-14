@@ -112,14 +112,14 @@ import query from "dojo/query";
             }
         },
 
-        postCreate: function () {
-            this.inherited(arguments);
+        postCreate: function(...args) {
+            this.inherited(args);
             this._initContentPane();
             this.hide();
         },
 
-        startup: function () {
-            this.inherited(arguments);
+        startup: function(...args) {
+            this.inherited(args);
             this._addListeners();
         },
 

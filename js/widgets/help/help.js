@@ -31,8 +31,8 @@ import "dojo/domReady!";
             $('#myModal').find('.modal-body').html(this.config.helpDialogContent);
         },
 
-        startup: function () {
-            this.inherited(arguments);
+        startup: function(...args) {
+            this.inherited(args);
         },
 
         /**

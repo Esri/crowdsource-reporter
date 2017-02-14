@@ -64,9 +64,9 @@ import commentForm from "./templates/comment-form.html";
             this.i18n = this.config.i18n;
         },
 
-        postCreate: function () {
+        postCreate: function(...args) {
             let submitCommentText;
-            this.inherited(arguments);
+            this.inherited(args);
             this._initializeCommentForm();
             if (this.addComments) {
                 submitCommentText = this.config.i18n.comment.commentsFormSubmitButton;
@@ -86,8 +86,8 @@ import commentForm from "./templates/comment-form.html";
             }));
         },
 
-        startup: function () {
-            this.inherited(arguments);
+        startup: function(...args) {
+            this.inherited(args);
         },
 
         _initializeCommentForm: function () {
