@@ -15,13 +15,11 @@
  | See the License for the specific language governing permissions and
  | limitations under the License.
  */
-define([
-    "dojo/_base/declare",
-    "dojo/on",
-    "esri/request",
-    "dojo/_base/lang"
-], function (declare, on, esriRequest, lang) {
-    return declare(null, {
+import declare from "dojo/_base/declare";
+import on from "dojo/on";
+import esriRequest from "esri/request";
+import lang from "dojo/_base/lang";
+    export default declare(null, {
         _config: null,
         TWLoggedIn: false,
         userDetails: {
@@ -138,4 +136,3 @@ define([
             return userDetails;
         }
     });
-});

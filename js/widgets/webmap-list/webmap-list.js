@@ -15,58 +15,31 @@
  | See the License for the specific language governing permissions and
  | limitations under the License.
  */
-define([
-    "dojo/_base/declare",
-    "dojo/_base/lang",
-    "dojo/_base/array",
-    "dijit/_WidgetBase",
-    "dijit/_TemplatedMixin",
-    "dojo/text!./templates/webmap-list.html",
-    "dojo/dom-construct",
-    "dojo/DeferredList",
-    "dojo/text!./templates/webmap-item.html",
-    "dojo/text!./templates/operational-layer.html",
-    "dojo/_base/event",
-    "dojo/string",
-    "dojo/dom-attr",
-    "dojo/on",
-    "esri/layers/FeatureLayer",
-    "dojo/dom",
-    "dojo/dom-class",
-    'dojo/dom-style',
-    'dojo/aspect',
-    "widgets/bootstrapmap/bootstrapmap",
-    "dijit/_WidgetsInTemplateMixin",
-    "dojo/query",
-    "esri/geometry/Extent",
-    "esri/geometry/Point"
-], function (
-    declare,
-    lang,
-    array,
-    _WidgetBase,
-    _TemplatedMixin,
-    dijitTemplate,
-    domConstruct,
-    DeferredList,
-    webMapItemTemplate,
-    operationalLayerTemplate,
-    event,
-    string,
-    domAttr,
-    on,
-    FeatureLayer,
-    dom,
-    domClass,
-    domStyle,
-    aspect,
-    BootstrapMap,
-    _WidgetsInTemplateMixin,
-    query,
-    Extent,
-    Point
-) {
-    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+import declare from "dojo/_base/declare";
+import lang from "dojo/_base/lang";
+import array from "dojo/_base/array";
+import _WidgetBase from "dijit/_WidgetBase";
+import _TemplatedMixin from "dijit/_TemplatedMixin";
+import dijitTemplate from "dojo/text!./templates/webmap-list.html";
+import domConstruct from "dojo/dom-construct";
+import DeferredList from "dojo/DeferredList";
+import webMapItemTemplate from "dojo/text!./templates/webmap-item.html";
+import operationalLayerTemplate from "dojo/text!./templates/operational-layer.html";
+import event from "dojo/_base/event";
+import string from "dojo/string";
+import domAttr from "dojo/dom-attr";
+import on from "dojo/on";
+import FeatureLayer from "esri/layers/FeatureLayer";
+import dom from "dojo/dom";
+import domClass from "dojo/dom-class";
+import domStyle from 'dojo/dom-style';
+import aspect from 'dojo/aspect';
+import BootstrapMap from "../bootstrapmap/bootstrapmap";
+import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";
+import query from "dojo/query";
+import Extent from "esri/geometry/Extent";
+import Point from "esri/geometry/Point";
+    export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: dijitTemplate,
         filteredWebMapResponseArr: [], // to store web-map that needs to be displayed in list
         lastWebMapSelected: "", // used to store last web map that is selected
@@ -850,4 +823,3 @@ define([
             return;
         }
     });
-});

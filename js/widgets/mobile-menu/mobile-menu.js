@@ -16,28 +16,25 @@
  | limitations under the License.
  */
 //============================================================================================================================//
-define([
-    "dojo/_base/declare",
-    "dojo/dom-construct",
-    "dojo/dom-geometry",
-    "dojo/window",
-    "dojo/dom-style",
-    "dojo/dom-attr",
-    "dojo/dom-class",
-    "dojo/dom",
-    "dojo/_base/lang",
-    "dojo/topic",
-    "dojo/on",
-    "dojo/Deferred",
-    "dojo/promise/all",
-    "esri/arcgis/Portal",
-    "dojo/text!./templates/mobile-menu.html",
-    "dijit/_WidgetBase",
-    "dijit/_TemplatedMixin",
-    "dijit/_WidgetsInTemplateMixin"
-
-], function (declare, domConstruct, domGeom, win, domStyle, domAttr, domClass, dom, lang, topic, on, Deferred, all, esriPortal, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin) {
-    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+import declare from "dojo/_base/declare";
+import domConstruct from "dojo/dom-construct";
+import domGeom from "dojo/dom-geometry";
+import win from "dojo/window";
+import domStyle from "dojo/dom-style";
+import domAttr from "dojo/dom-attr";
+import domClass from "dojo/dom-class";
+import dom from "dojo/dom";
+import lang from "dojo/_base/lang";
+import topic from "dojo/topic";
+import on from "dojo/on";
+import Deferred from "dojo/Deferred";
+import all from "dojo/promise/all";
+import esriPortal from "esri/arcgis/Portal";
+import template from "dojo/text!./templates/mobile-menu.html";
+import _WidgetBase from "dijit/_WidgetBase";
+import _TemplatedMixin from "dijit/_TemplatedMixin";
+import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";
+    export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         _lastSelectedView: null,
         config: {
@@ -206,4 +203,4 @@ define([
             return evt;
         }
     });
-});
+

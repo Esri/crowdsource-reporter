@@ -1,21 +1,19 @@
-define([
-    "esri/map",
-    "esri/arcgis/utils",
-    "esri/geometry/Point",
-    "dojo/_base/declare",
-    "dojo/on",
-    "dojo/touch",
-    "dojo/dom",
-    "dojo/_base/lang",
-    "dojo/dom-style",
-    "dojo/query",
-    "dojo/NodeList-traverse",
-    "dojo/dom-class",
-    "dojo/domReady!"],
-    function (Map, EsriUtils, Point, declare, on, touch, dom, lang, style, query, nodecols, domClass) {
-        "use strict";
+import Map from "esri/map";
+import EsriUtils from "esri/arcgis/utils";
+import Point from "esri/geometry/Point";
+import declare from "dojo/_base/declare";
+import on from "dojo/on";
+import touch from "dojo/touch";
+import dom from "dojo/dom";
+import lang from "dojo/_base/lang";
+import style from "dojo/dom-style";
+import query from "dojo/query";
+import nodecols from "dojo/NodeList-traverse";
+import domClass from "dojo/dom-class";
+import "dojo/domReady!";
+        
 
-        return {
+        export default {
             // BootstrapMap Class Public Functions
             create: function (divId, options) {
                 var smartResizer,
@@ -397,4 +395,4 @@ define([
                 }
             }) // _smartResizer
         }; // return
-    }); // define function
+     // define function

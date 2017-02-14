@@ -15,64 +15,35 @@
  | See the License for the specific language governing permissions and
  | limitations under the License.
  */
-define([
-    'dojo/_base/declare',
-    'dojo/_base/lang',
-    'dojo/_base/array',
-    'dojo/dom-construct',
-    'dojo/dom-style',
-    'dojo/dom-class',
-    'dojo/dom-attr',
-    'dojo/query',
-    'dojo/on',
-    'dojo/dom',
-    'dojo/string',
-    'dojo/topic',
-    'dojo/touch',
-    'dojo/NodeList-dom',
-    'dojo/Deferred',
-    'esri/graphic',
-    'esri/dijit/PopupTemplate',
-    'esri/tasks/query',
-    'esri/tasks/QueryTask',
-    'esri/tasks/RelationshipQuery',
-    'dijit/layout/ContentPane',
-    'dijit/_WidgetBase',
-    'dijit/_TemplatedMixin',
-    'dojo/DeferredList',
-    'dojo/text!./templates/item-details-view.html',
-    "widgets/comment-form/comment-form",
-    "dojo/query"
-], function (declare,
-    lang,
-    arrayUtil,
-    domConstruct,
-    domStyle,
-    domClass,
-    domAttr,
-    dojoQuery,
-    on,
-    dom,
-    string,
-    topic,
-    touch,
-    nld,
-    Deferred,
-    Graphic,
-    PopupTemplate,
-    Query,
-    QueryTask,
-    RelationshipQuery,
-    ContentPane,
-    _WidgetBase,
-    _TemplatedMixin,
-    DeferredList,
-    template,
-    CommentForm,
-    query
-    ) {
+import declare from 'dojo/_base/declare';
+import lang from 'dojo/_base/lang';
+import arrayUtil from 'dojo/_base/array';
+import domConstruct from 'dojo/dom-construct';
+import domStyle from 'dojo/dom-style';
+import domClass from 'dojo/dom-class';
+import domAttr from 'dojo/dom-attr';
+import dojoQuery from 'dojo/query';
+import on from 'dojo/on';
+import dom from 'dojo/dom';
+import string from 'dojo/string';
+import topic from 'dojo/topic';
+import touch from 'dojo/touch';
+import nld from 'dojo/NodeList-dom';
+import Deferred from 'dojo/Deferred';
+import Graphic from 'esri/graphic';
+import PopupTemplate from 'esri/dijit/PopupTemplate';
+import Query from 'esri/tasks/query';
+import QueryTask from 'esri/tasks/QueryTask';
+import RelationshipQuery from 'esri/tasks/RelationshipQuery';
+import ContentPane from 'dijit/layout/ContentPane';
+import _WidgetBase from 'dijit/_WidgetBase';
+import _TemplatedMixin from 'dijit/_TemplatedMixin';
+import DeferredList from 'dojo/DeferredList';
+import template from 'dojo/text!./templates/item-details-view.html';
+import CommentForm from "../comment-form/comment-form";
+import query from "dojo/query";
 
-    return declare([_WidgetBase, _TemplatedMixin], {
+    export default declare([_WidgetBase, _TemplatedMixin], {
         templateString: template,
         id: 'itemDetail',
         baseClass: 'esriCTItemDetail',
@@ -1111,4 +1082,3 @@ define([
             }), 100);
         }
     });
-});

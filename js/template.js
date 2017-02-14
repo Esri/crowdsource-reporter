@@ -20,44 +20,26 @@
  | See the License for the specific language governing permissions and
  | limitations under the License.
  */
-define([
-  "dojo/_base/array",
-  "dojo/_base/declare",
-  "dojo/_base/kernel",
-  "dojo/_base/lang",
-
-  "dojo/Evented",
-  "dojo/Deferred",
-  "dojo/string",
-
-  "dojo/dom-class",
-
-  "dojo/promise/all",
-
-  "esri/config",
-  "esri/IdentityManager",
-  "esri/lang",
-  "esri/request",
-  "esri/urlUtils",
-
-  "esri/arcgis/Portal",
-  "esri/arcgis/OAuthInfo",
-  "esri/arcgis/utils",
-
-  "esri/tasks/GeometryService",
-
-  "config/defaults"
-], function (
-  array, declare, kernel, lang,
-  Evented, Deferred, string,
-  domClass,
-  all,
-  esriConfig, IdentityManager, esriLang, esriRequest, urlUtils,
-  esriPortal, ArcGISOAuthInfo, arcgisUtils,
-  GeometryService,
-  defaults
-) {
-  return declare([Evented], {
+import array from "dojo/_base/array";
+import declare from "dojo/_base/declare";
+import kernel from "dojo/_base/kernel";
+import lang from "dojo/_base/lang";
+import Evented from "dojo/Evented";
+import Deferred from "dojo/Deferred";
+import string from "dojo/string";
+import domClass from "dojo/dom-class";
+import all from "dojo/promise/all";
+import esriConfig from "esri/config";
+import IdentityManager from "esri/IdentityManager";
+import esriLang from "esri/lang";
+import esriRequest from "esri/request";
+import urlUtils from "esri/urlUtils";
+import esriPortal from "esri/arcgis/Portal";
+import ArcGISOAuthInfo from "esri/arcgis/OAuthInfo";
+import arcgisUtils from "esri/arcgis/utils";
+import GeometryService from "esri/tasks/GeometryService";
+import defaults from "../defaults";
+  export default declare([Evented], {
     config: {},
     orgConfig: {},
     appConfig: {},
@@ -556,4 +538,3 @@ define([
       return deferred.promise;
     }
   });
-});

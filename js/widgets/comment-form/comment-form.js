@@ -15,46 +15,25 @@
 | See the License for the specific language governing permissions and
 | limitations under the License.
 */
-define([
-    "dojo/_base/declare",
-    "dijit/_WidgetBase",
-    "dijit/_TemplatedMixin",
-    "dojo/_base/lang",
-    "dojo/_base/array",
-    "dojo/_base/kernel",
-    "dojo/dom-construct",
-    "dojo/dom-class",
-    "dojo/dom-style",
-    "dojo/query",
-    "dojo/dom",
-    "dojo/string",
-    "dojo/on",
-    'dojo/dom-attr',
-    "dojo/date/locale",
-    "esri/graphic",
-    "esri/tasks/RelationshipQuery",
-    "dojo/text!./templates/comment-form.html"
-], function (
-    declare,
-    _WidgetBase,
-    _TemplatedMixin,
-    lang,
-    array,
-    kernel,
-    domConstruct,
-    domClass,
-    domStyle,
-    query,
-    dom,
-    string,
-    on,
-    domAttr,
-    locale,
-    Graphic,
-    RelationshipQuery,
-    commentForm
-) {
-    return declare([_WidgetBase, _TemplatedMixin], {
+import declare from "dojo/_base/declare";
+import _WidgetBase from "dijit/_WidgetBase";
+import _TemplatedMixin from "dijit/_TemplatedMixin";
+import lang from "dojo/_base/lang";
+import array from "dojo/_base/array";
+import kernel from "dojo/_base/kernel";
+import domConstruct from "dojo/dom-construct";
+import domClass from "dojo/dom-class";
+import domStyle from "dojo/dom-style";
+import query from "dojo/query";
+import dom from "dojo/dom";
+import string from "dojo/string";
+import on from "dojo/on";
+import domAttr from 'dojo/dom-attr';
+import locale from "dojo/date/locale";
+import Graphic from "esri/graphic";
+import RelationshipQuery from "esri/tasks/RelationshipQuery";
+import commentForm from "dojo/text!./templates/comment-form.html";
+    export default declare([_WidgetBase, _TemplatedMixin], {
         templateString: commentForm,
         sortedFields: [],
         i18n: {},
@@ -1662,4 +1641,3 @@ define([
             this.selectedLayer = selectedLayer;
         }
     });
-});

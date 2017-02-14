@@ -16,32 +16,30 @@
  | limitations under the License.
  */
 //============================================================================================================================//
-define([
-    "dojo/_base/declare",
-    "dojo/Deferred",
-    "dojo/dom",
-    "dojo/dom-construct",
-    "dojo/dom-style",
-    "dojo/dom-attr",
-    "dojo/dom-class",
-    "dojo/_base/array",
-    "dojo/_base/lang",
-    "dojo/on",
-    "dojo/string",
-    "dojo/query",
-    "dojo/text!./templates/my-issues.html",
-    "dojo/promise/all",
-    "dijit/_WidgetBase",
-    "dijit/_TemplatedMixin",
-    "dijit/_WidgetsInTemplateMixin",
-    "esri/arcgis/utils",
-    "esri/graphic",
-    "esri/layers/FeatureLayer",
-    "esri/tasks/QueryTask",
-    "esri/tasks/query",
-    "widgets/item-list/item-list"
-], function (declare, Deferred, dom, domConstruct, domStyle, domAttr, domClass, array, lang, on, string, query, template, all, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, arcgisUtils, Graphic, FeatureLayer, QueryTask, Query, ItemList) {
-    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+import declare from "dojo/_base/declare";
+import Deferred from "dojo/Deferred";
+import dom from "dojo/dom";
+import domConstruct from "dojo/dom-construct";
+import domStyle from "dojo/dom-style";
+import domAttr from "dojo/dom-attr";
+import domClass from "dojo/dom-class";
+import array from "dojo/_base/array";
+import lang from "dojo/_base/lang";
+import on from "dojo/on";
+import string from "dojo/string";
+import query from "dojo/query";
+import template from "dojo/text!./templates/my-issues.html";
+import all from "dojo/promise/all";
+import _WidgetBase from "dijit/_WidgetBase";
+import _TemplatedMixin from "dijit/_TemplatedMixin";
+import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";
+import arcgisUtils from "esri/arcgis/utils";
+import Graphic from "esri/graphic";
+import FeatureLayer from "esri/layers/FeatureLayer";
+import QueryTask from "esri/tasks/QueryTask";
+import Query from "esri/tasks/query";
+import ItemList from "../item-list/item-list";
+    export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         opLayersArr: [],
         isNoFeatureFound: null,
@@ -516,4 +514,3 @@ define([
             }
         }
     });
-});

@@ -16,31 +16,29 @@
  | limitations under the License.
  */
 //============================================================================================================================//
-define([
-    "dojo/_base/declare",
-    "dojo/dom",
-    "dojo/dom-construct",
-    "dojo/dom-style",
-    "dojo/dom-attr",
-    "dojo/dom-class",
-    "dojo/_base/lang",
-    "dojo/_base/array",
-    "dojo/on",
-    "dojo/touch",
-    "dojo/string",
-    "dojo/query",
-    "dojo/text!./templates/issue-wall.html",
-    "dijit/_WidgetBase",
-    "dijit/_TemplatedMixin",
-    "dijit/_WidgetsInTemplateMixin",
-    "esri/graphic",
-    "esri/layers/FeatureLayer",
-    "esri/tasks/query",
-    "esri/dijit/PopupTemplate",
-    "widgets/item-list/item-list",
-    "dojo/_base/event"
-], function (declare, dom, domConstruct, domStyle, domAttr, domClass, lang, array, on, touch, string, query, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, Graphic, FeatureLayer, Query, PopupTemplate, ItemList, event) {
-    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+import declare from "dojo/_base/declare";
+import dom from "dojo/dom";
+import domConstruct from "dojo/dom-construct";
+import domStyle from "dojo/dom-style";
+import domAttr from "dojo/dom-attr";
+import domClass from "dojo/dom-class";
+import lang from "dojo/_base/lang";
+import array from "dojo/_base/array";
+import on from "dojo/on";
+import touch from "dojo/touch";
+import string from "dojo/string";
+import query from "dojo/query";
+import template from "dojo/text!./templates/issue-wall.html";
+import _WidgetBase from "dijit/_WidgetBase";
+import _TemplatedMixin from "dijit/_TemplatedMixin";
+import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";
+import Graphic from "esri/graphic";
+import FeatureLayer from "esri/layers/FeatureLayer";
+import Query from "esri/tasks/query";
+import PopupTemplate from "esri/dijit/PopupTemplate";
+import ItemList from "../item-list/item-list";
+import event from "dojo/_base/event";
+    export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         _hasCommentsTable: false,
         _commentsTable: null,
@@ -475,4 +473,3 @@ define([
             }));
         }
     });
-});

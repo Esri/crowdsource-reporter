@@ -15,14 +15,12 @@
  | See the License for the specific language governing permissions and
  | limitations under the License.
  */
-define([
-    "dojo/_base/declare",
-    "dojo/on",
-    "dojo/_base/lang",
-    "dojo/query",
-    "dojo/dom-class"
-], function (declare, on, lang, query, domClass) {
-    return declare(null, {
+import declare from "dojo/_base/declare";
+import on from "dojo/on";
+import lang from "dojo/_base/lang";
+import query from "dojo/query";
+import domClass from "dojo/dom-class";
+    export default declare(null, {
         _config: null,
         FBLoggedIn: false,
         userDetails: { fullName: null, firstName: null, lastName: null, uniqueID: null, socialMediaType: null },
@@ -113,4 +111,3 @@ define([
             return userDetails;
         }
     });
-});

@@ -15,52 +15,28 @@
 | See the License for the specific language governing permissions and
 | limitations under the License.
 */
-define([
-    "dojo/_base/declare",
-    "dojo/_base/lang",
-    "esri/arcgis/utils",
-    "dojo/dom",
-    "dojo/dom-construct",
-    "dojo/dom-style",
-    "dojo/dom-class",
-    "dojo/dom-attr",
-    "dojo/on",
-    "dojo/topic",
-    "dojo/string",
-    "dojo/window",
-    "dojo/text!css/theme-template.css",
-    "esri/layers/GraphicsLayer",
-    "application/utils/utils",
-    "dojo/query",
-    "widgets/locator/locator",
-    "dijit/_WidgetBase",
-    "esri/graphic",
-    "esri/symbols/PictureMarkerSymbol",
-    "dojo/domReady!"
-], function (
-    declare,
-    lang,
-    arcgisUtils,
-    dom,
-    domConstruct,
-    domStyle,
-    domClass,
-    domAttr,
-    on,
-    topic,
-    string,
-    dojowindow,
-    ThemeCss,
-    GraphicsLayer,
-    ApplicationUtils,
-    query,
-    Locator,
-    _WidgetBase,
-    Graphic,
-    PictureMarkerSymbol
-
-) {
-    return declare([_WidgetBase], {
+import declare from "dojo/_base/declare";
+import lang from "dojo/_base/lang";
+import arcgisUtils from "esri/arcgis/utils";
+import dom from "dojo/dom";
+import domConstruct from "dojo/dom-construct";
+import domStyle from "dojo/dom-style";
+import domClass from "dojo/dom-class";
+import domAttr from "dojo/dom-attr";
+import on from "dojo/on";
+import topic from "dojo/topic";
+import string from "dojo/string";
+import dojowindow from "dojo/window";
+import ThemeCss from "dojo/text!css/theme-template.css";
+import GraphicsLayer from "esri/layers/GraphicsLayer";
+import ApplicationUtils from "../../utils/utils";
+import query from "dojo/query";
+import Locator from "../locator/locator";
+import _WidgetBase from "dijit/_WidgetBase";
+import Graphic from "esri/graphic";
+import PictureMarkerSymbol from "esri/symbols/PictureMarkerSymbol";
+import "dojo/domReady!";
+    export default declare([_WidgetBase], {
         startup: function () {
             this.inherited(arguments);
         },
@@ -240,4 +216,3 @@ define([
             return feature;
         }
     });
-});
