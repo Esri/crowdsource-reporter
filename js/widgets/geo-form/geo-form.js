@@ -138,7 +138,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
                 scrollWheelZoom: true,
                 editable: false
             }).then(lang.hitch(this, function (response) {
-                var zoomInBtn, zoomOutBtn;
+                let zoomInBtn, zoomOutBtn;
                 // Scroll geoform to top
                 this.currentGeoformNode.animate({
                     scrollTop: 0
@@ -247,7 +247,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
                 //Also hide the popups on scroll as geoform is in a container with absolute position so on scrolling geoform pop-ups will stick not stick to the input container
                 on(dom.byId('geoFormBody'), 'scroll', lang.hitch(this, this._onGeoformScroll));
 
-                on(window, "orientationchange", function () {
+                on(window, "orientationchange", () => {
                     $(".selectDomain").blur();
                 });
 
@@ -347,7 +347,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _filterOperationalLayers: function (opLayers) {
-            var i;
+            let i;
             for (i = 0; i < opLayers.length; i++) {
                 // if layerId matches store it in this.layer
                 // else remove that layer form map, so that only selected layer is visible on map.
@@ -389,7 +389,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
                             opLayers[i].layerObject.hide();
                         } else if (opLayers[i].featureCollection) {
                             //Handle feature collection layers and show them on the map as non-editable layer
-                            array.forEach(opLayers[i].featureCollection.layers, lang.hitch(this, function (featureCollectionLayer) {
+                            array.forEach(opLayers[i].featureCollection.layers, lang.hitch(this, featureCollectionLayer => {
                                 if (featureCollectionLayer.layerObject && (featureCollectionLayer.layerObject.capabilities.indexOf("Create") === -1) &&
                                         ((featureCollectionLayer.layerObject.capabilities.indexOf("Editing") === -1) ||
                                         (featureCollectionLayer.layerObject.capabilities.indexOf("Update") === -1)) && opLayers[i].visibility) {
@@ -407,7 +407,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/webmap-list/webmap-list
         */
         _checkDisplayPropertyOfFields: function (popupInfo, fields) {
-            var i, j;
+            let i, j;
             if (!popupInfo) {
                 return false;
             }
@@ -438,7 +438,9 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _filterLayerFields: function (response) {
-            var layerFields = [], excludeDataTypes = [], layerField;
+            const layerFields = [];
+            let excludeDataTypes = [];
+            let layerField;
             // DataTypes to be excluded from Geoform
             excludeDataTypes = ["esriFieldTypeOID", "esriFieldTypeBlob", "esriFieldTypeRaster", "esriFieldTypeGUID", "esriFieldTypeGlobalID", "esriFieldTypeXML"];
             if (response.itemInfo.itemData.operationalLayers) {
@@ -449,7 +451,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
                         //then iterate through popupInfo and create fields to be shown in geoform.
 
                         // Create layerFields Key value pair according to fieldName
-                        array.forEach(this.layer.fields, lang.hitch(this, function (layerField) {
+                        array.forEach(this.layer.fields, lang.hitch(this, layerField => {
                             layerFields[layerField.name] = layerField;
                         }));
                         // Iterate through all the fields in popup info,Merge field info from layer details and popup details and create sortedFields array.
@@ -490,7 +492,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _createGeoFormUI: function () {
-            var geoformDetailsSectionLabel, geoformLocationSectionLabel, submitButtonText;
+            let geoformDetailsSectionLabel, geoformLocationSectionLabel, submitButtonText;
             domConstruct.empty(this.layerTitleDiv);
             // Set innerHTML for geo form header sections
             domAttr.set(this.layerTitleDiv, "innerHTML", this.layerTitle);
@@ -543,11 +545,11 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _sortedTypeFormElement: function () {
-            var hasDomainValue, hasDefaultValue;
+            let hasDomainValue, hasDefaultValue;
             array.forEach(this.sortedFields, lang.hitch(this, function (currentField, index) {
                 // Set true/false value to property 'isTypeDependent' of the field.
                 currentField.isTypeDependent = false;
-                array.forEach(this.layer.types, function (currentType) {
+                array.forEach(this.layer.types, currentType => {
                     hasDomainValue = null;
                     hasDefaultValue = null;
                     hasDomainValue = currentType.domains[currentField.name];
@@ -587,7 +589,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _clearAttachements: function () {
-            var fileList, i;
+            let fileList, i;
             // Check for the file attachment container
             if (this.fileAttachmentList) {
                 fileList = query(".alert-dismissable", this.fileAttachmentList);
@@ -611,7 +613,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _createAttachments: function () {
-            var fileInput, formContent, userFormNode, fileChange, fileAttachmentContainer, fileContainer, geoformAttachmentSectionLabel;
+            let fileInput, formContent, userFormNode, fileChange, fileAttachmentContainer, fileContainer, geoformAttachmentSectionLabel;
             // If layer has hasAttachments true
             if (this.layer.hasAttachments) {
                 userFormNode = this.userForm;
@@ -659,8 +661,8 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
                     "type": "file",
                     "accept": "image/*",
                     "name": "attachment",
-                    "style": { "height": dojo.coords(this._fileInputIcon).h + "px", "width": dojo.coords(this._fileInputIcon).w + "px" }
-                }, domConstruct.create("form", { "id": "geoFormAttachment" + this._fileAttachmentCounter++, "class": "esriCTHideFileInputUI" }, fileContainer));
+                    "style": { "height": `${dojo.coords(this._fileInputIcon).h}px`, "width": `${dojo.coords(this._fileInputIcon).w}px` }
+                }, domConstruct.create("form", { "id": `geoFormAttachment${this._fileAttachmentCounter++}`, "class": "esriCTHideFileInputUI" }, fileContainer));
                 domClass.add(fileInput, "esriCTPointerCursor");
 
                 // Handle change event for file control
@@ -677,7 +679,12 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _onFileSelected: function (evt) {
-            var newFormControl, fileInput, fileName, fileChange, alertHtml, target = evt.currentTarget || evt.srcElement;
+            let newFormControl;
+            let fileInput;
+            let fileName;
+            let fileChange;
+            let alertHtml;
+            const target = evt.currentTarget || evt.srcElement;
             if (target && target.value) {
                 fileName = target.value;
                 fileName = fileName.split("\\")[fileName.split("\\").length - 1];
@@ -689,14 +696,14 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
             domStyle.set(target.parentNode, "display", "none");
             //Add dismiss-able alert for each file, and show file name and file size in it.
 
-            alertHtml = "<div id=" + target.parentNode.id + "_Close" + " class=\"esriCTFileAlert alert alert-dismissable alert-success\">";
+            alertHtml = `<div id=${target.parentNode.id}_Close class="esriCTFileAlert alert alert-dismissable alert-success">`;
             alertHtml += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">" + "X" + "</button>";
-            alertHtml += "<span>" + fileName + "</span>";
+            alertHtml += `<span>${fileName}</span>`;
             alertHtml += "</div>";
             alertHtml = domConstruct.place(alertHtml, this.fileAttachmentList, "last");
             //if file is removed then
             //replace the class from esriCTFileToSubmit to esriCTHideFileInputUI and update the file selected count
-            $('#' + target.parentNode.id + "_Close").bind('closed.bs.alert', lang.hitch(this, function (evt) {
+            $(`#${target.parentNode.id}_Close`).bind('closed.bs.alert', lang.hitch(this, function (evt) {
                 domClass.replace(dom.byId(evt.target.id.split("_")[0]), "esriCTHideFileInputUI", "esriCTFileToSubmit");
                 this._updateAttachmentCount();
             }));
@@ -705,13 +712,13 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
             this._updateAttachmentCount();
             //Check if file input container is present
             if ($(".hasAttachment")[0]) {
-                newFormControl = domConstruct.create("form", { "id": "geoFormAttachment" + this._fileAttachmentCounter++, "class": "esriCTHideFileInputUI" }, $(".hasAttachment")[0]);
+                newFormControl = domConstruct.create("form", { "id": `geoFormAttachment${this._fileAttachmentCounter++}`, "class": "esriCTHideFileInputUI" }, $(".hasAttachment")[0]);
                 //create new file input control so that multiple files can be attached
                 fileInput = domConstruct.create("input", {
                     "type": "file",
                     "accept": "image/*",
                     "name": "attachment",
-                    "style": { "height": dojo.coords(this._fileInputIcon).h + "px", "width": dojo.coords(this._fileInputIcon).w + "px" }
+                    "style": { "height": `${dojo.coords(this._fileInputIcon).h}px`, "width": `${dojo.coords(this._fileInputIcon).w}px` }
                 }, newFormControl);
                 //place the newly created file-input control after file selection icon
                 domConstruct.place(newFormControl, this._fileInputIcon, "after");
@@ -728,11 +735,12 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _updateAttachmentCount: function () {
-            var photoSelectedDiv = dom.byId("attachmentSelectedCount"), selectedAttachmentsCount;
+            const photoSelectedDiv = dom.byId("attachmentSelectedCount");
+            let selectedAttachmentsCount;
             if (photoSelectedDiv) {
                 selectedAttachmentsCount = query(".alert-dismissable", this.fileAttachmentList).length;
                 if (selectedAttachmentsCount > 0) {
-                    domAttr.set(photoSelectedDiv, "innerHTML", selectedAttachmentsCount + " " + this.appConfig.i18n.geoform.attachmentSelectedMsg);
+                    domAttr.set(photoSelectedDiv, "innerHTML", `${selectedAttachmentsCount} ${this.appConfig.i18n.geoform.attachmentSelectedMsg}`);
                 } else {
                     domAttr.set(photoSelectedDiv, "innerHTML", "");
                 }
@@ -748,7 +756,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _createFormElement: function (currentField, index, referenceNode) {
-            var fieldname, labelContent, fieldAttribute, fieldLabelText, formContent, requireField, userFormNode;
+            let fieldname, labelContent, fieldAttribute, fieldLabelText, formContent, requireField, userFormNode;
             userFormNode = this.userForm;
             //code to put asterisk mark for mandatory fields and also to give it a mandatory class.
             formContent = domConstruct.create("div", {}, userFormNode);
@@ -756,7 +764,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
             if (referenceNode) {
                 domConstruct.place(formContent, referenceNode, "after");
                 domClass.add(formContent, "fade");
-                setTimeout(function () {
+                setTimeout(() => {
                     domClass.add(formContent, "in");
                 }, 100);
             }
@@ -784,7 +792,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
                 "for": fieldname,
                 className: "control-label",
                 innerHTML: fieldLabelText,
-                id: fieldname + "_label_" + index
+                id: `${fieldname}_label_${index}`
             }, formContent);
             // Set required field with label
             if (requireField && labelContent) {
@@ -825,7 +833,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _createRangeText: function (currentField, formContent, fieldname) {
-            var options = {};
+            let options = {};
             // if field is required and field exists then set required field as a true
             if (!currentField.nullable && this.inputContent) {
                 this.inputContent.setAttribute("aria-required", true);
@@ -847,7 +855,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
                     content: this.rangeHelpText,
                     html: true
                 };
-                $('#' + fieldname).popover(options);
+                $(`#${fieldname}`).popover(options);
                 this.rangeHelpText = null;
             }
         },
@@ -860,7 +868,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _createDomainValueFormElements: function (currentField, formContent, fieldname) {
-            var date, inputRangeDateGroupContainer, rangeDefaultDate, currentSelectedDate, formatedDate;
+            let date, inputRangeDateGroupContainer, rangeDefaultDate, currentSelectedDate, formatedDate;
             if (this.isEdit) {
                 //get field value
                 currentField.defaultValue = this.item.attributes[fieldname];
@@ -920,7 +928,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _createCodedValueFormElements: function (currentField, formContent, fieldname) {
-            var selectOptions;
+            let selectOptions;
             // check for fieldType: if not present create dropdown
             // If present check for fieldType value and accordingly populate the control
             // create controls for select
@@ -986,7 +994,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
                 // To apply has-success class on selection of a valid option
                 // else remove has-success class
                 if (evt.target.value !== "") {
-                    var targetNode = evt.currentTarget || evt.srcElement;
+                    const targetNode = evt.currentTarget || evt.srcElement;
                     if (query(".errorMessage", targetNode.parentNode).length !== 0) {
                         domConstruct.destroy(query(".errorMessage", targetNode.parentNode)[0]);
                         domClass.remove(evt.target.parentNode, "has-error");
@@ -1006,7 +1014,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _createInputFormElements: function (currentField, formContent, fieldname) {
-            var inputDateGroupContainer;
+            let inputDateGroupContainer;
             // Create field controls on basis of their type
             switch (currentField.type) {
             case "esriFieldTypeString":
@@ -1081,7 +1089,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _addInputElementsValue: function (currentField, formContent, inputDateGroupContainer) {
-            var defaultDate, date;
+            let defaultDate, date;
             if (this.isEdit) {
                 //get default field value if t is not exist in feature attributes
                 currentField.defaultValue = this.item.attributes[this.inputContent.id];
@@ -1135,10 +1143,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _setRangeForm: function (currentField, formContent, fieldname) {
-            var setStep, setDefault = "",
-                stepDivisibility = 'none',
-                decimalPoints = 0,
-                inputcontentSpinner, rangeHelpText;
+            let setStep, setDefault = "", stepDivisibility = 'none', decimalPoints = 0, inputcontentSpinner, rangeHelpText;
             // create container for range text and assign minimum and maximum values
             this.inputContent = domConstruct.create("input", {
                 id: fieldname,
@@ -1209,9 +1214,9 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
                 }
             }));
             // Touch Spinner event
-            on(inputcontentSpinner, "touchspin.on.startspin", lang.hitch(this, function (evt) {
+            on(inputcontentSpinner, "touchspin.on.startspin", lang.hitch(this, evt => {
                 inputcontentSpinner.trigger("touchspin.updatesettings", {});
-                var targetNode = evt.currentTarget || evt.srcElement;
+                const targetNode = evt.currentTarget || evt.srcElement;
                 domClass.add(targetNode.parentNode.parentNode, "has-success");
             }));
             // if not nullable field
@@ -1228,7 +1233,10 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _validateTypeFields: function (evt, currentField) {
-            var selectedType, defaultValue, referenceNode, currentTarget = evt.currentTarget || evt.srcElement;
+            let selectedType;
+            let defaultValue;
+            let referenceNode;
+            const currentTarget = evt.currentTarget || evt.srcElement;
             // Validation for empty field
             // if field value is empty reset subtypes field
             if (currentTarget.value === "") {
@@ -1244,7 +1252,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
                 }));
             } else {
                 // get all the domains and default values of the selected subtype
-                array.some(currentField.subTypes, function (currentSelection) {
+                array.some(currentField.subTypes, currentSelection => {
                     if (currentTarget.value === currentSelection.id.toString()) {
                         selectedType = currentSelection;
                         return true;
@@ -1255,7 +1263,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
                 referenceNode = dom.byId(this.layer.typeIdField).parentNode;
                 // code to populate type dependent fields
                 array.forEach(this.sortedFields, lang.hitch(this, function (currentInput, index) {
-                    var field = null, fieldAttribute, hasDomainValue, hasDefaultValue;
+                    let field = null, fieldAttribute, hasDomainValue, hasDefaultValue;
                     hasDomainValue = selectedType.domains[currentInput.name];
                     hasDefaultValue = selectedType.templates[0].prototype.attributes[currentInput.name];
                     if ((hasDomainValue && hasDomainValue.type !== "inherited") || (hasDefaultValue && !currentInput.typeField) || (hasDefaultValue === 0 && !currentInput.typeField)) {
@@ -1266,7 +1274,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
                         return true;
                     }
                     // mixin array of sorted field and info pop field
-                    array.some(this.layer.fields, function (layerField) {
+                    array.some(this.layer.fields, layerField => {
                         if (layerField.name === currentInput.name) {
                             field = lang.clone(lang.mixin(layerField, currentInput));
                             return true;
@@ -1303,7 +1311,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _validateTypeFieldsValue: function (selectedType, field, referenceNode, index) {
-            var switchDomainType, i;
+            let switchDomainType, i;
             // check for domain values
             for (i in selectedType.domains) {
                 if (selectedType.domains.hasOwnProperty(i)) {
@@ -1353,8 +1361,14 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _validateField: function (currentNode, currentField, iskeyPress) {
-            var inputType, inputValue, node, typeCastedInputValue, error, floatVal = /^[-+]?[0-9]+\.[0-9]+$/,
-                targetNode = currentNode.currentTarget || currentNode.srcElement, decimal = /^[-+]?[0-9]+$/;
+            let inputType;
+            let inputValue;
+            let node;
+            let typeCastedInputValue;
+            let error;
+            const floatVal = /^[-+]?[0-9]+\.[0-9]+$/;
+            const targetNode = currentNode.currentTarget || currentNode.srcElement;
+            const decimal = /^[-+]?[0-9]+$/;
             // trim current value
             inputValue = lang.trim(targetNode.value);
             // get value of data-input-type
@@ -1444,7 +1458,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _setFormatToValue: function (currentField, typeCastedInputValue, node) {
-            var toFixedValue;
+            let toFixedValue;
             // check if field has format and digitSeparator is true
             if (currentField.format && currentField.format.digitSeparator) {
                 // set format to the field and set toFixed value on focus out
@@ -1458,7 +1472,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _clearFormFields: function () {
-            var attachNode, node, index, currentFileInputID, fileChange;
+            let attachNode, node, index, currentFileInputID, fileChange;
             // remove error and success messages for each form field
             array.forEach(query(".form-control", this.domNode), lang.hitch(this, function (currentInput) {
                 node = currentInput.parentElement;
@@ -1493,13 +1507,13 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
                 this._resetSubTypeFields(currentInput);
             }));
             // clear error and success messages
-            array.forEach(query(".geoFormQuestionare .input-group"), function (currentInput) {
+            array.forEach(query(".geoFormQuestionare .input-group"), currentInput => {
                 domClass.remove(currentInput.parentElement, "has-error");
                 domClass.remove(currentInput.parentElement, "has-success");
             });
             // clear attachments
             currentFileInputID = this._fileAttachmentCounter - 1;
-            currentFileInputID = "geoFormAttachment" + currentFileInputID;
+            currentFileInputID = `geoFormAttachment${currentFileInputID}`;
             attachNode = dom.byId(currentFileInputID);
             if (attachNode && attachNode.value) {
                 // We are adding attachNode.value= "" again to clear the attachment text in Firefox
@@ -1530,7 +1544,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
                             domAttr.set(currentInput, "value", this.defaultValueArray[index].defaultValue);
                         }
                         if (this.defaultValueArray[index].type === "esriFieldTypeDate") {
-                            var date = new Date(this.defaultValueArray[index].defaultValue);
+                            const date = new Date(this.defaultValueArray[index].defaultValue);
                             // set current date to date field
                             $(currentInput.parentElement).data('DateTimePicker').setDate(date);
                         }
@@ -1549,7 +1563,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _addNotationIcon: function (formContent, imageIconClass) {
-            var inputIconGroupContainer, inputIconGroupAddOn;
+            let inputIconGroupContainer, inputIconGroupAddOn;
             // create container for calendar for date time picker
             inputIconGroupContainer = domConstruct.create("div", {
                 className: "input-group"
@@ -1558,7 +1572,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
                 className: "input-group-addon"
             }, inputIconGroupContainer);
             domConstruct.create("span", {
-                className: "glyphicon " + imageIconClass
+                className: `glyphicon ${imageIconClass}`
             }, inputIconGroupAddOn);
             // return Value
             return inputIconGroupContainer;
@@ -1590,7 +1604,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _createDateField: function (parentNode, isRangeField, fieldname, currentField) {
-            var dateInputField, picker, selectedDate, setDateFormat, minVlaue, maxValue, value;
+            let dateInputField, picker, selectedDate, setDateFormat, minVlaue, maxValue, value;
             domClass.add(parentNode, "date");
             // create input container for DateTimePicker
             dateInputField = domConstruct.create("input", {
@@ -1645,7 +1659,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
                     domClass.remove(query(evt.target).parents(".geoFormQuestionare")[0], "has-success");
                     domClass.remove(query(evt.target).parents(".geoFormQuestionare")[0], "has-error");
                 }
-            }).on('dp.error', function (evt) {
+            }).on('dp.error', evt => {
                 // on error
                 evt.target.value = '';
                 domClass.remove(query(evt.target).parents(".geoFormQuestionare")[0], "has-success");
@@ -1656,7 +1670,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
                     domClass.remove(query(evt.target).parents(".geoFormQuestionare")[0], "has-success");
                     domClass.remove(query(evt.target).parents(".geoFormQuestionare")[0], "has-error");
                 }
-            }).on('dp.change', function (evt) {
+            }).on('dp.change', evt => {
                 // on change
                 domClass.add(query(evt.target).parents(".geoFormQuestionare")[0], "has-success");
                 domClass.remove(query(evt.target).parents(".geoFormQuestionare")[0], "has-error");
@@ -1732,7 +1746,8 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _submitForm: function () {
-            var erroneousFields = [], errorMessage;
+            const erroneousFields = [];
+            let errorMessage;
             // for all the fields in geo form
             array.forEach(query(".geoFormQuestionare", this.domNode), lang.hitch(this, function (currentField) {
                 // to check for errors in form before submitting.
@@ -1789,7 +1804,16 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _addFeatureToLayer: function () {
-            var userFormNode = this.userForm, featureData, key, value, datePicker, picker, fileList, i, type, editedFields = [];
+            const userFormNode = this.userForm;
+            let featureData;
+            let key;
+            let value;
+            let datePicker;
+            let picker;
+            let fileList;
+            let i;
+            let type;
+            const editedFields = [];
             // show loading indicator
             this.appUtils.showLoadingIndicator();
             // Create instance of graphic
@@ -1798,7 +1822,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
             featureData.attributes = {};
             // for all the fields
             //Limit scope the current domNode to avoid the conflicts
-            array.forEach(query(".geoFormQuestionare .form-control", this.domNode), function (currentField) {
+            array.forEach(query(".geoFormQuestionare .form-control", this.domNode), currentField => {
                 if (currentField.value !== "") {
                     // get id of the field
                     key = domAttr.get(currentField, "id");
@@ -1912,7 +1936,15 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         updateFeatureToLayer: function () {
-            var userFormNode = this.userForm, featureData, key, value, datePicker, picker, editedFields = [], i, fileList;
+            const userFormNode = this.userForm;
+            let featureData;
+            let key;
+            let value;
+            let datePicker;
+            let picker;
+            const editedFields = [];
+            let i;
+            let fileList;
             // show loading indicator
             this.appUtils.showLoadingIndicator();
             // Create instance of graphic
@@ -2011,7 +2043,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _addValuesFromTemplate: function (template, editedFields, featureData) {
-            var fieldAttribute;
+            let fieldAttribute;
             //loop through all the fields in Templates and if the field has some value add that field to feature
             for (fieldAttribute in template.prototype.attributes) {
                 if (template.prototype.attributes.hasOwnProperty(fieldAttribute)) {
@@ -2066,7 +2098,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _onUpdateOperationComplete: function () {
-            var attachmentFailedMsg;
+            let attachmentFailedMsg;
             this._clearAttachements();
             if (this._fileFailedCounter > 0) {
                 attachmentFailedMsg = string.substitute(this.config.i18n.geoform.attachmentUploadStatus, {
@@ -2091,7 +2123,8 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _showErrorMessageDiv: function (errorMessage, errorMessageNode) {
-            var errorNode, place = "after";
+            let errorNode;
+            const place = "after";
             if (errorMessageNode) {
                 //this statement will remove the error message div at first and then will be applied if a valid location is not selected
                 this._removeErrorNode(errorMessageNode.nextSibling);
@@ -2175,7 +2208,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
                 this._removeErrorNode(node);
             }));
 
-            array.forEach(query('.geoFormQuestionare'), lang.hitch(this, function (currentNode) {
+            array.forEach(query('.geoFormQuestionare'), lang.hitch(this, currentNode => {
                 if (domClass.contains(currentNode, "has-error")) {
                     domClass.remove(currentNode, "has-error");
                 }
@@ -2188,7 +2221,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _activateDrawTool: function () {
-            var tool, type;
+            let tool, type;
             // Select layer type
             type = this._selectLayerType();
             tool = type.toUpperCase();
@@ -2203,7 +2236,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _selectLayerType: function () {
-            var type;
+            let type;
             //set type for selected geometry type of the layer
             switch (this.layer.geometryType) {
             case "esriGeometryPoint":
@@ -2226,7 +2259,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _addToGraphicsLayer: function (evt, isReverseGeocodeRequired) {
-            var symbol, graphic, graphicGeometry;
+            let symbol, graphic, graphicGeometry;
             // clear graphics on the map
             this._clearSubmissionGraphic();
             // get geometry
@@ -2255,7 +2288,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _zoomToSelectedFeature: function (geometry) {
-            var centerPoint;
+            let centerPoint;
             // check for geometry type of different layer
             if (geometry.type === "point") {
                 this.map.setLevel(this.appConfig.zoomLevel);
@@ -2277,7 +2310,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _createPolygonFromExtent: function (geometry) {
-            var polygon = new Polygon(geometry.spatialReference);
+            const polygon = new Polygon(geometry.spatialReference);
             // set geometry ring to the polygon layer
             polygon.addRing([
                 [geometry.xmin, geometry.ymin],
@@ -2296,7 +2329,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _createFeatureSymbol: function (geometryType) {
-            var symbol;
+            let symbol;
             //set symbol for selected geometry type of the layer
             switch (geometryType) {
             case "point":
@@ -2354,15 +2387,15 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
                     $(node).tooltip("hide");
                 }
             }
-            this.tooltipHandler = on(node, touch.press, lang.hitch(this, function (e) {
+            this.tooltipHandler = on(node, touch.press, lang.hitch(this, e => {
                 $(node).tooltip("toggle");
                 e.preventDefault();
             }));
-            on(document, "click", lang.hitch(this, function () {
+            on(document, "click", lang.hitch(this, () => {
                 $(node).tooltip("hide");
             }));
 
-            on(window, "resize", lang.hitch(this, function () {
+            on(window, "resize", lang.hitch(this, () => {
                 $(node).tooltip("hide");
             }));
         },
@@ -2386,7 +2419,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _populateLocationField: function (selectedAddress) {
-            var locationFieldTextBox = $("#geoformContainer").find("#" + this.config.locationField)[0];
+            const locationFieldTextBox = $("#geoformContainer").find(`#${this.config.locationField}`)[0];
             if (locationFieldTextBox && this.hasLocationField && this.config.locationField) {
                 if (selectedAddress) {
                     locationFieldTextBox.value = selectedAddress;
@@ -2408,7 +2441,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _resetLocationField: function () {
-            var locationFieldTextBox = $("#geoformContainer").find("#" + this.config.locationField)[0];
+            const locationFieldTextBox = $("#geoformContainer").find(`#${this.config.locationField}`)[0];
             if (locationFieldTextBox && this.hasLocationField && this.config.locationField) {
                 locationFieldTextBox.value = "";
                 domClass.remove(locationFieldTextBox.parentElement, "has-success");
@@ -2423,7 +2456,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _fetchExistingAttachment: function () {
-            var existingAttachmentObject;
+            let existingAttachmentObject;
             this._existingPopupAttachmentsArray = [];
             this.layer.queryAttachmentInfos(this.item.attributes[this.layer.objectIdField], lang.hitch(this, function (infos) {
                 array.forEach(infos, lang.hitch(this, function (currentAttachment) {
@@ -2443,10 +2476,10 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         * @memberOf widgets/geo-form/geo-form
         */
         _createExistingAttachment: function (existingAttachment) {
-            var alertHtml, existingAttachmentNode;
+            let alertHtml, existingAttachmentNode;
             alertHtml = "<div class=\"esriCTFileAlert alert alert-dismissable alert-success\">";
             alertHtml += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">" + "X" + "</button>";
-            alertHtml += "<span>" + existingAttachment.attachmentFileName + "</span>";
+            alertHtml += `<span>${existingAttachment.attachmentFileName}</span>`;
             alertHtml += "</div>";
             existingAttachmentNode = domConstruct.toDom(alertHtml);
             domAttr.set(existingAttachmentNode.children[0], "attachmentObjectID", existingAttachment.attachmentObjectID);
@@ -2462,7 +2495,7 @@ import BootstrapMap from "../bootstrapmap/bootstrapmap";
         _onExistingAttachmentCloseButtonClick: function (existingAttachmentCloseButton) {
             on(existingAttachmentCloseButton, "click", lang.hitch(this, function (evt) {
                 setTimeout(lang.hitch(this, function () {
-                    var attachmentObjectID;
+                    let attachmentObjectID;
                     attachmentObjectID = domAttr.get(evt.target, "attachmentObjectID");
                     attachmentObjectID = parseInt(attachmentObjectID, 10);
                     this._deletedAttachmentsPopupArr.push(attachmentObjectID);

@@ -122,16 +122,16 @@ import template from 'dojo/text!./templates/item-list-view.html';
         * Refresh the items list
         */
         refreshList: function (item) {
-            var currentNode, itemVotes, favIconDiv, votesNode, titleNode;
+            let currentNode, itemVotes, favIconDiv, votesNode, titleNode;
             //Clear all the previously selected feature
-            arrayUtil.forEach(dojoQuery(".esriCTItemSummaryParentSelected", this.domNode), lang.hitch(this, function (currentNode) {
+            arrayUtil.forEach(dojoQuery(".esriCTItemSummaryParentSelected", this.domNode), lang.hitch(this, currentNode => {
                 domClass.remove(currentNode, "esriCTItemSummaryParentSelected");
                 domClass.remove(dojoQuery(".esriCTItemSummaryHighlighter", currentNode)[0], "esriCTItemSummarySelected");
 
             }));
             //If selected features object id exsist, highlight the dom element
             if (this.selectedItemOID) {
-                currentNode = dojoQuery("." + this.selectedItemOID, this.domNode);
+                currentNode = dojoQuery(`.${this.selectedItemOID}`, this.domNode);
                 if (currentNode.length > 0) {
                     domClass.add(currentNode[0], "esriCTItemSummaryParentSelected");
                     domClass.add(dojoQuery(".esriCTItemSummaryHighlighter", currentNode[0])[0], "esriCTItemSummarySelected");
@@ -140,7 +140,7 @@ import template from 'dojo/text!./templates/item-list-view.html';
                     //If votes count is increased, update the selected items votes in item list
                     itemVotes = this.getItemVotes(item);
                     favIconDiv = dojoQuery(".esriCTItemFav", currentNode[0])[0];
-                    favIconDiv.title = itemVotes.label + " " + this.i18n.likesForThisItemTooltip;
+                    favIconDiv.title = `${itemVotes.label} ${this.i18n.likesForThisItemTooltip}`;
                     votesNode = dojoQuery(".esriCTItemVotes", currentNode[0])[0];
                     votesNode.innerHTML = itemVotes.label;
                 }
@@ -174,11 +174,11 @@ import template from 'dojo/text!./templates/item-list-view.html';
         * @param  {feature} item to display in the list
         */
         buildItemSummary: function (item) {
-            var itemTitle, itemVotes, itemSummaryDiv, itemTitleDiv, favDiv, itemSummaryParent, itemSummaryHighlighter, details = "", itemTitleDivMyIssues, selectedLayerId, objectIdFieldName;
+            let itemTitle, itemVotes, itemSummaryDiv, itemTitleDiv, favDiv, itemSummaryParent, itemSummaryHighlighter, details = "", itemTitleDivMyIssues, selectedLayerId, objectIdFieldName;
             item = (item && item.graphic) ? item.graphic : item;
             itemTitle = this.getItemTitle(item) || "&nbsp;";
             if (this.isMyIssues) {
-                details = item.webMapTitle + " : " + item.layerTitle;
+                details = `${item.webMapTitle} : ${item.layerTitle}`;
                 this.showLikes = item.showLikes;
                 selectedLayerId = item._layer.id;
                 objectIdFieldName = item._layer.objectIdField;
@@ -187,7 +187,7 @@ import template from 'dojo/text!./templates/item-list-view.html';
                 objectIdFieldName = this.selectedLayer.objectIdField;
             }
             itemSummaryParent = domConstruct.create('div', {
-                'class': 'esriCTtemSummaryParent, ' + item.attributes[objectIdFieldName] + "_" + item.webMapId + "_" + selectedLayerId,
+                'class': `esriCTtemSummaryParent, ${item.attributes[objectIdFieldName]}_${item.webMapId}_${selectedLayerId}`,
                 "click": lang.partial(this.summaryClick, this, item)
             }, this.list);
 
@@ -221,7 +221,7 @@ import template from 'dojo/text!./templates/item-list-view.html';
             }
 
             //If selected features object id exsist, make sure we are highlighting the respective row
-            if (this.selectedItemOID && this.selectedItemOID === item.attributes[this.selectedLayer.objectIdField] + "_" + item.webMapId + "_" + selectedLayerId) {
+            if (this.selectedItemOID && this.selectedItemOID === `${item.attributes[this.selectedLayer.objectIdField]}_${item.webMapId}_${selectedLayerId}`) {
                 domClass.add(itemSummaryParent, "esriCTItemSummaryParentSelected");
                 domClass.add(itemSummaryHighlighter, "esriCTItemSummarySelected");
             }
@@ -230,7 +230,7 @@ import template from 'dojo/text!./templates/item-list-view.html';
                 itemVotes = this.getItemVotes(item);
                 favDiv = domConstruct.create('div', {
                     'class': 'esriCTItemFav',
-                    'title': itemVotes.label + " " + this.i18n.likesForThisItemTooltip
+                    'title': `${itemVotes.label} ${this.i18n.likesForThisItemTooltip}`
                 }, itemSummaryDiv);
 
                 domConstruct.create('div', {
@@ -268,16 +268,16 @@ import template from 'dojo/text!./templates/item-list-view.html';
         * extra digit of room is needed to handle numbers between 99K and 1M, exclusive
         */
         getItemVotes: function (item) {
-            var needSpace = false, votes = item.attributes[this.votesField] || 0;
+            let needSpace = false, votes = item.attributes[this.votesField] || 0;
 
             if (votes > 999) {
                 if (votes > 99999) {
                     needSpace = true;
                 }
                 if (votes > 999999) {
-                    votes = Math.floor(votes / 1000000) + "M";
+                    votes = `${Math.floor(votes / 1000000)}M`;
                 } else {
-                    votes = Math.floor(votes / 1000) + "k";
+                    votes = `${Math.floor(votes / 1000)}k`;
                 }
             }
             return {
@@ -301,7 +301,7 @@ import template from 'dojo/text!./templates/item-list-view.html';
         * Create load more button
         */
         _createLoadMoreButton: function () {
-            var loadMoreButton, itemSummaryDiv, itemTitleDivMyIssues;
+            let loadMoreButton, itemSummaryDiv, itemTitleDivMyIssues;
             loadMoreButton = domConstruct.create('div', {
                 'class': 'esriCTtemSummaryParent'
             }, this.list);

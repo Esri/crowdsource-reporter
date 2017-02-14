@@ -148,8 +148,8 @@ import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";
         _setMenuContainerHeight: function () {
             // check if logged in details are shown then only reset the height subtracting height of login-details from window.
             if (!domClass.contains(this.loggedinUserNameDiv, "esriCTHidden")) {
-                var menuContainerHeight;
-                menuContainerHeight = (win.getBox().h - 125) + "px";
+                let menuContainerHeight;
+                menuContainerHeight = `${win.getBox().h - 125}px`;
                 domStyle.set(this.mainMenuContainer, "height", menuContainerHeight);
             }
         },

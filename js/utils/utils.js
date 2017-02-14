@@ -62,7 +62,7 @@ import Deferred from "dojo/Deferred";
         * @memberOf utils/utils
         */
         getDateFormat: function (type) {
-            var obj = {};
+            const obj = {};
             switch (type) {
             case "shortDate":
                 obj.dateFormat = "MM/DD/YYYY";
@@ -140,13 +140,13 @@ import Deferred from "dojo/Deferred";
         * @memberOf utils/utils
         */
         createGeoLocationButton: function (basemapLayers, map, parentNode, addGraphic) {
-            var currentLocation, createLocationDiv;
+            let currentLocation, createLocationDiv;
             // create geolocation div
             createLocationDiv = domConstruct.create("div", {}, parentNode);
             domAttr.set(createLocationDiv, "title", this.config.i18n.map.geolocationTooltip);
             // initialize object of locate button
             currentLocation = new LocateButton({
-                map: map,
+                map,
                 highlightLocation: false,
                 setScale: false,
                 centerAt: false
@@ -165,10 +165,10 @@ import Deferred from "dojo/Deferred";
         * @memberOf utils/utils
         */
         createHomeButton: function (map, parentNode) {
-            var homeButton, createHomeButtonDiv;
+            let homeButton, createHomeButtonDiv;
             createHomeButtonDiv = domConstruct.create("div", { "class": "esriCTHomeButton" }, parentNode);
             homeButton = new HomeButton({
-                map: map,
+                map,
                 "class": "esriCTHomeButton"
             }, createHomeButtonDiv);
             homeButton.startup();
@@ -179,7 +179,7 @@ import Deferred from "dojo/Deferred";
         * @memberOf utils/utils
         */
         getBasemapExtent: function (baseMapLayers) {
-            var basemapExtent, i;
+            let basemapExtent, i;
             /* If map contains a single basemap layer, consider full extent of that basemap
             If map contains multiple basemap layers, union the full extent of all the basemaps */
             for (i = 0; i < baseMapLayers.length; i++) {
@@ -230,7 +230,7 @@ import Deferred from "dojo/Deferred";
         * @memberOf utils/utils
         */
         isAndroid: function () {
-            var ua = navigator.userAgent.toLowerCase();
+            const ua = navigator.userAgent.toLowerCase();
             return ua.indexOf("android") > -1;
         },
 
@@ -240,7 +240,7 @@ import Deferred from "dojo/Deferred";
         */
         createGeocoderInstance: function () {
             //Default geocoder url
-            var geocodeURL = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";
+            let geocodeURL = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";
             if (this.config.helperServices && this.config.helperServices.geocode && this.config.helperServices.geocode[0] && this.config.helperServices.geocode[0].url) {
                 geocodeURL = this.config.helperServices.geocode[0].url;
             }
@@ -261,7 +261,7 @@ import Deferred from "dojo/Deferred";
         * @memberOf widgets/utils/utils
         */
         refreshLabelLayers: function (operationalLayers) {
-            array.forEach(operationalLayers, lang.hitch(this, function (currentLayer) {
+            array.forEach(operationalLayers, lang.hitch(this, currentLayer => {
                 if (currentLayer.layerObject && currentLayer.layerObject.showLabels && currentLayer.layerObject.labelingInfo) {
                     currentLayer.layerObject.refresh();
                 }

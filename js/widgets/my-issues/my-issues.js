@@ -122,7 +122,7 @@ import ItemList from "../item-list/item-list";
         * @memberOf widgets/my-issues/my-issues
         */
         _createMyIssuesLayerList: function () {
-            var layerResponseDef = [];
+            let layerResponseDef = [];
             this.isNoFeatureFound = true;
             this.opLayersArr = [];
             this.listContainerTitle.innerHTML = this.appConfig.i18n.myIssues.title;
@@ -141,7 +141,13 @@ import ItemList from "../item-list/item-list";
         * @memberOf widgets/my-issues/my-issues
         */
         _getOperationalLayers: function () {
-            var webmapOpLayerArr, layerResponseDef = [], i, j, k, index = 0, likeFlag = false;
+            let webmapOpLayerArr;
+            const layerResponseDef = [];
+            let i;
+            let j;
+            let k;
+            let index = 0;
+            let likeFlag = false;
             this.relatedTables = [];
             // if web-map list found
             if (this.webmapList) {
@@ -183,7 +189,7 @@ import ItemList from "../item-list/item-list";
         * @param{object} fieldName is field name
         */
         isFieldAvailable: function (layerObject, fieldName) {
-            var i, isFieldAvl = false;
+            let i, isFieldAvl = false;
             for (i = 0; i < layerObject.fields.length; i++) {
                 if (layerObject.fields[i].name === fieldName) {
                     isFieldAvl = true;
@@ -198,7 +204,7 @@ import ItemList from "../item-list/item-list";
         * @memberOf widgets/my-issues/my-issues
         */
         _getAllFeatures: function (layerResponseDef) {
-            var i;
+            let i;
             all(layerResponseDef).then(lang.hitch(this, function (featureSet) {
                 // loop to assign all the featureSet to the layer graphics
                 for (i = 0; i < featureSet.length; i++) {
@@ -215,11 +221,11 @@ import ItemList from "../item-list/item-list";
         * @memberOf widgets/my-issues/my-issues
         */
         _updateFeaturesList: function () {
-            var featureArray = [];
+            const featureArray = [];
             // loop all the available layers to get the features list
             array.forEach(this.opLayersArr, lang.hitch(this, function (layer) {
                 // loop to assign layers feature into featureArray
-                array.forEach(layer.layerObject.graphics, lang.hitch(this, function (currentFeature) {
+                array.forEach(layer.layerObject.graphics, lang.hitch(this, currentFeature => {
                     featureArray.push(currentFeature);
                 }));
             }));
@@ -244,7 +250,7 @@ import ItemList from "../item-list/item-list";
         * @memberOf widgets/my-issues/my-issues
         */
         updateIssueList: function (data, updatedIssue) {
-            var layerIndex, layerObject, likeFlag = false;
+            let layerIndex, layerObject, likeFlag = false;
             if (data) {
                 layerIndex = this._getSelectedLayer(data.webMapId, data.operationalLayerId, data.operationalLayerDetails.title);
                 // layer index is not less than zero which means issue belongs to the logged in user
@@ -291,7 +297,7 @@ import ItemList from "../item-list/item-list";
         * @memberOf widgets/my-issues/my-issues
         */
         _getSelectedLayer: function (webmapId, layerId, layerTitle) {
-            var opLayerIndex, i;
+            let opLayerIndex, i;
             opLayerIndex = -1;
             // loop to get the index number of my reports issues in respective layer and webmap
             for (i = 0; i < this.opLayersArr.length; i++) {
@@ -309,15 +315,19 @@ import ItemList from "../item-list/item-list";
         * @memberOf widgets/my-issues/my-issues
         */
         _queryOnLayer: function (opLayer, webmaptitle, likeFlag) {
-            var queryTask, deferred, parameters, queryString, dateobj = new Date().getTime().toString();
+            let queryTask;
+            let deferred;
+            let parameters;
+            let queryString;
+            const dateobj = new Date().getTime().toString();
             deferred = new Deferred();
             parameters = new Query();
             // query with configured reported by field to get list of issues reported by logged in user
-            queryString = this.appConfig.reportedByField + "='" + this.appConfig.logInDetails.processedUserName + "' AND " + dateobj + "=" + dateobj;
+            queryString = `${this.appConfig.reportedByField}='${this.appConfig.logInDetails.processedUserName}' AND ${dateobj}=${dateobj}`;
 
             // add layer definition in query parameters if it is available in layer object
             if (opLayer.layerObject.defaultDefinitionExpression) {
-                queryString += " AND " + opLayer.layerObject.defaultDefinitionExpression;
+                queryString += ` AND ${opLayer.layerObject.defaultDefinitionExpression}`;
             }
 
             parameters.where = queryString;
@@ -327,7 +337,7 @@ import ItemList from "../item-list/item-list";
             queryTask = new QueryTask(opLayer.url);
             queryTask.execute(parameters, lang.hitch(this, function (response) {
                 this.fetchRelatedTableInfo(response.features, webmaptitle, likeFlag, deferred, opLayer);
-            }), function (err) {
+            }), err => {
                 deferred.resolve();
             });
             return deferred;
@@ -341,7 +351,13 @@ import ItemList from "../item-list/item-list";
         * @memberOf widgets/my-issues/my-issues
         */
         fetchRelatedTableInfo: function (features, webmaptitle, likeFlag, deferred, opLayer) {
-            var allFeaturesAray = [], featureDef = new Deferred(), layerId, lastIndex, layer, relatedTableURL, relatedTable;
+            const allFeaturesAray = [];
+            const featureDef = new Deferred();
+            let layerId;
+            let lastIndex;
+            let layer;
+            let relatedTableURL;
+            let relatedTable;
             // function to sort features order by objectIdField
             function sortByOID(a, b) {
                 if (a.attributes[opLayer.layerObject.objectIdField] > b.attributes[opLayer.layerObject.objectIdField]) {
@@ -395,9 +411,9 @@ import ItemList from "../item-list/item-list";
                 }
             }));
 
-            all(allFeaturesAray).then(lang.hitch(this, function () {
+            all(allFeaturesAray).then(lang.hitch(this, () => {
                 deferred.resolve(features);
-            }), function (err) {
+            }), err => {
                 deferred.resolve();
             });
             return featureDef;
@@ -409,7 +425,7 @@ import ItemList from "../item-list/item-list";
         * @memberOf widgets/my-issues/my-issues
         */
         _relatedTableLoaded: function (relatedTable, currentFeature, featureDef) {
-            var commentIconFlag = false, k, popupInfo = {};
+            let commentIconFlag = false, k, popupInfo = {};
             this._commentPopupTable = null;
             if (this.itemInfos && this.relatedTables.length > 0) {
                 //fetch comment popup table which will be used in creating comment form
@@ -441,7 +457,7 @@ import ItemList from "../item-list/item-list";
                                 tooltip: "",
                                 visible: true
                             });
-                            popupInfo.description = "{" + this.appConfig.commentField + "}" + "\n <div class='commentRow'></div>";
+                            popupInfo.description = `{${this.appConfig.commentField}}\n <div class='commentRow'></div>`;
                             commentIconFlag = true;
                             break;
                         }
@@ -471,7 +487,7 @@ import ItemList from "../item-list/item-list";
         * @memberOf widgets/my-issues/my-issues
         */
         setActionVisibilities: function (item) {
-            var actionVisibilities = {};
+            const actionVisibilities = {};
             actionVisibilities.like = item.showLikes;
             actionVisibilities.comment = item.commentFlag;
             actionVisibilities.commentTable = item.relatedTable;
@@ -499,7 +515,7 @@ import ItemList from "../item-list/item-list";
         * @memberOf widgets/my-issues/my-issues
         */
         updateMyIssuesList: function (feature, selectedMapDetails) {
-            var layerIndex, objectIdField;
+            let layerIndex, objectIdField;
             layerIndex = this._getSelectedLayer(selectedMapDetails.webMapId, selectedMapDetails.operationalLayerId,
                 selectedMapDetails.operationalLayerDetails.title);
             objectIdField = selectedMapDetails.operationalLayerDetails.layerObject.objectIdField;

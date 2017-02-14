@@ -51,7 +51,7 @@ import "dojo/domReady!";
         * @memberOf widgets/map-search/map-search
         */
         createSearchButton: function (response, map, mapId, addGraphic, details) {
-            var createSearchDiv, inputGroupButton, searchIconDiv, textSearch;
+            let createSearchDiv, inputGroupButton, searchIconDiv, textSearch;
             if (query(".search")[0]) {
                 domConstruct.empty(query(".search")[0]);
             }
@@ -104,7 +104,7 @@ import "dojo/domReady!";
         * @memberOf widgets/map-search/map-search
         */
         _collapseSerach: function (inputGroupButton) {
-            var textSearch, serachClose;
+            let textSearch, serachClose;
             serachClose = this.locatorSearch.clearhide;
             textSearch = this.locatorSearch.txtSearch;
             if (inputGroupButton) {
@@ -122,7 +122,7 @@ import "dojo/domReady!";
         * @memberOf widgets/map-search/map-search
         */
         _expandSerach: function (inputGroupButton) {
-            var textSearch, serachClose;
+            let textSearch, serachClose;
             serachClose = this.locatorSearch.clearhide;
             textSearch = this.locatorSearch.txtSearch;
             if (inputGroupButton) {
@@ -143,7 +143,7 @@ import "dojo/domReady!";
         * @memberOf widgets/map-search/map-search
         */
         _validateAddress: function (geometry) {
-            var inputGroupButton;
+            let inputGroupButton;
             if (this.basemapExtent.contains(geometry)) {
                 this._zoomToSelectedFeature(geometry);
                 this._highlightSelectedLocation({ "feature": new Graphic(geometry) });
@@ -161,7 +161,7 @@ import "dojo/domReady!";
         * @memberOf widgets/map-search/map-search
         **/
         _getSelectedFeatureFromResult: function (evt) {
-            var selectedFeature;
+            let selectedFeature;
             if (evt) {
                 if (evt.feature) {
                     selectedFeature = evt.feature;
@@ -178,7 +178,7 @@ import "dojo/domReady!";
         * @memberOf widgets/map-search/map-search
         **/
         _highlightSelectedLocation: function (evt) {
-            var symbol, selectedFeature;
+            let symbol, selectedFeature;
             //get selected feature*/
             selectedFeature = this._getSelectedFeatureFromResult(evt);
             if (selectedFeature && selectedFeature.geometry && selectedFeature.geometry.type === "point") {
@@ -195,7 +195,7 @@ import "dojo/domReady!";
         * @memberOf widgets/map-search/map-search
         */
         _zoomToSelectedFeature: function (geometry) {
-            var centerPoint;
+            let centerPoint;
             // check for geometry type of different layer
             if (geometry.type === "point") {
                 this.newMap.setLevel(this.config.zoomLevel);
