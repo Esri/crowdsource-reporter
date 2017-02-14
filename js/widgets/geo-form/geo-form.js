@@ -15,38 +15,35 @@
  | See the License for the specific language governing permissions and
  | limitations under the License.
  */
-define([
-    "dojo/_base/declare",
-    "dojo/_base/kernel",
-    "dojo/_base/lang",
-    "dojo/date/locale",
-    "dijit/_WidgetBase",
-    "dijit/_TemplatedMixin",
-    "dojo/dom-construct",
-    "dojo/dom-class",
-    "dojo/on",
-    "dojo/has",
-    "dojo/dom-attr",
-    "dojo/_base/array",
-    "dojo/dom",
-    "dojo/touch",
-    "dojo/dom-style",
-    "dojo/query",
-    "dojo/text!./templates/geo-form.html",
-    "dojo/string",
-    "dojo/date/locale",
-    "esri/layers/GraphicsLayer",
-    "esri/graphic",
-    "esri/toolbars/draw",
-    "esri/geometry/webMercatorUtils",
-    "esri/symbols/SimpleLineSymbol",
-    "esri/symbols/SimpleFillSymbol",
-    "esri/symbols/SimpleMarkerSymbol",
-    "esri/geometry/Polygon",
-    "widgets/locator/locator",
-    "widgets/bootstrapmap/bootstrapmap"
-], function (declare, kernel, lang, dateLocale, _WidgetBase, _TemplatedMixin, domConstruct, domClass, on, has, domAttr, array, dom, touch, domStyle, query, dijitTemplate, string, locale, GraphicsLayer, Graphic, Draw, webMercatorUtils, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Polygon, Locator, BootstrapMap) {
-    return declare([_WidgetBase, _TemplatedMixin], {
+import declare from "dojo/_base/declare";
+import kernel from "dojo/_base/kernel";
+import lang from "dojo/_base/lang";
+import locale from "dojo/date/locale";
+import _WidgetBase from "dijit/_WidgetBase";
+import _TemplatedMixin from "dijit/_TemplatedMixin";
+import domConstruct from "dojo/dom-construct";
+import domClass from "dojo/dom-class";
+import on from "dojo/on";
+import has from "dojo/has";
+import domAttr from "dojo/dom-attr";
+import array from "dojo/_base/array";
+import dom from "dojo/dom";
+import touch from "dojo/touch";
+import domStyle from "dojo/dom-style";
+import query from "dojo/query";
+import dijitTemplate from "dojo/text!./templates/geo-form.html";
+import string from "dojo/string";
+import GraphicsLayer from "esri/layers/GraphicsLayer";
+import Graphic from "esri/graphic";
+import Draw from "esri/toolbars/draw";
+import webMercatorUtils from "esri/geometry/webMercatorUtils";
+import SimpleLineSymbol from "esri/symbols/SimpleLineSymbol";
+import SimpleFillSymbol from "esri/symbols/SimpleFillSymbol";
+import SimpleMarkerSymbol from "esri/symbols/SimpleMarkerSymbol";
+import Polygon from "esri/geometry/Polygon";
+import Locator from "widgets/locator/locator";
+import BootstrapMap from "widgets/bootstrapmap/bootstrapmap";
+    export default declare([_WidgetBase, _TemplatedMixin], {
         templateString: dijitTemplate,
         lastWebMapSelected: "",
         sortedFields: [],
@@ -2511,4 +2508,3 @@ define([
             }
         }
     });
-});

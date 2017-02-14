@@ -15,25 +15,21 @@
  | See the License for the specific language governing permissions and
  | limitations under the License.
  */
-define([
-    'dojo/_base/declare',
-    'dojo/_base/lang',
-    'dojo/_base/array',
-    'dojo/dom-construct',
-    'dojo/dom-style',
-    'dojo/dom-class',
-    'dojo/on',
-    'dojo/query',
-    'dojo/topic',
-    'dojo/NodeList-dom',
-    'dijit/_WidgetBase',
-    'dijit/_TemplatedMixin',
-    'dojo/text!./templates/item-list-view.html'
-], function (declare, lang, arrayUtil, domConstruct, domStyle, domClass, on, dojoQuery, topic, nld,
-    _WidgetBase, _TemplatedMixin,
-    template) {
+import declare from 'dojo/_base/declare';
+import lang from 'dojo/_base/lang';
+import arrayUtil from 'dojo/_base/array';
+import domConstruct from 'dojo/dom-construct';
+import domStyle from 'dojo/dom-style';
+import domClass from 'dojo/dom-class';
+import on from 'dojo/on';
+import dojoQuery from 'dojo/query';
+import topic from 'dojo/topic';
+import nld from 'dojo/NodeList-dom';
+import _WidgetBase from 'dijit/_WidgetBase';
+import _TemplatedMixin from 'dijit/_TemplatedMixin';
+import template from 'dojo/text!./templates/item-list-view.html';
 
-    return declare([_WidgetBase, _TemplatedMixin], {
+    export default declare([_WidgetBase, _TemplatedMixin], {
         templateString: template,
         showLikes: false,
         currentMap: null,
@@ -332,5 +328,5 @@ define([
             return evt;
         }
     });
-});
+
 

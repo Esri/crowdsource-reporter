@@ -15,24 +15,14 @@
 | See the License for the specific language governing permissions and
 | limitations under the License.
 */
-define([
-    "dojo/_base/declare",
-    "dojo/dom-construct",
-    "dojo/text!./templates/help.html",
-    "dijit/_WidgetBase",
-    "dijit/_TemplatedMixin",
-    "dijit/_WidgetsInTemplateMixin",
-    "dojo/domReady!"
-], function (
-    declare,
-    domConstruct,
-    template,
-    _WidgetBase,
-    _TemplatedMixin,
-    _WidgetsInTemplateMixin
-
-) {
-    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+import declare from "dojo/_base/declare";
+import domConstruct from "dojo/dom-construct";
+import template from "dojo/text!./templates/help.html";
+import _WidgetBase from "dijit/_WidgetBase";
+import _TemplatedMixin from "dijit/_TemplatedMixin";
+import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";
+import "dojo/domReady!";
+    export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
 
         postCreate: function () {
@@ -57,4 +47,4 @@ define([
             }, 200);
         }
     });
-});
+

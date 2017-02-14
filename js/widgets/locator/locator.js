@@ -1,39 +1,37 @@
 ﻿/*global define,dojo,alert,$ */
 /*jslint browser:true,sloppy:true,nomen:true,unparam:true,plusplus:true,indent:4 */
-define([
-    "dojo/_base/declare",
-    "dojo/dom-construct",
-    "dojo/_base/lang",
-    "dojo/dom-attr",
-    "dojo/dom-class",
-    "dojo/dom-geometry",
-    "dojo/dom-style",
-    "dojo/_base/array",
-    "dojo/dom",
-    "dojo/Deferred",
-    "dojo/DeferredList",
-    "dojo/on",
-    "dojo/keys",
-    "dojo/query",
-    "dojo/text!./templates/locator.html",
-    "dijit/_WidgetBase",
-    "dijit/_TemplatedMixin",
-    "dijit/_WidgetsInTemplateMixin",
-    "esri/Color",
-    "esri/config",
-    "esri/graphic",
-    "esri/geometry/Point",
-    "esri/geometry/webMercatorUtils",
-    "esri/layers/GraphicsLayer",
-    "esri/SpatialReference",
-    "esri/tasks/GeometryService",
-    "esri/tasks/locator",
-    "esri/tasks/ProjectParameters",
-    "esri/tasks/query",
-    "esri/tasks/QueryTask",
-    "vendor/usng"
-], function (declare, domConstruct, lang, domAttr, domClass, domGeom, domStyle, array, dom, Deferred, DeferredList, on, keys, query, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, Color, esriConfig, Graphic, Point, webMercatorUtils, GraphicsLayer, SpatialReference, GeometryService, Locator, ProjectParameters, EsriQuery, QueryTask, usng) {
-    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+import declare from "dojo/_base/declare";
+import domConstruct from "dojo/dom-construct";
+import lang from "dojo/_base/lang";
+import domAttr from "dojo/dom-attr";
+import domClass from "dojo/dom-class";
+import domGeom from "dojo/dom-geometry";
+import domStyle from "dojo/dom-style";
+import array from "dojo/_base/array";
+import dom from "dojo/dom";
+import Deferred from "dojo/Deferred";
+import DeferredList from "dojo/DeferredList";
+import on from "dojo/on";
+import keys from "dojo/keys";
+import query from "dojo/query";
+import template from "dojo/text!./templates/locator.html";
+import _WidgetBase from "dijit/_WidgetBase";
+import _TemplatedMixin from "dijit/_TemplatedMixin";
+import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";
+import Color from "esri/Color";
+import esriConfig from "esri/config";
+import Graphic from "esri/graphic";
+import Point from "esri/geometry/Point";
+import webMercatorUtils from "esri/geometry/webMercatorUtils";
+import GraphicsLayer from "esri/layers/GraphicsLayer";
+import SpatialReference from "esri/SpatialReference";
+import GeometryService from "esri/tasks/GeometryService";
+import Locator from "esri/tasks/locator";
+import ProjectParameters from "esri/tasks/ProjectParameters";
+import EsriQuery from "esri/tasks/query";
+import QueryTask from "esri/tasks/QueryTask";
+import usng from "vendor/usng";
+    export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         lastSearchString: null,
         stagedSearch: null,
@@ -811,4 +809,3 @@ define([
         }
 
     });
-});

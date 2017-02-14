@@ -15,24 +15,14 @@
  | See the License for the specific language governing permissions and
  | limitations under the License.
  */
-define([
-    "dojo/_base/declare",
-    "config/template-config",
-    "application/template",
-    "widgets/sign-in/sign-in",
-    "application/utils/utils",
-    "dojo/dom-construct",
-    "dojo/_base/lang"
-], function (
-    declare,
-    TemplateConfig,
-    Template,
-    ApplicationSignIn,
-    ApplicationUtils,
-    domConstruct,
-    lang
-) {
-    return declare(null, {
+import declare from "dojo/_base/declare";
+import TemplateConfig from "config/template-config";
+import Template from "application/template";
+import ApplicationSignIn from "widgets/sign-in/sign-in";
+import ApplicationUtils from "application/utils/utils";
+import domConstruct from "dojo/dom-construct";
+import lang from "dojo/_base/lang";
+    export default declare(null, {
         boilerPlateTemplateObject: null,
         appUtils: null,
 
@@ -128,4 +118,4 @@ define([
             document.getElementsByTagName('head')[0].appendChild(icon);
         }
     });
-});
+

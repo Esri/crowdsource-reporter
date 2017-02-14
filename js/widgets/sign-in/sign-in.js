@@ -16,34 +16,31 @@
  | limitations under the License.
  */
 //============================================================================================================================//
-define([
-    "config/template-config",
-    "application/template",
-    "application/main",
-    "dojo/_base/declare",
-    "dojo/dom-construct",
-    "dojo/dom-style",
-    "dojo/dom-attr",
-    "dojo/dom-class",
-    "dojo/_base/lang",
-    "dojo/_base/array",
-    "dojo/on",
-    "dojo/dom",
-    "dojo/Deferred",
-    "dojo/promise/all",
-    "esri/arcgis/Portal",
-    "dojo/text!./templates/sign-in.html",
-    "dijit/_WidgetBase",
-    "dijit/_TemplatedMixin",
-    "dijit/_WidgetsInTemplateMixin",
-    "esri/IdentityManager",
-    "widgets/sign-in/facebook-helper",
-    "widgets/sign-in/twitter-helper",
-    "widgets/help/help",
-    "dojo/query"
-
-], function (templateConfig, MainTemplate, Main, declare, domConstruct, domStyle, domAttr, domClass, lang, array, on, dom, Deferred, all, esriPortal, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, IdentityManager, FBHelper, TWHelper, Help, query) {
-    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+import templateConfig from "config/template-config";
+import MainTemplate from "application/template";
+import Main from "application/main";
+import declare from "dojo/_base/declare";
+import domConstruct from "dojo/dom-construct";
+import domStyle from "dojo/dom-style";
+import domAttr from "dojo/dom-attr";
+import domClass from "dojo/dom-class";
+import lang from "dojo/_base/lang";
+import array from "dojo/_base/array";
+import on from "dojo/on";
+import dom from "dojo/dom";
+import Deferred from "dojo/Deferred";
+import all from "dojo/promise/all";
+import esriPortal from "esri/arcgis/Portal";
+import template from "dojo/text!./templates/sign-in.html";
+import _WidgetBase from "dijit/_WidgetBase";
+import _TemplatedMixin from "dijit/_TemplatedMixin";
+import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";
+import IdentityManager from "esri/IdentityManager";
+import FBHelper from "widgets/sign-in/facebook-helper";
+import TWHelper from "widgets/sign-in/twitter-helper";
+import Help from "widgets/help/help";
+import query from "dojo/query";
+    export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         _config: null,
         _boilerPlateTemplate: null,
@@ -469,4 +466,3 @@ define([
             }
         }
     });
-});

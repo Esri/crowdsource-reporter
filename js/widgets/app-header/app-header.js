@@ -16,23 +16,21 @@
  | limitations under the License.
  */
 //============================================================================================================================//
-define([
-    "dojo/_base/declare",
-    "dojo/dom-construct",
-    "dojo/_base/lang",
-    "dojo/dom",
-    "dojo/dom-attr",
-    "dojo/dom-class",
-    "dojo/dom-style",
-    "dojo/on",
-    "dojo/text!./templates/app-header.html",
-    "widgets/mobile-menu/mobile-menu",
-    "widgets/help/help",
-    "dijit/_WidgetBase",
-    "dijit/_TemplatedMixin",
-    "dijit/_WidgetsInTemplateMixin"
-], function (declare, domConstruct, lang, dom, domAttr, domClass, domStyle, on, template, MobileMenu, Help, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin) {
-    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+import declare from "dojo/_base/declare";
+import domConstruct from "dojo/dom-construct";
+import lang from "dojo/_base/lang";
+import dom from "dojo/dom";
+import domAttr from "dojo/dom-attr";
+import domClass from "dojo/dom-class";
+import domStyle from "dojo/dom-style";
+import on from "dojo/on";
+import template from "dojo/text!./templates/app-header.html";
+import MobileMenu from "widgets/mobile-menu/mobile-menu";
+import Help from "widgets/help/help";
+import _WidgetBase from "dijit/_WidgetBase";
+import _TemplatedMixin from "dijit/_TemplatedMixin";
+import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";
+    export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         mobileMenu: null,
         config: {
@@ -314,4 +312,4 @@ define([
             return evt;
         }
     });
-});
+

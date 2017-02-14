@@ -15,103 +15,54 @@
 | See the License for the specific language governing permissions and
 | limitations under the License.
 */
-define([
-    "dojo/_base/declare",
-    "dojo/_base/lang",
-    "dojo/_base/array",
-    "esri/arcgis/utils",
-    "dojo/dom",
-    "dojo/dom-construct",
-    "dojo/dom-style",
-    "dojo/dom-class",
-    "dojo/dom-attr",
-    "dojo/on",
-    "dojo/topic",
-    "dojo/string",
-    "dojo/touch",
-    "dojo/window",
-    "dojo/aspect",
-    "dojo/Deferred",
-    "dojo/text!css/theme-template.css",
-    "esri/layers/GraphicsLayer",
-    "esri/layers/FeatureLayer",
-    "esri/geometry/Circle",
-    "esri/tasks/query",
-    "esri/Color",
-    "esri/graphic",
-    "esri/geometry/Point",
-    "esri/geometry/Polyline",
-    "esri/geometry/Polygon",
-    "esri/SpatialReference",
-    "esri/symbols/SimpleMarkerSymbol",
-    "esri/symbols/SimpleLineSymbol",
-    "esri/symbols/SimpleFillSymbol",
-    "esri/symbols/PictureMarkerSymbol",
-    "esri/tasks/QueryTask",
-    "esri/geometry/geometryEngine",
-    "esri/geometry/webMercatorUtils",
-    "esri/dijit/PopupTemplate",
-    "esri/toolbars/draw",
-    "widgets/app-header/app-header",
-    "widgets/webmap-list/webmap-list",
-    "widgets/issue-wall/issue-wall",
-    "widgets/geo-form/geo-form",
-    "widgets/my-issues/my-issues",
-    "application/utils/utils",
-    "dojo/query",
-    "widgets/sidebar-content-controller/sidebar-content-controller",
-    "widgets/item-details/item-details-controller",
-    "widgets/map-search/map-search",
-    "dojo/domReady!"
-], function (
-    declare,
-    lang,
-    array,
-    arcgisUtils,
-    dom,
-    domConstruct,
-    domStyle,
-    domClass,
-    domAttr,
-    on,
-    topic,
-    string,
-    touch,
-    dojowindow,
-    aspect,
-    Deferred,
-    ThemeCss,
-    GraphicsLayer,
-    FeatureLayer,
-    Circle,
-    Query,
-    Color,
-    Graphic,
-    Point,
-    Polyline,
-    Polygon,
-    SpatialReference,
-    SimpleMarkerSymbol,
-    SimpleLineSymbol,
-    SimpleFillSymbol,
-    PictureMarkerSymbol,
-    QueryTask,
-    geometryEngine,
-    webMercatorUtils,
-    PopupTemplate,
-    Draw,
-    ApplicationHeader,
-    WebMapList,
-    IssueWall,
-    GeoForm,
-    MyIssues,
-    ApplicationUtils,
-    query,
-    SidebarContentController,
-    ItemDetails,
-    MapSearch
-) {
-    return declare(null, {
+import declare from "dojo/_base/declare";
+import lang from "dojo/_base/lang";
+import array from "dojo/_base/array";
+import arcgisUtils from "esri/arcgis/utils";
+import dom from "dojo/dom";
+import domConstruct from "dojo/dom-construct";
+import domStyle from "dojo/dom-style";
+import domClass from "dojo/dom-class";
+import domAttr from "dojo/dom-attr";
+import on from "dojo/on";
+import topic from "dojo/topic";
+import string from "dojo/string";
+import touch from "dojo/touch";
+import dojowindow from "dojo/window";
+import aspect from "dojo/aspect";
+import Deferred from "dojo/Deferred";
+import ThemeCss from "dojo/text!css/theme-template.css";
+import GraphicsLayer from "esri/layers/GraphicsLayer";
+import FeatureLayer from "esri/layers/FeatureLayer";
+import Circle from "esri/geometry/Circle";
+import Query from "esri/tasks/query";
+import Color from "esri/Color";
+import Graphic from "esri/graphic";
+import Point from "esri/geometry/Point";
+import Polyline from "esri/geometry/Polyline";
+import Polygon from "esri/geometry/Polygon";
+import SpatialReference from "esri/SpatialReference";
+import SimpleMarkerSymbol from "esri/symbols/SimpleMarkerSymbol";
+import SimpleLineSymbol from "esri/symbols/SimpleLineSymbol";
+import SimpleFillSymbol from "esri/symbols/SimpleFillSymbol";
+import PictureMarkerSymbol from "esri/symbols/PictureMarkerSymbol";
+import QueryTask from "esri/tasks/QueryTask";
+import geometryEngine from "esri/geometry/geometryEngine";
+import webMercatorUtils from "esri/geometry/webMercatorUtils";
+import PopupTemplate from "esri/dijit/PopupTemplate";
+import Draw from "esri/toolbars/draw";
+import ApplicationHeader from "widgets/app-header/app-header";
+import WebMapList from "widgets/webmap-list/webmap-list";
+import IssueWall from "widgets/issue-wall/issue-wall";
+import GeoForm from "widgets/geo-form/geo-form";
+import MyIssues from "widgets/my-issues/my-issues";
+import ApplicationUtils from "application/utils/utils";
+import query from "dojo/query";
+import SidebarContentController from "widgets/sidebar-content-controller/sidebar-content-controller";
+import ItemDetails from "widgets/item-details/item-details-controller";
+import MapSearch from "widgets/map-search/map-search";
+import "dojo/domReady!";
+    export default declare(null, {
         config: {},
         appUtils: null,
         boilerPlateTemplate: null,
@@ -2322,4 +2273,3 @@ define([
         }
         /*-------  End of section for Geographical Filtering  -------*/
     });
-});
