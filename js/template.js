@@ -38,7 +38,7 @@ import esriPortal from "esri/arcgis/Portal";
 import ArcGISOAuthInfo from "esri/arcgis/OAuthInfo";
 import arcgisUtils from "esri/arcgis/utils";
 import GeometryService from "esri/tasks/GeometryService";
-import defaults from "config/defaults";
+import defaults from "../defaults";
   export default declare([Evented], {
     config: {},
     orgConfig: {},

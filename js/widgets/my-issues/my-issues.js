@@ -38,7 +38,7 @@ import Graphic from "esri/graphic";
 import FeatureLayer from "esri/layers/FeatureLayer";
 import QueryTask from "esri/tasks/QueryTask";
 import Query from "esri/tasks/query";
-import ItemList from "widgets/item-list/item-list";
+import ItemList from "../item-list/item-list";
     export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         opLayersArr: [],

@@ -16,9 +16,9 @@
  | limitations under the License.
  */
 //============================================================================================================================//
-import templateConfig from "config/template-config";
-import MainTemplate from "application/template";
-import Main from "application/main";
+import templateConfig from "../../../template-config";
+import MainTemplate from "../../template";
+import Main from "../../main";
 import declare from "dojo/_base/declare";
 import domConstruct from "dojo/dom-construct";
 import domStyle from "dojo/dom-style";
@@ -36,9 +36,9 @@ import _WidgetBase from "dijit/_WidgetBase";
 import _TemplatedMixin from "dijit/_TemplatedMixin";
 import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";
 import IdentityManager from "esri/IdentityManager";
-import FBHelper from "widgets/sign-in/facebook-helper";
-import TWHelper from "widgets/sign-in/twitter-helper";
-import Help from "widgets/help/help";
+import FBHelper from "../sign-in/facebook-helper";
+import TWHelper from "../sign-in/twitter-helper";
+import Help from "../help/help";
 import query from "dojo/query";
     export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
@@ -85,7 +85,7 @@ import query from "dojo/query";
         */
         _handleSplashScreenVisibility: function () {
             var isSplashScreenRequired = false;
-            //Check for all social media sign in options and decide wehter to show splash screen or not 
+            //Check for all social media sign in options and decide wehter to show splash screen or not
             if (this._config.enableGuestAccess || this._config.enableFacebook ||
                      this._config.enableTwitter || this._config.enableGoogleplus
                     || this._config.enablePortalLogin) {

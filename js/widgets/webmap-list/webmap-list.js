@@ -34,7 +34,7 @@ import dom from "dojo/dom";
 import domClass from "dojo/dom-class";
 import domStyle from 'dojo/dom-style';
 import aspect from 'dojo/aspect';
-import BootstrapMap from "widgets/bootstrapmap/bootstrapmap";
+import BootstrapMap from "../bootstrapmap/bootstrapmap";
 import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";
 import query from "dojo/query";
 import Extent from "esri/geometry/Extent";

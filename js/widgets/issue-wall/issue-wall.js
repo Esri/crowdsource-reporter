@@ -36,7 +36,7 @@ import Graphic from "esri/graphic";
 import FeatureLayer from "esri/layers/FeatureLayer";
 import Query from "esri/tasks/query";
 import PopupTemplate from "esri/dijit/PopupTemplate";
-import ItemList from "widgets/item-list/item-list";
+import ItemList from "../item-list/item-list";
 import event from "dojo/_base/event";
     export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
@@ -473,4 +473,3 @@ import event from "dojo/_base/event";
             }));
         }
     });
-

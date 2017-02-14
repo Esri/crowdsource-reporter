@@ -41,8 +41,8 @@ import SimpleLineSymbol from "esri/symbols/SimpleLineSymbol";
 import SimpleFillSymbol from "esri/symbols/SimpleFillSymbol";
 import SimpleMarkerSymbol from "esri/symbols/SimpleMarkerSymbol";
 import Polygon from "esri/geometry/Polygon";
-import Locator from "widgets/locator/locator";
-import BootstrapMap from "widgets/bootstrapmap/bootstrapmap";
+import Locator from "../locator/locator";
+import BootstrapMap from "../bootstrapmap/bootstrapmap";
     export default declare([_WidgetBase, _TemplatedMixin], {
         templateString: dijitTemplate,
         lastWebMapSelected: "",

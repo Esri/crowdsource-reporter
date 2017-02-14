@@ -40,7 +40,7 @@ import _WidgetBase from 'dijit/_WidgetBase';
 import _TemplatedMixin from 'dijit/_TemplatedMixin';
 import DeferredList from 'dojo/DeferredList';
 import template from 'dojo/text!./templates/item-details-view.html';
-import CommentForm from "widgets/comment-form/comment-form";
+import CommentForm from "../comment-form/comment-form";
 import query from "dojo/query";
 
     export default declare([_WidgetBase, _TemplatedMixin], {
@@ -1082,4 +1082,3 @@ import query from "dojo/query";
             }), 100);
         }
     });
-

@@ -51,16 +51,16 @@ import geometryEngine from "esri/geometry/geometryEngine";
 import webMercatorUtils from "esri/geometry/webMercatorUtils";
 import PopupTemplate from "esri/dijit/PopupTemplate";
 import Draw from "esri/toolbars/draw";
-import ApplicationHeader from "widgets/app-header/app-header";
-import WebMapList from "widgets/webmap-list/webmap-list";
-import IssueWall from "widgets/issue-wall/issue-wall";
-import GeoForm from "widgets/geo-form/geo-form";
-import MyIssues from "widgets/my-issues/my-issues";
+import ApplicationHeader from "./widgets/app-header/app-header";
+import WebMapList from "./widgets/webmap-list/webmap-list";
+import IssueWall from "./widgets/issue-wall/issue-wall";
+import GeoForm from "./widgets/geo-form/geo-form";
+import MyIssues from "./widgets/my-issues/my-issues";
 import ApplicationUtils from "application/utils/utils";
 import query from "dojo/query";
-import SidebarContentController from "widgets/sidebar-content-controller/sidebar-content-controller";
-import ItemDetails from "widgets/item-details/item-details-controller";
-import MapSearch from "widgets/map-search/map-search";
+import SidebarContentController from "./widgets/sidebar-content-controller/sidebar-content-controller";
+import ItemDetails from "./widgets/item-details/item-details-controller";
+import MapSearch from "./widgets/map-search/map-search";
 import "dojo/domReady!";
     export default declare(null, {
         config: {},

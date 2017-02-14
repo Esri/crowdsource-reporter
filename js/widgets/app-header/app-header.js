@@ -25,8 +25,8 @@ import domClass from "dojo/dom-class";
 import domStyle from "dojo/dom-style";
 import on from "dojo/on";
 import template from "dojo/text!./templates/app-header.html";
-import MobileMenu from "widgets/mobile-menu/mobile-menu";
-import Help from "widgets/help/help";
+import MobileMenu from "../mobile-menu/mobile-menu";
+import Help from "../help/help";
 import _WidgetBase from "dijit/_WidgetBase";
 import _TemplatedMixin from "dijit/_TemplatedMixin";
 import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";
@@ -312,4 +312,3 @@ import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";
             return evt;
         }
     });
-

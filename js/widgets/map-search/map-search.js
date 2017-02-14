@@ -29,9 +29,9 @@ import string from "dojo/string";
 import dojowindow from "dojo/window";
 import ThemeCss from "dojo/text!css/theme-template.css";
 import GraphicsLayer from "esri/layers/GraphicsLayer";
-import ApplicationUtils from "application/utils/utils";
+import ApplicationUtils from "../../utils/utils";
 import query from "dojo/query";
-import Locator from "widgets/locator/locator";
+import Locator from "../locator/locator";
 import _WidgetBase from "dijit/_WidgetBase";
 import Graphic from "esri/graphic";
 import PictureMarkerSymbol from "esri/symbols/PictureMarkerSymbol";
@@ -216,4 +216,3 @@ import "dojo/domReady!";
             return feature;
         }
     });
-
