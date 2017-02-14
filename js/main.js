@@ -31,7 +31,7 @@ import touch from "dojo/touch";
 import dojowindow from "dojo/window";
 import aspect from "dojo/aspect";
 import Deferred from "dojo/Deferred";
-import ThemeCss from "dojo/text!css/theme-template.css";
+import ThemeCss from "raw-loader!../css/theme-template.css";
 import GraphicsLayer from "esri/layers/GraphicsLayer";
 import FeatureLayer from "esri/layers/FeatureLayer";
 import Circle from "esri/geometry/Circle";

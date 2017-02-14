@@ -27,7 +27,7 @@ import on from "dojo/on";
 import topic from "dojo/topic";
 import string from "dojo/string";
 import dojowindow from "dojo/window";
-import ThemeCss from "dojo/text!css/theme-template.css";
+import ThemeCss from "raw-loader!../../../css/theme-template.css";
 import GraphicsLayer from "esri/layers/GraphicsLayer";
 import ApplicationUtils from "../../utils/utils";
 import query from "dojo/query";
