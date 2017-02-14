@@ -16,23 +16,21 @@
  | limitations under the License.
  */
 //============================================================================================================================//
-define([
-    "dojo/_base/declare",
-    "dojo/dom-construct",
-    "dojo/_base/lang",
-    "dojo/dom",
-    "dojo/dom-attr",
-    "dojo/dom-class",
-    "dojo/dom-style",
-    "dojo/on",
-    "dojo/text!./templates/app-header.html",
-    "widgets/mobile-menu/mobile-menu",
-    "widgets/help/help",
-    "dijit/_WidgetBase",
-    "dijit/_TemplatedMixin",
-    "dijit/_WidgetsInTemplateMixin"
-], function (declare, domConstruct, lang, dom, domAttr, domClass, domStyle, on, template, MobileMenu, Help, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin) {
-    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+import declare from "dojo/_base/declare";
+import domConstruct from "dojo/dom-construct";
+import lang from "dojo/_base/lang";
+import dom from "dojo/dom";
+import domAttr from "dojo/dom-attr";
+import domClass from "dojo/dom-class";
+import domStyle from "dojo/dom-style";
+import on from "dojo/on";
+import template from "./templates/app-header.html";
+import MobileMenu from "../mobile-menu/mobile-menu";
+import Help from "../help/help";
+import _WidgetBase from "dijit/_WidgetBase";
+import _TemplatedMixin from "dijit/_TemplatedMixin";
+import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";
+    export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         mobileMenu: null,
         config: {
@@ -131,7 +129,7 @@ define([
         * @memberOf widgets/app-header/app-header
         */
         _setApplicationTitle: function () {
-            var applicationName = "";
+            let applicationName = "";
             if (this.appConfig.applicationName && lang.trim(this.appConfig.applicationName).length !== 0) {
                 applicationName = this.appConfig.applicationName;
             } else if (this.appConfig.groupInfo.results.length > 0 && this.appConfig.groupInfo.results[0].title) {
@@ -152,7 +150,7 @@ define([
         * @memberOf widgets/app-header/app-header
         */
         _setApplicationLogo: function () {
-            var applicationIcon;
+            let applicationIcon;
             // if application icon is configured, display the configured icon in application header
             // else if group logo is present, display group logo in application header
             // if both the above mentioned icons are not present, display default icon in application header
@@ -163,13 +161,13 @@ define([
                     if (this.appConfig.applicationIcon.indexOf("/") === 0) {
                         domAttr.set(this.applicationHeaderIcon, "src", dojoConfig.baseURL + this.appConfig.applicationIcon);
                     } else {
-                        domAttr.set(this.applicationHeaderIcon, "src", dojoConfig.baseURL + "/" + this.appConfig.applicationIcon);
+                        domAttr.set(this.applicationHeaderIcon, "src", `${dojoConfig.baseURL}/${this.appConfig.applicationIcon}`);
                     }
                 }
             } else if (this.appConfig.groupInfo.results.length > 0 && this.appConfig.groupInfo.results[0].thumbnailUrl) {
                 domAttr.set(this.applicationHeaderIcon, "src", this.appConfig.groupInfo.results[0].thumbnailUrl);
             } else {
-                domAttr.set(this.applicationHeaderIcon, "src", dojoConfig.baseURL + "/images/app-icon.png");
+                domAttr.set(this.applicationHeaderIcon, "src", `${dojoConfig.baseURL}/images/app-icon.png`);
             }
             applicationIcon = domAttr.get(this.applicationHeaderIcon, "src");
 
@@ -187,7 +185,7 @@ define([
         * @memberOf widgets/app-header/app-header
         */
         _loadIcons: function (rel, iconPath) {
-            var icon;
+            let icon;
             icon = domConstruct.create("link");
             icon.rel = rel;
             icon.type = "image/x-icon";
@@ -248,7 +246,7 @@ define([
             // user is logged in via AGOL portal login
             if (this.config.portalObject) {
                 if (this.config.portalObject.getPortalUser()) {
-                    this.config.portalObject.signOut().then(lang.hitch(this, function () {
+                    this.config.portalObject.signOut().then(lang.hitch(this, () => {
                         location.reload();
                     }));
                 } else {
@@ -314,4 +312,3 @@ define([
             return evt;
         }
     });
-});

@@ -15,103 +15,54 @@
 | See the License for the specific language governing permissions and
 | limitations under the License.
 */
-define([
-    "dojo/_base/declare",
-    "dojo/_base/lang",
-    "dojo/_base/array",
-    "esri/arcgis/utils",
-    "dojo/dom",
-    "dojo/dom-construct",
-    "dojo/dom-style",
-    "dojo/dom-class",
-    "dojo/dom-attr",
-    "dojo/on",
-    "dojo/topic",
-    "dojo/string",
-    "dojo/touch",
-    "dojo/window",
-    "dojo/aspect",
-    "dojo/Deferred",
-    "dojo/text!css/theme-template.css",
-    "esri/layers/GraphicsLayer",
-    "esri/layers/FeatureLayer",
-    "esri/geometry/Circle",
-    "esri/tasks/query",
-    "esri/Color",
-    "esri/graphic",
-    "esri/geometry/Point",
-    "esri/geometry/Polyline",
-    "esri/geometry/Polygon",
-    "esri/SpatialReference",
-    "esri/symbols/SimpleMarkerSymbol",
-    "esri/symbols/SimpleLineSymbol",
-    "esri/symbols/SimpleFillSymbol",
-    "esri/symbols/PictureMarkerSymbol",
-    "esri/tasks/QueryTask",
-    "esri/geometry/geometryEngine",
-    "esri/geometry/webMercatorUtils",
-    "esri/dijit/PopupTemplate",
-    "esri/toolbars/draw",
-    "widgets/app-header/app-header",
-    "widgets/webmap-list/webmap-list",
-    "widgets/issue-wall/issue-wall",
-    "widgets/geo-form/geo-form",
-    "widgets/my-issues/my-issues",
-    "application/utils/utils",
-    "dojo/query",
-    "widgets/sidebar-content-controller/sidebar-content-controller",
-    "widgets/item-details/item-details-controller",
-    "widgets/map-search/map-search",
-    "dojo/domReady!"
-], function (
-    declare,
-    lang,
-    array,
-    arcgisUtils,
-    dom,
-    domConstruct,
-    domStyle,
-    domClass,
-    domAttr,
-    on,
-    topic,
-    string,
-    touch,
-    dojowindow,
-    aspect,
-    Deferred,
-    ThemeCss,
-    GraphicsLayer,
-    FeatureLayer,
-    Circle,
-    Query,
-    Color,
-    Graphic,
-    Point,
-    Polyline,
-    Polygon,
-    SpatialReference,
-    SimpleMarkerSymbol,
-    SimpleLineSymbol,
-    SimpleFillSymbol,
-    PictureMarkerSymbol,
-    QueryTask,
-    geometryEngine,
-    webMercatorUtils,
-    PopupTemplate,
-    Draw,
-    ApplicationHeader,
-    WebMapList,
-    IssueWall,
-    GeoForm,
-    MyIssues,
-    ApplicationUtils,
-    query,
-    SidebarContentController,
-    ItemDetails,
-    MapSearch
-) {
-    return declare(null, {
+import declare from "dojo/_base/declare";
+import lang from "dojo/_base/lang";
+import array from "dojo/_base/array";
+import arcgisUtils from "esri/arcgis/utils";
+import dom from "dojo/dom";
+import domConstruct from "dojo/dom-construct";
+import domStyle from "dojo/dom-style";
+import domClass from "dojo/dom-class";
+import domAttr from "dojo/dom-attr";
+import on from "dojo/on";
+import topic from "dojo/topic";
+import string from "dojo/string";
+import touch from "dojo/touch";
+import dojowindow from "dojo/window";
+import aspect from "dojo/aspect";
+import Deferred from "dojo/Deferred";
+import ThemeCss from "raw-loader!../css/theme-template.css";
+import GraphicsLayer from "esri/layers/GraphicsLayer";
+import FeatureLayer from "esri/layers/FeatureLayer";
+import Circle from "esri/geometry/Circle";
+import Query from "esri/tasks/query";
+import Color from "esri/Color";
+import Graphic from "esri/graphic";
+import Point from "esri/geometry/Point";
+import Polyline from "esri/geometry/Polyline";
+import Polygon from "esri/geometry/Polygon";
+import SpatialReference from "esri/SpatialReference";
+import SimpleMarkerSymbol from "esri/symbols/SimpleMarkerSymbol";
+import SimpleLineSymbol from "esri/symbols/SimpleLineSymbol";
+import SimpleFillSymbol from "esri/symbols/SimpleFillSymbol";
+import PictureMarkerSymbol from "esri/symbols/PictureMarkerSymbol";
+import QueryTask from "esri/tasks/QueryTask";
+import geometryEngine from "esri/geometry/geometryEngine";
+import webMercatorUtils from "esri/geometry/webMercatorUtils";
+import PopupTemplate from "esri/dijit/PopupTemplate";
+import Draw from "esri/toolbars/draw";
+import ApplicationHeader from "./widgets/app-header/app-header";
+import WebMapList from "./widgets/webmap-list/webmap-list";
+import IssueWall from "./widgets/issue-wall/issue-wall";
+import GeoForm from "./widgets/geo-form/geo-form";
+import MyIssues from "./widgets/my-issues/my-issues";
+import ApplicationUtils from "./utils/utils";
+import query from "dojo/query";
+import SidebarContentController from "./widgets/sidebar-content-controller/sidebar-content-controller";
+import ItemDetails from "./widgets/item-details/item-details-controller";
+import MapSearch from "./widgets/map-search/map-search";
+import "dojo/domReady!";
+    export default declare(null, {
         config: {},
         appUtils: null,
         boilerPlateTemplate: null,
@@ -152,7 +103,7 @@ define([
             // config will contain application and user defined info for the template such as i18n strings, the web map id
             // and application id
             // any url parameters and any application specific configuration information.
-            var queryParams = {};
+            const queryParams = {};
             if (boilerPlateTemplateObject) {
                 this.boilerPlateTemplate = boilerPlateTemplateObject;
                 this.config = boilerPlateTemplateObject.config;
@@ -182,7 +133,7 @@ define([
 
                 //On click of address from main map, show it in geoform
                 this.mapSearch.onAddressClicked = lang.hitch(this, function (geometry) {
-                    var evt = { "geometry": geometry };
+                    const evt = { "geometry": geometry };
                     if (this.geoformInstance && !domClass.contains(dom.byId('geoformContainer'), "esriCTHidden")) {
                         this.geoformInstance._addToGraphicsLayer(evt, false);
                     }
@@ -367,7 +318,7 @@ define([
                                 this._checkForFeatureAvailability(updatedFeature).then(lang.hitch(this, function (isFeatureFound) {
                                     if (isFeatureFound) {
                                         //refresh main map so that newly created issue will be shown on it.
-                                        var layer = this._selectedMapDetails.map.getLayer(this._selectedMapDetails.operationalLayerId);
+                                        const layer = this._selectedMapDetails.map.getLayer(this._selectedMapDetails.operationalLayerId);
                                         layer.refresh();
                                         if (this.config.showNonEditableLayers) {
                                             //Refresh label layers to fetch label of updated feature
@@ -398,7 +349,7 @@ define([
                 });
 
                 this._itemDetails.onFeatureDeleted = lang.hitch(this, function (isDeleted) {
-                    var layer;
+                    let layer;
                     if (isDeleted) {
                         //refresh main map so that newly created issue will be shown on it.
                         layer = this._selectedMapDetails.map.getLayer(this._selectedMapDetails.operationalLayerId);
@@ -407,7 +358,7 @@ define([
                     }
                 });
 
-                var submitButtonText, submitButtonColor;
+                let submitButtonText, submitButtonColor;
                 if (this.config && lang.trim(this.config.submitReportButtonText) === "") {
                     submitButtonText = this.config.i18n.main.submitReportButtonText;
                 } else {
@@ -450,7 +401,7 @@ define([
         * @memberOf main
         */
         _checkForFeatureAvailability: function (feature) {
-            var countDef, countQuery, queryTask, layersIds = [], featureFound = true;
+            let countDef, countQuery, queryTask, layersIds = [], featureFound = true;
             countDef = new Deferred();
             countQuery = new Query();
             queryTask = new QueryTask(this.selectedLayer.url);
@@ -465,7 +416,7 @@ define([
                         featureFound = true;
                     }
                     countDef.resolve(featureFound);
-                }), function () {
+                }), () => {
                     countDef.resolve(false);
                 });
             } else {
@@ -481,12 +432,10 @@ define([
         * @memberOf main
         */
         _updateFeatureInIssueWall: function (updatedFeature, isUpdated, canDeleteFromMyIssue) {
-            var nodeToUpdate, nodeToUpdateAttr;
+            let nodeToUpdate, nodeToUpdateAttr;
             if (this._issueWallWidget.itemsList) {
-                nodeToUpdateAttr = updatedFeature.attributes[this.selectedLayer.objectIdField] + "_" +
-                    this._selectedMapDetails.webMapId + "_" +
-                    this.selectedLayer.id;
-                nodeToUpdate = query("." + nodeToUpdateAttr);
+                nodeToUpdateAttr = `${updatedFeature.attributes[this.selectedLayer.objectIdField]}_${this._selectedMapDetails.webMapId}_${this.selectedLayer.id}`;
+                nodeToUpdate = query(`.${nodeToUpdateAttr}`);
                 if (isUpdated) {
                     this._updateFeature(updatedFeature);
                 } else {
@@ -506,7 +455,7 @@ define([
         * @memberOf main
         */
         _updateFeature: function (updatedFeature) {
-            var updatedFeatureTitle;
+            let updatedFeatureTitle;
             updatedFeatureTitle = this._issueWallWidget.itemsList.getItemTitle(updatedFeature);
             domAttr.set(this._itemDetails.itemTitleDiv, "innerHTML", updatedFeatureTitle);
             //If the updated issue is present in my issues list then update it accrodingly
@@ -536,7 +485,7 @@ define([
 
             if (canDeleteFromMyIssue) {
                 // Delete the node from issue list, my issue list and clear selection
-                array.forEach(nodeToUpdate, lang.hitch(this, function (currentItemNode) {
+                array.forEach(nodeToUpdate, lang.hitch(this, currentItemNode => {
                     domConstruct.destroy(currentItemNode);
                 }));
             } else {
@@ -578,7 +527,7 @@ define([
         * @memberOf main
         */
         _handleNoWebMapToDisplay: function () {
-            var noMapMessage;
+            let noMapMessage;
             try {
                 //Remove all menus except sign in/sign out
                 this._menusList.homeMenu = false;
@@ -605,7 +554,7 @@ define([
         * @memberOf main
         */
         _loadApplicationTheme: function () {
-            var cssString, head, style, link;
+            let cssString, head, style, link;
             //if theme is configured
             if (this.config.theme) {
                 //substitute theme color values in theme template
@@ -747,7 +696,7 @@ define([
         * @memberOf main
         */
         _addFeatureLayerOnMap: function (data) {
-            var webmapTemplateNode;
+            let webmapTemplateNode;
             this._webMapListWidget._displaySelectedOperationalLayer(data);
             //highlight selected webmap template item in webmap list
             this._webMapListWidget._selectWebMapItem(data.webMapId);
@@ -767,7 +716,9 @@ define([
         * @memberOf main
         */
         _getSeletedWebmapTemplate: function (webMapId) {
-            var nodeWebmapId, i, webmapTempNodeArr = $('.esriCTDisplayWebMapTemplate');
+            let nodeWebmapId;
+            let i;
+            const webmapTempNodeArr = $('.esriCTDisplayWebMapTemplate');
             for (i = 0; i < webmapTempNodeArr.length; i++) {
                 nodeWebmapId = domAttr.get(webmapTempNodeArr[i], "webMapId");
                 if (nodeWebmapId === webMapId) {
@@ -783,7 +734,7 @@ define([
         */
         _createWebMapList: function () {
             try {
-                var webMapDescriptionFields, webMapListConfigData, zoomInBtn, zoomOutBtn, geolocationPoint;
+                let webMapDescriptionFields, webMapListConfigData, zoomInBtn, zoomOutBtn, geolocationPoint;
                 //construct json data for the fields to be shown in descriptions, based on the configuration
                 webMapDescriptionFields = {
                     "description": this.config.webMapInfoDescription,
@@ -859,7 +810,7 @@ define([
                     if (this.config.geolocation && this._webMapListWidget.geographicalExtentLayer) {
                         geolocationPoint = new Point(this.config.geolocation.coords.longitude,
                             this.config.geolocation.coords.latitude);
-                        var evt = {};
+                        const evt = {};
                         evt.geometry = geolocationPoint;
                         this._canDrawFeature(evt).then(lang.hitch(this, function (canDraw) {
                             if (!canDraw) {
@@ -873,7 +824,8 @@ define([
                 });
 
                 this.appUtils.onGeolocationComplete = lang.hitch(this, function (evt, addGraphic) {
-                    var symbol, selectedGeometry = {};
+                    let symbol;
+                    const selectedGeometry = {};
                     if (!this.geolocationgGraphicsLayer) {
                         this.geolocationgGraphicsLayer = new GraphicsLayer();
                         this.map.addLayer(this.geolocationgGraphicsLayer);
@@ -1069,7 +1021,7 @@ define([
                             this._selectFeaturesInBuffer(this._issueWallWidget.selectedLayer, this._selectedMapDetails);
                         }
                     } else {
-                        var j, index;
+                        let j, index;
                         //Filter the features which are already added to layer via search or my issues
                         for (j = this.newlyAddedFeatures.length; j >= 0; j--) {
                             if (this.sortedBufferArray[this.bufferPageNumber].indexOf(this.newlyAddedFeatures[j]) !== -1) {
@@ -1141,7 +1093,9 @@ define([
         * @memberOf main
         */
         _canDrawFeature: function (evt) {
-            var def = new Deferred(), query, queryTask;
+            const def = new Deferred();
+            let query;
+            let queryTask;
             if (!evt || !evt.geometry || !this._webMapListWidget ||
                     !this._webMapListWidget.geographicalExtentLayer) {
                 //If valid extent layer is not configured allow user to add feature without any restrictions
@@ -1205,7 +1159,7 @@ define([
                     this.geoformInstance.geoformSubmitted = lang.hitch(this, function (objectId) {
                         try {
                             //refresh main map so that newly created issue will be shown on it.
-                            var layer = this._selectedMapDetails.map.getLayer(this._selectedMapDetails.operationalLayerId);
+                            const layer = this._selectedMapDetails.map.getLayer(this._selectedMapDetails.operationalLayerId);
                             layer.refresh();
                             if (this.config.showNonEditableLayers) {
                                 //Refresh label layers to fetch label of updated feature
@@ -1258,23 +1212,26 @@ define([
         * @memberOf main
         */
         _addNewFeature: function (objectId, layer, addedFrom) {
-            var queryTask, queryParams, featureDef = new Deferred(), currentDateTime = new Date().getTime();
+            let queryTask;
+            let queryParams;
+            const featureDef = new Deferred();
+            const currentDateTime = new Date().getTime();
             queryParams = new Query();
             queryParams.objectIds = [parseInt(objectId, 10)];
             queryParams.outFields = ["*"];
-            queryParams.where = currentDateTime + "=" + currentDateTime;
+            queryParams.where = `${currentDateTime}=${currentDateTime}`;
             queryParams.returnGeometry = true;
             queryParams.outSpatialReference = this.map.spatialReference;
             if (this._existingDefinitionExpression) {
-                queryParams.where += " AND " + this._existingDefinitionExpression;
+                queryParams.where += ` AND ${this._existingDefinitionExpression}`;
             }
             queryTask = new QueryTask(layer.url);
             queryTask.execute(queryParams, lang.hitch(this, function (result) {
                 this._createFeature(result.features[0], layer, addedFrom);
                 featureDef.resolve();
-            }), function (error) {
+            }), error => {
                 featureDef.reject();
-                console.log("Error :" + error);
+                console.log(`Error :${error}`);
             });
             return featureDef.promise;
         },
@@ -1285,7 +1242,7 @@ define([
         * @memberOf main
         */
         _createFeature: function (newFeature, layer, addedFrom) {
-            var newGraphic, featureExsist = false;
+            let newGraphic, featureExsist = false;
             if (!newFeature) {
                 return;
             }
@@ -1294,7 +1251,7 @@ define([
             newFeature.setInfoTemplate(layer.infoTemplate);
             newGraphic = this._createFeatureAttributes(newFeature, layer);
             //check if newfeature is already present in graphics layer and set featureExsist flag to true
-            array.some(this.displaygraphicsLayer.graphics, lang.hitch(this, function (currentFeature) {
+            array.some(this.displaygraphicsLayer.graphics, lang.hitch(this, currentFeature => {
                 if (currentFeature.attributes[layer.objectIdField] === newGraphic.graphic.attributes[layer.objectIdField]) {
                     featureExsist = true;
                     return true;
@@ -1342,7 +1299,7 @@ define([
         * @memberOf main
         */
         _createFeatureAttributes: function (newFeature, layer) {
-            var newGraphic1, fieldValue;
+            let newGraphic1, fieldValue;
             newGraphic1 = new Graphic();
             //Kepping instance of original feature for further use
             newGraphic1.originalFeature = newFeature;
@@ -1411,7 +1368,7 @@ define([
         },
 
         _itemSelected: function (item, isMapClicked) {
-            var operationalLayer;
+            let operationalLayer;
             //Highlight Feature on map
             operationalLayer = this.map.getLayer(this._selectedMapDetails.operationalLayerId);
             if (operationalLayer && operationalLayer.objectIdField && this._selectedMapDetails.map) {
@@ -1421,12 +1378,12 @@ define([
             //added layer ID to selected item's object id to avoid duplicate value of object id across multiple layer
             if (this._isMyIssues) {
                 this._createFeature(item, operationalLayer, "myissues");
-                this._myIssuesWidget.itemsList.setSelection(item.attributes[operationalLayer.objectIdField] + "_" + item.webMapId + "_" + operationalLayer.id);
+                this._myIssuesWidget.itemsList.setSelection(`${item.attributes[operationalLayer.objectIdField]}_${item.webMapId}_${operationalLayer.id}`);
             } else {
                 if (!item.webMapId) {
                     item.webMapId = this._selectedMapDetails.webMapId;
                 }
-                this._issueWallWidget.itemsList.setSelection(item.attributes[operationalLayer.objectIdField] + "_" + this._selectedMapDetails.webMapId + "_" + operationalLayer.id);
+                this._issueWallWidget.itemsList.setSelection(`${item.attributes[operationalLayer.objectIdField]}_${this._selectedMapDetails.webMapId}_${operationalLayer.id}`);
             }
             //Change the map extent and set it to features extent
             this._gotoSelectedFeature(item);
@@ -1475,7 +1432,10 @@ define([
         * @param{object} map
         */
         highLightFeatureOnClick: function (layer, objectId, selectedGraphicsLayer, map) {
-            var queryTask, esriQuery, highlightSymbol, currentDateTime = new Date().getTime();
+            let queryTask;
+            let esriQuery;
+            let highlightSymbol;
+            const currentDateTime = new Date().getTime();
             this.mapInstance = map;
             if (selectedGraphicsLayer) {
                 // clear graphics layer
@@ -1483,11 +1443,11 @@ define([
             }
             esriQuery = new Query();
             esriQuery.objectIds = [parseInt(objectId, 10)];
-            esriQuery.where = currentDateTime + "=" + currentDateTime;
+            esriQuery.where = `${currentDateTime}=${currentDateTime}`;
             esriQuery.returnGeometry = true;
             esriQuery.outSpatialReference = this.map.spatialReference;
             if (this._existingDefinitionExpression) {
-                esriQuery.where += " AND " + this._existingDefinitionExpression;
+                esriQuery.where += ` AND ${this._existingDefinitionExpression}`;
             }
             queryTask = new QueryTask(layer.url);
             queryTask.execute(esriQuery, lang.hitch(this, function (featureSet) {
@@ -1529,7 +1489,7 @@ define([
         * @param{object} details of selected layer
         */
         _getPointSymbol: function (graphic, layer) {
-            var symbol, isSymbolFound, graphics, point, graphicInfoValue, layerInfoValue, i, itemFromLayer, symbolShape;
+            let symbol, isSymbolFound, graphics, point, graphicInfoValue, layerInfoValue, i, itemFromLayer, symbolShape;
             isSymbolFound = false;
             symbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_SQUARE, null, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 255, 1]), 3));
             symbol.setColor(null);
@@ -1565,7 +1525,7 @@ define([
             }
             layer = this.mapInstance.getLayer(layer.id);
             if (!isSymbolFound && layer && layer.graphics && layer.graphics.length > 0) {
-                array.some(layer.graphics, function (item) {
+                array.some(layer.graphics, item => {
                     if (item.attributes[graphic._layer.objectIdField] === graphic.attributes[graphic._layer.objectIdField]) {
                         itemFromLayer = item;
                         return item;
@@ -1601,7 +1561,7 @@ define([
         * @param{object} renderer layer Symbol
         */
         _updatePointSymbolProperties: function (symbol, layerSymbol) {
-            var height, width, size;
+            let height, width, size;
             if (layerSymbol.hasOwnProperty("height") && layerSymbol.hasOwnProperty("width")) {
                 height = layerSymbol.height;
                 width = layerSymbol.width;
@@ -1630,7 +1590,7 @@ define([
         * @param{object} details of selected layer
         */
         _getPolyLineSymbol: function (graphic, layer) {
-            var symbol, graphics, polyline, symbolWidth, graphicInfoValue, layerInfoValue, i;
+            let symbol, graphics, polyline, symbolWidth, graphicInfoValue, layerInfoValue, i;
             symbolWidth = 5; // default line width
             //check if layer is valid and have valid renderer object then only check for other  symbol properties
             if (layer && layer.renderer) {
@@ -1672,7 +1632,7 @@ define([
         * @param{object} details of selected layer
         */
         _getPolygonSymbol: function (graphic, layer) {
-            var symbol, graphics, polygon;
+            let symbol, graphics, polygon;
             symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 255, 1]), 4), new Color([0, 0, 0, 0]));
             polygon = new Polygon(new SpatialReference({
                 wkid: graphic.geometry.spatialReference.wkid
@@ -1709,15 +1669,15 @@ define([
                     $(node).tooltip("hide");
                 }
             }
-            this.tooltipHandler = on(node, touch.press, lang.hitch(this, function (e) {
+            this.tooltipHandler = on(node, touch.press, lang.hitch(this, e => {
                 $(node).tooltip("toggle");
                 e.preventDefault();
             }));
-            on(document, "click", lang.hitch(this, function () {
+            on(document, "click", lang.hitch(this, () => {
                 $(node).tooltip("hide");
             }));
 
-            on(window, "resize", lang.hitch(this, function () {
+            on(window, "resize", lang.hitch(this, () => {
                 $(node).tooltip("hide");
             }));
         },
@@ -1727,7 +1687,7 @@ define([
         * @memberOf widgets/geo-form/geo-form
         */
         _activateDrawTool: function () {
-            var tool, type;
+            let tool, type;
             // Select layer type
             type = this._selectLayerType();
             tool = type.toUpperCase();
@@ -1742,7 +1702,7 @@ define([
         * @memberOf widgets/geo-form/geo-form
         */
         _selectLayerType: function () {
-            var type;
+            let type;
             //set type for selected geometry type of the layer
             switch (this.selectedLayer.geometryType) {
             case "esriGeometryPoint":
@@ -1765,7 +1725,7 @@ define([
         * @memberOf widgets/geo-form/geo-form
         */
         _addToGraphicsLayer: function (evt) {
-            var symbol, graphic, graphicGeometry;
+            let symbol, graphic, graphicGeometry;
             // clear graphics on the map
             this._clearSubmissionGraphic();
             // get geometry
@@ -1797,7 +1757,7 @@ define([
         * @memberOf widgets/geo-form/geo-form
         */
         _createPolygonFromExtent: function (geometry) {
-            var polygon = new Polygon(geometry.spatialReference);
+            const polygon = new Polygon(geometry.spatialReference);
             // set geometry ring to the polygon layer
             polygon.addRing([
                 [geometry.xmin, geometry.ymin],
@@ -1816,7 +1776,7 @@ define([
         * @memberOf widgets/geo-form/geo-form
         */
         _createFeatureSymbol: function (geometryType) {
-            var symbol;
+            let symbol;
             //set symbol for selected geometry type of the layer
             switch (geometryType) {
             case "point":
@@ -1838,7 +1798,7 @@ define([
         * @memberOf widgets/main/main
         */
         _reorderAllLayers: function () {
-            var layer, i, layerInstance, index, basemapLength;
+            let layer, i, layerInstance, index, basemapLength;
             basemapLength = 1;
             if ((this.map.layerIds) && (this.map.layerIds.length > 0)) {
                 basemapLength = this.map.layerIds.length;
@@ -1848,7 +1808,7 @@ define([
                     if (this.map._layers.hasOwnProperty(layer)) {
                         if (this.map._layers[layer].id === this._selectedMapDetails.itemInfo.itemData.operationalLayers[i].id) {
                             if (this.selectedLayer.id === this.map._layers[layer].id) {
-                                layerInstance = this.map.getLayer("Graphics" + this._selectedMapDetails.itemInfo.itemData.operationalLayers[i].id);
+                                layerInstance = this.map.getLayer(`Graphics${this._selectedMapDetails.itemInfo.itemData.operationalLayers[i].id}`);
                             } else {
                                 layerInstance = this.map.getLayer(this._selectedMapDetails.itemInfo.itemData.operationalLayers[i].id);
                             }
@@ -1868,7 +1828,7 @@ define([
         * @memberOf @memberOf main
         */
         _initializeLayer: function (details) {
-            var selectedOperationalLayer, layerUrl, layerID, cloneRenderer, cloneInfoTemplate, layerOpacity, minScale, maxScale;
+            let selectedOperationalLayer, layerUrl, layerID, cloneRenderer, cloneInfoTemplate, layerOpacity, minScale, maxScale;
             selectedOperationalLayer = this.map.getLayer(details.operationalLayerDetails.id);
             this.selectedLayer = selectedOperationalLayer;
             //If layer is changed through my issues widget, we need to update the layer instance in my issues widget
@@ -1892,7 +1852,7 @@ define([
             if (this.displaygraphicsLayer) {
                 this.map.removeLayer(this.displaygraphicsLayer);
             }
-            this.displaygraphicsLayer = new GraphicsLayer(layerUrl, { id: "Graphics" + layerID });
+            this.displaygraphicsLayer = new GraphicsLayer(layerUrl, { id: `Graphics${layerID}` });
             this.displaygraphicsLayer.setRenderer(cloneRenderer);
             this.displaygraphicsLayer.setInfoTemplate(cloneInfoTemplate);
             this.displaygraphicsLayer.setOpacity(layerOpacity);
@@ -1909,7 +1869,7 @@ define([
         * @memberOf widgets/main/main
         */
         _getExistingIndex: function (layerID) {
-            var index, i;
+            let index, i;
             this._existingLayerIndex = null;
             for (i = 0; i < this._selectedMapDetails.itemInfo.itemData.operationalLayers.length; i++) {
                 if (this._selectedMapDetails.itemInfo.itemData.operationalLayers[i].id === layerID) {
@@ -1926,7 +1886,7 @@ define([
         * @memberOf main
         */
         _getExistingDefinitionExpression: function (itemInfo, selectedOperationalLayer) {
-            var j;
+            let j;
             // Initially, if a layer has some definition expression than store it
             for (j = 0; j < itemInfo.itemData.operationalLayers.length; j++) {
                 if (selectedOperationalLayer.id === itemInfo.itemData.operationalLayers[j].id) {
@@ -1947,7 +1907,7 @@ define([
         * @memberOf main
         */
         _getFeatureLayerCount: function (details, featureLayer) {
-            var countQuery, queryTask;
+            let countQuery, queryTask;
             countQuery = new Query();
             queryTask = new QueryTask(featureLayer.url);
             if (this._existingDefinitionExpression) {
@@ -1965,13 +1925,11 @@ define([
                     // Some layers return NULL if no feature are present, to handle that simply assign empty array to results
                     if (!results) { results = []; }
                     //Sort obtained object ids in descending order
-                    results.sort(function (a, b) {
-                        return b - a;
-                    });
+                    results.sort((a, b) => b - a);
                     //If geolocation does not exsists create feature batches
                     this._createFeatureBatches(featureLayer, results, details);
                 }
-            }), function (error) {
+            }), error => {
                 console.log(error);
             });
         },
@@ -1983,7 +1941,7 @@ define([
         * @memberOf main
         */
         _createBufferParameters: function (featureLayer, details, isLoadMoreClick) {
-            var circleSymb, bufferedGeometries, circleBoundary, newGeometry;
+            let circleSymb, bufferedGeometries, circleBoundary, newGeometry;
             //Create new point from the geolocation coordinates
             this.geoLocationPoint = webMercatorUtils.geographicToWebMercator(new Point(this.config.geolocation.coords.longitude, this.config.geolocation.coords.latitude));
             //Create symbol which will indicate the buffer
@@ -2018,7 +1976,7 @@ define([
         * @memberOf main
         */
         _createBuffer: function (featureLayer, newGeometry, details, bufferedGeometries, isLoadMoreClick) {
-            var bufferQuery, queryTask, i, j, chunk;
+            let bufferQuery, queryTask, i, j, chunk;
             bufferQuery = new Query();
             queryTask = new QueryTask(featureLayer.url);
             this.previousBufferIds = lang.clone(this.currentBufferIds);
@@ -2121,7 +2079,7 @@ define([
         * @memberOf main
         */
         _filterResult: function () {
-            var i, j;
+            let i, j;
             this.filteredBufferIds = lang.clone(this.currentBufferIds);
             //Check if the feature is already added to map, with the help of previousBufferIds array
             if (this.filteredBufferIds && this.filteredBufferIds.length > 0 && this.previousBufferIds && this.previousBufferIds.length > 0) {
@@ -2149,22 +2107,25 @@ define([
         * @memberOf main
         */
         _selectFeaturesInBuffer: function (featureLayer, details, bufferedGeometries) {
-            var queryTask, queryParams, newGraphic, currentDateTime = new Date().getTime();
+            let queryTask;
+            let queryParams;
+            let newGraphic;
+            const currentDateTime = new Date().getTime();
             queryParams = new Query();
             queryParams.objectIds = this.sortedBufferArray[this.bufferPageNumber];
             queryParams.outFields = ["*"];
             queryParams.returnGeometry = true;
-            queryParams.where = currentDateTime + "=" + currentDateTime;
+            queryParams.where = `${currentDateTime}=${currentDateTime}`;
             queryParams.outSpatialReference = this.map.spatialReference;
             if (this._existingDefinitionExpression) {
-                queryParams.where += " AND " + this._existingDefinitionExpression;
+                queryParams.where += ` AND ${this._existingDefinitionExpression}`;
             }
             if (bufferedGeometries) {
                 queryParams.geometry = bufferedGeometries;
             }
             queryTask = new QueryTask(featureLayer.url);
             queryTask.execute(queryParams, lang.hitch(this, function (result) {
-                var i, fields;
+                let i, fields;
                 if (result.features) {
                     for (i = 0; i < result.features.length; i++) {
                         newGraphic = new Graphic();
@@ -2197,7 +2158,7 @@ define([
                     //Now, initialize issue list
                     this._createIssueWall(details);
                 }
-            }), function (err) {
+            }), err => {
                 console.log(err);
             });
         },
@@ -2208,7 +2169,7 @@ define([
         * @memberOf main
         */
         _initializeApp: function (details) {
-            var geoLocationButtonDiv, homeButtonDiv, incrementButton, decrementButton, selectedGraphics;
+            let geoLocationButtonDiv, homeButtonDiv, incrementButton, decrementButton, selectedGraphics;
             //set layer title on map
             domAttr.set(dom.byId("mapContainerTitle"), "innerHTML", details.operationalLayerDetails.title);
             //Show popup on click/hover of layer title div
@@ -2276,7 +2237,7 @@ define([
         * @memberOf main
         */
         _createFeatureBatches: function (featureLayer, results, details) {
-            var chunk, i, j;
+            let chunk, i, j;
             chunk = featureLayer.maxRecordCount || 999;
             this.numberOfChunk = Math.floor(results.length / chunk);
 
@@ -2322,4 +2283,3 @@ define([
         }
         /*-------  End of section for Geographical Filtering  -------*/
     });
-});

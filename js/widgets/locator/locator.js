@@ -1,39 +1,37 @@
 ﻿/*global define,dojo,alert,$ */
 /*jslint browser:true,sloppy:true,nomen:true,unparam:true,plusplus:true,indent:4 */
-define([
-    "dojo/_base/declare",
-    "dojo/dom-construct",
-    "dojo/_base/lang",
-    "dojo/dom-attr",
-    "dojo/dom-class",
-    "dojo/dom-geometry",
-    "dojo/dom-style",
-    "dojo/_base/array",
-    "dojo/dom",
-    "dojo/Deferred",
-    "dojo/DeferredList",
-    "dojo/on",
-    "dojo/keys",
-    "dojo/query",
-    "dojo/text!./templates/locator.html",
-    "dijit/_WidgetBase",
-    "dijit/_TemplatedMixin",
-    "dijit/_WidgetsInTemplateMixin",
-    "esri/Color",
-    "esri/config",
-    "esri/graphic",
-    "esri/geometry/Point",
-    "esri/geometry/webMercatorUtils",
-    "esri/layers/GraphicsLayer",
-    "esri/SpatialReference",
-    "esri/tasks/GeometryService",
-    "esri/tasks/locator",
-    "esri/tasks/ProjectParameters",
-    "esri/tasks/query",
-    "esri/tasks/QueryTask",
-    "vendor/usng"
-], function (declare, domConstruct, lang, domAttr, domClass, domGeom, domStyle, array, dom, Deferred, DeferredList, on, keys, query, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, Color, esriConfig, Graphic, Point, webMercatorUtils, GraphicsLayer, SpatialReference, GeometryService, Locator, ProjectParameters, EsriQuery, QueryTask, usng) {
-    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+import declare from "dojo/_base/declare";
+import domConstruct from "dojo/dom-construct";
+import lang from "dojo/_base/lang";
+import domAttr from "dojo/dom-attr";
+import domClass from "dojo/dom-class";
+import domGeom from "dojo/dom-geometry";
+import domStyle from "dojo/dom-style";
+import array from "dojo/_base/array";
+import dom from "dojo/dom";
+import Deferred from "dojo/Deferred";
+import DeferredList from "dojo/DeferredList";
+import on from "dojo/on";
+import keys from "dojo/keys";
+import query from "dojo/query";
+import template from "./templates/locator.html";
+import _WidgetBase from "dijit/_WidgetBase";
+import _TemplatedMixin from "dijit/_TemplatedMixin";
+import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";
+import Color from "esri/Color";
+import esriConfig from "esri/config";
+import Graphic from "esri/graphic";
+import Point from "esri/geometry/Point";
+import webMercatorUtils from "esri/geometry/webMercatorUtils";
+import GraphicsLayer from "esri/layers/GraphicsLayer";
+import SpatialReference from "esri/SpatialReference";
+import GeometryService from "esri/tasks/GeometryService";
+import Locator from "esri/tasks/locator";
+import ProjectParameters from "esri/tasks/ProjectParameters";
+import EsriQuery from "esri/tasks/query";
+import QueryTask from "esri/tasks/QueryTask";
+import usng from "../../vendor/usng";
+    export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         lastSearchString: null,
         stagedSearch: null,
@@ -57,7 +55,7 @@ define([
         * @memberOf widgets/locator/locator
         */
         postCreate: function () {
-            var graphicsLayer, placeHolderText;
+            let graphicsLayer, placeHolderText;
             domConstruct.place(this.divLocateContainer, this.locatorContainer);
             if (this.itemInfo.applicationProperties.viewing.search && this.itemInfo.applicationProperties.viewing.search.hintText) {
                 placeHolderText = this.itemInfo.applicationProperties.viewing.search.hintText;
@@ -191,12 +189,12 @@ define([
         * @method widgets/locator/locator
         */
         _performUnifiedSearch: function () {
-            var deferredArray = [],
-                i,
-                address = {},
-                options,
-                locator,
-                locatorDef;
+            const deferredArray = [];
+            let i;
+            let address = {};
+            let options;
+            let locator;
+            let locatorDef;
             this.usngValue = null;
             this.mgrsValue = null;
             this.latLongValue = null;
@@ -224,7 +222,7 @@ define([
                     }
 
                     options = {
-                        address: address,
+                        address,
                         outFields: ["*"]
                     };
                     // optionally return the out fields if you need to calculate the extent of the geocoded point
@@ -265,15 +263,16 @@ define([
         */
         _onAddressToLocateComplete: function (locator) {
             locator.on("address-to-locations-complete", lang.hitch(this, function (evt) {
-                var locatorName, nameArray = {},
-                    deferred;
+                let locatorName;
+                const nameArray = {};
+                let deferred;
                 deferred = new Deferred();
                 deferred.resolve({
                     "addresses": evt.addresses,
                     "target": evt.target
                 });
-                if (evt.addresses.length > 0 && !nameArray[this.config.i18n.locator.addressText + " " + evt.target.name]) {
-                    locatorName = this.config.i18n.locator.addressText + " " + evt.target.name;
+                if (evt.addresses.length > 0 && !nameArray[`${this.config.i18n.locator.addressText} ${evt.target.name}`]) {
+                    locatorName = `${this.config.i18n.locator.addressText} ${evt.target.name}`;
                     nameArray[locatorName] = this._addressResult(evt.addresses, locatorName);
                     if (nameArray[locatorName].length > 0) {
                         this._showLocatedAddress(nameArray);
@@ -290,7 +289,7 @@ define([
         * @param {} deferredArray
         */
         _layerSearchResults: function (layerObject, deferredArray) {
-            var queryTask, queryLayer, deferred, currentTime, layer;
+            let queryTask, queryLayer, deferred, currentTime, layer;
             layer = this.map.getLayer(layerObject.id);
             this._toggleTexBoxControls(true);
             if (layer) {
@@ -299,12 +298,12 @@ define([
                 queryLayer = new EsriQuery();
                 // check if layer is configured to perform exact search, else perform 'contains' search
                 if (layerObject.field.exactMatch) {
-                    queryLayer.where = layerObject.field.name.toUpperCase() + "='" + lang.trim(this.txtSearch.value) + "'" + " AND " + currentTime + "=" + currentTime;
+                    queryLayer.where = `${layerObject.field.name.toUpperCase()}='${lang.trim(this.txtSearch.value)}' AND ${currentTime}=${currentTime}`;
                 } else {
-                    queryLayer.where = "UPPER(" + layerObject.field.name + ") LIKE UPPER ('%" + lang.trim(this.txtSearch.value) + "%') AND " + currentTime + "=" + currentTime;
+                    queryLayer.where = `UPPER(${layerObject.field.name}) LIKE UPPER ('%${lang.trim(this.txtSearch.value)}%') AND ${currentTime}=${currentTime}`;
                 }
                 if (layer.getDefinitionExpression()) {
-                    queryLayer.where = queryLayer.where + " AND " + layer.getDefinitionExpression();
+                    queryLayer.where = `${queryLayer.where} AND ${layer.getDefinitionExpression()}`;
                 }
                 queryLayer.outSpatialReference = this.map.spatialReference;
                 queryLayer.returnGeometry = true;
@@ -312,7 +311,8 @@ define([
 
                 deferred = new Deferred();
                 queryTask.execute(queryLayer, lang.hitch(this, function (featureSet) {
-                    var resultArray, resultObject = {};
+                    let resultArray;
+                    const resultObject = {};
                     if (featureSet) {
                         // store search results in an array
                         resultArray = this._displayLayerSearchResults(featureSet);
@@ -322,7 +322,7 @@ define([
                         }
                     }
                     deferred.resolve(featureSet);
-                }), function (err) {
+                }), err => {
                     alert(err.message);
                     deferred.reject();
                 });
@@ -336,7 +336,7 @@ define([
         * @method widgets/locator/locator
         */
         _getLayerTitle: function (layerID) {
-            var i;
+            let i;
             for (i = 0; i < this.itemInfo.operationalLayers.length; i++) {
                 if (this.itemInfo.operationalLayers[i].id === layerID) {
                     return this.itemInfo.operationalLayers[i].title;
@@ -352,7 +352,7 @@ define([
         * @param {} layer on which search is performed
         */
         _getAddressResults: function (deferredArray) {
-            var deferredListResult, nameArray;
+            let deferredListResult, nameArray;
             deferredListResult = new DeferredList(deferredArray);
             deferredListResult.then(lang.hitch(this, function (result) {
                 nameArray = {};
@@ -390,7 +390,8 @@ define([
         * @memberOf widgets/locator/locator
         */
         _addressResult: function (candidates) {
-            var order, nameArray = [];
+            let order;
+            const nameArray = [];
             // Loop through the results and store results of type LatLong in an array
             for (order = 0; order < candidates.length; order++) {
                 if (candidates[order].attributes.Addr_type !== "LatLong" && (!(isNaN(candidates[order].location.x) && isNaN(candidates[order].location.y)))) {
@@ -410,7 +411,10 @@ define([
         * @memberOf widgets/locator/locator
         */
         _displayLayerSearchResults: function (results) {
-            var i, index, resultAttributes, returnArray = [];
+            let i;
+            let index;
+            let resultAttributes;
+            const returnArray = [];
             for (i = 0; i < results.features.length; i++) {
                 resultAttributes = results.features[i].attributes;
                 for (index in resultAttributes) {
@@ -437,7 +441,7 @@ define([
         * @memberOf widgets/locator/locator
         */
         _showLocatedAddress: function (candidates) {
-            var candidateArray, divAddressContainer, candidate, addressListContainer, i, divAddressSearchCell;
+            let candidateArray, divAddressContainer, candidate, addressListContainer, i, divAddressSearchCell;
             // if searched value is empty, clear address container and do not perform search
             if (lang.trim(this.txtSearch.value) === "") {
                 this.txtSearch.focus();
@@ -462,7 +466,7 @@ define([
                                 divAddressSearchCell = domConstruct.create("div", {
                                     "class": "esriCTSearchGroupCell"
                                 }, divAddressContainer);
-                                candidate = candidateArray + " (" + candidates[candidateArray].length + ")";
+                                candidate = `${candidateArray} (${candidates[candidateArray].length})`;
                                 domConstruct.create("span", {
                                     "innerHTML": "+",
                                     "class": "esriCTPlusMinus"
@@ -500,7 +504,7 @@ define([
         * @memberOf widgets/locator/locator
         */
         _displayValidLocations: function (candidate, index, candidateArray, addressListContainer) {
-            var candidateAddress, divAddressRow;
+            let candidateAddress, divAddressRow;
             divAddressRow = domConstruct.create("div", {
                 "class": "esriCTCandidateList"
             }, addressListContainer);
@@ -538,7 +542,7 @@ define([
         */
         _toggleAddressList: function (addressList, idx) {
             on(addressList, "click", lang.hitch(this, function (evt) {
-                var addressListContainer, listStatusSymbol;
+                let addressListContainer, listStatusSymbol;
                 addressListContainer = query(".esriCTAddressListContainer", this.divResultContainer)[idx];
                 if (domClass.contains(addressListContainer, "esriCTShowAddressList")) {
                     domClass.toggle(addressListContainer, "esriCTShowAddressList");
@@ -571,7 +575,7 @@ define([
         */
         _convertUSNG: function () {
             try {
-                var value, converted = [];
+                let value, converted = [];
                 value = this.txtSearch.value;
                 converted = [];
                 // execute function available in usng.js file, which converts USNG and MGRS values to lat long value
@@ -581,7 +585,7 @@ define([
                     this.usngValue = {};
                     if (Number(converted[0]) && Number(converted[1])) {
                         this.usngValue = {
-                            value: value,
+                            value,
                             coords: converted.join(",")
                         };
                     }
@@ -598,7 +602,7 @@ define([
         */
         _convertMGRS: function () {
             try {
-                var value, converted = [];
+                let value, converted = [];
                 value = this.txtSearch.value;
                 converted = [];
                 // execute function available in usng.js file, which converts USNG and MGRS values to lat long value
@@ -608,7 +612,7 @@ define([
                     this.mgrsValue = {};
                     if (Number(converted[0]) && Number(converted[1])) {
                         this.mgrsValue = {
-                            value: value,
+                            value,
                             coords: converted.join(",")
                         };
                     }
@@ -624,13 +628,13 @@ define([
         * @memberOf widgets/locator/locator
         */
         _getLatLongValue: function () {
-            var splitValue, formattedValue;
+            let splitValue, formattedValue;
             // split the lat long value with space
             splitValue = this.txtSearch.value.split(" ");
             // check if value received after splitting is of length 2 (latitude and longitude)
             if (splitValue.length === 2) {
                 // loop through the results to substitute N,E,W,S with + and - accordingly
-                array.forEach(splitValue, lang.hitch(this, function (value, index) {
+                array.forEach(splitValue, lang.hitch(this, (value, index) => {
                     formattedValue = value.replace("W", "-");
                     formattedValue = formattedValue.replace("S", "-");
                     formattedValue = formattedValue.replace("N", "");
@@ -656,7 +660,7 @@ define([
         */
         handleAddressClick: function (candidate, candidateAddress, candidateArray) {
             on(candidateAddress, "click", lang.hitch(this, function (evt) {
-                var candidateSplitValue, mapPoint;
+                let candidateSplitValue, mapPoint;
                 domAttr.set(this.txtSearch, "defaultAddress", evt.currentTarget.innerHTML);
                 this.txtSearch.value = domAttr.get(this.txtSearch, "defaultAddress");
                 // selected candidate is address
@@ -699,7 +703,7 @@ define([
         */
         _projectOnMap: function (x, y) {
             if (x >= -90 && x <= 90 && y >= -180 && y <= 180) {
-                var mapLocation = new Point(y, x);
+                const mapLocation = new Point(y, x);
                 // convert point
                 this._projectPoint(mapLocation).then(lang.hitch(this, function (pt) {
                     if (pt) {
@@ -746,7 +750,7 @@ define([
         * @memberOf widgets/locator/locator
         */
         _projectPoint: function (geometry) {
-            var def, sr, pt, params;
+            let def, sr, pt, params;
             // this function takes a lat/long (4326) point and converts it to map's spatial reference.
             def = new Deferred();
             // maps spatial ref
@@ -766,13 +770,13 @@ define([
                 params.geometries = [geometry];
                 params.outSR = this.map.spatialReference;
                 // use geometry service to convert lat long to map format (network request)
-                esriConfig.defaults.geometryService.project(params).then(function (projectedPoints) {
+                esriConfig.defaults.geometryService.project(params).then(projectedPoints => {
                     if (projectedPoints && projectedPoints.length) {
                         def.resolve(projectedPoints[0]);
                     } else {
                         def.reject();
                     }
-                }, function (error) {
+                }, error => {
                     def.reject(error);
                 });
             } else { // cant do anything, leave lat/long
@@ -811,4 +815,3 @@ define([
         }
 
     });
-});

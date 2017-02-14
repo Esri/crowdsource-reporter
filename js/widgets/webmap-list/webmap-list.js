@@ -15,58 +15,31 @@
  | See the License for the specific language governing permissions and
  | limitations under the License.
  */
-define([
-    "dojo/_base/declare",
-    "dojo/_base/lang",
-    "dojo/_base/array",
-    "dijit/_WidgetBase",
-    "dijit/_TemplatedMixin",
-    "dojo/text!./templates/webmap-list.html",
-    "dojo/dom-construct",
-    "dojo/DeferredList",
-    "dojo/text!./templates/webmap-item.html",
-    "dojo/text!./templates/operational-layer.html",
-    "dojo/_base/event",
-    "dojo/string",
-    "dojo/dom-attr",
-    "dojo/on",
-    "esri/layers/FeatureLayer",
-    "dojo/dom",
-    "dojo/dom-class",
-    'dojo/dom-style',
-    'dojo/aspect',
-    "widgets/bootstrapmap/bootstrapmap",
-    "dijit/_WidgetsInTemplateMixin",
-    "dojo/query",
-    "esri/geometry/Extent",
-    "esri/geometry/Point"
-], function (
-    declare,
-    lang,
-    array,
-    _WidgetBase,
-    _TemplatedMixin,
-    dijitTemplate,
-    domConstruct,
-    DeferredList,
-    webMapItemTemplate,
-    operationalLayerTemplate,
-    event,
-    string,
-    domAttr,
-    on,
-    FeatureLayer,
-    dom,
-    domClass,
-    domStyle,
-    aspect,
-    BootstrapMap,
-    _WidgetsInTemplateMixin,
-    query,
-    Extent,
-    Point
-) {
-    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+import declare from "dojo/_base/declare";
+import lang from "dojo/_base/lang";
+import array from "dojo/_base/array";
+import _WidgetBase from "dijit/_WidgetBase";
+import _TemplatedMixin from "dijit/_TemplatedMixin";
+import dijitTemplate from "./templates/webmap-list.html";
+import domConstruct from "dojo/dom-construct";
+import DeferredList from "dojo/DeferredList";
+import webMapItemTemplate from "./templates/webmap-item.html";
+import operationalLayerTemplate from "./templates/operational-layer.html";
+import event from "dojo/_base/event";
+import string from "dojo/string";
+import domAttr from "dojo/dom-attr";
+import on from "dojo/on";
+import FeatureLayer from "esri/layers/FeatureLayer";
+import dom from "dojo/dom";
+import domClass from "dojo/dom-class";
+import domStyle from 'dojo/dom-style';
+import aspect from 'dojo/aspect';
+import BootstrapMap from "../bootstrapmap/bootstrapmap";
+import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";
+import query from "dojo/query";
+import Extent from "esri/geometry/Extent";
+import Point from "esri/geometry/Point";
+    export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: dijitTemplate,
         filteredWebMapResponseArr: [], // to store web-map that needs to be displayed in list
         lastWebMapSelected: "", // used to store last web map that is selected
@@ -136,8 +109,11 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         _createFilteredWebMapArr: function () {
-            var i, itemInfo, requestArray = [],
-                dl, results = this.appConfig.groupItems.results;
+            let i;
+            let itemInfo;
+            const requestArray = [];
+            let dl;
+            const results = this.appConfig.groupItems.results;
             for (i = 0; i < results.length; i++) {
                 itemInfo = results[i];
                 // Set the itemInfo config option. This can be used when calling createMap instead of the webmap id
@@ -177,7 +153,7 @@ define([
                 this.map.destroy();
             }
             domConstruct.empty(mapDivID);
-            var webMapInstance = BootstrapMap.createWebMap(webMapID, mapDivID, {
+            const webMapInstance = BootstrapMap.createWebMap(webMapID, mapDivID, {
                 ignorePopups: false,
                 editable: false,
                 bingMapsKey: this.appConfig.bingKey,
@@ -211,7 +187,7 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         _filterWebMaps: function (response) {
-            var i, showWebmapInList, j, removeLayerFromList, operationalLayerCount;
+            let i, showWebmapInList, j, removeLayerFromList, operationalLayerCount;
             for (i = 0; i < response.length; i++) {
                 // check if webmap has any operational layer if not then dont show that webmap in list
                 if (response[i][0] && response[i][1].itemInfo.itemData.operationalLayers.length > 0) {
@@ -269,22 +245,20 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         _createWebMapDescription: function (webMapItem) {
-            var descriptionInfo = "",
-                field,
-                value = "";
+            let descriptionInfo = "", field, value = "";
             for (field in this.webMapDescriptionFields) {
                 if (this.webMapDescriptionFields.hasOwnProperty(field)) {
                     if (this.webMapDescriptionFields[field]) {
                         // to display date field
                         if (field === "created" || field === "modified") {
-                            value = webMapItem.itemInfo.item[field] ? ((moment(webMapItem.itemInfo.item[field]).toDate()).toLocaleDateString()) : this.appConfig.showNullValueAs + "<br/>";
+                            value = webMapItem.itemInfo.item[field] ? ((moment(webMapItem.itemInfo.item[field]).toDate()).toLocaleDateString()) : `${this.appConfig.showNullValueAs}<br/>`;
                             if (lang.trim(value) === "") {
-                                value = this.appConfig.showNullValueAs + "<br/>";
+                                value = `${this.appConfig.showNullValueAs}<br/>`;
                             }
                         } else {
-                            value = webMapItem.itemInfo.item[field] || this.appConfig.showNullValueAs + "<br/>";
+                            value = webMapItem.itemInfo.item[field] || `${this.appConfig.showNullValueAs}<br/>`;
                         }
-                        descriptionInfo += "<div class='esriCTDetailsContainerRow'><div class='esriCTDetailsContainerCell'><div class='esriCTInfoHeader'>" + this.appConfig.i18n.webMapList[field] + "</div><div class='esriCTInfoDetails'>" + value + "</div></div></div>";
+                        descriptionInfo += `<div class='esriCTDetailsContainerRow'><div class='esriCTDetailsContainerCell'><div class='esriCTInfoHeader'>${this.appConfig.i18n.webMapList[field]}</div><div class='esriCTInfoDetails'>${value}</div></div></div>`;
                     }
                 }
             }
@@ -297,11 +271,11 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         _selectWebMapItem: function (selectedWebMapID) {
-            if ($('div[webMapID="' + this.lastWebMapSelected + '"]').length > 0) {
-                domClass.replace($('div[webMapID="' + this.lastWebMapSelected + '"]')[0], "esriCTWebMapBorder", "esriCTBorder");
+            if ($(`div[webMapID="${this.lastWebMapSelected}"]`).length > 0) {
+                domClass.replace($(`div[webMapID="${this.lastWebMapSelected}"]`)[0], "esriCTWebMapBorder", "esriCTBorder");
             }
-            if ($('div[webMapID="' + selectedWebMapID + '"]').length > 0) {
-                domClass.replace($('div[webMapID="' + selectedWebMapID + '"]')[0], "esriCTBorder", "esriCTWebMapBorder");
+            if ($(`div[webMapID="${selectedWebMapID}"]`).length > 0) {
+                domClass.replace($(`div[webMapID="${selectedWebMapID}"]`)[0], "esriCTBorder", "esriCTWebMapBorder");
             }
             this.lastWebMapSelected = selectedWebMapID;
         },
@@ -311,7 +285,7 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         _createWebMapListUI: function () {
-            var parentDiv, i, templateString, thumbnailSrc, tokenString, infoDescription, editCapabilityLayerCount, obj, operationalLayersLength;
+            let parentDiv, i, templateString, thumbnailSrc, tokenString, infoDescription, editCapabilityLayerCount, obj, operationalLayersLength;
             thumbnailSrc = "";
             infoDescription = "";
             for (i = 0; i < this.filteredWebMapResponseArr.length; i++) {
@@ -323,9 +297,9 @@ define([
                 if (this.filteredWebMapResponseArr[i][1].itemInfo.item.thumbnail) {
                     tokenString = "";
                     if (this.appConfig.logInDetails.token) {
-                        tokenString = "?token=" + this.appConfig.logInDetails.token;
+                        tokenString = `?token=${this.appConfig.logInDetails.token}`;
                     }
-                    thumbnailSrc = this.appConfig.sharinghost + "/sharing/rest/content/items/" + this.filteredWebMapResponseArr[i][1].itemInfo.item.id + "/info/" + this.filteredWebMapResponseArr[i][1].itemInfo.item.thumbnail + tokenString;
+                    thumbnailSrc = `${this.appConfig.sharinghost}/sharing/rest/content/items/${this.filteredWebMapResponseArr[i][1].itemInfo.item.id}/info/${this.filteredWebMapResponseArr[i][1].itemInfo.item.thumbnail}${tokenString}`;
                 } else {
                     if (this.appConfig.noThumbnailIcon && lang.trim(this.appConfig.noThumbnailIcon).length !== 0) {
                         if (this.appConfig.noThumbnailIcon.indexOf("http") === 0) {
@@ -334,11 +308,11 @@ define([
                             if (this.appConfig.noThumbnailIcon.indexOf("/") === 0) {
                                 thumbnailSrc = dojoConfig.baseURL + this.appConfig.noThumbnailIcon;
                             } else {
-                                thumbnailSrc = dojoConfig.baseURL + "/" + this.appConfig.noThumbnailIcon;
+                                thumbnailSrc = `${dojoConfig.baseURL}/${this.appConfig.noThumbnailIcon}`;
                             }
                         }
                     } else {
-                        thumbnailSrc = dojoConfig.baseURL + "/images/default-webmap-thumbnail.png";
+                        thumbnailSrc = `${dojoConfig.baseURL}/images/default-webmap-thumbnail.png`;
                     }
                 }
                 infoDescription = this._createWebMapDescription(this.filteredWebMapResponseArr[i][1]);
@@ -390,7 +364,7 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         _displaySelectedOperationalLayer: function (obj) {
-            var layer, featureLayer, i;
+            let layer, featureLayer, i;
             this.selectedLayerId = obj.operationalLayerId;
             if (this.map) {
                 for (layer in this.map._layers) {
@@ -458,10 +432,10 @@ define([
             //Remove Selected class from previously selected WebMap and Layer
             query(".esriCTSelectedItem").removeClass("esriCTSelectedItem");
             //Add Selected Class to WebMap Item
-            query(".esriCTMediaBody", $('div[webMapID="' + webMapID + '"]', this.domNode)[0]).addClass("esriCTSelectedItem");
+            query(".esriCTMediaBody", $(`div[webMapID="${webMapID}"]`, this.domNode)[0]).addClass("esriCTSelectedItem");
             //Add Selected Class to Layer in that webmap only if exist
-            if ($('div[operationalLayerID="' + layerID + '"]', $('div[webMapID="' + webMapID + '"]', this.domNode)[0]).length > 0) {
-                domClass.add($('div[operationalLayerID="' + layerID + '"]', $('div[webMapID="' + webMapID + '"]', this.domNode)[0])[0], "esriCTSelectedItem");
+            if ($(`div[operationalLayerID="${layerID}"]`, $(`div[webMapID="${webMapID}"]`, this.domNode)[0]).length > 0) {
+                domClass.add($(`div[operationalLayerID="${layerID}"]`, $(`div[webMapID="${webMapID}"]`, this.domNode)[0])[0], "esriCTSelectedItem");
             }
         },
 
@@ -534,7 +508,7 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         _handleWebmapToggling: function (node, operationalLayerDetails) {
-            var webMapId, selectedWebMapList, operationalLayerId, descriptionDiv;
+            let webMapId, selectedWebMapList, operationalLayerId, descriptionDiv;
             this.appUtils.showLoadingIndicator();
             webMapId = domAttr.get(node, "webMapID");
             // to display operational layer list if web-map contains more than 1 layer
@@ -543,11 +517,11 @@ define([
                 // if operational layer list is visible than hide it
                 // & if it is hidden than display it
                 if (domClass.contains(selectedWebMapList, "esriCTDisplayList")) {
-                    $("#" + webMapId).slideUp({
+                    $(`#${webMapId}`).slideUp({
                         duration: 500,
                         easing: "linear"
                     });
-                    setTimeout(lang.hitch(this, function () {
+                    setTimeout(lang.hitch(this, () => {
                         domClass.replace(selectedWebMapList, "esriCTHidden", "esriCTDisplayList");
                     }), 500);
 
@@ -557,11 +531,11 @@ define([
                         $('.esriCTDescription', selectedWebMapList.parentElement.parentElement).slideUp(0);
                         domClass.replace(descriptionDiv, "esriCTHidden", "esriCTDisplayList");
                     }
-                    $("#" + webMapId).slideDown({
+                    $(`#${webMapId}`).slideDown({
                         duration: 500,
                         easing: "linear"
                     });
-                    setTimeout(lang.hitch(this, function () {
+                    setTimeout(lang.hitch(this, () => {
                         domClass.replace(selectedWebMapList, "esriCTDisplayList", "esriCTHidden");
                     }), 500);
 
@@ -572,7 +546,7 @@ define([
                 this._selectWebMapItem(webMapId);
                 operationalLayerId = domAttr.get(node, "operationalLayerID");
                 this._createMap(webMapId, this.mapDivID).then(lang.hitch(this, function (evt) {
-                    var obj;
+                    let obj;
                     this.lastSelectedWebMapExtent = evt.map.extent;
                     obj = {
                         "webMapId": webMapId,
@@ -600,7 +574,7 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         _createOperationalLayerList: function (parentContainer, webMap) {
-            var i, parentListNode, childListNode, operationalLayerString;
+            let i, parentListNode, childListNode, operationalLayerString;
             parentListNode = domConstruct.create("div", {
                 "class": "esriCTHidden  esriCTMediaBorder",
                 "id": webMap.itemInfo.item.id
@@ -617,7 +591,7 @@ define([
                 parentListNode.appendChild(childListNode);
             }
             // stop event propogation so that no other event gets executed
-            on(parentListNode, "click", lang.hitch(this, function (evt) {
+            on(parentListNode, "click", lang.hitch(this, evt => {
                 event.stop(evt);
             }));
             parentContainer.appendChild(parentListNode);
@@ -630,9 +604,9 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         _handleOperationalLayerClick: function (childListNode, operationalLayerDetails) {
-            var operationalLayerId;
+            let operationalLayerId;
             on(childListNode, "click", lang.hitch(this, function (evt) {
-                var webMapId, obj;
+                let webMapId, obj;
                 event.stop(evt);
                 this.appUtils.showLoadingIndicator();
                 webMapId = domAttr.get(evt.currentTarget, "webMapID");
@@ -683,7 +657,7 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         _attachInformationClick: function (information, parentDiv) {
-            var infoIcon, descriptionDiv, webMapId, layerList;
+            let infoIcon, descriptionDiv, webMapId, layerList;
             infoIcon = query('.esriCTInfoImg', parentDiv)[0];
             if (lang.trim(information).length !== 0 && infoIcon) {
                 on(infoIcon, "click", function (evt) {
@@ -695,14 +669,14 @@ define([
                     // if it is visible than hide it
                     if (domClass.contains(descriptionDiv, "esriCTHidden")) {
                         if (layerList) {
-                            $("#" + webMapId).slideUp(0);
+                            $(`#${webMapId}`).slideUp(0);
                             domClass.replace(layerList, "esriCTHidden", "esriCTDisplayList");
                         }
                         $('.esriCTDescription', this.parentElement.parentElement).slideDown({
                             duration: 500,
                             easing: "linear"
                         });
-                        setTimeout(lang.hitch(this, function () {
+                        setTimeout(lang.hitch(this, () => {
                             domClass.replace(descriptionDiv, "esriCTDisplayList", "esriCTHidden");
                         }), 500);
                     } else {
@@ -710,7 +684,7 @@ define([
                             duration: 500,
                             easing: "linear"
                         });
-                        setTimeout(lang.hitch(this, function () {
+                        setTimeout(lang.hitch(this, () => {
                             domClass.replace(descriptionDiv, "esriCTHidden", "esriCTDisplayList");
                         }), 500);
                     }
@@ -746,7 +720,7 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         _validatePopupFields: function (popupInfo, fields) {
-            var i, j;
+            let i, j;
             // check if popup-info is available if not then return false
             if (popupInfo) {
                 for (i = 0; i < popupInfo.fieldInfos.length; i++) {
@@ -792,7 +766,7 @@ define([
                     }
                 } else if (currentLayer.featureCollection) {
                     //Handle feature collection layers and show them on the map as non-editable layer
-                    array.forEach(currentLayer.featureCollection.layers, lang.hitch(this, function (featureCollectionLayer) {
+                    array.forEach(currentLayer.featureCollection.layers, lang.hitch(this, featureCollectionLayer => {
                         if (featureCollectionLayer.layerObject && (featureCollectionLayer.layerObject.capabilities.indexOf("Create") === -1) &&
                                 ((featureCollectionLayer.layerObject.capabilities.indexOf("Editing") === -1) ||
                                 (featureCollectionLayer.layerObject.capabilities.indexOf("Update") === -1)) && currentLayer.visibility) {
@@ -808,7 +782,7 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         _checkDisplayPropertyOfFields: function (popupInfo, fields) {
-            var i, j;
+            let i, j;
             if (!popupInfo) {
                 return false;
             }
@@ -850,4 +824,3 @@ define([
             return;
         }
     });
-});

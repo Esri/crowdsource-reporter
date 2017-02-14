@@ -16,31 +16,29 @@
  | limitations under the License.
  */
 //============================================================================================================================//
-define([
-    "dojo/_base/declare",
-    "dojo/dom",
-    "dojo/dom-construct",
-    "dojo/dom-style",
-    "dojo/dom-attr",
-    "dojo/dom-class",
-    "dojo/_base/lang",
-    "dojo/_base/array",
-    "dojo/on",
-    "dojo/touch",
-    "dojo/string",
-    "dojo/query",
-    "dojo/text!./templates/issue-wall.html",
-    "dijit/_WidgetBase",
-    "dijit/_TemplatedMixin",
-    "dijit/_WidgetsInTemplateMixin",
-    "esri/graphic",
-    "esri/layers/FeatureLayer",
-    "esri/tasks/query",
-    "esri/dijit/PopupTemplate",
-    "widgets/item-list/item-list",
-    "dojo/_base/event"
-], function (declare, dom, domConstruct, domStyle, domAttr, domClass, lang, array, on, touch, string, query, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, Graphic, FeatureLayer, Query, PopupTemplate, ItemList, event) {
-    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+import declare from "dojo/_base/declare";
+import dom from "dojo/dom";
+import domConstruct from "dojo/dom-construct";
+import domStyle from "dojo/dom-style";
+import domAttr from "dojo/dom-attr";
+import domClass from "dojo/dom-class";
+import lang from "dojo/_base/lang";
+import array from "dojo/_base/array";
+import on from "dojo/on";
+import touch from "dojo/touch";
+import string from "dojo/string";
+import query from "dojo/query";
+import template from "./templates/issue-wall.html";
+import _WidgetBase from "dijit/_WidgetBase";
+import _TemplatedMixin from "dijit/_TemplatedMixin";
+import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";
+import Graphic from "esri/graphic";
+import FeatureLayer from "esri/layers/FeatureLayer";
+import Query from "esri/tasks/query";
+import PopupTemplate from "esri/dijit/PopupTemplate";
+import ItemList from "../item-list/item-list";
+import event from "dojo/_base/event";
+    export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         _hasCommentsTable: false,
         _commentsTable: null,
@@ -98,7 +96,7 @@ define([
                 this.onMapButtonClick(evt);
             })));
 
-            this.own(on(this.listLoadingIndicator, "click", lang.hitch(this, function (evt) {
+            this.own(on(this.listLoadingIndicator, "click", lang.hitch(this, evt => {
                 //Stop event propagation
                 event.stop(evt);
             })));
@@ -106,7 +104,7 @@ define([
             this.own(on(this.submitReport, "click", lang.hitch(this, function (evt) {
                 this.onSubmit(evt);
             })));
-            var submitButtonText, submitButtonColor;
+            let submitButtonText, submitButtonColor;
             if (this.appConfig && lang.trim(this.appConfig.submitReportButtonText) === "") {
                 submitButtonText = this.appConfig.i18n.main.submitReportButtonText;
             } else {
@@ -164,14 +162,14 @@ define([
         * @memberOf widgets/issue-wall/issue-wall
         */
         initIssueWall: function (config) {
-            var x;
+            let x;
             if (config) {
                 lang.mixin(this, config);
             }
             this.itemsList.featureLayerCount = this.featureLayerCount;
             this.selectedLayer = this.map.getLayer(this.operationalLayerId);
             this.itemsList.selectedLayer = this.selectedLayer;
-            this.selectedGraphicsDisplayLayer = this.map.getLayer("Graphics" + this.operationalLayerId);
+            this.selectedGraphicsDisplayLayer = this.map.getLayer(`Graphics${this.operationalLayerId}`);
             //Clear list and selection before creating new issue list
             this.itemsList.clearList();
             //Set the Comments table flag to false
@@ -198,7 +196,7 @@ define([
         * @memberOf widgets/issue-wall/issue-wall
         */
         _getRelatedTableInfo: function () {
-            var relatedTableURL;
+            let relatedTableURL;
             // if comment field is present in config file and the layer contains related table, fetch the first related table URL
             if (this.selectedLayer.relationships && this.selectedLayer.relationships.length > 0) {
                 // Construct the related table URL form operational layer URL and the related table id
@@ -220,7 +218,7 @@ define([
         },
 
         _commentsTableLoaded: function () {
-            var k, popupInfo = {};
+            let k, popupInfo = {};
             this._commentPopupTable = null;
             if (this.itemInfos && this.itemInfos.itemData.tables) {
                 //fetch comment popup table which will be used in creating comment form
@@ -255,7 +253,7 @@ define([
                                 tooltip: "",
                                 visible: true
                             });
-                            popupInfo.description = "{" + this.appConfig.commentField + "}" + "\n <div class='commentRow'></div>";
+                            popupInfo.description = `{${this.appConfig.commentField}}\n <div class='commentRow'></div>`;
                             this._hasCommentsTable = true;
                             break;
                         }
@@ -284,7 +282,7 @@ define([
         * @memberOf widgets/issue-wall/issue-wall
         */
         _createIssueList: function () {
-            var extentChangeFlag = false;
+            const extentChangeFlag = false;
             this.selectedGraphicsLayer = this.map.getLayer("selectionGraphicsLayer");
             //set Layer Title in header
             domAttr.set(this.listContainerTitle, "innerHTML", this.operationalLayerDetails.title);
@@ -344,7 +342,8 @@ define([
         * @memberOf widgets/issue-wall/issue-wall
         */
         _fetchIssueDetails: function (operationalLayer, extentChangeFlag) {
-            var featureArray = [], flagObject = {};
+            let featureArray = [];
+            const flagObject = {};
             featureArray = this.layerGraphicsArray;
             flagObject.like = this._hasLikes;
             flagObject.comment = this._hasCommentsTable;
@@ -462,17 +461,16 @@ define([
                     $(node).tooltip("hide");
                 }
             }
-            this.tooltipHandler = on(node, touch.press, lang.hitch(this, function (e) {
+            this.tooltipHandler = on(node, touch.press, lang.hitch(this, e => {
                 $(node).tooltip("toggle");
                 e.preventDefault();
             }));
-            on(document, "click", lang.hitch(this, function () {
+            on(document, "click", lang.hitch(this, () => {
                 $(node).tooltip("hide");
             }));
 
-            on(window, "resize", lang.hitch(this, function () {
+            on(window, "resize", lang.hitch(this, () => {
                 $(node).tooltip("hide");
             }));
         }
     });
-});

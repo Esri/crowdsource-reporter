@@ -15,24 +15,15 @@
  | See the License for the specific language governing permissions and
  | limitations under the License.
  */
-define([
-    "dojo/_base/declare",
-    "config/template-config",
-    "application/template",
-    "widgets/sign-in/sign-in",
-    "application/utils/utils",
-    "dojo/dom-construct",
-    "dojo/_base/lang"
-], function (
-    declare,
-    TemplateConfig,
-    Template,
-    ApplicationSignIn,
-    ApplicationUtils,
-    domConstruct,
-    lang
-) {
-    return declare(null, {
+import declare from "dojo/_base/declare";
+import TemplateConfig from "../config/template-config";
+import Template from "./template";
+import ApplicationSignIn from "./widgets/sign-in/sign-in";
+import ApplicationUtils from "./utils/utils";
+import domConstruct from "dojo/dom-construct";
+import lang from "dojo/_base/lang";
+
+    const Bootstrapper = declare(null, {
         boilerPlateTemplateObject: null,
         appUtils: null,
 
@@ -50,10 +41,10 @@ define([
                 //By default geolocation will be set to false
                 config.geolocation = false;
                 //Check whether browser supprots geolocation
-                navigator.geolocation.getCurrentPosition(lang.hitch(this, function (position) {
+                navigator.geolocation.getCurrentPosition(lang.hitch(this, position => {
                     config.geolocation = {};
                     config.geolocation = position;
-                }), function () {
+                }), () => {
                     config.geolocation = false;
                 });
                 // The config object contains the following properties: helper services, (optionally)
@@ -68,7 +59,7 @@ define([
                 // Set shortcut icon
                 this._setApplicationShortcutIcon(config);
             }), lang.hitch(this, function (error) {
-                var message = error.message;
+                let message = error.message;
                 // handle error when group is not configured
                 if (message.toLowerCase() === "group undefined.") {
                     message = this.boilerPlateTemplateObject.config.i18n.main.noGroup;
@@ -83,7 +74,7 @@ define([
         * @memberOf js/bootstrapper
         */
         initApplication: function () {
-            var citizenApp;
+            let citizenApp;
             // create citizenApp and pass the boiler plate instance to it
             citizenApp = new ApplicationSignIn();
             citizenApp.startup(this.boilerPlateTemplateObject, this.appUtils);
@@ -94,7 +85,7 @@ define([
         * @memberOf js/bootstrapper
         */
         _setApplicationShortcutIcon: function (config) {
-            var favIcon;
+            let favIcon;
             //If fav icon is present use it
             if (config.applicationFavicon && lang.trim(config.applicationFavicon).length !== 0) {
                 favIcon = config.applicationFavicon;
@@ -116,7 +107,7 @@ define([
         * @memberOf js/bootstrapper
         */
         _loadIcons: function (rel, iconPath) {
-            var icon;
+            let icon;
             icon = domConstruct.create("link");
             icon.rel = rel;
             icon.type = "image/x-icon";
@@ -128,4 +119,6 @@ define([
             document.getElementsByTagName('head')[0].appendChild(icon);
         }
     });
-});
+
+const bootstrapper = new Bootstrapper();
+bootstrapper.startup();

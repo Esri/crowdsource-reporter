@@ -15,48 +15,26 @@
 | See the License for the specific language governing permissions and
 | limitations under the License.
 */
-define([
-    "dojo/_base/declare",
-    "dojo/dom",
-    "dojo/_base/fx",
-    "dojo/_base/lang",
-    "dojo/_base/array",
-    "dojo/dom-construct",
-    "dojo/dom-geometry",
-    "dojo/dom-class",
-    "dojo/dom-attr",
-    "dojo/dom-style",
-    "dojo/on",
-    "dojo/has",
-    "dojo/query",
-    "dijit/_WidgetBase",
-    "esri/dijit/LocateButton",
-    "esri/dijit/HomeButton",
-    "esri/tasks/locator",
-    "esri/geometry/webMercatorUtils",
-    "dojo/Deferred"
-], function (
-    declare,
-    dom,
-    coreFx,
-    lang,
-    array,
-    domConstruct,
-    domGeometry,
-    domClass,
-    domAttr,
-    domStyle,
-    on,
-    has,
-    query,
-    _WidgetBase,
-    LocateButton,
-    HomeButton,
-    Locator,
-    webMercatorUtils,
-    Deferred
-) {
-    return declare([_WidgetBase], {
+import declare from "dojo/_base/declare";
+import dom from "dojo/dom";
+import coreFx from "dojo/_base/fx";
+import lang from "dojo/_base/lang";
+import array from "dojo/_base/array";
+import domConstruct from "dojo/dom-construct";
+import domGeometry from "dojo/dom-geometry";
+import domClass from "dojo/dom-class";
+import domAttr from "dojo/dom-attr";
+import domStyle from "dojo/dom-style";
+import on from "dojo/on";
+import has from "dojo/has";
+import query from "dojo/query";
+import _WidgetBase from "dijit/_WidgetBase";
+import LocateButton from "esri/dijit/LocateButton";
+import HomeButton from "esri/dijit/HomeButton";
+import Locator from "esri/tasks/locator";
+import webMercatorUtils from "esri/geometry/webMercatorUtils";
+import Deferred from "dojo/Deferred";
+    export default declare([_WidgetBase], {
         showLoadingIndicator: function () {
             domClass.add(document.body, "app-loading");
         },
@@ -84,7 +62,7 @@ define([
         * @memberOf utils/utils
         */
         getDateFormat: function (type) {
-            var obj = {};
+            const obj = {};
             switch (type) {
             case "shortDate":
                 obj.dateFormat = "MM/DD/YYYY";
@@ -162,13 +140,13 @@ define([
         * @memberOf utils/utils
         */
         createGeoLocationButton: function (basemapLayers, map, parentNode, addGraphic) {
-            var currentLocation, createLocationDiv;
+            let currentLocation, createLocationDiv;
             // create geolocation div
             createLocationDiv = domConstruct.create("div", {}, parentNode);
             domAttr.set(createLocationDiv, "title", this.config.i18n.map.geolocationTooltip);
             // initialize object of locate button
             currentLocation = new LocateButton({
-                map: map,
+                map,
                 highlightLocation: false,
                 setScale: false,
                 centerAt: false
@@ -187,10 +165,10 @@ define([
         * @memberOf utils/utils
         */
         createHomeButton: function (map, parentNode) {
-            var homeButton, createHomeButtonDiv;
+            let homeButton, createHomeButtonDiv;
             createHomeButtonDiv = domConstruct.create("div", { "class": "esriCTHomeButton" }, parentNode);
             homeButton = new HomeButton({
-                map: map,
+                map,
                 "class": "esriCTHomeButton"
             }, createHomeButtonDiv);
             homeButton.startup();
@@ -201,7 +179,7 @@ define([
         * @memberOf utils/utils
         */
         getBasemapExtent: function (baseMapLayers) {
-            var basemapExtent, i;
+            let basemapExtent, i;
             /* If map contains a single basemap layer, consider full extent of that basemap
             If map contains multiple basemap layers, union the full extent of all the basemaps */
             for (i = 0; i < baseMapLayers.length; i++) {
@@ -252,7 +230,7 @@ define([
         * @memberOf utils/utils
         */
         isAndroid: function () {
-            var ua = navigator.userAgent.toLowerCase();
+            const ua = navigator.userAgent.toLowerCase();
             return ua.indexOf("android") > -1;
         },
 
@@ -262,7 +240,7 @@ define([
         */
         createGeocoderInstance: function () {
             //Default geocoder url
-            var geocodeURL = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";
+            let geocodeURL = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";
             if (this.config.helperServices && this.config.helperServices.geocode && this.config.helperServices.geocode[0] && this.config.helperServices.geocode[0].url) {
                 geocodeURL = this.config.helperServices.geocode[0].url;
             }
@@ -283,11 +261,10 @@ define([
         * @memberOf widgets/utils/utils
         */
         refreshLabelLayers: function (operationalLayers) {
-            array.forEach(operationalLayers, lang.hitch(this, function (currentLayer) {
+            array.forEach(operationalLayers, lang.hitch(this, currentLayer => {
                 if (currentLayer.layerObject && currentLayer.layerObject.showLabels && currentLayer.layerObject.labelingInfo) {
                     currentLayer.layerObject.refresh();
                 }
             }));
         }
     });
-});

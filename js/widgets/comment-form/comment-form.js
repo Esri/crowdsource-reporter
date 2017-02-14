@@ -15,46 +15,25 @@
 | See the License for the specific language governing permissions and
 | limitations under the License.
 */
-define([
-    "dojo/_base/declare",
-    "dijit/_WidgetBase",
-    "dijit/_TemplatedMixin",
-    "dojo/_base/lang",
-    "dojo/_base/array",
-    "dojo/_base/kernel",
-    "dojo/dom-construct",
-    "dojo/dom-class",
-    "dojo/dom-style",
-    "dojo/query",
-    "dojo/dom",
-    "dojo/string",
-    "dojo/on",
-    'dojo/dom-attr',
-    "dojo/date/locale",
-    "esri/graphic",
-    "esri/tasks/RelationshipQuery",
-    "dojo/text!./templates/comment-form.html"
-], function (
-    declare,
-    _WidgetBase,
-    _TemplatedMixin,
-    lang,
-    array,
-    kernel,
-    domConstruct,
-    domClass,
-    domStyle,
-    query,
-    dom,
-    string,
-    on,
-    domAttr,
-    locale,
-    Graphic,
-    RelationshipQuery,
-    commentForm
-) {
-    return declare([_WidgetBase, _TemplatedMixin], {
+import declare from "dojo/_base/declare";
+import _WidgetBase from "dijit/_WidgetBase";
+import _TemplatedMixin from "dijit/_TemplatedMixin";
+import lang from "dojo/_base/lang";
+import array from "dojo/_base/array";
+import kernel from "dojo/_base/kernel";
+import domConstruct from "dojo/dom-construct";
+import domClass from "dojo/dom-class";
+import domStyle from "dojo/dom-style";
+import query from "dojo/query";
+import dom from "dojo/dom";
+import string from "dojo/string";
+import on from "dojo/on";
+import domAttr from 'dojo/dom-attr';
+import locale from "dojo/date/locale";
+import Graphic from "esri/graphic";
+import RelationshipQuery from "esri/tasks/RelationshipQuery";
+import commentForm from "./templates/comment-form.html";
+    export default declare([_WidgetBase, _TemplatedMixin], {
         templateString: commentForm,
         sortedFields: [],
         i18n: {},
@@ -86,7 +65,7 @@ define([
         },
 
         postCreate: function () {
-            var submitCommentText;
+            let submitCommentText;
             this.inherited(arguments);
             this._initializeCommentForm();
             if (this.addComments) {
@@ -128,7 +107,7 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _addExistingAttachments: function () {
-            var i;
+            let i;
             if (this.existingAttachmentsObjectsArr && this.existingAttachmentsObjectsArr.length > 0) {
                 for (i = 0; i < this.existingAttachmentsObjectsArr.length; i++) {
                     this._createExistingAttachment(this.existingAttachmentsObjectsArr[i], i);
@@ -143,10 +122,10 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _createExistingAttachment: function (existingAttachment) {
-            var alertHtml, existingAttachmentNode;
+            let alertHtml, existingAttachmentNode;
             alertHtml = "<div class=\"esriCTFileAlert alert alert-dismissable alert-success\">";
             alertHtml += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">" + "X" + "</button>";
-            alertHtml += "<span>" + existingAttachment.attachmentFileName + "</span>";
+            alertHtml += `<span>${existingAttachment.attachmentFileName}</span>`;
             alertHtml += "</div>";
             existingAttachmentNode = domConstruct.toDom(alertHtml);
             domAttr.set(existingAttachmentNode.children[0], "attachmentObjectID", existingAttachment.attachmentObjectID);
@@ -162,7 +141,7 @@ define([
         _onExistingAttachmentCloseButtonClick: function (existingAttachmentCloseButton) {
             on(existingAttachmentCloseButton, "click", lang.hitch(this, function (evt) {
                 setTimeout(lang.hitch(this, function () {
-                    var attachmentObjectID;
+                    let attachmentObjectID;
                     attachmentObjectID = domAttr.get(evt.target, "attachmentObjectID");
                     attachmentObjectID = parseInt(attachmentObjectID, 10);
                     this._deletedAttachmentsArr.push(attachmentObjectID);
@@ -176,7 +155,7 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _createAttachments: function () {
-            var fileInput, formContent, fileChange, fileAttachmentContainer, fileContainer, commentFormAttachmentSectionLabel, userFormNode;
+            let fileInput, formContent, fileChange, fileAttachmentContainer, fileContainer, commentFormAttachmentSectionLabel, userFormNode;
             // If layer has hasAttachments true
             if (this.commentTable.hasAttachments) {
                 userFormNode = dom.byId("addCommentAttachmentsWrapperContainer");
@@ -229,7 +208,7 @@ define([
                     },
                     "class": "esriCTPointerCursor"
                 }, domConstruct.create("form", {
-                    "id": "commentFormAttachment" + this._fileAttachmentCounter++,
+                    "id": `commentFormAttachment${this._fileAttachmentCounter++}`,
                     "class": "esriCTHideFileInputUI"
                 }, fileContainer));
                 // domClass.add(fileInput, "esriCTPointerCursor");
@@ -246,11 +225,12 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _updateAttachmentCount: function () {
-            var photoSelectedDiv = dom.byId("attachmentSelectedCount"), selectedAttachmentsCount;
+            const photoSelectedDiv = dom.byId("attachmentSelectedCount");
+            let selectedAttachmentsCount;
             if (photoSelectedDiv) {
                 selectedAttachmentsCount = query(".alert-dismissable", this.fileAttachmentList).length;
                 if (selectedAttachmentsCount > 0) {
-                    domAttr.set(photoSelectedDiv, "innerHTML", selectedAttachmentsCount + " " + this.config.i18n.comment.attachmentSelectedMsg);
+                    domAttr.set(photoSelectedDiv, "innerHTML", `${selectedAttachmentsCount} ${this.config.i18n.comment.attachmentSelectedMsg}`);
                 } else {
                     domAttr.set(photoSelectedDiv, "innerHTML", "");
                 }
@@ -263,7 +243,12 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _onFileSelected: function (evt) {
-            var newFormControl, fileInput, fileName, fileChange, alertHtml, target = evt.currentTarget || evt.srcElement;
+            let newFormControl;
+            let fileInput;
+            let fileName;
+            let fileChange;
+            let alertHtml;
+            const target = evt.currentTarget || evt.srcElement;
             if (target && target.value) {
                 fileName = target.value;
                 fileName = fileName.split("\\")[fileName.split("\\").length - 1];
@@ -274,14 +259,14 @@ define([
             domClass.replace(target.parentNode, "esriCTFileToSubmit", "esriCTHideFileInputUI");
             domStyle.set(target.parentNode, "display", "none");
             //Add dismiss-able alert for each file, and show file name and file size in it.
-            alertHtml = "<div id=" + target.parentNode.id + "_Close" + " class=\"esriCTFileAlert alert alert-dismissable alert-success\">";
+            alertHtml = `<div id=${target.parentNode.id}_Close class="esriCTFileAlert alert alert-dismissable alert-success">`;
             alertHtml += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">" + "X" + "</button>";
-            alertHtml += "<span>" + fileName + "</span>";
+            alertHtml += `<span>${fileName}</span>`;
             alertHtml += "</div>";
             alertHtml = domConstruct.place(alertHtml, this.fileAttachmentList, "last");
             //if file is removed then
             //replace the class from esriCTFileToSubmit to esriCTHideFileInputUI and update the file selected count
-            $('#' + target.parentNode.id + "_Close").bind('closed.bs.alert', lang.hitch(this, function (evt) {
+            $(`#${target.parentNode.id}_Close`).bind('closed.bs.alert', lang.hitch(this, function (evt) {
                 domClass.replace(dom.byId(evt.target.id.split("_")[0]), "esriCTHideFileInputUI", "esriCTFileToSubmit");
                 this._updateAttachmentCount();
             }));
@@ -289,13 +274,13 @@ define([
             this._updateAttachmentCount();
             //Check if file input container is present
             if ($(".hasAttachment")[0]) {
-                newFormControl = domConstruct.create("form", { "id": "commentFormAttachment" + this._fileAttachmentCounter++, "class": "esriCTHideFileInputUI" }, $(".hasAttachment")[0]);
+                newFormControl = domConstruct.create("form", { "id": `commentFormAttachment${this._fileAttachmentCounter++}`, "class": "esriCTHideFileInputUI" }, $(".hasAttachment")[0]);
                 //create new file input control so that multiple files can be attached
                 fileInput = domConstruct.create("input", {
                     "type": "file",
                     "accept": "image/*",
                     "name": "attachment",
-                    "style": { "height": dojo.coords(this._fileInputIcon).h + "px", "width": dojo.coords(this._fileInputIcon).w + "px" }
+                    "style": { "height": `${dojo.coords(this._fileInputIcon).h}px`, "width": `${dojo.coords(this._fileInputIcon).w}px` }
                 }, newFormControl);
                 //place the newly created file-input control after file selection icon
                 domConstruct.place(newFormControl, this._fileInputIcon, "after");
@@ -312,7 +297,7 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _clearAttachments: function () {
-            var fileList, i;
+            let fileList, i;
             // Check for the file attachment container
             if (this.fileAttachmentList) {
                 fileList = query(".alert-dismissable", this.fileAttachmentList);
@@ -337,7 +322,9 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _filterLayerFields: function () {
-            var layerFields = [], excludeDataTypes = [], layerField;
+            const layerFields = [];
+            let excludeDataTypes = [];
+            let layerField;
             this.sortedFields = [];
             // DataTypes to be excluded from Geo Form
             excludeDataTypes = ["esriFieldTypeOID", "esriFieldTypeBlob", "esriFieldTypeRaster", "esriFieldTypeGUID", "esriFieldTypeGlobalID", "esriFieldTypeXML"];
@@ -345,7 +332,7 @@ define([
                 //To maintain the order of the fields form pop up configuration first get all fields info in layerFields array
                 //then iterate through popupInfo and create fields to be shown in geo form.
                 // Create layerFields Key value pair according to fieldName
-                array.forEach(this.commentTable.fields, lang.hitch(this, function (layerField) {
+                array.forEach(this.commentTable.fields, lang.hitch(this, layerField => {
                     layerFields[layerField.name] = layerField;
                 }));
                 // Iterate through all the fields in popup info,Merge field info from layer details and popup details and create sortedFields array.
@@ -384,11 +371,11 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _sortedTypeFormElement: function () {
-            var hasDomainValue, hasDefaultValue;
+            let hasDomainValue, hasDefaultValue;
             array.forEach(this.sortedFields, lang.hitch(this, function (currentField, index) {
                 // Set true/false value to property 'isTypeDependent' of the field.
                 currentField.isTypeDependent = false;
-                array.forEach(this.commentTable.types, function (currentType) {
+                array.forEach(this.commentTable.types, currentType => {
                     hasDomainValue = null;
                     hasDefaultValue = null;
                     hasDomainValue = currentType.domains[currentField.name];
@@ -415,7 +402,14 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _submitCommentForm: function () {
-            var featureData, editedFields = [], key, picker, datePicker, value, erroneousFields = [], commentFormDiv;
+            let featureData;
+            const editedFields = [];
+            let key;
+            let picker;
+            let datePicker;
+            let value;
+            let erroneousFields = [];
+            let commentFormDiv;
             erroneousFields = this._checkForFields();
             commentFormDiv = query(".esriCTItemDetailsContainer")[0];
             if (erroneousFields.length !== 0) {
@@ -482,7 +476,7 @@ define([
             // Add the comment to the comment table
             this.commentTable.applyEdits([featureData], null, null, lang.hitch(this, function (results) {
                 if (results[0].success) {
-                    var fileList, i, userFormNode;
+                    let fileList, i, userFormNode;
                     userFormNode = dom.byId("addCommentAttachmentsWrapperContainer");
                     // if layer has attachments then add those attachments
                     if (this.commentTable.hasAttachments && query(".esriCTFileToSubmit", userFormNode).length > 0) {
@@ -527,7 +521,7 @@ define([
             featureData.attributes[this.selectedLayer.objectIdField] = this.item.attributes[this.selectedLayer.objectIdField];
             // Update the comment to the comment table
             this.commentTable.applyEdits(null, [featureData], null, lang.hitch(this, function (addResult, updateResult, deleteResult) { //ignore jslint
-                var fileList, i, userFormNode;
+                let fileList, i, userFormNode;
                 //for update we only need updateResult parameter
                 if (updateResult && updateResult.length > 0 && updateResult[0].success) {
                     userFormNode = dom.byId("addCommentAttachmentsWrapperContainer");
@@ -633,7 +627,7 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _commentOperationComplete: function () {
-            var attachmentFailedMsg;
+            let attachmentFailedMsg;
             this._clearAttachments();
             if (this._fileFailedCounter > 0) {
                 attachmentFailedMsg = string.substitute(this.config.i18n.geoform.attachmentUploadStatus, {
@@ -654,7 +648,7 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _checkForFields: function () {
-            var erroneousFields = [];
+            const erroneousFields = [];
             // for all the fields in comment form
             array.forEach(query(".commentFormQuestionare"), lang.hitch(this, function (currentField) {
                 // to check for errors in form before submitting.
@@ -682,7 +676,8 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _showErrorMessageDiv: function (errorMessage, errorMessageNode) {
-            var errorNode, place = "after";
+            let errorNode;
+            const place = "after";
             // create error handler container
             errorNode = domConstruct.create("div", {
                 className: "alert alert-danger errorMessage",
@@ -698,7 +693,7 @@ define([
         */
         _showHeaderMessageDiv: function (isAttachmentFailed) {
             if (isAttachmentFailed) {
-                var commentDiv = query(".esriCTItemDetailsContainer")[0];
+                const commentDiv = query(".esriCTItemDetailsContainer")[0];
                 domClass.replace(this.headerMessageType, "alert-warning", "alert-danger");
                 domAttr.set(this.headerMessageContent, "innerHTML", isAttachmentFailed);
                 // Scroll geoform to top
@@ -736,7 +731,7 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _createFormElement: function (currentField, index, referenceNode) {
-            var fieldname, labelContent, fieldLabelText, formContent, requireField, userFormNode, fieldAttribute;
+            let fieldname, labelContent, fieldLabelText, formContent, requireField, userFormNode, fieldAttribute;
             userFormNode = this.commentForm;
             //code to put asterisk mark for mandatory fields and also to give it a mandatory class.
             formContent = domConstruct.create("div", {}, userFormNode);
@@ -744,7 +739,7 @@ define([
             if (referenceNode) {
                 domConstruct.place(formContent, referenceNode, "after");
                 domClass.add(formContent, "fade");
-                setTimeout(function () {
+                setTimeout(() => {
                     domClass.add(formContent, "in");
                 }, 100);
             }
@@ -772,7 +767,7 @@ define([
                 "for": fieldname,
                 className: "control-label",
                 innerHTML: fieldLabelText,
-                id: fieldname + "_label_" + index
+                id: `${fieldname}_label_${index}`
             }, formContent);
             // Set required field with label
             if (requireField && labelContent) {
@@ -811,7 +806,7 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _createRangeText: function (currentField, formContent, fieldname) {
-            var options = {};
+            let options = {};
             // if field is required and field exists then set required field as a true
             if (!currentField.nullable && this.inputContent) {
                 this.inputContent.setAttribute("aria-required", true);
@@ -833,7 +828,7 @@ define([
                     content: this.rangeHelpText,
                     html: true
                 };
-                $('#' + fieldname).popover(options);
+                $(`#${fieldname}`).popover(options);
                 this.rangeHelpText = null;
             }
         },
@@ -846,7 +841,7 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _createDomainValueFormElements: function (currentField, formContent, fieldname) {
-            var date, inputRangeDateGroupContainer, rangeDefaultDate, currentSelectedDate, formatedDate;
+            let date, inputRangeDateGroupContainer, rangeDefaultDate, currentSelectedDate, formatedDate;
             if (!this.addComments) {
                 //get field value
                 currentField.defaultValue = this.item.attributes[fieldname];
@@ -900,7 +895,7 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _createCodedValueFormElements: function (currentField, formContent, fieldname) {
-            var selectOptions;
+            let selectOptions;
             // check for fieldType: if not present create dropdown
             // If present check for fieldType value and accordingly populate the control
             // create controls for select
@@ -962,7 +957,7 @@ define([
                 // To apply has-success class on selection of a valid option
                 // else remove has-success class
                 if (evt.target.value !== "") {
-                    var targetNode = evt.currentTarget || evt.srcElement;
+                    const targetNode = evt.currentTarget || evt.srcElement;
                     if (query(".errorMessage", targetNode.parentNode).length !== 0) {
                         domConstruct.destroy(query(".errorMessage", targetNode.parentNode)[0]);
                         domClass.remove(evt.target.parentNode, "has-error");
@@ -981,7 +976,12 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _validateTypeFields: function (evt, currentField) {
-            var selectedType, defaultValue, referenceNode, currentTarget = evt.currentTarget || evt.srcElement, hasDomainValue, hasDefaultValue;
+            let selectedType;
+            let defaultValue;
+            let referenceNode;
+            const currentTarget = evt.currentTarget || evt.srcElement;
+            let hasDomainValue;
+            let hasDefaultValue;
             // Validation for empty field
             // if field value is empty reset subtypes field
             if (currentTarget.value === "") {
@@ -995,7 +995,7 @@ define([
                 }));
             } else {
                 // get all the domains and default values of the selected subtype
-                array.some(currentField.subTypes, function (currentSelection) {
+                array.some(currentField.subTypes, currentSelection => {
                     if (currentTarget.value === currentSelection.id.toString()) {
                         selectedType = currentSelection;
                         return true;
@@ -1006,7 +1006,7 @@ define([
                 referenceNode = dom.byId(this.commentTable.typeIdField).parentNode;
                 // code to populate type dependent fields
                 array.forEach(this.sortedFields, lang.hitch(this, function (currentInput, index) {
-                    var field = null, fieldAttribute;
+                    let field = null, fieldAttribute;
                     hasDomainValue = selectedType.domains[currentInput.name];
                     hasDefaultValue = selectedType.templates[0].prototype.attributes[currentInput.name];
                     if ((hasDomainValue && hasDomainValue.type !== "inherited") || (hasDefaultValue && !currentInput.typeField) || (hasDefaultValue === 0 && !currentInput.typeField)) {
@@ -1017,7 +1017,7 @@ define([
                         return true;
                     }
                     // mixin array of sorted field and info pop field
-                    array.some(this.commentTable.fields, function (layerField) {
+                    array.some(this.commentTable.fields, layerField => {
                         if (layerField.name === currentInput.name) {
                             field = lang.clone(lang.mixin(layerField, currentInput));
                             return true;
@@ -1052,7 +1052,7 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _validateTypeFieldsValue: function (selectedType, field, referenceNode, index) {
-            var switchDomainType, i;
+            let switchDomainType, i;
             // check for domain values
             for (i in selectedType.domains) {
                 if (selectedType.domains.hasOwnProperty(i)) {
@@ -1102,10 +1102,7 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _setRangeForm: function (currentField, formContent, fieldname) {
-            var setStep, setDefault = "",
-                stepDivisibility = 'none',
-                decimalPoints = 0,
-                inputcontentSpinner, rangeHelpText;
+            let setStep, setDefault = "", stepDivisibility = 'none', decimalPoints = 0, inputcontentSpinner, rangeHelpText;
             // create container for range text and assign minimum and maximum values
             this.inputContent = domConstruct.create("input", {
                 id: fieldname,
@@ -1173,9 +1170,9 @@ define([
                 }
             }));
             // Touch Spinner event
-            on(inputcontentSpinner, "touchspin.on.startspin", lang.hitch(this, function (evt) {
+            on(inputcontentSpinner, "touchspin.on.startspin", lang.hitch(this, evt => {
                 inputcontentSpinner.trigger("touchspin.updatesettings", {});
-                var targetNode = evt.currentTarget || evt.srcElement;
+                const targetNode = evt.currentTarget || evt.srcElement;
                 domClass.add(targetNode.parentNode.parentNode, "has-success");
             }));
             // if not nullable field
@@ -1193,7 +1190,7 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _createInputFormElements: function (currentField, formContent, fieldname) {
-            var inputDateGroupContainer;
+            let inputDateGroupContainer;
             // Create field controls on basis of their type
             switch (currentField.type) {
             case "esriFieldTypeString":
@@ -1265,7 +1262,7 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _clearFormFields: function () {
-            var node;
+            let node;
             // remove error and success messages for each form field
             array.forEach(query(".form-control", this.domNode), lang.hitch(this, function (currentInput) {
                 node = currentInput.parentElement;
@@ -1297,7 +1294,7 @@ define([
                 this._resetSubTypeFields(currentInput);
             }));
             // clear error and success messages
-            array.forEach(query(".commentFormQuestionare .input-group"), function (currentInput) {
+            array.forEach(query(".commentFormQuestionare .input-group"), currentInput => {
                 domClass.remove(currentInput.parentElement, "has-error");
                 domClass.remove(currentInput.parentElement, "has-success");
             });
@@ -1330,7 +1327,7 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _addInputElementsValue: function (currentField, formContent, inputDateGroupContainer) {
-            var defaultDate, date;
+            let defaultDate, date;
             if (!this.addComments) {
                 //get default field value if t is not exist in feature attributes
                 currentField.defaultValue = this.item.attributes[this.inputContent.id];
@@ -1375,8 +1372,14 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _validateField: function (currentNode, currentField, iskeyPress) {
-            var inputType, inputValue, node, typeCastedInputValue, error, floatVal = /^[-+]?[0-9]+\.[0-9]+$/,
-                targetNode = currentNode.currentTarget || currentNode.srcElement, decimal = /^[-+]?[0-9]+$/;
+            let inputType;
+            let inputValue;
+            let node;
+            let typeCastedInputValue;
+            let error;
+            const floatVal = /^[-+]?[0-9]+\.[0-9]+$/;
+            const targetNode = currentNode.currentTarget || currentNode.srcElement;
+            const decimal = /^[-+]?[0-9]+$/;
             // trim current value
             inputValue = lang.trim(targetNode.value);
             // get value of data-input-type
@@ -1466,7 +1469,7 @@ define([
         * @memberOf widgets/geo-form/geo-form
         */
         _setFormatToValue: function (currentField, typeCastedInputValue, node) {
-            var toFixedValue;
+            let toFixedValue;
             // check if field has format and digitSeparator is true
             if (currentField.format && currentField.format.digitSeparator) {
                 // set format to the field and set toFixed value on focus out
@@ -1527,7 +1530,7 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _addNotationIcon: function (formContent, imageIconClass) {
-            var inputIconGroupContainer, inputIconGroupAddOn;
+            let inputIconGroupContainer, inputIconGroupAddOn;
             // create container for calendar for date time picker
             inputIconGroupContainer = domConstruct.create("div", {
                 className: "input-group"
@@ -1536,7 +1539,7 @@ define([
                 className: "input-group-addon"
             }, inputIconGroupContainer);
             domConstruct.create("span", {
-                className: "glyphicon " + imageIconClass
+                className: `glyphicon ${imageIconClass}`
             }, inputIconGroupAddOn);
             // return Value
             return inputIconGroupContainer;
@@ -1551,7 +1554,7 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _createDateField: function (parentNode, isRangeField, fieldname, currentField) {
-            var dateInputField, picker, selectedDate, setDateFormat, minVlaue, maxValue, value;
+            let dateInputField, picker, selectedDate, setDateFormat, minVlaue, maxValue, value;
             domClass.add(parentNode, "date");
             // create input container for DateTimePicker
             dateInputField = domConstruct.create("input", {
@@ -1606,7 +1609,7 @@ define([
                     domClass.remove(query(evt.target).parents(".commentFormQuestionare")[0], "has-success");
                     domClass.remove(query(evt.target).parents(".commentFormQuestionare")[0], "has-error");
                 }
-            }).on('dp.error', function (evt) {
+            }).on('dp.error', evt => {
                 // on error
                 evt.target.value = '';
                 domClass.remove(query(evt.target).parents(".commentFormQuestionare")[0], "has-success");
@@ -1617,7 +1620,7 @@ define([
                     domClass.remove(query(evt.target).parents(".commentFormQuestionare")[0], "has-success");
                     domClass.remove(query(evt.target).parents(".commentFormQuestionare")[0], "has-error");
                 }
-            }).on('dp.change', function (evt) {
+            }).on('dp.change', evt => {
                 // on change
                 domClass.add(query(evt.target).parents(".commentFormQuestionare")[0], "has-success");
                 domClass.remove(query(evt.target).parents(".commentFormQuestionare")[0], "has-error");
@@ -1662,4 +1665,3 @@ define([
             this.selectedLayer = selectedLayer;
         }
     });
-});

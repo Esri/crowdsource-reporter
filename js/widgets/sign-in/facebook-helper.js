@@ -15,14 +15,12 @@
  | See the License for the specific language governing permissions and
  | limitations under the License.
  */
-define([
-    "dojo/_base/declare",
-    "dojo/on",
-    "dojo/_base/lang",
-    "dojo/query",
-    "dojo/dom-class"
-], function (declare, on, lang, query, domClass) {
-    return declare(null, {
+import declare from "dojo/_base/declare";
+import on from "dojo/on";
+import lang from "dojo/_base/lang";
+import query from "dojo/query";
+import domClass from "dojo/dom-class";
+    export default declare(null, {
         _config: null,
         FBLoggedIn: false,
         userDetails: { fullName: null, firstName: null, lastName: null, uniqueID: null, socialMediaType: null },
@@ -35,8 +33,9 @@ define([
             this._config = config;
             window.fbAsyncInit = lang.hitch(this, this.fbAsyncInit);
             // Load the SDK asynchronously
-            (function (d, s, id) {
-                var js, fjs = d.getElementsByTagName(s)[0];
+            (((d, s, id) => {
+                let js;
+                const fjs = d.getElementsByTagName(s)[0];
                 if (d.getElementById(id)) {
                     return;
                 }
@@ -44,7 +43,7 @@ define([
                 js.id = id;
                 js.src = "//connect.facebook.net/en_US/sdk.js";
                 fjs.parentNode.insertBefore(js, fjs);
-            }(document, "script", "facebook-jssdk"));
+            })(document, "script", "facebook-jssdk"));
         },
 
         /**
@@ -113,4 +112,3 @@ define([
             return userDetails;
         }
     });
-});

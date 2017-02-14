@@ -1,25 +1,22 @@
-define([
-    "esri/map",
-    "esri/arcgis/utils",
-    "esri/geometry/Point",
-    "dojo/_base/declare",
-    "dojo/on",
-    "dojo/touch",
-    "dojo/dom",
-    "dojo/_base/lang",
-    "dojo/dom-style",
-    "dojo/query",
-    "dojo/NodeList-traverse",
-    "dojo/dom-class",
-    "dojo/domReady!"],
-    function (Map, EsriUtils, Point, declare, on, touch, dom, lang, style, query, nodecols, domClass) {
-        "use strict";
+import Map from "esri/map";
+import EsriUtils from "esri/arcgis/utils";
+import Point from "esri/geometry/Point";
+import declare from "dojo/_base/declare";
+import on from "dojo/on";
+import touch from "dojo/touch";
+import dom from "dojo/dom";
+import lang from "dojo/_base/lang";
+import style from "dojo/dom-style";
+import query from "dojo/query";
+import nodecols from "dojo/NodeList-traverse";
+import domClass from "dojo/dom-class";
+import "dojo/domReady!";
+        
 
-        return {
+        export default {
             // BootstrapMap Class Public Functions
             create: function (divId, options) {
-                var smartResizer,
-                    mapOut;
+                let smartResizer, mapOut;
                 if (divId && options) {
                     smartResizer = new this._smartResizer(divId, options);
                     mapOut = smartResizer.createMap();
@@ -28,8 +25,7 @@ define([
                 }
             },
             createWebMap: function (webMapId, divId, options) {
-                var smartResizer,
-                    deferredOut;
+                let smartResizer, deferredOut;
                 if (divId && options) {
                     smartResizer = new this._smartResizer(divId, options);
                     deferredOut = smartResizer.createWebMap(webMapId);
@@ -39,7 +35,7 @@ define([
             destroy: function (map) {
                 function _disconnect(resizer) {
                     if (resizer._handles) {
-                        var i = resizer._handles.length;
+                        let i = resizer._handles.length;
                         while (i--) {
                             resizer._handles[i].remove();
                             resizer._handles.splice(i, 1);
@@ -92,9 +88,7 @@ define([
                 },
                 // Create the webmap for client
                 createWebMap: function (webMapId) {
-                    var deferred,
-                        myselfAsAResizer,
-                        getDeferred;
+                    let deferred, myselfAsAResizer, getDeferred;
                     // Get DIV
                     this._setMapDiv(false);
                     // Get options and pass them on
@@ -147,14 +141,7 @@ define([
                 },
                 // Set up listeners
                 _bindEvents: function () {
-                    var setTouch,
-                        setInfoWin,
-                        debounce,
-                        timeout,
-                        visible,
-                        resizeWin,
-                        recenter,
-                        timer;
+                    let setTouch, setInfoWin, debounce, timeout, visible, resizeWin, recenter, timer;
                     if (!this._map) {
                         console.error("BootstrapMap: Invalid map object. Please check map reference.");
                         return;
@@ -171,12 +158,12 @@ define([
                     // InfoWindow restyle and reposition
                     setInfoWin = function () {
                         this._map.infoWindow.anchor = this._popupPosition;
-                        var updatePopup = function (obj) {
-                            var pt = obj._map.infoWindow.location;
+                        const updatePopup = obj => {
+                            const pt = obj._map.infoWindow.location;
                             if (pt && !obj._popupBlocked) {
                                 obj._popupBlocked = true;
                                 // Delay the map re-center
-                                window.setTimeout(function () {
+                                window.setTimeout(() => {
                                     obj._repositionMapForInfoWin(pt);
                                     obj._popupBlocked = false;
                                 }, obj._popupRecenterDelayer);
@@ -209,23 +196,20 @@ define([
                         this._handles.push(on(this._map, "load", lang.hitch(this, setInfoWin)));
                     }
                     // Debounce window resize
-                    debounce = function (func, threshold, execAsap) {
-                        return function debounced() {
-                            var obj = this,
-                                args = arguments;
-                            function delayed() {
-                                if (!execAsap) {
-                                    func.apply(obj, args);
-                                }
-                                timeout = null;
-                            }
-                            if (timeout) {
-                                clearTimeout(timeout);
-                            } else if (execAsap) {
+                    debounce = (func, threshold, execAsap) => function debounced() {
+                        const obj = this, args = arguments;
+                        function delayed() {
+                            if (!execAsap) {
                                 func.apply(obj, args);
                             }
-                            timeout = setTimeout(delayed, threshold || 100);
-                        };
+                            timeout = null;
+                        }
+                        if (timeout) {
+                            clearTimeout(timeout);
+                        } else if (execAsap) {
+                            func.apply(obj, args);
+                        }
+                        timeout = setTimeout(delayed, threshold || 100);
                     };
                     // Responsive resize
                     resizeWin = debounce(this._setMapDiv, 100, false);
@@ -249,7 +233,7 @@ define([
                 },
                 // Check map visiblity
                 _checkVisibility: function () {
-                    var visible = this._getMapDivVisibility();
+                    const visible = this._getMapDivVisibility();
                     if (this._visible !== visible) {
                         if (visible) {
                             this._setMapDiv(true);
@@ -276,15 +260,7 @@ define([
                     if (!this._mapDivId || !this._responsiveResize) {
                         return;
                     }
-                    var visible,
-                        windowH,
-                        bodyH,
-                        room,
-                        mapH,
-                        colH,
-                        mh1,
-                        mh2,
-                        inCol;
+                    let visible, windowH, bodyH, room, mapH, colH, mh1, mh2, inCol;
                     // Get map visibility
                     visible = this._getMapDivVisibility();
                     if (this._visible !== visible) {
@@ -312,7 +288,7 @@ define([
                         }
                         // Expand map height
                         style.set(this._mapDivId, {
-                            "height": mh2 + "px",
+                            "height": `${mh2}px`,
                             "width": "auto"
                         });
                         // Force resize and reposition
@@ -328,25 +304,21 @@ define([
                 // Current height of map
                 _calcMapHeight: function () {
                     //var s = style.get(e);
-                    var s = this._mapStyle,
-                        p = parseInt(s.paddingTop, 10) + parseInt(s.paddingBottom, 10) || 0,
-                        g = parseInt(s.marginTop, 10) + parseInt(s.marginBottom, 10) || 0,
-                        bodyH = parseInt(s.borderTopWidth, 10) + parseInt(s.borderBottomWidth, 10) || 0,
-                        h = p + g + bodyH + this._mapDiv.clientHeight;
+                    const s = this._mapStyle, p = parseInt(s.paddingTop, 10) + parseInt(s.paddingBottom, 10) || 0, g = parseInt(s.marginTop, 10) + parseInt(s.marginBottom, 10) || 0, bodyH = parseInt(s.borderTopWidth, 10) + parseInt(s.borderBottomWidth, 10) || 0, h = p + g + bodyH + this._mapDiv.clientHeight;
                   return h;
                 },
                 // Get the column height around the map
                 _calcColumnHeight: function (mapH) {
-                    var i,
-                        col,
-                        colH = 0,
-                        cols = query(this._mapDiv).closest(".row").children("[class*='col']"),
-                        containsMap;
+                    let i;
+                    let col;
+                    let colH = 0;
+                    const cols = query(this._mapDiv).closest(".row").children("[class*='col']");
+                    let containsMap;
                     if (cols.length) {
                         for (i = 0; i < cols.length; i++) {
                             col = cols[i];
                             // Avoid the map in column calculations
-                            containsMap = query("#" + this._mapDivId, col).length > 0;
+                            containsMap = query(`#${this._mapDivId}`, col).length > 0;
                             if ((col.clientHeight > colH) && !containsMap) {
                                 colH = col.clientHeight;
                             }
@@ -357,27 +329,38 @@ define([
                 // Reposition map to fix popup
                 _repositionMapForInfoWin: function (graphicCenterPt) {
                     // Determine the upper right, and center, coordinates of the map
-                    var maxPoint = new Point(this._map.extent.xmax, this._map.extent.ymax, this._map.spatialReference),
-                        centerPoint = new Point(this._map.extent.getCenter()),
-                        // Convert to screen coordinates
-                        maxPointScreen = this._map.toScreen(maxPoint),
-                        centerPointScreen = this._map.toScreen(centerPoint),
-                        graphicPointScreen = this._map.toScreen(graphicCenterPt), // Points only
-                        // Buffer
-                        marginLR = 10,
-                        marginTop = 3,
-                        infoWin = this._map.infoWindow.domNode.childNodes[0],
-                        infoWidth = infoWin.clientWidth,
-                        infoHeight = infoWin.clientHeight + this._map.infoWindow.marginTop,
-                        // X
-                        lOff = graphicPointScreen.x - infoWidth / 2,
-                        rOff = graphicPointScreen.x + infoWidth / 2,
-                        l = lOff - marginLR < 0,
-                        r = rOff > maxPointScreen.x - marginLR,
-                        // Y
-                        yOff = this._map.infoWindow.offsetY,
-                        tOff = graphicPointScreen.y - infoHeight - yOff,
-                        t = tOff - marginTop < 0;
+                    const maxPoint = new Point(this._map.extent.xmax, this._map.extent.ymax, this._map.spatialReference);
+
+                    let centerPoint = new Point(this._map.extent.getCenter());
+
+                    const // Convert to screen coordinates
+                    maxPointScreen = this._map.toScreen(maxPoint);
+
+                    const centerPointScreen = this._map.toScreen(centerPoint);
+
+                    const // Points only
+                    graphicPointScreen = this._map.toScreen(graphicCenterPt);
+
+                    const // Buffer
+                    marginLR = 10;
+
+                    const marginTop = 3;
+                    const infoWin = this._map.infoWindow.domNode.childNodes[0];
+                    const infoWidth = infoWin.clientWidth;
+                    const infoHeight = infoWin.clientHeight + this._map.infoWindow.marginTop;
+
+                    const // X
+                    lOff = graphicPointScreen.x - infoWidth / 2;
+
+                    const rOff = graphicPointScreen.x + infoWidth / 2;
+                    const l = lOff - marginLR < 0;
+                    const r = rOff > maxPointScreen.x - marginLR;
+
+                    const // Y
+                    yOff = this._map.infoWindow.offsetY;
+
+                    const tOff = graphicPointScreen.y - infoHeight - yOff;
+                    const t = tOff - marginTop < 0;
                     // X
                     if (l) {
                         centerPointScreen.x -= (Math.abs(lOff) + marginLR) < marginLR ? marginLR : Math.abs(lOff) + marginLR;
@@ -397,4 +380,4 @@ define([
                 }
             }) // _smartResizer
         }; // return
-    }); // define function
+     // define function

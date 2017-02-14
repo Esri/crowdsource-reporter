@@ -15,52 +15,28 @@
 | See the License for the specific language governing permissions and
 | limitations under the License.
 */
-define([
-    "dojo/_base/declare",
-    "dojo/_base/lang",
-    "esri/arcgis/utils",
-    "dojo/dom",
-    "dojo/dom-construct",
-    "dojo/dom-style",
-    "dojo/dom-class",
-    "dojo/dom-attr",
-    "dojo/on",
-    "dojo/topic",
-    "dojo/string",
-    "dojo/window",
-    "dojo/text!css/theme-template.css",
-    "esri/layers/GraphicsLayer",
-    "application/utils/utils",
-    "dojo/query",
-    "widgets/locator/locator",
-    "dijit/_WidgetBase",
-    "esri/graphic",
-    "esri/symbols/PictureMarkerSymbol",
-    "dojo/domReady!"
-], function (
-    declare,
-    lang,
-    arcgisUtils,
-    dom,
-    domConstruct,
-    domStyle,
-    domClass,
-    domAttr,
-    on,
-    topic,
-    string,
-    dojowindow,
-    ThemeCss,
-    GraphicsLayer,
-    ApplicationUtils,
-    query,
-    Locator,
-    _WidgetBase,
-    Graphic,
-    PictureMarkerSymbol
-
-) {
-    return declare([_WidgetBase], {
+import declare from "dojo/_base/declare";
+import lang from "dojo/_base/lang";
+import arcgisUtils from "esri/arcgis/utils";
+import dom from "dojo/dom";
+import domConstruct from "dojo/dom-construct";
+import domStyle from "dojo/dom-style";
+import domClass from "dojo/dom-class";
+import domAttr from "dojo/dom-attr";
+import on from "dojo/on";
+import topic from "dojo/topic";
+import string from "dojo/string";
+import dojowindow from "dojo/window";
+import ThemeCss from "raw-loader!../../../css/theme-template.css";
+import GraphicsLayer from "esri/layers/GraphicsLayer";
+import ApplicationUtils from "../../utils/utils";
+import query from "dojo/query";
+import Locator from "../locator/locator";
+import _WidgetBase from "dijit/_WidgetBase";
+import Graphic from "esri/graphic";
+import PictureMarkerSymbol from "esri/symbols/PictureMarkerSymbol";
+import "dojo/domReady!";
+    export default declare([_WidgetBase], {
         startup: function () {
             this.inherited(arguments);
         },
@@ -75,7 +51,7 @@ define([
         * @memberOf widgets/map-search/map-search
         */
         createSearchButton: function (response, map, mapId, addGraphic, details) {
-            var createSearchDiv, inputGroupButton, searchIconDiv, textSearch;
+            let createSearchDiv, inputGroupButton, searchIconDiv, textSearch;
             if (query(".search")[0]) {
                 domConstruct.empty(query(".search")[0]);
             }
@@ -128,7 +104,7 @@ define([
         * @memberOf widgets/map-search/map-search
         */
         _collapseSerach: function (inputGroupButton) {
-            var textSearch, serachClose;
+            let textSearch, serachClose;
             serachClose = this.locatorSearch.clearhide;
             textSearch = this.locatorSearch.txtSearch;
             if (inputGroupButton) {
@@ -146,7 +122,7 @@ define([
         * @memberOf widgets/map-search/map-search
         */
         _expandSerach: function (inputGroupButton) {
-            var textSearch, serachClose;
+            let textSearch, serachClose;
             serachClose = this.locatorSearch.clearhide;
             textSearch = this.locatorSearch.txtSearch;
             if (inputGroupButton) {
@@ -167,7 +143,7 @@ define([
         * @memberOf widgets/map-search/map-search
         */
         _validateAddress: function (geometry) {
-            var inputGroupButton;
+            let inputGroupButton;
             if (this.basemapExtent.contains(geometry)) {
                 this._zoomToSelectedFeature(geometry);
                 this._highlightSelectedLocation({ "feature": new Graphic(geometry) });
@@ -185,7 +161,7 @@ define([
         * @memberOf widgets/map-search/map-search
         **/
         _getSelectedFeatureFromResult: function (evt) {
-            var selectedFeature;
+            let selectedFeature;
             if (evt) {
                 if (evt.feature) {
                     selectedFeature = evt.feature;
@@ -202,7 +178,7 @@ define([
         * @memberOf widgets/map-search/map-search
         **/
         _highlightSelectedLocation: function (evt) {
-            var symbol, selectedFeature;
+            let symbol, selectedFeature;
             //get selected feature*/
             selectedFeature = this._getSelectedFeatureFromResult(evt);
             if (selectedFeature && selectedFeature.geometry && selectedFeature.geometry.type === "point") {
@@ -219,7 +195,7 @@ define([
         * @memberOf widgets/map-search/map-search
         */
         _zoomToSelectedFeature: function (geometry) {
-            var centerPoint;
+            let centerPoint;
             // check for geometry type of different layer
             if (geometry.type === "point") {
                 this.newMap.setLevel(this.config.zoomLevel);
@@ -240,4 +216,3 @@ define([
             return feature;
         }
     });
-});
