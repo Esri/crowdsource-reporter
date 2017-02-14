@@ -56,7 +56,7 @@ import WebMapList from "./widgets/webmap-list/webmap-list";
 import IssueWall from "./widgets/issue-wall/issue-wall";
 import GeoForm from "./widgets/geo-form/geo-form";
 import MyIssues from "./widgets/my-issues/my-issues";
-import ApplicationUtils from "application/utils/utils";
+import ApplicationUtils from "./utils/utils";
 import query from "dojo/query";
 import SidebarContentController from "./widgets/sidebar-content-controller/sidebar-content-controller";
 import ItemDetails from "./widgets/item-details/item-details-controller";

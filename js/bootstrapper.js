@@ -16,7 +16,7 @@
  | limitations under the License.
  */
 import declare from "dojo/_base/declare";
-import TemplateConfig from "config/template-config";
+import TemplateConfig from "../config/template-config";
 import Template from "./template";
 import ApplicationSignIn from "./widgets/sign-in/sign-in";
 import ApplicationUtils from "./utils/utils";

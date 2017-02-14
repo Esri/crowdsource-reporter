@@ -16,7 +16,7 @@
  | limitations under the License.
  */
 //============================================================================================================================//
-import templateConfig from "../../../template-config";
+import templateConfig from "../../../config/template-config";
 import MainTemplate from "../../template";
 import Main from "../../main";
 import declare from "dojo/_base/declare";

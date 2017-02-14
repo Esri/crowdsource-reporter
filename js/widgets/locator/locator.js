@@ -30,7 +30,7 @@ import Locator from "esri/tasks/locator";
 import ProjectParameters from "esri/tasks/ProjectParameters";
 import EsriQuery from "esri/tasks/query";
 import QueryTask from "esri/tasks/QueryTask";
-import usng from "vendor/usng";
+import usng from "../../vendor/usng";
     export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         lastSearchString: null,
