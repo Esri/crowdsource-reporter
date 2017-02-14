@@ -38,7 +38,7 @@ import PictureMarkerSymbol from "esri/symbols/PictureMarkerSymbol";
 import "dojo/domReady!";
     export default declare([_WidgetBase], {
         startup: function(...args) {
-            this.inherited(args);
+            // this.inherited(args);
         },
 
         /**

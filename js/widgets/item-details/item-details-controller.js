@@ -101,7 +101,7 @@ import query from "dojo/query";
         */
         constructor: function (...args) {
             const configData = args[0];
-            this.inherited(args);
+            // this.inherited(args);
             // check if configData is present, then merge it with config object
             if (configData) {
                 lang.mixin(this, configData);
@@ -114,13 +114,13 @@ import query from "dojo/query";
         },
 
         postCreate: function(...args) {
-            this.inherited(args);
+            // this.inherited(args);
             this._initContentPane();
             this.hide();
         },
 
         startup: function(...args) {
-            this.inherited(args);
+            // this.inherited(args);
             this._addListeners();
         },
 

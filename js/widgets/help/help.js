@@ -32,7 +32,7 @@ import "dojo/domReady!";
         },
 
         startup: function(...args) {
-            this.inherited(args);
+            // this.inherited(args);
         },
 
         /**

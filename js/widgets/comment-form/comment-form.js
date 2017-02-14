@@ -57,7 +57,7 @@ import commentForm from "./templates/comment-form.html";
         */
         constructor: function (...args) {
             const commentData = args[0];
-            this.inherited(args);
+            // this.inherited(args);
             // check if configData is present, then merge it with config object
             if (commentData) {
                 lang.mixin(this, commentData);
@@ -67,7 +67,7 @@ import commentForm from "./templates/comment-form.html";
 
         postCreate: function(...args) {
             let submitCommentText;
-            this.inherited(args);
+            // this.inherited(args);
             this._initializeCommentForm();
             if (this.addComments) {
                 submitCommentText = this.config.i18n.comment.commentsFormSubmitButton;
@@ -88,7 +88,7 @@ import commentForm from "./templates/comment-form.html";
         },
 
         startup: function(...args) {
-            this.inherited(args);
+            // this.inherited(args);
         },
 
         _initializeCommentForm: function () {

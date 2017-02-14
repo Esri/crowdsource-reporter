@@ -68,7 +68,7 @@ import query from "dojo/query";
                 domClass.add(this.signinHelpLink, "esriCTHidden");
             }
             this.appUtils = appUtils;
-            this.inherited(args);
+            // this.inherited(args);
             this._createLoginScreenUI();
             if (this._config.enableGoogleplus) {
                 loadGPApi = $.getScript("https://apis.google.com/js/client:platform.js?onload=render");

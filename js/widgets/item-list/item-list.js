@@ -39,7 +39,7 @@ import template from './templates/item-list-view.html';
         * @constructor
         */
         constructor: function(...args) {
-            this.inherited(args);
+            // this.inherited(args);
         },
 
         /**
@@ -47,7 +47,7 @@ import template from './templates/item-list-view.html';
         * life cycle, after constructor. Sets class variables.
         */
         postCreate: function(...args) {
-            this.inherited(args);
+            // this.inherited(args);
             this.i18n = this.appConfig.i18n.itemList;
             this.hide();
         },
@@ -58,7 +58,7 @@ import template from './templates/item-list-view.html';
         *
         */
         startup: function(...args) {
-            this.inherited(args);
+            // this.inherited(args);
         },
 
         /**
