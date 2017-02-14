@@ -28,7 +28,7 @@ import lang from "dojo/_base/lang";
 import on from "dojo/on";
 import string from "dojo/string";
 import query from "dojo/query";
-import template from "dojo/text!./templates/my-issues.html";
+import template from "./templates/my-issues.html";
 import all from "dojo/promise/all";
 import _WidgetBase from "dijit/_WidgetBase";
 import _TemplatedMixin from "dijit/_TemplatedMixin";

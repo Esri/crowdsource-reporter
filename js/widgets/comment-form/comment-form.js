@@ -32,7 +32,7 @@ import domAttr from 'dojo/dom-attr';
 import locale from "dojo/date/locale";
 import Graphic from "esri/graphic";
 import RelationshipQuery from "esri/tasks/RelationshipQuery";
-import commentForm from "dojo/text!./templates/comment-form.html";
+import commentForm from "./templates/comment-form.html";
     export default declare([_WidgetBase, _TemplatedMixin], {
         templateString: commentForm,
         sortedFields: [],

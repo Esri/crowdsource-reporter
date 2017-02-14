@@ -27,7 +27,7 @@ import topic from 'dojo/topic';
 import nld from 'dojo/NodeList-dom';
 import _WidgetBase from 'dijit/_WidgetBase';
 import _TemplatedMixin from 'dijit/_TemplatedMixin';
-import template from 'dojo/text!./templates/item-list-view.html';
+import template from './templates/item-list-view.html';
 
     export default declare([_WidgetBase, _TemplatedMixin], {
         templateString: template,

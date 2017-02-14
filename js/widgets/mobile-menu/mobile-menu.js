@@ -30,7 +30,7 @@ import on from "dojo/on";
 import Deferred from "dojo/Deferred";
 import all from "dojo/promise/all";
 import esriPortal from "esri/arcgis/Portal";
-import template from "dojo/text!./templates/mobile-menu.html";
+import template from "./templates/mobile-menu.html";
 import _WidgetBase from "dijit/_WidgetBase";
 import _TemplatedMixin from "dijit/_TemplatedMixin";
 import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";

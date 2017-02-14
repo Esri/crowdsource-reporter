@@ -39,7 +39,7 @@ import ContentPane from 'dijit/layout/ContentPane';
 import _WidgetBase from 'dijit/_WidgetBase';
 import _TemplatedMixin from 'dijit/_TemplatedMixin';
 import DeferredList from 'dojo/DeferredList';
-import template from 'dojo/text!./templates/item-details-view.html';
+import template from './templates/item-details-view.html';
 import CommentForm from "../comment-form/comment-form";
 import query from "dojo/query";
 

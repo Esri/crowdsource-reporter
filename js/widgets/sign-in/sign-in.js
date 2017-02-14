@@ -31,7 +31,7 @@ import dom from "dojo/dom";
 import Deferred from "dojo/Deferred";
 import all from "dojo/promise/all";
 import esriPortal from "esri/arcgis/Portal";
-import template from "dojo/text!./templates/sign-in.html";
+import template from "./templates/sign-in.html";
 import _WidgetBase from "dijit/_WidgetBase";
 import _TemplatedMixin from "dijit/_TemplatedMixin";
 import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";

@@ -31,7 +31,7 @@ import dom from "dojo/dom";
 import touch from "dojo/touch";
 import domStyle from "dojo/dom-style";
 import query from "dojo/query";
-import dijitTemplate from "dojo/text!./templates/geo-form.html";
+import dijitTemplate from "./templates/geo-form.html";
 import string from "dojo/string";
 import GraphicsLayer from "esri/layers/GraphicsLayer";
 import Graphic from "esri/graphic";
