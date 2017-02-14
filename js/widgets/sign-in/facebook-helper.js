@@ -33,8 +33,9 @@ import domClass from "dojo/dom-class";
             this._config = config;
             window.fbAsyncInit = lang.hitch(this, this.fbAsyncInit);
             // Load the SDK asynchronously
-            (function (d, s, id) {
-                var js, fjs = d.getElementsByTagName(s)[0];
+            (((d, s, id) => {
+                let js;
+                const fjs = d.getElementsByTagName(s)[0];
                 if (d.getElementById(id)) {
                     return;
                 }
@@ -42,7 +43,7 @@ import domClass from "dojo/dom-class";
                 js.id = id;
                 js.src = "//connect.facebook.net/en_US/sdk.js";
                 fjs.parentNode.insertBefore(js, fjs);
-            }(document, "script", "facebook-jssdk"));
+            })(document, "script", "facebook-jssdk"));
         },
 
         /**

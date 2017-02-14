@@ -42,7 +42,7 @@ import "dojo/domReady!";
         showDialog: function () {
             $("#myModal").modal("show");
             //Set modal templates scroll position to 0
-            setTimeout(function () {
+            setTimeout(() => {
                 $('#myModal').find('.modal-body')[0].scrollTop = 0;
             }, 200);
         }

@@ -149,14 +149,14 @@ import query from "dojo/query";
         * Attach click events on all the available buttons
         */
         _addListeners: function () {
-            var self = this;
+            const self = this;
             on(this.backIcon, "click", lang.hitch(this, function (evt) {
                 this.onCancel(self.item);
             }));
 
             on(this.likeButton, "click", lang.hitch(this, function () {
                 if (!domClass.contains(this.likeButton, "esriCTDetailButtonSelected")) {
-                    self._fetchVotesCount(self.item).then(lang.hitch(this, function (item) {
+                    self._fetchVotesCount(self.item).then(lang.hitch(this, item => {
                         self._incrementVote(item);
                     }));
                 }
@@ -172,12 +172,12 @@ import query from "dojo/query";
             }));
 
 
-            on(this.mapItButton, "click", function () {
+            on(this.mapItButton, "click", () => {
                 domStyle.set(dom.byId("mapParentContainer"), "display", "block");
                 topic.publish("resizeMap");
             });
 
-            on(this.galleryButton, "click", function () {
+            on(this.galleryButton, "click", () => {
                 if (domClass.contains(self.gallery, "esriCTHidden")) {
                     self._showAttachments(self.item);
                 }
@@ -197,7 +197,9 @@ import query from "dojo/query";
         * @param {item} the current item for which count is to be retrieved.
         */
         _fetchVotesCount: function (item) {
-            var updateQuery, updateQueryTask, deferred = new Deferred();
+            let updateQuery;
+            let updateQueryTask;
+            const deferred = new Deferred();
             // Get the latest vote count from the server, not just the feature layer
             updateQuery = new Query();
             updateQuery.objectIds = [item.attributes[this.selectedLayer.objectIdField]];
@@ -205,7 +207,7 @@ import query from "dojo/query";
             updateQuery.outFields = [this.appConfig.likeField];
             updateQueryTask = new QueryTask(this.selectedLayer.url);
             updateQueryTask.execute(updateQuery, lang.hitch(this, function (results) {
-                var retrievedVotes;
+                let retrievedVotes;
                 if (results && results.features && results.features.length > 0) {
                     retrievedVotes = results.features[0].attributes[this.appConfig.likeField];
                     retrievedVotes = retrievedVotes || 0;
@@ -214,7 +216,7 @@ import query from "dojo/query";
                     deferred.resolve(item);
                 }
                 deferred.reject(item);
-            }), function (error) {
+            }), error => {
                 deferred.reject(item);
             });
             return deferred;
@@ -225,7 +227,7 @@ import query from "dojo/query";
         * @param {item} the current item for which count is to be incremented.
         */
         _incrementVote: function (item) {
-            var selectedFeatureOID;
+            let selectedFeatureOID;
             item.attributes[this.appConfig.likeField] = item.attributes[this.appConfig.likeField] + 1;
             // Update the item in the feature layer
             this.appUtils.showLoadingIndicator();
@@ -240,9 +242,7 @@ import query from "dojo/query";
                         domClass.add(this.likeButton, "esriCTDetailButtonSelected");
                         this.likeButton.disabled = true;
                     }
-                    selectedFeatureOID = item.webMapId + "_" +
-                        this.selectedLayer.id + "_" +
-                        item.attributes[this.selectedLayer.objectIdField];
+                    selectedFeatureOID = `${item.webMapId}_${this.selectedLayer.id}_${item.attributes[this.selectedLayer.objectIdField]}`;
                     //If selected features object id is not present in the array, push it
                     if (this.votesUpdatedArray.indexOf(selectedFeatureOID) === -1) {
                         this.votesUpdatedArray.push(selectedFeatureOID);
@@ -318,7 +318,7 @@ import query from "dojo/query";
         * @param {object} item Updated definition of current item
         */
         _checkForLayerCapabilities: function (layerInfo, item) {
-            var layerCapabilities;
+            let layerCapabilities;
             //set default values
             item.canEdit = false;
             item.canDelete = false;
@@ -347,7 +347,7 @@ import query from "dojo/query";
             if (item === this.item) {
                 this.itemVotes = this._getItemVotes(item);
                 this.itemVotesDiv.innerHTML = this.itemVotes.label;
-                domAttr.set(this.votesDetailContainer, "title", this.itemVotes.label + " " + this.i18n.likeButtonTooltip);
+                domAttr.set(this.votesDetailContainer, "title", `${this.itemVotes.label} ${this.i18n.likeButtonTooltip}`);
             }
         },
 
@@ -368,15 +368,15 @@ import query from "dojo/query";
         * extra digit of room is needed to handle numbers between 99K and 1M, exclusive
         */
         _getItemVotes: function (item) {
-            var needSpace = false, votes = item.attributes[this.votesField] || 0;
+            let needSpace = false, votes = item.attributes[this.votesField] || 0;
             if (votes > 999) {
                 if (votes > 99999) {
                     needSpace = true;
                 }
                 if (votes > 999999) {
-                    votes = Math.floor(votes / 1000000) + "M";
+                    votes = `${Math.floor(votes / 1000000)}M`;
                 } else {
-                    votes = Math.floor(votes / 1000) + "k";
+                    votes = `${Math.floor(votes / 1000)}k`;
                 }
             }
             return {
@@ -393,7 +393,7 @@ import query from "dojo/query";
             this.itemCP.set('content', '');
             domClass.add(this.gallery, "esriCTHidden");
             domClass.add(this.commentDetails, "esriCTHidden");
-            arrayUtil.forEach(dojoQuery(".esriCTDetailButtonContainer"), lang.hitch(this, function (currentButton) {
+            arrayUtil.forEach(dojoQuery(".esriCTDetailButtonContainer"), lang.hitch(this, currentButton => {
                 domClass.remove(currentButton.children[0], "esriCTDetailButtonSelected");
             }));
         },
@@ -409,7 +409,7 @@ import query from "dojo/query";
             //Remove hidden classes from comments list and comments header
             domClass.remove(this.commentsHeading, "esriCTHidden");
             domClass.remove(this.commentsList, "esriCTHidden");
-            domAttr.set(this.votesDetailContainer, "title", this.itemVotes.label + " " + this.i18n.likeButtonTooltip);
+            domAttr.set(this.votesDetailContainer, "title", `${this.itemVotes.label} ${this.i18n.likeButtonTooltip}`);
             if (this.actionVisibilities.showVotes && this.votesField) {
                 domClass.remove(this.votesDetailContainer, "esriCTHidden");
                 domClass.remove(this.itemTitleDiv, "esriCTNoVotesDetailContainer");
@@ -464,7 +464,7 @@ import query from "dojo/query";
         * getContent() on it
         */
         _buildCommentDiv: function (comment, index) {
-            var commentDiv;
+            let commentDiv;
             comment._layer = this._commentTable;
             commentDiv = domConstruct.create('div', {
                 'class': 'comment esriCTCommentsPopup'
@@ -485,7 +485,7 @@ import query from "dojo/query";
         * @memberOf widgets/details-panel/comments
         */
         _createEditButton: function (parentDiv, graphic, isGeoform) {
-            var editBtn, deleteBtn, existingAttachmentsObjectsArr, buttonContainer, confirmDelete;
+            let editBtn, deleteBtn, existingAttachmentsObjectsArr, buttonContainer, confirmDelete;
             buttonContainer = domConstruct.create("div", { "class": "esriCTEditingButtons" }, parentDiv);
             if (graphic.canEdit) {
                 editBtn = domConstruct.create("div", { "class": "esriCTEditButton", "title": this.appConfig.i18n.comment.editRecordText }, buttonContainer);
@@ -549,7 +549,7 @@ import query from "dojo/query";
         * @memberOf widgets/details-panel/comments
         */
         _getExistingAttachments: function (evt) {
-            var existingAttachmentsArr, i, existingAttachmentsObjectsArr;
+            let existingAttachmentsArr, i, existingAttachmentsObjectsArr;
             existingAttachmentsObjectsArr = [];
             existingAttachmentsArr = query(".esriCTNonImageNameMiddle", evt.currentTarget.parentNode.parentNode);
             if (existingAttachmentsArr && existingAttachmentsArr.length > 0) {
@@ -565,7 +565,7 @@ import query from "dojo/query";
         * @memberOf widgets/details-panel/comments
         */
         _createAttachmentsObjects: function (existingAttachment) {
-            var existingAttachmentObject;
+            let existingAttachmentObject;
             existingAttachmentObject = {};
             existingAttachmentObject.attachmentFileName = existingAttachment.innerText;
             existingAttachmentObject.attachmentObjectID = domAttr.get(existingAttachment, "attachmentObjectID");
@@ -588,7 +588,7 @@ import query from "dojo/query";
         * @memberOf widgets/details-panel/comments
         */
         deleteSelectedFeature: function () {
-            var isDeleted = false;
+            let isDeleted = false;
             // Add feature to the layer
             this.selectedLayer.applyEdits(null, null, [this.item], lang.hitch(this, function (addResults, updateResults, deleteResults) {
                 if (deleteResults[0].success) {
@@ -654,7 +654,8 @@ import query from "dojo/query";
         * @return {publish} "updatedCommentsList" with results of query
         */
         _queryComments: function (item) {
-            var updateQuery = new RelationshipQuery(), commentsTableDefinitionExpression;
+            const updateQuery = new RelationshipQuery();
+            let commentsTableDefinitionExpression;
             updateQuery.objectIds = [item.attributes[this.selectedLayer.objectIdField]];
             updateQuery.returnGeometry = true;
             updateQuery.outFields = ["*"];
@@ -668,7 +669,10 @@ import query from "dojo/query";
             }
             this._entireAttachmentsArr = null;
             this.selectedLayer.queryRelatedFeatures(updateQuery, lang.hitch(this, function (results) {
-                var pThis = this, fset, features, i;
+                const pThis = this;
+                let fset;
+                let features;
+                let i;
                 // Function for descending-OID-order sort
                 // Function for descending-OID-order sort
                 function sortByOID(a, b) {
@@ -719,7 +723,7 @@ import query from "dojo/query";
         * This function is used to get all the attachments
         */
         _getAllAttachments: function (commentsFeature) {
-            var deferredList, deferredListArr, i;
+            let deferredList, deferredListArr, i;
             deferredListArr = [];
             for (i = 0; i < commentsFeature.length; i++) {
                 deferredListArr.push(this._commentTable.queryAttachmentInfos(commentsFeature[i].attributes[this.selectedLayer.objectIdField]));
@@ -738,7 +742,7 @@ import query from "dojo/query";
         **/
         _checkAttachments: function (commentContentPaneContainer, index) {
             if (this._commentTable.hasAttachments) {
-                var attachmentsDiv = $(".attachmentsSection", commentContentPaneContainer)[0];
+                const attachmentsDiv = $(".attachmentsSection", commentContentPaneContainer)[0];
                 if (attachmentsDiv) {
                     domConstruct.empty(attachmentsDiv);
                     domStyle.set(attachmentsDiv, "display", "block");
@@ -755,7 +759,7 @@ import query from "dojo/query";
         * @memberOf widgets/details-panel/comments
         **/
         _showAttachmentsInComment: function (attachmentContainer, index) {
-            var fieldContent, i, attachmentWrapper, imageThumbnailContainer, imageThumbnailContent, imageContainer, fileTypeContainer, isAttachmentAvailable, imagePath, imageDiv;
+            let fieldContent, i, attachmentWrapper, imageThumbnailContainer, imageThumbnailContent, imageContainer, fileTypeContainer, isAttachmentAvailable, imagePath, imageDiv;
             //check if attachments found
             if (this._entireAttachmentsArr[index][1] && this._entireAttachmentsArr[index][1].length > 0) {
                 //Create attachment header text
@@ -787,11 +791,11 @@ import query from "dojo/query";
         * @param{object} attachment object
         **/
         _fetchDocumentContentType: function (attachmentData, fileTypeContainer) {
-            var typeText, fileExtensionRegEx, fileExtension;
+            let typeText, fileExtensionRegEx, fileExtension;
             fileExtensionRegEx = /(?:\.([^.]+))?$/; //ignore jslint
             fileExtension = fileExtensionRegEx.exec(attachmentData.name);
             if (fileExtension && fileExtension[1]) {
-                typeText = "." + fileExtension[1].toUpperCase();
+                typeText = `.${fileExtension[1].toUpperCase()}`;
             } else {
                 typeText = this.appConfig.i18n.comment.unknownCommentAttachment;
             }
@@ -805,7 +809,7 @@ import query from "dojo/query";
         * @param{object} dom node
         **/
         _fetchDocumentName: function (attachmentData, container) {
-            var attachmentNameWrapper, attachmentName;
+            let attachmentNameWrapper, attachmentName;
             attachmentNameWrapper = domConstruct.create("div", { "class": "esriCTNonImageName" }, container);
             attachmentName = domConstruct.create("div", {
                 "class": "esriCTNonImageNameMiddle",
@@ -835,7 +839,7 @@ import query from "dojo/query";
         * @memberOf widgets/issue-comments/issue-comments
         */
         _calculateCharactersCount: function () {
-            var count;
+            let count;
             /* Check if the number of characters entered in the comment textarea exceeds the character limit
             If it exceeds the limit do not allow the user to add more characters
             Else, accept the added character and decrease the character count */
@@ -854,7 +858,12 @@ import query from "dojo/query";
 
         //CODE FOR GALLERY
         _showAttachments: function (item) {
-            var container, fieldContent, i, imageContent, imagePath, imageDiv = [];
+            let container;
+            let fieldContent;
+            let i;
+            let imageContent;
+            let imagePath;
+            const imageDiv = [];
             domConstruct.empty(this.gallery);
             this.selectedLayer.queryAttachmentInfos(item.attributes[this.selectedLayer.objectIdField], lang.hitch(this, function (infos) {
                 container = domConstruct.create("div", {
@@ -920,12 +929,16 @@ import query from "dojo/query";
         * @param{Boolean} isOnLoad - set this flag this function is called after image load.
         */
         _setImageDimensions: function (imgModule, isOnLoad) {
-            var aspectRatio, newWidth, newHeight, imgWidth, imgContainer = imgModule.parentElement;
+            let aspectRatio;
+            let newWidth;
+            let newHeight;
+            let imgWidth;
+            const imgContainer = imgModule.parentElement;
             if (isOnLoad && imgModule && imgModule.offsetHeight > 0) {
                 //set original dimensions of image as it's max dimensions.
                 domAttr.set(imgModule, "originalWidth", imgModule.offsetWidth);
-                domStyle.set(imgModule, "maxHeight", imgModule.offsetHeight + 'px');
-                domStyle.set(imgModule, "maxWidth", imgModule.offsetWidth + 'px');
+                domStyle.set(imgModule, "maxHeight", `${imgModule.offsetHeight}px`);
+                domStyle.set(imgModule, "maxWidth", `${imgModule.offsetWidth}px`);
             }
             imgWidth = parseFloat(domAttr.get(imgModule, "originalWidth"));
             if ((imgContainer.offsetWidth > 0) && (imgContainer.offsetWidth < imgModule.offsetWidth || imgWidth > imgContainer.offsetWidth)) {
@@ -937,8 +950,8 @@ import query from "dojo/query";
                 newHeight = Math.floor(newWidth / aspectRatio);
                 domClass.remove(imgModule, "esriAutoWidth");
                 //set new dimensions to image.
-                domStyle.set(imgModule, "width", newWidth + 'px');
-                domStyle.set(imgModule, "height", newHeight + 'px');
+                domStyle.set(imgModule, "width", `${newWidth}px`);
+                domStyle.set(imgModule, "height", `${newHeight}px`);
             }
         },
 
@@ -964,10 +977,10 @@ import query from "dojo/query";
                 itemInfos: this.itemInfos,
                 appUtils: this.appUtils,
                 nls: this.i18n,
-                item: item,
+                item,
                 selectedLayer: this.selectedLayer,
-                addComments: addComments,
-                existingAttachmentsObjectsArr: existingAttachmentsObjectsArr
+                addComments,
+                existingAttachmentsObjectsArr
             }, domConstruct.create("div", {}, this.commentDetails));
 
             //attach cancel button click event
@@ -1018,15 +1031,15 @@ import query from "dojo/query";
                     $(node).tooltip("hide");
                 }
             }
-            this.tooltipHandler = on(node, touch.press, lang.hitch(this, function (e) {
+            this.tooltipHandler = on(node, touch.press, lang.hitch(this, e => {
                 $(node).tooltip("toggle");
                 e.preventDefault();
             }));
-            on(document, "click", lang.hitch(this, function () {
+            on(document, "click", lang.hitch(this, () => {
                 $(node).tooltip("hide");
             }));
 
-            on(window, "resize", lang.hitch(this, function () {
+            on(window, "resize", lang.hitch(this, () => {
                 $(node).tooltip("hide");
             }));
         },
@@ -1050,10 +1063,8 @@ import query from "dojo/query";
         * @memberOf widgets/item-details-controller/item-details-controller
         */
         _setLikeButtonState: function () {
-            var selectedFeatureId;
-            selectedFeatureId = this.item.webMapId + "_" +
-                this.selectedLayer.id + "_" +
-                this.item.attributes[this.selectedLayer.objectIdField];
+            let selectedFeatureId;
+            selectedFeatureId = `${this.item.webMapId}_${this.selectedLayer.id}_${this.item.attributes[this.selectedLayer.objectIdField]}`;
             if (this.votesUpdatedArray.indexOf(selectedFeatureId) !== -1) {
                 domClass.add(this.likeButton, "esriCTDetailButtonSelected");
                 this.likeButton.disabled = true;

@@ -96,7 +96,7 @@ import event from "dojo/_base/event";
                 this.onMapButtonClick(evt);
             })));
 
-            this.own(on(this.listLoadingIndicator, "click", lang.hitch(this, function (evt) {
+            this.own(on(this.listLoadingIndicator, "click", lang.hitch(this, evt => {
                 //Stop event propagation
                 event.stop(evt);
             })));
@@ -104,7 +104,7 @@ import event from "dojo/_base/event";
             this.own(on(this.submitReport, "click", lang.hitch(this, function (evt) {
                 this.onSubmit(evt);
             })));
-            var submitButtonText, submitButtonColor;
+            let submitButtonText, submitButtonColor;
             if (this.appConfig && lang.trim(this.appConfig.submitReportButtonText) === "") {
                 submitButtonText = this.appConfig.i18n.main.submitReportButtonText;
             } else {
@@ -162,14 +162,14 @@ import event from "dojo/_base/event";
         * @memberOf widgets/issue-wall/issue-wall
         */
         initIssueWall: function (config) {
-            var x;
+            let x;
             if (config) {
                 lang.mixin(this, config);
             }
             this.itemsList.featureLayerCount = this.featureLayerCount;
             this.selectedLayer = this.map.getLayer(this.operationalLayerId);
             this.itemsList.selectedLayer = this.selectedLayer;
-            this.selectedGraphicsDisplayLayer = this.map.getLayer("Graphics" + this.operationalLayerId);
+            this.selectedGraphicsDisplayLayer = this.map.getLayer(`Graphics${this.operationalLayerId}`);
             //Clear list and selection before creating new issue list
             this.itemsList.clearList();
             //Set the Comments table flag to false
@@ -196,7 +196,7 @@ import event from "dojo/_base/event";
         * @memberOf widgets/issue-wall/issue-wall
         */
         _getRelatedTableInfo: function () {
-            var relatedTableURL;
+            let relatedTableURL;
             // if comment field is present in config file and the layer contains related table, fetch the first related table URL
             if (this.selectedLayer.relationships && this.selectedLayer.relationships.length > 0) {
                 // Construct the related table URL form operational layer URL and the related table id
@@ -218,7 +218,7 @@ import event from "dojo/_base/event";
         },
 
         _commentsTableLoaded: function () {
-            var k, popupInfo = {};
+            let k, popupInfo = {};
             this._commentPopupTable = null;
             if (this.itemInfos && this.itemInfos.itemData.tables) {
                 //fetch comment popup table which will be used in creating comment form
@@ -253,7 +253,7 @@ import event from "dojo/_base/event";
                                 tooltip: "",
                                 visible: true
                             });
-                            popupInfo.description = "{" + this.appConfig.commentField + "}" + "\n <div class='commentRow'></div>";
+                            popupInfo.description = `{${this.appConfig.commentField}}\n <div class='commentRow'></div>`;
                             this._hasCommentsTable = true;
                             break;
                         }
@@ -282,7 +282,7 @@ import event from "dojo/_base/event";
         * @memberOf widgets/issue-wall/issue-wall
         */
         _createIssueList: function () {
-            var extentChangeFlag = false;
+            const extentChangeFlag = false;
             this.selectedGraphicsLayer = this.map.getLayer("selectionGraphicsLayer");
             //set Layer Title in header
             domAttr.set(this.listContainerTitle, "innerHTML", this.operationalLayerDetails.title);
@@ -342,7 +342,8 @@ import event from "dojo/_base/event";
         * @memberOf widgets/issue-wall/issue-wall
         */
         _fetchIssueDetails: function (operationalLayer, extentChangeFlag) {
-            var featureArray = [], flagObject = {};
+            let featureArray = [];
+            const flagObject = {};
             featureArray = this.layerGraphicsArray;
             flagObject.like = this._hasLikes;
             flagObject.comment = this._hasCommentsTable;
@@ -460,15 +461,15 @@ import event from "dojo/_base/event";
                     $(node).tooltip("hide");
                 }
             }
-            this.tooltipHandler = on(node, touch.press, lang.hitch(this, function (e) {
+            this.tooltipHandler = on(node, touch.press, lang.hitch(this, e => {
                 $(node).tooltip("toggle");
                 e.preventDefault();
             }));
-            on(document, "click", lang.hitch(this, function () {
+            on(document, "click", lang.hitch(this, () => {
                 $(node).tooltip("hide");
             }));
 
-            on(window, "resize", lang.hitch(this, function () {
+            on(window, "resize", lang.hitch(this, () => {
                 $(node).tooltip("hide");
             }));
         }

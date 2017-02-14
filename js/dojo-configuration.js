@@ -20,29 +20,29 @@
 /**
 * initialize default dojo configuration attributes by creating a dojoConfig object
 */
-var root = location.href.slice(0, location.href.lastIndexOf('/'));
+const root = location.href.slice(0, location.href.lastIndexOf('/'));
 dojoConfig = {
     parseOnLoad: true,
     async: true,
     baseURL: root,
     packages: [{
         name: "application",
-        location: root + '/js'
+        location: `${root}/js`
     }, {
         name: "css",
-        location: root + '/css'
+        location: `${root}/css`
     }, {
         name: "config",
-        location: root + '/config'
+        location: `${root}/config`
     }, {
         name: "arcgis_templates",
-        location: root + '/..'
+        location: `${root}/..`
     }, {
         name: "widgets",
-        location: root + '/js/widgets'
+        location: `${root}/js/widgets`
     }, {
         name: "vendor",
-        location: root + '/js/vendor'
+        location: `${root}/js/vendor`
     }],
     locale: decodeURIComponent((new RegExp('[?|&]' + 'locale' + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ''])[1].replace(/\+/g, '%20')) || null
 };

@@ -57,9 +57,9 @@ import lang from "dojo/_base/lang";
         * @memberOf widgets/sign-in/twitter-helper
         */
         twitterLoginWindow: function (page, forceLogin) {
-            var package_path, redirect_uri, w, h, left, top;
+            let package_path, redirect_uri, w, h, left, top;
             package_path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
-            redirect_uri = encodeURIComponent(location.protocol + '//' + location.host + package_path + this._config.twitterCallbackUrl);
+            redirect_uri = encodeURIComponent(`${location.protocol}//${location.host}${package_path}${this._config.twitterCallbackUrl}`);
             w = screen.width / 2;
             h = screen.height / 1.5;
             left = (screen.width / 2) - (w / 2);
@@ -74,9 +74,9 @@ import lang from "dojo/_base/lang";
                     page += '&';
                 }
                 if (redirect_uri) {
-                    page += 'redirect_uri=' + redirect_uri;
+                    page += `redirect_uri=${redirect_uri}`;
                 }
-                window.open(page, "twoAuth", 'scrollbars=yes, resizable=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left, true);
+                window.open(page, "twoAuth", `scrollbars=yes, resizable=yes, width=${w}, height=${h}, top=${top}, left=${left}`, true);
                 window.oAuthCallback = lang.hitch(this, function () {
                     this.getTwitterLoginResponse(this._config.twitterUserUrl);
                 });
@@ -88,13 +88,13 @@ import lang from "dojo/_base/lang";
         * @memberOf widgets/sign-in/twitter-helper
         */
         getTwitterLoginResponse: function (url) {
-            var Query;
+            let Query;
             Query = {
                 include_entities: true,
                 skip_status: true
             };
             esriRequest({
-                url: url,
+                url,
                 handleAs: "json",
                 timeout: 10000,
                 content: Query,

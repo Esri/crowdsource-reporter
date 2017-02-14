@@ -55,7 +55,7 @@ import query from "dojo/query";
         * @memberOf widgets/sign-in/sign-in
         */
         startup: function (boilerPlateTemplateObject, appUtils) {
-            var loadGPApi;
+            let loadGPApi;
             this._boilerPlateTemplate = boilerPlateTemplateObject;
             this._config = boilerPlateTemplateObject.config;
             if (this._config.enableHelp) {
@@ -84,7 +84,7 @@ import query from "dojo/query";
         * @memberOf widgets/sign-in/sign-in
         */
         _handleSplashScreenVisibility: function () {
-            var isSplashScreenRequired = false;
+            let isSplashScreenRequired = false;
             //Check for all social media sign in options and decide wehter to show splash screen or not
             if (this._config.enableGuestAccess || this._config.enableFacebook ||
                      this._config.enableTwitter || this._config.enableGoogleplus
@@ -103,7 +103,7 @@ import query from "dojo/query";
         * @memberOf widgets/sign-in/sign-in
         */
         _createLoginScreenUI: function () {
-            var applicationName;
+            let applicationName;
             this._setLoginScreenStyles();
             this.domNode = domConstruct.create("div", {}, dojo.body());
             this.domNode.appendChild(this.signinOuterContainer);
@@ -127,9 +127,9 @@ import query from "dojo/query";
             domAttr.set(this.signinGuestUser, "innerHTML", this._config.i18n.signin.guestSigninText);
             domAttr.set(this.signinOptions, "innerHTML", this._config.i18n.signin.signinOptionsText);
             if (this._config.signInBackgroundImage.indexOf("http") === 0) {
-                domStyle.set(this.signinBgImage, "backgroundImage", 'url(' + this._config.signInBackgroundImage + ')');
+                domStyle.set(this.signinBgImage, "backgroundImage", `url(${this._config.signInBackgroundImage})`);
             } else {
-                domStyle.set(this.signinBgImage, "backgroundImage", 'url(' + dojoConfig.baseURL + this._config.signInBackgroundImage + ')');
+                domStyle.set(this.signinBgImage, "backgroundImage", `url(${dojoConfig.baseURL}${this._config.signInBackgroundImage})`);
             }
 
             //If guest login is disabled from configuration, make sure we are not showing it on login screen
@@ -152,7 +152,7 @@ import query from "dojo/query";
         * @memberOf widgets/sign-in/sign-in handle
         */
         _setLoginScreenStyles: function () {
-            var iconColor, loginScreenFontColor;
+            let iconColor, loginScreenFontColor;
             //set icon images and color as per configuration
             if (this._config.imageForeGroundColor === "gray") {
                 iconColor = "gray-";
@@ -171,7 +171,7 @@ import query from "dojo/query";
         * @memberOf widgets/sign-in/sign-in handle
         */
         _setLoginScreenColors: function (loginScreenFontColor) {
-            var imageForeGroundColor, imageBackgroundColor;
+            let imageForeGroundColor, imageBackgroundColor;
             if (lang.trim(this._config.imageForeGroundColor) === "") {
                 imageForeGroundColor = "white";
             } else {
@@ -186,12 +186,12 @@ import query from "dojo/query";
             domStyle.set(this.signinOrText, "color", loginScreenFontColor);
             domStyle.set(this.signinOrText, "backgroundColor", imageBackgroundColor);
             domStyle.set(this.signinCaptionSeparator, "borderColor", imageForeGroundColor);
-            domStyle.set(this.signinOrText, "border", "2px solid " + imageForeGroundColor);
-            domStyle.set(this.signinHelpLink, "borderBottom", "1px solid " + loginScreenFontColor);
+            domStyle.set(this.signinOrText, "border", `2px solid ${imageForeGroundColor}`);
+            domStyle.set(this.signinHelpLink, "borderBottom", `1px solid ${loginScreenFontColor}`);
             //Set image background color
-            array.forEach(query(".esriCTIconsBackground", this.domNode), lang.hitch(this, function (currentIcon) {
+            array.forEach(query(".esriCTIconsBackground", this.domNode), lang.hitch(this, currentIcon => {
                 domStyle.set(currentIcon, "backgroundColor", imageBackgroundColor);
-                domStyle.set(currentIcon, "border", "3px solid " + imageForeGroundColor);
+                domStyle.set(currentIcon, "border", `3px solid ${imageForeGroundColor}`);
             }));
         },
 
@@ -200,14 +200,14 @@ import query from "dojo/query";
         * @memberOf widgets/sign-in/sign-in handle
         */
         _setLoginScreenIcons: function (iconColor) {
-            var imageBaseURL;
-            imageBaseURL = dojoConfig.baseURL + "/images/" + iconColor;
-            domStyle.set(this.signinGuestButton, "backgroundImage", 'url(' + imageBaseURL + "guest-user.png" + ')');
-            domStyle.set(this.signinFBButton, "backgroundImage", 'url(' + imageBaseURL + "facebook.png" + ')');
-            domStyle.set(this.signinTwitterButton, "backgroundImage", 'url(' + imageBaseURL + "twitter.png" + ')');
-            domStyle.set(this.signinGPlusButton, "backgroundImage", 'url(' + imageBaseURL + "googleplus.png" + ')');
-            domStyle.set(this.signinEsriButton, "backgroundImage", 'url(' + imageBaseURL + "esri.png" + ')');
-            domStyle.set(this.signinOrDiv, "backgroundImage", 'url(' + imageBaseURL + "seperator.png" + ')');
+            let imageBaseURL;
+            imageBaseURL = `${dojoConfig.baseURL}/images/${iconColor}`;
+            domStyle.set(this.signinGuestButton, "backgroundImage", `url(${imageBaseURL}guest-user.png)`);
+            domStyle.set(this.signinFBButton, "backgroundImage", `url(${imageBaseURL}facebook.png)`);
+            domStyle.set(this.signinTwitterButton, "backgroundImage", `url(${imageBaseURL}twitter.png)`);
+            domStyle.set(this.signinGPlusButton, "backgroundImage", `url(${imageBaseURL}googleplus.png)`);
+            domStyle.set(this.signinEsriButton, "backgroundImage", `url(${imageBaseURL}esri.png)`);
+            domStyle.set(this.signinOrDiv, "backgroundImage", `url(${imageBaseURL}seperator.png)`);
         },
 
         /**
@@ -225,7 +225,7 @@ import query from "dojo/query";
                 this._helpScreen.showDialog();
             })));
             //handle identity manager cancel clicked event
-            on(IdentityManager, "dialog-cancel", lang.hitch(this, function () {
+            on(IdentityManager, "dialog-cancel", lang.hitch(this, () => {
                 window.location.reload();
             }));
         },
@@ -281,7 +281,7 @@ import query from "dojo/query";
         * @memberOf widgets/sign-in/sign-in
         */
         loadApplication: function (loggedInUserDetails) {
-            var mainApp = new Main();
+            const mainApp = new Main();
             mainApp.startup(this._boilerPlateTemplate, loggedInUserDetails);
         },
 
@@ -339,7 +339,7 @@ import query from "dojo/query";
         * @memberOf widgets/sign-in/sign-in
         */
         _esriButtonClicked: function () {
-            var noMapMessage;
+            let noMapMessage;
             this.hideSignInDialog();
             this.portal = new esriPortal.Portal(this._config.sharinghost);
             this.portal.on("load", lang.hitch(this, function () {
@@ -383,7 +383,7 @@ import query from "dojo/query";
         * @memberOf widgets/sign-in/sign-in
         */
         _fbButtonClicked: function () {
-            var facebookConfig;
+            let facebookConfig;
             // if facebook login occurred first time/login instance not created
             if (!this.fbHelperObject) {
                 facebookConfig = { "facebookAppId": this._config.facebookAppId };
@@ -400,7 +400,7 @@ import query from "dojo/query";
         * @memberOf widgets/sign-in/sign-in
         */
         _twitterButtonClicked: function () {
-            var twitterConfig;
+            let twitterConfig;
             // if twitter login occurred first time/login instance not created
             if (!this.twHelperObject) {
                 twitterConfig = {
@@ -420,7 +420,7 @@ import query from "dojo/query";
         * @memberOf widgets/sign-in/sign-in
         */
         _gpButtonClicked: function () {
-            var googleplusConfig;
+            let googleplusConfig;
             // if google api sdk is loaded
             if (gapi && gapi.auth) {
                 googleplusConfig = {
@@ -444,11 +444,11 @@ import query from "dojo/query";
                 //  then only on "PROMPT" method invoke let him login to our app
                 if (authResult.status.method === 'PROMPT') {
                     gapi.client.load('plus', 'v1', lang.hitch(this, function () {
-                        var request = gapi.client.plus.people.get({
+                        const request = gapi.client.plus.people.get({
                             'userId': 'me'
                         });
                         request.execute(lang.hitch(this, function (resp) {
-                            var userDetails = { fullName: null, firstName: null, lastName: null, uniqueID: null, socialMediaType: null };
+                            const userDetails = { fullName: null, firstName: null, lastName: null, uniqueID: null, socialMediaType: null };
                             // if emails exist in response object
                             if (resp.emails) {
                                 userDetails.fullName = resp.displayName || "";

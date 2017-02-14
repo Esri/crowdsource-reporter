@@ -129,7 +129,7 @@ import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";
         * @memberOf widgets/app-header/app-header
         */
         _setApplicationTitle: function () {
-            var applicationName = "";
+            let applicationName = "";
             if (this.appConfig.applicationName && lang.trim(this.appConfig.applicationName).length !== 0) {
                 applicationName = this.appConfig.applicationName;
             } else if (this.appConfig.groupInfo.results.length > 0 && this.appConfig.groupInfo.results[0].title) {
@@ -150,7 +150,7 @@ import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";
         * @memberOf widgets/app-header/app-header
         */
         _setApplicationLogo: function () {
-            var applicationIcon;
+            let applicationIcon;
             // if application icon is configured, display the configured icon in application header
             // else if group logo is present, display group logo in application header
             // if both the above mentioned icons are not present, display default icon in application header
@@ -161,13 +161,13 @@ import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";
                     if (this.appConfig.applicationIcon.indexOf("/") === 0) {
                         domAttr.set(this.applicationHeaderIcon, "src", dojoConfig.baseURL + this.appConfig.applicationIcon);
                     } else {
-                        domAttr.set(this.applicationHeaderIcon, "src", dojoConfig.baseURL + "/" + this.appConfig.applicationIcon);
+                        domAttr.set(this.applicationHeaderIcon, "src", `${dojoConfig.baseURL}/${this.appConfig.applicationIcon}`);
                     }
                 }
             } else if (this.appConfig.groupInfo.results.length > 0 && this.appConfig.groupInfo.results[0].thumbnailUrl) {
                 domAttr.set(this.applicationHeaderIcon, "src", this.appConfig.groupInfo.results[0].thumbnailUrl);
             } else {
-                domAttr.set(this.applicationHeaderIcon, "src", dojoConfig.baseURL + "/images/app-icon.png");
+                domAttr.set(this.applicationHeaderIcon, "src", `${dojoConfig.baseURL}/images/app-icon.png`);
             }
             applicationIcon = domAttr.get(this.applicationHeaderIcon, "src");
 
@@ -185,7 +185,7 @@ import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";
         * @memberOf widgets/app-header/app-header
         */
         _loadIcons: function (rel, iconPath) {
-            var icon;
+            let icon;
             icon = domConstruct.create("link");
             icon.rel = rel;
             icon.type = "image/x-icon";
@@ -246,7 +246,7 @@ import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";
             // user is logged in via AGOL portal login
             if (this.config.portalObject) {
                 if (this.config.portalObject.getPortalUser()) {
-                    this.config.portalObject.signOut().then(lang.hitch(this, function () {
+                    this.config.portalObject.signOut().then(lang.hitch(this, () => {
                         location.reload();
                     }));
                 } else {
