@@ -99,8 +99,9 @@ import query from "dojo/query";
         * @constructor
         * @memberOf widgets/item-details/item-details-controller
         */
-        constructor: function (configData) {
-            this.inherited(arguments);
+        constructor: function (...args) {
+            const configData = args[0];
+            this.inherited(args);
             // check if configData is present, then merge it with config object
             if (configData) {
                 lang.mixin(this, configData);

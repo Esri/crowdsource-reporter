@@ -55,8 +55,9 @@ import commentForm from "./templates/comment-form.html";
         * @constructor
         * @memberOf widgets/comment-form/comment-form
         */
-        constructor: function (commentData) {
-            this.inherited(arguments);
+        constructor: function (...args) {
+            const commentData = args[0];
+            this.inherited(args);
             // check if configData is present, then merge it with config object
             if (commentData) {
                 lang.mixin(this, commentData);

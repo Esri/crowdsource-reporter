@@ -54,7 +54,9 @@ import query from "dojo/query";
         * @param{object} config to be used
         * @memberOf widgets/sign-in/sign-in
         */
-        startup: function (boilerPlateTemplateObject, appUtils) {
+        startup: function (...args) {
+            const boilerPlateTemplateObject = args[0];
+            const appUtils = args[1];
             let loadGPApi;
             this._boilerPlateTemplate = boilerPlateTemplateObject;
             this._config = boilerPlateTemplateObject.config;
@@ -66,7 +68,7 @@ import query from "dojo/query";
                 domClass.add(this.signinHelpLink, "esriCTHidden");
             }
             this.appUtils = appUtils;
-            this.inherited(arguments);
+            this.inherited(args);
             this._createLoginScreenUI();
             if (this._config.enableGoogleplus) {
                 loadGPApi = $.getScript("https://apis.google.com/js/client:platform.js?onload=render");
