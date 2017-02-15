@@ -13,7 +13,16 @@ module.exports = {
     module: {
         rules: [
             { test: /\.html$/, use: 'html-loader' },
-            { test: /\.css$/, use: ['style-loader', 'css-loader'] }
+            { test: /\.css$/, use: ['style-loader', 'css-loader'] },
+            {
+              exclude: [
+                  /\.js$/,
+                  /\.html$/,
+                  /\.css$/
+              ],
+              loader: 'url-loader',
+              options: { limit: 10000 }
+            }
         ]
     },
 
