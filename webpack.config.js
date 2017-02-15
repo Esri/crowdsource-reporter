@@ -1,4 +1,6 @@
 var path = require('path');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
+
 
 module.exports = {
     entry: './js/bootstrapper.js',
@@ -11,20 +13,28 @@ module.exports = {
     },
 
     module: {
-        rules: [
-            { test: /\.html$/, use: 'html-loader' },
-            { test: /\.css$/, use: ['style-loader', 'css-loader'] },
-            {
-              exclude: [
-                  /\.js$/,
-                  /\.html$/,
-                  /\.css$/
-              ],
-              loader: 'url-loader',
-              options: { limit: 10000 }
-            }
-        ]
+        rules: [{
+            test: /\.html$/,
+            use: 'html-loader'
+        }, {
+            test: /\.css$/,
+            use: ExtractTextPlugin.extract({
+              use: 'css-loader'
+            })
+        }, {
+            exclude: [
+                /\.js$/,
+                /\.html$/,
+                /\.css$/
+            ],
+            loader: 'url-loader',
+            options: { limit: 10000 }
+        }]
     },
+
+    plugins: [
+        new ExtractTextPlugin('styles.css')
+    ],
 
     externals: [
         function(context, request, callback) {
