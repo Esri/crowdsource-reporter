@@ -1036,7 +1036,7 @@ label
 .esriCTCloseButton
 {
     float: right;
-    background-image: url(../images/close-24.png );
+    /*background-image: url(../images/close-24.png );*/
     height: 24px;
     width: 24px;
     margin-right: 24px;
