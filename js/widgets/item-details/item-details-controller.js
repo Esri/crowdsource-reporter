@@ -39,7 +39,7 @@ import ContentPane from 'dijit/layout/ContentPane';
 import _WidgetBase from 'dijit/_WidgetBase';
 import _TemplatedMixin from 'dijit/_TemplatedMixin';
 import DeferredList from 'dojo/DeferredList';
-import template from 'dojo/text!./templates/item-details-view.html';
+import template from './templates/item-details-view.html';
 import CommentForm from "../comment-form/comment-form";
 import query from "dojo/query";
 
@@ -99,8 +99,9 @@ import query from "dojo/query";
         * @constructor
         * @memberOf widgets/item-details/item-details-controller
         */
-        constructor: function (configData) {
-            this.inherited(arguments);
+        constructor: function (...args) {
+            const configData = args[0];
+            // this.inherited(args);
             // check if configData is present, then merge it with config object
             if (configData) {
                 lang.mixin(this, configData);
@@ -112,14 +113,14 @@ import query from "dojo/query";
             }
         },
 
-        postCreate: function () {
-            this.inherited(arguments);
+        postCreate: function(...args) {
+            // this.inherited(args);
             this._initContentPane();
             this.hide();
         },
 
-        startup: function () {
-            this.inherited(arguments);
+        startup: function(...args) {
+            // this.inherited(args);
             this._addListeners();
         },
 

@@ -27,7 +27,7 @@ import topic from 'dojo/topic';
 import nld from 'dojo/NodeList-dom';
 import _WidgetBase from 'dijit/_WidgetBase';
 import _TemplatedMixin from 'dijit/_TemplatedMixin';
-import template from 'dojo/text!./templates/item-list-view.html';
+import template from './templates/item-list-view.html';
 
     export default declare([_WidgetBase, _TemplatedMixin], {
         templateString: template,
@@ -38,16 +38,16 @@ import template from 'dojo/text!./templates/item-list-view.html';
         * widget creation life cycle.
         * @constructor
         */
-        constructor: function () {
-            this.inherited(arguments);
+        constructor: function(...args) {
+            // this.inherited(args);
         },
 
         /**
         * Widget post-create, called automatically in widget creation
         * life cycle, after constructor. Sets class variables.
         */
-        postCreate: function () {
-            this.inherited(arguments);
+        postCreate: function(...args) {
+            // this.inherited(args);
             this.i18n = this.appConfig.i18n.itemList;
             this.hide();
         },
@@ -57,8 +57,8 @@ import template from 'dojo/text!./templates/item-list-view.html';
         * widget creation life cycle
         *
         */
-        startup: function () {
-            this.inherited(arguments);
+        startup: function(...args) {
+            // this.inherited(args);
         },
 
         /**

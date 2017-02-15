@@ -17,7 +17,7 @@
 */
 import declare from "dojo/_base/declare";
 import domConstruct from "dojo/dom-construct";
-import template from "dojo/text!./templates/help.html";
+import template from "./templates/help.html";
 import _WidgetBase from "dijit/_WidgetBase";
 import _TemplatedMixin from "dijit/_TemplatedMixin";
 import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";
@@ -31,8 +31,8 @@ import "dojo/domReady!";
             $('#myModal').find('.modal-body').html(this.config.helpDialogContent);
         },
 
-        startup: function () {
-            this.inherited(arguments);
+        startup: function(...args) {
+            // this.inherited(args);
         },
 
         /**

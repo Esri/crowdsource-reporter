@@ -16,13 +16,14 @@
  | limitations under the License.
  */
 import declare from "dojo/_base/declare";
-import TemplateConfig from "config/template-config";
-import Template from "application/template";
+import TemplateConfig from "../config/template-config";
+import Template from "./template";
 import ApplicationSignIn from "./widgets/sign-in/sign-in";
 import ApplicationUtils from "./utils/utils";
 import domConstruct from "dojo/dom-construct";
 import lang from "dojo/_base/lang";
-    export default declare(null, {
+
+    const Bootstrapper = declare(null, {
         boilerPlateTemplateObject: null,
         appUtils: null,
 
@@ -118,3 +119,6 @@ import lang from "dojo/_base/lang";
             document.getElementsByTagName('head')[0].appendChild(icon);
         }
     });
+
+const bootstrapper = new Bootstrapper();
+bootstrapper.startup();

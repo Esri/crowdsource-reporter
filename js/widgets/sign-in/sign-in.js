@@ -16,7 +16,7 @@
  | limitations under the License.
  */
 //============================================================================================================================//
-import templateConfig from "../../../template-config";
+import templateConfig from "../../../config/template-config";
 import MainTemplate from "../../template";
 import Main from "../../main";
 import declare from "dojo/_base/declare";
@@ -31,7 +31,7 @@ import dom from "dojo/dom";
 import Deferred from "dojo/Deferred";
 import all from "dojo/promise/all";
 import esriPortal from "esri/arcgis/Portal";
-import template from "dojo/text!./templates/sign-in.html";
+import template from "./templates/sign-in.html";
 import _WidgetBase from "dijit/_WidgetBase";
 import _TemplatedMixin from "dijit/_TemplatedMixin";
 import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";
@@ -54,7 +54,9 @@ import query from "dojo/query";
         * @param{object} config to be used
         * @memberOf widgets/sign-in/sign-in
         */
-        startup: function (boilerPlateTemplateObject, appUtils) {
+        startup: function (...args) {
+            const boilerPlateTemplateObject = args[0];
+            const appUtils = args[1];
             let loadGPApi;
             this._boilerPlateTemplate = boilerPlateTemplateObject;
             this._config = boilerPlateTemplateObject.config;
@@ -66,7 +68,7 @@ import query from "dojo/query";
                 domClass.add(this.signinHelpLink, "esriCTHidden");
             }
             this.appUtils = appUtils;
-            this.inherited(arguments);
+            // this.inherited(args);
             this._createLoginScreenUI();
             if (this._config.enableGoogleplus) {
                 loadGPApi = $.getScript("https://apis.google.com/js/client:platform.js?onload=render");

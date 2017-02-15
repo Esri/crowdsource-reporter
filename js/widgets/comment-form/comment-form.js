@@ -32,7 +32,7 @@ import domAttr from 'dojo/dom-attr';
 import locale from "dojo/date/locale";
 import Graphic from "esri/graphic";
 import RelationshipQuery from "esri/tasks/RelationshipQuery";
-import commentForm from "dojo/text!./templates/comment-form.html";
+import commentForm from "./templates/comment-form.html";
     export default declare([_WidgetBase, _TemplatedMixin], {
         templateString: commentForm,
         sortedFields: [],
@@ -55,8 +55,9 @@ import commentForm from "dojo/text!./templates/comment-form.html";
         * @constructor
         * @memberOf widgets/comment-form/comment-form
         */
-        constructor: function (commentData) {
-            this.inherited(arguments);
+        constructor: function (...args) {
+            const commentData = args[0];
+            // this.inherited(args);
             // check if configData is present, then merge it with config object
             if (commentData) {
                 lang.mixin(this, commentData);
@@ -64,9 +65,9 @@ import commentForm from "dojo/text!./templates/comment-form.html";
             this.i18n = this.config.i18n;
         },
 
-        postCreate: function () {
+        postCreate: function(...args) {
             let submitCommentText;
-            this.inherited(arguments);
+            // this.inherited(args);
             this._initializeCommentForm();
             if (this.addComments) {
                 submitCommentText = this.config.i18n.comment.commentsFormSubmitButton;
@@ -86,8 +87,8 @@ import commentForm from "dojo/text!./templates/comment-form.html";
             }));
         },
 
-        startup: function () {
-            this.inherited(arguments);
+        startup: function(...args) {
+            // this.inherited(args);
         },
 
         _initializeCommentForm: function () {

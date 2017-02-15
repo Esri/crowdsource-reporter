@@ -28,7 +28,7 @@ import on from "dojo/on";
 import touch from "dojo/touch";
 import string from "dojo/string";
 import query from "dojo/query";
-import template from "dojo/text!./templates/issue-wall.html";
+import template from "./templates/issue-wall.html";
 import _WidgetBase from "dijit/_WidgetBase";
 import _TemplatedMixin from "dijit/_TemplatedMixin";
 import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";

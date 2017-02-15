@@ -81,15 +81,8 @@
     <script type="text/javascript" src="js/vendor/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript" src="js/vendor/touch-spinner/jquery.bootstrap-touchspin.min.js"></script>
     <script type="text/javascript" src="//js.arcgis.com/3.19"></script>
-    <script type="text/javascript">
-        require([
-                "application/bootstrapper"
-        ], function (
-                BootStrapper
-            ) {
-            var bootStrapperObj = new BootStrapper();
-            bootStrapperObj.startup();
-        });
+    <script>
+        require(["./dist/bundle.js"], function (main) {});
     </script>
 </body>
 </html>

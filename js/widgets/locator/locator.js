@@ -14,7 +14,7 @@ import DeferredList from "dojo/DeferredList";
 import on from "dojo/on";
 import keys from "dojo/keys";
 import query from "dojo/query";
-import template from "dojo/text!./templates/locator.html";
+import template from "./templates/locator.html";
 import _WidgetBase from "dijit/_WidgetBase";
 import _TemplatedMixin from "dijit/_TemplatedMixin";
 import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";
@@ -30,7 +30,7 @@ import Locator from "esri/tasks/locator";
 import ProjectParameters from "esri/tasks/ProjectParameters";
 import EsriQuery from "esri/tasks/query";
 import QueryTask from "esri/tasks/QueryTask";
-import usng from "vendor/usng";
+import usng from "../../vendor/usng";
     export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         lastSearchString: null,
