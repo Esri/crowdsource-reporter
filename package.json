@@ -18,6 +18,7 @@
   "homepage": "https://github.com/jpeterson/crowdsource-reporter#readme",
   "devDependencies": {
     "css-loader": "^0.26.1",
+    "extract-text-webpack-plugin": "^2.0.0-rc.3",
     "file-loader": "^0.10.0",
     "html-loader": "^0.4.4",
     "raw-loader": "^0.5.1",
