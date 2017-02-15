@@ -39,6 +39,8 @@ import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";
 import query from "dojo/query";
 import Extent from "esri/geometry/Extent";
 import Point from "esri/geometry/Point";
+import moment from "moment";
+
     export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: dijitTemplate,
         filteredWebMapResponseArr: [], // to store web-map that needs to be displayed in list

@@ -43,6 +43,8 @@ import SimpleMarkerSymbol from "esri/symbols/SimpleMarkerSymbol";
 import Polygon from "esri/geometry/Polygon";
 import Locator from "../locator/locator";
 import BootstrapMap from "../bootstrapmap/bootstrapmap";
+import moment from "moment";
+
     export default declare([_WidgetBase, _TemplatedMixin], {
         templateString: dijitTemplate,
         lastWebMapSelected: "",
