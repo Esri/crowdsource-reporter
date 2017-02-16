@@ -1,5 +1,5 @@
-/*global define,dojo,alert,document, esriConfig */
-/*jslint browser:true,sloppy:true,nomen:true,unparam:true,plusplus:true,indent:4 */
+
+
 /*
 | Copyright 2014 Esri
 |
@@ -15,256 +15,256 @@
 | See the License for the specific language governing permissions and
 | limitations under the License.
 */
-import declare from "dojo/_base/declare";
-import dom from "dojo/dom";
-import coreFx from "dojo/_base/fx";
-import lang from "dojo/_base/lang";
-import array from "dojo/_base/array";
-import domConstruct from "dojo/dom-construct";
-import domGeometry from "dojo/dom-geometry";
-import domClass from "dojo/dom-class";
-import domAttr from "dojo/dom-attr";
-import domStyle from "dojo/dom-style";
-import on from "dojo/on";
-import has from "dojo/has";
-import query from "dojo/query";
-import _WidgetBase from "dijit/_WidgetBase";
-import LocateButton from "esri/dijit/LocateButton";
-import HomeButton from "esri/dijit/HomeButton";
-import Locator from "esri/tasks/locator";
-import webMercatorUtils from "esri/geometry/webMercatorUtils";
-import Deferred from "dojo/Deferred";
-    export default declare([_WidgetBase], {
-        showLoadingIndicator: function () {
-            domClass.add(document.body, "app-loading");
-        },
+import declare from 'dojo/_base/declare';
+import dom from 'dojo/dom';
+import coreFx from 'dojo/_base/fx';
+import lang from 'dojo/_base/lang';
+import array from 'dojo/_base/array';
+import domConstruct from 'dojo/dom-construct';
+import domGeometry from 'dojo/dom-geometry';
+import domClass from 'dojo/dom-class';
+import domAttr from 'dojo/dom-attr';
+import domStyle from 'dojo/dom-style';
+import on from 'dojo/on';
+import has from 'dojo/has';
+import query from 'dojo/query';
+import _WidgetBase from 'dijit/_WidgetBase';
+import LocateButton from 'esri/dijit/LocateButton';
+import HomeButton from 'esri/dijit/HomeButton';
+import Locator from 'esri/tasks/locator';
+import webMercatorUtils from 'esri/geometry/webMercatorUtils';
+import Deferred from 'dojo/Deferred';
+export default declare([_WidgetBase], {
+  showLoadingIndicator: function () {
+    domClass.add(document.body, 'app-loading');
+  },
 
-        hideLoadingIndicator: function () {
-            domClass.remove(document.body, "app-loading");
-        },
+  hideLoadingIndicator: function () {
+    domClass.remove(document.body, 'app-loading');
+  },
 
-        showError: function (error) {
-            alert(error);
-        },
+  showError: function (error) {
+    alert(error);
+  },
 
-        showMessage: function (msg) {
-            alert(msg);
-        },
+  showMessage: function (msg) {
+    alert(msg);
+  },
 
-        showErrorScreen: function (message) {
-            domClass.add(dom.byId("layoutContainer"), "esriCTHidden");
-            domClass.remove(dom.byId("noWebMapParentDiv"), "esriCTHidden");
-            domAttr.set(dom.byId("noWebMapChildDiv"), "innerHTML", message);
-        },
+  showErrorScreen: function (message) {
+    domClass.add(dom.byId('layoutContainer'), 'esriCTHidden');
+    domClass.remove(dom.byId('noWebMapParentDiv'), 'esriCTHidden');
+    domAttr.set(dom.byId('noWebMapChildDiv'), 'innerHTML', message);
+  },
 
         /**
         * This function is used to convert ArcGIS date format constants to readable date formats
         * @memberOf utils/utils
         */
-        getDateFormat: function (type) {
-            const obj = {};
-            switch (type) {
-            case "shortDate":
-                obj.dateFormat = "MM/DD/YYYY";
-                obj.showTime = false;
-                return obj;
-            case "shortDateLE":
-                obj.dateFormat = "DD/MM/YYYY";
-                obj.showTime = false;
-                return obj;
-            case "longMonthDayYear":
-                obj.dateFormat = "MMMM DD, YYYY";
-                obj.showTime = false;
-                return obj;
-            case "dayShortMonthYear":
-                obj.dateFormat = "DD MMM YYYY";
-                obj.showTime = false;
-                return obj;
-            case "longDate":
-                obj.dateFormat = "dddd, MMMM DD, YYYY";
-                obj.showTime = false;
-                return obj;
-            case "shortDateLongTime":
-                obj.dateFormat = "MM/DD/YYYY h:mm:ss a";
-                obj.showTime = true;
-                return obj;
-            case "shortDateLELongTime":
-                obj.dateFormat = "DD/MM/YYYY h:mm:ss a";
-                obj.showTime = true;
-                return obj;
-            case "shortDateShortTime":
-                obj.dateFormat = "MM/DD/YYYY h:mm a";
-                obj.showTime = true;
-                return obj;
-            case "shortDateLEShortTime":
-                obj.dateFormat = "DD/MM/YYYY h:mm a";
-                obj.showTime = true;
-                return obj;
-            case "shortDateShortTime24":
-                obj.dateFormat = "MM/DD/YYYY HH:mm";
-                obj.showTime = true;
-                return obj;
-            case "shortDateLEShortTime24":
-                obj.dateFormat = "MM/DD/YYYY HH:mm";
-                obj.showTime = true;
-                return obj;
-            case "longMonthYear":
-                obj.dateFormat = "MMMM YYYY";
-                obj.showTime = false;
-                return obj;
-            case "shortMonthYear":
-                obj.dateFormat = "MMM YYYY";
-                obj.showTime = false;
-                return obj;
-            case "year":
-                obj.dateFormat = "YYYY";
-                obj.showTime = false;
-                return obj;
-            default:
-                obj.dateFormat = "MMMM DD, YYYY";
-                obj.showTime = false;
-                return obj;
-            }
-        },
+  getDateFormat: function (type) {
+    const obj = {};
+    switch (type) {
+    case 'shortDate':
+      obj.dateFormat = 'MM/DD/YYYY';
+      obj.showTime = false;
+      return obj;
+    case 'shortDateLE':
+      obj.dateFormat = 'DD/MM/YYYY';
+      obj.showTime = false;
+      return obj;
+    case 'longMonthDayYear':
+      obj.dateFormat = 'MMMM DD, YYYY';
+      obj.showTime = false;
+      return obj;
+    case 'dayShortMonthYear':
+      obj.dateFormat = 'DD MMM YYYY';
+      obj.showTime = false;
+      return obj;
+    case 'longDate':
+      obj.dateFormat = 'dddd, MMMM DD, YYYY';
+      obj.showTime = false;
+      return obj;
+    case 'shortDateLongTime':
+      obj.dateFormat = 'MM/DD/YYYY h:mm:ss a';
+      obj.showTime = true;
+      return obj;
+    case 'shortDateLELongTime':
+      obj.dateFormat = 'DD/MM/YYYY h:mm:ss a';
+      obj.showTime = true;
+      return obj;
+    case 'shortDateShortTime':
+      obj.dateFormat = 'MM/DD/YYYY h:mm a';
+      obj.showTime = true;
+      return obj;
+    case 'shortDateLEShortTime':
+      obj.dateFormat = 'DD/MM/YYYY h:mm a';
+      obj.showTime = true;
+      return obj;
+    case 'shortDateShortTime24':
+      obj.dateFormat = 'MM/DD/YYYY HH:mm';
+      obj.showTime = true;
+      return obj;
+    case 'shortDateLEShortTime24':
+      obj.dateFormat = 'MM/DD/YYYY HH:mm';
+      obj.showTime = true;
+      return obj;
+    case 'longMonthYear':
+      obj.dateFormat = 'MMMM YYYY';
+      obj.showTime = false;
+      return obj;
+    case 'shortMonthYear':
+      obj.dateFormat = 'MMM YYYY';
+      obj.showTime = false;
+      return obj;
+    case 'year':
+      obj.dateFormat = 'YYYY';
+      obj.showTime = false;
+      return obj;
+    default:
+      obj.dateFormat = 'MMMM DD, YYYY';
+      obj.showTime = false;
+      return obj;
+    }
+  },
 
         /**
         * This function is used to convert number to thousand separator
         * @memberOf utils/utils
         */
-        convertNumberToThousandSeperator: function (number) {
-            return number.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-        },
+  convertNumberToThousandSeperator: function (number) {
+    return number.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+  },
 
         /**
         * Create geolocation button on the map
         * @memberOf utils/utils
         */
-        createGeoLocationButton: function (basemapLayers, map, parentNode, addGraphic) {
-            let currentLocation, createLocationDiv;
+  createGeoLocationButton: function (basemapLayers, map, parentNode, addGraphic) {
+    let currentLocation, createLocationDiv;
             // create geolocation div
-            createLocationDiv = domConstruct.create("div", {}, parentNode);
-            domAttr.set(createLocationDiv, "title", this.config.i18n.map.geolocationTooltip);
+    createLocationDiv = domConstruct.create('div', {}, parentNode);
+    domAttr.set(createLocationDiv, 'title', this.config.i18n.map.geolocationTooltip);
             // initialize object of locate button
-            currentLocation = new LocateButton({
-                map,
-                highlightLocation: false,
-                setScale: false,
-                centerAt: false
-            }, createLocationDiv);
-            currentLocation.startup();
-            domStyle.set(parentNode, 'display', currentLocation.domNode.style["display"]);
+    currentLocation = new LocateButton({
+      map,
+      highlightLocation: false,
+      setScale: false,
+      centerAt: false
+    }, createLocationDiv);
+    currentLocation.startup();
+    domStyle.set(parentNode, 'display', currentLocation.domNode.style['display']);
 
             // event on locate
-            on(currentLocation, "locate", lang.hitch(this, function (evt) {
-                this.onGeolocationComplete(evt, addGraphic);
-            }));
-        },
+    on(currentLocation, 'locate', lang.hitch(this, function (evt) {
+      this.onGeolocationComplete(evt, addGraphic);
+    }));
+  },
 
         /**
         * Create homebutton button on the map
         * @memberOf utils/utils
         */
-        createHomeButton: function (map, parentNode) {
-            let homeButton, createHomeButtonDiv;
-            createHomeButtonDiv = domConstruct.create("div", { "class": "esriCTHomeButton" }, parentNode);
-            homeButton = new HomeButton({
-                map,
-                "class": "esriCTHomeButton"
-            }, createHomeButtonDiv);
-            homeButton.startup();
-        },
+  createHomeButton: function (map, parentNode) {
+    let homeButton, createHomeButtonDiv;
+    createHomeButtonDiv = domConstruct.create('div', { 'class': 'esriCTHomeButton' }, parentNode);
+    homeButton = new HomeButton({
+      map,
+      'class': 'esriCTHomeButton'
+    }, createHomeButtonDiv);
+    homeButton.startup();
+  },
 
         /**
         * Fetch the basemap extent
         * @memberOf utils/utils
         */
-        getBasemapExtent: function (baseMapLayers) {
-            let basemapExtent, i;
+  getBasemapExtent: function (baseMapLayers) {
+    let basemapExtent, i;
             /* If map contains a single basemap layer, consider full extent of that basemap
             If map contains multiple basemap layers, union the full extent of all the basemaps */
-            for (i = 0; i < baseMapLayers.length; i++) {
-                if (i === 0) {
-                    basemapExtent = baseMapLayers[i].layerObject.fullExtent;
-                } else {
-                    basemapExtent = basemapExtent.union(baseMapLayers[i].layerObject.fullExtent);
-                }
-            }
-            return basemapExtent;
-        },
+    for (i = 0; i < baseMapLayers.length; i++) {
+      if (i === 0) {
+        basemapExtent = baseMapLayers[i].layerObject.fullExtent;
+      } else {
+        basemapExtent = basemapExtent.union(baseMapLayers[i].layerObject.fullExtent);
+      }
+    }
+    return basemapExtent;
+  },
 
         /**
         * Invoked when geolocation is complete
         * @memberOf utils/utils
         */
-        onGeolocationComplete: function (event, addGraphic) {
-            return event;
-        },
+  onGeolocationComplete: function (event, addGraphic) {
+    return event;
+  },
 
         /* This function is used to display place holder text in search bar
         * @memberOf utils/utils
         */
-        displayPlaceHolderText: function (node, itemInfo, nls) {
-            if (has("ie") === 9) {
-                if (lang.trim(node.value) === "" && itemInfo.itemData.applicationProperties.viewing.search && itemInfo.itemData.applicationProperties.viewing.search.hintText) {
-                    node.value = itemInfo.itemData.applicationProperties.viewing.search.hintText;
-                    domClass.add(node, "esriCTPlaceholder");
-                } else {
-                    node.value = nls.locator.locatorPlaceholder;
-                    domClass.add(node, "esriCTPlaceholder");
-                }
-            }
-        },
+  displayPlaceHolderText: function (node, itemInfo, nls) {
+    if (has('ie') === 9) {
+      if (lang.trim(node.value) === '' && itemInfo.itemData.applicationProperties.viewing.search && itemInfo.itemData.applicationProperties.viewing.search.hintText) {
+        node.value = itemInfo.itemData.applicationProperties.viewing.search.hintText;
+        domClass.add(node, 'esriCTPlaceholder');
+      } else {
+        node.value = nls.locator.locatorPlaceholder;
+        domClass.add(node, 'esriCTPlaceholder');
+      }
+    }
+  },
 
         /**
         * This function is used to remove place holder text in search bar
         * @memberOf widgets/utils/utils
         */
-        removePlaceHolderText: function (node) {
-            if (domClass.contains(node, "esriCTPlaceholder")) {
-                node.value = "";
-                domClass.remove(node, "esriCTPlaceholder");
-            }
-        },
+  removePlaceHolderText: function (node) {
+    if (domClass.contains(node, 'esriCTPlaceholder')) {
+      node.value = '';
+      domClass.remove(node, 'esriCTPlaceholder');
+    }
+  },
 
         /**
         * @memberOf utils/utils
         */
-        isAndroid: function () {
-            const ua = navigator.userAgent.toLowerCase();
-            return ua.indexOf("android") > -1;
-        },
+  isAndroid: function () {
+    const ua = navigator.userAgent.toLowerCase();
+    return ua.indexOf('android') > -1;
+  },
 
         /**
         * This function is used create geocoder object based on the portal settings
         * @memberOf widgets/utils/utils
         */
-        createGeocoderInstance: function () {
+  createGeocoderInstance: function () {
             //Default geocoder url
-            let geocodeURL = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";
-            if (this.config.helperServices && this.config.helperServices.geocode && this.config.helperServices.geocode[0] && this.config.helperServices.geocode[0].url) {
-                geocodeURL = this.config.helperServices.geocode[0].url;
-            }
+    let geocodeURL = 'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer';
+    if (this.config.helperServices && this.config.helperServices.geocode && this.config.helperServices.geocode[0] && this.config.helperServices.geocode[0].url) {
+      geocodeURL = this.config.helperServices.geocode[0].url;
+    }
             //create the locator instance to reverse geocode the address
-            this.locatorInstance = new Locator(geocodeURL);
+    this.locatorInstance = new Locator(geocodeURL);
             //Listen for location to address complete event
-            this.locatorInstance.on("location-to-address-complete", lang.hitch(this, function (result) {
-                this.onLocationToAddressComplete(result);
-            }));
+    this.locatorInstance.on('location-to-address-complete', lang.hitch(this, function (result) {
+      this.onLocationToAddressComplete(result);
+    }));
             //Listen for error in locator
-            this.locatorInstance.onError = lang.hitch(this, function (err) {
-                this.onLocationToAddressFailed(err);
-            });
-        },
+    this.locatorInstance.onError = lang.hitch(this, function (err) {
+      this.onLocationToAddressFailed(err);
+    });
+  },
 
         /**
         * This function is used to refresh the supporting label layers
         * @memberOf widgets/utils/utils
         */
-        refreshLabelLayers: function (operationalLayers) {
-            array.forEach(operationalLayers, lang.hitch(this, currentLayer => {
-                if (currentLayer.layerObject && currentLayer.layerObject.showLabels && currentLayer.layerObject.labelingInfo) {
-                    currentLayer.layerObject.refresh();
-                }
-            }));
-        }
-    });
+  refreshLabelLayers: function (operationalLayers) {
+    array.forEach(operationalLayers, lang.hitch(this, currentLayer => {
+      if (currentLayer.layerObject && currentLayer.layerObject.showLabels && currentLayer.layerObject.labelingInfo) {
+        currentLayer.layerObject.refresh();
+      }
+    }));
+  }
+});

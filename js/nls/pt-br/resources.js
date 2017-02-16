@@ -1,4 +1,4 @@
-﻿/*global define */
+﻿
 /*
  | Copyright 2014 Esri
  |
@@ -15,144 +15,144 @@
  | limitations under the License.
  */
 define({
-  "map": {
-    "error": "Não foi possível criar o mapa",
-    "zoomInTooltip": "Mais Zoom",
-    "zoomOutTooltip": "Menos Zoom",
-    "geolocationTooltip": "Local Atual"
+  'map': {
+    'error': 'Não foi possível criar o mapa',
+    'zoomInTooltip': 'Mais Zoom',
+    'zoomOutTooltip': 'Menos Zoom',
+    'geolocationTooltip': 'Local Atual'
   },
-  "main": {
-    "noGroup": "Nenhum grupo configurado",
-    "submitReportButtonText": "Enviar um Relatório",
-    "gotoListViewTooltip": "Visualização da lista",
-    "noFeatureGeomtery": "A feição não pode ser exibida",
-    "featureOutsideAOIMessage": "ã_Feature cannot be added outside study area______________Ç"
+  'main': {
+    'noGroup': 'Nenhum grupo configurado',
+    'submitReportButtonText': 'Enviar um Relatório',
+    'gotoListViewTooltip': 'Visualização da lista',
+    'noFeatureGeomtery': 'A feição não pode ser exibida',
+    'featureOutsideAOIMessage': 'ã_Feature cannot be added outside study area______________Ç'
   },
-  "signin": {
-    "guestSigninText": "Prosseguir como Convidado",
-    "signInOrText": "Ou",
-    "signinOptionsText": "Entrar com:",
-    "noGroupNameText": "Entrar",
-    "guestLoginTooltip": "Entrar como um convidado",
-    "facebookLoginTooltip": "Entrar com Facebook",
-    "twitterLoginTooltip": "Entrar com Twitter",
-    "googlePlusLoginTooltip": "Entrar com Google+",
-    "agolLoginTooltip": "Entrar com ArcGIS"
+  'signin': {
+    'guestSigninText': 'Prosseguir como Convidado',
+    'signInOrText': 'Ou',
+    'signinOptionsText': 'Entrar com:',
+    'noGroupNameText': 'Entrar',
+    'guestLoginTooltip': 'Entrar como um convidado',
+    'facebookLoginTooltip': 'Entrar com Facebook',
+    'twitterLoginTooltip': 'Entrar com Twitter',
+    'googlePlusLoginTooltip': 'Entrar com Google+',
+    'agolLoginTooltip': 'Entrar com ArcGIS'
   },
-  "webMapList": {
-    "owner": "Proprietário",
-    "created": "Data de criação",
-    "modified": "Data modificada",
-    "description": "Descrição",
-    "snippet": "Resumo",
-    "licenseInfo": "Restrições de uso e acesso",
-    "accessInformation": "Créditos",
-    "tags": "Tags",
-    "numViews": "Número de visualizações",
-    "avgRating": "Classificação",
-    "noWebMapInGroup": "O grupo configurado é inválido ou nenhum item ainda foi compartilhado com este grupo.",
-    "infoBtnToolTip": "Informações do Mapa"
+  'webMapList': {
+    'owner': 'Proprietário',
+    'created': 'Data de criação',
+    'modified': 'Data modificada',
+    'description': 'Descrição',
+    'snippet': 'Resumo',
+    'licenseInfo': 'Restrições de uso e acesso',
+    'accessInformation': 'Créditos',
+    'tags': 'Tags',
+    'numViews': 'Número de visualizações',
+    'avgRating': 'Classificação',
+    'noWebMapInGroup': 'O grupo configurado é inválido ou nenhum item ainda foi compartilhado com este grupo.',
+    'infoBtnToolTip': 'Informações do Mapa'
   },
-  "issueWall": {
-    "noResultsFound": "Nenhuma feição localizada",
-    "noResultsFoundInCurrentBuffer": "Nenhuma feição localizada próximo de você",
-    "unableToFetchFeatureError": "Não foi possível completar a operação",
-    "gotoWebmapListTooltip": "Ir para lista principal",
-    "gotoMapViewTooltip": "Visualização do mapa"
+  'issueWall': {
+    'noResultsFound': 'Nenhuma feição localizada',
+    'noResultsFoundInCurrentBuffer': 'Nenhuma feição localizada próximo de você',
+    'unableToFetchFeatureError': 'Não foi possível completar a operação',
+    'gotoWebmapListTooltip': 'Ir para lista principal',
+    'gotoMapViewTooltip': 'Visualização do mapa'
   },
-  "appHeader": {
-    "myReport": "Meus Relatórios",
-    "signIn": "Acessar",
-    "signOut": "Sair",
-    "signInTooltip": "Registrar",
-    "signOutTooltip": "Sair",
-    "myReportTooltip": "Visualizar meus relatórios"
+  'appHeader': {
+    'myReport': 'Meus Relatórios',
+    'signIn': 'Acessar',
+    'signOut': 'Sair',
+    'signInTooltip': 'Registrar',
+    'signOutTooltip': 'Sair',
+    'myReportTooltip': 'Visualizar meus relatórios'
   },
-  "geoform": {
-    "enterInformation": "Detalhes",
-    "selectAttachments": "Anexos",
-    "selectFileText": "Procurar",
-    "enterLocation": "Localização",
-    "reportItButton": "Reportar Isto",
-    "editReportButton": "ã_Update___Ç",
-    "cancelButton": "Cancelar",
-    "requiredField": "(exigido)",
-    "selectDefaultText": "Selecionar&hellip;",
-    "invalidInputValue": "Insira um valor válido.",
-    "noFieldsConfiguredMessage": "Os campos da camada não configurados para capturar dados",
-    "invalidSmallNumber": "Digite um número inteiro",
-    "invalidNumber": "Digite um número inteiro",
-    "invalidFloat": "Digite um número",
-    "invalidDouble": "Digite um número",
-    "requiredFields": "Forneça valores para todos os campos exigidos",
-    "selectLocation": "Selecione o local para seu relatório",
-    "numericRangeHintMessage": "${openStrong}Dica:${closeStrong} valor Mínimo ${minValue} e valor Máximo ${maxValue}",
-    "dateRangeHintMessage": "${openStrong}Dica:${closeStrong} Data Mínima ${minValue} e Data Máxima ${maxValue}",
-    "errorsInApplyEdits": "Não foi possível enviar o relatório",
-    "attachmentSelectedMsg": "anexos selecionados",
-    "attachmentUploadStatus": "Falha ao carregar ${failed} de ${total} anexos",
-    "geoLocationError": "O local atual não está disponível",
-    "geoLocationOutOfExtent": "O local atual está fora da extensão do mapa base",
-    "submitButtonTooltip": "Enviar",
-    "cancelButtonTooltip": "Cancelar",
-    "geoformBackButtonTooltip": "Retornar para lista de relatório"
+  'geoform': {
+    'enterInformation': 'Detalhes',
+    'selectAttachments': 'Anexos',
+    'selectFileText': 'Procurar',
+    'enterLocation': 'Localização',
+    'reportItButton': 'Reportar Isto',
+    'editReportButton': 'ã_Update___Ç',
+    'cancelButton': 'Cancelar',
+    'requiredField': '(exigido)',
+    'selectDefaultText': 'Selecionar&hellip;',
+    'invalidInputValue': 'Insira um valor válido.',
+    'noFieldsConfiguredMessage': 'Os campos da camada não configurados para capturar dados',
+    'invalidSmallNumber': 'Digite um número inteiro',
+    'invalidNumber': 'Digite um número inteiro',
+    'invalidFloat': 'Digite um número',
+    'invalidDouble': 'Digite um número',
+    'requiredFields': 'Forneça valores para todos os campos exigidos',
+    'selectLocation': 'Selecione o local para seu relatório',
+    'numericRangeHintMessage': '${openStrong}Dica:${closeStrong} valor Mínimo ${minValue} e valor Máximo ${maxValue}',
+    'dateRangeHintMessage': '${openStrong}Dica:${closeStrong} Data Mínima ${minValue} e Data Máxima ${maxValue}',
+    'errorsInApplyEdits': 'Não foi possível enviar o relatório',
+    'attachmentSelectedMsg': 'anexos selecionados',
+    'attachmentUploadStatus': 'Falha ao carregar ${failed} de ${total} anexos',
+    'geoLocationError': 'O local atual não está disponível',
+    'geoLocationOutOfExtent': 'O local atual está fora da extensão do mapa base',
+    'submitButtonTooltip': 'Enviar',
+    'cancelButtonTooltip': 'Cancelar',
+    'geoformBackButtonTooltip': 'Retornar para lista de relatório'
   },
-  "locator": {
-    "addressText": "Endereço:",
-    "usngText": "USNG",
-    "mgrsText": "MGRS",
-    "latLongText": "Latitude/Longitude",
-    "invalidSearch": "Nenhum resultado encontrado",
-    "locatorPlaceholder": "Digite um endereço para pesquisar",
-    "locationOutOfExtent": "O endereço localizado está fora da extensão do mapa base",
-    "searchButtonTooltip": "Pesquisar",
-    "clearButtonTooltip": "Limpar valor de pesquisa"
+  'locator': {
+    'addressText': 'Endereço:',
+    'usngText': 'USNG',
+    'mgrsText': 'MGRS',
+    'latLongText': 'Latitude/Longitude',
+    'invalidSearch': 'Nenhum resultado encontrado',
+    'locatorPlaceholder': 'Digite um endereço para pesquisar',
+    'locationOutOfExtent': 'O endereço localizado está fora da extensão do mapa base',
+    'searchButtonTooltip': 'Pesquisar',
+    'clearButtonTooltip': 'Limpar valor de pesquisa'
   },
-  "myIssues": {
-    "title": "Meus Relatórios",
-    "myIssuesTooltip": "Meus Relatórios",
-    "noResultsFound": "Nenhum relatório localizado"
+  'myIssues': {
+    'title': 'Meus Relatórios',
+    'myIssuesTooltip': 'Meus Relatórios',
+    'noResultsFound': 'Nenhum relatório localizado'
   },
-  "itemDetails": {
-    "likeButtonLabel": "",
-    "likeButtonTooltip": "ã_I agree___Ç",
-    "commentButtonLabel": "",
-    "commentButtonTooltip": "ã_Leave a reply_____Ç",
-    "galleryButtonLabel": "",
-    "galleryButtonTooltip": "Visualize documentos anexados",
-    "mapButtonLabel": "Visualizar no Mapa",
-    "mapButtonTooltip": "Visualize o local deste relatório",
-    "commentsListHeading": "Comentários",
-    "unableToUpdateVoteField": "Seu voto não pode ser contado neste momento.",
-    "gotoIssueListTooltip": "Ir para a lista do relatório",
-    "deleteMessage": "ã_Are you sure you want to delete___________Ç?"
+  'itemDetails': {
+    'likeButtonLabel': '',
+    'likeButtonTooltip': 'ã_I agree___Ç',
+    'commentButtonLabel': '',
+    'commentButtonTooltip': 'ã_Leave a reply_____Ç',
+    'galleryButtonLabel': '',
+    'galleryButtonTooltip': 'Visualize documentos anexados',
+    'mapButtonLabel': 'Visualizar no Mapa',
+    'mapButtonTooltip': 'Visualize o local deste relatório',
+    'commentsListHeading': 'Comentários',
+    'unableToUpdateVoteField': 'Seu voto não pode ser contado neste momento.',
+    'gotoIssueListTooltip': 'Ir para a lista do relatório',
+    'deleteMessage': 'ã_Are you sure you want to delete___________Ç?'
   },
-  "itemList": {
-    "likesForThisItemTooltip": "Vote por este relatório",
-    "loadMoreButtonText": "Carregar Mais..."
+  'itemList': {
+    'likesForThisItemTooltip': 'Vote por este relatório',
+    'loadMoreButtonText': 'Carregar Mais...'
   },
-  "comment": {
-    "commentsFormHeading": "ã_Comment___Ç",
-    "commentsFormSubmitButton": "Enviar Comentário",
-    "commentsFormEditButton": "ã_Update Comment_____Ç",
-    "commentsFormCancelButton": "Cancelar",
-    "errorInSubmittingComment": "Não foi possível enviar o comentário.",
-    "emptyCommentMessage": "Por favor, insira um comentário.",
-    "placeHolderText": "Digite um comentário",
-    "noCommentsAvailableText": "Nenhum comentário disponível",
-    "remainingTextCount": "${0} caracteres restantes",
-    "showNoText": "Não",
-    "selectAttachments": "ã_Attachments____Ç",
-    "selectFileText": "ã_Browse___Ç",
-    "attachmentSelectedMsg": "ã_attachment(s) selected________Ç",
-    "attachmentHeaderText": "ã_Attachments____Ç",
-    "unknownCommentAttachment": "ã_FILE__Ç",
-    "editRecordText": "ã_Edit__Ç",
-    "deleteRecordText": "ã_Delete___Ç",
-    "deleteCommentFailedMessage": "ã_Unable to delete comment________Ç"
+  'comment': {
+    'commentsFormHeading': 'ã_Comment___Ç',
+    'commentsFormSubmitButton': 'Enviar Comentário',
+    'commentsFormEditButton': 'ã_Update Comment_____Ç',
+    'commentsFormCancelButton': 'Cancelar',
+    'errorInSubmittingComment': 'Não foi possível enviar o comentário.',
+    'emptyCommentMessage': 'Por favor, insira um comentário.',
+    'placeHolderText': 'Digite um comentário',
+    'noCommentsAvailableText': 'Nenhum comentário disponível',
+    'remainingTextCount': '${0} caracteres restantes',
+    'showNoText': 'Não',
+    'selectAttachments': 'ã_Attachments____Ç',
+    'selectFileText': 'ã_Browse___Ç',
+    'attachmentSelectedMsg': 'ã_attachment(s) selected________Ç',
+    'attachmentHeaderText': 'ã_Attachments____Ç',
+    'unknownCommentAttachment': 'ã_FILE__Ç',
+    'editRecordText': 'ã_Edit__Ç',
+    'deleteRecordText': 'ã_Delete___Ç',
+    'deleteCommentFailedMessage': 'ã_Unable to delete comment________Ç'
   },
-  "gallery": {
-    "galleryHeaderText": "Galeria",
-    "noAttachmentsAvailableText": "Nenhum anexo encontrado"
+  'gallery': {
+    'galleryHeaderText': 'Galeria',
+    'noAttachmentsAvailableText': 'Nenhum anexo encontrado'
   }
 });

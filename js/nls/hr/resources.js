@@ -1,4 +1,4 @@
-﻿/*global define */
+﻿
 /*
  | Copyright 2014 Esri
  |
@@ -15,144 +15,144 @@
  | limitations under the License.
  */
 define({
-  "map": {
-    "error": "Nije moguće stvoriti kartu",
-    "zoomInTooltip": "Povećaj",
-    "zoomOutTooltip": "Smanji",
-    "geolocationTooltip": "Trenutačna lokacija"
+  'map': {
+    'error': 'Nije moguće stvoriti kartu',
+    'zoomInTooltip': 'Povećaj',
+    'zoomOutTooltip': 'Smanji',
+    'geolocationTooltip': 'Trenutačna lokacija'
   },
-  "main": {
-    "noGroup": "Nema konfiguriranih grupa",
-    "submitReportButtonText": "Podnesi izvješće",
-    "gotoListViewTooltip": "Prikaz u popisu",
-    "noFeatureGeomtery": "Geoobjekt se ne može prikazati",
-    "featureOutsideAOIMessage": "Č_Feature cannot be added outside study area______________ž"
+  'main': {
+    'noGroup': 'Nema konfiguriranih grupa',
+    'submitReportButtonText': 'Podnesi izvješće',
+    'gotoListViewTooltip': 'Prikaz u popisu',
+    'noFeatureGeomtery': 'Geoobjekt se ne može prikazati',
+    'featureOutsideAOIMessage': 'Č_Feature cannot be added outside study area______________ž'
   },
-  "signin": {
-    "guestSigninText": "Nastavi kao gost",
-    "signInOrText": "ili",
-    "signinOptionsText": "Prijava kao:",
-    "noGroupNameText": "Prijavite se",
-    "guestLoginTooltip": "Prijavite se kao gost",
-    "facebookLoginTooltip": "Prijava preko Facebooka",
-    "twitterLoginTooltip": "Prijava preko Twittera",
-    "googlePlusLoginTooltip": "Prijava preko Google+",
-    "agolLoginTooltip": "Prijavite se preko ArcGIS-a"
+  'signin': {
+    'guestSigninText': 'Nastavi kao gost',
+    'signInOrText': 'ili',
+    'signinOptionsText': 'Prijava kao:',
+    'noGroupNameText': 'Prijavite se',
+    'guestLoginTooltip': 'Prijavite se kao gost',
+    'facebookLoginTooltip': 'Prijava preko Facebooka',
+    'twitterLoginTooltip': 'Prijava preko Twittera',
+    'googlePlusLoginTooltip': 'Prijava preko Google+',
+    'agolLoginTooltip': 'Prijavite se preko ArcGIS-a'
   },
-  "webMapList": {
-    "owner": "Vlasnik",
-    "created": "Datum izrade",
-    "modified": "Datum izmjene",
-    "description": "Opis",
-    "snippet": "Sažetak",
-    "licenseInfo": "Ograničenja pristupa i upotrebe",
-    "accessInformation": "Krediti",
-    "tags": "Oznake",
-    "numViews": "Broj prikaza",
-    "avgRating": "Ocjena",
-    "noWebMapInGroup": "Konfigurirana grupa nije valjana ili s grupom još nisu podijeljene stavke.",
-    "infoBtnToolTip": "Informacije o karti"
+  'webMapList': {
+    'owner': 'Vlasnik',
+    'created': 'Datum izrade',
+    'modified': 'Datum izmjene',
+    'description': 'Opis',
+    'snippet': 'Sažetak',
+    'licenseInfo': 'Ograničenja pristupa i upotrebe',
+    'accessInformation': 'Krediti',
+    'tags': 'Oznake',
+    'numViews': 'Broj prikaza',
+    'avgRating': 'Ocjena',
+    'noWebMapInGroup': 'Konfigurirana grupa nije valjana ili s grupom još nisu podijeljene stavke.',
+    'infoBtnToolTip': 'Informacije o karti'
   },
-  "issueWall": {
-    "noResultsFound": "Nema geoobjekata",
-    "noResultsFoundInCurrentBuffer": "Nema geoobjekata u vašoj blizini",
-    "unableToFetchFeatureError": "Nije moguće dovršiti radnju",
-    "gotoWebmapListTooltip": "Idi na glavni popis",
-    "gotoMapViewTooltip": "Prikaz karte"
+  'issueWall': {
+    'noResultsFound': 'Nema geoobjekata',
+    'noResultsFoundInCurrentBuffer': 'Nema geoobjekata u vašoj blizini',
+    'unableToFetchFeatureError': 'Nije moguće dovršiti radnju',
+    'gotoWebmapListTooltip': 'Idi na glavni popis',
+    'gotoMapViewTooltip': 'Prikaz karte'
   },
-  "appHeader": {
-    "myReport": "Moja izvješća",
-    "signIn": "Prijava",
-    "signOut": "Odjava",
-    "signInTooltip": "Prijava",
-    "signOutTooltip": "Odjava",
-    "myReportTooltip": "Prikaz mojih izvješća"
+  'appHeader': {
+    'myReport': 'Moja izvješća',
+    'signIn': 'Prijava',
+    'signOut': 'Odjava',
+    'signInTooltip': 'Prijava',
+    'signOutTooltip': 'Odjava',
+    'myReportTooltip': 'Prikaz mojih izvješća'
   },
-  "geoform": {
-    "enterInformation": "Pojedinosti",
-    "selectAttachments": "Privitci",
-    "selectFileText": "Pregledaj",
-    "enterLocation": "Lokacija",
-    "reportItButton": "Prijavi",
-    "editReportButton": "Č_Update___ž",
-    "cancelButton": "Odustani",
-    "requiredField": "(obavezno)",
-    "selectDefaultText": "Odabir&hellip;",
-    "invalidInputValue": "Unesite valjanu vrijednost.",
-    "noFieldsConfiguredMessage": "Polja slojeva nisu konfigurirana za prikupljanje podataka",
-    "invalidSmallNumber": "Unesite cijeli broj",
-    "invalidNumber": "Unesite cijeli broj",
-    "invalidFloat": "Unesite broj",
-    "invalidDouble": "Unesite broj",
-    "requiredFields": "Upišite vrijednosti za sva obavezna polja",
-    "selectLocation": "Odaberite lokaciju za izvješće",
-    "numericRangeHintMessage": "${openStrong}Podsjetnik:${closeStrong} minimalna vrijednost ${minValue} i maksimalna vrijednost ${maxValue}",
-    "dateRangeHintMessage": "${openStrong}Podsjetnik:${closeStrong} minimalni datum ${minValue} i maksimalni datum ${maxValue}",
-    "errorsInApplyEdits": "Nije moguće podnijeti izvješće.",
-    "attachmentSelectedMsg": "odabrani privitak(-ci)",
-    "attachmentUploadStatus": "${failed} od ${total} privit(a)ka nije poslano",
-    "geoLocationError": "Trenutačna lokacija nije dostupna",
-    "geoLocationOutOfExtent": "Trenutačna lokacija izvan je obuhvata kartografske podloge",
-    "submitButtonTooltip": "Pošalji",
-    "cancelButtonTooltip": "Odustani",
-    "geoformBackButtonTooltip": "Povratak na popis izvješća"
+  'geoform': {
+    'enterInformation': 'Pojedinosti',
+    'selectAttachments': 'Privitci',
+    'selectFileText': 'Pregledaj',
+    'enterLocation': 'Lokacija',
+    'reportItButton': 'Prijavi',
+    'editReportButton': 'Č_Update___ž',
+    'cancelButton': 'Odustani',
+    'requiredField': '(obavezno)',
+    'selectDefaultText': 'Odabir&hellip;',
+    'invalidInputValue': 'Unesite valjanu vrijednost.',
+    'noFieldsConfiguredMessage': 'Polja slojeva nisu konfigurirana za prikupljanje podataka',
+    'invalidSmallNumber': 'Unesite cijeli broj',
+    'invalidNumber': 'Unesite cijeli broj',
+    'invalidFloat': 'Unesite broj',
+    'invalidDouble': 'Unesite broj',
+    'requiredFields': 'Upišite vrijednosti za sva obavezna polja',
+    'selectLocation': 'Odaberite lokaciju za izvješće',
+    'numericRangeHintMessage': '${openStrong}Podsjetnik:${closeStrong} minimalna vrijednost ${minValue} i maksimalna vrijednost ${maxValue}',
+    'dateRangeHintMessage': '${openStrong}Podsjetnik:${closeStrong} minimalni datum ${minValue} i maksimalni datum ${maxValue}',
+    'errorsInApplyEdits': 'Nije moguće podnijeti izvješće.',
+    'attachmentSelectedMsg': 'odabrani privitak(-ci)',
+    'attachmentUploadStatus': '${failed} od ${total} privit(a)ka nije poslano',
+    'geoLocationError': 'Trenutačna lokacija nije dostupna',
+    'geoLocationOutOfExtent': 'Trenutačna lokacija izvan je obuhvata kartografske podloge',
+    'submitButtonTooltip': 'Pošalji',
+    'cancelButtonTooltip': 'Odustani',
+    'geoformBackButtonTooltip': 'Povratak na popis izvješća'
   },
-  "locator": {
-    "addressText": "Adresa:",
-    "usngText": "USNG",
-    "mgrsText": "MGRS",
-    "latLongText": "Geografska dužina/širina",
-    "invalidSearch": "Nema rezultata",
-    "locatorPlaceholder": "Unesite adresu za pretraživanje",
-    "locationOutOfExtent": "Pronađena adresa izvan je obuhvata kartografske podloge",
-    "searchButtonTooltip": "Pretraži",
-    "clearButtonTooltip": "Očisti vrijednost pretrage"
+  'locator': {
+    'addressText': 'Adresa:',
+    'usngText': 'USNG',
+    'mgrsText': 'MGRS',
+    'latLongText': 'Geografska dužina/širina',
+    'invalidSearch': 'Nema rezultata',
+    'locatorPlaceholder': 'Unesite adresu za pretraživanje',
+    'locationOutOfExtent': 'Pronađena adresa izvan je obuhvata kartografske podloge',
+    'searchButtonTooltip': 'Pretraži',
+    'clearButtonTooltip': 'Očisti vrijednost pretrage'
   },
-  "myIssues": {
-    "title": "Moja izvješća",
-    "myIssuesTooltip": "Moja izvješća",
-    "noResultsFound": "Nema izvješća"
+  'myIssues': {
+    'title': 'Moja izvješća',
+    'myIssuesTooltip': 'Moja izvješća',
+    'noResultsFound': 'Nema izvješća'
   },
-  "itemDetails": {
-    "likeButtonLabel": "",
-    "likeButtonTooltip": "Č_I agree___ž",
-    "commentButtonLabel": "",
-    "commentButtonTooltip": "Č_Leave a reply_____ž",
-    "galleryButtonLabel": "",
-    "galleryButtonTooltip": "Vidi priložene dokumente",
-    "mapButtonLabel": "Prikaži na karti",
-    "mapButtonTooltip": "Prikaz lokacije ovog izvješća",
-    "commentsListHeading": "Komentari",
-    "unableToUpdateVoteField": "Vaš se glas trenutačno ne može pribrojiti.",
-    "gotoIssueListTooltip": "Idi na popis izvješća",
-    "deleteMessage": "Č_Are you sure you want to delete___________ž?"
+  'itemDetails': {
+    'likeButtonLabel': '',
+    'likeButtonTooltip': 'Č_I agree___ž',
+    'commentButtonLabel': '',
+    'commentButtonTooltip': 'Č_Leave a reply_____ž',
+    'galleryButtonLabel': '',
+    'galleryButtonTooltip': 'Vidi priložene dokumente',
+    'mapButtonLabel': 'Prikaži na karti',
+    'mapButtonTooltip': 'Prikaz lokacije ovog izvješća',
+    'commentsListHeading': 'Komentari',
+    'unableToUpdateVoteField': 'Vaš se glas trenutačno ne može pribrojiti.',
+    'gotoIssueListTooltip': 'Idi na popis izvješća',
+    'deleteMessage': 'Č_Are you sure you want to delete___________ž?'
   },
-  "itemList": {
-    "likesForThisItemTooltip": "Glasovi za ovo izvješće",
-    "loadMoreButtonText": "Učitaj više..."
+  'itemList': {
+    'likesForThisItemTooltip': 'Glasovi za ovo izvješće',
+    'loadMoreButtonText': 'Učitaj više...'
   },
-  "comment": {
-    "commentsFormHeading": "Č_Comment___ž",
-    "commentsFormSubmitButton": "Pošalji komentar",
-    "commentsFormEditButton": "Č_Update Comment_____ž",
-    "commentsFormCancelButton": "Odustani",
-    "errorInSubmittingComment": "Nije moguće poslati komentar.",
-    "emptyCommentMessage": "Unesite komentar.",
-    "placeHolderText": "Upišite komentar",
-    "noCommentsAvailableText": "Nema dostupnih komentara",
-    "remainingTextCount": "preostalo ${0} znakova",
-    "showNoText": "Ne",
-    "selectAttachments": "Č_Attachments____ž",
-    "selectFileText": "Č_Browse___ž",
-    "attachmentSelectedMsg": "Č_attachment(s) selected________ž",
-    "attachmentHeaderText": "Č_Attachments____ž",
-    "unknownCommentAttachment": "Č_FILE__ž",
-    "editRecordText": "Č_Edit__ž",
-    "deleteRecordText": "Č_Delete___ž",
-    "deleteCommentFailedMessage": "Č_Unable to delete comment________ž"
+  'comment': {
+    'commentsFormHeading': 'Č_Comment___ž',
+    'commentsFormSubmitButton': 'Pošalji komentar',
+    'commentsFormEditButton': 'Č_Update Comment_____ž',
+    'commentsFormCancelButton': 'Odustani',
+    'errorInSubmittingComment': 'Nije moguće poslati komentar.',
+    'emptyCommentMessage': 'Unesite komentar.',
+    'placeHolderText': 'Upišite komentar',
+    'noCommentsAvailableText': 'Nema dostupnih komentara',
+    'remainingTextCount': 'preostalo ${0} znakova',
+    'showNoText': 'Ne',
+    'selectAttachments': 'Č_Attachments____ž',
+    'selectFileText': 'Č_Browse___ž',
+    'attachmentSelectedMsg': 'Č_attachment(s) selected________ž',
+    'attachmentHeaderText': 'Č_Attachments____ž',
+    'unknownCommentAttachment': 'Č_FILE__ž',
+    'editRecordText': 'Č_Edit__ž',
+    'deleteRecordText': 'Č_Delete___ž',
+    'deleteCommentFailedMessage': 'Č_Unable to delete comment________ž'
   },
-  "gallery": {
-    "galleryHeaderText": "Galerija",
-    "noAttachmentsAvailableText": "Nema privitaka"
+  'gallery': {
+    'galleryHeaderText': 'Galerija',
+    'noAttachmentsAvailableText': 'Nema privitaka'
   }
 });

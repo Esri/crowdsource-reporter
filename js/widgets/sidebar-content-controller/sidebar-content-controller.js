@@ -1,5 +1,5 @@
-/*global define,dojo */
-/*jslint browser:true,sloppy:true,nomen:true,unparam:true,plusplus:true */
+
+
 /*
  | Copyright 2015 Esri
  |
@@ -16,19 +16,19 @@
  | limitations under the License.
  */
 //============================================================================================================================//
-import declare from "dojo/_base/declare";
-import _WidgetBase from "dijit/_WidgetBase";
-import _TemplatedMixin from "dijit/_TemplatedMixin";
-import template from "./templates/sidebar-content-controller-view.html";
-import lang from "dojo/_base/lang";
-import dom from "dojo/dom";
-import domStyle from "dojo/dom-style";
-import on from "dojo/on";
-    export default declare([_WidgetBase, _TemplatedMixin], {
-        templateString: template,
-        _panels: {},
-        _currentPanelName: null,
-        _currentPanel: null,
+import declare from 'dojo/_base/declare';
+import _WidgetBase from 'dijit/_WidgetBase';
+import _TemplatedMixin from 'dijit/_TemplatedMixin';
+import template from './templates/sidebar-content-controller-view.html';
+import lang from 'dojo/_base/lang';
+import dom from 'dojo/dom';
+import domStyle from 'dojo/dom-style';
+import on from 'dojo/on';
+export default declare([_WidgetBase, _TemplatedMixin], {
+  templateString: template,
+  _panels: {},
+  _currentPanelName: null,
+  _currentPanel: null,
 
         /**
         * Widget constructor
@@ -42,67 +42,67 @@ import on from "dojo/on";
         * @param {string} name Name to identify panel later on
         * @param {object} widget Panel to show or hide
         */
-        addPanel: function (name, widget) {
-            this._panels[name] = widget;
-        },
+  addPanel: function (name, widget) {
+    this._panels[name] = widget;
+  },
 
         /**
         * Switches to the specified panel.
         * @param {string} name Name identifying panel when it was added via addPanel
         */
-        showPanel: function (name) {
-            if (this._currentPanel) {
-                this._currentPanel.hide();
-            }
-            this._currentPanelName = name;
-            this._currentPanel = this._panels[name];
-            this._currentPanel.show();
-            this._panelSelected(name);
-        },
+  showPanel: function (name) {
+    if (this._currentPanel) {
+      this._currentPanel.hide();
+    }
+    this._currentPanelName = name;
+    this._currentPanel = this._panels[name];
+    this._currentPanel.show();
+    this._panelSelected(name);
+  },
 
         /**
         * Hide specified panel
         * @param {string} name Name identifying panel that should be closed
         */
-        hidePanel: function (name) {
-            this._panels[name].hide();
-        },
+  hidePanel: function (name) {
+    this._panels[name].hide();
+  },
 
         /**
         * Returns the name of the current panel.
         * @return {string} Name or, if showPanel has not yet been called, null
         */
-        getCurrentPanelName: function () {
-            return this._currentPanelName;
-        },
+  getCurrentPanelName: function () {
+    return this._currentPanelName;
+  },
 
         /**
         * Sets the display of the controller's busy display.
         * @param {boolean} show Shows the busy display if true
         */
-        showBusy: function (show) {
-            if (show) {
-                domStyle.set(this.detailLoadingIndicator, "display", "block");
-            } else {
-                domStyle.set(this.detailLoadingIndicator, "display", "none");
-            }
-        },
+  showBusy: function (show) {
+    if (show) {
+      domStyle.set(this.detailLoadingIndicator, 'display', 'block');
+    } else {
+      domStyle.set(this.detailLoadingIndicator, 'display', 'none');
+    }
+  },
 
         /**
         * Return current open panels name
         * @param {string} panel name
         */
-        onPanelShown: function (name) {
-            return name;
-        },
+  onPanelShown: function (name) {
+    return name;
+  },
 
         /**
         * Return current open panels name
         * @param {string} panel name
         */
-        _panelSelected: function (name) {
-            this.onPanelShown(name);
-        }
+  _panelSelected: function (name) {
+    this.onPanelShown(name);
+  }
 
-    });
+});
 

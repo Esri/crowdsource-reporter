@@ -1,5 +1,5 @@
-﻿/*global define,dojo,alert,moment,$,dojoConfig */
-/*jslint browser:true,sloppy:true,nomen:true,unparam:true,plusplus:true,indent:4 */
+
+
 /*
 | Copyright 2014 Esri
 |
@@ -15,30 +15,30 @@
 | See the License for the specific language governing permissions and
 | limitations under the License.
 */
-import declare from "dojo/_base/declare";
-import lang from "dojo/_base/lang";
-import arcgisUtils from "esri/arcgis/utils";
-import dom from "dojo/dom";
-import domConstruct from "dojo/dom-construct";
-import domStyle from "dojo/dom-style";
-import domClass from "dojo/dom-class";
-import domAttr from "dojo/dom-attr";
-import on from "dojo/on";
-import topic from "dojo/topic";
-import string from "dojo/string";
-import dojowindow from "dojo/window";
-import GraphicsLayer from "esri/layers/GraphicsLayer";
-import ApplicationUtils from "../../utils/utils";
-import query from "dojo/query";
-import Locator from "../locator/locator";
-import _WidgetBase from "dijit/_WidgetBase";
-import Graphic from "esri/graphic";
-import PictureMarkerSymbol from "esri/symbols/PictureMarkerSymbol";
-import "dojo/domReady!";
-    export default declare([_WidgetBase], {
-        startup: function(...args) {
+import declare from 'dojo/_base/declare';
+import lang from 'dojo/_base/lang';
+import arcgisUtils from 'esri/arcgis/utils';
+import dom from 'dojo/dom';
+import domConstruct from 'dojo/dom-construct';
+import domStyle from 'dojo/dom-style';
+import domClass from 'dojo/dom-class';
+import domAttr from 'dojo/dom-attr';
+import on from 'dojo/on';
+import topic from 'dojo/topic';
+import string from 'dojo/string';
+import dojowindow from 'dojo/window';
+import GraphicsLayer from 'esri/layers/GraphicsLayer';
+import ApplicationUtils from '../../utils/utils';
+import query from 'dojo/query';
+import Locator from '../locator/locator';
+import _WidgetBase from 'dijit/_WidgetBase';
+import Graphic from 'esri/graphic';
+import PictureMarkerSymbol from 'esri/symbols/PictureMarkerSymbol';
+import 'dojo/domReady!';
+export default declare([_WidgetBase], {
+  startup: function(...args) {
             // this.inherited(args);
-        },
+  },
 
         /**
         * Create search button on the map
@@ -49,169 +49,169 @@ import "dojo/domReady!";
         * @param{object} details
         * @memberOf widgets/map-search/map-search
         */
-        createSearchButton: function (response, map, mapId, addGraphic, details) {
-            let createSearchDiv, inputGroupButton, searchIconDiv, textSearch;
-            if (query(".search")[0]) {
-                domConstruct.empty(query(".search")[0]);
-            }
+  createSearchButton: function (response, map, mapId, addGraphic, details) {
+    let createSearchDiv, inputGroupButton, searchIconDiv, textSearch;
+    if (query('.search')[0]) {
+      domConstruct.empty(query('.search')[0]);
+    }
             // create search div
-            createSearchDiv = domConstruct.create("div", { "class": "search", "id": "search" });
-            domConstruct.place(createSearchDiv, query(".esriCTMapGeoLocationContainer", mapId)[0], "after");
+    createSearchDiv = domConstruct.create('div', { 'class': 'search', 'id': 'search' });
+    domConstruct.place(createSearchDiv, query('.esriCTMapGeoLocationContainer', mapId)[0], 'after');
             // Initialize map serach widget
-            this.locatorSearch = new Locator({ "map": map, "config": this.config, "itemInfo": response.itemInfo.itemData, "layerId": details.operationalLayerId, "locatorContainer": dom.byId("search"), "handleFeatureSearch": this.handleFeatureSearch });
+    this.locatorSearch = new Locator({ 'map': map, 'config': this.config, 'itemInfo': response.itemInfo.itemData, 'layerId': details.operationalLayerId, 'locatorContainer': dom.byId('search'), 'handleFeatureSearch': this.handleFeatureSearch });
 
             // function call on selection of search result
-            this.basemapExtent = this.appUtils.getBasemapExtent(details.itemInfo.itemData.baseMap.baseMapLayers);
-            this.newMap = map;
-            this.countyLayer = new GraphicsLayer();
-            this.newMap.addLayer(this.countyLayer);
-            this.locatorSearch.onFeatureSearchCompleted = lang.hitch(this, function (feature) {
-                this.onFeatureFound(feature);
-                if (query(".esriCTMapSearchContainer .input-group-btn")[0]) {
-                    this._collapseSerach(query(".esriCTMapSearchContainer .input-group-btn")[0]);
-                }
-            });
-            this.locatorSearch.onLocationCompleted = lang.hitch(this, this._validateAddress);
-            inputGroupButton = query(".esriCTMapSearchContainer .input-group-btn")[0];
-            searchIconDiv = query(".esriCTMapSearchContainer .esriCTLocatorSearchButton ")[0];
-            on(searchIconDiv, "click", lang.hitch(this, function () {
-                this._expandSerach(inputGroupButton);
-            }));
+    this.basemapExtent = this.appUtils.getBasemapExtent(details.itemInfo.itemData.baseMap.baseMapLayers);
+    this.newMap = map;
+    this.countyLayer = new GraphicsLayer();
+    this.newMap.addLayer(this.countyLayer);
+    this.locatorSearch.onFeatureSearchCompleted = lang.hitch(this, function (feature) {
+      this.onFeatureFound(feature);
+      if (query('.esriCTMapSearchContainer .input-group-btn')[0]) {
+        this._collapseSerach(query('.esriCTMapSearchContainer .input-group-btn')[0]);
+      }
+    });
+    this.locatorSearch.onLocationCompleted = lang.hitch(this, this._validateAddress);
+    inputGroupButton = query('.esriCTMapSearchContainer .input-group-btn')[0];
+    searchIconDiv = query('.esriCTMapSearchContainer .esriCTLocatorSearchButton ')[0];
+    on(searchIconDiv, 'click', lang.hitch(this, function () {
+      this._expandSerach(inputGroupButton);
+    }));
 
-            on(this.newMap, "click", lang.hitch(this, function () {
-                this._collapseSerach(inputGroupButton);
-                this.locatorSearch._hideText();
-            }));
-            textSearch = this.locatorSearch.txtSearch;
-            on(textSearch, "blur", lang.hitch(this, function (evt) {
-                if (domClass.contains(this.locatorSearch.divResultContainer, "esriCTHidden")) {
-                    this._collapseSerach(inputGroupButton);
-                    this.locatorSearch._hideText();
-                }
-            }));
+    on(this.newMap, 'click', lang.hitch(this, function () {
+      this._collapseSerach(inputGroupButton);
+      this.locatorSearch._hideText();
+    }));
+    textSearch = this.locatorSearch.txtSearch;
+    on(textSearch, 'blur', lang.hitch(this, function (evt) {
+      if (domClass.contains(this.locatorSearch.divResultContainer, 'esriCTHidden')) {
+        this._collapseSerach(inputGroupButton);
+        this.locatorSearch._hideText();
+      }
+    }));
 
-            on(document, "click", lang.hitch(this, function (evt) {
-                if ((this.locatorSearch.txtSearch.onfocusout || this.locatorSearch.txtSearch.onblur) && (this.locatorSearch.txtSearch.value !== "" || this.locatorSearch.txtSearch.value !== null)) {
-                    this._collapseSerach(inputGroupButton);
-                    this.locatorSearch._hideText();
-                }
-            }));
-        },
+    on(document, 'click', lang.hitch(this, function (evt) {
+      if ((this.locatorSearch.txtSearch.onfocusout || this.locatorSearch.txtSearch.onblur) && (this.locatorSearch.txtSearch.value !== '' || this.locatorSearch.txtSearch.value !== null)) {
+        this._collapseSerach(inputGroupButton);
+        this.locatorSearch._hideText();
+      }
+    }));
+  },
 
         /**
         * Binds the collapse animation effect for the map search on map
         * @memberOf widgets/map-search/map-search
         */
-        _collapseSerach: function (inputGroupButton) {
-            let textSearch, serachClose;
-            serachClose = this.locatorSearch.clearhide;
-            textSearch = this.locatorSearch.txtSearch;
-            if (inputGroupButton) {
-                domStyle.set(inputGroupButton, "right", "-5px");
-            }
-            $(textSearch).animate({ width: '0', paddingLeft: '0', paddingRight: '0', opacity: '0' }, 200);
-            $(serachClose).hide();
-            $(textSearch).hide();
-            $(textSearch).blur();
-            domClass.add(this.locatorSearch.divResultContainer, "esriCTHidden");
-        },
+  _collapseSerach: function (inputGroupButton) {
+    let textSearch, serachClose;
+    serachClose = this.locatorSearch.clearhide;
+    textSearch = this.locatorSearch.txtSearch;
+    if (inputGroupButton) {
+      domStyle.set(inputGroupButton, 'right', '-5px');
+    }
+    $(textSearch).animate({ width: '0', paddingLeft: '0', paddingRight: '0', opacity: '0' }, 200);
+    $(serachClose).hide();
+    $(textSearch).hide();
+    $(textSearch).blur();
+    domClass.add(this.locatorSearch.divResultContainer, 'esriCTHidden');
+  },
 
         /**
         * Binds the expands animation effect for the map search on map
         * @memberOf widgets/map-search/map-search
         */
-        _expandSerach: function (inputGroupButton) {
-            let textSearch, serachClose;
-            serachClose = this.locatorSearch.clearhide;
-            textSearch = this.locatorSearch.txtSearch;
-            if (inputGroupButton) {
-                domStyle.set(inputGroupButton, "right", "-3px");
-            }
-            $(textSearch).animate({ width: '265px', paddingLeft: '6px', paddingRight: '67px', opacity: '1' }, 200);
-            $(textSearch).show();
-            $(serachClose).show();
-            $(textSearch).focus();
-            setTimeout(lang.hitch(this, function () {
-                this.locatorSearch.txtSearch.focus();
-            }), 300);
-        },
+  _expandSerach: function (inputGroupButton) {
+    let textSearch, serachClose;
+    serachClose = this.locatorSearch.clearhide;
+    textSearch = this.locatorSearch.txtSearch;
+    if (inputGroupButton) {
+      domStyle.set(inputGroupButton, 'right', '-3px');
+    }
+    $(textSearch).animate({ width: '265px', paddingLeft: '6px', paddingRight: '67px', opacity: '1' }, 200);
+    $(textSearch).show();
+    $(serachClose).show();
+    $(textSearch).focus();
+    setTimeout(lang.hitch(this, function () {
+      this.locatorSearch.txtSearch.focus();
+    }), 300);
+  },
 
         /**
         * check if located address is in basemap extent
         * @param{object} geometry of located point on the map
         * @memberOf widgets/map-search/map-search
         */
-        _validateAddress: function (geometry) {
-            let inputGroupButton;
-            if (this.basemapExtent.contains(geometry)) {
-                this._zoomToSelectedFeature(geometry);
-                this._highlightSelectedLocation({ "feature": new Graphic(geometry) });
-            } else {
-                this.appUtils.showError(this.config.i18n.locator.locationOutOfExtent);
-            }
-            inputGroupButton = query(".esriCTMapSearchContainer .input-group-btn")[0];
-            this._collapseSerach(inputGroupButton);
-            this.onAddressClicked(geometry);
-        },
+  _validateAddress: function (geometry) {
+    let inputGroupButton;
+    if (this.basemapExtent.contains(geometry)) {
+      this._zoomToSelectedFeature(geometry);
+      this._highlightSelectedLocation({ 'feature': new Graphic(geometry) });
+    } else {
+      this.appUtils.showError(this.config.i18n.locator.locationOutOfExtent);
+    }
+    inputGroupButton = query('.esriCTMapSearchContainer .input-group-btn')[0];
+    this._collapseSerach(inputGroupButton);
+    this.onAddressClicked(geometry);
+  },
 
         /**
         * set the selected feature from results
         * @param{evt} geometry object
         * @memberOf widgets/map-search/map-search
         **/
-        _getSelectedFeatureFromResult: function (evt) {
-            let selectedFeature;
-            if (evt) {
-                if (evt.feature) {
-                    selectedFeature = evt.feature;
-                } else if (evt.result && evt.result.feature) {
-                    selectedFeature = evt.result.feature;
-                }
-            }
-            return selectedFeature;
-        },
+  _getSelectedFeatureFromResult: function (evt) {
+    let selectedFeature;
+    if (evt) {
+      if (evt.feature) {
+        selectedFeature = evt.feature;
+      } else if (evt.result && evt.result.feature) {
+        selectedFeature = evt.result.feature;
+      }
+    }
+    return selectedFeature;
+  },
 
         /**
         * Function to highlight searched Address on Map
         * @param{evt} geometry object
         * @memberOf widgets/map-search/map-search
         **/
-        _highlightSelectedLocation: function (evt) {
-            let symbol, selectedFeature;
+  _highlightSelectedLocation: function (evt) {
+    let symbol, selectedFeature;
             //get selected feature*/
-            selectedFeature = this._getSelectedFeatureFromResult(evt);
-            if (selectedFeature && selectedFeature.geometry && selectedFeature.geometry.type === "point") {
-                this.countyLayer.clear();
+    selectedFeature = this._getSelectedFeatureFromResult(evt);
+    if (selectedFeature && selectedFeature.geometry && selectedFeature.geometry.type === 'point') {
+      this.countyLayer.clear();
                 // set the graphic symbol for selected point and highlight on map
-                symbol = new PictureMarkerSymbol(dojoConfig.baseURL + this.config.searchedAddressPushpinImage, 32, 32);
-                this.countyLayer.add(new Graphic(selectedFeature.geometry, symbol));
-            }
-        },
+      symbol = new PictureMarkerSymbol(dojoConfig.baseURL + this.config.searchedAddressPushpinImage, 32, 32);
+      this.countyLayer.add(new Graphic(selectedFeature.geometry, symbol));
+    }
+  },
 
         /**
         * Zoom to the selected feature
         * @param{object} geometry, geometry of the graphics plotted on the map
         * @memberOf widgets/map-search/map-search
         */
-        _zoomToSelectedFeature: function (geometry) {
-            let centerPoint;
+  _zoomToSelectedFeature: function (geometry) {
+    let centerPoint;
             // check for geometry type of different layer
-            if (geometry.type === "point") {
-                this.newMap.setLevel(this.config.zoomLevel);
-                this.newMap.centerAt(geometry);
-            } else if (geometry.type === "polyline") {
-                this.newMap.setLevel(this.config.zoomLevel);
-                centerPoint = geometry.getExtent();
-                this.newMap.setExtent(centerPoint);
+    if (geometry.type === 'point') {
+      this.newMap.setLevel(this.config.zoomLevel);
+      this.newMap.centerAt(geometry);
+    } else if (geometry.type === 'polyline') {
+      this.newMap.setLevel(this.config.zoomLevel);
+      centerPoint = geometry.getExtent();
+      this.newMap.setExtent(centerPoint);
                 // if geometry is of type polygon, add border to the polygon
-            } else if (geometry.type === "polygon") {
-                this.newMap.setLevel(this.config.zoomLevel);
-                centerPoint = geometry.getExtent();
-                this.newMap.setExtent(centerPoint);
-            }
-        },
+    } else if (geometry.type === 'polygon') {
+      this.newMap.setLevel(this.config.zoomLevel);
+      centerPoint = geometry.getExtent();
+      this.newMap.setExtent(centerPoint);
+    }
+  },
 
-        onFeatureFound: function (feature) {
-            return feature;
-        }
-    });
+  onFeatureFound: function (feature) {
+    return feature;
+  }
+});

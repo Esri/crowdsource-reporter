@@ -1,4 +1,4 @@
-﻿/*global define */
+﻿
 /*
  | Copyright 2014 Esri
  |
@@ -15,144 +15,144 @@
  | limitations under the License.
  */
 define({
-  "map": {
-    "error": "Không thể tạo bản đồ",
-    "zoomInTooltip": "Thu nhỏ",
-    "zoomOutTooltip": "Phóng to",
-    "geolocationTooltip": "Vị trí hiện tại"
+  'map': {
+    'error': 'Không thể tạo bản đồ',
+    'zoomInTooltip': 'Thu nhỏ',
+    'zoomOutTooltip': 'Phóng to',
+    'geolocationTooltip': 'Vị trí hiện tại'
   },
-  "main": {
-    "noGroup": "Không có nhóm nào được cấu hình",
-    "submitReportButtonText": "Đệ trình Báo cáo",
-    "gotoListViewTooltip": "Chế độ xem dạng danh sách",
-    "noFeatureGeomtery": "Không thể hiển thị đối tượng",
-    "featureOutsideAOIMessage": "Đ_Feature cannot be added outside study area______________ớ"
+  'main': {
+    'noGroup': 'Không có nhóm nào được cấu hình',
+    'submitReportButtonText': 'Đệ trình Báo cáo',
+    'gotoListViewTooltip': 'Chế độ xem dạng danh sách',
+    'noFeatureGeomtery': 'Không thể hiển thị đối tượng',
+    'featureOutsideAOIMessage': 'Đ_Feature cannot be added outside study area______________ớ'
   },
-  "signin": {
-    "guestSigninText": "Tiến hành dưới dạng Khách",
-    "signInOrText": "Hoặc",
-    "signinOptionsText": "Đăng nhập bằng:",
-    "noGroupNameText": "Vui lòng đăng nhập",
-    "guestLoginTooltip": "Đăng nhập với vai trò khách",
-    "facebookLoginTooltip": "Đăng nhập bằng Facebook",
-    "twitterLoginTooltip": "Đăng nhập bằng Twitter",
-    "googlePlusLoginTooltip": "Đăng nhập bằng Google+",
-    "agolLoginTooltip": "Đăng nhập bằng ArcGIS"
+  'signin': {
+    'guestSigninText': 'Tiến hành dưới dạng Khách',
+    'signInOrText': 'Hoặc',
+    'signinOptionsText': 'Đăng nhập bằng:',
+    'noGroupNameText': 'Vui lòng đăng nhập',
+    'guestLoginTooltip': 'Đăng nhập với vai trò khách',
+    'facebookLoginTooltip': 'Đăng nhập bằng Facebook',
+    'twitterLoginTooltip': 'Đăng nhập bằng Twitter',
+    'googlePlusLoginTooltip': 'Đăng nhập bằng Google+',
+    'agolLoginTooltip': 'Đăng nhập bằng ArcGIS'
   },
-  "webMapList": {
-    "owner": "Chủ sở hữu",
-    "created": "Ngày tạo",
-    "modified": "Ngày sửa đổi",
-    "description": "Mô tả",
-    "snippet": "Tóm tắt",
-    "licenseInfo": "Những ràng buộc về Truy cập và Sử dụng",
-    "accessInformation": "Service Credits",
-    "tags": "Từ khóa",
-    "numViews": "Số lần xem",
-    "avgRating": "Xếp loại",
-    "noWebMapInGroup": "Nhóm được cấu hình không hợp lệ hoặc vẫn chưa có mục nào được chia sẻ với nhóm này.",
-    "infoBtnToolTip": "Thông tin bản đồ"
+  'webMapList': {
+    'owner': 'Chủ sở hữu',
+    'created': 'Ngày tạo',
+    'modified': 'Ngày sửa đổi',
+    'description': 'Mô tả',
+    'snippet': 'Tóm tắt',
+    'licenseInfo': 'Những ràng buộc về Truy cập và Sử dụng',
+    'accessInformation': 'Service Credits',
+    'tags': 'Từ khóa',
+    'numViews': 'Số lần xem',
+    'avgRating': 'Xếp loại',
+    'noWebMapInGroup': 'Nhóm được cấu hình không hợp lệ hoặc vẫn chưa có mục nào được chia sẻ với nhóm này.',
+    'infoBtnToolTip': 'Thông tin bản đồ'
   },
-  "issueWall": {
-    "noResultsFound": "Không tìm thấy đối tượng",
-    "noResultsFoundInCurrentBuffer": "Không tìm thấy đối tượng gần bạn",
-    "unableToFetchFeatureError": "Không thể hoàn thành hoạt động",
-    "gotoWebmapListTooltip": "Đến danh sách chính",
-    "gotoMapViewTooltip": "Chế độ xem bản đồ"
+  'issueWall': {
+    'noResultsFound': 'Không tìm thấy đối tượng',
+    'noResultsFoundInCurrentBuffer': 'Không tìm thấy đối tượng gần bạn',
+    'unableToFetchFeatureError': 'Không thể hoàn thành hoạt động',
+    'gotoWebmapListTooltip': 'Đến danh sách chính',
+    'gotoMapViewTooltip': 'Chế độ xem bản đồ'
   },
-  "appHeader": {
-    "myReport": "Báo cáo của tôi",
-    "signIn": "Đăng nhập",
-    "signOut": "Đăng xuất",
-    "signInTooltip": "Đăng nhập",
-    "signOutTooltip": "Đăng xuất",
-    "myReportTooltip": "Xem báo cáo của tôi"
+  'appHeader': {
+    'myReport': 'Báo cáo của tôi',
+    'signIn': 'Đăng nhập',
+    'signOut': 'Đăng xuất',
+    'signInTooltip': 'Đăng nhập',
+    'signOutTooltip': 'Đăng xuất',
+    'myReportTooltip': 'Xem báo cáo của tôi'
   },
-  "geoform": {
-    "enterInformation": "Chi tiết",
-    "selectAttachments": "Tệp đính kèm",
-    "selectFileText": "Duyệt",
-    "enterLocation": "Vị trí",
-    "reportItButton": "Báo cáo Nó",
-    "editReportButton": "Đ_Update___ớ",
-    "cancelButton": "Hủy",
-    "requiredField": "(bắt buộc)",
-    "selectDefaultText": "Chọn&hellip;",
-    "invalidInputValue": "Vui lòng nhập giá trị hợp lệ.",
-    "noFieldsConfiguredMessage": "Các trường không được cấu hình để chụp dữ liệu",
-    "invalidSmallNumber": "Vui lòng nhập số nguyên",
-    "invalidNumber": "Vui lòng nhập số nguyên",
-    "invalidFloat": "Vui lòng nhập một số",
-    "invalidDouble": "Vui lòng nhập một số",
-    "requiredFields": "Vui lòng cung cấp giá trị cho tất cả các trường yêu cầu",
-    "selectLocation": "Vui lòng chọn vị trí cho báo cáo của bạn",
-    "numericRangeHintMessage": "${openStrong}Gợi ý:${closeStrong} Giá trị tối thiểu ${minValue} và Giá trị tối đa ${maxValue}",
-    "dateRangeHintMessage": "${openStrong}Gợi ý:${closeStrong} Ngày tối thiểu ${minValue} và Ngày tối đa ${maxValue}",
-    "errorsInApplyEdits": "Không thể gửi báo cáo",
-    "attachmentSelectedMsg": "(các) tệp đính kèm được chọn",
-    "attachmentUploadStatus": "Không thể tải lên ${failed} trên ${total} tệp đính kèm",
-    "geoLocationError": "Vị trí hiện tại không khả dụng",
-    "geoLocationOutOfExtent": "Vị trí hiện tại ngoài phạm vi bản đồ nền",
-    "submitButtonTooltip": "Gửi",
-    "cancelButtonTooltip": "Hủy",
-    "geoformBackButtonTooltip": "Quay lại danh sách báo cáo"
+  'geoform': {
+    'enterInformation': 'Chi tiết',
+    'selectAttachments': 'Tệp đính kèm',
+    'selectFileText': 'Duyệt',
+    'enterLocation': 'Vị trí',
+    'reportItButton': 'Báo cáo Nó',
+    'editReportButton': 'Đ_Update___ớ',
+    'cancelButton': 'Hủy',
+    'requiredField': '(bắt buộc)',
+    'selectDefaultText': 'Chọn&hellip;',
+    'invalidInputValue': 'Vui lòng nhập giá trị hợp lệ.',
+    'noFieldsConfiguredMessage': 'Các trường không được cấu hình để chụp dữ liệu',
+    'invalidSmallNumber': 'Vui lòng nhập số nguyên',
+    'invalidNumber': 'Vui lòng nhập số nguyên',
+    'invalidFloat': 'Vui lòng nhập một số',
+    'invalidDouble': 'Vui lòng nhập một số',
+    'requiredFields': 'Vui lòng cung cấp giá trị cho tất cả các trường yêu cầu',
+    'selectLocation': 'Vui lòng chọn vị trí cho báo cáo của bạn',
+    'numericRangeHintMessage': '${openStrong}Gợi ý:${closeStrong} Giá trị tối thiểu ${minValue} và Giá trị tối đa ${maxValue}',
+    'dateRangeHintMessage': '${openStrong}Gợi ý:${closeStrong} Ngày tối thiểu ${minValue} và Ngày tối đa ${maxValue}',
+    'errorsInApplyEdits': 'Không thể gửi báo cáo',
+    'attachmentSelectedMsg': '(các) tệp đính kèm được chọn',
+    'attachmentUploadStatus': 'Không thể tải lên ${failed} trên ${total} tệp đính kèm',
+    'geoLocationError': 'Vị trí hiện tại không khả dụng',
+    'geoLocationOutOfExtent': 'Vị trí hiện tại ngoài phạm vi bản đồ nền',
+    'submitButtonTooltip': 'Gửi',
+    'cancelButtonTooltip': 'Hủy',
+    'geoformBackButtonTooltip': 'Quay lại danh sách báo cáo'
   },
-  "locator": {
-    "addressText": "Địa chỉ:",
-    "usngText": "USNG",
-    "mgrsText": "MGRS",
-    "latLongText": "Vĩ độ/Kinh độ",
-    "invalidSearch": "Không tìm thấy kết quả",
-    "locatorPlaceholder": "Nhập địa chỉ để tìm kiếm",
-    "locationOutOfExtent": "Địa chỉ được định vị ngoài phạm vi bản đồ nền",
-    "searchButtonTooltip": "Tìm kiếm",
-    "clearButtonTooltip": "Xóa giá trị tìm kiếm"
+  'locator': {
+    'addressText': 'Địa chỉ:',
+    'usngText': 'USNG',
+    'mgrsText': 'MGRS',
+    'latLongText': 'Vĩ độ/Kinh độ',
+    'invalidSearch': 'Không tìm thấy kết quả',
+    'locatorPlaceholder': 'Nhập địa chỉ để tìm kiếm',
+    'locationOutOfExtent': 'Địa chỉ được định vị ngoài phạm vi bản đồ nền',
+    'searchButtonTooltip': 'Tìm kiếm',
+    'clearButtonTooltip': 'Xóa giá trị tìm kiếm'
   },
-  "myIssues": {
-    "title": "Các báo cáo của tôi",
-    "myIssuesTooltip": "Các báo cáo của tôi",
-    "noResultsFound": "Không tìm thấy báo cáo"
+  'myIssues': {
+    'title': 'Các báo cáo của tôi',
+    'myIssuesTooltip': 'Các báo cáo của tôi',
+    'noResultsFound': 'Không tìm thấy báo cáo'
   },
-  "itemDetails": {
-    "likeButtonLabel": "",
-    "likeButtonTooltip": "Đ_I agree___ớ",
-    "commentButtonLabel": "",
-    "commentButtonTooltip": "Đ_Leave a reply_____ớ",
-    "galleryButtonLabel": "",
-    "galleryButtonTooltip": "Xem tài liệu đính kèm",
-    "mapButtonLabel": "Xem trên Bản đồ",
-    "mapButtonTooltip": "Xem vị trí của báo cáo này",
-    "commentsListHeading": "Bình luận",
-    "unableToUpdateVoteField": "Không thể tính bình chọn của bạn vào lúc này.",
-    "gotoIssueListTooltip": "Đến danh sách báo cáo",
-    "deleteMessage": "Đ_Are you sure you want to delete___________ớ?"
+  'itemDetails': {
+    'likeButtonLabel': '',
+    'likeButtonTooltip': 'Đ_I agree___ớ',
+    'commentButtonLabel': '',
+    'commentButtonTooltip': 'Đ_Leave a reply_____ớ',
+    'galleryButtonLabel': '',
+    'galleryButtonTooltip': 'Xem tài liệu đính kèm',
+    'mapButtonLabel': 'Xem trên Bản đồ',
+    'mapButtonTooltip': 'Xem vị trí của báo cáo này',
+    'commentsListHeading': 'Bình luận',
+    'unableToUpdateVoteField': 'Không thể tính bình chọn của bạn vào lúc này.',
+    'gotoIssueListTooltip': 'Đến danh sách báo cáo',
+    'deleteMessage': 'Đ_Are you sure you want to delete___________ớ?'
   },
-  "itemList": {
-    "likesForThisItemTooltip": "Các bình chọn cho báo cáo này",
-    "loadMoreButtonText": "Tải Thêm..."
+  'itemList': {
+    'likesForThisItemTooltip': 'Các bình chọn cho báo cáo này',
+    'loadMoreButtonText': 'Tải Thêm...'
   },
-  "comment": {
-    "commentsFormHeading": "Đ_Comment___ớ",
-    "commentsFormSubmitButton": "Gửi bình luận",
-    "commentsFormEditButton": "Đ_Update Comment_____ớ",
-    "commentsFormCancelButton": "Hủy",
-    "errorInSubmittingComment": "Không thể gửi bình luận.",
-    "emptyCommentMessage": "Vui lòng nhập bình luận.",
-    "placeHolderText": "Nhập bình luận",
-    "noCommentsAvailableText": "Không có bình luận",
-    "remainingTextCount": "Còn ${0} ký tự",
-    "showNoText": "Không",
-    "selectAttachments": "Đ_Attachments____ớ",
-    "selectFileText": "Đ_Browse___ớ",
-    "attachmentSelectedMsg": "Đ_attachment(s) selected________ớ",
-    "attachmentHeaderText": "Đ_Attachments____ớ",
-    "unknownCommentAttachment": "Đ_FILE__ớ",
-    "editRecordText": "Đ_Edit__ớ",
-    "deleteRecordText": "Đ_Delete___ớ",
-    "deleteCommentFailedMessage": "Đ_Unable to delete comment________ớ"
+  'comment': {
+    'commentsFormHeading': 'Đ_Comment___ớ',
+    'commentsFormSubmitButton': 'Gửi bình luận',
+    'commentsFormEditButton': 'Đ_Update Comment_____ớ',
+    'commentsFormCancelButton': 'Hủy',
+    'errorInSubmittingComment': 'Không thể gửi bình luận.',
+    'emptyCommentMessage': 'Vui lòng nhập bình luận.',
+    'placeHolderText': 'Nhập bình luận',
+    'noCommentsAvailableText': 'Không có bình luận',
+    'remainingTextCount': 'Còn ${0} ký tự',
+    'showNoText': 'Không',
+    'selectAttachments': 'Đ_Attachments____ớ',
+    'selectFileText': 'Đ_Browse___ớ',
+    'attachmentSelectedMsg': 'Đ_attachment(s) selected________ớ',
+    'attachmentHeaderText': 'Đ_Attachments____ớ',
+    'unknownCommentAttachment': 'Đ_FILE__ớ',
+    'editRecordText': 'Đ_Edit__ớ',
+    'deleteRecordText': 'Đ_Delete___ớ',
+    'deleteCommentFailedMessage': 'Đ_Unable to delete comment________ớ'
   },
-  "gallery": {
-    "galleryHeaderText": "Bộ sưu tập",
-    "noAttachmentsAvailableText": "Không tìm thấy tệp đính kèm"
+  'gallery': {
+    'galleryHeaderText': 'Bộ sưu tập',
+    'noAttachmentsAvailableText': 'Không tìm thấy tệp đính kèm'
   }
 });

@@ -130,13 +130,13 @@ if (!window.console) {
   };
 }
 
-define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
+define(['dojo/_base/declare', 'dojo/string'], function (declare, string) {
 
-  var USNGSqEast = "ABCDEFGHJKLMNPQRSTUVWXYZ";
+  var USNGSqEast = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
   
   //*****************************************************************************
 
-  var UNDEFINED_STR = "undefined";
+  var UNDEFINED_STR = 'undefined';
   var UTMEasting;
   var UTMNorthing;
   var UTMZone;      // 3 chars...two digits and letter
@@ -283,17 +283,17 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
 
       // user-supplied zone number will force coordinates to be computed in a particular zone
       if (!zone) { 
-         zoneNumber = this.getZoneNumber(lat, lon);
+        zoneNumber = this.getZoneNumber(lat, lon);
       }
       else {
-         zoneNumber = zone;
+        zoneNumber = zone;
       }
 
       var lonOrigin = (zoneNumber - 1) * 6 - 180 + 3;  // +3 puts origin in middle of zone
       var lonOriginRad = lonOrigin * DEG_2_RAD;
 
       // compute the UTM Zone from the latitude and longitude
-      UTMZone = zoneNumber + "" + this.UTMLetterDesignator(lat) + " ";
+      UTMZone = zoneNumber + '' + this.UTMLetterDesignator(lat) + ' ';
 
       var N = EQUATORIAL_RADIUS / Math.sqrt(1 - ECC_SQUARED * 
                                 Math.sin(latRad) * Math.sin(latRad));
@@ -372,18 +372,18 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
       // added... truncate digits to achieve specified precision
       USNGNorthing = Math.floor(USNGNorthing / Math.pow(10,(5-precision)));
       USNGEasting = Math.floor(USNGEasting / Math.pow(10,(5-precision)));
-      var USNG = this.getZoneNumber(lat, lon) +  this.UTMLetterDesignator(lat) + " " + USNGLetters + " ";
+      var USNG = this.getZoneNumber(lat, lon) +  this.UTMLetterDesignator(lat) + ' ' + USNGLetters + ' ';
 
       // REVISIT: Modify to incorporate dynamic precision ?
       var i;
       for (i = String(USNGEasting).length; i < precision; i++) {
-        USNG += "0";
+        USNG += '0';
       }
 
-      USNG += USNGEasting + " ";
+      USNG += USNGEasting + ' ';
 
       for ( i = String(USNGNorthing).length; i < precision; i++) {
-        USNG += "0";
+        USNG += '0';
       }
 
       USNG += USNGNorthing;
@@ -472,26 +472,26 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
       zoneNum = zoneNum % 6; 
       switch (zoneNum) {
 
-        case 0: 
-          return 6;
+      case 0: 
+        return 6;
 
-        case 1: 
-          return 1;
+      case 1: 
+        return 1;
 
-        case 2: 
-          return 2;
+      case 2: 
+        return 2;
 
-        case 3: 
-          return 3;
+      case 3: 
+        return 3;
 
-        case 4: 
-          return 4;
+      case 4: 
+        return 4;
 
-        case 5: 
-          return 5;
+      case 5: 
+        return 5;
 
-        default: 
-          return -1;
+      default: 
+        return -1;
       }
     },
     // END findSet() function
@@ -575,35 +575,35 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
 
       switch(set) {
 
-        case 1:
-          var l1="ABCDEFGH";              // column ids
-          var l2="ABCDEFGHJKLMNPQRSTUV";  // row ids
-          return l1.charAt(col) + l2.charAt(row);
+      case 1:
+        var l1='ABCDEFGH';              // column ids
+        var l2='ABCDEFGHJKLMNPQRSTUV';  // row ids
+        return l1.charAt(col) + l2.charAt(row);
 
-        case 2:
-          l1="JKLMNPQR";
-          l2="FGHJKLMNPQRSTUVABCDE";
-          return l1.charAt(col) + l2.charAt(row);
+      case 2:
+        l1='JKLMNPQR';
+        l2='FGHJKLMNPQRSTUVABCDE';
+        return l1.charAt(col) + l2.charAt(row);
 
-        case 3:
-          l1="STUVWXYZ";
-          l2="ABCDEFGHJKLMNPQRSTUV";
-          return l1.charAt(col) + l2.charAt(row);
+      case 3:
+        l1='STUVWXYZ';
+        l2='ABCDEFGHJKLMNPQRSTUV';
+        return l1.charAt(col) + l2.charAt(row);
 
-        case 4:
-          l1="ABCDEFGH";
-          l2="FGHJKLMNPQRSTUVABCDE";
-          return l1.charAt(col) + l2.charAt(row);
+      case 4:
+        l1='ABCDEFGH';
+        l2='FGHJKLMNPQRSTUVABCDE';
+        return l1.charAt(col) + l2.charAt(row);
 
-        case 5:
-          l1="JKLMNPQR";
-          l2="ABCDEFGHJKLMNPQRSTUV";
-          return l1.charAt(col) + l2.charAt(row);
+      case 5:
+        l1='JKLMNPQR';
+        l2='ABCDEFGHJKLMNPQRSTUV';
+        return l1.charAt(col) + l2.charAt(row);
 
-        case 6:
-          l1="STUVWXYZ";
-          l2="FGHJKLMNPQRSTUVABCDE";
-          return l1.charAt(col) + l2.charAt(row);
+      case 6:
+        l1='STUVWXYZ';
+        l2='FGHJKLMNPQRSTUVABCDE';
+        return l1.charAt(col) + l2.charAt(row);
       }
     },
     // END lettersHelper() function
@@ -712,17 +712,17 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
       var appxEast=1+eSqrs%8; 
 
       // convert northing to UTM
-      var letNorth = "CDEFGHJKLMNPQRSTUVWX".indexOf(lett);
+      var letNorth = 'CDEFGHJKLMNPQRSTUVWX'.indexOf(lett);
       var nSqrs;
       if (zone%2)  //odd number zone
-        nSqrs="ABCDEFGHJKLMNPQRSTUV".indexOf(sq2);
+        nSqrs='ABCDEFGHJKLMNPQRSTUV'.indexOf(sq2);
       else        // even number zone
-        nSqrs="FGHJKLMNPQRSTUVABCDE".indexOf(sq2); 
+        nSqrs='FGHJKLMNPQRSTUVABCDE'.indexOf(sq2); 
 
       var zoneStart = zoneBase[letNorth];
       var appxNorth = Number(segBase[letNorth])+nSqrs/10;
       if ( appxNorth < zoneStart)
-           appxNorth += 2; 	  
+        appxNorth += 2; 	  
 
       ret.N=appxNorth*1000000+Number(north)*Math.pow(10,5-north.length);
       ret.E=appxEast*100000+Number(east)*Math.pow(10,5-east.length);
@@ -730,7 +730,7 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
       ret.letter=lett;
 
       return;
-     },
+    },
 
 
 
@@ -741,20 +741,20 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
 
       var usngp = {};
 
-       this.parseUSNG_str(usngStr_input,usngp);
+      this.parseUSNG_str(usngStr_input,usngp);
       var coords = {};
 
        // convert USNG coords to UTM; this routine counts digits and sets precision
-       this.USNGtoUTM(usngp.zone,usngp.let,usngp.sq1,usngp.sq2,usngp.east,usngp.north,coords);
+      this.USNGtoUTM(usngp.zone,usngp.let,usngp.sq1,usngp.sq2,usngp.east,usngp.north,coords);
 
        // southern hemisphere case
-       if (usngp.let < 'N') {
-          coords.N -= NORTHING_OFFSET;
-       }
+      if (usngp.let < 'N') {
+        coords.N -= NORTHING_OFFSET;
+      }
 
-       this.UTMtoLL(coords.N, coords.E, usngp.zone, coords);
-       latlon[0] = coords.lat;
-       latlon[1] = coords.lon;
+      this.UTMtoLL(coords.N, coords.E, usngp.zone, coords);
+      latlon[0] = coords.lat;
+      latlon[1] = coords.lon;
 
     },
 
@@ -762,41 +762,41 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
     // convert lower-case characters to upper case, remove space delimeters, separate string into parts
     parseUSNG_str: function(usngStr_input, parts)
     {
-       var j = 0;
-       var k;
-       var usngStr = [];
-       var usngStr_temp = [];
+      var j = 0;
+      var k;
+      var usngStr = [];
+      var usngStr_temp = [];
 
-       usngStr_temp = usngStr_input.toUpperCase();
+      usngStr_temp = usngStr_input.toUpperCase();
 
        // put usgn string in 'standard' form with no space delimiters
-       var regexp = /%20/g;
-       usngStr = usngStr_temp.replace(regexp,"");
-       regexp = / /g;
-       usngStr = usngStr_temp.replace(regexp,"");
+      var regexp = /%20/g;
+      usngStr = usngStr_temp.replace(regexp,'');
+      regexp = / /g;
+      usngStr = usngStr_temp.replace(regexp,'');
 
-       if (usngStr.length < 7) {
-          console.warn("This application requires minimum USNG precision of 10,000 meters");
-          return 0;
-       }
+      if (usngStr.length < 7) {
+        console.warn('This application requires minimum USNG precision of 10,000 meters');
+        return 0;
+      }
 
        // break usng string into its component pieces
-       parts.zone = usngStr.charAt(j++)*10 + usngStr.charAt(j++)*1;
-       parts.let = usngStr.charAt(j++);
-       parts.sq1 = usngStr.charAt(j++);
-       parts.sq2 = usngStr.charAt(j++);
+      parts.zone = usngStr.charAt(j++)*10 + usngStr.charAt(j++)*1;
+      parts.let = usngStr.charAt(j++);
+      parts.sq1 = usngStr.charAt(j++);
+      parts.sq2 = usngStr.charAt(j++);
 
-       parts.precision = (usngStr.length-j) / 2;
-       parts.east='';
-       parts.north='';
-       for (k=0; k<parts.precision; k++) {
-           parts.east += usngStr.charAt(j++);
-       }
+      parts.precision = (usngStr.length-j) / 2;
+      parts.east='';
+      parts.north='';
+      for (k=0; k<parts.precision; k++) {
+        parts.east += usngStr.charAt(j++);
+      }
 
-       if (usngStr[j] == " ") { j++; }
-       for (k=0; k<parts.precision; k++) {
-           parts.north += usngStr.charAt(j++);
-       }
+      if (usngStr[j] == ' ') { j++; }
+      for (k=0; k<parts.precision; k++) {
+        parts.north += usngStr.charAt(j++);
+      }
     },
 
 
@@ -804,40 +804,40 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
     //    if so, returns the string in all upper case, no delimeters
     //    if not, returns 0
     isUSNG: function(inputStr) {
-       var usngStr = [];
-       var strregexp;
+      var usngStr = [];
+      var strregexp;
 
        // convert all letters to upper case
-       usngStr = inputStr.toUpperCase();
+      usngStr = inputStr.toUpperCase();
      
        // get rid of space delimeters
-       var regexp = /%20/g;
-       usngStr = usngStr.replace(regexp,"");
-       regexp = / /g;
-       usngStr = usngStr.replace(regexp,"");
+      var regexp = /%20/g;
+      usngStr = usngStr.replace(regexp,'');
+      regexp = / /g;
+      usngStr = usngStr.replace(regexp,'');
 
-       if (usngStr.length > 15) {
-          return 0;
-       }
+      if (usngStr.length > 15) {
+        return 0;
+      }
 
-       strregexp = new RegExp("^[0-9]{2}[CDEFGHJKLMNPQRSTUVWX]$");
-       if (usngStr.match(strregexp)) {
-          console.warn("Input appears to be a UTM zone...more precision is required to display a correct result.");
-          return 0;
-       }
+      strregexp = new RegExp('^[0-9]{2}[CDEFGHJKLMNPQRSTUVWX]$');
+      if (usngStr.match(strregexp)) {
+        console.warn('Input appears to be a UTM zone...more precision is required to display a correct result.');
+        return 0;
+      }
 
-       strregexp = new RegExp("^[0-9]{2}[CDEFGHJKLMNPQRSTUVWX][ABCDEFGHJKLMNPQRSTUVWXYZ][ABCDEFGHJKLMNPQRSTUV]([0-9][0-9]){0,5}");
-       if (!usngStr.match(strregexp)) {
-          return 0;
-       }
+      strregexp = new RegExp('^[0-9]{2}[CDEFGHJKLMNPQRSTUVWX][ABCDEFGHJKLMNPQRSTUVWXYZ][ABCDEFGHJKLMNPQRSTUV]([0-9][0-9]){0,5}');
+      if (!usngStr.match(strregexp)) {
+        return 0;
+      }
 
-       if (usngStr.length < 7) {
-          alert(usngStr+" Appears to be a USNG string, but this application requires precision of at least 10,000 meters");
-          return 0;
-       }
+      if (usngStr.length < 7) {
+        alert(usngStr+' Appears to be a USNG string, but this application requires precision of at least 10,000 meters');
+        return 0;
+      }
 
        // all tests passed...return the upper-case, non-delimited string
-       return usngStr;
+      return usngStr;
 
     },
 
@@ -847,14 +847,14 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
     //    in MGRS notation.  but the numbers are the same.
     LLtoMGRS: function(lat, lon, precision)
     {
-       var mgrs_str="";
-       var usng_str = this.LLtoUSNG(lat, lon, precision);
+      var mgrs_str='';
+      var usng_str = this.LLtoUSNG(lat, lon, precision);
 
        // remove space delimiters to conform to mgrs spec
-       var regexp = / /g;
-       mgrs_str = usng_str.replace(regexp,"");
+      var regexp = / /g;
+      mgrs_str = usng_str.replace(regexp,'');
 
-       return(mgrs_str);
+      return(mgrs_str);
     },
 
     LLtoUSNG_nad27: function(lat, lon, precision) {
@@ -870,7 +870,7 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
       EQUATORIAL_RADIUS    = 6378137.0; 
       ECC_SQUARED = 0.006694380023; 
 
-      return usngstr + " (NAD27)";
+      return usngstr + ' (NAD27)';
     }
   };
   return theClass;

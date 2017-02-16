@@ -1,5 +1,5 @@
-﻿/*global define,dojo,alert,moment,$ */
-/*jslint browser:true,sloppy:true,nomen:true,unparam:true,plusplus:true,indent:4 */
+
+
 /*
 | Copyright 2014 Esri
 |
@@ -15,36 +15,36 @@
 | See the License for the specific language governing permissions and
 | limitations under the License.
 */
-import declare from "dojo/_base/declare";
-import domConstruct from "dojo/dom-construct";
-import template from "./templates/help.html";
-import _WidgetBase from "dijit/_WidgetBase";
-import _TemplatedMixin from "dijit/_TemplatedMixin";
-import _WidgetsInTemplateMixin from "dijit/_WidgetsInTemplateMixin";
-import "dojo/domReady!";
-    export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
-        templateString: template,
+import declare from 'dojo/_base/declare';
+import domConstruct from 'dojo/dom-construct';
+import template from './templates/help.html';
+import _WidgetBase from 'dijit/_WidgetBase';
+import _TemplatedMixin from 'dijit/_TemplatedMixin';
+import _WidgetsInTemplateMixin from 'dijit/_WidgetsInTemplateMixin';
+import 'dojo/domReady!';
+export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+  templateString: template,
 
-        postCreate: function () {
-            domConstruct.place(template, document.body, 'last');
-            $('#myModal').find('.modal-title').html(this.config.helpDialogTitle);
-            $('#myModal').find('.modal-body').html(this.config.helpDialogContent);
-        },
+  postCreate: function () {
+    domConstruct.place(template, document.body, 'last');
+    $('#myModal').find('.modal-title').html(this.config.helpDialogTitle);
+    $('#myModal').find('.modal-body').html(this.config.helpDialogContent);
+  },
 
-        startup: function(...args) {
+  startup: function(...args) {
             // this.inherited(args);
-        },
+  },
 
         /**
         * Shows modal dialog
         * @memberOf widgets/help/help
         */
-        showDialog: function () {
-            $("#myModal").modal("show");
+  showDialog: function () {
+    $('#myModal').modal('show');
             //Set modal templates scroll position to 0
-            setTimeout(() => {
-                $('#myModal').find('.modal-body')[0].scrollTop = 0;
-            }, 200);
-        }
-    });
+    setTimeout(() => {
+      $('#myModal').find('.modal-body')[0].scrollTop = 0;
+    }, 200);
+  }
+});
 
