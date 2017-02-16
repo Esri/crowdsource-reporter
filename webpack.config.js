@@ -1,3 +1,5 @@
+/* eslint-env node */
+
 var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -30,10 +32,8 @@ module.exports = {
       use: {
         loader: 'eslint-loader',
         options: {
-          fix: true,
-          outputReport: {
-            filePath: './__eslint-[hash]_log.txt'
-          }
+          failOnWarning: false,
+          failOnError: true
         }
       }
     }, {
