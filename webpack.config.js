@@ -24,6 +24,18 @@ module.exports = {
 
     module: {
         rules: [{
+            test: /\.js$/,
+            enforce: 'pre',
+            exclude: /node_modules/,
+            use: {
+                loader: 'eslint-loader',
+                options: {
+                  outputReport: {
+                    filePath: './__eslint-[hash]_log.txt'
+                  }
+                }
+            }
+        }, {
             test: /\.html$/,
             use: 'html-loader'
         }, {
