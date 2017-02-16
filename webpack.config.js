@@ -1,13 +1,23 @@
 var path = require('path');
+var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 
 module.exports = {
-    entry: './js/bootstrapper.js',
+    entry: {
+      bundle: './js/bootstrapper.js',
+      vendor: [
+        'script-loader!jquery',
+        'moment',
+        'bootstrap',
+        'bootstrap-touchspin',
+        'imports-loader?moment,this=>window,define=>undefined,exports=>undefined!eonasdan-bootstrap-datetimepicker',
+      ]
+    },
 
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'bundle.js',
+        filename: '[name].js',
         publicPath: './',
         libraryTarget: 'amd'
     },
@@ -33,7 +43,10 @@ module.exports = {
     },
 
     plugins: [
-        new ExtractTextPlugin('styles.css')
+        new ExtractTextPlugin('styles.css'),
+        new webpack.optimize.CommonsChunkPlugin({
+          name: ['vendor']
+        })
     ],
 
     externals: [

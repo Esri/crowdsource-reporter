@@ -15,6 +15,7 @@
  | See the License for the specific language governing permissions and
  | limitations under the License.
  */
+
 import declare from "dojo/_base/declare";
 import TemplateConfig from "../config/template-config";
 import Template from "./template";
@@ -22,9 +23,11 @@ import ApplicationSignIn from "./widgets/sign-in/sign-in";
 import ApplicationUtils from "./utils/utils";
 import domConstruct from "dojo/dom-construct";
 import lang from "dojo/_base/lang";
-import './vendor/bootstrap-3.3.0-dist/css/bootstrap.min.css';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './vendor/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css';
-import './vendor/touch-spinner/jquery.bootstrap-touchspin.min.css';
+import 'bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css';
+
 import '../css/main.css';
 import '../css/common.css';
 import '../css/mediaqueries.css';
