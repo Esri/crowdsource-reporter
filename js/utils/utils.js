@@ -17,23 +17,18 @@
 */
 import declare from 'dojo/_base/declare';
 import dom from 'dojo/dom';
-import coreFx from 'dojo/_base/fx';
 import lang from 'dojo/_base/lang';
 import array from 'dojo/_base/array';
 import domConstruct from 'dojo/dom-construct';
-import domGeometry from 'dojo/dom-geometry';
 import domClass from 'dojo/dom-class';
 import domAttr from 'dojo/dom-attr';
 import domStyle from 'dojo/dom-style';
 import on from 'dojo/on';
 import has from 'dojo/has';
-import query from 'dojo/query';
 import _WidgetBase from 'dijit/_WidgetBase';
 import LocateButton from 'esri/dijit/LocateButton';
 import HomeButton from 'esri/dijit/HomeButton';
 import Locator from 'esri/tasks/locator';
-import webMercatorUtils from 'esri/geometry/webMercatorUtils';
-import Deferred from 'dojo/Deferred';
 export default declare([_WidgetBase], {
   showLoadingIndicator: function () {
     domClass.add(document.body, 'app-loading');

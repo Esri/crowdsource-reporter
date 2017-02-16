@@ -1,4 +1,4 @@
-
+/* global gapi */
 
 /** @license
  | Copyright 2013 Esri
@@ -16,8 +16,6 @@
  | limitations under the License.
  */
 //============================================================================================================================//
-import templateConfig from '../../../config/template-config';
-import MainTemplate from '../../template';
 import Main from '../../main';
 import declare from 'dojo/_base/declare';
 import domConstruct from 'dojo/dom-construct';
@@ -28,8 +26,6 @@ import lang from 'dojo/_base/lang';
 import array from 'dojo/_base/array';
 import on from 'dojo/on';
 import dom from 'dojo/dom';
-import Deferred from 'dojo/Deferred';
-import all from 'dojo/promise/all';
 import esriPortal from 'esri/arcgis/Portal';
 import template from './templates/sign-in.html';
 import _WidgetBase from 'dijit/_WidgetBase';
@@ -131,7 +127,7 @@ export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], 
     if (this._config.signInBackgroundImage.indexOf('http') === 0) {
       domStyle.set(this.signinBgImage, 'backgroundImage', `url(${this._config.signInBackgroundImage})`);
     } else {
-      domStyle.set(this.signinBgImage, 'backgroundImage', `url(${dojoConfig.baseURL}${this._config.signInBackgroundImage})`);
+      domStyle.set(this.signinBgImage, 'backgroundImage', `url(${window.dojoConfig.baseURL}${this._config.signInBackgroundImage})`);
     }
 
             //If guest login is disabled from configuration, make sure we are not showing it on login screen
@@ -203,7 +199,7 @@ export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], 
         */
   _setLoginScreenIcons: function (iconColor) {
     let imageBaseURL;
-    imageBaseURL = `${dojoConfig.baseURL}/images/${iconColor}`;
+    imageBaseURL = `${window.dojoConfig.baseURL}/images/${iconColor}`;
     domStyle.set(this.signinGuestButton, 'backgroundImage', `url(${imageBaseURL}guest-user.png)`);
     domStyle.set(this.signinFBButton, 'backgroundImage', `url(${imageBaseURL}facebook.png)`);
     domStyle.set(this.signinTwitterButton, 'backgroundImage', `url(${imageBaseURL}twitter.png)`);
@@ -463,7 +459,7 @@ export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], 
           }));
         }));
       } else {
-        console.log(authResult.status.method);
+        console.warn(authResult.status.method);
       }
     }
   }

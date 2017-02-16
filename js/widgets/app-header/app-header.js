@@ -159,15 +159,15 @@ export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], 
         domAttr.set(this.applicationHeaderIcon, 'src', this.appConfig.applicationIcon);
       } else {
         if (this.appConfig.applicationIcon.indexOf('/') === 0) {
-          domAttr.set(this.applicationHeaderIcon, 'src', dojoConfig.baseURL + this.appConfig.applicationIcon);
+          domAttr.set(this.applicationHeaderIcon, 'src', window.dojoConfig.baseURL + this.appConfig.applicationIcon);
         } else {
-          domAttr.set(this.applicationHeaderIcon, 'src', `${dojoConfig.baseURL}/${this.appConfig.applicationIcon}`);
+          domAttr.set(this.applicationHeaderIcon, 'src', `${window.dojoConfig.baseURL}/${this.appConfig.applicationIcon}`);
         }
       }
     } else if (this.appConfig.groupInfo.results.length > 0 && this.appConfig.groupInfo.results[0].thumbnailUrl) {
       domAttr.set(this.applicationHeaderIcon, 'src', this.appConfig.groupInfo.results[0].thumbnailUrl);
     } else {
-      domAttr.set(this.applicationHeaderIcon, 'src', `${dojoConfig.baseURL}/images/app-icon.png`);
+      domAttr.set(this.applicationHeaderIcon, 'src', `${window.dojoConfig.baseURL}/images/app-icon.png`);
     }
     applicationIcon = domAttr.get(this.applicationHeaderIcon, 'src');
 
@@ -192,7 +192,7 @@ export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], 
     if (iconPath.indexOf('http') === 0) {
       icon.href = iconPath;
     } else {
-      icon.href = dojoConfig.baseURL + iconPath;
+      icon.href = window.dojoConfig.baseURL + iconPath;
     }
     document.getElementsByTagName('head')[0].appendChild(icon);
   },

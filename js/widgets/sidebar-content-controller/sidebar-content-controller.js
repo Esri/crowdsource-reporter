@@ -20,10 +20,7 @@ import declare from 'dojo/_base/declare';
 import _WidgetBase from 'dijit/_WidgetBase';
 import _TemplatedMixin from 'dijit/_TemplatedMixin';
 import template from './templates/sidebar-content-controller-view.html';
-import lang from 'dojo/_base/lang';
-import dom from 'dojo/dom';
 import domStyle from 'dojo/dom-style';
-import on from 'dojo/on';
 export default declare([_WidgetBase, _TemplatedMixin], {
   templateString: template,
   _panels: {},
@@ -105,4 +102,3 @@ export default declare([_WidgetBase, _TemplatedMixin], {
   }
 
 });
-

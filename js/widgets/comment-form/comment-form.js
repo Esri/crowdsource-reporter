@@ -31,7 +31,6 @@ import on from 'dojo/on';
 import domAttr from 'dojo/dom-attr';
 import locale from 'dojo/date/locale';
 import Graphic from 'esri/graphic';
-import RelationshipQuery from 'esri/tasks/RelationshipQuery';
 import moment from 'moment';
 import commentForm from './templates/comment-form.html';
 export default declare([_WidgetBase, _TemplatedMixin], {
@@ -66,7 +65,7 @@ export default declare([_WidgetBase, _TemplatedMixin], {
     this.i18n = this.config.i18n;
   },
 
-  postCreate: function(...args) {
+  postCreate: function() {
     let submitCommentText;
             // this.inherited(args);
     this._initializeCommentForm();
@@ -88,7 +87,7 @@ export default declare([_WidgetBase, _TemplatedMixin], {
     }));
   },
 
-  startup: function(...args) {
+  startup: function() {
             // this.inherited(args);
   },
 
@@ -265,7 +264,7 @@ export default declare([_WidgetBase, _TemplatedMixin], {
     alertHtml += '<button type="button" class="close" data-dismiss="alert">' + 'X' + '</button>';
     alertHtml += `<span>${fileName}</span>`;
     alertHtml += '</div>';
-    alertHtml = domConstruct.place(alertHtml, this.fileAttachmentList, 'last');
+    domConstruct.place(alertHtml, this.fileAttachmentList, 'last');
             //if file is removed then
             //replace the class from esriCTFileToSubmit to esriCTHideFileInputUI and update the file selected count
     $(`#${target.parentNode.id}_Close`).bind('closed.bs.alert', lang.hitch(this, function (evt) {
@@ -522,7 +521,7 @@ export default declare([_WidgetBase, _TemplatedMixin], {
             //as we are updating feature we need object Id field inside for successful updation
     featureData.attributes[this.selectedLayer.objectIdField] = this.item.attributes[this.selectedLayer.objectIdField];
             // Update the comment to the comment table
-    this.commentTable.applyEdits(null, [featureData], null, lang.hitch(this, function (addResult, updateResult, deleteResult) { //ignore jslint
+    this.commentTable.applyEdits(null, [featureData], null, lang.hitch(this, function (addResult, updateResult, deleteResult) {
       let fileList, i, userFormNode;
                 //for update we only need updateResult parameter
       if (updateResult && updateResult.length > 0 && updateResult[0].success) {
@@ -843,7 +842,7 @@ export default declare([_WidgetBase, _TemplatedMixin], {
         * @memberOf widgets/comment-form/comment-form
         */
   _createDomainValueFormElements: function (currentField, formContent, fieldname) {
-    let date, inputRangeDateGroupContainer, rangeDefaultDate, currentSelectedDate, formatedDate;
+    let date, inputRangeDateGroupContainer, currentSelectedDate, formatedDate;
     if (!this.addComments) {
                 //get field value
       currentField.defaultValue = this.item.attributes[fieldname];
@@ -863,7 +862,7 @@ export default declare([_WidgetBase, _TemplatedMixin], {
                         // set current date to date field
           $(inputRangeDateGroupContainer).data('DateTimePicker').setDate(date);
                         // set format to the current date
-          rangeDefaultDate = moment(date).format($(inputRangeDateGroupContainer).data('DateTimePicker').format);
+          // rangeDefaultDate = moment(date).format($(inputRangeDateGroupContainer).data('DateTimePicker').format);
         } else {
                         //Check if todays date falls between minimum and maximum date
           if (currentField.domain.maxValue > Date.now() && currentField.domain.minValue < Date.now()) {
@@ -1329,7 +1328,7 @@ export default declare([_WidgetBase, _TemplatedMixin], {
         * @memberOf widgets/comment-form/comment-form
         */
   _addInputElementsValue: function (currentField, formContent, inputDateGroupContainer) {
-    let defaultDate, date;
+    let date;
     if (!this.addComments) {
                 //get default field value if t is not exist in feature attributes
       currentField.defaultValue = this.item.attributes[this.inputContent.id];
@@ -1343,7 +1342,7 @@ export default declare([_WidgetBase, _TemplatedMixin], {
                     // set current date to date field
         $(inputDateGroupContainer).data('DateTimePicker').setDate(date);
                     // set format to the current date
-        defaultDate = moment(date).format($(inputDateGroupContainer).data('DateTimePicker').format);
+        // defaultDate = moment(date).format($(inputDateGroupContainer).data('DateTimePicker').format);
       } else {
         domAttr.set(this.inputContent, 'value', currentField.defaultValue);
         domClass.add(formContent, 'has-success');
@@ -1354,7 +1353,7 @@ export default declare([_WidgetBase, _TemplatedMixin], {
                     // set current date to date field
         $(inputDateGroupContainer).data('DateTimePicker').setDate(new Date());
                     // set format to the current date
-        defaultDate = moment(new Date()).format($(inputDateGroupContainer).data('DateTimePicker').format);
+        // defaultDate = moment(new Date()).format($(inputDateGroupContainer).data('DateTimePicker').format);
       }
     }
             // If field type is not date, validate fields on focus out

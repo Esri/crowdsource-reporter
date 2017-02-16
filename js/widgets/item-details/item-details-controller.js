@@ -28,9 +28,7 @@ import dom from 'dojo/dom';
 import string from 'dojo/string';
 import topic from 'dojo/topic';
 import touch from 'dojo/touch';
-import nld from 'dojo/NodeList-dom';
 import Deferred from 'dojo/Deferred';
-import Graphic from 'esri/graphic';
 import PopupTemplate from 'esri/dijit/PopupTemplate';
 import Query from 'esri/tasks/query';
 import QueryTask from 'esri/tasks/QueryTask';
@@ -714,7 +712,7 @@ export default declare([_WidgetBase, _TemplatedMixin], {
       }
       this.appUtils.hideLoadingIndicator();
     }), lang.hitch(this, function (err) {
-      console.log(err.message || 'queryRelatedFeatures');
+      console.error(err.message || 'queryRelatedFeatures');
                 //Hide loading indicator
       this.appUtils.hideLoadingIndicator();
     }));
@@ -760,7 +758,7 @@ export default declare([_WidgetBase, _TemplatedMixin], {
         * @memberOf widgets/details-panel/comments
         **/
   _showAttachmentsInComment: function (attachmentContainer, index) {
-    let fieldContent, i, attachmentWrapper, imageThumbnailContainer, imageThumbnailContent, imageContainer, fileTypeContainer, isAttachmentAvailable, imagePath, imageDiv;
+    let fieldContent, i, attachmentWrapper, imageThumbnailContainer, imageThumbnailContent, imageContainer, fileTypeContainer, isAttachmentAvailable, imagePath;
             //check if attachments found
     if (this._entireAttachmentsArr[index][1] && this._entireAttachmentsArr[index][1].length > 0) {
                 //Create attachment header text
@@ -775,8 +773,8 @@ export default declare([_WidgetBase, _TemplatedMixin], {
         fileTypeContainer = domConstruct.create('div', { 'class': 'esriCTNonFileTypeContent' }, imageThumbnailContent);
         isAttachmentAvailable = true;
                     // set default image path if attachment has no image URL
-        imagePath = dojoConfig.baseURL + this.appConfig.noAttachmentIcon;
-        imageDiv = domConstruct.create('img', { 'alt': this._entireAttachmentsArr[index][1][i].url, 'class': 'esriCTAttachmentImg', 'src': imagePath }, imageContainer);
+        imagePath = window.dojoConfig.baseURL + this.appConfig.noAttachmentIcon;
+        domConstruct.create('img', { 'alt': this._entireAttachmentsArr[index][1][i].url, 'class': 'esriCTAttachmentImg', 'src': imagePath }, imageContainer);
         this._fetchDocumentContentType(this._entireAttachmentsArr[index][1][i], fileTypeContainer);
         this._fetchDocumentName(this._entireAttachmentsArr[index][1][i], imageThumbnailContainer);
         on(imageThumbnailContainer, 'click', lang.hitch(this, this._displayImageAttachments));

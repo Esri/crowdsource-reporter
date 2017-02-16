@@ -16,7 +16,6 @@
 import declare from 'dojo/_base/declare';
 import lang from 'dojo/_base/lang';
 import array from 'dojo/_base/array';
-import arcgisUtils from 'esri/arcgis/utils';
 import dom from 'dojo/dom';
 import domConstruct from 'dojo/dom-construct';
 import domStyle from 'dojo/dom-style';
@@ -31,8 +30,6 @@ import aspect from 'dojo/aspect';
 import Deferred from 'dojo/Deferred';
 import ThemeCss from 'raw-loader!../css/theme-template.css.template';
 import GraphicsLayer from 'esri/layers/GraphicsLayer';
-import FeatureLayer from 'esri/layers/FeatureLayer';
-import Circle from 'esri/geometry/Circle';
 import Query from 'esri/tasks/query';
 import Color from 'esri/Color';
 import Graphic from 'esri/graphic';
@@ -96,30 +93,30 @@ export default declare(null, {
   firstMapClickPoint: null,
   _existingLayerIndex: null,
   clonedGeolocation: null,
-  drawToolBarHandler : null,
-  startup: function (boilerPlateTemplateObject, loggedInUser) {
-            // config will contain application and user defined info for the template such as i18n strings, the web map id
-            // and application id
-            // any url parameters and any application specific configuration information.
+  drawToolBarHandler: null,
+  startup: function(boilerPlateTemplateObject, loggedInUser) {
+        // config will contain application and user defined info for the template such as i18n strings, the web map id
+        // and application id
+        // any url parameters and any application specific configuration information.
     const queryParams = {};
     if (boilerPlateTemplateObject) {
       this.boilerPlateTemplate = boilerPlateTemplateObject;
       this.config = boilerPlateTemplateObject.config;
-                //Make a copy of geolocation, this will be used to check for extent layer functionality whenever layer is selected from webmap list
+            //Make a copy of geolocation, this will be used to check for extent layer functionality whenever layer is selected from webmap list
       if (this.config.geolocation) {
-        this.clonedGeolocation = jQuery.extend(true, {}, this.config.geolocation);
+        this.clonedGeolocation = $.extend(true, {}, this.config.geolocation);
       }
       this.appUtils = new ApplicationUtils({
         'config': this.config
       });
-                // Initializes the map-search widget
+            // Initializes the map-search widget
       this.mapSearch = new MapSearch({ 'config': this.config, 'appUtils': this.appUtils, 'handleFeatureSearch': true });
-                //Listen for feature found event from locator and add it on the map and list, if it is not present in the graphics layer
-      this.mapSearch.onFeatureFound = lang.hitch(this, function (feature) {
+            //Listen for feature found event from locator and add it on the map and list, if it is not present in the graphics layer
+      this.mapSearch.onFeatureFound = lang.hitch(this, function(feature) {
         this._addNewFeature(feature.attributes[this.selectedLayer.objectIdField], this.selectedLayer, 'search');
       });
-                //Check if pusphin is already present on map, if it exist clear the same
-      aspect.before(this.mapSearch, '_validateAddress', lang.hitch(this, function () {
+            //Check if pusphin is already present on map, if it exist clear the same
+      aspect.before(this.mapSearch, '_validateAddress', lang.hitch(this, function() {
         if (this.geolocationgGraphicsLayer) {
           this.geolocationgGraphicsLayer.clear();
         }
@@ -129,23 +126,23 @@ export default declare(null, {
 
       }));
 
-                //On click of address from main map, show it in geoform
-      this.mapSearch.onAddressClicked = lang.hitch(this, function (geometry) {
+            //On click of address from main map, show it in geoform
+      this.mapSearch.onAddressClicked = lang.hitch(this, function(geometry) {
         const evt = { 'geometry': geometry };
         if (this.geoformInstance && !domClass.contains(dom.byId('geoformContainer'), 'esriCTHidden')) {
           this.geoformInstance._addToGraphicsLayer(evt, false);
         }
       });
 
-                //Populate location field after the address is validated
-      aspect.after(this.mapSearch, '_validateAddress', lang.hitch(this, function () {
+            //Populate location field after the address is validated
+      aspect.after(this.mapSearch, '_validateAddress', lang.hitch(this, function() {
         if (this.geoformInstance && this.selectedLayer.geometryType === 'esriGeometryPoint' && !domClass.contains(dom.byId('geoformContainer'), 'esriCTHidden')) {
           this.geoformInstance._populateLocationField(this.mapSearch.locatorSearch.txtSearch.value);
         }
       }));
 
-                //if login details are not available set it to anonymousUserName
-                //based on login info if user is logged in set menu's for signin and signout
+            //if login details are not available set it to anonymousUserName
+            //based on login info if user is logged in set menu's for signin and signout
       if (loggedInUser) {
         this.config.logInDetails = {
           'userName': loggedInUser.fullName,
@@ -163,13 +160,13 @@ export default declare(null, {
         this._menusList.signIn = true;
         this._menusList.signOut = false;
       }
-                //By default we have disabled queryForGroupItems
-                //since it was getting group items for the group configured in default.js only,
-                //and not honoring group-id configured in appconfig.
-                //Enable queryForGroupItems in templateconfig
+            //By default we have disabled queryForGroupItems
+            //since it was getting group items for the group configured in default.js only,
+            //and not honoring group-id configured in appconfig.
+            //Enable queryForGroupItems in templateconfig
       this.boilerPlateTemplate.templateConfig.queryForGroupItems = true;
 
-                //construct the query params if found in group info
+            //construct the query params if found in group info
       if (this.config.groupInfo.results && this.config.groupInfo.results.length > 0) {
         lang.mixin(queryParams, this.boilerPlateTemplate.templateConfig.groupParams);
         if (this.config.groupInfo.results[0].sortField) {
@@ -182,37 +179,37 @@ export default declare(null, {
       if (loggedInUser) {
         queryParams.token = loggedInUser.credential.token;
       }
-                //Pass the newly constructed queryparams from group info.
-                //If query params not available in group info or group is private, items will be sorted according to modified date.
+            //Pass the newly constructed queryparams from group info.
+            //If query params not available in group info or group is private, items will be sorted according to modified date.
       this._loadGroupItems(queryParams);
     } else {
       this.appUtils.showError('Main:: Config is not defined');
     }
 
-            //If application is running in RTL mode, change the class of sidebar container
+        //If application is running in RTL mode, change the class of sidebar container
     if (this.config.i18n.direction === 'rtl') {
       domClass.replace(dom.byId('sideContainer'), 'esriCTBorderRight', 'esriCTBorderLeft');
       domClass.replace(dom.byId('geoformContainer'), 'esriCTBorderRight', 'esriCTBorderLeft');
     }
-            //Create esri geocoder instance, this will be needed in the process of reverse geocoding
+        //Create esri geocoder instance, this will be needed in the process of reverse geocoding
     this.appUtils.createGeocoderInstance();
   },
 
-        /**
-        * Loads group items using BoilerPlateTemplate for specified queryParams.
-        * @param{object} query Parameters
-        * @memberOf main
-        */
-  _loadGroupItems: function (queryParams) {
+    /**
+     * Loads group items using BoilerPlateTemplate for specified queryParams.
+     * @param{object} query Parameters
+     * @memberOf main
+     */
+  _loadGroupItems: function(queryParams) {
     this.boilerPlateTemplate.queryGroupItems(queryParams).then(lang.hitch(this, this._groupItemsLoaded));
   },
 
-        /**
-        * Callback handler called on group items loaded, which will have group items as response.
-        * @param{object} response
-        * @memberOf main
-        */
-  _groupItemsLoaded: function (response) {
+    /**
+     * Callback handler called on group items loaded, which will have group items as response.
+     * @param{object} response
+     * @memberOf main
+     */
+  _groupItemsLoaded: function(response) {
     this._groupItems.push.apply(this._groupItems, response.groupItems.results);
     if (response.groupItems.nextQueryParams.start < 0) {
       if (!this.config.groupItems) {
@@ -225,29 +222,29 @@ export default declare(null, {
     }
   },
 
-        /**
-        * Loads all application widgets.
-        * 1) Loads Theme
-        * 2) Loads Application Header and attach events to header tools.
-        * 3) Attach application level events
-        * 4) Create Web Map list
-        * @memberOf main
-        */
-  _loadApplication: function () {
+    /**
+     * Loads all application widgets.
+     * 1) Loads Theme
+     * 2) Loads Application Header and attach events to header tools.
+     * 3) Attach application level events
+     * 4) Create Web Map list
+     * @memberOf main
+     */
+  _loadApplication: function() {
     if (!this.config.showNullValueAs) {
       this.config.showNullValueAs = '';
     }
 
-            //Set Application Theme
+        //Set Application Theme
     this._loadApplicationTheme();
 
-            //Set Application header
+        //Set Application header
     this._createApplicationHeader();
 
-            //Handle Window Resize
-    on(window, 'resize', lang.hitch(this, function () {
-                //Check if application is running on android devices and item details panel is open then show/hide the details panel
-                //This resolves the jumbling of content in details panel on android devices
+        //Handle Window Resize
+    on(window, 'resize', lang.hitch(this, function() {
+            //Check if application is running on android devices and item details panel is open then show/hide the details panel
+            //This resolves the jumbling of content in details panel on android devices
       if (this._itemDetails && !this._itemDetails.isCommentFormOpen) {
         if (this.appUtils.isAndroid() && this._sidebarCnt && this._sidebarCnt._currentPanelName === 'itemDetails') {
           this._itemDetails.toggleDetailsPanel();
@@ -256,19 +253,19 @@ export default declare(null, {
       this._resizeMap();
     }));
 
-    topic.subscribe('resizeMap', lang.hitch(this, function () {
+    topic.subscribe('resizeMap', lang.hitch(this, function() {
       this._resizeMap();
     }));
 
-            //if group items are present create Sidebar controller and web map list
-            //else show no web map message
+        //if group items are present create Sidebar controller and web map list
+        //else show no web map message
     if (this.config.groupItems.results.length > 0) {
-                // Sidebar content controller
+            // Sidebar content controller
       this._sidebarCnt = new SidebarContentController({
         'appConfig': this.config
       }).placeAt('sidebarContent'); // placeAt triggers a startup call to _sidebarCntent
 
-                // Item details
+            // Item details
       this._itemDetails = new ItemDetails({
         'appConfig': this.config,
         'appUtils': this.appUtils
@@ -276,24 +273,24 @@ export default declare(null, {
       this._itemDetails.hide();
       this._sidebarCnt.addPanel('itemDetails', this._itemDetails);
 
-      this._itemDetails.onCancel = lang.hitch(this, function (item) {
+      this._itemDetails.onCancel = lang.hitch(this, function(item) {
         if (this._isMyIssues) {
           this._sidebarCnt.showPanel('myIssues');
-                        //refresh the myIssues list on showing the myIssues wall
+                    //refresh the myIssues list on showing the myIssues wall
           if (this._myIssuesWidget && this._myIssuesWidget.itemsList) {
             this._myIssuesWidget.itemsList.refreshList(item);
           }
         } else {
           this._sidebarCnt.showPanel('issueWall');
-                        //refresh the issue list on showing the issue wall
+                    //refresh the issue list on showing the issue wall
           if (this._issueWallWidget && this._issueWallWidget.itemsList) {
             this._issueWallWidget.itemsList.refreshList(item);
           }
         }
       });
 
-      this._itemDetails._createGeoformForEdits = lang.hitch(this, function (parentDiv) {
-                    //Create new instance of geoForm
+      this._itemDetails._createGeoformForEdits = lang.hitch(this, function(parentDiv) {
+                //Create new instance of geoForm
         if (!this.geoformEditInstance) {
           this.geoformEditInstance = new GeoForm({
             config: this.config,
@@ -310,16 +307,16 @@ export default declare(null, {
           }, domConstruct.create('div', {}, parentDiv));
           this.geoformEditInstance.startup();
 
-                        //on submitting issues in geoform update issue wall and main map to show newly updated issue.
-          this.geoformEditInstance.geoformFeatureUpdated = lang.hitch(this, function (updatedFeature) {
+                    //on submitting issues in geoform update issue wall and main map to show newly updated issue.
+          this.geoformEditInstance.geoformFeatureUpdated = lang.hitch(this, function(updatedFeature) {
             try {
-              this._checkForFeatureAvailability(updatedFeature).then(lang.hitch(this, function (isFeatureFound) {
+              this._checkForFeatureAvailability(updatedFeature).then(lang.hitch(this, function(isFeatureFound) {
                 if (isFeatureFound) {
-                                        //refresh main map so that newly created issue will be shown on it.
+                                    //refresh main map so that newly created issue will be shown on it.
                   const layer = this._selectedMapDetails.map.getLayer(this._selectedMapDetails.operationalLayerId);
                   layer.refresh();
                   if (this.config.showNonEditableLayers) {
-                                            //Refresh label layers to fetch label of updated feature
+                                        //Refresh label layers to fetch label of updated feature
                     this.appUtils.refreshLabelLayers(this._selectedMapDetails.itemInfo.itemData.operationalLayers);
                   }
                   this._itemSelected(updatedFeature, false);
@@ -333,8 +330,8 @@ export default declare(null, {
               this.appUtils.showError(ex.message);
             }
           });
-                        //deactivate the draw tool on main map after closing geoform
-          this.geoformEditInstance.onFormClose = lang.hitch(this, function () {
+                    //deactivate the draw tool on main map after closing geoform
+          this.geoformEditInstance.onFormClose = lang.hitch(this, function() {
             this._itemDetails.handleComponentsVisibility();
             this._itemDetails.scrollToTop();
           });
@@ -346,10 +343,10 @@ export default declare(null, {
         }
       });
 
-      this._itemDetails.onFeatureDeleted = lang.hitch(this, function (isDeleted) {
+      this._itemDetails.onFeatureDeleted = lang.hitch(this, function(isDeleted) {
         let layer;
         if (isDeleted) {
-                        //refresh main map so that newly created issue will be shown on it.
+                    //refresh main map so that newly created issue will be shown on it.
           layer = this._selectedMapDetails.map.getLayer(this._selectedMapDetails.operationalLayerId);
           layer.refresh();
           this._updateFeatureInIssueWall(this._itemDetails.item, false, true);
@@ -366,21 +363,21 @@ export default declare(null, {
       submitButtonColor = (this.config && this.config.submitReportButtonColor) ? this.config.submitReportButtonColor : '#35ac46';
       domStyle.set(dom.byId('submitFromMap'), 'background-color', submitButtonColor);
 
-      on(dom.byId('submitFromMap'), 'click', lang.hitch(this, function (evt) {
+      on(dom.byId('submitFromMap'), 'click', lang.hitch(this, function(evt) {
         this._createGeoForm();
       }));
-      on(dom.byId('mapBackButton'), 'click', lang.hitch(this, function (evt) {
+      on(dom.byId('mapBackButton'), 'click', lang.hitch(this, function(evt) {
         this._toggleListView();
       }));
-      on(dom.byId('toggleListViewButton'), 'click', lang.hitch(this, function (evt) {
-                    //Change myissues widget flag to false and refresh the list
+      on(dom.byId('toggleListViewButton'), 'click', lang.hitch(this, function(evt) {
+                //Change myissues widget flag to false and refresh the list
         if (this._myIssuesWidget) {
           this._myIssuesWidget.itemsList.clearSelection();
           this._myIssuesWidget.itemsList.refreshList();
         }
         this._isMyIssues = false;
         this._toggleListView();
-                    //Clear map selection when navigating to web map list
+                //Clear map selection when navigating to web map list
         if (this._selectedMapDetails.map.getLayer('selectionGraphicsLayer')) {
           this._selectedMapDetails.map.getLayer('selectionGraphicsLayer').clear();
         }
@@ -393,20 +390,21 @@ export default declare(null, {
     }
   },
 
-        /**
-        * Check if edited feature falls under the definition expression critera
-        * @param{feature} updasted feature
-        * @memberOf main
-        */
-  _checkForFeatureAvailability: function (feature) {
-    let countDef, countQuery, queryTask, layersIds = [], featureFound = true;
+    /**
+     * Check if edited feature falls under the definition expression critera
+     * @param{feature} updasted feature
+     * @memberOf main
+     */
+  _checkForFeatureAvailability: function(feature) {
+    let countDef, countQuery, queryTask, layersIds = [],
+      featureFound = true;
     countDef = new Deferred();
     countQuery = new Query();
     queryTask = new QueryTask(this.selectedLayer.url);
     if (this._existingDefinitionExpression) {
       countQuery.where = this._existingDefinitionExpression;
-      queryTask.executeForIds(countQuery, lang.hitch(this, function (results) {
-                    //If server returns null values, set feature layer count to 0 and proceed
+      queryTask.executeForIds(countQuery, lang.hitch(this, function(results) {
+                //If server returns null values, set feature layer count to 0 and proceed
         layersIds = results;
         if (layersIds.indexOf(feature.attributes[this.selectedLayer.objectIdField]) === -1) {
           featureFound = false;
@@ -423,13 +421,13 @@ export default declare(null, {
     return countDef.promise;
   },
 
-        /**
-        * Update feature instance in issu wall and issue details
-        * @param{object} updated feature
-        * @param{boolean} flag to check for edit or delete feature
-        * @memberOf main
-        */
-  _updateFeatureInIssueWall: function (updatedFeature, isUpdated, canDeleteFromMyIssue) {
+    /**
+     * Update feature instance in issu wall and issue details
+     * @param{object} updated feature
+     * @param{boolean} flag to check for edit or delete feature
+     * @memberOf main
+     */
+  _updateFeatureInIssueWall: function(updatedFeature, isUpdated, canDeleteFromMyIssue) {
     let nodeToUpdate, nodeToUpdateAttr;
     if (this._issueWallWidget.itemsList) {
       nodeToUpdateAttr = `${updatedFeature.attributes[this.selectedLayer.objectIdField]}_${this._selectedMapDetails.webMapId}_${this.selectedLayer.id}`;
@@ -440,69 +438,69 @@ export default declare(null, {
         this._deleteFeature(nodeToUpdate, canDeleteFromMyIssue);
       }
     }
-            //Update geoform map instance
+        //Update geoform map instance
     if (this.geoformInstance) {
       this.geoformInstance.updateLayerOnMap();
     }
   },
 
-        /**
-        * Update feature instance
-        * @param{object} node who's value needs to be updated'
-        * @param{object} instance of updated feature
-        * @memberOf main
-        */
-  _updateFeature: function (updatedFeature) {
+    /**
+     * Update feature instance
+     * @param{object} node who's value needs to be updated'
+     * @param{object} instance of updated feature
+     * @memberOf main
+     */
+  _updateFeature: function(updatedFeature) {
     let updatedFeatureTitle;
     updatedFeatureTitle = this._issueWallWidget.itemsList.getItemTitle(updatedFeature);
     domAttr.set(this._itemDetails.itemTitleDiv, 'innerHTML', updatedFeatureTitle);
-            //If the updated issue is present in my issues list then update it accrodingly
+        //If the updated issue is present in my issues list then update it accrodingly
     if (this._myIssuesWidget && this._myIssuesWidget.itemsList && this.config.logInDetails && updatedFeature.attributes[this.config.reportedByField] && updatedFeature.attributes[this.config.reportedByField] === this.config.logInDetails.processedUserName) {
       this._myIssuesWidget.updateIssueList(this._selectedMapDetails, updatedFeature);
     }
   },
 
-        /**
-        * Delete feature instance
-        * @param{object} node to be deleted
-        * @memberOf main
-        */
-  _deleteFeature: function (nodeToUpdate, canDeleteFromMyIssue) {
-            //Remove graphics from graphic layer
-    array.some(this.displaygraphicsLayer.graphics, lang.hitch(this, function (currentGraphics, index) {
+    /**
+     * Delete feature instance
+     * @param{object} node to be deleted
+     * @memberOf main
+     */
+  _deleteFeature: function(nodeToUpdate, canDeleteFromMyIssue) {
+        //Remove graphics from graphic layer
+    array.some(this.displaygraphicsLayer.graphics, lang.hitch(this, function(currentGraphics, index) {
       if (currentGraphics.attributes[this.selectedLayer.objectIdField] === this._itemDetails.item.attributes[this.selectedLayer.objectIdField]) {
         this.displaygraphicsLayer.remove(this.displaygraphicsLayer.graphics[index]);
         return true;
       }
     }));
 
-            //Clear map selection when navigating to web map list
+        //Clear map selection when navigating to web map list
     if (this._selectedMapDetails.map.getLayer('selectionGraphicsLayer')) {
       this._selectedMapDetails.map.getLayer('selectionGraphicsLayer').clear();
     }
 
     if (canDeleteFromMyIssue) {
-                // Delete the node from issue list, my issue list and clear selection
+            // Delete the node from issue list, my issue list and clear selection
       array.forEach(nodeToUpdate, lang.hitch(this, currentItemNode => {
         domConstruct.destroy(currentItemNode);
       }));
     } else {
-                // Delete feature only from issue list
+            // Delete feature only from issue list
       domConstruct.destroy(nodeToUpdate[0]);
     }
 
     this._issueWallWidget.itemsList.clearSelection();
 
-            //Remove graphics instance from layerGraphicsArray
-    array.some(this.layerGraphicsArray, lang.hitch(this, function (currentGraphicsArray, index) {
+        //Remove graphics instance from layerGraphicsArray
+    array.some(this.layerGraphicsArray, lang.hitch(this, function(currentGraphicsArray, index) {
       if (currentGraphicsArray.graphic.attributes[this.selectedLayer.objectIdField] === this._itemDetails.item.attributes[this.selectedLayer.objectIdField]) {
         this.layerGraphicsArray.splice(index, 1);
-                    //Since the feature is deleted, decrease feature layer count by 1
+                //Since the feature is deleted, decrease feature layer count by 1
         this.featureLayerCount -= 1;
         return true;
       }
     }));
-            //If all the features are deleted, create empty issue wall with appropriate message
+        //If all the features are deleted, create empty issue wall with appropriate message
     if (!this._isMyIssues && this.layerGraphicsArray.length === 0 && this._issueWallWidget) {
       this._createIssueWall(this._selectedMapDetails);
     }
@@ -512,7 +510,7 @@ export default declare(null, {
       this._sidebarCnt.showPanel('issueWall');
     }
     if (canDeleteFromMyIssue) {
-                //Remove graphics instance from my issues array list
+            //Remove graphics instance from my issues array list
       if (this._myIssuesWidget) {
         this._myIssuesWidget.updateMyIssuesList(this._itemDetails.item, this._selectedMapDetails);
       }
@@ -520,14 +518,14 @@ export default declare(null, {
     this.appUtils.hideLoadingIndicator();
   },
 
-        /**
-        * Handle scenario when there is no web maps
-        * @memberOf main
-        */
-  _handleNoWebMapToDisplay: function () {
+    /**
+     * Handle scenario when there is no web maps
+     * @memberOf main
+     */
+  _handleNoWebMapToDisplay: function() {
     let noMapMessage;
     try {
-                //Remove all menus except sign in/sign out
+            //Remove all menus except sign in/sign out
       this._menusList.homeMenu = false;
       this._menusList.mapView = false;
       this._menusList.reportIt = false;
@@ -547,20 +545,20 @@ export default declare(null, {
     }
   },
 
-        /**
-        * Load application theme
-        * @memberOf main
-        */
-  _loadApplicationTheme: function () {
+    /**
+     * Load application theme
+     * @memberOf main
+     */
+  _loadApplicationTheme: function() {
     let cssString, head, style, link;
-            //if theme is configured
+        //if theme is configured
     if (this.config.theme) {
-                //substitute theme color values in theme template
+            //substitute theme color values in theme template
       cssString = string.substitute(ThemeCss, {
         SelectedThemeColor: this.config.theme
       });
-                //Create Style using theme template and append it to head
-                //On Lower versions of IE10 Style tag is read only so create theme using styleSheet.cssText
+            //Create Style using theme template and append it to head
+            //On Lower versions of IE10 Style tag is read only so create theme using styleSheet.cssText
       if (dojo.isIE < 10) {
         head = document.getElementsByTagName('head')[0];
         style = document.createElement('style');
@@ -574,7 +572,7 @@ export default declare(null, {
         }, query('head')[0]);
       }
 
-                //If application is loaded in RTL mode, change styles of required nodes
+            //If application is loaded in RTL mode, change styles of required nodes
       if (this.config.i18n.direction === 'rtl') {
         link = document.createElement('link');
         link.rel = 'stylesheet';
@@ -585,34 +583,34 @@ export default declare(null, {
     }
   },
 
-        /**
-        * Instantiate app-header widget
-        * @memberOf main
-        */
-  _createApplicationHeader: function () {
+    /**
+     * Instantiate app-header widget
+     * @memberOf main
+     */
+  _createApplicationHeader: function() {
     this._menusList.portalObject = this.config.portalObject;
     this.appHeader = new ApplicationHeader({
       'config': this._menusList,
       'appConfig': this.config
     }, domConstruct.create('div', {}, dom.byId('headerContainer')));
 
-            //on my issue button clicked display my issues list
-    this.appHeader.showMyIssues = lang.hitch(this, function () {
+        //on my issue button clicked display my issues list
+    this.appHeader.showMyIssues = lang.hitch(this, function() {
 
-                // if map view is open in mobile view then hide it to show the my reports
+            // if map view is open in mobile view then hide it to show the my reports
       if (dom.byId('mapParentContainer') && domStyle.get(dom.byId('mapParentContainer'), 'display') === 'block') {
         domStyle.set(dom.byId('mapParentContainer'), 'display', 'none');
       }
 
-                //Close GeoForm If it is open
+            //Close GeoForm If it is open
       if (this.geoformInstance) {
         this.geoformInstance.closeForm();
       }
 
-                //set the flag which indicated that user is entering in myissues workflow
+            //set the flag which indicated that user is entering in myissues workflow
       this._isMyIssues = true;
 
-                //display my issue container if exists else create it
+            //display my issue container if exists else create it
       if (this._myIssuesWidget) {
         this._sidebarCnt.showPanel('myIssues');
       } else {
@@ -621,11 +619,11 @@ export default declare(null, {
       domClass.toggle(this.appHeader.esriCTLoginOptionsDiv, 'esriCTHidden');
     });
 
-            //on appicon clicked navigate to home(webmaplist) only in mobile view
-    this.appHeader.navigateToHome = lang.hitch(this, function () {
-                //Check if application is in mobile view then navigate user to home
+        //on appicon clicked navigate to home(webmaplist) only in mobile view
+    this.appHeader.navigateToHome = lang.hitch(this, function() {
+            //Check if application is in mobile view then navigate user to home
       if (dojowindow.getBox().w < 768) {
-                    //close geoform
+                //close geoform
         if (this.geoformInstance) {
           this.geoformInstance.closeForm();
         }
@@ -635,11 +633,11 @@ export default declare(null, {
     });
   },
 
-        /**
-        * instantiate My issue widget
-        * @memberOf main
-        */
-  _createMyIssuesList: function (data) {
+    /**
+     * instantiate My issue widget
+     * @memberOf main
+     */
+  _createMyIssuesList: function(data) {
     if (!this._myIssuesWidget) {
       data.appConfig = this.config;
       data.appUtils = this.appUtils;
@@ -648,12 +646,12 @@ export default declare(null, {
       this._sidebarCnt.addPanel('myIssues', this._myIssuesWidget);
       this._sidebarCnt.showPanel('myIssues');
 
-      this._myIssuesWidget.onListCancel = lang.hitch(this, function (selectedFeature) {
+      this._myIssuesWidget.onListCancel = lang.hitch(this, function( /*selectedFeature*/ ) {
         this._myIssuesWidget.itemsList.clearSelection();
         this._myIssuesWidget.itemsList.refreshList();
         this._isMyIssues = false;
         if (this._isWebmapListRequired) {
-                        //Clear map selection when navigating to web map list
+                    //Clear map selection when navigating to web map list
           if (this._selectedMapDetails.map.getLayer('selectionGraphicsLayer')) {
             this._selectedMapDetails.map.getLayer('selectionGraphicsLayer').clear();
           }
@@ -662,12 +660,12 @@ export default declare(null, {
           this._sidebarCnt.showPanel('issueWall');
         }
       });
-      this._myIssuesWidget.onItemSelected = lang.hitch(this, function (selectedFeature) {
+      this._myIssuesWidget.onItemSelected = lang.hitch(this, function(selectedFeature) {
         this.appUtils.showLoadingIndicator();
         this._isMyIssues = true;
         if (selectedFeature.webMapId !== this._selectedMapDetails.webMapId) {
-                        //create web-map if selected feature does not belongs to selected map
-          this._webMapListWidget._createMap(selectedFeature.webMapId, this._webMapListWidget.mapDivID).then(lang.hitch(this, function (response) {
+                    //create web-map if selected feature does not belongs to selected map
+          this._webMapListWidget._createMap(selectedFeature.webMapId, this._webMapListWidget.mapDivID).then(lang.hitch(this, function(response) {
             this._webMapListWidget.lastSelectedWebMapExtent = response.map.extent;
             this._webMapListWidget.lastSelectedWebMapItemInfo = response.itemInfo;
             data.itemInfo = response.itemInfo;
@@ -679,7 +677,7 @@ export default declare(null, {
         } else if (selectedFeature.layerId !== this._selectedMapDetails.operationalLayerDetails.id) {
           data.operationalLayerDetails = selectedFeature.layerDetails;
           data.operationalLayerId = selectedFeature.layerId;
-                        //add layer to map if feature does not belongs to selected layer of selected map
+                    //add layer to map if feature does not belongs to selected layer of selected map
           this._addFeatureLayerOnMap(data);
         } else {
           this.appUtils.hideLoadingIndicator();
@@ -689,31 +687,31 @@ export default declare(null, {
     }
   },
 
-        /**
-        * add layer to map when an issue is selected from my issues panel to locate on map
-        * @memberOf main
-        */
-  _addFeatureLayerOnMap: function (data) {
+    /**
+     * add layer to map when an issue is selected from my issues panel to locate on map
+     * @memberOf main
+     */
+  _addFeatureLayerOnMap: function(data) {
     let webmapTemplateNode;
     this._webMapListWidget._displaySelectedOperationalLayer(data);
-            //highlight selected webmap template item in webmap list
+        //highlight selected webmap template item in webmap list
     this._webMapListWidget._selectWebMapItem(data.webMapId);
     webmapTemplateNode = this._getSeletedWebmapTemplate(data.webMapId);
-            //set current graphics layer
+        //set current graphics layer
     this._myIssuesWidget.selectedGraphicsDisplayLayer = this.displaygraphicsLayer;
     if (webmapTemplateNode) {
-                //display layer list of selected map
+            //display layer list of selected map
       if (dom.byId(data.webMapId) && domStyle.get(dom.byId(data.webMapId), 'display') === 'none') {
         this._webMapListWidget._handleWebmapToggling(webmapTemplateNode, data.operationalLayerDetails);
       }
     }
   },
 
-        /**
-        * get all webmap template item
-        * @memberOf main
-        */
-  _getSeletedWebmapTemplate: function (webMapId) {
+    /**
+     * get all webmap template item
+     * @memberOf main
+     */
+  _getSeletedWebmapTemplate: function(webMapId) {
     let nodeWebmapId;
     let i;
     const webmapTempNodeArr = $('.esriCTDisplayWebMapTemplate');
@@ -726,14 +724,14 @@ export default declare(null, {
     return webmapTempNodeArr[i];
   },
 
-        /**
-        * Instantiate webmap-list widget and attach all the events
-        * @memberOf main
-        */
-  _createWebMapList: function () {
+    /**
+     * Instantiate webmap-list widget and attach all the events
+     * @memberOf main
+     */
+  _createWebMapList: function() {
     try {
       let webMapDescriptionFields, webMapListConfigData, zoomInBtn, zoomOutBtn, geolocationPoint;
-                //construct json data for the fields to be shown in descriptions, based on the configuration
+            //construct json data for the fields to be shown in descriptions, based on the configuration
       webMapDescriptionFields = {
         'description': this.config.webMapInfoDescription,
         'snippet': this.config.webMapInfoSnippet,
@@ -746,7 +744,7 @@ export default declare(null, {
         'numViews': this.config.webMapInfoNumViews,
         'avgRating': this.config.webMapInfoAvgRating
       };
-                //create data required for the web map list widget
+            //create data required for the web map list widget
       webMapListConfigData = {
         'webMapDescriptionFields': webMapDescriptionFields,
         'appConfig': this.config,
@@ -755,31 +753,31 @@ export default declare(null, {
         'autoResize': true,
         'appUtils': this.appUtils
       };
-                //create instance of web map list widget
+            //create instance of web map list widget
       this._webMapListWidget = new WebMapList(webMapListConfigData, domConstruct.create('div'));
 
-                //clear extent handler of current layer before removing it from map
-      this._webMapListWidget.beforeOperationalLayerSelected = lang.hitch(this, function () {
+            //clear extent handler of current layer before removing it from map
+      this._webMapListWidget.beforeOperationalLayerSelected = lang.hitch(this, function() {
         if (this._issueWallWidget && this._issueWallWidget.extentChangeHandler) {
           this._issueWallWidget.extentChangeHandler.remove();
         }
       });
 
-                //Hide webmap list if single webmap with single layer is obtained through query
-      this._webMapListWidget.singleWebmapFound = lang.hitch(this, function () {
+            //Hide webmap list if single webmap with single layer is obtained through query
+      this._webMapListWidget.singleWebmapFound = lang.hitch(this, function() {
         domStyle.set(dom.byId('toggleListViewButton'), 'display', 'none');
-                    //keep flag to indentify the status of webmap list
+                //keep flag to indentify the status of webmap list
         this._isWebmapListRequired = false;
         this._sidebarCnt.hidePanel('webMapList');
       });
 
-                //handel on map updated event
-      this._webMapListWidget.mapUpdated = lang.hitch(this, function (mapObject) {
+            //handel on map updated event
+      this._webMapListWidget.mapUpdated = lang.hitch(this, function(mapObject) {
         this._selectedMapDetails.map = mapObject;
       });
-      this._webMapListWidget.onMapLoaded = lang.hitch(this, function (webmap) {
+      this._webMapListWidget.onMapLoaded = lang.hitch(this, function(webmap) {
         this.response = webmap;
-                    // tooltip for zoom in and zoom out button
+                // tooltip for zoom in and zoom out button
         zoomInBtn = query('.esriSimpleSliderIncrementButton', dom.byId(webmap.id))[0];
         zoomOutBtn = query('.esriSimpleSliderDecrementButton', dom.byId(webmap.id))[0];
         if (zoomInBtn) {
@@ -789,28 +787,28 @@ export default declare(null, {
           domAttr.set(zoomOutBtn, 'title', this.config.i18n.map.zoomOutTooltip);
         }
       });
-      this._webMapListWidget.onSelectedWebMapClicked = lang.hitch(this, function () {
-                    //show listview(issueWAll) on selecting web-map
+      this._webMapListWidget.onSelectedWebMapClicked = lang.hitch(this, function() {
+                //show listview(issueWAll) on selecting web-map
         if (this._isWebMapListLoaded) {
           this._sidebarCnt.showPanel('issueWall');
         }
       });
-                //handle operational layer selected event in web map list
-                //Update _selectedMapDetails
-                //Close the geoform if it is open
-                //Create/Clear Selection graphics layer used for highlighting in issue wall
-                //Update Issue wall
-      this._webMapListWidget.onOperationalLayerSelected = lang.hitch(this, function (details) {
+            //handle operational layer selected event in web map list
+            //Update _selectedMapDetails
+            //Close the geoform if it is open
+            //Create/Clear Selection graphics layer used for highlighting in issue wall
+            //Update Issue wall
+      this._webMapListWidget.onOperationalLayerSelected = lang.hitch(this, function(details) {
         if (this.clonedGeolocation) {
           this.config.geolocation = this.clonedGeolocation;
         }
-                    //If geolocation and limit feature editing is enabled, check if user's location is inside study area
+                //If geolocation and limit feature editing is enabled, check if user's location is inside study area
         if (this.config.geolocation && this._webMapListWidget.geographicalExtentLayer) {
           geolocationPoint = new Point(this.config.geolocation.coords.longitude,
-                            this.config.geolocation.coords.latitude);
+                        this.config.geolocation.coords.latitude);
           const evt = {};
           evt.geometry = geolocationPoint;
-          this._canDrawFeature(evt).then(lang.hitch(this, function (canDraw) {
+          this._canDrawFeature(evt).then(lang.hitch(this, function(canDraw) {
             if (!canDraw) {
               this.config.geolocation = false;
             }
@@ -821,31 +819,31 @@ export default declare(null, {
         }
       });
 
-      this.appUtils.onGeolocationComplete = lang.hitch(this, function (evt, addGraphic) {
+      this.appUtils.onGeolocationComplete = lang.hitch(this, function(evt, addGraphic) {
         let symbol;
         const selectedGeometry = {};
         if (!this.geolocationgGraphicsLayer) {
           this.geolocationgGraphicsLayer = new GraphicsLayer();
           this.map.addLayer(this.geolocationgGraphicsLayer);
         }
-                    //Check if pusphin is aleady present on map, if it exsist clear the same
+                //Check if pusphin is aleady present on map, if it exsist clear the same
         if (this.mapSearch && this.mapSearch.countyLayer) {
           this.mapSearch.countyLayer.clear();
         }
-                    // if error found on locating point show error message, else check if located point falls within the basemap extent then locate feature on map else show error message
+                // if error found on locating point show error message, else check if located point falls within the basemap extent then locate feature on map else show error message
         if (evt.error) {
-                        // show error
+                    // show error
           this.appUtils.showError(this.config.i18n.geoform.geoLocationError);
         } else if (this.basemapExtent.contains(evt.graphic.geometry)) {
-                        // add graphics on map if geolocation is called from geoform widget
+                    // add graphics on map if geolocation is called from geoform widget
           if (addGraphic) {
             selectedGeometry.geometry = evt.graphic.geometry;
             if (this.selectedLayer.geometryType === 'esriGeometryPoint') {
-              this._canDrawFeature(evt.graphic).then(lang.hitch(this, function (canDraw) {
+              this._canDrawFeature(evt.graphic).then(lang.hitch(this, function(canDraw) {
                 this._addToGraphicsLayer(selectedGeometry);
                 this.geoformInstance._addToGraphicsLayer(selectedGeometry, true);
                 this.geoformInstance._zoomToSelectedFeature(selectedGeometry.geometry);
-                setTimeout(lang.hitch(this, function () {
+                setTimeout(lang.hitch(this, function() {
                   if (!canDraw) {
                     alert(this.config.i18n.main.featureOutsideAOIMessage);
                     this.geoformInstance._clearSubmissionGraphic();
@@ -857,22 +855,22 @@ export default declare(null, {
               this.geoformInstance._zoomToSelectedFeature(selectedGeometry.geometry);
             }
           } else {
-                            // zoom the map to configured zoom level
+                        // zoom the map to configured zoom level
             this._selectedMapDetails.map.setLevel(this.config.zoomLevel);
-                            // center the map at geolocation point
+                        // center the map at geolocation point
             this._selectedMapDetails.map.centerAt(evt.graphic.geometry);
             this.geolocationgGraphicsLayer.clear();
-                            // set the graphic symbol for selected point and highlight on map
-            symbol = new PictureMarkerSymbol(dojoConfig.baseURL + this.config.searchedAddressPushpinImage, 32, 32);
+                        // set the graphic symbol for selected point and highlight on map
+            symbol = new PictureMarkerSymbol(window.dojoConfig.baseURL + this.config.searchedAddressPushpinImage, 32, 32);
             this.geolocationgGraphicsLayer.add(new Graphic(evt.graphic.geometry, symbol));
           }
         } else {
-                        // show error
+                    // show error
           this.appUtils.showError(this.config.i18n.geoform.geoLocationOutOfExtent);
         }
       });
 
-      this._webMapListWidget.noMapsFound = lang.hitch(this, function () {
+      this._webMapListWidget.noMapsFound = lang.hitch(this, function() {
         this._handleNoWebMapToDisplay();
       });
 
@@ -884,12 +882,12 @@ export default declare(null, {
     }
   },
 
-        /**
-        * Perform all the required operations after layer is selected from webmap list
-        * @memberOf main
-        */
-  _initializeLayerDetails: function (details) {
-            //Reset all properties required for fetching features in chunks
+    /**
+     * Perform all the required operations after layer is selected from webmap list
+     * @memberOf main
+     */
+  _initializeLayerDetails: function(details) {
+        //Reset all properties required for fetching features in chunks
     this.firstTimeLayerLoad = true;
     this.bufferPageNumber = 0;
     this.bufferRadius = this.config.bufferRadius;
@@ -903,44 +901,44 @@ export default declare(null, {
     this.filteredBufferIds = [];
     this.maxBufferLimit = 0;
     this.map = details.map;
-            // Create instance of Draw tool to draw the graphics on graphics layer
+        // Create instance of Draw tool to draw the graphics on graphics layer
     this.toolbar = new Draw(this.map);
     this.newlyAddedFeatures = [];
     this._selectedMapDetails = details;
     this._initializeLayer(details);
     this._initializeApp(details);
-            //If graphics layer object exsist, clear it and remove the instance
+        //If graphics layer object exsist, clear it and remove the instance
     if (this.geolocationgGraphicsLayer) {
       this.geolocationgGraphicsLayer.clear();
       this.geolocationgGraphicsLayer = null;
     }
-            // storing changed instance on extent change
-    this.map.on('extent-change', lang.hitch(this, function (extent) {
+        // storing changed instance on extent change
+    this.map.on('extent-change', lang.hitch(this, function(extent) {
       this.changedExtent = extent.extent;
       if (this.geoformInstance) {
         this.geoformInstance.setMapExtent(this.changedExtent);
       }
     }));
 
-            // clear previous graphic, if present on map
-    this.map.on('click', lang.hitch(this, function (evt) {
+        // clear previous graphic, if present on map
+    this.map.on('click', lang.hitch(this, function(evt) {
       if (!this.firstMapClickPoint) {
         this.firstMapClickPoint = evt.mapPoint;
       }
       this._clearSubmissionGraphic();
     }));
-            //Set the selects features id value to null
+        //Set the selects features id value to null
     if (this._issueWallWidget) {
       this._issueWallWidget.itemsList.clearSelection();
     }
   },
 
-        /**
-        * Instantiate issue-wall widget
-        * @memberOf main
-        */
-  _createIssueWall: function (data) {
-            //Create IssueWall widget if not present
+    /**
+     * Instantiate issue-wall widget
+     * @memberOf main
+     */
+  _createIssueWall: function(data) {
+        //Create IssueWall widget if not present
     if (!this._issueWallWidget) {
       data.appConfig = this.config;
       data.appUtils = this.appUtils;
@@ -951,34 +949,34 @@ export default declare(null, {
         data.geoLocationPoint = this.geoLocationPoint;
       }
       this._issueWallWidget = new IssueWall(data, domConstruct.create('div', {}, dom.byId('sidebarContent')));
-      this._issueWallWidget.onItemSelected = lang.hitch(this, function (selectedFeature) {
+      this._issueWallWidget.onItemSelected = lang.hitch(this, function(selectedFeature) {
         this._itemSelected(selectedFeature, false);
       });
-      this._issueWallWidget.onListCancel = lang.hitch(this, function (selectedFeature) {
-                    //Clear map selection when navigating to web map list
+      this._issueWallWidget.onListCancel = lang.hitch(this, function(selectedFeature) {
+                //Clear map selection when navigating to web map list
         if (this._selectedMapDetails.map.getLayer('selectionGraphicsLayer')) {
           this._selectedMapDetails.map.getLayer('selectionGraphicsLayer').clear();
         }
         this._sidebarCnt.showPanel('webMapList');
       });
-      this._issueWallWidget.onMapButtonClick = lang.hitch(this, function (evt) {
+      this._issueWallWidget.onMapButtonClick = lang.hitch(this, function(evt) {
         this._toggleMapView();
       });
-      this._issueWallWidget.onSubmit = lang.hitch(this, function (evt) {
+      this._issueWallWidget.onSubmit = lang.hitch(this, function(evt) {
         if (!this.map.getLayer('featureLayerGraphics')) {
           this.featureGraphicLayer = new GraphicsLayer({ 'id': 'featureLayerGraphics' });
           this.map.addLayer(this.featureGraphicLayer);
         }
-                    // activate draw tool
+                // activate draw tool
         this._activateDrawTool();
-                    //Check for toolbar handler
+                //Check for toolbar handler
         if (this.drawToolBarHandler) {
           this.drawToolBarHandler.remove();
         }
-                    // Handle draw_activateDrawTool-end event which will be fired on selecting location
-        this.drawToolBarHandler = on(this.toolbar, 'draw-complete', lang.hitch(this, function (evt) {
+                // Handle draw_activateDrawTool-end event which will be fired on selecting location
+        this.drawToolBarHandler = on(this.toolbar, 'draw-complete', lang.hitch(this, function(evt) {
           this._addToGraphicsLayer(evt);
-          this._canDrawFeature(evt).then(lang.hitch(this, function (canDraw) {
+          this._canDrawFeature(evt).then(lang.hitch(this, function(canDraw) {
             if (!canDraw) {
               alert(this.config.i18n.main.featureOutsideAOIMessage);
               if (this.geoformInstance) {
@@ -997,7 +995,7 @@ export default declare(null, {
                 this.appUtils.locatorInstance.locationToAddress(webMercatorUtils.webMercatorToGeographic(this.firstMapClickPoint), 100);
               }
 
-                                //Check if pusphin is aleady present on map, if it exsist clear the same
+                            //Check if pusphin is aleady present on map, if it exsist clear the same
               if (this.mapSearch && this.mapSearch.countyLayer) {
                 this.mapSearch.countyLayer.clear();
               }
@@ -1007,7 +1005,7 @@ export default declare(null, {
         }));
         this._createGeoForm();
       });
-      this._issueWallWidget.onLoadMoreClick = lang.hitch(this, function (evt) {
+      this._issueWallWidget.onLoadMoreClick = lang.hitch(this, function(evt) {
         this.appUtils.showLoadingIndicator();
         this.bufferPageNumber++;
         if (this.config.geolocation) {
@@ -1015,37 +1013,37 @@ export default declare(null, {
             this.bufferRadius += this.bufferRadiusInterval;
             this._createBufferParameters(this._issueWallWidget.selectedLayer, this._selectedMapDetails, true);
           } else {
-                            //If buffer has more features than maxRecordCount, then get more features without incrementing buffer
+                        //If buffer has more features than maxRecordCount, then get more features without incrementing buffer
             this._selectFeaturesInBuffer(this._issueWallWidget.selectedLayer, this._selectedMapDetails);
           }
         } else {
           let j, index;
-                        //Filter the features which are already added to layer via search or my issues
+                    //Filter the features which are already added to layer via search or my issues
           for (j = this.newlyAddedFeatures.length; j >= 0; j--) {
             if (this.sortedBufferArray[this.bufferPageNumber].indexOf(this.newlyAddedFeatures[j]) !== -1) {
               index = this.sortedBufferArray[this.bufferPageNumber].indexOf(this.newlyAddedFeatures[j]);
               this.sortedBufferArray[this.bufferPageNumber].splice(index, 1);
             }
           }
-                        //If browser doesnt support geolocation, then directly fetch next batch of features
+                    //If browser doesnt support geolocation, then directly fetch next batch of features
           this._selectFeaturesInBuffer(this._issueWallWidget.selectedLayer, this._selectedMapDetails);
         }
       });
-      this._itemDetails.onFeatureUpdated = lang.hitch(this, function (feature) {
+      this._itemDetails.onFeatureUpdated = lang.hitch(this, function(feature) {
         if (this._myIssuesWidget) {
           this._myIssuesWidget.updateIssueList(this._selectedMapDetails, feature);
         }
         if (this._issueWallWidget) {
-          setTimeout(lang.hitch(this, function () {
+          setTimeout(lang.hitch(this, function() {
             this._issueWallWidget.selectedLayer.refresh();
             this._issueWallWidget.selectedLayer.redraw();
           }), 500);
         }
       });
 
-      this._issueWallWidget.featureSelectedOnMapClick = lang.hitch(this, function (selectedFeature) {
-                    //user can select feature from map once he enters to map from issueDetails of my-issue
-                    //so set the myissue flag to false it indicates that user is going to start new workflow
+      this._issueWallWidget.featureSelectedOnMapClick = lang.hitch(this, function(selectedFeature) {
+                //user can select feature from map once he enters to map from issueDetails of my-issue
+                //so set the myissue flag to false it indicates that user is going to start new workflow
         this._isMyIssues = false;
         if (!selectedFeature.webMapId) {
           selectedFeature.webMapId = this._selectedMapDetails.webMapId;
@@ -1056,7 +1054,7 @@ export default declare(null, {
         this._itemSelected(selectedFeature, true);
       });
       this._sidebarCnt.addPanel('issueWall', this._issueWallWidget);
-                //If single webmap with single layer is found, directly show issue list
+            //If single webmap with single layer is found, directly show issue list
       if (this._isWebMapListLoaded && !this._isWebmapListRequired) {
         this._sidebarCnt.showPanel('issueWall');
       }
@@ -1064,54 +1062,54 @@ export default declare(null, {
       data.featureLayerCount = this.featureLayerCount;
       data.layerGraphicsArray = this.layerGraphicsArray;
       this._issueWallWidget.initIssueWall(data);
-                //Show issuewall in pannel if my issues are not open
-                //else set the selected item from myissues
+            //Show issuewall in pannel if my issues are not open
+            //else set the selected item from myissues
       if (!this._isMyIssues) {
         this._sidebarCnt.showPanel('issueWall');
       } else if (this._myIssuesWidget && this._myIssuesWidget.selectedFeature) {
-        setTimeout(lang.hitch(this, function () {
+        setTimeout(lang.hitch(this, function() {
           this._itemSelected(this._myIssuesWidget.selectedFeature, false);
         }), 500);
 
       }
     }
 
-            //In mobile view when user selects locate in issue wall user should be navigated to map view.
-            //so handle showMapViewOnLocate and check if user is in mobile view and then show map view.
-    this._issueWallWidget.showMapViewOnLocate = lang.hitch(this, function () {
+        //In mobile view when user selects locate in issue wall user should be navigated to map view.
+        //so handle showMapViewOnLocate and check if user is in mobile view and then show map view.
+    this._issueWallWidget.showMapViewOnLocate = lang.hitch(this, function() {
       if (dojowindow.getBox().w < 768) {
         this.appHeader.mobileMenu.showMapView();
       }
     });
   },
 
-        /**
-        * Decide wehter to draw the feature or not based on geographical extent
-        * @param{string} evt : graphics object from draw toolbar
-        * @memberOf main
-        */
-  _canDrawFeature: function (evt) {
+    /**
+     * Decide wehter to draw the feature or not based on geographical extent
+     * @param{string} evt : graphics object from draw toolbar
+     * @memberOf main
+     */
+  _canDrawFeature: function(evt) {
     const def = new Deferred();
     let query;
     let queryTask;
     if (!evt || !evt.geometry || !this._webMapListWidget ||
-                    !this._webMapListWidget.geographicalExtentLayer) {
-                //If valid extent layer is not configured allow user to add feature without any restrictions
+            !this._webMapListWidget.geographicalExtentLayer) {
+            //If valid extent layer is not configured allow user to add feature without any restrictions
       def.resolve(true);
     } else {
       this.appUtils.showLoadingIndicator();
       query = new Query();
       queryTask = new QueryTask(this._webMapListWidget.geographicalExtentLayer);
       query.geometry = evt.geometry;
-      queryTask.executeForCount(query, lang.hitch(this, function (count) {
-                    //If count is less than or equals to 0. it means drawn feature is not overlapping the extent layer and hence show the error message
+      queryTask.executeForCount(query, lang.hitch(this, function(count) {
+                //If count is less than or equals to 0. it means drawn feature is not overlapping the extent layer and hence show the error message
         if (!count || count <= 0) {
           def.resolve(false);
         } else {
           def.resolve(true);
         }
         this.appUtils.hideLoadingIndicator();
-      }), lang.hitch(this, function () {
+      }), lang.hitch(this, function() {
         def.resolve(false);
         this.appUtils.hideLoadingIndicator();
       }));
@@ -1119,17 +1117,17 @@ export default declare(null, {
     return def.promise;
   },
 
-        /**
-        * Instantiate geo-form widget
-        * @memberOf main
-        */
-  _createGeoForm: function () {
-            //if geo-from is not visible then
+    /**
+     * Instantiate geo-form widget
+     * @memberOf main
+     */
+  _createGeoForm: function() {
+        //if geo-from is not visible then
     if (domClass.contains(dom.byId('geoformContainer'), 'esriCTHidden')) {
       if (this._selectedMapDetails && this._selectedMapDetails.operationalLayerId) {
-                    //Show Geoform
+                //Show Geoform
         domClass.replace(dom.byId('geoformContainer'), 'esriCTVisible', 'esriCTHidden');
-                    //if last shown geoform is for same the layer then don't do anything.
+                //if last shown geoform is for same the layer then don't do anything.
         if (this.geoformInstance && this._selectedMapDetails.operationalLayerId === this.geoformInstance.layerId) {
           if (this.changedExtent) {
             this.geoformInstance.map.setExtent(this.changedExtent);
@@ -1138,9 +1136,9 @@ export default declare(null, {
           this.geoformInstance._activateDrawTool();
           return;
         }
-                    //if last geoform instance exist then destroy it.
+                //if last geoform instance exist then destroy it.
         this._destroyGeoForm();
-                    //Create new instance of geoForm
+                //Create new instance of geoForm
         this.geoformInstance = new GeoForm({
           config: this.config,
           webMapID: this._webMapListWidget.lastWebMapSelected,
@@ -1153,39 +1151,39 @@ export default declare(null, {
           isMapRequired: true
 
         }, domConstruct.create('div', {}, dom.byId('geoformContainer')));
-                    //on submitting issues in geoform update issue wall and main map to show newly updated issue.
-        this.geoformInstance.geoformSubmitted = lang.hitch(this, function (objectId) {
+                //on submitting issues in geoform update issue wall and main map to show newly updated issue.
+        this.geoformInstance.geoformSubmitted = lang.hitch(this, function(objectId) {
           try {
-                            //refresh main map so that newly created issue will be shown on it.
+                        //refresh main map so that newly created issue will be shown on it.
             const layer = this._selectedMapDetails.map.getLayer(this._selectedMapDetails.operationalLayerId);
             layer.refresh();
             if (this.config.showNonEditableLayers) {
-                                //Refresh label layers to fetch label of updated feature
+                            //Refresh label layers to fetch label of updated feature
               this.appUtils.refreshLabelLayers(this._selectedMapDetails.itemInfo.itemData.operationalLayers);
             }
-            this._addNewFeature(objectId, this.selectedLayer, 'geoform').then(lang.hitch(this, function () {
-                                //update my issue list when new issue is added
+            this._addNewFeature(objectId, this.selectedLayer, 'geoform').then(lang.hitch(this, function() {
+                            //update my issue list when new issue is added
               if (this._myIssuesWidget) {
                 this._myIssuesWidget.updateIssueList(this._selectedMapDetails, null, true);
               }
             }));
-                            //clear graphics drawn on layer after feature has been submmited
+                        //clear graphics drawn on layer after feature has been submmited
             this.featureGraphicLayer.clear();
           } catch (ex) {
             this.appUtils.showError(ex.message);
           }
         });
-                    //deactivate the draw tool on main map after closing geoform
-        this.geoformInstance.onFormClose = lang.hitch(this, function () {
+                //deactivate the draw tool on main map after closing geoform
+        this.geoformInstance.onFormClose = lang.hitch(this, function() {
           this.toolbar.deactivate();
           if (this.featureGraphicLayer) {
             this.featureGraphicLayer.clear();
           }
         });
 
-                    //clear any graphics present on main map after graphic has been drawn on geoform map
-        this.geoformInstance.onDrawComplete = lang.hitch(this, function (evt) {
-          this._canDrawFeature(evt).then(lang.hitch(this, function (canDraw) {
+                //clear any graphics present on main map after graphic has been drawn on geoform map
+        this.geoformInstance.onDrawComplete = lang.hitch(this, function(evt) {
+          this._canDrawFeature(evt).then(lang.hitch(this, function(canDraw) {
             if (!canDraw) {
               alert(this.config.i18n.main.featureOutsideAOIMessage);
               this.geoformInstance._clearSubmissionGraphic();
@@ -1202,14 +1200,14 @@ export default declare(null, {
     }
   },
 
-        /**
-        * Add new feature to graphics layer
-        * @param{string} objectId
-        * @param{object} new feature
-        * @param{object} operational layer
-        * @memberOf main
-        */
-  _addNewFeature: function (objectId, layer, addedFrom) {
+    /**
+     * Add new feature to graphics layer
+     * @param{string} objectId
+     * @param{object} new feature
+     * @param{object} operational layer
+     * @memberOf main
+     */
+  _addNewFeature: function(objectId, layer, addedFrom) {
     let queryTask;
     let queryParams;
     const featureDef = new Deferred();
@@ -1224,43 +1222,43 @@ export default declare(null, {
       queryParams.where += ` AND ${this._existingDefinitionExpression}`;
     }
     queryTask = new QueryTask(layer.url);
-    queryTask.execute(queryParams, lang.hitch(this, function (result) {
+    queryTask.execute(queryParams, lang.hitch(this, function(result) {
       this._createFeature(result.features[0], layer, addedFrom);
       featureDef.resolve();
     }), error => {
       featureDef.reject();
-      console.log(`Error :${error}`);
+      console.error(`Error :${error}`);
     });
     return featureDef.promise;
   },
 
-        /**
-        * Create feature
-        * @param{object} new feature
-        * @memberOf main
-        */
-  _createFeature: function (newFeature, layer, addedFrom) {
+    /**
+     * Create feature
+     * @param{object} new feature
+     * @memberOf main
+     */
+  _createFeature: function(newFeature, layer, addedFrom) {
     let newGraphic, featureExsist = false;
     if (!newFeature) {
       return;
     }
     newFeature._layer = layer;
-            //Add infotemplate to newly created feature
+        //Add infotemplate to newly created feature
     newFeature.setInfoTemplate(layer.infoTemplate);
     newGraphic = this._createFeatureAttributes(newFeature, layer);
-            //check if newfeature is already present in graphics layer and set featureExsist flag to true
+        //check if newfeature is already present in graphics layer and set featureExsist flag to true
     array.some(this.displaygraphicsLayer.graphics, lang.hitch(this, currentFeature => {
       if (currentFeature.attributes[layer.objectIdField] === newGraphic.graphic.attributes[layer.objectIdField]) {
         featureExsist = true;
         return true;
       }
     }));
-            //If feature is found through search widget, we need to set my issues flag to false if it is true
+        //If feature is found through search widget, we need to set my issues flag to false if it is true
     if (addedFrom === 'search') {
       this._isMyIssues = false;
     }
     if (!featureExsist) {
-                //If feature is added through geoform which is outside the buffer, append it to layer graphics array
+            //If feature is added through geoform which is outside the buffer, append it to layer graphics array
       this.newlyAddedFeatures.push(newFeature.attributes[layer.objectIdField]);
       this.layerGraphicsArray.push(this._createFeatureAttributes(newFeature, layer));
       this.layerGraphicsArray.sort(this._sortFeatureArray);
@@ -1268,20 +1266,20 @@ export default declare(null, {
         this.layerGraphicsArray.reverse();
       }
       this.displaygraphicsLayer.add(newGraphic.graphic);
-                //create or update issue-list
+            //create or update issue-list
       if (addedFrom === 'geoform') {
-                    //Increment layer count by 1 since we have successfully added a graphic
+                //Increment layer count by 1 since we have successfully added a graphic
         this.featureLayerCount++;
       }
       this._createIssueWall(this._selectedMapDetails);
     }
-            //If feature is found through search widget then we need to display item details for the selected feature
+        //If feature is found through search widget then we need to display item details for the selected feature
     if (addedFrom === 'search') {
       this._itemSelected(newGraphic.graphic, true);
       this._isMyIssues = false;
     }
 
-            //Since we added one feature now, we need to clear the no features found message
+        //Since we added one feature now, we need to clear the no features found message
     if (this.displaygraphicsLayer.graphics && this.displaygraphicsLayer.graphics.length > 0) {
       if (!domClass.contains(this._issueWallWidget.noIssuesMessage, 'esriCTHidden')) {
         domClass.add(this._issueWallWidget.noIssuesMessage, 'esriCTHidden');
@@ -1289,17 +1287,17 @@ export default declare(null, {
     }
   },
 
-        /**
-        * Create feature object
-        * @param{object} New feature
-        * @param{object} Distance of feature from current location
-        * @param{object} Selected operational layer
-        * @memberOf main
-        */
-  _createFeatureAttributes: function (newFeature, layer) {
+    /**
+     * Create feature object
+     * @param{object} New feature
+     * @param{object} Distance of feature from current location
+     * @param{object} Selected operational layer
+     * @memberOf main
+     */
+  _createFeatureAttributes: function(newFeature, layer) {
     let newGraphic1, fieldValue;
     newGraphic1 = new Graphic();
-            //Kepping instance of original feature for further use
+        //Kepping instance of original feature for further use
     newGraphic1.originalFeature = newFeature;
     newGraphic1.attributes = newFeature.attributes;
     newGraphic1.geometry = newFeature.geometry;
@@ -1316,30 +1314,30 @@ export default declare(null, {
     };
   },
 
-        /**
-        * Destroy geo-form widget
-        * @memberOf main
-        */
-  _destroyGeoForm: function () {
-            //if last geoform instance exist then destroy it.
+    /**
+     * Destroy geo-form widget
+     * @memberOf main
+     */
+  _destroyGeoForm: function() {
+        //if last geoform instance exist then destroy it.
     if (this.geoformInstance) {
       this.geoformInstance.destroyInstance();
       domConstruct.empty(dom.byId('geoformContainer'));
       this.geoformInstance = null;
     }
     if (this.geoformEditInstance) {
-                //destroy edit geoform
+            //destroy edit geoform
       this.geoformEditInstance.destroyInstance();
       this.geoformEditInstance = null;
     }
   },
 
-        /**
-        * Close the Comments pannel if it is open and clear the comment text box
-        * @memberOf main
-        */
-  _closeComments: function () {
-            //Close the Comments container if it is open
+    /**
+     * Close the Comments pannel if it is open and clear the comment text box
+     * @memberOf main
+     */
+  _closeComments: function() {
+        //Close the Comments container if it is open
     if (query('.esriCTCommentsPanel')[0]) {
       if (domStyle.get(query('.esriCTCommentsPanel')[0], 'display') === 'block') {
         domClass.replace(query('.esriCTCommentsPanel')[0], 'esriCTHidden', 'esriCTVisible');
@@ -1347,15 +1345,15 @@ export default declare(null, {
     }
   },
 
-        /**
-        * Resize map and sets center of the map
-        * @memberOf main
-        */
-  _resizeMap: function () {
+    /**
+     * Resize map and sets center of the map
+     * @memberOf main
+     */
+  _resizeMap: function() {
     try {
-                //Map widget will not work properly if map is resized when the container holding map is having display none
-                //so check if map instance is present and map container's display is block
-                //get the current center of the map, and set the mapdiv's height width to 100% so that it display's completely in its container.
+            //Map widget will not work properly if map is resized when the container holding map is having display none
+            //so check if map instance is present and map container's display is block
+            //get the current center of the map, and set the mapdiv's height width to 100% so that it display's completely in its container.
       if (this._selectedMapDetails.map && domStyle.get(dom.byId('mapParentContainer'), 'display') === 'block') {
         domStyle.set(dom.byId('mapDiv'), 'height', '100%');
         domStyle.set(dom.byId('mapDiv'), 'width', '100%');
@@ -1365,15 +1363,15 @@ export default declare(null, {
     }
   },
 
-  _itemSelected: function (item, isMapClicked) {
+  _itemSelected: function(item, isMapClicked) {
     let operationalLayer;
-            //Highlight Feature on map
+        //Highlight Feature on map
     operationalLayer = this.map.getLayer(this._selectedMapDetails.operationalLayerId);
     if (operationalLayer && operationalLayer.objectIdField && this._selectedMapDetails.map) {
       this.highLightFeatureOnClick(operationalLayer, item.attributes[operationalLayer.objectIdField], this._selectedMapDetails.map.getLayer('selectionGraphicsLayer'), this._selectedMapDetails.map);
     }
-            //set selection in item-list to maintain the highlight in list
-            //added layer ID to selected item's object id to avoid duplicate value of object id across multiple layer
+        //set selection in item-list to maintain the highlight in list
+        //added layer ID to selected item's object id to avoid duplicate value of object id across multiple layer
     if (this._isMyIssues) {
       this._createFeature(item, operationalLayer, 'myissues');
       this._myIssuesWidget.itemsList.setSelection(`${item.attributes[operationalLayer.objectIdField]}_${item.webMapId}_${operationalLayer.id}`);
@@ -1383,7 +1381,7 @@ export default declare(null, {
       }
       this._issueWallWidget.itemsList.setSelection(`${item.attributes[operationalLayer.objectIdField]}_${this._selectedMapDetails.webMapId}_${operationalLayer.id}`);
     }
-            //Change the map extent and set it to features extent
+        //Change the map extent and set it to features extent
     this._gotoSelectedFeature(item);
     this._itemDetails.clearComments();
     if (this._isMyIssues) {
@@ -1399,9 +1397,9 @@ export default declare(null, {
     this._itemDetails.setItemFields(this.config.likeField, this._issueWallWidget.selectedLayer);
     this._itemDetails.setItem(item, this._selectedMapDetails.operationalLayerDetails);
     this._sidebarCnt.showPanel('itemDetails');
-            //if item is selected from map and user is in mobile view navigate screen to details view
+        //if item is selected from map and user is in mobile view navigate screen to details view
     if (isMapClicked) {
-                //Close geoform in desktop view if featuer is clicked to show the details panel
+            //Close geoform in desktop view if featuer is clicked to show the details panel
       if (this.geoformInstance) {
         this.geoformInstance.closeForm();
       }
@@ -1411,32 +1409,32 @@ export default declare(null, {
     }
   },
 
-  _toggleListView: function () {
+  _toggleListView: function() {
     dom.byId('sideContainer').style.display = 'block';
     dom.byId('mapParentContainer').style.display = 'none';
   },
 
-  _toggleMapView: function () {
+  _toggleMapView: function() {
     dom.byId('sideContainer').style.display = 'none';
     dom.byId('mapParentContainer').style.display = 'block';
     this._resizeMap();
   },
 
-        /**
-        * Highlight feature on map
-        * @param{object} layer
-        * @param{string} objectId
-        * @param{object} selectedGraphicsLayer
-        * @param{object} map
-        */
-  highLightFeatureOnClick: function (layer, objectId, selectedGraphicsLayer, map) {
+    /**
+     * Highlight feature on map
+     * @param{object} layer
+     * @param{string} objectId
+     * @param{object} selectedGraphicsLayer
+     * @param{object} map
+     */
+  highLightFeatureOnClick: function(layer, objectId, selectedGraphicsLayer, map) {
     let queryTask;
     let esriQuery;
     let highlightSymbol;
     const currentDateTime = new Date().getTime();
     this.mapInstance = map;
     if (selectedGraphicsLayer) {
-                // clear graphics layer
+            // clear graphics layer
       selectedGraphicsLayer.clear();
     }
     esriQuery = new Query();
@@ -1448,11 +1446,11 @@ export default declare(null, {
       esriQuery.where += ` AND ${this._existingDefinitionExpression}`;
     }
     queryTask = new QueryTask(layer.url);
-    queryTask.execute(esriQuery, lang.hitch(this, function (featureSet) {
-                // Check if feature is valid and have valid geometry, if not prompt with no geometry message
+    queryTask.execute(esriQuery, lang.hitch(this, function(featureSet) {
+            // Check if feature is valid and have valid geometry, if not prompt with no geometry message
       if (featureSet && featureSet.features && featureSet.features.length > 0 && featureSet.features[0] && featureSet.features[0].geometry) {
         highlightSymbol = this.getHighLightSymbol(featureSet.features[0], layer);
-                    //add symbol to graphics layer if highlight symbol is created
+                //add symbol to graphics layer if highlight symbol is created
         if (highlightSymbol) {
           selectedGraphicsLayer.add(highlightSymbol);
         }
@@ -1462,15 +1460,15 @@ export default declare(null, {
     }));
   },
 
-        /**
-        * Get symbol used for highlighting feature
-        * @param{object} selected feature which needs to be highlighted
-        * @param{object} details of selected layer
-        */
-  getHighLightSymbol: function (graphic, layer) {
-            // If feature geometry is of type point, add a crosshair symbol
-            // If feature geometry is of type polyline, highlight the line
-            // If feature geometry is of type polygon, highlight the boundary of the polygon
+    /**
+     * Get symbol used for highlighting feature
+     * @param{object} selected feature which needs to be highlighted
+     * @param{object} details of selected layer
+     */
+  getHighLightSymbol: function(graphic, layer) {
+        // If feature geometry is of type point, add a crosshair symbol
+        // If feature geometry is of type polyline, highlight the line
+        // If feature geometry is of type polygon, highlight the boundary of the polygon
     switch (graphic.geometry.type) {
     case 'point':
       return this._getPointSymbol(graphic, layer);
@@ -1481,18 +1479,18 @@ export default declare(null, {
     }
   },
 
-        /**
-        * This function is used to get symbol for point geometry
-        * @param{object} selected feature which needs to be highlighted
-        * @param{object} details of selected layer
-        */
-  _getPointSymbol: function (graphic, layer) {
+    /**
+     * This function is used to get symbol for point geometry
+     * @param{object} selected feature which needs to be highlighted
+     * @param{object} details of selected layer
+     */
+  _getPointSymbol: function(graphic, layer) {
     let symbol, isSymbolFound, graphics, point, graphicInfoValue, layerInfoValue, i, itemFromLayer, symbolShape;
     isSymbolFound = false;
     symbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_SQUARE, null, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 255, 1]), 3));
     symbol.setColor(null);
     symbol.size = 30; //set default Symbol size which will be used in case symbol not found.
-            //check if layer is valid and have valid renderer object then only check for other symbol properties
+        //check if layer is valid and have valid renderer object then only check for other symbol properties
     if (layer && layer.renderer) {
       if (layer.renderer.symbol) {
         isSymbolFound = true;
@@ -1505,7 +1503,7 @@ export default declare(null, {
             graphicInfoValue = graphic.attributes[layer.renderer.attributeField];
           }
           layerInfoValue = layer.renderer.infos[i].value;
-                        // To get properties of symbol when infos contains other than class break renderer.
+                    // To get properties of symbol when infos contains other than class break renderer.
           if (graphicInfoValue !== undefined && graphicInfoValue !== null && graphicInfoValue !== '' && layerInfoValue !== undefined && layerInfoValue !== null && layerInfoValue !== '') {
             if (graphicInfoValue.toString() === layerInfoValue.toString()) {
               isSymbolFound = true;
@@ -1537,7 +1535,7 @@ export default declare(null, {
             symbol.size = (symbolShape.shape.r * 2) + 10;
           } else if (symbolShape.shape.hasOwnProperty('width')) {
             isSymbolFound = true;
-                            //get offsets in case of smartmapping symbols from the renderer info if available
+                        //get offsets in case of smartmapping symbols from the renderer info if available
             if (layer.renderer && layer.renderer.infos && layer.renderer.infos.length > 0) {
               symbol = this._updatePointSymbolProperties(symbol, layer.renderer.infos[0].symbol);
             }
@@ -1553,17 +1551,17 @@ export default declare(null, {
     return graphics;
   },
 
-        /**
-        * This function is used to get different data of symbol from infos properties of renderer object.
-        * @param{object} symbol that needs to be assigned to selected/activated feature
-        * @param{object} renderer layer Symbol
-        */
-  _updatePointSymbolProperties: function (symbol, layerSymbol) {
+    /**
+     * This function is used to get different data of symbol from infos properties of renderer object.
+     * @param{object} symbol that needs to be assigned to selected/activated feature
+     * @param{object} renderer layer Symbol
+     */
+  _updatePointSymbolProperties: function(symbol, layerSymbol) {
     let height, width, size;
     if (layerSymbol.hasOwnProperty('height') && layerSymbol.hasOwnProperty('width')) {
       height = layerSymbol.height;
       width = layerSymbol.width;
-                // To display cross hair properly around feature its size needs to be calculated
+            // To display cross hair properly around feature its size needs to be calculated
       size = (height > width) ? height : width;
       size = size + 10;
       symbol.size = size;
@@ -1582,15 +1580,15 @@ export default declare(null, {
     return symbol;
   },
 
-        /**
-        * This function is used to get symbol for polyline geometry
-        * @param{object} selected feature which needs to be highlighted
-        * @param{object} details of selected layer
-        */
-  _getPolyLineSymbol: function (graphic, layer) {
+    /**
+     * This function is used to get symbol for polyline geometry
+     * @param{object} selected feature which needs to be highlighted
+     * @param{object} details of selected layer
+     */
+  _getPolyLineSymbol: function(graphic, layer) {
     let symbol, graphics, polyline, symbolWidth, graphicInfoValue, layerInfoValue, i;
     symbolWidth = 5; // default line width
-            //check if layer is valid and have valid renderer object then only check for other  symbol properties
+        //check if layer is valid and have valid renderer object then only check for other  symbol properties
     if (layer && layer.renderer) {
       if (layer.renderer.symbol && layer.renderer.symbol.hasOwnProperty('width')) {
         symbolWidth = layer.renderer.symbol.width;
@@ -1602,7 +1600,7 @@ export default declare(null, {
             graphicInfoValue = graphic.attributes[layer.renderer.attributeField];
           }
           layerInfoValue = layer.renderer.infos[i].value;
-                        // To get properties of symbol when infos contains other than class break renderer.
+                    // To get properties of symbol when infos contains other than class break renderer.
           if (graphicInfoValue !== undefined && graphicInfoValue !== null && graphicInfoValue !== '' && layerInfoValue !== undefined && layerInfoValue !== null && layerInfoValue !== '') {
             if (graphicInfoValue.toString() === layerInfoValue.toString() && layer.renderer.infos[i].symbol.hasOwnProperty('width')) {
               symbolWidth = layer.renderer.infos[i].symbol.width;
@@ -1624,12 +1622,12 @@ export default declare(null, {
     return graphics;
   },
 
-        /**
-        * This function is used to get symbol for polygon geometry
-        * @param{object} selected feature which needs to be highlighted
-        * @param{object} details of selected layer
-        */
-  _getPolygonSymbol: function (graphic, layer) {
+    /**
+     * This function is used to get symbol for polygon geometry
+     * @param{object} selected feature which needs to be highlighted
+     * @param{object} details of selected layer
+     */
+  _getPolygonSymbol: function(graphic /*,layer*/ ) {
     let symbol, graphics, polygon;
     symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 255, 1]), 4), new Color([0, 0, 0, 0]));
     polygon = new Polygon(new SpatialReference({
@@ -1642,12 +1640,12 @@ export default declare(null, {
     return graphics;
   },
 
-        /**
-        * Show the feature on the center of map in case of "My Reports"
-        * @item{object} selected feature
-        * @memberOf main
-        */
-  _gotoSelectedFeature: function (item) {
+    /**
+     * Show the feature on the center of map in case of "My Reports"
+     * @item{object} selected feature
+     * @memberOf main
+     */
+  _gotoSelectedFeature: function(item) {
     if (item.geometry.type === 'point') {
       this._selectedMapDetails.map.centerAt(item.geometry);
     } else {
@@ -1655,12 +1653,12 @@ export default declare(null, {
     }
   },
 
-        /* Invoked when touch occurs on respective title
-        * @memberOf widgets/item-details-controller/item-details-controller
-        */
-  _createTooltip: function (node, title) {
+    /* Invoked when touch occurs on respective title
+     * @memberOf widgets/item-details-controller/item-details-controller
+     */
+  _createTooltip: function(node, title) {
     domAttr.set(node, 'data-original-title', title);
-            //Remove previous handle
+        //Remove previous handle
     if (this.tooltipHandler) {
       this.tooltipHandler.remove();
       if ($(node)) {
@@ -1680,28 +1678,28 @@ export default declare(null, {
     }));
   },
 
-        /**
-        * Active draw tool
-        * @memberOf widgets/geo-form/geo-form
-        */
-  _activateDrawTool: function () {
+    /**
+     * Active draw tool
+     * @memberOf widgets/geo-form/geo-form
+     */
+  _activateDrawTool: function() {
     let tool, type;
-            // Select layer type
+        // Select layer type
     type = this._selectLayerType();
     tool = type.toUpperCase();
-            // active draw tool
+        // active draw tool
     this.toolbar.activate(Draw[tool]);
-            // clear graphics on the map
+        // clear graphics on the map
     this._clearSubmissionGraphic();
   },
 
-        /**
-        * Get geometry type of the selected layer
-        * @memberOf widgets/geo-form/geo-form
-        */
-  _selectLayerType: function () {
+    /**
+     * Get geometry type of the selected layer
+     * @memberOf widgets/geo-form/geo-form
+     */
+  _selectLayerType: function() {
     let type;
-            //set type for selected geometry type of the layer
+        //set type for selected geometry type of the layer
     switch (this.selectedLayer.geometryType) {
     case 'esriGeometryPoint':
       type = 'point';
@@ -1713,69 +1711,69 @@ export default declare(null, {
       type = 'polygon';
       break;
     }
-            // return Value
+        // return Value
     return type;
   },
 
-        /**
-        * Add graphic on the map
-        * @param{object} evt, draw tool bar event
-        * @memberOf widgets/geo-form/geo-form
-        */
-  _addToGraphicsLayer: function (evt) {
+    /**
+     * Add graphic on the map
+     * @param{object} evt, draw tool bar event
+     * @memberOf widgets/geo-form/geo-form
+     */
+  _addToGraphicsLayer: function(evt) {
     let symbol, graphic, graphicGeometry;
-            // clear graphics on the map
+        // clear graphics on the map
     this._clearSubmissionGraphic();
-            // get geometry
+        // get geometry
     if (evt.geometry) {
       graphicGeometry = evt.geometry.type === 'extent' ? this._createPolygonFromExtent(evt.geometry) : evt.geometry;
     } else {
       graphicGeometry = evt;
     }
     symbol = this._createFeatureSymbol(graphicGeometry.type);
-            // create new graphic
+        // create new graphic
     graphic = new Graphic(graphicGeometry, symbol);
-            // add graphics
+        // add graphics
     this.featureGraphicLayer.add(graphic);
   },
 
-        /**
-        * Clear graphics
-        * @memberOf widgets/geo-form/geo-form
-        */
-  _clearSubmissionGraphic: function () {
+    /**
+     * Clear graphics
+     * @memberOf widgets/geo-form/geo-form
+     */
+  _clearSubmissionGraphic: function() {
     if (this.featureGraphicLayer) {
       this.featureGraphicLayer.clear();
     }
   },
 
-        /**
-        * Convert extent type of geometry to polygon geometry
-        * @param{object} geometry, geometry of the graphics plotted on the map
-        * @memberOf widgets/geo-form/geo-form
-        */
-  _createPolygonFromExtent: function (geometry) {
+    /**
+     * Convert extent type of geometry to polygon geometry
+     * @param{object} geometry, geometry of the graphics plotted on the map
+     * @memberOf widgets/geo-form/geo-form
+     */
+  _createPolygonFromExtent: function(geometry) {
     const polygon = new Polygon(geometry.spatialReference);
-            // set geometry ring to the polygon layer
+        // set geometry ring to the polygon layer
     polygon.addRing([
-                [geometry.xmin, geometry.ymin],
-                [geometry.xmin, geometry.ymax],
-                [geometry.xmax, geometry.ymax],
-                [geometry.xmax, geometry.ymin],
-                [geometry.xmin, geometry.ymin]
+            [geometry.xmin, geometry.ymin],
+            [geometry.xmin, geometry.ymax],
+            [geometry.xmax, geometry.ymax],
+            [geometry.xmax, geometry.ymin],
+            [geometry.xmin, geometry.ymin]
     ]);
-            // return polygon geometry
+        // return polygon geometry
     return polygon;
   },
 
-        /**
-        * Create symbol for draw tool geometries in draw tab
-        * @param{string} geometryType, type of geometry
-        * @memberOf widgets/geo-form/geo-form
-        */
-  _createFeatureSymbol: function (geometryType) {
+    /**
+     * Create symbol for draw tool geometries in draw tab
+     * @param{string} geometryType, type of geometry
+     * @memberOf widgets/geo-form/geo-form
+     */
+  _createFeatureSymbol: function(geometryType) {
     let symbol;
-            //set symbol for selected geometry type of the layer
+        //set symbol for selected geometry type of the layer
     switch (geometryType) {
     case 'point':
       symbol = new SimpleMarkerSymbol();
@@ -1787,15 +1785,15 @@ export default declare(null, {
       symbol = new SimpleFillSymbol();
       break;
     }
-            //return symbol
+        //return symbol
     return symbol;
   },
 
-        /**
-        * This function is used to reorder all the layers on map
-        * @memberOf widgets/main/main
-        */
-  _reorderAllLayers: function () {
+    /**
+     * This function is used to reorder all the layers on map
+     * @memberOf widgets/main/main
+     */
+  _reorderAllLayers: function() {
     let layer, i, layerInstance, index, basemapLength;
     basemapLength = 1;
     if ((this.map.layerIds) && (this.map.layerIds.length > 0)) {
@@ -1818,18 +1816,18 @@ export default declare(null, {
     }
   },
 
-        /*-------  Begining of section for Geographical Filtering  -------*/
+    /*-------  Begining of section for Geographical Filtering  -------*/
 
-        /**
-        * This function is used to clone all the properties of selected feature layer and assign it to newly created graphics layer
-        * @param{object} details selected operational layer
-        * @memberOf @memberOf main
-        */
-  _initializeLayer: function (details) {
+    /**
+     * This function is used to clone all the properties of selected feature layer and assign it to newly created graphics layer
+     * @param{object} details selected operational layer
+     * @memberOf @memberOf main
+     */
+  _initializeLayer: function(details) {
     let selectedOperationalLayer, layerUrl, layerID, cloneRenderer, cloneInfoTemplate, layerOpacity, minScale, maxScale;
     selectedOperationalLayer = this.map.getLayer(details.operationalLayerDetails.id);
     this.selectedLayer = selectedOperationalLayer;
-            //If layer is changed through my issues widget, we need to update the layer instance in my issues widget
+        //If layer is changed through my issues widget, we need to update the layer instance in my issues widget
     if (this._myIssuesWidget) {
       this._myIssuesWidget.updateLayer(this.selectedLayer);
     }
@@ -1841,12 +1839,12 @@ export default declare(null, {
     cloneInfoTemplate = lang.clone(selectedOperationalLayer.infoTemplate);
     minScale = lang.clone(selectedOperationalLayer.minScale);
     maxScale = lang.clone(selectedOperationalLayer.maxScale);
-            //Fetch defination expression of selected feature layer
+        //Fetch defination expression of selected feature layer
     this._getExistingDefinitionExpression(details.itemInfo, selectedOperationalLayer);
     selectedOperationalLayer.hide();
-            // get index of layer
+        // get index of layer
     this._getExistingIndex(layerID);
-            //Check if graphics layer already exsists
+        //Check if graphics layer already exsists
     if (this.displaygraphicsLayer) {
       this.map.removeLayer(this.displaygraphicsLayer);
     }
@@ -1854,7 +1852,7 @@ export default declare(null, {
     this.displaygraphicsLayer.setRenderer(cloneRenderer);
     this.displaygraphicsLayer.setInfoTemplate(cloneInfoTemplate);
     this.displaygraphicsLayer.setOpacity(layerOpacity);
-            //Set minimum and maximum scale to layer if exist
+        //Set minimum and maximum scale to layer if exist
     this.displaygraphicsLayer.setMaxScale(maxScale);
     this.displaygraphicsLayer.setMinScale(minScale);
     this.map.addLayer(this.displaygraphicsLayer, this._existingLayerIndex);
@@ -1862,11 +1860,11 @@ export default declare(null, {
     this._reorderAllLayers();
   },
 
-        /**
-        * This function is used get existing index of layer
-        * @memberOf widgets/main/main
-        */
-  _getExistingIndex: function (layerID) {
+    /**
+     * This function is used get existing index of layer
+     * @memberOf widgets/main/main
+     */
+  _getExistingIndex: function(layerID) {
     let index, i;
     this._existingLayerIndex = null;
     for (i = 0; i < this._selectedMapDetails.itemInfo.itemData.operationalLayers.length; i++) {
@@ -1877,15 +1875,15 @@ export default declare(null, {
     }
   },
 
-        /**
-        * This function is used to set existing definition expression.
-        * @param{object} item info of selected operational layer
-        * @param{object} selected operational layer
-        * @memberOf main
-        */
-  _getExistingDefinitionExpression: function (itemInfo, selectedOperationalLayer) {
+    /**
+     * This function is used to set existing definition expression.
+     * @param{object} item info of selected operational layer
+     * @param{object} selected operational layer
+     * @memberOf main
+     */
+  _getExistingDefinitionExpression: function(itemInfo, selectedOperationalLayer) {
     let j;
-            // Initially, if a layer has some definition expression than store it
+        // Initially, if a layer has some definition expression than store it
     for (j = 0; j < itemInfo.itemData.operationalLayers.length; j++) {
       if (selectedOperationalLayer.id === itemInfo.itemData.operationalLayers[j].id) {
         if (itemInfo.itemData.operationalLayers[j].layerDefinition && itemInfo.itemData.operationalLayers[j].layerDefinition.definitionExpression) {
@@ -1898,13 +1896,13 @@ export default declare(null, {
     }
   },
 
-        /**
-        * This function is get the total count of graphics of selected feature layer
-        * @param{object} details of selected operational layer
-        * @param{object} selected operational layer
-        * @memberOf main
-        */
-  _getFeatureLayerCount: function (details, featureLayer) {
+    /**
+     * This function is get the total count of graphics of selected feature layer
+     * @param{object} details of selected operational layer
+     * @param{object} selected operational layer
+     * @memberOf main
+     */
+  _getFeatureLayerCount: function(details, featureLayer) {
     let countQuery, queryTask;
     countQuery = new Query();
     queryTask = new QueryTask(featureLayer.url);
@@ -1913,46 +1911,46 @@ export default declare(null, {
     } else {
       countQuery.where = '1=1';
     }
-    queryTask.executeForIds(countQuery, lang.hitch(this, function (results) {
-                //If server returns null values, set feature layer count to 0 and proceed
+    queryTask.executeForIds(countQuery, lang.hitch(this, function(results) {
+            //If server returns null values, set feature layer count to 0 and proceed
       this.featureLayerCount = results && results.length ? results.length : 0;
-                //If geolocation exsists create configurable buffer and fetch the features
+            //If geolocation exsists create configurable buffer and fetch the features
       if (this.config.geolocation) {
         this._createBufferParameters(featureLayer, details, false);
       } else {
-                    // Some layers return NULL if no feature are present, to handle that simply assign empty array to results
+                // Some layers return NULL if no feature are present, to handle that simply assign empty array to results
         if (!results) { results = []; }
-                    //Sort obtained object ids in descending order
+                //Sort obtained object ids in descending order
         results.sort((a, b) => b - a);
-                    //If geolocation does not exsists create feature batches
+                //If geolocation does not exsists create feature batches
         this._createFeatureBatches(featureLayer, results, details);
       }
     }), error => {
-      console.log(error);
+      console.error(error);
     });
   },
 
-        /**
-        * This function is used to create buffer paramters based on geomtery and radius
-        * @param{object} selected operational layer
-        * @param{object} details of selected operational layer
-        * @memberOf main
-        */
-  _createBufferParameters: function (featureLayer, details, isLoadMoreClick) {
+    /**
+     * This function is used to create buffer paramters based on geomtery and radius
+     * @param{object} selected operational layer
+     * @param{object} details of selected operational layer
+     * @memberOf main
+     */
+  _createBufferParameters: function(featureLayer, details, isLoadMoreClick) {
     let circleSymb, bufferedGeometries, circleBoundary, newGeometry;
-            //Create new point from the geolocation coordinates
+        //Create new point from the geolocation coordinates
     this.geoLocationPoint = webMercatorUtils.geographicToWebMercator(new Point(this.config.geolocation.coords.longitude, this.config.geolocation.coords.latitude));
-            //Create symbol which will indicate the buffer
+        //Create symbol which will indicate the buffer
     circleSymb = new SimpleFillSymbol(SimpleFillSymbol.STYLE_NULL, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL, new Color([105, 105, 105]), 2),
-                new Color([255, 255, 0, 0.25]));
-            //Get the actual buffer geomtery based on geolocation point and configurable buffer radius
+            new Color([255, 255, 0, 0.25]));
+        //Get the actual buffer geomtery based on geolocation point and configurable buffer radius
     bufferedGeometries = geometryEngine.geodesicBuffer(this.geoLocationPoint, [this.bufferRadius], this.config.bufferUnit, false);
-            //clear the previously drawn graphics and hide the infowindow if it is open
+        //clear the previously drawn graphics and hide the infowindow if it is open
     this.map.graphics.clear();
     this.map.infoWindow.hide();
     circleBoundary = new Graphic(bufferedGeometries, circleSymb);
     this.map.graphics.add(circleBoundary);
-            //If previous geometry exsists, create new graphics which shows the cut geometry to query for next set of graphics
+        //If previous geometry exsists, create new graphics which shows the cut geometry to query for next set of graphics
     if (this.previousBufferGeometry) {
       newGeometry = geometryEngine.difference(bufferedGeometries, this.previousBufferGeometry);
       this.map.graphics.add(new Graphic(bufferedGeometries, circleSymb));
@@ -1960,25 +1958,25 @@ export default declare(null, {
       newGeometry = bufferedGeometries;
     }
     this.map.setExtent(bufferedGeometries.getExtent().expand(1.5));
-            //store previous geometry, we will use this to get cut geomtery next time
+        //store previous geometry, we will use this to get cut geomtery next time
     this.previousBufferGeometry = bufferedGeometries;
     this._createBuffer(featureLayer, newGeometry, details, bufferedGeometries, isLoadMoreClick);
   },
 
-        /**
-        * This function is used to create buffer paramters based on geomtery and radius
-        * @param{object} selected operational layer
-        * @param{object} new geometry
-        * @param{object} details of selected operational layer
-        * @param{object} buffer geomteries
-        * @memberOf main
-        */
-  _createBuffer: function (featureLayer, newGeometry, details, bufferedGeometries, isLoadMoreClick) {
+    /**
+     * This function is used to create buffer paramters based on geomtery and radius
+     * @param{object} selected operational layer
+     * @param{object} new geometry
+     * @param{object} details of selected operational layer
+     * @param{object} buffer geomteries
+     * @memberOf main
+     */
+  _createBuffer: function(featureLayer, newGeometry, details, bufferedGeometries, isLoadMoreClick) {
     let bufferQuery, queryTask, i, j, chunk;
     bufferQuery = new Query();
     queryTask = new QueryTask(featureLayer.url);
     this.previousBufferIds = lang.clone(this.currentBufferIds);
-            //Take geometry in a global variable which will be used to fetch the data in current buffer geometry
+        //Take geometry in a global variable which will be used to fetch the data in current buffer geometry
     this.circle = bufferedGeometries;
     if (this._existingDefinitionExpression) {
       bufferQuery.where = this._existingDefinitionExpression;
@@ -1988,35 +1986,35 @@ export default declare(null, {
     bufferQuery.returnIdsOnly = true;
     bufferQuery.returnGeometry = false;
     bufferQuery.geometry = newGeometry;
-    queryTask.executeForIds(bufferQuery).then(lang.hitch(this, function (response) {
+    queryTask.executeForIds(bufferQuery).then(lang.hitch(this, function(response) {
       if (response && response.length > 0) {
         this.bufferFeatureCount = response.length;
         this.currentBufferIds = response;
         this._filterResult();
-                    //Reset max buffer count to 0, if features are found in current buffer
+                //Reset max buffer count to 0, if features are found in current buffer
         this.maxBufferLimit = 0;
-                    //If new features are added in the current buffer from outside the application, make sure the feature layer count is in sync with it
+                //If new features are added in the current buffer from outside the application, make sure the feature layer count is in sync with it
         if (this.filteredBufferIds.length + this.layerGraphicsArray.length > this.featureLayerCount) {
           this.featureLayerCount = this.filteredBufferIds.length + this.layerGraphicsArray.length;
         }
-                    //Divide the obtained features into batches based on maxRecordCount(server limit)
+                //Divide the obtained features into batches based on maxRecordCount(server limit)
         this.numberOfChunk = Math.floor(this.filteredBufferIds.length / (featureLayer.maxRecordCount || 999));
         chunk = (featureLayer.maxRecordCount || 999);
         if (chunk > response.length) {
           chunk = response.length;
         }
-                    //If this is not user initiated action, we need to increment the buffer page number to keep track of each page
+                //If this is not user initiated action, we need to increment the buffer page number to keep track of each page
         if (!this.firstTimeLayerLoad && !isLoadMoreClick) {
           this.bufferPageNumber++;
         }
-                    //check if the filtered array contains object ids to fetch the features
+                //check if the filtered array contains object ids to fetch the features
         if (this.filteredBufferIds.length > 0) {
           for (i = 0, j = this.filteredBufferIds.length; i < j; i += chunk) {
             this.sortedBufferArray.push(this.filteredBufferIds.slice(i, i + chunk));
           }
           this._selectFeaturesInBuffer(featureLayer, details, bufferedGeometries);
         } else {
-                        //Add empty array to sortedBufferArray to maintain the page numbering
+                    //Add empty array to sortedBufferArray to maintain the page numbering
           this.sortedBufferArray.push([]);
           if (this.featureLayerCount > this.layerGraphicsArray.length) {
             this.bufferRadius += this.bufferRadiusInterval;
@@ -2024,29 +2022,29 @@ export default declare(null, {
           }
         }
       } else {
-                    //If no features are found in current buffer and layer still has features, increment the buffer and continue the process
+                //If no features are found in current buffer and layer still has features, increment the buffer and continue the process
         if (this.featureLayerCount > this.layerGraphicsArray.length) {
-                        //If no features are present in the first buffer itself.
-                        //Show the appropriate error message which indicates user that he can click on load more to see the features
+                    //If no features are present in the first buffer itself.
+                    //Show the appropriate error message which indicates user that he can click on load more to see the features
           if (this.firstTimeLayerLoad) {
-                            //Add empty array to sortedBufferArray to maintain the page numbering
+                        //Add empty array to sortedBufferArray to maintain the page numbering
             this.sortedBufferArray.push([]);
             this._createIssueWall(details);
             this.firstTimeLayerLoad = false;
           } else {
             this.maxBufferLimit += this.bufferRadiusInterval;
-                            //If this is not user initiated action, we need to increment the buffer page number to keep track of each page
+                        //If this is not user initiated action, we need to increment the buffer page number to keep track of each page
             if (!isLoadMoreClick) {
               this.bufferPageNumber++;
             }
-                            //If app is getting empty features array in consecutive 10 attempts, stop the process and show "View More" button
+                        //If app is getting empty features array in consecutive 10 attempts, stop the process and show "View More" button
             if (this.maxBufferLimit === this.bufferRadiusInterval * 10) {
-                                //Add empty array to sortedBufferArray to maintain the page numbering
+                            //Add empty array to sortedBufferArray to maintain the page numbering
               this.sortedBufferArray.push([]);
               this.appUtils.hideLoadingIndicator();
               this.maxBufferLimit = 0;
             } else {
-                                //Add empty array to sortedBufferArray to maintain the page numbering
+                            //Add empty array to sortedBufferArray to maintain the page numbering
               this.sortedBufferArray.push([]);
               this.bufferRadius += this.bufferRadiusInterval;
               this._createBufferParameters(featureLayer, details, false);
@@ -2054,16 +2052,16 @@ export default declare(null, {
           }
         }
         if (this.featureLayerCount === 0) {
-                        //We still need to show issue wall with no features found message
+                    //We still need to show issue wall with no features found message
           this._createIssueWall(details);
         }
       }
-                //Since the layer is loaded for the first time, change the flag value to false
+            //Since the layer is loaded for the first time, change the flag value to false
       this.firstTimeLayerLoad = false;
-    }), lang.hitch(this, function (error) {
+    }), lang.hitch(this, function( /*error*/ ) {
       this._createIssueWall(details);
-                //If layer fails to fetch the features, we need to show appropriate message instead of showing no features found
-      aspect.after(this._issueWallWidget, '_displayIssueList', lang.hitch(this, function () {
+            //If layer fails to fetch the features, we need to show appropriate message instead of showing no features found
+      aspect.after(this._issueWallWidget, '_displayIssueList', lang.hitch(this, function() {
         if (!domClass.contains(this._issueWallWidget.noIssuesMessage, 'esriCTHidden')) {
           domAttr.set(this._issueWallWidget.noIssuesMessage, 'innerHTML', this.config.i18n.issueWall.unableToFetchFeatureError);
         }
@@ -2072,14 +2070,14 @@ export default declare(null, {
     }));
   },
 
-        /**
-        * Filter features and modify the filteredBufferIds array
-        * @memberOf main
-        */
-  _filterResult: function () {
+    /**
+     * Filter features and modify the filteredBufferIds array
+     * @memberOf main
+     */
+  _filterResult: function() {
     let i, j;
     this.filteredBufferIds = lang.clone(this.currentBufferIds);
-            //Check if the feature is already added to map, with the help of previousBufferIds array
+        //Check if the feature is already added to map, with the help of previousBufferIds array
     if (this.filteredBufferIds && this.filteredBufferIds.length > 0 && this.previousBufferIds && this.previousBufferIds.length > 0) {
       for (i = this.filteredBufferIds.length; i >= 0; i--) {
         if (this.filteredBufferIds[i] && this.previousBufferIds && this.previousBufferIds.indexOf(this.filteredBufferIds[i]) !== -1) {
@@ -2088,7 +2086,7 @@ export default declare(null, {
       }
     }
     if (this.filteredBufferIds && this.filteredBufferIds.length > 0 && this.newlyAddedFeatures && this.newlyAddedFeatures.length > 0) {
-                //Check if the feature is already added to map via geoform, search or my issues with the help of newlyAddedFeatures array
+            //Check if the feature is already added to map via geoform, search or my issues with the help of newlyAddedFeatures array
       for (j = this.filteredBufferIds.length; j >= 0; j--) {
         if (this.filteredBufferIds[j] && this.newlyAddedFeatures && this.newlyAddedFeatures.indexOf(this.filteredBufferIds[j]) !== -1) {
           this.filteredBufferIds.splice(j, 1);
@@ -2097,14 +2095,14 @@ export default declare(null, {
     }
   },
 
-        /**
-        * This function is used to create buffer paramters based on geomtery and radius
-        * @param{object} selected operational layer
-        * @param{object} details of selected operational layer
-        * @param{object} buffer geomteries
-        * @memberOf main
-        */
-  _selectFeaturesInBuffer: function (featureLayer, details, bufferedGeometries) {
+    /**
+     * This function is used to create buffer paramters based on geomtery and radius
+     * @param{object} selected operational layer
+     * @param{object} details of selected operational layer
+     * @param{object} buffer geomteries
+     * @memberOf main
+     */
+  _selectFeaturesInBuffer: function(featureLayer, details, bufferedGeometries) {
     let queryTask;
     let queryParams;
     let newGraphic;
@@ -2122,13 +2120,13 @@ export default declare(null, {
       queryParams.geometry = bufferedGeometries;
     }
     queryTask = new QueryTask(featureLayer.url);
-    queryTask.execute(queryParams, lang.hitch(this, function (result) {
+    queryTask.execute(queryParams, lang.hitch(this, function(result) {
       let i, fields;
       if (result.features) {
         for (i = 0; i < result.features.length; i++) {
           newGraphic = new Graphic();
           newGraphic.attributes = result.features[i].attributes;
-                        //Loop the attributes and replace empty values with configurable text
+                    //Loop the attributes and replace empty values with configurable text
           for (fields in newGraphic.attributes) {
             if (newGraphic.attributes.hasOwnProperty(fields)) {
               if (newGraphic.attributes[fields] === null || newGraphic.attributes[fields] === '') {
@@ -2137,15 +2135,15 @@ export default declare(null, {
             }
           }
           newGraphic.geometry = result.features[i].geometry;
-                        //assign infotemplate for features
+                    //assign infotemplate for features
           newGraphic.setInfoTemplate(new PopupTemplate(details.operationalLayerDetails.popupInfo));
           result.features[i].infoTemplate = newGraphic.infoTemplate;
           result.features[i]['_layer'] = this.selectedLayer;
           newGraphic.webMapId = result.features[i].webMapId = details.webMapId;
-                        //Kepping instance of original feature for further use
+                    //Kepping instance of original feature for further use
           newGraphic.originalFeature = result.features[i];
           this.displaygraphicsLayer.add(newGraphic);
-                        //add to feature array
+                    //add to feature array
           this.layerGraphicsArray.push(this._createFeatureAttributes(result.features[i], featureLayer));
         }
         this.layerGraphicsArray.sort(this._sortFeatureArray);
@@ -2153,41 +2151,41 @@ export default declare(null, {
           this.layerGraphicsArray.reverse();
         }
 
-                    //Now, initialize issue list
+                //Now, initialize issue list
         this._createIssueWall(details);
       }
     }), err => {
-      console.log(err);
+      console.error(err);
     });
   },
 
-        /**
-        * Load entire application with obtained settings
-        * @param{object} details of selected operational layer
-        * @memberOf main
-        */
-  _initializeApp: function (details) {
+    /**
+     * Load entire application with obtained settings
+     * @param{object} details of selected operational layer
+     * @memberOf main
+     */
+  _initializeApp: function(details) {
     let geoLocationButtonDiv, homeButtonDiv, incrementButton, decrementButton, selectedGraphics;
-            //set layer title on map
+        //set layer title on map
     domAttr.set(dom.byId('mapContainerTitle'), 'innerHTML', details.operationalLayerDetails.title);
-            //Show popup on click/hover of layer title div
+        //Show popup on click/hover of layer title div
     if (window.hasOwnProperty('ontouchstart') || window.ontouchstart !== undefined) {
       this._createTooltip(dom.byId('mapContainerTitle'), details.operationalLayerDetails.title);
     }
     this.changedExtent = details.map.extent;
-            //Hide GeoForm if it is Open
+        //Hide GeoForm if it is Open
     if (domClass.contains(dom.byId('geoformContainer'), 'esriCTVisible')) {
       domClass.replace(dom.byId('geoformContainer'), 'esriCTHidden', 'esriCTVisible');
     }
-            //destroy previous geoform instance
+        //destroy previous geoform instance
     this._destroyGeoForm();
     this._selectedMapDetails = details;
-            //clears highlighted graghics
+        //clears highlighted graghics
     if (this._selectedMapDetails && this._selectedMapDetails.map && this._selectedMapDetails.map.infoWindow) {
       this._selectedMapDetails.map.infoWindow.clearFeatures();
     }
-            // Highlight feature when user clicks on locate issue on map icon from issue wall
-            // If graphics layer is already added on the map, clear it else add a graphic layer on map
+        // Highlight feature when user clicks on locate issue on map icon from issue wall
+        // If graphics layer is already added on the map, clear it else add a graphic layer on map
     if (this._selectedMapDetails.map.getLayer('selectionGraphicsLayer')) {
       this._selectedMapDetails.map.getLayer('selectionGraphicsLayer').clear();
     } else {
@@ -2221,20 +2219,20 @@ export default declare(null, {
     this.mapSearch.createSearchButton(this.response, this.response.map, dom.byId('mapDiv'), false, details);
     this.basemapExtent = this.appUtils.getBasemapExtent(details.itemInfo.itemData.baseMap.baseMapLayers);
     this._selectedMapDetails.webmapList = this._webMapListWidget.filteredWebMapResponseArr;
-            //by default _isWebMapListLoaded will be false and will be set to true once onOperationalLayerSelected
-            //set this flag to true after the if condition for checking if mobile and _isWebMapListLoaded,
-            //since by default in mobile view only home screen should be open*/
+        //by default _isWebMapListLoaded will be false and will be set to true once onOperationalLayerSelected
+        //set this flag to true after the if condition for checking if mobile and _isWebMapListLoaded,
+        //since by default in mobile view only home screen should be open*/
     this._isWebMapListLoaded = true;
   },
 
-        /**
-        * This function is used to create buffer paramters based on geomtery and radius
-        * @param{object} selected operational layer
-        * @param{object} batch of features array
-        * @param{object} details of selected operational layer
-        * @memberOf main
-        */
-  _createFeatureBatches: function (featureLayer, results, details) {
+    /**
+     * This function is used to create buffer paramters based on geomtery and radius
+     * @param{object} selected operational layer
+     * @param{object} batch of features array
+     * @param{object} details of selected operational layer
+     * @memberOf main
+     */
+  _createFeatureBatches: function(featureLayer, results, details) {
     let chunk, i, j;
     chunk = featureLayer.maxRecordCount || 999;
     this.numberOfChunk = Math.floor(results.length / chunk);
@@ -2248,29 +2246,29 @@ export default declare(null, {
     if (this.sortedBufferArray.length > 0) {
       this._selectFeaturesInBuffer(featureLayer, details);
     } else {
-                //We still need to show issue wall with no features found message
+            //We still need to show issue wall with no features found message
       this._createIssueWall(details);
     }
 
   },
 
-        /**
-        * This function is used to create buffer paramters based on geomtery and radius
-        * @param{object} selected feature
-        * @param{object} distance unit
-        * @memberOf main
-        */
-  _getDistanceFromCurrentLocation: function (currentFeature) {
+    /**
+     * This function is used to create buffer paramters based on geomtery and radius
+     * @param{object} selected feature
+     * @param{object} distance unit
+     * @memberOf main
+     */
+  _getDistanceFromCurrentLocation: function(currentFeature) {
     return geometryEngine.distance(this.geoLocationPoint, currentFeature.geometry, this.config.bufferUnit);
   },
 
-        /**
-        * This function is used to create buffer paramters based on geomtery and radius
-        * @param{object} first feature
-        * @param{object} second feature
-        * @memberOf main
-        */
-  _sortFeatureArray: function (a, b) {
+    /**
+     * This function is used to create buffer paramters based on geomtery and radius
+     * @param{object} first feature
+     * @param{object} second feature
+     * @memberOf main
+     */
+  _sortFeatureArray: function(a, b) {
     if (a.sortValue > b.sortValue) {
       return -1;
     }
@@ -2279,5 +2277,5 @@ export default declare(null, {
     }
     return 0;
   }
-        /*-------  End of section for Geographical Filtering  -------*/
+    /*-------  End of section for Geographical Filtering  -------*/
 });

@@ -37,8 +37,6 @@ import aspect from 'dojo/aspect';
 import BootstrapMap from '../bootstrapmap/bootstrapmap';
 import _WidgetsInTemplateMixin from 'dijit/_WidgetsInTemplateMixin';
 import query from 'dojo/query';
-import Extent from 'esri/geometry/Extent';
-import Point from 'esri/geometry/Point';
 import moment from 'moment';
 
 export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
@@ -308,13 +306,13 @@ export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], 
             thumbnailSrc = this.appConfig.noThumbnailIcon;
           } else {
             if (this.appConfig.noThumbnailIcon.indexOf('/') === 0) {
-              thumbnailSrc = dojoConfig.baseURL + this.appConfig.noThumbnailIcon;
+              thumbnailSrc = window.dojoConfig.baseURL + this.appConfig.noThumbnailIcon;
             } else {
-              thumbnailSrc = `${dojoConfig.baseURL}/${this.appConfig.noThumbnailIcon}`;
+              thumbnailSrc = `${window.dojoConfig.baseURL}/${this.appConfig.noThumbnailIcon}`;
             }
           }
         } else {
-          thumbnailSrc = `${dojoConfig.baseURL}/images/default-webmap-thumbnail.png`;
+          thumbnailSrc = `${window.dojoConfig.baseURL}/images/default-webmap-thumbnail.png`;
         }
       }
       infoDescription = this._createWebMapDescription(this.filteredWebMapResponseArr[i][1]);

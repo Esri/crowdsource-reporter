@@ -124,7 +124,7 @@ const Bootstrapper = declare(null, {
     if (iconPath.indexOf('http') === 0) {
       icon.href = iconPath;
     } else {
-      icon.href = dojoConfig.baseURL + iconPath;
+      icon.href = window.dojoConfig.baseURL + iconPath;
     }
     document.getElementsByTagName('head')[0].appendChild(icon);
   }

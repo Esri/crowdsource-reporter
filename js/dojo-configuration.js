@@ -21,7 +21,7 @@
 * initialize default dojo configuration attributes by creating a dojoConfig object
 */
 const root = location.href.slice(0, location.href.lastIndexOf('/'));
-dojoConfig = {
+window.dojoConfig = {
   parseOnLoad: true,
   async: true,
   baseURL: root,
@@ -44,5 +44,5 @@ dojoConfig = {
     name: 'vendor',
     location: `${root}/js/vendor`
   }],
-  locale: decodeURIComponent((new RegExp('[?|&]' + 'locale' + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ''])[1].replace(/\+/g, '%20')) || null
+  locale: decodeURIComponent((new RegExp('[?|&]' + 'locale' + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ''])[1].replace(/\+/g, '%20')) || null // eslint-disable-line
 };

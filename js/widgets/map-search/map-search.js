@@ -17,18 +17,12 @@
 */
 import declare from 'dojo/_base/declare';
 import lang from 'dojo/_base/lang';
-import arcgisUtils from 'esri/arcgis/utils';
 import dom from 'dojo/dom';
 import domConstruct from 'dojo/dom-construct';
 import domStyle from 'dojo/dom-style';
 import domClass from 'dojo/dom-class';
-import domAttr from 'dojo/dom-attr';
 import on from 'dojo/on';
-import topic from 'dojo/topic';
-import string from 'dojo/string';
-import dojowindow from 'dojo/window';
 import GraphicsLayer from 'esri/layers/GraphicsLayer';
-import ApplicationUtils from '../../utils/utils';
 import query from 'dojo/query';
 import Locator from '../locator/locator';
 import _WidgetBase from 'dijit/_WidgetBase';
@@ -183,7 +177,7 @@ export default declare([_WidgetBase], {
     if (selectedFeature && selectedFeature.geometry && selectedFeature.geometry.type === 'point') {
       this.countyLayer.clear();
                 // set the graphic symbol for selected point and highlight on map
-      symbol = new PictureMarkerSymbol(dojoConfig.baseURL + this.config.searchedAddressPushpinImage, 32, 32);
+      symbol = new PictureMarkerSymbol(window.dojoConfig.baseURL + this.config.searchedAddressPushpinImage, 32, 32);
       this.countyLayer.add(new Graphic(selectedFeature.geometry, symbol));
     }
   },

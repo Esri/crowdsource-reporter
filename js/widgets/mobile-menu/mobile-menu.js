@@ -17,19 +17,12 @@
  */
 //============================================================================================================================//
 import declare from 'dojo/_base/declare';
-import domConstruct from 'dojo/dom-construct';
-import domGeom from 'dojo/dom-geometry';
 import win from 'dojo/window';
 import domStyle from 'dojo/dom-style';
 import domAttr from 'dojo/dom-attr';
 import domClass from 'dojo/dom-class';
-import dom from 'dojo/dom';
 import lang from 'dojo/_base/lang';
-import topic from 'dojo/topic';
 import on from 'dojo/on';
-import Deferred from 'dojo/Deferred';
-import all from 'dojo/promise/all';
-import esriPortal from 'esri/arcgis/Portal';
 import template from './templates/mobile-menu.html';
 import _WidgetBase from 'dijit/_WidgetBase';
 import _TemplatedMixin from 'dijit/_TemplatedMixin';
@@ -203,4 +196,3 @@ export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], 
     return evt;
   }
 });
-

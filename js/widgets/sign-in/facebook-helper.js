@@ -1,4 +1,4 @@
-
+/* global FB */
 
 /*
  | Copyright 2014 Esri
@@ -16,10 +16,7 @@
  | limitations under the License.
  */
 import declare from 'dojo/_base/declare';
-import on from 'dojo/on';
 import lang from 'dojo/_base/lang';
-import query from 'dojo/query';
-import domClass from 'dojo/dom-class';
 export default declare(null, {
   _config: null,
   FBLoggedIn: false,

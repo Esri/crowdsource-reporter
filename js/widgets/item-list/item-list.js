@@ -23,8 +23,6 @@ import domStyle from 'dojo/dom-style';
 import domClass from 'dojo/dom-class';
 import on from 'dojo/on';
 import dojoQuery from 'dojo/query';
-import topic from 'dojo/topic';
-import nld from 'dojo/NodeList-dom';
 import _WidgetBase from 'dijit/_WidgetBase';
 import _TemplatedMixin from 'dijit/_TemplatedMixin';
 import template from './templates/item-list-view.html';
@@ -328,5 +326,3 @@ export default declare([_WidgetBase, _TemplatedMixin], {
     return evt;
   }
 });
-
-

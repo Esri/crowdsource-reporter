@@ -47,4 +47,3 @@ export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], 
     }, 200);
   }
 });
-

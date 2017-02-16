@@ -1,14 +1,10 @@
-
-
 import declare from 'dojo/_base/declare';
 import domConstruct from 'dojo/dom-construct';
 import lang from 'dojo/_base/lang';
 import domAttr from 'dojo/dom-attr';
 import domClass from 'dojo/dom-class';
-import domGeom from 'dojo/dom-geometry';
 import domStyle from 'dojo/dom-style';
 import array from 'dojo/_base/array';
-import dom from 'dojo/dom';
 import Deferred from 'dojo/Deferred';
 import DeferredList from 'dojo/DeferredList';
 import on from 'dojo/on';
@@ -18,14 +14,10 @@ import template from './templates/locator.html';
 import _WidgetBase from 'dijit/_WidgetBase';
 import _TemplatedMixin from 'dijit/_TemplatedMixin';
 import _WidgetsInTemplateMixin from 'dijit/_WidgetsInTemplateMixin';
-import Color from 'esri/Color';
 import esriConfig from 'esri/config';
-import Graphic from 'esri/graphic';
 import Point from 'esri/geometry/Point';
 import webMercatorUtils from 'esri/geometry/webMercatorUtils';
 import GraphicsLayer from 'esri/layers/GraphicsLayer';
-import SpatialReference from 'esri/SpatialReference';
-import GeometryService from 'esri/tasks/GeometryService';
 import Locator from 'esri/tasks/locator';
 import ProjectParameters from 'esri/tasks/ProjectParameters';
 import EsriQuery from 'esri/tasks/query';

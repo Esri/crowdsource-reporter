@@ -702,7 +702,7 @@ export default declare([_WidgetBase, _TemplatedMixin], {
     alertHtml += '<button type="button" class="close" data-dismiss="alert">' + 'X' + '</button>';
     alertHtml += `<span>${fileName}</span>`;
     alertHtml += '</div>';
-    alertHtml = domConstruct.place(alertHtml, this.fileAttachmentList, 'last');
+    domConstruct.place(alertHtml, this.fileAttachmentList, 'last');
             //if file is removed then
             //replace the class from esriCTFileToSubmit to esriCTHideFileInputUI and update the file selected count
     $(`#${target.parentNode.id}_Close`).bind('closed.bs.alert', lang.hitch(this, function (evt) {
@@ -870,7 +870,7 @@ export default declare([_WidgetBase, _TemplatedMixin], {
         * @memberOf widgets/geo-form/geo-form
         */
   _createDomainValueFormElements: function (currentField, formContent, fieldname) {
-    let date, inputRangeDateGroupContainer, rangeDefaultDate, currentSelectedDate, formatedDate;
+    let date, inputRangeDateGroupContainer, currentSelectedDate, formatedDate;
     if (this.isEdit) {
                 //get field value
       currentField.defaultValue = this.item.attributes[fieldname];
@@ -889,7 +889,7 @@ export default declare([_WidgetBase, _TemplatedMixin], {
                         // set current date to date field
           $(inputRangeDateGroupContainer).data('DateTimePicker').setDate(date);
                         // set format to the current date
-          rangeDefaultDate = moment(date).format($(inputRangeDateGroupContainer).data('DateTimePicker').format);
+          // rangeDefaultDate = moment(date).format($(inputRangeDateGroupContainer).data('DateTimePicker').format);
           if (!this.isEdit) {
                             // set default value and id to the array
             this.defaultValueArray.push({ defaultValue: currentField.defaultValue, id: this.inputContent.id, type: currentField.type });
@@ -1091,7 +1091,7 @@ export default declare([_WidgetBase, _TemplatedMixin], {
         * @memberOf widgets/geo-form/geo-form
         */
   _addInputElementsValue: function (currentField, formContent, inputDateGroupContainer) {
-    let defaultDate, date;
+    let date;
     if (this.isEdit) {
                 //get default field value if t is not exist in feature attributes
       currentField.defaultValue = this.item.attributes[this.inputContent.id];
@@ -1105,7 +1105,7 @@ export default declare([_WidgetBase, _TemplatedMixin], {
                     // set current date to date field
         $(inputDateGroupContainer).data('DateTimePicker').setDate(date);
                     // set format to the current date
-        defaultDate = moment(date).format($(inputDateGroupContainer).data('DateTimePicker').format);
+        // defaultDate = moment(date).format($(inputDateGroupContainer).data('DateTimePicker').format);
         if (!this.isEdit) {
           this.defaultValueArray.push({ defaultValue: currentField.defaultValue, id: this.inputContent.id, type: currentField.type });
         }
@@ -1122,7 +1122,7 @@ export default declare([_WidgetBase, _TemplatedMixin], {
                     // set current date to date field
         $(inputDateGroupContainer).data('DateTimePicker').setDate(new Date());
                     // set format to the current date
-        defaultDate = moment(new Date()).format($(inputDateGroupContainer).data('DateTimePicker').format);
+        // defaultDate = moment(new Date()).format($(inputDateGroupContainer).data('DateTimePicker').format);
         if (!this.isEdit) {
           this.defaultValueArray.push({ defaultValue: new Date(), id: this.inputContent.id, type: currentField.type });
         }

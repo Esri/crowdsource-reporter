@@ -17,8 +17,6 @@
  */
 //============================================================================================================================//
 import declare from 'dojo/_base/declare';
-import dom from 'dojo/dom';
-import domConstruct from 'dojo/dom-construct';
 import domStyle from 'dojo/dom-style';
 import domAttr from 'dojo/dom-attr';
 import domClass from 'dojo/dom-class';
@@ -26,16 +24,11 @@ import lang from 'dojo/_base/lang';
 import array from 'dojo/_base/array';
 import on from 'dojo/on';
 import touch from 'dojo/touch';
-import string from 'dojo/string';
-import query from 'dojo/query';
 import template from './templates/issue-wall.html';
 import _WidgetBase from 'dijit/_WidgetBase';
 import _TemplatedMixin from 'dijit/_TemplatedMixin';
 import _WidgetsInTemplateMixin from 'dijit/_WidgetsInTemplateMixin';
-import Graphic from 'esri/graphic';
 import FeatureLayer from 'esri/layers/FeatureLayer';
-import Query from 'esri/tasks/query';
-import PopupTemplate from 'esri/dijit/PopupTemplate';
 import ItemList from '../item-list/item-list';
 import event from 'dojo/_base/event';
 export default declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {

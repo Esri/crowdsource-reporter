@@ -16,7 +16,6 @@
  | limitations under the License.
  */
 import declare from 'dojo/_base/declare';
-import on from 'dojo/on';
 import esriRequest from 'esri/request';
 import lang from 'dojo/_base/lang';
 export default declare(null, {
@@ -124,7 +123,7 @@ export default declare(null, {
         socialMediaType: null
       };
       this.onTwitterLogIn(this.userDetails);
-      console.log(JSON.stringify(err));
+      console.error(JSON.stringify(err));
     });
   },
 

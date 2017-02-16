@@ -8,13 +8,13 @@ import dom from 'dojo/dom';
 import lang from 'dojo/_base/lang';
 import style from 'dojo/dom-style';
 import query from 'dojo/query';
-import nodecols from 'dojo/NodeList-traverse';
+import nodecols from 'dojo/NodeList-traverse'; // eslint-disable-line
 import domClass from 'dojo/dom-class';
 import 'dojo/domReady!';
 
 
 export default {
-            // BootstrapMap Class Public Functions
+  // BootstrapMap Class Public Functions
   create: function (divId, options) {
     let smartResizer, mapOut;
     if (divId && options) {
@@ -46,7 +46,7 @@ export default {
       _disconnect(map._smartResizer);
     }
   },
-            // SmartResizer Class Functions
+  // SmartResizer Class Functions
   _smartResizer: declare(null, {
     constructor: function (mapDivId, options) {
       this._map = null;
@@ -69,10 +69,10 @@ export default {
                     // Events
       this._handles = [];
     },
-                // Create a new map
+    // Create a new map
     createMap: function () {
       this._setMapDiv(false);
-                    // Need to be false in responsive mode
+      // Need to be false in responsive mode
       if (this._responsiveResize) {
         lang.mixin(this._options,
           {
@@ -86,27 +86,27 @@ export default {
       this._mapDiv.__map = this._map;
       return this._map;
     },
-                // Create the webmap for client
+    // Create the webmap for client
     createWebMap: function (webMapId) {
       let deferred, myselfAsAResizer, getDeferred;
-                    // Get DIV
+      // Get DIV
       this._setMapDiv(false);
-                    // Get options and pass them on
+      // Get options and pass them on
       if (!this._options.hasOwnProperty('mapOptions')) {
         this._options.mapOptions = {};
       }
-                    // Need to be false in responsive mode
+      // Need to be false in responsive mode
       if (this._responsiveResize) {
         lang.mixin(this._options.mapOptions, {
           smartNavigation: false,
           autoResize: false
         });
       }
-                    // Create the webmap
+      // Create the webmap
       deferred = EsriUtils.createMap(webMapId, this._mapDivId, this._options);
       this._mapDeferred = deferred;
       myselfAsAResizer = this;
-                    // Callback to get map
+      // Callback to get map
       getDeferred = function (response) {
         this._map = response.map;
         this._setPopup();
@@ -120,9 +120,9 @@ export default {
     _setPopup: function () {
       domClass.add(this._map.infoWindow.domNode, 'light');
     },
-                // Avoid undesirable behaviors on touch devices
+    // Avoid undesirable behaviors on touch devices
     _setTouchBehavior: function () {
-                    // Add desireable touch behaviors here
+      // Add desireable touch behaviors here
       if (this._options.hasOwnProperty('scrollWheelZoom')) {
         if (this._options.scrollWheelZoom) {
           this._map.enableScrollWheelZoom();
@@ -130,23 +130,23 @@ export default {
           this._map.disableScrollWheelZoom();  // Prevent slippy map on scroll
         }
       } else {
-                        // Default
+        // Default
         this._map.disableScrollWheelZoom();
       }
-                    // Remove 300ms delay to close infoWindow on touch devices
+      // Remove 300ms delay to close infoWindow on touch devices
       on(query('.esriPopup .titleButton.close'), touch.press, lang.hitch(this,
                         function () {
                           this._map.infoWindow.hide();
                         }));
     },
-                // Set up listeners
+    // Set up listeners
     _bindEvents: function () {
-      let setTouch, setInfoWin, debounce, timeout, visible, resizeWin, recenter, timer;
+      let setTouch, setInfoWin, debounce, timeout, resizeWin, recenter, timer;
       if (!this._map) {
         console.error('BootstrapMap: Invalid map object. Please check map reference.');
         return;
       }
-                    // Touch behavior
+      // Touch behavior
       setTouch = function () {
         this._setTouchBehavior();
       };
@@ -155,14 +155,14 @@ export default {
       } else {
         this._handles.push(on(this._map, 'load', lang.hitch(this, setTouch)));
       }
-                    // InfoWindow restyle and reposition
+      // InfoWindow restyle and reposition
       setInfoWin = function () {
         this._map.infoWindow.anchor = this._popupPosition;
         const updatePopup = obj => {
           const pt = obj._map.infoWindow.location;
           if (pt && !obj._popupBlocked) {
             obj._popupBlocked = true;
-                                // Delay the map re-center
+            // Delay the map re-center
             window.setTimeout(() => {
               obj._repositionMapForInfoWin(pt);
               obj._popupBlocked = false;
@@ -170,32 +170,32 @@ export default {
           }
         };
         this.counter = 0;
-                        // When map is clicked (no feature or graphic)
+        // When map is clicked (no feature or graphic)
         this._map.on('click', lang.hitch(this, function () {
           if (this._map.infoWindow.isShowing) {
             updatePopup(this);
           }
         }));
-                        // When graphics are clicked
+        // When graphics are clicked
         on(this._map.graphics, 'click', lang.hitch(this, function () {
           updatePopup(this);
         }));
-                        // When infowindow appears
+        // When infowindow appears
         on(this._map.infoWindow, 'show', lang.hitch(this, function () {
           updatePopup(this);
         }));
-                        // FeatureLayers selection changed - No longer needed at 3.9
-                        // on(this._map.infoWindow, "selection-change", lang.hitch(this, function (g) {
-                        //   updatePopup(this);
-                        // }));
+        // FeatureLayers selection changed - No longer needed at 3.9
+        // on(this._map.infoWindow, "selection-change", lang.hitch(this, function (g) {
+        //   updatePopup(this);
+        // }));
       };
-                    // If the map is already loaded, eg. webmap, just hitch up
+      // If the map is already loaded, eg. webmap, just hitch up
       if (this._map.loaded) {
         lang.hitch(this, setInfoWin).call();
       } else {
         this._handles.push(on(this._map, 'load', lang.hitch(this, setInfoWin)));
       }
-                    // Debounce window resize
+      // Debounce window resize
       debounce = (func, threshold, execAsap) => function debounced() {
         const obj = this, args = arguments;
         function delayed() {
@@ -211,10 +211,10 @@ export default {
         }
         timeout = setTimeout(delayed, threshold || 100);
       };
-                    // Responsive resize
+      // Responsive resize
       resizeWin = debounce(this._setMapDiv, 100, false);
       this._handles.push(on(window, 'resize', lang.hitch(this, resizeWin)));
-                    // Auto-center map
+      // Auto-center map
       if (this._autoRecenter) {
         recenter = function () {
           this._map.__resizeCenter = this._map.extent.getCenter();
@@ -223,15 +223,15 @@ export default {
           };
           setTimeout(lang.hitch(this, timer), this._autoRecenterDelay);
         };
-                        // Listen for container resize
+        // Listen for container resize
         this._handles.push(on(this._map, 'resize', lang.hitch(this, recenter)));
       }
     },
-                // Check if the map is really visible
+    // Check if the map is really visible
     _getMapDivVisibility: function () {
       return this._mapDiv.clientHeight > 0 || this._mapDiv.clientWidth > 0;
     },
-                // Check map visiblity
+    // Check map visiblity
     _checkVisibility: function () {
       const visible = this._getMapDivVisibility();
       if (this._visible !== visible) {
@@ -240,36 +240,36 @@ export default {
         }
       }
     },
-                // Ensure the map resizes if div is hidden
+    // Ensure the map resizes if div is hidden
     _controlVisibilityTimer: function (runTimer) {
       if (runTimer) {
-                        // Start a visibility change timer
+        // Start a visibility change timer
         this._visibilityTimer = setInterval(lang.hitch(this, function () {
           this._checkVisibility();
         }), 200);
       } else {
-                        // Stop timer we have checking for visibility change
+        // Stop timer we have checking for visibility change
         if (this._visibilityTimer) {
           clearInterval(this._visibilityTimer);
           this._visibilityTimer = null;
         }
       }
     },
-                // Set new map height
+    // Set new map height
     _setMapDiv: function (forceResize) {
       if (!this._mapDivId || !this._responsiveResize) {
         return;
       }
-      let visible, windowH, bodyH, room, mapH, colH, mh1, mh2, inCol;
-                    // Get map visibility
+      let visible, windowH, bodyH, room, mapH, colH, mh1, mh2;
+      // Get map visibility
       visible = this._getMapDivVisibility();
       if (this._visible !== visible) {
         this._visible = visible;
         this._controlVisibilityTimer(!visible);
       }
-                    // Fill page with the map or match row height
+      // Fill page with the map or match row height
       if (this._visible) {
-                        //windowH = window.innerHeight;
+        //windowH = window.innerHeight;
         windowH = document.documentElement.clientHeight;
         bodyH = document.body.clientHeight;
         room = windowH - bodyH;
@@ -277,37 +277,34 @@ export default {
         colH = this._calcColumnHeight(mapH);
         mh1 = mapH + room;
         mh2 = 0;
-        inCol = false;
-                        // Resize to neighboring column or fill page
+        // Resize to neighboring column or fill page
         if (mapH < colH) {
           mh2 = (room > 0) ? colH + room : colH;
-          inCol = true;
         } else {
           mh2 = (mh1 < colH) ? colH : mh1;
-          inCol = false;
         }
-                        // Expand map height
+        // Expand map height
         style.set(this._mapDivId, {
           'height': `${mh2}px`,
           'width': 'auto'
         });
-                        // Force resize and reposition
+        // Force resize and reposition
         if (this._map && forceResize && this._visible) {
           this._map.resize();
           this._map.reposition();
         }
-                        //console.log("Win:" + windowH + " Body:" + bodyH + " Room:" + room + "
-                        // OldMap:" + mapH + " Map+Room:" + mh1 + " NewMap:" + mh2 + " ColH:" +
-                        // colH + " inCol:" + inCol);
+        //console.log("Win:" + windowH + " Body:" + bodyH + " Room:" + room + "
+        // OldMap:" + mapH + " Map+Room:" + mh1 + " NewMap:" + mh2 + " ColH:" +
+        // colH + " inCol:" + inCol);
       }
     },
-                // Current height of map
+    // Current height of map
     _calcMapHeight: function () {
-                    //var s = style.get(e);
+      //var s = style.get(e);
       const s = this._mapStyle, p = parseInt(s.paddingTop, 10) + parseInt(s.paddingBottom, 10) || 0, g = parseInt(s.marginTop, 10) + parseInt(s.marginBottom, 10) || 0, bodyH = parseInt(s.borderTopWidth, 10) + parseInt(s.borderBottomWidth, 10) || 0, h = p + g + bodyH + this._mapDiv.clientHeight;
       return h;
     },
-                // Get the column height around the map
+    // Get the column height around the map
     _calcColumnHeight: function (mapH) {
       let i;
       let col;
@@ -317,7 +314,7 @@ export default {
       if (cols.length) {
         for (i = 0; i < cols.length; i++) {
           col = cols[i];
-                            // Avoid the map in column calculations
+          // Avoid the map in column calculations
           containsMap = query(`#${this._mapDivId}`, col).length > 0;
           if ((col.clientHeight > colH) && !containsMap) {
             colH = col.clientHeight;
@@ -326,53 +323,53 @@ export default {
       }
       return colH;
     },
-                // Reposition map to fix popup
+    // Reposition map to fix popup
     _repositionMapForInfoWin: function (graphicCenterPt) {
-                    // Determine the upper right, and center, coordinates of the map
+      // Determine the upper right, and center, coordinates of the map
       const maxPoint = new Point(this._map.extent.xmax, this._map.extent.ymax, this._map.spatialReference);
 
       let centerPoint = new Point(this._map.extent.getCenter());
 
-      const // Convert to screen coordinates
-                    maxPointScreen = this._map.toScreen(maxPoint);
+      // Convert to screen coordinates
+      const maxPointScreen = this._map.toScreen(maxPoint);
 
       const centerPointScreen = this._map.toScreen(centerPoint);
 
-      const // Points only
-                    graphicPointScreen = this._map.toScreen(graphicCenterPt);
+      // Points only
+      const graphicPointScreen = this._map.toScreen(graphicCenterPt);
 
-      const // Buffer
-                    marginLR = 10;
+      // Buffer
+      const marginLR = 10;
 
       const marginTop = 3;
       const infoWin = this._map.infoWindow.domNode.childNodes[0];
       const infoWidth = infoWin.clientWidth;
       const infoHeight = infoWin.clientHeight + this._map.infoWindow.marginTop;
 
-      const // X
-                    lOff = graphicPointScreen.x - infoWidth / 2;
+      // X
+      const lOff = graphicPointScreen.x - infoWidth / 2;
 
       const rOff = graphicPointScreen.x + infoWidth / 2;
       const l = lOff - marginLR < 0;
       const r = rOff > maxPointScreen.x - marginLR;
 
-      const // Y
-                    yOff = this._map.infoWindow.offsetY;
+      // Y
+      const yOff = this._map.infoWindow.offsetY;
 
       const tOff = graphicPointScreen.y - infoHeight - yOff;
       const t = tOff - marginTop < 0;
-                    // X
+      // X
       if (l) {
         centerPointScreen.x -= (Math.abs(lOff) + marginLR) < marginLR ? marginLR : Math.abs(lOff) + marginLR;
       } else if (r) {
         centerPointScreen.x += (rOff - maxPointScreen.x) + marginLR;
       }
-                    // Y
+      // Y
       if (t) {
         centerPointScreen.y += tOff - marginTop;
       }
 
-                    //Pan the ap to the new centerpoint
+      //Pan the ap to the new centerpoint
       if (r || l || t) {
         centerPoint = this._map.toMap(centerPointScreen);
         this._map.centerAt(centerPoint);
