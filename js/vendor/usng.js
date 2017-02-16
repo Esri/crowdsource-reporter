@@ -4,8 +4,8 @@
 // ****************************************************************************/
 //
 // Copyright (c) 2009 Larry Moore, jane.larry@gmail.com
-// Released under the MIT License; see 
-// http://www.opensource.org/licenses/mit-license.php 
+// Released under the MIT License; see
+// http://www.opensource.org/licenses/mit-license.php
 // or http://en.wikipedia.org/wiki/MIT_License
 //
 // Permission is hereby granted, free of charge, to any person
@@ -34,39 +34,39 @@
 //
 //    References and history of this code:
 //
-//    For detailed information on the U.S. National Grid coordinate system, 
+//    For detailed information on the U.S. National Grid coordinate system,
 //    see  http://www.fgdc.gov/usng
 //
-//    Reference ellipsoids derived from Peter H. Dana's website- 
+//    Reference ellipsoids derived from Peter H. Dana's website-
 //    http://www.utexas.edu/depts/grg/gcraft/notes/datum/elist.html
 //    Department of Geography, University of Texas at Austin
-//    Internet: pdana@mail.utexas.edu   
+//    Internet: pdana@mail.utexas.edu
 //
 //    Technical reference:
-//    Defense Mapping Agency. 1987b. DMA Technical Report: Supplement to 
+//    Defense Mapping Agency. 1987b. DMA Technical Report: Supplement to
 //    Department of Defense World Geodetic System 1984 Technical Report. Part I
 //    and II. Washington, DC: Defense Mapping Agency
 //
 //    Originally based on C code written by Chuck Gantz for UTM calculations
 //    http://www.gpsy.com/gpsinfo/geotoutm/     -- chuck.gantz@globalstar.com
-// 
-//    Converted from C to JavaScript by Grant Wong for use in the 
+//
+//    Converted from C to JavaScript by Grant Wong for use in the
 //    USGS National Map Project in August 2002
 //
-//    Modifications and developments continued by Doug Tallman from 
+//    Modifications and developments continued by Doug Tallman from
 //    December 2002 through 2004 for the USGS National Map viewer
 //
-//    Adopted with modifications by Larry Moore, January 2007, 
-//    for GoogleMaps application;  
+//    Adopted with modifications by Larry Moore, January 2007,
+//    for GoogleMaps application;
 //    http://www.fidnet.com/~jlmoore/usng
 //
-//    Assumes a datum of NAD83 (or its international equivalent WGS84). 
+//    Assumes a datum of NAD83 (or its international equivalent WGS84).
 //    If NAD27 is used, set IS_NAD83_DATUM to 'false'. (This does
-//    not do a datum conversion; it only allows either datum to 
+//    not do a datum conversion; it only allows either datum to
 //    be used for geographic-UTM/USNG calculations.)
 //    NAD83 and WGS84 are equivalent for all practical purposes.
 //    (NAD27 computations are irrelevant to Google Maps applications)
-//  
+//
 //
 //*************************************************************************
 // programmer interface summary
@@ -82,10 +82,10 @@
 //         Four digits:  10 meters precision  eg. "18S UJ 2348 0647"
 //         Five digits:  1 meter precision    eg. "18S UJ 23480 06470"
 //    return value is a USNG coordinate as a text string
-//    the return value contains spaces to improve readability, as permitted by 
+//    the return value contains spaces to improve readability, as permitted by
 //        the USNG standard
 //        the form is NNC CC NNNNN NNNNN
-//        if a different format or precision is desired, the calling application 
+//        if a different format or precision is desired, the calling application
 //            must make the changes
 //
 // 2) convert a USNG string to lat/lng decimal degrees
@@ -101,12 +101,12 @@
 //        latlng[0] contains latitude, latlng[1] contains longitude
 //           both in decimal degrees, south negative, west negative
 //
-// 3) convert lat/lng decimal degrees to MGRS string (same as USNG string, but with 
+// 3) convert lat/lng decimal degrees to MGRS string (same as USNG string, but with
 //    no space delimeters)
 // function LLtoMGRS(lat, lon, precision)
 //   create a string of Military Grid Reference System coordinates
 //   Same as LLtoUSNG, except that output cannot contain space delimiters;
-//   NOTE: this is not a full implementation of MGRS.  It won't deal with numbers 
+//   NOTE: this is not a full implementation of MGRS.  It won't deal with numbers
 //         near the poles, but only in the UTM domain of 84N to 80S
 //
 // 4) evaluates a string to see if it is a legal USNG coordinate; if so, returns
@@ -118,9 +118,9 @@
 //
 // Note regarding UTM coordinates: UTM calculations are an intermediate step in lat/lng-USNG
 // conversions, and can also be captured by applications, using functions below that are not
-// summarized in the above list.  
-// The functions in this module use negative numbers for UTM Y values in the southern 
-// hemisphere.  The calling application must check for this, and convert to correct 
+// summarized in the above list.
+// The functions in this module use negative numbers for UTM Y values in the southern
+// hemisphere.  The calling application must check for this, and convert to correct
 // southern-hemisphere values by adding 10,000,000 meters.
 
 //For older browsers that don't have window.console by default
@@ -130,13 +130,13 @@ if (!window.console) {
   };
 }
 
-define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
+define(['dojo/_base/declare', 'dojo/string'], function (declare, string) {
 
-  var USNGSqEast = "ABCDEFGHJKLMNPQRSTUVWXYZ";
-  
+  var USNGSqEast = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+
   //*****************************************************************************
 
-  var UNDEFINED_STR = "undefined";
+  var UNDEFINED_STR = 'undefined';
   var UTMEasting;
   var UTMNorthing;
   var UTMZone;      // 3 chars...two digits and letter
@@ -153,7 +153,7 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
   var IS_NAD83_DATUM = true;  // if false, assumes NAD27 datum
 
   // For diagram of zone sets, please see the "United States National Grid" white paper.
-  var GRIDSQUARE_SET_COL_SIZE = 8;  // column width of grid square set  
+  var GRIDSQUARE_SET_COL_SIZE = 8;  // column width of grid square set
   var GRIDSQUARE_SET_ROW_SIZE = 20; // row height of grid square set
 
   // UTM offsets
@@ -169,7 +169,7 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
   // check for NAD83
   if (IS_NAD83_DATUM) {
     EQUATORIAL_RADIUS    = 6378137.0; // GRS80 ellipsoid (meters)
-    ECC_SQUARED = 0.006694380023; 
+    ECC_SQUARED = 0.006694380023;
   }
   // else NAD27 datum is assumed
   else {
@@ -182,7 +182,7 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
   // variable used in inverse formulas (UTMtoLL function)
   var E1 = (1 - Math.sqrt(1 - ECC_SQUARED)) / (1 + Math.sqrt(1 - ECC_SQUARED));
 
-  // Number of digits to display for x,y coords 
+  // Number of digits to display for x,y coords
   //  One digit:    10 km precision      eg. "18S UJ 2 1"
   //  Two digits:   1 km precision       eg. "18S UJ 23 06"
   //  Three digits: 100 meters precision eg. "18S UJ 234 064"
@@ -211,7 +211,7 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
     ////////////////////////////////  */
 
       // convert 0-360 to [-180 to 180] range
-      var lonTemp = (lon + 180) - parseInt((lon + 180) / 360) * 360 - 180; 
+      var lonTemp = (lon + 180) - parseInt((lon + 180) / 360) * 360 - 180;
       var zoneNumber = parseInt((lonTemp + 180) / 6) + 1;
 
       // Handle special case of west coast of Norway
@@ -223,7 +223,7 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
       if ( lat >= 72.0 && lat < 84.0 ) {
         if ( lonTemp >= 0.0  && lonTemp <  9.0 ) {
           zoneNumber = 31;
-        } 
+        }
         else if ( lonTemp >= 9.0  && lonTemp < 21.0 ) {
           zoneNumber = 33;
         }
@@ -234,18 +234,18 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
           zoneNumber = 37;
         }
       }
-      return zoneNumber;  
+      return zoneNumber;
     }, // END getZoneNumber() function
 
 
 
     /***************** convert latitude, longitude to UTM  *******************
 
-        Converts lat/long to UTM coords.  Equations from USGS Bulletin 1532 
-        (or USGS Professional Paper 1395 "Map Projections - A Working Manual", 
+        Converts lat/long to UTM coords.  Equations from USGS Bulletin 1532
+        (or USGS Professional Paper 1395 "Map Projections - A Working Manual",
         by John P. Snyder, U.S. Government Printing Office, 1987.)
-     
-        East Longitudes are positive, West longitudes are negative. 
+
+        East Longitudes are positive, West longitudes are negative.
         North latitudes are positive, South latitudes are negative
         lat and lon are in decimal degrees
 
@@ -282,26 +282,26 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
       var lonRad = lonTemp * DEG_2_RAD;
 
       // user-supplied zone number will force coordinates to be computed in a particular zone
-      if (!zone) { 
-         zoneNumber = this.getZoneNumber(lat, lon);
+      if (!zone) {
+        zoneNumber = this.getZoneNumber(lat, lon);
       }
       else {
-         zoneNumber = zone;
+        zoneNumber = zone;
       }
 
       var lonOrigin = (zoneNumber - 1) * 6 - 180 + 3;  // +3 puts origin in middle of zone
       var lonOriginRad = lonOrigin * DEG_2_RAD;
 
       // compute the UTM Zone from the latitude and longitude
-      UTMZone = zoneNumber + "" + this.UTMLetterDesignator(lat) + " ";
+      UTMZone = zoneNumber + '' + this.UTMLetterDesignator(lat) + ' ';
 
-      var N = EQUATORIAL_RADIUS / Math.sqrt(1 - ECC_SQUARED * 
+      var N = EQUATORIAL_RADIUS / Math.sqrt(1 - ECC_SQUARED *
                                 Math.sin(latRad) * Math.sin(latRad));
       var T = Math.tan(latRad) * Math.tan(latRad);
       var C = ECC_PRIME_SQUARED * Math.cos(latRad) * Math.cos(latRad);
       var A = Math.cos(latRad) * (lonRad - lonOriginRad);
 
-      // Note that the term Mo drops out of the "M" equation, because phi 
+      // Note that the term Mo drops out of the "M" equation, because phi
       // (latitude crossing the central meridian, lambda0, at the origin of the
       //  x,y coordinates), is equal to zero for UTM.
       var M = EQUATORIAL_RADIUS * (( 1 - ECC_SQUARED / 4 -
@@ -362,7 +362,7 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
       // southern hemispher case
       if (lat < 0) {
         // Use offset for southern hemisphere
-        UTMNorthing += NORTHING_OFFSET; 
+        UTMNorthing += NORTHING_OFFSET;
       }
 
       var USNGLetters  = this.findGridLetters(zoneNumber, UTMNorthing, UTMEasting);
@@ -372,18 +372,18 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
       // added... truncate digits to achieve specified precision
       USNGNorthing = Math.floor(USNGNorthing / Math.pow(10,(5-precision)));
       USNGEasting = Math.floor(USNGEasting / Math.pow(10,(5-precision)));
-      var USNG = this.getZoneNumber(lat, lon) +  this.UTMLetterDesignator(lat) + " " + USNGLetters + " ";
+      var USNG = this.getZoneNumber(lat, lon) +  this.UTMLetterDesignator(lat) + ' ' + USNGLetters + ' ';
 
       // REVISIT: Modify to incorporate dynamic precision ?
       var i;
       for (i = String(USNGEasting).length; i < precision; i++) {
-        USNG += "0";
+        USNG += '0';
       }
 
-      USNG += USNGEasting + " ";
+      USNG += USNGEasting + ' ';
 
       for ( i = String(USNGNorthing).length; i < precision; i++) {
-        USNG += "0";
+        USNG += '0';
       }
 
       USNG += USNGNorthing;
@@ -395,10 +395,10 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
 
     /************** retrieve grid zone designator letter **********************
 
-        This routine determines the correct UTM letter designator for the given 
+        This routine determines the correct UTM letter designator for the given
         latitude returns 'Z' if latitude is outside the UTM limits of 84N to 80S
 
-        Returns letter designator for a given latitude. 
+        Returns letter designator for a given latitude.
         Letters range from C (-80 lat) to X (+84 lat), with each zone spanning
         8 degrees of latitude.
 
@@ -408,48 +408,48 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
       lat = parseFloat(lat);
 
       var letterDesignator;
-      if ((84 >= lat) && (lat >= 72)) 
+      if ((84 >= lat) && (lat >= 72))
         letterDesignator = 'X';
-      else if ((72 > lat) && (lat >= 64)) 
+      else if ((72 > lat) && (lat >= 64))
         letterDesignator = 'W';
-      else if ((64 > lat) && (lat >= 56)) 
+      else if ((64 > lat) && (lat >= 56))
         letterDesignator = 'V';
-      else if ((56 > lat) && (lat >= 48)) 
+      else if ((56 > lat) && (lat >= 48))
         letterDesignator = 'U';
-      else if ((48 > lat) && (lat >= 40)) 
+      else if ((48 > lat) && (lat >= 40))
         letterDesignator = 'T';
-      else if ((40 > lat) && (lat >= 32)) 
+      else if ((40 > lat) && (lat >= 32))
         letterDesignator = 'S';
-      else if ((32 > lat) && (lat >= 24)) 
+      else if ((32 > lat) && (lat >= 24))
         letterDesignator = 'R';
-      else if ((24 > lat) && (lat >= 16)) 
+      else if ((24 > lat) && (lat >= 16))
         letterDesignator = 'Q';
-      else if ((16 > lat) && (lat >= 8)) 
+      else if ((16 > lat) && (lat >= 8))
         letterDesignator = 'P';
-      else if (( 8 > lat) && (lat >= 0)) 
+      else if (( 8 > lat) && (lat >= 0))
         letterDesignator = 'N';
       else if (( 0 > lat) && (lat >= -8))
         letterDesignator = 'M';
-      else if ((-8> lat) && (lat >= -16)) 
+      else if ((-8> lat) && (lat >= -16))
         letterDesignator = 'L';
-      else if ((-16 > lat) && (lat >= -24)) 
+      else if ((-16 > lat) && (lat >= -24))
         letterDesignator = 'K';
-      else if ((-24 > lat) && (lat >= -32)) 
+      else if ((-24 > lat) && (lat >= -32))
         letterDesignator = 'J';
-      else if ((-32 > lat) && (lat >= -40)) 
+      else if ((-32 > lat) && (lat >= -40))
         letterDesignator = 'H';
-      else if ((-40 > lat) && (lat >= -48)) 
+      else if ((-40 > lat) && (lat >= -48))
         letterDesignator = 'G';
-      else if ((-48 > lat) && (lat >= -56)) 
+      else if ((-48 > lat) && (lat >= -56))
         letterDesignator = 'F';
-      else if ((-56 > lat) && (lat >= -64)) 
+      else if ((-56 > lat) && (lat >= -64))
         letterDesignator = 'E';
-      else if ((-64 > lat) && (lat >= -72)) 
+      else if ((-64 > lat) && (lat >= -72))
         letterDesignator = 'D';
-      else if ((-72 > lat) && (lat >= -80)) 
+      else if ((-72 > lat) && (lat >= -80))
         letterDesignator = 'C';
-      else 
-        letterDesignator = 'Z'; // This is here as an error flag to show 
+      else
+        letterDesignator = 'Z'; // This is here as an error flag to show
                                 // that the latitude is outside the UTM limits
       return letterDesignator;
     },
@@ -458,8 +458,8 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
 
     /****************** Find the set for a given zone. ************************
 
-        There are six unique sets, corresponding to individual grid numbers in 
-        sets 1-6, 7-12, 13-18, etc. Set 1 is the same as sets 7, 13, ..; Set 2 
+        There are six unique sets, corresponding to individual grid numbers in
+        sets 1-6, 7-12, 13-18, etc. Set 1 is the same as sets 7, 13, ..; Set 2
         is the same as sets 8, 14, ..
 
         See p. 10 of the "United States National Grid" white paper.
@@ -469,36 +469,36 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
     findSet: function(zoneNum) {
 
       zoneNum = parseInt(zoneNum);
-      zoneNum = zoneNum % 6; 
+      zoneNum = zoneNum % 6;
       switch (zoneNum) {
 
-        case 0: 
-          return 6;
+      case 0:
+        return 6;
 
-        case 1: 
-          return 1;
+      case 1:
+        return 1;
 
-        case 2: 
-          return 2;
+      case 2:
+        return 2;
 
-        case 3: 
-          return 3;
+      case 3:
+        return 3;
 
-        case 4: 
-          return 4;
+      case 4:
+        return 4;
 
-        case 5: 
-          return 5;
+      case 5:
+        return 5;
 
-        default: 
-          return -1;
+      default:
+        return -1;
       }
     },
     // END findSet() function
 
 
-    /**************************************************************************  
-      Retrieve the square identification for a given coordinate pair & zone  
+    /**************************************************************************
+      Retrieve the square identification for a given coordinate pair & zone
       See "lettersHelper" function documentation for more details.
 
     ***************************************************************************/
@@ -538,17 +538,17 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
       return this.lettersHelper(this.findSet(zoneNum), row, col);
     },
 
-    // END findGridLetters() function 
+    // END findGridLetters() function
 
 
 
 
 
-    /**************************************************************************  
+    /**************************************************************************
         Retrieve the Square Identification (two-character letter code), for the
-        given row, column and set identifier (set refers to the zone set: 
-        zones 1-6 have a unique set of square identifiers; these identifiers are 
-        repeated for zones 7-12, etc.) 
+        given row, column and set identifier (set refers to the zone set:
+        zones 1-6 have a unique set of square identifiers; these identifiers are
+        repeated for zones 7-12, etc.)
 
         See p. 10 of the "United States National Grid" white paper for a diagram
         of the zone sets.
@@ -560,7 +560,7 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
       // handle case of last row
       if (row === 0) {
         row = GRIDSQUARE_SET_ROW_SIZE - 1;
-      } 
+      }
       else {
         row--;
       }
@@ -570,40 +570,40 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
         col = GRIDSQUARE_SET_COL_SIZE - 1;
       }
       else {
-        col--;     
+        col--;
       }
 
       switch(set) {
 
-        case 1:
-          var l1="ABCDEFGH";              // column ids
-          var l2="ABCDEFGHJKLMNPQRSTUV";  // row ids
-          return l1.charAt(col) + l2.charAt(row);
+      case 1:
+        var l1='ABCDEFGH';              // column ids
+        var l2='ABCDEFGHJKLMNPQRSTUV';  // row ids
+        return l1.charAt(col) + l2.charAt(row);
 
-        case 2:
-          l1="JKLMNPQR";
-          l2="FGHJKLMNPQRSTUVABCDE";
-          return l1.charAt(col) + l2.charAt(row);
+      case 2:
+        l1='JKLMNPQR';
+        l2='FGHJKLMNPQRSTUVABCDE';
+        return l1.charAt(col) + l2.charAt(row);
 
-        case 3:
-          l1="STUVWXYZ";
-          l2="ABCDEFGHJKLMNPQRSTUV";
-          return l1.charAt(col) + l2.charAt(row);
+      case 3:
+        l1='STUVWXYZ';
+        l2='ABCDEFGHJKLMNPQRSTUV';
+        return l1.charAt(col) + l2.charAt(row);
 
-        case 4:
-          l1="ABCDEFGH";
-          l2="FGHJKLMNPQRSTUVABCDE";
-          return l1.charAt(col) + l2.charAt(row);
+      case 4:
+        l1='ABCDEFGH';
+        l2='FGHJKLMNPQRSTUVABCDE';
+        return l1.charAt(col) + l2.charAt(row);
 
-        case 5:
-          l1="JKLMNPQR";
-          l2="ABCDEFGHJKLMNPQRSTUV";
-          return l1.charAt(col) + l2.charAt(row);
+      case 5:
+        l1='JKLMNPQR';
+        l2='ABCDEFGHJKLMNPQRSTUV';
+        return l1.charAt(col) + l2.charAt(row);
 
-        case 6:
-          l1="STUVWXYZ";
-          l2="FGHJKLMNPQRSTUVABCDE";
-          return l1.charAt(col) + l2.charAt(row);
+      case 6:
+        l1='STUVWXYZ';
+        l2='FGHJKLMNPQRSTUVABCDE';
+        return l1.charAt(col) + l2.charAt(row);
       }
     },
     // END lettersHelper() function
@@ -615,11 +615,11 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
     /**************  convert UTM coords to decimal degrees *********************
 
         Equations from USGS Bulletin 1532 (or USGS Professional Paper 1395)
-        East Longitudes are positive, West longitudes are negative. 
+        East Longitudes are positive, West longitudes are negative.
         North latitudes are positive, South latitudes are negative.
 
         Expected Input args:
-          UTMNorthing   : northing-m (numeric), eg. 432001.8  
+          UTMNorthing   : northing-m (numeric), eg. 432001.8
         southern hemisphere NEGATIVE from equator ('real' value - 10,000,000)
           UTMEasting    : easting-m  (numeric), eg. 4000000.0
           UTMZoneNumber : 6-deg longitudinal zone (numeric), eg. 18
@@ -631,17 +631,17 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
     UTMtoLL: function(UTMNorthing, UTMEasting, UTMZoneNumber, ret) {
 
       // remove 500,000 meter offset for longitude
-      var xUTM = parseFloat(UTMEasting) - EASTING_OFFSET; 
+      var xUTM = parseFloat(UTMEasting) - EASTING_OFFSET;
       var yUTM = parseFloat(UTMNorthing);
       var zoneNumber = parseInt(UTMZoneNumber);
 
-      // origin longitude for the zone (+3 puts origin in zone center) 
-      var lonOrigin = (zoneNumber - 1) * 6 - 180 + 3; 
+      // origin longitude for the zone (+3 puts origin in zone center)
+      var lonOrigin = (zoneNumber - 1) * 6 - 180 + 3;
 
       // M is the "true distance along the central meridian from the Equator to phi
       // (latitude)
       var M = yUTM / k0;
-      var mu = M / ( EQUATORIAL_RADIUS * (1 - ECC_SQUARED / 4 - 3 * ECC_SQUARED * 
+      var mu = M / ( EQUATORIAL_RADIUS * (1 - ECC_SQUARED / 4 - 3 * ECC_SQUARED *
                       ECC_SQUARED / 64 - 5 * ECC_SQUARED * ECC_SQUARED * ECC_SQUARED / 256 ));
 
       // phi1 is the "footprint latitude" or the latitude at the central meridian which
@@ -649,25 +649,25 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
       var phi1Rad = mu + (3 * E1 / 2 - 27 * E1 * E1 * E1 / 32 ) * Math.sin( 2 * mu) +
                      ( 21 * E1 * E1 / 16 - 55 * E1 * E1 * E1 * E1 / 32) * Math.sin( 4 * mu) +
                      (151 * E1 * E1 * E1 / 96) * Math.sin(6 * mu);
-      
+
       // Terms used in the conversion equations
-      var N1 = EQUATORIAL_RADIUS / Math.sqrt( 1 - ECC_SQUARED * Math.sin(phi1Rad) * 
+      var N1 = EQUATORIAL_RADIUS / Math.sqrt( 1 - ECC_SQUARED * Math.sin(phi1Rad) *
                   Math.sin(phi1Rad));
       var T1 = Math.tan(phi1Rad) * Math.tan(phi1Rad);
       var C1 = ECC_PRIME_SQUARED * Math.cos(phi1Rad) * Math.cos(phi1Rad);
-      var R1 = EQUATORIAL_RADIUS * (1 - ECC_SQUARED) / Math.pow(1 - ECC_SQUARED * 
+      var R1 = EQUATORIAL_RADIUS * (1 - ECC_SQUARED) / Math.pow(1 - ECC_SQUARED *
                     Math.sin(phi1Rad) * Math.sin(phi1Rad), 1.5);
       var D = xUTM / (N1 * k0);
 
       // Calculate latitude, in decimal degrees
       var lat = phi1Rad - ( N1 * Math.tan(phi1Rad) / R1) * (D * D / 2 - (5 + 3 * T1 + 10 *
-              C1 - 4 * C1 * C1 - 9 * ECC_PRIME_SQUARED) * D * D * D * D / 24 + (61 + 90 * 
+              C1 - 4 * C1 * C1 - 9 * ECC_PRIME_SQUARED) * D * D * D * D / 24 + (61 + 90 *
               T1 + 298 * C1 + 45 * T1 * T1 - 252 * ECC_PRIME_SQUARED - 3 * C1 * C1) * D * D *
               D * D * D * D / 720);
       lat = lat * RAD_2_DEG;
 
       // Calculate longitude, in decimal degrees
-      var lon = (D - (1 + 2 * T1 + C1) * D * D * D / 6 + (5 - 2 * C1 + 28 * T1 - 3 * 
+      var lon = (D - (1 + 2 * T1 + C1) * D * D * D / 6 + (5 - 2 * C1 + 28 * T1 - 3 *
                 C1 * C1 + 8 * ECC_PRIME_SQUARED + 24 * T1 * T1) * D * D * D * D * D / 120) /
                 Math.cos(phi1Rad);
 
@@ -685,44 +685,44 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
 
         The Follwing functions are used to convert USNG Cords to UTM Cords.
 
-    ***************************************************************************/ 
-    /*********************************************************************************** 
+    ***************************************************************************/
+    /***********************************************************************************
 
-                       USNGtoUTM(zone,lett,sq1,sq2,east,north,ret) 
+                       USNGtoUTM(zone,lett,sq1,sq2,east,north,ret)
     Expected Input args:
           zone: Zone (integer), eg. 18
           lett: Zone letter, eg S
           sq1:  1st USNG square letter, eg U
-          sq2:  2nd USNG square Letter, eg J 
+          sq2:  2nd USNG square Letter, eg J
           east:  Easting digit string, eg 4000
           north:  Northing digit string eg 4000
-          ret:  saves zone,let,Easting and Northing as properties ret 
+          ret:  saves zone,let,Easting and Northing as properties ret
 
-    ***********************************************************************************/ 
+    ***********************************************************************************/
 
     USNGtoUTM: function(zone,lett,sq1,sq2,east,north,ret) {
 
       //Starts (southern edge) of N-S zones in millons of meters
       var zoneBase = [1.1,2.0,2.9,3.8,4.7,5.6,6.5,7.3,8.2,9.1,   0, 0.8, 1.7, 2.6, 3.5, 4.4, 5.3, 6.2, 7.0, 7.9];
 
-      var segBase = [0,2,2,2,4,4,6,6,8,8,   0,0,0,2,2,4,4,6,6,6];  //Starts of 2 million meter segments, indexed by zone 
+      var segBase = [0,2,2,2,4,4,6,6,8,8,   0,0,0,2,2,4,4,6,6,6];  //Starts of 2 million meter segments, indexed by zone
 
       // convert easting to UTM
-      var eSqrs=USNGSqEast.indexOf(sq1);          
-      var appxEast=1+eSqrs%8; 
+      var eSqrs=USNGSqEast.indexOf(sq1);
+      var appxEast=1+eSqrs%8;
 
       // convert northing to UTM
-      var letNorth = "CDEFGHJKLMNPQRSTUVWX".indexOf(lett);
+      var letNorth = 'CDEFGHJKLMNPQRSTUVWX'.indexOf(lett);
       var nSqrs;
       if (zone%2)  //odd number zone
-        nSqrs="ABCDEFGHJKLMNPQRSTUV".indexOf(sq2);
+        nSqrs='ABCDEFGHJKLMNPQRSTUV'.indexOf(sq2);
       else        // even number zone
-        nSqrs="FGHJKLMNPQRSTUVABCDE".indexOf(sq2); 
+        nSqrs='FGHJKLMNPQRSTUVABCDE'.indexOf(sq2);
 
       var zoneStart = zoneBase[letNorth];
       var appxNorth = Number(segBase[letNorth])+nSqrs/10;
       if ( appxNorth < zoneStart)
-           appxNorth += 2; 	  
+        appxNorth += 2;
 
       ret.N=appxNorth*1000000+Number(north)*Math.pow(10,5-north.length);
       ret.E=appxEast*100000+Number(east)*Math.pow(10,5-east.length);
@@ -730,7 +730,7 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
       ret.letter=lett;
 
       return;
-     },
+    },
 
 
 
@@ -741,20 +741,20 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
 
       var usngp = {};
 
-       this.parseUSNG_str(usngStr_input,usngp);
+      this.parseUSNG_str(usngStr_input,usngp);
       var coords = {};
 
        // convert USNG coords to UTM; this routine counts digits and sets precision
-       this.USNGtoUTM(usngp.zone,usngp.let,usngp.sq1,usngp.sq2,usngp.east,usngp.north,coords);
+      this.USNGtoUTM(usngp.zone,usngp.let,usngp.sq1,usngp.sq2,usngp.east,usngp.north,coords);
 
        // southern hemisphere case
-       if (usngp.let < 'N') {
-          coords.N -= NORTHING_OFFSET;
-       }
+      if (usngp.let < 'N') {
+        coords.N -= NORTHING_OFFSET;
+      }
 
-       this.UTMtoLL(coords.N, coords.E, usngp.zone, coords);
-       latlon[0] = coords.lat;
-       latlon[1] = coords.lon;
+      this.UTMtoLL(coords.N, coords.E, usngp.zone, coords);
+      latlon[0] = coords.lat;
+      latlon[1] = coords.lon;
 
     },
 
@@ -762,41 +762,41 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
     // convert lower-case characters to upper case, remove space delimeters, separate string into parts
     parseUSNG_str: function(usngStr_input, parts)
     {
-       var j = 0;
-       var k;
-       var usngStr = [];
-       var usngStr_temp = [];
+      var j = 0;
+      var k;
+      var usngStr = [];
+      var usngStr_temp = [];
 
-       usngStr_temp = usngStr_input.toUpperCase();
+      usngStr_temp = usngStr_input.toUpperCase();
 
        // put usgn string in 'standard' form with no space delimiters
-       var regexp = /%20/g;
-       usngStr = usngStr_temp.replace(regexp,"");
-       regexp = / /g;
-       usngStr = usngStr_temp.replace(regexp,"");
+      var regexp = /%20/g;
+      usngStr = usngStr_temp.replace(regexp,'');
+      regexp = / /g;
+      usngStr = usngStr_temp.replace(regexp,'');
 
-       if (usngStr.length < 7) {
-          console.warn("This application requires minimum USNG precision of 10,000 meters");
-          return 0;
-       }
+      if (usngStr.length < 7) {
+        console.warn('This application requires minimum USNG precision of 10,000 meters');
+        return 0;
+      }
 
        // break usng string into its component pieces
-       parts.zone = usngStr.charAt(j++)*10 + usngStr.charAt(j++)*1;
-       parts.let = usngStr.charAt(j++);
-       parts.sq1 = usngStr.charAt(j++);
-       parts.sq2 = usngStr.charAt(j++);
+      parts.zone = usngStr.charAt(j++)*10 + usngStr.charAt(j++)*1;
+      parts.let = usngStr.charAt(j++);
+      parts.sq1 = usngStr.charAt(j++);
+      parts.sq2 = usngStr.charAt(j++);
 
-       parts.precision = (usngStr.length-j) / 2;
-       parts.east='';
-       parts.north='';
-       for (k=0; k<parts.precision; k++) {
-           parts.east += usngStr.charAt(j++);
-       }
+      parts.precision = (usngStr.length-j) / 2;
+      parts.east='';
+      parts.north='';
+      for (k=0; k<parts.precision; k++) {
+        parts.east += usngStr.charAt(j++);
+      }
 
-       if (usngStr[j] == " ") { j++; }
-       for (k=0; k<parts.precision; k++) {
-           parts.north += usngStr.charAt(j++);
-       }
+      if (usngStr[j] == ' ') { j++; }
+      for (k=0; k<parts.precision; k++) {
+        parts.north += usngStr.charAt(j++);
+      }
     },
 
 
@@ -804,40 +804,40 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
     //    if so, returns the string in all upper case, no delimeters
     //    if not, returns 0
     isUSNG: function(inputStr) {
-       var usngStr = [];
-       var strregexp;
+      var usngStr = [];
+      var strregexp;
 
        // convert all letters to upper case
-       usngStr = inputStr.toUpperCase();
-     
+      usngStr = inputStr.toUpperCase();
+
        // get rid of space delimeters
-       var regexp = /%20/g;
-       usngStr = usngStr.replace(regexp,"");
-       regexp = / /g;
-       usngStr = usngStr.replace(regexp,"");
+      var regexp = /%20/g;
+      usngStr = usngStr.replace(regexp,'');
+      regexp = / /g;
+      usngStr = usngStr.replace(regexp,'');
 
-       if (usngStr.length > 15) {
-          return 0;
-       }
+      if (usngStr.length > 15) {
+        return 0;
+      }
 
-       strregexp = new RegExp("^[0-9]{2}[CDEFGHJKLMNPQRSTUVWX]$");
-       if (usngStr.match(strregexp)) {
-          console.warn("Input appears to be a UTM zone...more precision is required to display a correct result.");
-          return 0;
-       }
+      strregexp = new RegExp('^[0-9]{2}[CDEFGHJKLMNPQRSTUVWX]$');
+      if (usngStr.match(strregexp)) {
+        console.warn('Input appears to be a UTM zone...more precision is required to display a correct result.');
+        return 0;
+      }
 
-       strregexp = new RegExp("^[0-9]{2}[CDEFGHJKLMNPQRSTUVWX][ABCDEFGHJKLMNPQRSTUVWXYZ][ABCDEFGHJKLMNPQRSTUV]([0-9][0-9]){0,5}");
-       if (!usngStr.match(strregexp)) {
-          return 0;
-       }
+      strregexp = new RegExp('^[0-9]{2}[CDEFGHJKLMNPQRSTUVWX][ABCDEFGHJKLMNPQRSTUVWXYZ][ABCDEFGHJKLMNPQRSTUV]([0-9][0-9]){0,5}');
+      if (!usngStr.match(strregexp)) {
+        return 0;
+      }
 
-       if (usngStr.length < 7) {
-          alert(usngStr+" Appears to be a USNG string, but this application requires precision of at least 10,000 meters");
-          return 0;
-       }
+      if (usngStr.length < 7) {
+        alert(usngStr+' Appears to be a USNG string, but this application requires precision of at least 10,000 meters');
+        return 0;
+      }
 
        // all tests passed...return the upper-case, non-delimited string
-       return usngStr;
+      return usngStr;
 
     },
 
@@ -847,14 +847,14 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
     //    in MGRS notation.  but the numbers are the same.
     LLtoMGRS: function(lat, lon, precision)
     {
-       var mgrs_str="";
-       var usng_str = this.LLtoUSNG(lat, lon, precision);
+      var mgrs_str='';
+      var usng_str = this.LLtoUSNG(lat, lon, precision);
 
        // remove space delimiters to conform to mgrs spec
-       var regexp = / /g;
-       mgrs_str = usng_str.replace(regexp,"");
+      var regexp = / /g;
+      mgrs_str = usng_str.replace(regexp,'');
 
-       return(mgrs_str);
+      return(mgrs_str);
     },
 
     LLtoUSNG_nad27: function(lat, lon, precision) {
@@ -864,13 +864,13 @@ define(["dojo/_base/declare", "dojo/string"], function (declare, string) {
       EQUATORIAL_RADIUS = 6378206.4;
       ECC_SQUARED = 0.006768658;
 
-      usngstr = this.LLtoUSNG(lat, lon, precision); 
+      usngstr = this.LLtoUSNG(lat, lon, precision);
 
       // reset GRS80 ellipsoid
-      EQUATORIAL_RADIUS    = 6378137.0; 
-      ECC_SQUARED = 0.006694380023; 
+      EQUATORIAL_RADIUS    = 6378137.0;
+      ECC_SQUARED = 0.006694380023;
 
-      return usngstr + " (NAD27)";
+      return usngstr + ' (NAD27)';
     }
   };
   return theClass;

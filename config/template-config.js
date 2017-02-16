@@ -1,5 +1,5 @@
-/*global define */
-/*jslint sloppy:true */
+
+
 /*
 | Copyright 2014 Esri
 |
@@ -17,45 +17,45 @@
 */
 define({
     // When true, the template will query arcgis.com for the webmap item.
-    "queryForWebmap": false,
+  'queryForWebmap': false,
     // When true, the template will query arcgis.com for the group's information.
-    "queryForGroupInfo": true,
+  'queryForGroupInfo': true,
     // When true, the template will query arcgis.com for the items contained within the group
-    "queryForGroupItems": false,
+  'queryForGroupItems': false,
     // Use a local hosted webmap instead of a webmap on ArcGIS or portal.
-    "useLocalWebmap": false,
+  'useLocalWebmap': false,
     // support sending credentials with AJAX requests to specific domains. This will allow editing of feature services secured with web-tier authentication
-    "webTierSecurity": true,
+  'webTierSecurity': true,
     // Webmap file to use for the local webmap
-    "localWebmapFile": "config/demo-map",
+  'localWebmapFile': 'config/demo-map',
     //When true the template will query arcgis.com for default settings for helper services, units etc. If you
     //want to use custom settings for units or any of the helper services set queryForOrg to false then enter
     //default values for any items you need using the helper services and units properties.
-    "queryForOrg": true,
+  'queryForOrg': true,
     //If you need localization set the localize value to true to get the localized strings
     //from the javascript/nls/resource files.
     //Note that we've included a placeholder nls folder and a resource file with one error string
     //to show how to setup the strings file.
-    "queryForLocale": true,
+  'queryForLocale': true,
     // These are the options specified for querying items within the group. Modify these to get more items. You can also call the public template.queryGroupItems() method with these options as a parameter.
-    "groupParams": {
-        "q": "group:\"${groupid}\" AND type:\"Web Map\" AND -type:\"Web Mapping Application\" AND -type:\"Code Attachment\"",
-        "sortField": "modified",
-        "sortOrder": "desc",
-        "num": 9,
-        "start": 0
-    },
+  'groupParams': {
+    'q': 'group:"${groupid}" AND type:"Web Map" AND -type:"Web Mapping Application" AND -type:"Code Attachment"',
+    'sortField': 'modified',
+    'sortOrder': 'desc',
+    'num': 9,
+    'start': 0
+  },
     //This option demonstrates how to handle additional custom url parameters. For example
     //if you want users to be able to specify lat/lon coordinates that define the map's center or
     //specify an alternate basemap via a url parameter.
-    "urlItems": [
-      "embed",
-      "center",
-      "extent",
-      "level",
-      "theme" // example param. ?theme=<my theme>
-    ],
+  'urlItems': [
+    'embed',
+    'center',
+    'extent',
+    'level',
+    'theme' // example param. ?theme=<my theme>
+  ],
     // Most users will not need to modify this value. For esri hosting environments only. Will automatically create a "sharinghost" and "proxyurl" for the application. Only set this is to true if the app is going to be stored on Esri's hosting servers. If you are using your own custom hosted portal, set the "sharinghost" in defaults.js instead of setting this to true.
-     esriEnvironment: false
+  esriEnvironment: false
 
 });
