@@ -16,12 +16,6 @@
  | limitations under the License.
  */
 
-// Legacy dependencies
-import jquery from 'script-loader!jquery';
-import bootstrap from 'bootstrap';
-import bootstrapDatetimepicker from 'imports-loader?moment,this=>window,define=>undefined,exports=>undefined!eonasdan-bootstrap-datetimepicker';
-import bootstrapTouchspin from 'bootstrap-touchspin';
-
 import declare from "dojo/_base/declare";
 import TemplateConfig from "../config/template-config";
 import Template from "./template";
@@ -30,7 +24,6 @@ import ApplicationUtils from "./utils/utils";
 import domConstruct from "dojo/dom-construct";
 import lang from "dojo/_base/lang";
 
-// import './vendor/bootstrap-3.3.0-dist/css/bootstrap.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './vendor/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css';
 import 'bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css';
