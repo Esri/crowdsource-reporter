@@ -167,6 +167,11 @@
         {
           "type": "paragraph",
           "value": "Choose different colors for header, body and button sections"
+        }, {
+           "label": "Application color",
+             "tooltip": "Application color scheme",
+             "type": "color",
+             "fieldName": "theme"
         },
         {
           "label": "Header text color",
