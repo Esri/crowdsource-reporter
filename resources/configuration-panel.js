@@ -171,14 +171,15 @@
            "label": "Application color",
              "tooltip": "Application color scheme",
              "type": "color",
-             "fieldName": "theme"
+             "fieldName": "theme",
+             "sharedThemeProperty": "header.text"
         },
         {
-          "label": "Header text color",
-          "tooltip": "Set header text color.",
+          "label": "Header background color",
+          "tooltip": "Set header background color.",
           "type": "color",
-          "sharedThemeProperty": "header.text",
-          "fieldName": "headerTextColor"
+          "sharedThemeProperty": "header.background",
+          "fieldName": "headerBackgroundColor"
         },
         {
           "label": "Body background color",

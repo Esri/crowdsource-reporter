@@ -167,8 +167,8 @@ define([
                     // Configured/Org colors for app theme
                     BodyBackgroundColor: this.config.appTheme.body.background,
                     BodyTextColor: this.config.appTheme.body.text,
-                    HeaderBackgroundColor: this.config.theme,
-                    HeaderTextColor: this.config.appTheme.header.text,
+                    HeaderBackgroundColor: this.config.appTheme.header.background,
+                    HeaderTextColor: this.config.theme,
                     ButtonBackgroundColor: this.config.appTheme.button.background,
                     ButtonTextColor: this.config.appTheme.button.text,
                     // Calculated colors
@@ -205,8 +205,8 @@ define([
             //Set the app theme as per configuration
             this.config.appTheme = {
                 "header": {
-                    "background": this.config.theme,
-                    "text": this.config.headerTextColor
+                    "background": this.config.headerBackgroundColor,
+                    "text": this.config.theme,
                 },
                 "body": {
                     "background": this.config.bodyBackgroundColor,
@@ -227,9 +227,9 @@ define([
             this.config.appTheme.body.calculatedText =
                 this.appUtils.getCalculatedColor(this.config.appTheme.body.text, 50, 21);
             this.config.appTheme.header.calculatedBackground =
-                this.appUtils.getCalculatedColor(this.config.theme, 70, 18);
+                this.appUtils.getCalculatedColor(this.config.appTheme.header.background, 70, 18);
             this.config.appTheme.header.calculatedText =
-                this.appUtils.getCalculatedColor(this.config.appTheme.header.text, 50, 27);
+                this.appUtils.getCalculatedColor(this.config.theme, 50, 27);
         }
         //--------------- Theme Section Ends ------------------//
     });
