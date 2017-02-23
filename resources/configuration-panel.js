@@ -172,7 +172,7 @@
              "tooltip": "Application color scheme",
              "type": "color",
              "fieldName": "theme",
-             "sharedThemeProperty": "header.text",
+             "sharedThemeProperty": "header.text"
         },
         {
           "label": "Header background color",
