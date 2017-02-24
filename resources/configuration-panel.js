@@ -43,7 +43,7 @@
     "splashScreenTextColor": "#FFF",
     "imageBackgroundColor": "#999999",
     "imageForeGroundColor": "white",
-    "showMapFirst": false,
+    "showMapFirst": "list",
     "enableHelp": true,
     "showHelpOnLoad": false,
     "enableDifferentHelpContent": false,
@@ -506,10 +506,10 @@
            "tooltip": "Show map or list on application load.",
            "items": [{
              "label": "Show map first",
-             "value": true
+             "value": "map"
            }, {
              "label": "Show list first",
-             "value": false
+             "value": "list"
            }]
         },{
           "type": "subcategory",
@@ -756,6 +756,6 @@
         }
       ]
     }
-    
+
   ]
 }

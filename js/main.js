@@ -438,7 +438,7 @@ define([
                 on(dom.byId("mapBackButton"), "click", lang.hitch(this, function (evt) {
                     this._toggleListView();
                     //If showMapFirst flag is turned on and app is running in mobile mode, show web list on click of back button
-                    if (this.config.showMapFirst && dojowindow.getBox().w < 768) {
+                    if (this.config.showMapFirst === "map" && dojowindow.getBox().w < 768) {
                         //If current panel is "issueDetails" then show the same panel instead of web map list
                         if (this._sidebarCnt._currentPanelName !== "itemDetails") {
                             this._sidebarCnt.showPanel("webMapList");
@@ -454,7 +454,7 @@ define([
                     this._isMyIssues = false;
                     this._toggleListView();
                     //If showMapFirst flag is turned on and app is running in mobile mode, show issue wall on click of toggle list button
-                    if (this.config.showMapFirst && dojowindow.getBox().w < 768) {
+                    if (this.config.showMapFirst === "map" && dojowindow.getBox().w < 768) {
                         this._sidebarCnt.showPanel("issueWall");
                     } else {
                         //Clear map selection when navigating to web map list
@@ -1103,7 +1103,7 @@ define([
                 }
             } else {
                 //Check for the configurable parameter and accordingly show map first in mobile devices
-                if (this.config.showMapFirst && dojowindow.getBox().w < 768) {
+                if (this.config.showMapFirst === "map" && dojowindow.getBox().w < 768) {
                     this._toggleMapView();
                 }
                 data.featureLayerCount = this.featureLayerCount;
