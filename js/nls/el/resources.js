@@ -27,7 +27,7 @@ define({
     "gotoListViewTooltip": "Προβολή λίστας",
     "noFeatureGeomtery": "Δεν είναι δυνατή η εμφάνιση του στοιχείου",
     "featureOutsideAOIMessage": "Το στοιχείο δεν μπορεί να προστεθεί εκτός της περιοχής μελέτης",
-    "noEditingPermissionsMessage": "Đ_You do not have permission to perform this action________________ớ."
+    "noEditingPermissionsMessage": "Δεν έχετε δικαίωμα να εκτελέσετε αυτή την ενέργεια."
   },
   "signin": {
     "guestSigninText": "Συνέχεια ως επισκέπτης",
@@ -62,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Προβολή χάρτη"
   },
   "appHeader": {
-    "myReport": "Đ_My Submissions_____ớ",
+    "myReport": "Οι υποβολές μου",
     "signIn": "Είσοδος",
     "signOut": "Έξοδος",
     "signInTooltip": "Εισέλθετε",
     "signOutTooltip": "Έξοδος",
-    "myReportTooltip": "Đ_View my submissions_______ớ"
+    "myReportTooltip": "Προβολή των υποβολών μου"
   },
   "geoform": {
     "enterInformation": "ΛΕΠΤΟΜΕΡΕΙΕΣ",
@@ -89,18 +89,18 @@ define({
     "selectLocation": "Επιλέξτε τη θέση για την αναφορά σας",
     "numericRangeHintMessage": "${openStrong}Υπόδειξη:${closeStrong} ελάχιστη τιμή ${minValue} και μέγιστη τιμή ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Υπόδειξη:${closeStrong} ελάχιστη ημερομηνία ${minValue} και μέγιστη ημερομηνία ${maxValue}",
-    "errorsInApplyEdits": "Đ_Values could not be submitted__________ớ.",
+    "errorsInApplyEdits": "Δεν ήταν δυνατή η υποβολή των τιμών.",
     "attachmentSelectedMsg": "συνημμένα επιλέχθηκαν",
     "attachmentUploadStatus": "Απέτυχε η μεταφόρτωση ${failed} από ${total} συνημμένων",
     "geoLocationError": "Η τρέχουσα τοποθεσία δεν είναι διαθέσιμη",
     "geoLocationOutOfExtent": "Η τρέχουσα τοποθεσία είναι εκτός της έκτασης του υποβάθρου",
     "submitButtonTooltip": "Υποβολή",
     "cancelButtonTooltip": "Ακύρωση",
-    "geoformBackButtonTooltip": "Đ_Return to the list______ớ",
-    "locationSelectionHintForPointLayer": "Đ_Tap the map to draw the location___________ớ.",
-    "locationSelectionHintForPolygonLayer": "Đ_Tap the map to draw the location. Double tap to complete the drawing______________________ớ.",
-    "locationSelectionHintForPointLayerDesktop": "Đ_Click the map to draw the location____________ớ.",
-    "locationSelectionHintForPolygonLayerDesktop": "Đ_Click the map to draw the location. Double click to complete the drawing_______________________ớ."
+    "geoformBackButtonTooltip": "Επιστροφή στη λίστα",
+    "locationSelectionHintForPointLayer": "Πατήστε στον χάρτη για να σχεδιάσετε την τοποθεσία.",
+    "locationSelectionHintForPolygonLayer": "Πατήστε στον χάρτη για να σχεδιάσετε την τοποθεσία. Κάντε διπλό πάτημα για να ολοκληρώσετε τη σχεδίαση.",
+    "locationSelectionHintForPointLayerDesktop": "Κάντε κλικ στον χάρτη για να σχεδιάσετε την τοποθεσία.",
+    "locationSelectionHintForPolygonLayerDesktop": "Κάντε κλικ στον χάρτη για να σχεδιάσετε την τοποθεσία. Κάντε διπλό κλικ για να ολοκληρώσετε τη σχεδίαση."
   },
   "locator": {
     "addressText": "Διεύθυνση:",
@@ -109,14 +109,14 @@ define({
     "latLongText": "Γεωγραφικό πλάτος/Γεωγραφικό μήκος",
     "invalidSearch": "Δεν βρέθηκαν αποτελέσματα",
     "locatorPlaceholder": "Εισαγάγετε μια διεύθυνση για αναζήτηση",
-    "locationOutOfExtent": "Đ_Location is outside the submission area_____________ớ",
+    "locationOutOfExtent": "Η τοποθεσία βρίσκεται εκτός της περιοχής υποβολής",
     "searchButtonTooltip": "Αναζήτηση",
     "clearButtonTooltip": "Απαλοιφή τιμής αναζήτησης"
   },
   "myIssues": {
-    "title": "Đ_My Submissions_____ớ",
-    "myIssuesTooltip": "Đ_My Submissions_____ớ",
-    "noResultsFound": "Đ_No submissions found_______ớ"
+    "title": "Οι υποβολές μου",
+    "myIssuesTooltip": "Οι υποβολές μου",
+    "noResultsFound": "Δεν βρέθηκαν υποβολές"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -126,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Δείτε τα συνημμένα έγγραφα",
     "mapButtonLabel": "Προβολή στο χάρτη",
-    "mapButtonTooltip": "Đ_View the location of this submission____________ớ",
+    "mapButtonTooltip": "Προβολή της τοποθεσίας αυτής της υποβολής",
     "commentsListHeading": "Σχόλια",
     "unableToUpdateVoteField": "Δεν είναι δυνατή η μέτρηση της ψήφου σας αυτήν τη στιγμή.",
-    "gotoIssueListTooltip": "Đ_View the list of submissions_________ớ",
+    "gotoIssueListTooltip": "Προβολή της λίστας υποβολών",
     "deleteMessage": "Είστε βέβαιοι ότι θέλετε να γίνει διαγραφή;"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Đ_Number of votes______ớ",
+    "likesForThisItemTooltip": "Αριθμός ψήφων",
     "loadMoreButtonText": "Φόρτωση περισσότερων δεδομένων..."
   },
   "comment": {

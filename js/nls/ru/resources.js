@@ -27,7 +27,7 @@ define({
     "gotoListViewTooltip": "Вид - список",
     "noFeatureGeomtery": "Объекты невозможно отобразить",
     "featureOutsideAOIMessage": "Невозможно добавить объекты за пределами изучаемой области.",
-    "noEditingPermissionsMessage": "Ж_You do not have permission to perform this action________________Я."
+    "noEditingPermissionsMessage": "У вас нет прав доступа для выполнения этого действия."
   },
   "signin": {
     "guestSigninText": "Продолжить как гость",
@@ -62,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Вид карты"
   },
   "appHeader": {
-    "myReport": "Ж_My Submissions_____Я",
+    "myReport": "Мои отправки",
     "signIn": "Вход",
     "signOut": "Выход",
     "signInTooltip": "Вход",
     "signOutTooltip": "Выход",
-    "myReportTooltip": "Ж_View my submissions_______Я"
+    "myReportTooltip": "Просмотреть мои отправки"
   },
   "geoform": {
     "enterInformation": "Подробности",
@@ -89,18 +89,18 @@ define({
     "selectLocation": "Выберите местоположение для отчета",
     "numericRangeHintMessage": "${openStrong}Подсказка:${closeStrong} Минимальное значение ${minValue} и Максимальное значение ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Hint:${closeStrong} Минимальная дата ${minValue} и Максимальная дата ${maxValue}",
-    "errorsInApplyEdits": "Ж_Values could not be submitted__________Я.",
+    "errorsInApplyEdits": "Значения не могут быть отправлены.",
     "attachmentSelectedMsg": "выбранные вложения",
     "attachmentUploadStatus": "${failed} из ${total} вложений не удалось выгрузить.",
     "geoLocationError": "Текущее местоположение недоступно",
     "geoLocationOutOfExtent": "Текущее местоположение вне экстента базовой карты",
     "submitButtonTooltip": "Подтвердить",
     "cancelButtonTooltip": "Отменить",
-    "geoformBackButtonTooltip": "Ж_Return to the list______Я",
-    "locationSelectionHintForPointLayer": "Ж_Tap the map to draw the location___________Я.",
-    "locationSelectionHintForPolygonLayer": "Ж_Tap the map to draw the location. Double tap to complete the drawing______________________Я.",
-    "locationSelectionHintForPointLayerDesktop": "Ж_Click the map to draw the location____________Я.",
-    "locationSelectionHintForPolygonLayerDesktop": "Ж_Click the map to draw the location. Double click to complete the drawing_______________________Я."
+    "geoformBackButtonTooltip": "Вернуться к списку",
+    "locationSelectionHintForPointLayer": "Коснитесь карты, чтобы нарисовать местоположение.",
+    "locationSelectionHintForPolygonLayer": "Коснитесь карты, чтобы нарисовать местоположение. Коснитесь дважды, чтобы завершить рисунок.",
+    "locationSelectionHintForPointLayerDesktop": "Щелкните карту, чтобы нарисовать местоположение.",
+    "locationSelectionHintForPolygonLayerDesktop": "Щелкните карту, чтобы нарисовать местоположение. Щелкните дважды, чтобы завершить рисунок."
   },
   "locator": {
     "addressText": "Адрес:",
@@ -109,14 +109,14 @@ define({
     "latLongText": "Широта/Долгота",
     "invalidSearch": "Результаты не найдены",
     "locatorPlaceholder": "Введите адрес для поиска",
-    "locationOutOfExtent": "Ж_Location is outside the submission area_____________Я",
+    "locationOutOfExtent": "Местоположение находится вне области отправления.",
     "searchButtonTooltip": "Поиск",
     "clearButtonTooltip": "Очистить значение поиска"
   },
   "myIssues": {
-    "title": "Ж_My Submissions_____Я",
-    "myIssuesTooltip": "Ж_My Submissions_____Я",
-    "noResultsFound": "Ж_No submissions found_______Я"
+    "title": "Мои отправки",
+    "myIssuesTooltip": "Мои отправки",
+    "noResultsFound": "Отправления не найдены"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -126,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Просмотр вложенных документов",
     "mapButtonLabel": "Просмотр на карте",
-    "mapButtonTooltip": "Ж_View the location of this submission____________Я",
+    "mapButtonTooltip": "Просмотреть местоположение этого отправления",
     "commentsListHeading": "Комментарии",
     "unableToUpdateVoteField": "Ваш голос не может быть учтен сейчас.",
-    "gotoIssueListTooltip": "Ж_View the list of submissions_________Я",
+    "gotoIssueListTooltip": "Посмотреть список отправлений",
     "deleteMessage": "Вы уверены, что хотите удалить?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Ж_Number of votes______Я",
+    "likesForThisItemTooltip": "Число голосов",
     "loadMoreButtonText": "Загрузить больше..."
   },
   "comment": {

@@ -27,7 +27,7 @@ define({
     "gotoListViewTooltip": "Prikaz u popisu",
     "noFeatureGeomtery": "Geoobjekt se ne može prikazati",
     "featureOutsideAOIMessage": "Geoobjekt se ne može dodati izvan radnog područja",
-    "noEditingPermissionsMessage": "Č_You do not have permission to perform this action________________ž."
+    "noEditingPermissionsMessage": "Nemate dopuštenje za izvođenje ove radnje."
   },
   "signin": {
     "guestSigninText": "Nastavi kao gost",
@@ -62,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Prikaz karte"
   },
   "appHeader": {
-    "myReport": "Č_My Submissions_____ž",
+    "myReport": "Moji podnesci",
     "signIn": "Prijava",
     "signOut": "Odjava",
     "signInTooltip": "Prijava",
     "signOutTooltip": "Odjava",
-    "myReportTooltip": "Č_View my submissions_______ž"
+    "myReportTooltip": "Prikaži moje podneske"
   },
   "geoform": {
     "enterInformation": "Pojedinosti",
@@ -89,18 +89,18 @@ define({
     "selectLocation": "Odaberite lokaciju za izvješće",
     "numericRangeHintMessage": "${openStrong}Podsjetnik:${closeStrong} minimalna vrijednost ${minValue} i maksimalna vrijednost ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Podsjetnik:${closeStrong} minimalni datum ${minValue} i maksimalni datum ${maxValue}",
-    "errorsInApplyEdits": "Č_Values could not be submitted__________ž.",
+    "errorsInApplyEdits": "Nije moguće podnijeti vrijednosti.",
     "attachmentSelectedMsg": "odabrani privitak(-ci)",
     "attachmentUploadStatus": "${failed} od ${total} privit(a)ka nije poslano",
     "geoLocationError": "Trenutačna lokacija nije dostupna",
     "geoLocationOutOfExtent": "Trenutačna lokacija izvan je obuhvata kartografske podloge",
     "submitButtonTooltip": "Pošalji",
     "cancelButtonTooltip": "Odustani",
-    "geoformBackButtonTooltip": "Č_Return to the list______ž",
-    "locationSelectionHintForPointLayer": "Č_Tap the map to draw the location___________ž.",
-    "locationSelectionHintForPolygonLayer": "Č_Tap the map to draw the location. Double tap to complete the drawing______________________ž.",
-    "locationSelectionHintForPointLayerDesktop": "Č_Click the map to draw the location____________ž.",
-    "locationSelectionHintForPolygonLayerDesktop": "Č_Click the map to draw the location. Double click to complete the drawing_______________________ž."
+    "geoformBackButtonTooltip": "Povratak na popis",
+    "locationSelectionHintForPointLayer": "Dodirnite kartu za crtanje lokacije.",
+    "locationSelectionHintForPolygonLayer": "Dodirnite kartu za crtanje lokacije. Dva puta dodirnite kartu za dovršavanje crteža.",
+    "locationSelectionHintForPointLayerDesktop": "Kliknite na kartu za crtanje lokacije.",
+    "locationSelectionHintForPolygonLayerDesktop": "Kliknite kartu za crtanje lokacije. Dva puta kliknite na kartu za dovršavanje crteža."
   },
   "locator": {
     "addressText": "Adresa:",
@@ -109,14 +109,14 @@ define({
     "latLongText": "Geografska dužina/širina",
     "invalidSearch": "Nema rezultata",
     "locatorPlaceholder": "Unesite adresu za pretraživanje",
-    "locationOutOfExtent": "Č_Location is outside the submission area_____________ž",
+    "locationOutOfExtent": "Lokacija je izvan područja podneska",
     "searchButtonTooltip": "Pretraži",
     "clearButtonTooltip": "Očisti vrijednost pretrage"
   },
   "myIssues": {
-    "title": "Č_My Submissions_____ž",
-    "myIssuesTooltip": "Č_My Submissions_____ž",
-    "noResultsFound": "Č_No submissions found_______ž"
+    "title": "Moji podnesci",
+    "myIssuesTooltip": "Moji podnesci",
+    "noResultsFound": "Nisu pronađeni podnesci"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -126,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Vidi priložene dokumente",
     "mapButtonLabel": "Prikaži na karti",
-    "mapButtonTooltip": "Č_View the location of this submission____________ž",
+    "mapButtonTooltip": "Prikaži lokaciju ovog podneska",
     "commentsListHeading": "Komentari",
     "unableToUpdateVoteField": "Vaš se glas trenutačno ne može pribrojiti.",
-    "gotoIssueListTooltip": "Č_View the list of submissions_________ž",
+    "gotoIssueListTooltip": "Prikaži popis podnesaka",
     "deleteMessage": "Jeste li sigurni da želite izbrisati?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Č_Number of votes______ž",
+    "likesForThisItemTooltip": "Broj glasova",
     "loadMoreButtonText": "Učitaj više..."
   },
   "comment": {

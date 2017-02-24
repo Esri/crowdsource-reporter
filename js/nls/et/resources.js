@@ -27,7 +27,7 @@ define({
     "gotoListViewTooltip": "Loendivaade",
     "noFeatureGeomtery": "Funktsiooni ei saa kuvada.",
     "featureOutsideAOIMessage": "Objekti ei saa lisada uuringualast väljapoole",
-    "noEditingPermissionsMessage": "Š_You do not have permission to perform this action________________ä."
+    "noEditingPermissionsMessage": "Teil puudub õigus selle toimingu tegemiseks."
   },
   "signin": {
     "guestSigninText": "Jätkake külalisena",
@@ -62,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Kaardivaade"
   },
   "appHeader": {
-    "myReport": "Š_My Submissions_____ä",
+    "myReport": "Minu edastused",
     "signIn": "Logi sisse",
     "signOut": "Logi välja",
     "signInTooltip": "Logi sisse",
     "signOutTooltip": "Logi välja",
-    "myReportTooltip": "Š_View my submissions_______ä"
+    "myReportTooltip": "Kuva minu edastused"
   },
   "geoform": {
     "enterInformation": "Detailid",
@@ -89,18 +89,18 @@ define({
     "selectLocation": "Valige oma aruande asukoht.",
     "numericRangeHintMessage": "${openStrong}Vihje:${closeStrong} Miinimumväärtus ${minValue} ja maksimumväärtus ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Vihje:${closeStrong} Kuupäeva alampiir ${minValue} ja kuupäeva ülempiir ${maxValue}",
-    "errorsInApplyEdits": "Š_Values could not be submitted__________ä.",
+    "errorsInApplyEdits": "Väärtusi ei saanud edastada.",
     "attachmentSelectedMsg": "valitud manus(ed)",
     "attachmentUploadStatus": "Manust /kokku manusest ei õnnestunud üles laadida.",
     "geoLocationError": "Hetke asukoht pole kättesaadav.",
     "geoLocationOutOfExtent": "Hetke asukoht on lubatud vahemikust väljas.",
     "submitButtonTooltip": "Esita",
     "cancelButtonTooltip": "Tühista",
-    "geoformBackButtonTooltip": "Š_Return to the list______ä",
-    "locationSelectionHintForPointLayer": "Š_Tap the map to draw the location___________ä.",
-    "locationSelectionHintForPolygonLayer": "Š_Tap the map to draw the location. Double tap to complete the drawing______________________ä.",
-    "locationSelectionHintForPointLayerDesktop": "Š_Click the map to draw the location____________ä.",
-    "locationSelectionHintForPolygonLayerDesktop": "Š_Click the map to draw the location. Double click to complete the drawing_______________________ä."
+    "geoformBackButtonTooltip": "Naase loendisse",
+    "locationSelectionHintForPointLayer": "Asukoha joonistamiseks puudutage kaarti.",
+    "locationSelectionHintForPolygonLayer": "Asukoha joonistamiseks puudutage kaarti. Joonistuse lõpuleviimiseks topeltpuudutage.",
+    "locationSelectionHintForPointLayerDesktop": "Asukoha joonistamiseks klõpsake kaarti.",
+    "locationSelectionHintForPolygonLayerDesktop": "Asukoha joonistamiseks klõpsake kaarti. Joonistuse lõpuleviimiseks topeltklõpsake."
   },
   "locator": {
     "addressText": "Aadress:",
@@ -109,14 +109,14 @@ define({
     "latLongText": "Laius/Pikkus",
     "invalidSearch": "Tulemusi ei leitud",
     "locatorPlaceholder": "Sisesta otsingusse aadress",
-    "locationOutOfExtent": "Š_Location is outside the submission area_____________ä",
+    "locationOutOfExtent": "Asukoht on väljaspool edastusala",
     "searchButtonTooltip": "Otsi",
     "clearButtonTooltip": "Tühjenda otsingu väärtus"
   },
   "myIssues": {
-    "title": "Š_My Submissions_____ä",
-    "myIssuesTooltip": "Š_My Submissions_____ä",
-    "noResultsFound": "Š_No submissions found_______ä"
+    "title": "Minu edastused",
+    "myIssuesTooltip": "Minu edastused",
+    "noResultsFound": "Edastusi ei leitud"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -126,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Vaadake manustatud dokumente",
     "mapButtonLabel": "Vaata kaardil",
-    "mapButtonTooltip": "Š_View the location of this submission____________ä",
+    "mapButtonTooltip": "Kuva selle edastuse asukoht",
     "commentsListHeading": "Kommentaari",
     "unableToUpdateVoteField": "Teie häält ei saa seekord lisada.",
-    "gotoIssueListTooltip": "Š_View the list of submissions_________ä",
+    "gotoIssueListTooltip": "Kuva edastuste loendit",
     "deleteMessage": "Kas soovite selle kindlasti kustutada?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Š_Number of votes______ä",
+    "likesForThisItemTooltip": "Häälte arv",
     "loadMoreButtonText": "Laadi rohkem..."
   },
   "comment": {

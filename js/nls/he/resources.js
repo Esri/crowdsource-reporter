@@ -27,7 +27,7 @@ define({
     "gotoListViewTooltip": "תצוגת רשימה",
     "noFeatureGeomtery": "לא ניתן להציג את הישות",
     "featureOutsideAOIMessage": "‏אין אפשרות להוסיף ישות מחוץ לאזור המחקר",
-    "noEditingPermissionsMessage": "כן_You do not have permission to perform this action________________ש."
+    "noEditingPermissionsMessage": "אין לך הרשאה לבצע את הפעולה הזו."
   },
   "signin": {
     "guestSigninText": "המשך כאורח",
@@ -62,12 +62,12 @@ define({
     "gotoMapViewTooltip": "מבט מפה"
   },
   "appHeader": {
-    "myReport": "כן_My Submissions_____ש",
+    "myReport": "התוספות שלי",
     "signIn": "התחבר",
     "signOut": "התנתק",
     "signInTooltip": "התחבר",
     "signOutTooltip": "יציאה",
-    "myReportTooltip": "כן_View my submissions_______ש"
+    "myReportTooltip": "הצג את התוספות שלי"
   },
   "geoform": {
     "enterInformation": "פרטים",
@@ -89,18 +89,18 @@ define({
     "selectLocation": "בחר מיקום לדוח",
     "numericRangeHintMessage": "${openStrong}רמז:${closeStrong} ערך מינימום ${minValue} וערך מקסימום ${maxValue}",
     "dateRangeHintMessage": "${openStrong}רמז:${closeStrong} תאריך מינימום ${minValue} ותאריך מקסימום ${maxValue}",
-    "errorsInApplyEdits": "כן_Values could not be submitted__________ש.",
+    "errorsInApplyEdits": "לא ניתן לשלוח את הערכים.",
     "attachmentSelectedMsg": "קבצים מצורפים נבחרו",
     "attachmentUploadStatus": "נכשלה ההעלאה של ${failed} מתוך ${total} קבצים מצורפים",
     "geoLocationError": "מיקום נוכחי לא זמין",
     "geoLocationOutOfExtent": "המיקום נוכחי נמצא מחוץ לגבולות מפת הבסיס",
     "submitButtonTooltip": "שלח",
     "cancelButtonTooltip": "בטל",
-    "geoformBackButtonTooltip": "כן_Return to the list______ש",
-    "locationSelectionHintForPointLayer": "כן_Tap the map to draw the location___________ש.",
-    "locationSelectionHintForPolygonLayer": "כן_Tap the map to draw the location. Double tap to complete the drawing______________________ש.",
-    "locationSelectionHintForPointLayerDesktop": "כן_Click the map to draw the location____________ש.",
-    "locationSelectionHintForPolygonLayerDesktop": "כן_Click the map to draw the location. Double click to complete the drawing_______________________ש."
+    "geoformBackButtonTooltip": "חזור לרשימה",
+    "locationSelectionHintForPointLayer": "הקש על המפה כדי לצייר את המיקום.",
+    "locationSelectionHintForPolygonLayer": "הקש על המפה כדי לצייר את המיקום. הקש פעמיים כדי להשלים את הציור.",
+    "locationSelectionHintForPointLayerDesktop": "לחץ על המפה כדי לצייר את המיקום.",
+    "locationSelectionHintForPolygonLayerDesktop": "לחץ על המפה כדי לצייר את המיקום. לחץ פעמיים כדי להשלים את הציור."
   },
   "locator": {
     "addressText": "כתובת:",
@@ -109,14 +109,14 @@ define({
     "latLongText": "קו רוחב/אורך",
     "invalidSearch": "לא נמצאו תוצאות",
     "locatorPlaceholder": "הזן כתובת לחיפוש",
-    "locationOutOfExtent": "כן_Location is outside the submission area_____________ש",
+    "locationOutOfExtent": "המיקום נמצא מחוץ לאזור השליחה",
     "searchButtonTooltip": "חפש",
     "clearButtonTooltip": "נקה ערך חיפוש"
   },
   "myIssues": {
-    "title": "כן_My Submissions_____ש",
-    "myIssuesTooltip": "כן_My Submissions_____ש",
-    "noResultsFound": "כן_No submissions found_______ש"
+    "title": "התוספות שלי",
+    "myIssuesTooltip": "התוספות שלי",
+    "noResultsFound": "לא נמצאו תוספות"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -126,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "ראה מסמכים מצורפים",
     "mapButtonLabel": "הצג במפה",
-    "mapButtonTooltip": "כן_View the location of this submission____________ש",
+    "mapButtonTooltip": "הצג את מיקום התוספת",
     "commentsListHeading": "הערות",
     "unableToUpdateVoteField": "לא ניתן לקחת בחשבון את ההצבעה שלך כעת.",
-    "gotoIssueListTooltip": "כן_View the list of submissions_________ש",
+    "gotoIssueListTooltip": "הצג את רשימת התוספות",
     "deleteMessage": "האם אתה בטוח שברצונך למחוק?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "כן_Number of votes______ש",
+    "likesForThisItemTooltip": "מספר ההצבעות",
     "loadMoreButtonText": "טען עוד..."
   },
   "comment": {

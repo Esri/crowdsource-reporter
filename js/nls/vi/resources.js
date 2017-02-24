@@ -27,7 +27,7 @@ define({
     "gotoListViewTooltip": "Chế độ xem dạng danh sách",
     "noFeatureGeomtery": "Không thể hiển thị đối tượng",
     "featureOutsideAOIMessage": "Không thể thêm đối tượng bên ngoài vùng nghiên cứu",
-    "noEditingPermissionsMessage": "Đ_You do not have permission to perform this action________________ớ."
+    "noEditingPermissionsMessage": "Bạn không có quyền thực hiện thao tác này."
   },
   "signin": {
     "guestSigninText": "Tiến hành dưới dạng Khách",
@@ -62,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Chế độ xem bản đồ"
   },
   "appHeader": {
-    "myReport": "Đ_My Submissions_____ớ",
+    "myReport": "Đệ trình của tôi",
     "signIn": "Đăng nhập",
     "signOut": "Đăng xuất",
     "signInTooltip": "Đăng nhập",
     "signOutTooltip": "Đăng xuất",
-    "myReportTooltip": "Đ_View my submissions_______ớ"
+    "myReportTooltip": "Xem các đệ trình của tôi"
   },
   "geoform": {
     "enterInformation": "Chi tiết",
@@ -89,18 +89,18 @@ define({
     "selectLocation": "Vui lòng chọn vị trí cho báo cáo của bạn",
     "numericRangeHintMessage": "${openStrong}Gợi ý:${closeStrong} Giá trị tối thiểu ${minValue} và Giá trị tối đa ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Gợi ý:${closeStrong} Ngày tối thiểu ${minValue} và Ngày tối đa ${maxValue}",
-    "errorsInApplyEdits": "Đ_Values could not be submitted__________ớ.",
+    "errorsInApplyEdits": "Không thể gửi các giá trị.",
     "attachmentSelectedMsg": "(các) tệp đính kèm được chọn",
     "attachmentUploadStatus": "Không thể tải lên ${failed} trên ${total} tệp đính kèm",
     "geoLocationError": "Vị trí hiện tại không khả dụng",
     "geoLocationOutOfExtent": "Vị trí hiện tại ngoài phạm vi bản đồ nền",
     "submitButtonTooltip": "Gửi",
     "cancelButtonTooltip": "Hủy",
-    "geoformBackButtonTooltip": "Đ_Return to the list______ớ",
-    "locationSelectionHintForPointLayer": "Đ_Tap the map to draw the location___________ớ.",
-    "locationSelectionHintForPolygonLayer": "Đ_Tap the map to draw the location. Double tap to complete the drawing______________________ớ.",
-    "locationSelectionHintForPointLayerDesktop": "Đ_Click the map to draw the location____________ớ.",
-    "locationSelectionHintForPolygonLayerDesktop": "Đ_Click the map to draw the location. Double click to complete the drawing_______________________ớ."
+    "geoformBackButtonTooltip": "Quay lại danh sách",
+    "locationSelectionHintForPointLayer": "Chạm vào bản đồ để vẽ vị trí.",
+    "locationSelectionHintForPolygonLayer": "Chạm vào bản đồ để vẽ vị trí. Chạm hai lần để hoàn thành bản vẽ.",
+    "locationSelectionHintForPointLayerDesktop": "Nhấp vào bản đồ để vẽ vị trí.",
+    "locationSelectionHintForPolygonLayerDesktop": "Nhấp vào bản đồ để vẽ vị trí. Nhấp đúp để hoàn thành bản vẽ."
   },
   "locator": {
     "addressText": "Địa chỉ:",
@@ -109,14 +109,14 @@ define({
     "latLongText": "Vĩ độ/Kinh độ",
     "invalidSearch": "Không tìm thấy kết quả",
     "locatorPlaceholder": "Nhập địa chỉ để tìm kiếm",
-    "locationOutOfExtent": "Đ_Location is outside the submission area_____________ớ",
+    "locationOutOfExtent": "Vị trí nằm bên ngoài khu vực đệ trình",
     "searchButtonTooltip": "Tìm kiếm",
     "clearButtonTooltip": "Xóa giá trị tìm kiếm"
   },
   "myIssues": {
-    "title": "Đ_My Submissions_____ớ",
-    "myIssuesTooltip": "Đ_My Submissions_____ớ",
-    "noResultsFound": "Đ_No submissions found_______ớ"
+    "title": "Đệ trình của tôi",
+    "myIssuesTooltip": "Đệ trình của tôi",
+    "noResultsFound": "Không tìm thấy đệ trình nào"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -126,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Xem tài liệu đính kèm",
     "mapButtonLabel": "Xem trên Bản đồ",
-    "mapButtonTooltip": "Đ_View the location of this submission____________ớ",
+    "mapButtonTooltip": "Xem vị trí của đệ trình này",
     "commentsListHeading": "Bình luận",
     "unableToUpdateVoteField": "Không thể tính bình chọn của bạn vào lúc này.",
-    "gotoIssueListTooltip": "Đ_View the list of submissions_________ớ",
+    "gotoIssueListTooltip": "Xem danh sách đệ trình",
     "deleteMessage": "Bạn có chắc chắn muốn xóa không?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Đ_Number of votes______ớ",
+    "likesForThisItemTooltip": "Số lượng phiếu bầu",
     "loadMoreButtonText": "Tải Thêm..."
   },
   "comment": {

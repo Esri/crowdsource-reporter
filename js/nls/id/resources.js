@@ -27,7 +27,7 @@ define({
     "gotoListViewTooltip": "Tampilan daftar",
     "noFeatureGeomtery": "Fitur tidak dapat ditampilkan",
     "featureOutsideAOIMessage": "Fitur tidak dapat ditambahkan di luar area studi",
-    "noEditingPermissionsMessage": "ng_You do not have permission to perform this action________________ny."
+    "noEditingPermissionsMessage": "Anda tidak memiliki izin untuk menjalankan tindakan ini."
   },
   "signin": {
     "guestSigninText": "Lanjutkan sebagai Tamu",
@@ -62,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Tampilan peta"
   },
   "appHeader": {
-    "myReport": "ng_My Submissions_____ny",
+    "myReport": "Kiriman Saya",
     "signIn": "Masuk",
     "signOut": "Keluar",
     "signInTooltip": "Masuk",
     "signOutTooltip": "Keluar",
-    "myReportTooltip": "ng_View my submissions_______ny"
+    "myReportTooltip": "Lihat kiriman saya"
   },
   "geoform": {
     "enterInformation": "Detail",
@@ -89,18 +89,18 @@ define({
     "selectLocation": "Pilih lokasi untuk laporan Anda",
     "numericRangeHintMessage": "${openStrong}Petunjuk:${closeStrong} Nilai minimum ${minValue} dan Nilai maksimum ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Petunjuk:${closeStrong} Tanggal Minimum ${minValue} dan Tanggal Maksimum ${maxValue}",
-    "errorsInApplyEdits": "ng_Values could not be submitted__________ny.",
+    "errorsInApplyEdits": "Nilai tidak dapat dikirimkan.",
     "attachmentSelectedMsg": "lampiran dipilih",
     "attachmentUploadStatus": "${failed} dari ${total} lampiran gagal diunggah",
     "geoLocationError": "Lokasi saat ini tidak tersedia",
     "geoLocationOutOfExtent": "Lokasi saat ini di luar jangkauan peta dasar",
     "submitButtonTooltip": "Kirim",
     "cancelButtonTooltip": "Batal",
-    "geoformBackButtonTooltip": "ng_Return to the list______ny",
-    "locationSelectionHintForPointLayer": "ng_Tap the map to draw the location___________ny.",
-    "locationSelectionHintForPolygonLayer": "ng_Tap the map to draw the location. Double tap to complete the drawing______________________ny.",
-    "locationSelectionHintForPointLayerDesktop": "ng_Click the map to draw the location____________ny.",
-    "locationSelectionHintForPolygonLayerDesktop": "ng_Click the map to draw the location. Double click to complete the drawing_______________________ny."
+    "geoformBackButtonTooltip": "Kembali ke daftar",
+    "locationSelectionHintForPointLayer": "Ketuk peta untuk menggambar lokasi.",
+    "locationSelectionHintForPolygonLayer": "Ketuk peta untuk menggambar lokasi. Ketuk dua kali untuk menyelesaikan gambar.",
+    "locationSelectionHintForPointLayerDesktop": "Klik peta untuk menggambar lokasi.",
+    "locationSelectionHintForPolygonLayerDesktop": "Klik peta untuk menggambar lokasi. Klik dua kali untuk menyelesaikan gambar."
   },
   "locator": {
     "addressText": "Alamat:",
@@ -109,14 +109,14 @@ define({
     "latLongText": "Garis Lintang/Garis Bujur",
     "invalidSearch": "Tidak ada hasil yang ditemukan",
     "locatorPlaceholder": "Masukkan alamat yang akan dicari",
-    "locationOutOfExtent": "ng_Location is outside the submission area_____________ny",
+    "locationOutOfExtent": "Lokasi berada di luar area kiriman",
     "searchButtonTooltip": "Cari",
     "clearButtonTooltip": "Bersihkan nilai pencarian"
   },
   "myIssues": {
-    "title": "ng_My Submissions_____ny",
-    "myIssuesTooltip": "ng_My Submissions_____ny",
-    "noResultsFound": "ng_No submissions found_______ny"
+    "title": "Kiriman Saya",
+    "myIssuesTooltip": "Kiriman Saya",
+    "noResultsFound": "Tidak ada kiriman"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -126,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Lihat dokumen terlampir",
     "mapButtonLabel": "Tampilkan pada peta",
-    "mapButtonTooltip": "ng_View the location of this submission____________ny",
+    "mapButtonTooltip": "Lihat lokasi kiriman ini",
     "commentsListHeading": "Komentar",
     "unableToUpdateVoteField": "Pilihan Anda tidak dapat dihitung saat ini.",
-    "gotoIssueListTooltip": "ng_View the list of submissions_________ny",
+    "gotoIssueListTooltip": "Lihat daftar kiriman",
     "deleteMessage": "Anda yakin ingin menghapus?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "ng_Number of votes______ny",
+    "likesForThisItemTooltip": "Jumlah suara",
     "loadMoreButtonText": "Muat Lebih Banyak..."
   },
   "comment": {

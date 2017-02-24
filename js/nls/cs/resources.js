@@ -27,7 +27,7 @@ define({
     "gotoListViewTooltip": "Zobrazení seznamu",
     "noFeatureGeomtery": "Prvek nelze zobrazit.",
     "featureOutsideAOIMessage": "Prvek nelze přidat mimo zájmovou oblast.",
-    "noEditingPermissionsMessage": "Ř_You do not have permission to perform this action________________ů."
+    "noEditingPermissionsMessage": "Nemáte oprávnění k provedení této akce."
   },
   "signin": {
     "guestSigninText": "Pokračovat jako host",
@@ -62,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Zobrazení mapy"
   },
   "appHeader": {
-    "myReport": "Ř_My Submissions_____ů",
+    "myReport": "Moje příspěvky",
     "signIn": "Přihlásit",
     "signOut": "Odhlásit",
     "signInTooltip": "Přihlásit se",
     "signOutTooltip": "Odhlásit se",
-    "myReportTooltip": "Ř_View my submissions_______ů"
+    "myReportTooltip": "Zobrazit moje příspěvky"
   },
   "geoform": {
     "enterInformation": "Podrobnosti",
@@ -89,18 +89,18 @@ define({
     "selectLocation": "Vyberte umístění hlášení.",
     "numericRangeHintMessage": "${openStrong}Tip:${closeStrong} Minimální hodnota ${minValue} a Maximální hodnota ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Tip:${closeStrong} Minimální datum ${minValue} a Maximální datum ${maxValue}",
-    "errorsInApplyEdits": "Ř_Values could not be submitted__________ů.",
+    "errorsInApplyEdits": "Hodnoty se nepodařilo odeslat.",
     "attachmentSelectedMsg": "příloh vybráno",
     "attachmentUploadStatus": "nepodařilo se nahrát ${failed} z ${total} příloh",
     "geoLocationError": "Současné umístění není k dispozici",
     "geoLocationOutOfExtent": "Aktuální umístění se nachází mimo rozsah podkladové mapy.",
     "submitButtonTooltip": "Odeslat",
     "cancelButtonTooltip": "Storno",
-    "geoformBackButtonTooltip": "Ř_Return to the list______ů",
-    "locationSelectionHintForPointLayer": "Ř_Tap the map to draw the location___________ů.",
-    "locationSelectionHintForPolygonLayer": "Ř_Tap the map to draw the location. Double tap to complete the drawing______________________ů.",
-    "locationSelectionHintForPointLayerDesktop": "Ř_Click the map to draw the location____________ů.",
-    "locationSelectionHintForPolygonLayerDesktop": "Ř_Click the map to draw the location. Double click to complete the drawing_______________________ů."
+    "geoformBackButtonTooltip": "Vrátit se do seznamu",
+    "locationSelectionHintForPointLayer": "Nakreslete umístění poklepáním na mapu.",
+    "locationSelectionHintForPolygonLayer": "Zadejte první bod poklepáním na mapu. Dvojitým kliknutím kreslení dokončíte.",
+    "locationSelectionHintForPointLayerDesktop": "Zadejte první bod poklepáním na mapu.",
+    "locationSelectionHintForPolygonLayerDesktop": "Zadejte první bod poklepáním na mapu. Dvojitým kliknutím kreslení dokončíte."
   },
   "locator": {
     "addressText": "Adresa:",
@@ -109,14 +109,14 @@ define({
     "latLongText": "zeměpisné šířky/délky",
     "invalidSearch": "Nebyly nalezeny žádné výsledky.",
     "locatorPlaceholder": "Zadejte adresu pro hledání",
-    "locationOutOfExtent": "Ř_Location is outside the submission area_____________ů",
+    "locationOutOfExtent": "Umístění se nachází mimo oblast příspěvku.",
     "searchButtonTooltip": "Hledat",
     "clearButtonTooltip": "Vymazat hodnotu vyhledávání"
   },
   "myIssues": {
-    "title": "Ř_My Submissions_____ů",
-    "myIssuesTooltip": "Ř_My Submissions_____ů",
-    "noResultsFound": "Ř_No submissions found_______ů"
+    "title": "Moje příspěvky",
+    "myIssuesTooltip": "Moje příspěvky",
+    "noResultsFound": "Nebyly nalezeny žádné příspěvky."
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -126,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Zobrazit připojené dokumenty",
     "mapButtonLabel": "Zobrazit na mapě",
-    "mapButtonTooltip": "Ř_View the location of this submission____________ů",
+    "mapButtonTooltip": "Zobrazit umístění tohoto příspěvku.",
     "commentsListHeading": "Komentáře",
     "unableToUpdateVoteField": "Váš hlas v tuto chvíli nelze započítat.",
-    "gotoIssueListTooltip": "Ř_View the list of submissions_________ů",
+    "gotoIssueListTooltip": "Zobrazit seznam příspěvků",
     "deleteMessage": "Určitě odstranit?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Ř_Number of votes______ů",
+    "likesForThisItemTooltip": "Počet hlasů",
     "loadMoreButtonText": "Načíst další..."
   },
   "comment": {

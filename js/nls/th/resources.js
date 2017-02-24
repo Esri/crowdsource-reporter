@@ -27,7 +27,7 @@ define({
     "gotoListViewTooltip": "รายการยอดเข้าชม",
     "noFeatureGeomtery": "ไม่สามารถแสดงฟีเจอร์ได้",
     "featureOutsideAOIMessage": "ไม่สามารถเพิ่มฟีเจอร์นอกพื้นที่ศึกษาของคุณ",
-    "noEditingPermissionsMessage": "ก้_You do not have permission to perform this action________________ษฺ."
+    "noEditingPermissionsMessage": "คุณไม่ได้รับอนุญาตให้ดำเนินการนี้"
   },
   "signin": {
     "guestSigninText": "ดำเนินการในฐานะผู้เยี่ยมชม",
@@ -62,12 +62,12 @@ define({
     "gotoMapViewTooltip": "มุมมองแผนที่"
   },
   "appHeader": {
-    "myReport": "ก้_My Submissions_____ษฺ",
+    "myReport": "การส่งของฉัน",
     "signIn": "ลงชื่อเข้าใช้",
     "signOut": "ลงชื่อออก",
     "signInTooltip": "ลงชื่อเข้าใช้",
     "signOutTooltip": "ออกจากระบบ",
-    "myReportTooltip": "ก้_View my submissions_______ษฺ"
+    "myReportTooltip": "ดูการส่งของฉัน"
   },
   "geoform": {
     "enterInformation": "รายละเอียด",
@@ -89,18 +89,18 @@ define({
     "selectLocation": "โปรดเลือกสถานที่สำหรับรายงานของคุณ",
     "numericRangeHintMessage": "${openStrong}เปรย:${closeStrong} ค่่าต่ำที่สุด ${minValue} และค่าสูงที่สุด ${maxValue}",
     "dateRangeHintMessage": "${openStrong}เปรย:${closeStrong} วันขั้นต่ำ ${minValue} และวันสูงสุด ${maxValue}",
-    "errorsInApplyEdits": "ก้_Values could not be submitted__________ษฺ.",
+    "errorsInApplyEdits": "ค่าไม่สามารถส่ง",
     "attachmentSelectedMsg": "เลือกไฟล์แนบ",
     "attachmentUploadStatus": "${failed} จาก ${total} ไฟล์แนบที่ไม่สามารถอัพโหลดได้",
     "geoLocationError": "ไม่พร้อมใช้ตำแหน่งปัจจุบัน",
     "geoLocationOutOfExtent": "ตำแหน่งปัจจุบันอยู่นอกขอบเขตของแผนที่ฐาน",
     "submitButtonTooltip": "ส่ง",
     "cancelButtonTooltip": "ยกเลิก",
-    "geoformBackButtonTooltip": "ก้_Return to the list______ษฺ",
-    "locationSelectionHintForPointLayer": "ก้_Tap the map to draw the location___________ษฺ.",
-    "locationSelectionHintForPolygonLayer": "ก้_Tap the map to draw the location. Double tap to complete the drawing______________________ษฺ.",
-    "locationSelectionHintForPointLayerDesktop": "ก้_Click the map to draw the location____________ษฺ.",
-    "locationSelectionHintForPolygonLayerDesktop": "ก้_Click the map to draw the location. Double click to complete the drawing_______________________ษฺ."
+    "geoformBackButtonTooltip": "ย้อนกลับไปยังรายการ",
+    "locationSelectionHintForPointLayer": "แตะแผนที่เพื่อวาดสถานที่",
+    "locationSelectionHintForPolygonLayer": "แตะแผนที่เพื่อวาดสถานที่ แตะสองครั้งที่จะเสร็จสิ้นการวาดภาพ",
+    "locationSelectionHintForPointLayerDesktop": "คลิกที่แผนที่เพื่อวาดสถานที่",
+    "locationSelectionHintForPolygonLayerDesktop": "คลิกที่แผนที่เพื่อวาดสถานที่ ดับเบิลคลิกเพื่อเสร็จสิ้นการวาดภาพ"
   },
   "locator": {
     "addressText": "ที่อยู่:",
@@ -109,14 +109,14 @@ define({
     "latLongText": "ละติจูด/ลองจิจูด",
     "invalidSearch": "ไม่พบผลลัพธ์",
     "locatorPlaceholder": "กรอกที่อยู่ เพื่อค้นหา",
-    "locationOutOfExtent": "ก้_Location is outside the submission area_____________ษฺ",
+    "locationOutOfExtent": "สถานที่ตั้งอยู่นอกพื้นที่ส่ง",
     "searchButtonTooltip": "ค้นหา",
     "clearButtonTooltip": "ล้างค่าที่ใช้ค้นหา"
   },
   "myIssues": {
-    "title": "ก้_My Submissions_____ษฺ",
-    "myIssuesTooltip": "ก้_My Submissions_____ษฺ",
-    "noResultsFound": "ก้_No submissions found_______ษฺ"
+    "title": "การส่งของฉัน",
+    "myIssuesTooltip": "การส่งของฉัน",
+    "noResultsFound": "ไม่มีการส่งพบ"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -126,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "แสดงเอกสารแนบ",
     "mapButtonLabel": "แสดงบนแผนที่",
-    "mapButtonTooltip": "ก้_View the location of this submission____________ษฺ",
+    "mapButtonTooltip": "ดูสถานที่ตั้งของการส่งนี้",
     "commentsListHeading": "ความคิดเห็น",
     "unableToUpdateVoteField": "ผลโหวตของคุณไม่สามารถนับได้ในขณะนี้",
-    "gotoIssueListTooltip": "ก้_View the list of submissions_________ษฺ",
+    "gotoIssueListTooltip": "ดูรายชื่อของการส่ง",
     "deleteMessage": "คุณแน่ใจว่าต้องการลบ"
   },
   "itemList": {
-    "likesForThisItemTooltip": "ก้_Number of votes______ษฺ",
+    "likesForThisItemTooltip": "จำนวนโหวต",
     "loadMoreButtonText": "โหลดเพิ่มเติม"
   },
   "comment": {

@@ -27,7 +27,7 @@ define({
     "gotoListViewTooltip": "Liste görünümü",
     "noFeatureGeomtery": "Detay görüntülenemiyor",
     "featureOutsideAOIMessage": "Detay araştırma alanı dışına eklenemez",
-    "noEditingPermissionsMessage": "ı_You do not have permission to perform this action________________İ."
+    "noEditingPermissionsMessage": "Bu işlemi yapma izniniz yok."
   },
   "signin": {
     "guestSigninText": "Konuk olarak devam et",
@@ -62,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Harita görünümü"
   },
   "appHeader": {
-    "myReport": "ı_My Submissions_____İ",
+    "myReport": "Gönderilerim",
     "signIn": "Oturum Açma",
     "signOut": "Oturum Kapat",
     "signInTooltip": "Hesabınıza",
     "signOutTooltip": "Oturumu kapat",
-    "myReportTooltip": "ı_View my submissions_______İ"
+    "myReportTooltip": "Gönderilerimi görüntüle"
   },
   "geoform": {
     "enterInformation": "Ayrıntılar",
@@ -89,18 +89,18 @@ define({
     "selectLocation": "Raporunuzun konumunu seçin",
     "numericRangeHintMessage": "${openStrong}İpucu:${closeStrong} Minimum değer ${minValue} ve Maksimum değer ${maxValue}",
     "dateRangeHintMessage": "${openStrong}İpucu:${closeStrong} Minimum Tarih ${minValue} ve Maksimum Tarih ${maxValue}",
-    "errorsInApplyEdits": "ı_Values could not be submitted__________İ.",
+    "errorsInApplyEdits": "Değerler gönderilemedi.",
     "attachmentSelectedMsg": "ek seçildi",
     "attachmentUploadStatus": "${failed} / ${total} ek yüklenemedi",
     "geoLocationError": "Geçerli konum kullanılamıyor",
     "geoLocationOutOfExtent": "Geçerli konum altlık haritası yayılımı dışında",
     "submitButtonTooltip": "Gönder",
     "cancelButtonTooltip": "İptal",
-    "geoformBackButtonTooltip": "ı_Return to the list______İ",
-    "locationSelectionHintForPointLayer": "ı_Tap the map to draw the location___________İ.",
-    "locationSelectionHintForPolygonLayer": "ı_Tap the map to draw the location. Double tap to complete the drawing______________________İ.",
-    "locationSelectionHintForPointLayerDesktop": "ı_Click the map to draw the location____________İ.",
-    "locationSelectionHintForPolygonLayerDesktop": "ı_Click the map to draw the location. Double click to complete the drawing_______________________İ."
+    "geoformBackButtonTooltip": "Listeye dön",
+    "locationSelectionHintForPointLayer": "Konumu çizmek için haritaya dokunun.",
+    "locationSelectionHintForPolygonLayer": "Konumu çizmek için haritaya dokunun. Çizimi tamamlamak için çift dokunun.",
+    "locationSelectionHintForPointLayerDesktop": "Konumu çizmek için haritaya tıklayın.",
+    "locationSelectionHintForPolygonLayerDesktop": "Konumu çizmek için haritaya tıklayın. Çizimi tamamlamak için çift tıklayın."
   },
   "locator": {
     "addressText": "Adres:",
@@ -109,14 +109,14 @@ define({
     "latLongText": "Enlem/Boylam",
     "invalidSearch": "Sonuç bulunamadı",
     "locatorPlaceholder": "Aranacak adres gir",
-    "locationOutOfExtent": "ı_Location is outside the submission area_____________İ",
+    "locationOutOfExtent": "Konum gönderim bölgesinin dışında",
     "searchButtonTooltip": "Ara",
     "clearButtonTooltip": "Arama değerini temizle"
   },
   "myIssues": {
-    "title": "ı_My Submissions_____İ",
-    "myIssuesTooltip": "ı_My Submissions_____İ",
-    "noResultsFound": "ı_No submissions found_______İ"
+    "title": "Gönderilerim",
+    "myIssuesTooltip": "Gönderilerim",
+    "noResultsFound": "Gönderim bulunamadı"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -126,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Ekli belgeleri incele",
     "mapButtonLabel": "Haritada görüntüle",
-    "mapButtonTooltip": "ı_View the location of this submission____________İ",
+    "mapButtonTooltip": "Bu gönderimin konumunu görüntüle",
     "commentsListHeading": "Yorumlar",
     "unableToUpdateVoteField": "Oyunuz şu anda sayılamıyor.",
-    "gotoIssueListTooltip": "ı_View the list of submissions_________İ",
+    "gotoIssueListTooltip": "Gönderim listesini görüntüle",
     "deleteMessage": "Silmek istediğinizden emin misiniz?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "ı_Number of votes______İ",
+    "likesForThisItemTooltip": "Oy sayısı",
     "loadMoreButtonText": "Daha Fazla Yükle..."
   },
   "comment": {

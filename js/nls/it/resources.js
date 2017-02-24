@@ -27,7 +27,7 @@ define({
     "gotoListViewTooltip": "Vista elenco",
     "noFeatureGeomtery": "Impossibile visualizzare la feature",
     "featureOutsideAOIMessage": "La feature non può essere aggiunta esternamente all'area di studio",
-    "noEditingPermissionsMessage": "é_You do not have permission to perform this action________________È."
+    "noEditingPermissionsMessage": "Non si è autorizzati a completare questa azione."
   },
   "signin": {
     "guestSigninText": "Continua come ospite",
@@ -62,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Vista mappa"
   },
   "appHeader": {
-    "myReport": "é_My Submissions_____È",
+    "myReport": "I miei invii",
     "signIn": "Accedi",
     "signOut": "Esci",
     "signInTooltip": "l'accesso",
     "signOutTooltip": "Disconnetti",
-    "myReportTooltip": "é_View my submissions_______È"
+    "myReportTooltip": "Visualizza i miei invii"
   },
   "geoform": {
     "enterInformation": "Dettagli",
@@ -89,18 +89,18 @@ define({
     "selectLocation": "Selezionare la posizione del report",
     "numericRangeHintMessage": "${openStrong}Suggerimento:${closeStrong} Valore minimo ${minValue} e valore massimo ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Suggerimento:${closeStrong} Data minima ${minValue} e data massima ${maxValue}",
-    "errorsInApplyEdits": "é_Values could not be submitted__________È.",
+    "errorsInApplyEdits": "Impossibile inviare i valori.",
     "attachmentSelectedMsg": "allegato/i selezionato/i",
     "attachmentUploadStatus": "Impossibile caricare ${failed} di ${total} allegati",
     "geoLocationError": "Posizione corrente non disponibile",
     "geoLocationOutOfExtent": "Posizione corrente esterna all'estensione della mappa di base",
     "submitButtonTooltip": "Invia",
     "cancelButtonTooltip": "Annulla",
-    "geoformBackButtonTooltip": "é_Return to the list______È",
-    "locationSelectionHintForPointLayer": "é_Tap the map to draw the location___________È.",
-    "locationSelectionHintForPolygonLayer": "é_Tap the map to draw the location. Double tap to complete the drawing______________________È.",
-    "locationSelectionHintForPointLayerDesktop": "é_Click the map to draw the location____________È.",
-    "locationSelectionHintForPolygonLayerDesktop": "é_Click the map to draw the location. Double click to complete the drawing_______________________È."
+    "geoformBackButtonTooltip": "Torna all'elenco",
+    "locationSelectionHintForPointLayer": "Toccare la mappa per tracciare la posizione.",
+    "locationSelectionHintForPolygonLayer": "Toccare la mappa per tracciare la posizione. Toccare due volte per completare l'operazione.",
+    "locationSelectionHintForPointLayerDesktop": "Fare clic sulla mappa per tracciare la posizione.",
+    "locationSelectionHintForPolygonLayerDesktop": "Fare clic sula mappa per tracciare la posizione. Fare doppio clic per completare l'operazione."
   },
   "locator": {
     "addressText": "Indirizzo:",
@@ -109,14 +109,14 @@ define({
     "latLongText": "Latitudine/Longitudine",
     "invalidSearch": "Nessun risultato trovato",
     "locatorPlaceholder": "Immettere un indirizzo per la ricerca",
-    "locationOutOfExtent": "é_Location is outside the submission area_____________È",
+    "locationOutOfExtent": "La località è al di fuori dell'area di invio",
     "searchButtonTooltip": "Ricerca",
     "clearButtonTooltip": "Cancella valore di ricerca"
   },
   "myIssues": {
-    "title": "é_My Submissions_____È",
-    "myIssuesTooltip": "é_My Submissions_____È",
-    "noResultsFound": "é_No submissions found_______È"
+    "title": "I miei invii",
+    "myIssuesTooltip": "I miei invii",
+    "noResultsFound": "Nessun invio trovato"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -126,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Vedi documenti allegati",
     "mapButtonLabel": "Visualizza su mappa",
-    "mapButtonTooltip": "é_View the location of this submission____________È",
+    "mapButtonTooltip": "Visualizza la località di questo invio",
     "commentsListHeading": "Commenti",
     "unableToUpdateVoteField": "Impossibile conteggiare il voto al momento.",
-    "gotoIssueListTooltip": "é_View the list of submissions_________È",
+    "gotoIssueListTooltip": "Visualizza l'elenco degli invii",
     "deleteMessage": "Eliminare?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "é_Number of votes______È",
+    "likesForThisItemTooltip": "Numero di voti",
     "loadMoreButtonText": "Carica altro..."
   },
   "comment": {

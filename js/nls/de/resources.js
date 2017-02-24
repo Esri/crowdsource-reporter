@@ -27,7 +27,7 @@ define({
     "gotoListViewTooltip": "Listenansicht",
     "noFeatureGeomtery": "Feature kann nicht angezeigt werden",
     "featureOutsideAOIMessage": "Feature kann nicht außerhalb des Untersuchungsgebiets hinzugefügt werden.",
-    "noEditingPermissionsMessage": "ä_You do not have permission to perform this action________________Ü."
+    "noEditingPermissionsMessage": "Sie sind nicht berechtigt, diese Aktion auszuführen."
   },
   "signin": {
     "guestSigninText": "Vorgang als Gast fortsetzen",
@@ -62,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Kartenansicht"
   },
   "appHeader": {
-    "myReport": "ä_My Submissions_____Ü",
+    "myReport": "Meine Übermittlungen",
     "signIn": "Anmelden",
     "signOut": "Abmelden",
     "signInTooltip": "Anmelden",
     "signOutTooltip": "Abmelden",
-    "myReportTooltip": "ä_View my submissions_______Ü"
+    "myReportTooltip": "Meine Übermittlungen anzeigen"
   },
   "geoform": {
     "enterInformation": "Details",
@@ -89,18 +89,18 @@ define({
     "selectLocation": "Wählen Sie den Speicherort für Ihren Bericht aus",
     "numericRangeHintMessage": "${openStrong}Hinweis:${closeStrong} Minimalwert ${minValue} und Maximalwert ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Hinweis:${closeStrong} Mindestdatum ${minValue} und maximal auswählbares Datum ${maxValue}",
-    "errorsInApplyEdits": "ä_Values could not be submitted__________Ü.",
+    "errorsInApplyEdits": "Werte konnten nicht gesendet werden.",
     "attachmentSelectedMsg": "Anlage(n) ausgewählt",
     "attachmentUploadStatus": "${failed} von ${total} Anlage(n) konnte(n) nicht hochgeladen werden",
     "geoLocationError": "Aktuelle Position ist nicht verfügbar",
     "geoLocationOutOfExtent": "Aktuelle Position befindet sich außerhalb der Grundkartenausdehnung",
     "submitButtonTooltip": "Senden",
     "cancelButtonTooltip": "Abbrechen",
-    "geoformBackButtonTooltip": "ä_Return to the list______Ü",
-    "locationSelectionHintForPointLayer": "ä_Tap the map to draw the location___________Ü.",
-    "locationSelectionHintForPolygonLayer": "ä_Tap the map to draw the location. Double tap to complete the drawing______________________Ü.",
-    "locationSelectionHintForPointLayerDesktop": "ä_Click the map to draw the location____________Ü.",
-    "locationSelectionHintForPolygonLayerDesktop": "ä_Click the map to draw the location. Double click to complete the drawing_______________________Ü."
+    "geoformBackButtonTooltip": "Zur Liste zurückkehren",
+    "locationSelectionHintForPointLayer": "Tippen Sie auf die Karte, um die Position zu zeichnen.",
+    "locationSelectionHintForPolygonLayer": "Tippen Sie auf die Karte, um die Position zu zeichnen. Doppeltippen Sie, um die Zeichnung abzuschließen.",
+    "locationSelectionHintForPointLayerDesktop": "Klicken Sie auf die Karte, um die Position zu zeichnen.",
+    "locationSelectionHintForPolygonLayerDesktop": "Klicken Sie auf die Karte, um die Position zu zeichnen. Doppelklicken Sie, um die Zeichnung abzuschließen."
   },
   "locator": {
     "addressText": "Adresse:",
@@ -109,14 +109,14 @@ define({
     "latLongText": "Breitengrad/Längengrad",
     "invalidSearch": "Keine Ergebnisse gefunden",
     "locatorPlaceholder": "Zu suchende Adresse eingeben",
-    "locationOutOfExtent": "ä_Location is outside the submission area_____________Ü",
+    "locationOutOfExtent": "Position muss sich außerhalb des Übermittlungsbereichs befinden",
     "searchButtonTooltip": "Suche",
     "clearButtonTooltip": "Suchwert löschen"
   },
   "myIssues": {
-    "title": "ä_My Submissions_____Ü",
-    "myIssuesTooltip": "ä_My Submissions_____Ü",
-    "noResultsFound": "ä_No submissions found_______Ü"
+    "title": "Meine Übermittlungen",
+    "myIssuesTooltip": "Meine Übermittlungen",
+    "noResultsFound": "Keine Übermittlungen gefunden"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -126,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Angehängte Dokumente anzeigen",
     "mapButtonLabel": "Auf Karte anzeigen",
-    "mapButtonTooltip": "ä_View the location of this submission____________Ü",
+    "mapButtonTooltip": "Die Position dieser Übermittlung anzeigen",
     "commentsListHeading": "Bemerkungen",
     "unableToUpdateVoteField": "Ihre Stimme kann zurzeit nicht gezählt werden.",
-    "gotoIssueListTooltip": "ä_View the list of submissions_________Ü",
+    "gotoIssueListTooltip": "Die Liste der Übermittlungen anzeigen",
     "deleteMessage": "Möchten Sie den Löschvorgang wirklich durchführen?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "ä_Number of votes______Ü",
+    "likesForThisItemTooltip": "Anzahl der Abstimmungen",
     "loadMoreButtonText": "Weitere laden..."
   },
   "comment": {

@@ -27,7 +27,7 @@ define({
     "gotoListViewTooltip": "Listvy",
     "noFeatureGeomtery": "Geoobjektet kan inte visas",
     "featureOutsideAOIMessage": "Geoobjektet går inte att lägga till utanför undersökningsområdet",
-    "noEditingPermissionsMessage": "Å_You do not have permission to perform this action________________ö."
+    "noEditingPermissionsMessage": "Du har inte behörighet att utföra den här åtgärden."
   },
   "signin": {
     "guestSigninText": "Fortsätt som gäst",
@@ -62,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Kartvy"
   },
   "appHeader": {
-    "myReport": "Å_My Submissions_____ö",
+    "myReport": "Mina bidrag",
     "signIn": "Logga in",
     "signOut": "Logga ut",
     "signInTooltip": "Logga in",
     "signOutTooltip": "Logga ut",
-    "myReportTooltip": "Å_View my submissions_______ö"
+    "myReportTooltip": "Visa mina bidrag"
   },
   "geoform": {
     "enterInformation": "Detaljer",
@@ -89,18 +89,18 @@ define({
     "selectLocation": "Välj platsen för din rapport",
     "numericRangeHintMessage": "${openStrong}Tips:${closeStrong} minsta värde ${minValue} och största värde ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Tips:${closeStrong} minsta datum ${minValue} och största datum ${maxValue}",
-    "errorsInApplyEdits": "Å_Values could not be submitted__________ö.",
+    "errorsInApplyEdits": "Det gick inte att skicka värdena.",
     "attachmentSelectedMsg": "bilagor markerade",
     "attachmentUploadStatus": "${failed} av ${total} bilagor kunde inte överföras",
     "geoLocationError": "Aktuell plats finns inte tillgänglig",
     "geoLocationOutOfExtent": "Aktuell plats är utanför baskartans utbredning",
     "submitButtonTooltip": "Skicka",
     "cancelButtonTooltip": "Avbryt",
-    "geoformBackButtonTooltip": "Å_Return to the list______ö",
-    "locationSelectionHintForPointLayer": "Å_Tap the map to draw the location___________ö.",
-    "locationSelectionHintForPolygonLayer": "Å_Tap the map to draw the location. Double tap to complete the drawing______________________ö.",
-    "locationSelectionHintForPointLayerDesktop": "Å_Click the map to draw the location____________ö.",
-    "locationSelectionHintForPolygonLayerDesktop": "Å_Click the map to draw the location. Double click to complete the drawing_______________________ö."
+    "geoformBackButtonTooltip": "Återgå till listan",
+    "locationSelectionHintForPointLayer": "Tryck på kartan om du vill rita platsen.",
+    "locationSelectionHintForPolygonLayer": "Tryck på kartan om du vill rita platsen. Dubbeltryck när du vill slutföra ritningen.",
+    "locationSelectionHintForPointLayerDesktop": "Klicka på kartan om du vill rita platsen.",
+    "locationSelectionHintForPolygonLayerDesktop": "Klicka på kartan om du vill rita platsen. Dubbelklicka när du vill slutföra ritningen."
   },
   "locator": {
     "addressText": "Adress:",
@@ -109,14 +109,14 @@ define({
     "latLongText": "Latitud/longitud",
     "invalidSearch": "Inga resultat hittades",
     "locatorPlaceholder": "Ange en adress att söka efter",
-    "locationOutOfExtent": "Å_Location is outside the submission area_____________ö",
+    "locationOutOfExtent": "Platsen ligger utanför inlämningsområdet",
     "searchButtonTooltip": "Sök",
     "clearButtonTooltip": "Rensa sökvärde"
   },
   "myIssues": {
-    "title": "Å_My Submissions_____ö",
-    "myIssuesTooltip": "Å_My Submissions_____ö",
-    "noResultsFound": "Å_No submissions found_______ö"
+    "title": "Mina bidrag",
+    "myIssuesTooltip": "Mina bidrag",
+    "noResultsFound": "Inga bidrag hittades"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -126,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Se bifogade dokument",
     "mapButtonLabel": "Visa på kartan",
-    "mapButtonTooltip": "Å_View the location of this submission____________ö",
+    "mapButtonTooltip": "Visa platsen för detta bidrag",
     "commentsListHeading": "Kommentarer",
     "unableToUpdateVoteField": "Det går inte att räkna din röst just nu.",
-    "gotoIssueListTooltip": "Å_View the list of submissions_________ö",
+    "gotoIssueListTooltip": "Visa listan över bidrag",
     "deleteMessage": "Vill du ta bort?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Å_Number of votes______ö",
+    "likesForThisItemTooltip": "Antal röster",
     "loadMoreButtonText": "Läs in mer ..."
   },
   "comment": {

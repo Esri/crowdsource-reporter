@@ -27,7 +27,7 @@ define({
     "gotoListViewTooltip": "목록 보기",
     "noFeatureGeomtery": "피처를 표시할 수 없음",
     "featureOutsideAOIMessage": "피처를 처리 범위 외부로 추가할 수 없음",
-    "noEditingPermissionsMessage": "한_You do not have permission to perform this action________________빠."
+    "noEditingPermissionsMessage": "이 작업을 수행할 권한이 없습니다."
   },
   "signin": {
     "guestSigninText": "게스트로 진행",
@@ -62,12 +62,12 @@ define({
     "gotoMapViewTooltip": "맵 보기"
   },
   "appHeader": {
-    "myReport": "한_My Submissions_____빠",
+    "myReport": "내 제출",
     "signIn": "로그인",
     "signOut": "로그아웃",
     "signInTooltip": "로그인",
     "signOutTooltip": "로그아웃",
-    "myReportTooltip": "한_View my submissions_______빠"
+    "myReportTooltip": "내 제출 보기"
   },
   "geoform": {
     "enterInformation": "세부정보",
@@ -89,18 +89,18 @@ define({
     "selectLocation": "보고서의 위치를 선택하세요.",
     "numericRangeHintMessage": "${openStrong}힌트:${closeStrong} 최소값 ${minValue} 및 최대값 ${maxValue}",
     "dateRangeHintMessage": "${openStrong}힌트:${closeStrong} 최소 날짜 ${minValue} 및 최대 날짜 ${maxValue}",
-    "errorsInApplyEdits": "한_Values could not be submitted__________빠.",
+    "errorsInApplyEdits": "값을 제출할 수 없습니다.",
     "attachmentSelectedMsg": "첨부 파일이 선택됨",
     "attachmentUploadStatus": "${total}개 중 ${failed}개 첨부 파일 업로드 실패",
     "geoLocationError": "현재 위치를 사용할 수 없음",
     "geoLocationOutOfExtent": "현재 위치가 베이스맵 범위를 벗어남",
     "submitButtonTooltip": "제출",
     "cancelButtonTooltip": "취소",
-    "geoformBackButtonTooltip": "한_Return to the list______빠",
-    "locationSelectionHintForPointLayer": "한_Tap the map to draw the location___________빠.",
-    "locationSelectionHintForPolygonLayer": "한_Tap the map to draw the location. Double tap to complete the drawing______________________빠.",
-    "locationSelectionHintForPointLayerDesktop": "한_Click the map to draw the location____________빠.",
-    "locationSelectionHintForPolygonLayerDesktop": "한_Click the map to draw the location. Double click to complete the drawing_______________________빠."
+    "geoformBackButtonTooltip": "목록으로 돌아가기",
+    "locationSelectionHintForPointLayer": "맵을 눌러 위치를 그립니다.",
+    "locationSelectionHintForPolygonLayer": "맵을 눌러 위치를 그립니다. 그리기를 완료하려면 두 번 누르세요.",
+    "locationSelectionHintForPointLayerDesktop": "맵을 클릭하여 위치를 그립니다.",
+    "locationSelectionHintForPolygonLayerDesktop": "맵을 클릭하여 위치를 그립니다. 그리기를 완료하려면 더블 클릭하세요."
   },
   "locator": {
     "addressText": "주소:",
@@ -109,14 +109,14 @@ define({
     "latLongText": "위도/경도",
     "invalidSearch": "결과를 찾을 수 없음",
     "locatorPlaceholder": "검색할 주소 입력",
-    "locationOutOfExtent": "한_Location is outside the submission area_____________빠",
+    "locationOutOfExtent": "위치가 제출 영역 밖에 있음",
     "searchButtonTooltip": "검색",
     "clearButtonTooltip": "검색 값 지우기"
   },
   "myIssues": {
-    "title": "한_My Submissions_____빠",
-    "myIssuesTooltip": "한_My Submissions_____빠",
-    "noResultsFound": "한_No submissions found_______빠"
+    "title": "내 제출",
+    "myIssuesTooltip": "내 제출",
+    "noResultsFound": "제출을 찾을 수 없음"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -126,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "첨부된 문서 보기",
     "mapButtonLabel": "맵에서 보기",
-    "mapButtonTooltip": "한_View the location of this submission____________빠",
+    "mapButtonTooltip": "이 제출의 위치 보기",
     "commentsListHeading": "의견",
     "unableToUpdateVoteField": "지금은 투표를 계산할 수 없습니다.",
-    "gotoIssueListTooltip": "한_View the list of submissions_________빠",
+    "gotoIssueListTooltip": "제출 목록 보기",
     "deleteMessage": "삭제하시겠습니까?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "한_Number of votes______빠",
+    "likesForThisItemTooltip": "투표 수",
     "loadMoreButtonText": "추가로 불러오기..."
   },
   "comment": {

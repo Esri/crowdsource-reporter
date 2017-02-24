@@ -27,7 +27,7 @@ define({
     "gotoListViewTooltip": "列表视图",
     "noFeatureGeomtery": "无法显示要素",
     "featureOutsideAOIMessage": "无法向研究区域外添加要素",
-    "noEditingPermissionsMessage": "试_You do not have permission to perform this action________________验."
+    "noEditingPermissionsMessage": "您无权执行此操作。"
   },
   "signin": {
     "guestSigninText": "以访客身份继续进行",
@@ -62,12 +62,12 @@ define({
     "gotoMapViewTooltip": "地图视图"
   },
   "appHeader": {
-    "myReport": "试_My Submissions_____验",
+    "myReport": "我的提交内容",
     "signIn": "登录",
     "signOut": "登出",
     "signInTooltip": "登录",
     "signOutTooltip": "登出",
-    "myReportTooltip": "试_View my submissions_______验"
+    "myReportTooltip": "查看我的提交内容"
   },
   "geoform": {
     "enterInformation": "详细信息",
@@ -89,18 +89,18 @@ define({
     "selectLocation": "请为您的报告选择位置",
     "numericRangeHintMessage": "${openStrong}提示:${closeStrong} 最小值 ${minValue} 和最大值 ${maxValue}",
     "dateRangeHintMessage": "${openStrong}提示:${closeStrong} 最小日期 ${minValue} 和最大日期 ${maxValue}",
-    "errorsInApplyEdits": "试_Values could not be submitted__________验.",
+    "errorsInApplyEdits": "无法提交值。",
     "attachmentSelectedMsg": "附件已选定",
     "attachmentUploadStatus": "${failed} 个附件(共有 ${total} 个)上传失败",
     "geoLocationError": "当前位置不可用",
     "geoLocationOutOfExtent": "当前位置不在底图范围之内",
     "submitButtonTooltip": "提交",
     "cancelButtonTooltip": "取消",
-    "geoformBackButtonTooltip": "试_Return to the list______验",
-    "locationSelectionHintForPointLayer": "试_Tap the map to draw the location___________验.",
-    "locationSelectionHintForPolygonLayer": "试_Tap the map to draw the location. Double tap to complete the drawing______________________验.",
-    "locationSelectionHintForPointLayerDesktop": "试_Click the map to draw the location____________验.",
-    "locationSelectionHintForPolygonLayerDesktop": "试_Click the map to draw the location. Double click to complete the drawing_______________________验."
+    "geoformBackButtonTooltip": "返回列表",
+    "locationSelectionHintForPointLayer": "点击地图以绘制位置。",
+    "locationSelectionHintForPolygonLayer": "点击地图以绘制位置。双击以完成绘制。",
+    "locationSelectionHintForPointLayerDesktop": "单击地图以绘制位置。",
+    "locationSelectionHintForPolygonLayerDesktop": "单击地图以绘制位置。双击以完成绘制。"
   },
   "locator": {
     "addressText": "地址:",
@@ -109,14 +109,14 @@ define({
     "latLongText": "纬度/经度",
     "invalidSearch": "未找到任何结果",
     "locatorPlaceholder": "输入一个搜索地址",
-    "locationOutOfExtent": "试_Location is outside the submission area_____________验",
+    "locationOutOfExtent": "位置位于提交范围外",
     "searchButtonTooltip": "搜索",
     "clearButtonTooltip": "清除搜索值"
   },
   "myIssues": {
-    "title": "试_My Submissions_____验",
-    "myIssuesTooltip": "试_My Submissions_____验",
-    "noResultsFound": "试_No submissions found_______验"
+    "title": "我的提交内容",
+    "myIssuesTooltip": "我的提交内容",
+    "noResultsFound": "找不到提交内容"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -126,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "参见随附文档",
     "mapButtonLabel": "在地图中查看",
-    "mapButtonTooltip": "试_View the location of this submission____________验",
+    "mapButtonTooltip": "查看此提交内容的位置",
     "commentsListHeading": "评论",
     "unableToUpdateVoteField": "目前无法计数您的投票。",
-    "gotoIssueListTooltip": "试_View the list of submissions_________验",
+    "gotoIssueListTooltip": "查看提交内容列表",
     "deleteMessage": "是否确定删除?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "试_Number of votes______验",
+    "likesForThisItemTooltip": "投票数",
     "loadMoreButtonText": "加载更多..."
   },
   "comment": {

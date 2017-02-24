@@ -27,7 +27,7 @@ define({
     "gotoListViewTooltip": "Vizualizare tip listă",
     "noFeatureGeomtery": "Obiectul spaţial nu poate fi afişat",
     "featureOutsideAOIMessage": "Obiectul spaţial nu poate fi adăugat în afara zonei de studiu",
-    "noEditingPermissionsMessage": "Ă_You do not have permission to perform this action________________ș."
+    "noEditingPermissionsMessage": "Nu aveţi permisiunea pentru a efectua această acţiune."
   },
   "signin": {
     "guestSigninText": "Continuare ca oaspete",
@@ -62,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Vizualizare hartă"
   },
   "appHeader": {
-    "myReport": "Ă_My Submissions_____ș",
+    "myReport": "Contribuţiile mele",
     "signIn": "Autentificare",
     "signOut": "Deconectare",
     "signInTooltip": "Autentificaţi-vă",
     "signOutTooltip": "Deconectare",
-    "myReportTooltip": "Ă_View my submissions_______ș"
+    "myReportTooltip": "Vizualizarea contribuţiilor mele"
   },
   "geoform": {
     "enterInformation": "Detalii",
@@ -89,18 +89,18 @@ define({
     "selectLocation": "Selectaţi locaţia pentru raport",
     "numericRangeHintMessage": "${openStrong}Sugestie:${closeStrong} Valoarea minimă ${minValue} şi Valoarea maximă ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Sugestie:${closeStrong} Data minimă ${minValue} şi Data maximă ${maxValue}",
-    "errorsInApplyEdits": "Ă_Values could not be submitted__________ș.",
+    "errorsInApplyEdits": "Valorile nu au putut fi trimise.",
     "attachmentSelectedMsg": "ataşări selectate",
     "attachmentUploadStatus": "${failed} din ${total} ataşări nu au fost încărcate",
     "geoLocationError": "Locaţia curentă nu este disponibilă",
     "geoLocationOutOfExtent": "Locaţia curentă se află în afara extinderii hărţii fundal",
     "submitButtonTooltip": "Trimitere",
     "cancelButtonTooltip": "Anulare",
-    "geoformBackButtonTooltip": "Ă_Return to the list______ș",
-    "locationSelectionHintForPointLayer": "Ă_Tap the map to draw the location___________ș.",
-    "locationSelectionHintForPolygonLayer": "Ă_Tap the map to draw the location. Double tap to complete the drawing______________________ș.",
-    "locationSelectionHintForPointLayerDesktop": "Ă_Click the map to draw the location____________ș.",
-    "locationSelectionHintForPolygonLayerDesktop": "Ă_Click the map to draw the location. Double click to complete the drawing_______________________ș."
+    "geoformBackButtonTooltip": "Reveniţi la listă",
+    "locationSelectionHintForPointLayer": "Atingeţi harta pentru a trasa locaţia.",
+    "locationSelectionHintForPolygonLayer": "Atingeţi harta pentru a trasa locaţia. Atingeţi de două ori pentru încheia trasarea.",
+    "locationSelectionHintForPointLayerDesktop": "Faceţi clic pe hartă pentru a trasa locaţia.",
+    "locationSelectionHintForPolygonLayerDesktop": "Faceţi clic pe hartă pentru a trasa locaţia. Faceţi clic de două ori pentru încheia trasarea."
   },
   "locator": {
     "addressText": "Adresă:",
@@ -109,14 +109,14 @@ define({
     "latLongText": "Latitudine/Longitudine",
     "invalidSearch": "Nu a fost găsit niciun rezultat",
     "locatorPlaceholder": "Introduceţi o adresă pentru a o căuta",
-    "locationOutOfExtent": "Ă_Location is outside the submission area_____________ș",
+    "locationOutOfExtent": "Locaţia se află în exteriorul zonei contribuţiei",
     "searchButtonTooltip": "Căutare",
     "clearButtonTooltip": "Golire valoare căutare"
   },
   "myIssues": {
-    "title": "Ă_My Submissions_____ș",
-    "myIssuesTooltip": "Ă_My Submissions_____ș",
-    "noResultsFound": "Ă_No submissions found_______ș"
+    "title": "Contribuţiile mele",
+    "myIssuesTooltip": "Contribuţiile mele",
+    "noResultsFound": "Nu s-au găsit contribuţii"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -126,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Consultaţi documentele ataşate",
     "mapButtonLabel": "Vizualizare pe hartă",
-    "mapButtonTooltip": "Ă_View the location of this submission____________ș",
+    "mapButtonTooltip": "Vizualizaţi locaţia acestei contribuţii",
     "commentsListHeading": "Comentarii",
     "unableToUpdateVoteField": "Votul dumneavoastră nu poate fi luat în considerare în acest moment.",
-    "gotoIssueListTooltip": "Ă_View the list of submissions_________ș",
+    "gotoIssueListTooltip": "Vizualizaţi lista cu contribuţii",
     "deleteMessage": "Sigur doriţi să ştergeţi?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Ă_Number of votes______ș",
+    "likesForThisItemTooltip": "Număr de voturi",
     "loadMoreButtonText": "Se încarcă mai multe..."
   },
   "comment": {

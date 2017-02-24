@@ -27,7 +27,7 @@ define({
     "gotoListViewTooltip": "Listevisning",
     "noFeatureGeomtery": "Kan ikke vise geoobjekt",
     "featureOutsideAOIMessage": "Kan ikke legge til geoobjekt utenfor studieområde",
-    "noEditingPermissionsMessage": "å_You do not have permission to perform this action________________ø."
+    "noEditingPermissionsMessage": "Du har ikke tillatelse til å utføre denne handlingen."
   },
   "signin": {
     "guestSigninText": "Fortsett som gjest",
@@ -62,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Kartvisning"
   },
   "appHeader": {
-    "myReport": "å_My Submissions_____ø",
+    "myReport": "Mine innleveringer",
     "signIn": "Logg på",
     "signOut": "Logg ut",
     "signInTooltip": "Logg på",
     "signOutTooltip": "Logg av",
-    "myReportTooltip": "å_View my submissions_______ø"
+    "myReportTooltip": "Se Mine innleveringer"
   },
   "geoform": {
     "enterInformation": "Detaljer",
@@ -89,18 +89,18 @@ define({
     "selectLocation": "Velg lokasjonen for rapporten",
     "numericRangeHintMessage": "${openStrong}Hint:${closeStrong} Minimumsverdi ${minValue} og maksimumsverdi ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Hint:${closeStrong} Laveste dato ${minValue} og høyeste dato ${maxValue}",
-    "errorsInApplyEdits": "å_Values could not be submitted__________ø.",
+    "errorsInApplyEdits": "Verdiene kunne ikke sendes inn.",
     "attachmentSelectedMsg": "vedlegg valgt",
     "attachmentUploadStatus": "kan ikke laste opp ${failed} av ${total} vedlegg",
     "geoLocationError": "Gjeldende plassering er ikke tilgjengelig",
     "geoLocationOutOfExtent": "Gjeldende plassering er utenfor bakgrunnskartets utstrekning",
     "submitButtonTooltip": "Send inn",
     "cancelButtonTooltip": "Avbryt",
-    "geoformBackButtonTooltip": "å_Return to the list______ø",
-    "locationSelectionHintForPointLayer": "å_Tap the map to draw the location___________ø.",
-    "locationSelectionHintForPolygonLayer": "å_Tap the map to draw the location. Double tap to complete the drawing______________________ø.",
-    "locationSelectionHintForPointLayerDesktop": "å_Click the map to draw the location____________ø.",
-    "locationSelectionHintForPolygonLayerDesktop": "å_Click the map to draw the location. Double click to complete the drawing_______________________ø."
+    "geoformBackButtonTooltip": "Gå tilbake til listen",
+    "locationSelectionHintForPointLayer": "Trykk på kartet for å tegne lokasjonen.",
+    "locationSelectionHintForPolygonLayer": "Trykk på kartet for å tegne lokasjonen. Trykk to ganger for å fullføre tegningen.",
+    "locationSelectionHintForPointLayerDesktop": "Klikk på kartet for å tegne lokasjonen.",
+    "locationSelectionHintForPolygonLayerDesktop": "Klikk på kartet for å tegne lokasjonen. Dobbeltklikk for å fullføre tegningen."
   },
   "locator": {
     "addressText": "Adresse:",
@@ -109,14 +109,14 @@ define({
     "latLongText": "Lengdegrad/breddegrad",
     "invalidSearch": "Fant ingen resultater",
     "locatorPlaceholder": "Skriv inn en adresse som skal søkes etter",
-    "locationOutOfExtent": "å_Location is outside the submission area_____________ø",
+    "locationOutOfExtent": "Lokasjonen befinner seg utenfor innleveringsområdet",
     "searchButtonTooltip": "Søke",
     "clearButtonTooltip": "Fjern søkeverdi"
   },
   "myIssues": {
-    "title": "å_My Submissions_____ø",
-    "myIssuesTooltip": "å_My Submissions_____ø",
-    "noResultsFound": "å_No submissions found_______ø"
+    "title": "Mine innleveringer",
+    "myIssuesTooltip": "Mine innleveringer",
+    "noResultsFound": "Fant ingen innleveringer"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -126,14 +126,14 @@ define({
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Se vedlagte dokumenter",
     "mapButtonLabel": "Vis på kart",
-    "mapButtonTooltip": "å_View the location of this submission____________ø",
+    "mapButtonTooltip": "Vis lokasjonen for denne innleveringen",
     "commentsListHeading": "Kommentarer",
     "unableToUpdateVoteField": "Stemmen din kan ikke telles akkurat nå.",
-    "gotoIssueListTooltip": "å_View the list of submissions_________ø",
+    "gotoIssueListTooltip": "Vis listen over innleveringer",
     "deleteMessage": "Er du sikker på at du vil slette?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "å_Number of votes______ø",
+    "likesForThisItemTooltip": "Antall stemmer",
     "loadMoreButtonText": "Last inn flere..."
   },
   "comment": {
