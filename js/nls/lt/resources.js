@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Pateikti ataskaitą",
     "gotoListViewTooltip": "Sąrašo vaizdas",
     "noFeatureGeomtery": "Elemento parodyti negalima",
-    "featureOutsideAOIMessage": "Į_Feature cannot be added outside study area______________š"
+    "featureOutsideAOIMessage": "Elemento negalima pridėti už regiono ribų",
+    "noEditingPermissionsMessage": "Neturite leidimo atlikti šį veiksmą."
   },
   "signin": {
     "guestSigninText": "Tęsti svečio teisėmis",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Žemėlapio vaizdas"
   },
   "appHeader": {
-    "myReport": "Mano ataskaitos",
+    "myReport": "Mano pateiktys",
     "signIn": "Prisijungti",
     "signOut": "Atsijungti",
     "signInTooltip": "Prisijunkite",
     "signOutTooltip": "Atsijungti",
-    "myReportTooltip": "Rodyti mano ataskaitas"
+    "myReportTooltip": "Peržiūrėti mano pateiktis"
   },
   "geoform": {
     "enterInformation": "Išsamiau",
@@ -74,7 +75,7 @@ define({
     "selectFileText": "Parinkti",
     "enterLocation": "Vieta",
     "reportItButton": "Pranešti apie tai",
-    "editReportButton": "Į_Update___š",
+    "editReportButton": "Atnaujinti",
     "cancelButton": "Atšaukti",
     "requiredField": "(privalomas)",
     "selectDefaultText": "Pasirinkti&hellip;",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Nurodykite ataskaitos vietą",
     "numericRangeHintMessage": "${openStrong}Užuomina:${closeStrong} minimali vertė ${minValue} ir maksimali vertė ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Užuomina:${closeStrong} minimali data ${minValue} ir maksimali data ${maxValue}",
-    "errorsInApplyEdits": "Komentaro pateikti nepavyko",
+    "errorsInApplyEdits": "Reikšmių pateikti nepavyko.",
     "attachmentSelectedMsg": "pasirinktas (-i) priedas (-ai)",
     "attachmentUploadStatus": "Nepavyko įkelti ${failed} iš ${total} priedo (-ų)",
     "geoLocationError": "Informacijos apie esamą vietą nėra",
     "geoLocationOutOfExtent": "Dabartinė vieta yra už pagrindo žemėlapio ribų",
     "submitButtonTooltip": "Pateikti",
     "cancelButtonTooltip": "Atšaukti",
-    "geoformBackButtonTooltip": "Grįžti į ataskaitų sąrašą"
+    "geoformBackButtonTooltip": "Grįžti į sąrašą",
+    "locationSelectionHintForPointLayer": "Bakstelėkite žemėlapį, norėdami apibrėžti teritoriją.",
+    "locationSelectionHintForPolygonLayer": "Bakstelėkite žemėlapį, norėdami apibrėžti teritoriją. Norėdami baigti braižyti, bakstelėkite du kartus.",
+    "locationSelectionHintForPointLayerDesktop": "Spustelėkite žemėlapį, norėdami apibrėžti teritoriją.",
+    "locationSelectionHintForPolygonLayerDesktop": "Spustelėkite žemėlapį, norėdami apibrėžti teritoriją. Norėdami baigti braižyti, spustelėkite du kartus."
   },
   "locator": {
     "addressText": "Adresas:",
@@ -104,37 +109,37 @@ define({
     "latLongText": "Platuma/Ilguma",
     "invalidSearch": "Nieko nerasta",
     "locatorPlaceholder": "Įveskite ieškotiną adresą",
-    "locationOutOfExtent": "Rastas adresas yra už pagrindo žemėlapio ribų",
+    "locationOutOfExtent": "Teritorija yra už pateikties srities ribų",
     "searchButtonTooltip": "Ieškoti",
     "clearButtonTooltip": "Išvalyti paieškos reikšmę"
   },
   "myIssues": {
-    "title": "Mano ataskaitos",
-    "myIssuesTooltip": "Mano ataskaitos",
-    "noResultsFound": "Ataskaitų nerasta"
+    "title": "Mano pateiktys",
+    "myIssuesTooltip": "Mano pateiktys",
+    "noResultsFound": "Pateikčių nerasta"
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "Į_I agree___š",
+    "likeButtonTooltip": "Sutinku",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "Į_Leave a reply_____š",
+    "commentButtonTooltip": "Palikti atsiliepimą",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Žr. pridėtus dokumentus",
     "mapButtonLabel": "Žiūrėti žemėlapyje",
-    "mapButtonTooltip": "Žiūrėti šios ataskaitos vietą",
+    "mapButtonTooltip": "Peržiūrėti šios pateikties teritoriją",
     "commentsListHeading": "Komentarai",
     "unableToUpdateVoteField": "Šiuo metu jūsų balso įskaičiuoti negalima.",
-    "gotoIssueListTooltip": "Eiti į ataskaitų sąrašą",
-    "deleteMessage": "Į_Are you sure you want to delete___________š?"
+    "gotoIssueListTooltip": "Peržiūrėti pateikčių sąrašą",
+    "deleteMessage": "Ar tikrai norite ištrinti?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Balsai už šią ataskaitą",
+    "likesForThisItemTooltip": "Balsų skaičius",
     "loadMoreButtonText": "Įkelti daugiau..."
   },
   "comment": {
-    "commentsFormHeading": "Į_Comment___š",
+    "commentsFormHeading": "Komentuoti",
     "commentsFormSubmitButton": "Pateikti komentarą",
-    "commentsFormEditButton": "Į_Update Comment_____š",
+    "commentsFormEditButton": "Atnaujinti komentarą",
     "commentsFormCancelButton": "Atšaukti",
     "errorInSubmittingComment": "Komentaro pateikti nepavyko.",
     "emptyCommentMessage": "Įveskite komentarą.",
@@ -142,14 +147,14 @@ define({
     "noCommentsAvailableText": "Komentarų nėra",
     "remainingTextCount": "liko simbolių: ${0}",
     "showNoText": "Ne",
-    "selectAttachments": "Į_Attachments____š",
-    "selectFileText": "Į_Browse___š",
-    "attachmentSelectedMsg": "Į_attachment(s) selected________š",
-    "attachmentHeaderText": "Į_Attachments____š",
-    "unknownCommentAttachment": "Į_FILE__š",
-    "editRecordText": "Į_Edit__š",
-    "deleteRecordText": "Į_Delete___š",
-    "deleteCommentFailedMessage": "Į_Unable to delete comment________š"
+    "selectAttachments": "Priedai",
+    "selectFileText": "Parinkti",
+    "attachmentSelectedMsg": "pasirinktas (-i) priedas (-ai)",
+    "attachmentHeaderText": "Priedai",
+    "unknownCommentAttachment": "FAILAS",
+    "editRecordText": "Redaguoti",
+    "deleteRecordText": "Ištrinti",
+    "deleteCommentFailedMessage": "Komentaro ištrinti nepavyko"
   },
   "gallery": {
     "galleryHeaderText": "Galerija",

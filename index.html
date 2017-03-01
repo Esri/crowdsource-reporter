@@ -21,12 +21,13 @@
     <link rel="stylesheet" type="text/css" href="js/vendor/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css" />
     <link rel="stylesheet" type="text/css" href="js/vendor/touch-spinner/jquery.bootstrap-touchspin.min.css" />
     <!--Dojo and Esri CSS-->
-    <link rel="stylesheet" href="//js.arcgis.com/3.19/dijit/themes/claro/claro.css" />
-    <link rel="stylesheet" href="//js.arcgis.com/3.19/esri/css/esri.css" />
+    <link rel="stylesheet" href="//js.arcgis.com/3.20/dijit/themes/claro/claro.css" />
+    <link rel="stylesheet" href="//js.arcgis.com/3.20/esri/css/esri.css" />
     <!-- Load any application specific styles -->
     <link rel="stylesheet" href="css/main.css" type="text/css" />
     <link rel="stylesheet" href="css/common.css" type="text/css" />
     <link rel="stylesheet" href="css/mediaqueries.css" type="text/css" />
+    <link rel="stylesheet" href="css/font-icon-styles.css" type="text/css" />
     <!-- Add Legacy browsers css -->
     <!--[if lt IE 9]>
     <link rel="stylesheet"  type="text/css" href="css/legacy-browsers.css" />
@@ -44,12 +45,12 @@
         </div>
         <div class="esriCTFullHeightWidth" id="layoutContainer">
             <div id="mapParentContainer" class="esriCTMapContainer">
-                <div class="esriCTListHeader esriCTBGColor">
-                    <div class="esriCTBackButton esriCTPointerCursor" id="mapBackButton"></div>
+                <div class="esriCTListHeader esriCTBGColor esriCTHeaderBackgroundColorAsTextColor">
+                    <div class="esriCTBackButton esriCTInvertFontIcons icon icon-left-arrow esriCTPointerCursor" id="mapBackButton"></div>
                     <div class="esriCTHeaderText esriCTMapHeaderText esriCTEllipsis" id="mapContainerTitle"></div>
-                    <div class="esriCTListViewButton esriCTPointerCursor" id="toggleListViewButton"></div>
+                    <div class="esriCTListViewButton esriCTPointerCursor icon icon-list" id="toggleListViewButton"></div>
                 </div>
-                <div id="mapContainer">
+                <div id="mapContainer" class="esriCTMap">
                     <!-- The ArcGIS API for JavaScript provides bidirectional support.  When viewing the application in an right to left (rtl) language like Hebrew and Arabic the map needs to remain in left-to-right (ltr) mode. Specify this by setting the dir attribute on the div to ltr. -->
                     <div id="mapDiv" dir="ltr" data-dojo-props="region:'center'">
                     </div>
@@ -61,13 +62,13 @@
                     </div>
                 </div>
             </div>
-            <div id="sideContainer" class="esriCTBorderLeft">
-                <div id="sidebarContent" class="esriCTFullHeightWidth" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
+            <div id="sideContainer" class="esriCTBorderLeft esriCTHeaderTextColorAsBorder">
+                <div id="sidebarContent" class="esriCTFullHeightWidth esriCTBodyBackgroundColor" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
                 </div>
             </div>
         </div>
 
-        <div id="geoformContainer" class="esriCTHidden esriCTBorderLeft esriCTGeoFormParentContainer">
+        <div id="geoformContainer" class="esriCTHidden esriCTBorderLeft esriCTGeoFormParentContainer esriCTHeaderTextColorAsBorder">
         </div>
         <div id="mobileMenuContainer" class="esriCTMobileMenuContainer esriCTHideMobileMenu">
         </div>
@@ -80,7 +81,7 @@
     <script type="text/javascript" src="js/vendor/bootstrap-3.3.0-dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/vendor/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript" src="js/vendor/touch-spinner/jquery.bootstrap-touchspin.min.js"></script>
-    <script type="text/javascript" src="//js.arcgis.com/3.19"></script>
+    <script type="text/javascript" src="//js.arcgis.com/3.20"></script>
     <script type="text/javascript">
         require([
                 "application/bootstrapper"

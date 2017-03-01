@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Een rapport indienen",
     "gotoListViewTooltip": "Lijstweergave",
     "noFeatureGeomtery": "Object kan niet worden weergegeven",
-    "featureOutsideAOIMessage": "Ĳ_Feature cannot be added outside study area______________ä"
+    "featureOutsideAOIMessage": "Object kan niet buiten studiegebied worden toegevoegd",
+    "noEditingPermissionsMessage": "U hebt geen toestemming om deze actie uit te voeren."
   },
   "signin": {
     "guestSigninText": "Doorgaan als gast",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Kaartweergave"
   },
   "appHeader": {
-    "myReport": "Mijn Rapporten",
+    "myReport": "Mijn meldingen",
     "signIn": "Aanmelden",
     "signOut": "Afmelden",
     "signInTooltip": "Aanmelden",
     "signOutTooltip": "Meld u af",
-    "myReportTooltip": "Mijn rapporten bekijken"
+    "myReportTooltip": "Mijn meldingen bekijken"
   },
   "geoform": {
     "enterInformation": "Details",
@@ -74,7 +75,7 @@ define({
     "selectFileText": "Bladeren",
     "enterLocation": "Locatie",
     "reportItButton": "Melden",
-    "editReportButton": "Ĳ_Update___ä",
+    "editReportButton": "Actualiseren",
     "cancelButton": "Annuleren",
     "requiredField": "(vereist)",
     "selectDefaultText": "Selecteren&hellip;",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Selecteer de locatie voor uw rapport",
     "numericRangeHintMessage": "${openStrong}Tip:${closeStrong} Minimumwaarde ${minValue} en Maximumwaarde ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Tip:${closeStrong} Minimumdatum ${minValue} en Maximumdatum ${maxValue}",
-    "errorsInApplyEdits": "Rapport kon niet worden ingediend",
+    "errorsInApplyEdits": "Waarden konden kon niet worden ingediend.",
     "attachmentSelectedMsg": "bijlage(n) geselecteerd",
     "attachmentUploadStatus": "${failed} van ${total} bijlage(n) is niet geupload",
     "geoLocationError": "Huidige locatie niet beschikbaar",
     "geoLocationOutOfExtent": "Huidige locatie ligt buiten het basiskaartbereik",
     "submitButtonTooltip": "Verzenden",
     "cancelButtonTooltip": "Annuleren",
-    "geoformBackButtonTooltip": "Terug naar de meldlijst"
+    "geoformBackButtonTooltip": "Terug naar de lijst",
+    "locationSelectionHintForPointLayer": "Tik op de kaart om de locatie te tekenen.",
+    "locationSelectionHintForPolygonLayer": "Tik op de kaart om de locatie te tekenen. Twee keer tikken om de tekening te voltooien.",
+    "locationSelectionHintForPointLayerDesktop": "Klik op de kaart om de locatie te tekenen.",
+    "locationSelectionHintForPolygonLayerDesktop": "Klik op de kaart om de locatie te tekenen. Twee keer klikken om de tekening te voltooien."
   },
   "locator": {
     "addressText": "Adres:",
@@ -104,37 +109,37 @@ define({
     "latLongText": "Breedtegraad/lengtegraad",
     "invalidSearch": "Geen resultaten gevonden",
     "locatorPlaceholder": "Voer een adres in om te zoeken",
-    "locationOutOfExtent": "Gezocht adres ligt buiten het basiskaartbereik",
+    "locationOutOfExtent": "Locatie is buiten het meldgebied",
     "searchButtonTooltip": "Zoeken",
     "clearButtonTooltip": "Zoekwaarde wissen"
   },
   "myIssues": {
-    "title": "Mijn Rapporten",
-    "myIssuesTooltip": "Mijn Rapporten",
-    "noResultsFound": "Geen rapporten gevonden"
+    "title": "Mijn meldingen",
+    "myIssuesTooltip": "Mijn meldingen",
+    "noResultsFound": "Geen meldingen gevonden"
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "Ĳ_I agree___ä",
+    "likeButtonTooltip": "Ik ga akkoord",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "Ĳ_Leave a reply_____ä",
+    "commentButtonTooltip": "Laat een reactie achter",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Zie bijgesloten documenten",
     "mapButtonLabel": "Op kaart weergeven",
-    "mapButtonTooltip": "Bekijk de locatie van dit rapport",
+    "mapButtonTooltip": "Bekijk de locatie van deze melding",
     "commentsListHeading": "Opmerkingen",
     "unableToUpdateVoteField": "Uw stem kan nu niet worden geteld.",
-    "gotoIssueListTooltip": "Ga naar de meldlijst",
-    "deleteMessage": "Ĳ_Are you sure you want to delete___________ä?"
+    "gotoIssueListTooltip": "Bekijk de lijst met meldingen",
+    "deleteMessage": "Weet u zeker dat u het wilt verwijderen?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Stemmen op dit rapport",
+    "likesForThisItemTooltip": "Aantal stemmen",
     "loadMoreButtonText": "Meer laden..."
   },
   "comment": {
-    "commentsFormHeading": "Ĳ_Comment___ä",
+    "commentsFormHeading": "Opmerking",
     "commentsFormSubmitButton": "Opmerking verzenden",
-    "commentsFormEditButton": "Ĳ_Update Comment_____ä",
+    "commentsFormEditButton": "Reactie bijwerken",
     "commentsFormCancelButton": "Annuleren",
     "errorInSubmittingComment": "Reactie kon niet worden ingediend.",
     "emptyCommentMessage": "Voer een reactie in.",
@@ -142,14 +147,14 @@ define({
     "noCommentsAvailableText": "Geen reacties beschikbaar",
     "remainingTextCount": "${0} teken(s) over",
     "showNoText": "Nee",
-    "selectAttachments": "Ĳ_Attachments____ä",
-    "selectFileText": "Ĳ_Browse___ä",
-    "attachmentSelectedMsg": "Ĳ_attachment(s) selected________ä",
-    "attachmentHeaderText": "Ĳ_Attachments____ä",
-    "unknownCommentAttachment": "Ĳ_FILE__ä",
-    "editRecordText": "Ĳ_Edit__ä",
-    "deleteRecordText": "Ĳ_Delete___ä",
-    "deleteCommentFailedMessage": "Ĳ_Unable to delete comment________ä"
+    "selectAttachments": "Bijlagen",
+    "selectFileText": "Bladeren",
+    "attachmentSelectedMsg": "bijlage(n) geselecteerd",
+    "attachmentHeaderText": "Bijlagen",
+    "unknownCommentAttachment": "BESTAND",
+    "editRecordText": "Bewerken",
+    "deleteRecordText": "Verwijderen",
+    "deleteCommentFailedMessage": "Kan opmerking niet verwijderen"
   },
   "gallery": {
     "galleryHeaderText": "Gallery",

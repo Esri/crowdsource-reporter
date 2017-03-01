@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "提交报告",
     "gotoListViewTooltip": "列表视图",
     "noFeatureGeomtery": "无法显示要素",
-    "featureOutsideAOIMessage": "试_Feature cannot be added outside study area______________验"
+    "featureOutsideAOIMessage": "无法向研究区域外添加要素",
+    "noEditingPermissionsMessage": "您无权执行此操作。"
   },
   "signin": {
     "guestSigninText": "以访客身份继续进行",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "地图视图"
   },
   "appHeader": {
-    "myReport": "我的报告",
+    "myReport": "我的提交内容",
     "signIn": "登录",
     "signOut": "登出",
     "signInTooltip": "登录",
     "signOutTooltip": "登出",
-    "myReportTooltip": "查看我的报告"
+    "myReportTooltip": "查看我的提交内容"
   },
   "geoform": {
     "enterInformation": "详细信息",
@@ -74,7 +75,7 @@ define({
     "selectFileText": "浏览",
     "enterLocation": "位置",
     "reportItButton": "提交报告",
-    "editReportButton": "试_Update___验",
+    "editReportButton": "更新",
     "cancelButton": "取消",
     "requiredField": "(必填)",
     "selectDefaultText": "选择&hellip;",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "请为您的报告选择位置",
     "numericRangeHintMessage": "${openStrong}提示:${closeStrong} 最小值 ${minValue} 和最大值 ${maxValue}",
     "dateRangeHintMessage": "${openStrong}提示:${closeStrong} 最小日期 ${minValue} 和最大日期 ${maxValue}",
-    "errorsInApplyEdits": "无法提交报告",
+    "errorsInApplyEdits": "无法提交值。",
     "attachmentSelectedMsg": "附件已选定",
     "attachmentUploadStatus": "${failed} 个附件(共有 ${total} 个)上传失败",
     "geoLocationError": "当前位置不可用",
     "geoLocationOutOfExtent": "当前位置不在底图范围之内",
     "submitButtonTooltip": "提交",
     "cancelButtonTooltip": "取消",
-    "geoformBackButtonTooltip": "返回至报告列表"
+    "geoformBackButtonTooltip": "返回列表",
+    "locationSelectionHintForPointLayer": "点击地图以绘制位置。",
+    "locationSelectionHintForPolygonLayer": "点击地图以绘制位置。双击以完成绘制。",
+    "locationSelectionHintForPointLayerDesktop": "单击地图以绘制位置。",
+    "locationSelectionHintForPolygonLayerDesktop": "单击地图以绘制位置。双击以完成绘制。"
   },
   "locator": {
     "addressText": "地址:",
@@ -104,37 +109,37 @@ define({
     "latLongText": "纬度/经度",
     "invalidSearch": "未找到任何结果",
     "locatorPlaceholder": "输入一个搜索地址",
-    "locationOutOfExtent": "已找到的地址不在底图范围之内",
+    "locationOutOfExtent": "位置位于提交范围外",
     "searchButtonTooltip": "搜索",
     "clearButtonTooltip": "清除搜索值"
   },
   "myIssues": {
-    "title": "我的报告",
-    "myIssuesTooltip": "我的报告",
-    "noResultsFound": "未找到任何报告"
+    "title": "我的提交内容",
+    "myIssuesTooltip": "我的提交内容",
+    "noResultsFound": "找不到提交内容"
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "试_I agree___验",
+    "likeButtonTooltip": "我同意",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "试_Leave a reply_____验",
+    "commentButtonTooltip": "回复",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "参见随附文档",
     "mapButtonLabel": "在地图中查看",
-    "mapButtonTooltip": "查看此报告的位置",
+    "mapButtonTooltip": "查看此提交内容的位置",
     "commentsListHeading": "评论",
     "unableToUpdateVoteField": "目前无法计数您的投票。",
-    "gotoIssueListTooltip": "转至报告列表",
-    "deleteMessage": "试_Are you sure you want to delete___________验?"
+    "gotoIssueListTooltip": "查看提交内容列表",
+    "deleteMessage": "是否确定删除?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "投票支持此报告",
+    "likesForThisItemTooltip": "投票数",
     "loadMoreButtonText": "加载更多..."
   },
   "comment": {
-    "commentsFormHeading": "试_Comment___验",
+    "commentsFormHeading": "评论",
     "commentsFormSubmitButton": "提交评论",
-    "commentsFormEditButton": "试_Update Comment_____验",
+    "commentsFormEditButton": "更新评论",
     "commentsFormCancelButton": "取消",
     "errorInSubmittingComment": "无法提交评论。",
     "emptyCommentMessage": "请输入一条评论。",
@@ -142,14 +147,14 @@ define({
     "noCommentsAvailableText": "没有任何评论可用",
     "remainingTextCount": "剩余 ${0} 个字符",
     "showNoText": "否",
-    "selectAttachments": "试_Attachments____验",
-    "selectFileText": "试_Browse___验",
-    "attachmentSelectedMsg": "试_attachment(s) selected________验",
-    "attachmentHeaderText": "试_Attachments____验",
-    "unknownCommentAttachment": "试_FILE__验",
-    "editRecordText": "试_Edit__验",
-    "deleteRecordText": "试_Delete___验",
-    "deleteCommentFailedMessage": "试_Unable to delete comment________验"
+    "selectAttachments": "附件",
+    "selectFileText": "浏览",
+    "attachmentSelectedMsg": "附件已选定",
+    "attachmentHeaderText": "附件",
+    "unknownCommentAttachment": "文件",
+    "editRecordText": "编辑",
+    "deleteRecordText": "删除",
+    "deleteCommentFailedMessage": "无法删除评论"
   },
   "gallery": {
     "galleryHeaderText": "图库",

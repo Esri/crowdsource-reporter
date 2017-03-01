@@ -157,10 +157,26 @@ define([
         */
         show: function () {
             domStyle.set(this.likeButton, 'display', this.actionVisibilities.showVotes ? 'inline-block' : 'none');
+            //If editing capabilities are disabled, hide commetns button but show added comments
             domStyle.set(this.commentButton, 'display', this.actionVisibilities.showComments ? 'inline-block' : 'none');
-            domStyle.set(this.galleryButton, 'display', this.actionVisibilities.showGallery ? 'inline-block' : 'none');
+            //We will keep gallery button OFF by default, if feature has valid attachments then button will automatically be turned ON
+            domStyle.set(this.galleryButton, 'display', 'none');
             domStyle.set(this.domNode, 'display', '');
             this._setLikeButtonState();
+        },
+
+        /**
+        * Decide wether to show/hide gallery button based on attachments in feature
+        */
+        _showGalleryButton: function () {
+            this.selectedLayer.queryAttachmentInfos(this.item.attributes[this.selectedLayer.objectIdField], lang.hitch(this, function (attachments) {
+                // If attachments found, enable gallery button
+                if (attachments && attachments.length > 0) {
+                    domStyle.set(this.galleryButton, 'display', 'inline-block');
+                }
+            }), function () {
+                //handle for error
+            });
         },
 
         hide: function () {
@@ -185,19 +201,27 @@ define([
 
             on(this.likeButton, "click", lang.hitch(this, function () {
                 if (!domClass.contains(this.likeButton, "esriCTDetailButtonSelected")) {
-                    self._fetchVotesCount(self.item).then(lang.hitch(this, function (item) {
-                        self._incrementVote(item);
-                    }));
+                    if (this.appConfig.logInDetails.canEditFeatures) {
+                        self._fetchVotesCount(self.item).then(lang.hitch(this, function (item) {
+                            self._incrementVote(item);
+                        }));
+                    } else {
+                        this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
+                    }
                 }
             }));
 
             on(this.commentButton, "click", lang.hitch(this, function () {
-                this.appUtils.showLoadingIndicator();
-                this._showCommentHeaderAndListContainer();
-                this._hideCommentDetailsContainer();
-                topic.publish('getComment', self.item);
-                self._createCommentForm(self.item, true, null);
-                this.appUtils.hideLoadingIndicator();
+                if (this.appConfig.logInDetails.canEditFeatures) {
+                    this.appUtils.showLoadingIndicator();
+                    this._showCommentHeaderAndListContainer();
+                    this._hideCommentDetailsContainer();
+                    topic.publish('getComment', self.item);
+                    self._createCommentForm(self.item, true, null);
+                    this.appUtils.hideLoadingIndicator();
+                } else {
+                    this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
+                }
             }));
 
 
@@ -337,6 +361,8 @@ define([
             this._checkForLayerCapabilities(layerInfo, item);
             this.item.originalFeature.canEdit = this.item.canEdit;
             this.item.originalFeature.canDelete = this.item.canDelete;
+            //Check for attachments and enable gallery button
+            this._showGalleryButton();
             this._clearItemDisplay();
             this._buildItemDisplay();
         },
@@ -517,33 +543,41 @@ define([
             var editBtn, deleteBtn, existingAttachmentsObjectsArr, buttonContainer, confirmDelete;
             buttonContainer = domConstruct.create("div", { "class": "esriCTEditingButtons" }, parentDiv);
             if (graphic.canEdit) {
-                editBtn = domConstruct.create("div", { "class": "esriCTEditButton", "title": this.appConfig.i18n.comment.editRecordText }, buttonContainer);
+                editBtn = domConstruct.create("div", { "class": "esriCTEditButton icon icon-pencil esriCTBodyTextColor", "title": this.appConfig.i18n.comment.editRecordText }, buttonContainer);
                 on(editBtn, "click", lang.hitch(this, function (evt) {
-                    if (isGeoform) {
-                        domClass.add(parentDiv, "esriCTHidden");
-                        domClass.remove(this.popupDetailsDiv, "esriCTHidden");
-                        domClass.add(this.actionButtonsContainer, "esriCTHidden");
-                        this._createGeoformForEdits(this.popupDetailsDiv);
+                    if (this.appConfig.logInDetails.canEditFeatures) {
+                        if (isGeoform) {
+                            domClass.add(parentDiv, "esriCTHidden");
+                            domClass.remove(this.popupDetailsDiv, "esriCTHidden");
+                            domClass.add(this.actionButtonsContainer, "esriCTHidden");
+                            this._createGeoformForEdits(this.popupDetailsDiv);
 
+                        } else {
+                            this.appUtils.showLoadingIndicator();
+                            existingAttachmentsObjectsArr = this._getExistingAttachments(evt);
+                            this._showEditCommentForm(graphic, existingAttachmentsObjectsArr);
+                            this.appUtils.hideLoadingIndicator();
+                        }
                     } else {
-                        this.appUtils.showLoadingIndicator();
-                        existingAttachmentsObjectsArr = this._getExistingAttachments(evt);
-                        this._showEditCommentForm(graphic, existingAttachmentsObjectsArr);
-                        this.appUtils.hideLoadingIndicator();
+                        this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
                     }
                 }));
             }
             if (graphic.canDelete) {
-                deleteBtn = domConstruct.create("div", { "class": "esriCTDeleteButton", "title": this.appConfig.i18n.comment.deleteRecordText }, buttonContainer);
+                deleteBtn = domConstruct.create("div", { "class": "esriCTDeleteButton icon icon-delete esriCTBodyTextColor", "title": this.appConfig.i18n.comment.deleteRecordText }, buttonContainer);
                 on(deleteBtn, "click", lang.hitch(this, function (evt) {
-                    confirmDelete = confirm(this.appConfig.i18n.itemDetails.deleteMessage);
-                    if (confirmDelete) {
-                        this.appUtils.showLoadingIndicator();
-                        if (isGeoform) {
-                            this.deleteSelectedFeature();
-                        } else {
-                            this._deleteSelectedComment(graphic, evt.currentTarget.parentNode);
+                    if (this.appConfig.logInDetails.canEditFeatures) {
+                        confirmDelete = confirm(this.appConfig.i18n.itemDetails.deleteMessage);
+                        if (confirmDelete) {
+                            this.appUtils.showLoadingIndicator();
+                            if (isGeoform) {
+                                this.deleteSelectedFeature();
+                            } else {
+                                this._deleteSelectedComment(graphic, evt.currentTarget.parentNode);
+                            }
                         }
+                    } else {
+                        this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
                     }
                 }));
             }
@@ -788,7 +822,7 @@ define([
             //check if attachments found
             if (this._entireAttachmentsArr[index][1] && this._entireAttachmentsArr[index][1].length > 0) {
                 //Create attachment header text
-                domConstruct.create("div", { "innerHTML": this.appConfig.i18n.comment.attachmentHeaderText, "class": "esriCTAttachmentHeader" }, attachmentContainer);
+                domConstruct.create("div", { "innerHTML": this.appConfig.i18n.comment.attachmentHeaderText, "class": "esriCTAttachmentHeader esriCTBodyTextColor" }, attachmentContainer);
                 fieldContent = domConstruct.create("div", { "class": "esriCTThumbnailContainer" }, attachmentContainer);
                 // display all attached images in thumbnails
                 for (i = 0; i < this._entireAttachmentsArr[index][1].length; i++) {
@@ -891,7 +925,7 @@ define([
                 }, this.gallery);
                 domConstruct.create("div", {
                     "innerHTML": this.appConfig.i18n.gallery.galleryHeaderText,
-                    "class": "esriCTItemDetailHeader esriCTListItemHeader esriCTLargeText"
+                    "class": "esriCTItemDetailHeader esriCTListItemHeader esriCTLargeText esriCTCalculatedBodyTextColorAsBorder"
                 }, container);
                 // If attachments found
                 if (infos && infos.length > 0) {
@@ -905,7 +939,7 @@ define([
                             imagePath = infos[i].url;
                         }
                         imageContent = domConstruct.create("span", {
-                            "class": "esriCTIssueImgSpan col"
+                            "class": "esriCTIssueImgSpan col esriCTCalculatedBodyTextColorAsBorder"
                         }, fieldContent);
                         domClass.add(imageContent, "esriCTImageLoader");
                         imageDiv[i] = domConstruct.create("img", {

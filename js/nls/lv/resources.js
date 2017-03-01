@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Iesniegt pārskatu",
     "gotoListViewTooltip": "Saraksta skats",
     "noFeatureGeomtery": "Funkciju nevar parādīt",
-    "featureOutsideAOIMessage": "ķ_Feature cannot be added outside study area______________ū"
+    "featureOutsideAOIMessage": "Līdzekli nevar pievienot ārpus izpētes apgabala",
+    "noEditingPermissionsMessage": "Jums nav atļaujas izpildīt šo darbību."
   },
   "signin": {
     "guestSigninText": "Turpināt kā viesim",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Kartes skats"
   },
   "appHeader": {
-    "myReport": "Mani ziņojumi",
+    "myReport": "Mana iesniegtā informācija",
     "signIn": "Pierakstīties",
     "signOut": "Izrakstīties",
     "signInTooltip": "Pierakstīties",
     "signOutTooltip": "Izrakstīties",
-    "myReportTooltip": "Skatīt manus ziņojumus"
+    "myReportTooltip": "Skatīt manis iesniegto informāciju"
   },
   "geoform": {
     "enterInformation": "Detaļas",
@@ -74,7 +75,7 @@ define({
     "selectFileText": "Pārlūks",
     "enterLocation": "Izvietojums",
     "reportItButton": "Ziņot par to",
-    "editReportButton": "ķ_Update___ū",
+    "editReportButton": "Atjaunināt",
     "cancelButton": "Atcelt",
     "requiredField": "(nepieciešams)",
     "selectDefaultText": "Izvēlēties&hellip;",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Lūdzu atlasiet vietu savam ziņojumam",
     "numericRangeHintMessage": "${openStrong}Norāde:${closeStrong} minimālā vērtība ${minValue} un maksimālā vērtība ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Norāde:${closeStrong} minimālais datums ${minValue} un maksimālais datums ${maxValue}",
-    "errorsInApplyEdits": "Neizdevās iesniegt ziņojumu",
+    "errorsInApplyEdits": "Vērtības nevarēja iesniegt.",
     "attachmentSelectedMsg": "atlasītais(-ie) pielikums(-i)",
     "attachmentUploadStatus": "${failed} no ${total} pielikuma(-iem) neizdevās augšupielādēt",
     "geoLocationError": "Pašreizējā vieta nav pieejama",
     "geoLocationOutOfExtent": "Pašreizējā vieta ir ārpus pamatkartes tvēruma",
     "submitButtonTooltip": "Iesniegt",
     "cancelButtonTooltip": "Atcelt",
-    "geoformBackButtonTooltip": "Atgriezties pārskatu sarakstā"
+    "geoformBackButtonTooltip": "Atgriezties sarakstā",
+    "locationSelectionHintForPointLayer": "Pieskarieties kartei, lai zīmētu novietojumu.",
+    "locationSelectionHintForPolygonLayer": "Pieskarieties kartei, lai zīmētu novietojumu. Pieskarieties divreiz, lai pabeigtu zīmējumu.",
+    "locationSelectionHintForPointLayerDesktop": "Noklikšķiniet uz kartes, lai zīmētu novietojumu.",
+    "locationSelectionHintForPolygonLayerDesktop": "Noklikšķiniet uz kartes, lai zīmētu novietojumu. Veiciet dubultklikšķi, lai pabeigtu zīmējumu."
   },
   "locator": {
     "addressText": "Adrese:",
@@ -104,37 +109,37 @@ define({
     "latLongText": "Platums/Garums",
     "invalidSearch": "Rezultāti nav atrasti",
     "locatorPlaceholder": "Ievadiet adresi meklēšanai",
-    "locationOutOfExtent": "Noteiktā adrese ir ārpus pamatkartes tvēruma",
+    "locationOutOfExtent": "Novietojums atrodas ārpus iesniegšanas teritorijas",
     "searchButtonTooltip": "Meklēšana",
     "clearButtonTooltip": "Notīrīt meklēšanas vērtību"
   },
   "myIssues": {
-    "title": "Mani ziņojumi",
-    "myIssuesTooltip": "Mani ziņojumi",
-    "noResultsFound": "Nav atrasts neviens ziņojums"
+    "title": "Mana iesniegtā informācija",
+    "myIssuesTooltip": "Mana iesniegtā informācija",
+    "noResultsFound": "Iesniegtā informācija nav atrasta"
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "ķ_I agree___ū",
+    "likeButtonTooltip": "Piekrītu",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "ķ_Leave a reply_____ū",
+    "commentButtonTooltip": "Atbildēt",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Skatīt pievienotos dokumentus",
     "mapButtonLabel": "Skatīt kartē",
-    "mapButtonTooltip": "Skatiet šī ziņojuma vietu",
+    "mapButtonTooltip": "Skatīt šo iesniegto datu novietojumu",
     "commentsListHeading": "Komentāri",
     "unableToUpdateVoteField": "Jūsu balsi šobrīd nevar pievienot.",
-    "gotoIssueListTooltip": "Doties uz ziņojumu sarakstu",
-    "deleteMessage": "ķ_Are you sure you want to delete___________ū?"
+    "gotoIssueListTooltip": "Skatīt iesniegtās informācijas sarakstu",
+    "deleteMessage": "Vai tiešām vēlaties dzēst?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Balsis par šo ziņojumu",
+    "likesForThisItemTooltip": "Balsojumu skaits",
     "loadMoreButtonText": "Ielādēt vēl..."
   },
   "comment": {
-    "commentsFormHeading": "ķ_Comment___ū",
+    "commentsFormHeading": "Komentārs",
     "commentsFormSubmitButton": "Iesniegt komentāru",
-    "commentsFormEditButton": "ķ_Update Comment_____ū",
+    "commentsFormEditButton": "Atjaunināt komentāru",
     "commentsFormCancelButton": "Atcelt",
     "errorInSubmittingComment": "Komentāru nevarēja iesniegt.",
     "emptyCommentMessage": "Lūdzu ievadiet komentāru.",
@@ -142,14 +147,14 @@ define({
     "noCommentsAvailableText": "Nav pieejamu komentāru",
     "remainingTextCount": "Palikusi(-šas) ${0} rakstzīme(-s)",
     "showNoText": "Nē",
-    "selectAttachments": "ķ_Attachments____ū",
-    "selectFileText": "ķ_Browse___ū",
-    "attachmentSelectedMsg": "ķ_attachment(s) selected________ū",
-    "attachmentHeaderText": "ķ_Attachments____ū",
-    "unknownCommentAttachment": "ķ_FILE__ū",
-    "editRecordText": "ķ_Edit__ū",
-    "deleteRecordText": "ķ_Delete___ū",
-    "deleteCommentFailedMessage": "ķ_Unable to delete comment________ū"
+    "selectAttachments": "Pielikumi",
+    "selectFileText": "Pārlūkot",
+    "attachmentSelectedMsg": "atlasītais(-ie) pielikums(-i)",
+    "attachmentHeaderText": "Uzdevumi",
+    "unknownCommentAttachment": "FAILS",
+    "editRecordText": "Rediģēt",
+    "deleteRecordText": "Izdzēst",
+    "deleteCommentFailedMessage": "Nevar izdzēst komentāru"
   },
   "gallery": {
     "galleryHeaderText": "Galerija",

@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Đệ trình Báo cáo",
     "gotoListViewTooltip": "Chế độ xem dạng danh sách",
     "noFeatureGeomtery": "Không thể hiển thị đối tượng",
-    "featureOutsideAOIMessage": "Đ_Feature cannot be added outside study area______________ớ"
+    "featureOutsideAOIMessage": "Không thể thêm đối tượng bên ngoài vùng nghiên cứu",
+    "noEditingPermissionsMessage": "Bạn không có quyền thực hiện thao tác này."
   },
   "signin": {
     "guestSigninText": "Tiến hành dưới dạng Khách",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Chế độ xem bản đồ"
   },
   "appHeader": {
-    "myReport": "Báo cáo của tôi",
+    "myReport": "Đệ trình của tôi",
     "signIn": "Đăng nhập",
     "signOut": "Đăng xuất",
     "signInTooltip": "Đăng nhập",
     "signOutTooltip": "Đăng xuất",
-    "myReportTooltip": "Xem báo cáo của tôi"
+    "myReportTooltip": "Xem các đệ trình của tôi"
   },
   "geoform": {
     "enterInformation": "Chi tiết",
@@ -74,7 +75,7 @@ define({
     "selectFileText": "Duyệt",
     "enterLocation": "Vị trí",
     "reportItButton": "Báo cáo Nó",
-    "editReportButton": "Đ_Update___ớ",
+    "editReportButton": "Cập nhật",
     "cancelButton": "Hủy",
     "requiredField": "(bắt buộc)",
     "selectDefaultText": "Chọn&hellip;",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Vui lòng chọn vị trí cho báo cáo của bạn",
     "numericRangeHintMessage": "${openStrong}Gợi ý:${closeStrong} Giá trị tối thiểu ${minValue} và Giá trị tối đa ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Gợi ý:${closeStrong} Ngày tối thiểu ${minValue} và Ngày tối đa ${maxValue}",
-    "errorsInApplyEdits": "Không thể gửi báo cáo",
+    "errorsInApplyEdits": "Không thể gửi các giá trị.",
     "attachmentSelectedMsg": "(các) tệp đính kèm được chọn",
     "attachmentUploadStatus": "Không thể tải lên ${failed} trên ${total} tệp đính kèm",
     "geoLocationError": "Vị trí hiện tại không khả dụng",
     "geoLocationOutOfExtent": "Vị trí hiện tại ngoài phạm vi bản đồ nền",
     "submitButtonTooltip": "Gửi",
     "cancelButtonTooltip": "Hủy",
-    "geoformBackButtonTooltip": "Quay lại danh sách báo cáo"
+    "geoformBackButtonTooltip": "Quay lại danh sách",
+    "locationSelectionHintForPointLayer": "Chạm vào bản đồ để vẽ vị trí.",
+    "locationSelectionHintForPolygonLayer": "Chạm vào bản đồ để vẽ vị trí. Chạm hai lần để hoàn thành bản vẽ.",
+    "locationSelectionHintForPointLayerDesktop": "Nhấp vào bản đồ để vẽ vị trí.",
+    "locationSelectionHintForPolygonLayerDesktop": "Nhấp vào bản đồ để vẽ vị trí. Nhấp đúp để hoàn thành bản vẽ."
   },
   "locator": {
     "addressText": "Địa chỉ:",
@@ -104,37 +109,37 @@ define({
     "latLongText": "Vĩ độ/Kinh độ",
     "invalidSearch": "Không tìm thấy kết quả",
     "locatorPlaceholder": "Nhập địa chỉ để tìm kiếm",
-    "locationOutOfExtent": "Địa chỉ được định vị ngoài phạm vi bản đồ nền",
+    "locationOutOfExtent": "Vị trí nằm bên ngoài khu vực đệ trình",
     "searchButtonTooltip": "Tìm kiếm",
     "clearButtonTooltip": "Xóa giá trị tìm kiếm"
   },
   "myIssues": {
-    "title": "Các báo cáo của tôi",
-    "myIssuesTooltip": "Các báo cáo của tôi",
-    "noResultsFound": "Không tìm thấy báo cáo"
+    "title": "Đệ trình của tôi",
+    "myIssuesTooltip": "Đệ trình của tôi",
+    "noResultsFound": "Không tìm thấy đệ trình nào"
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "Đ_I agree___ớ",
+    "likeButtonTooltip": "Tôi đồng ý",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "Đ_Leave a reply_____ớ",
+    "commentButtonTooltip": "Để lại câu trả lời",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Xem tài liệu đính kèm",
     "mapButtonLabel": "Xem trên Bản đồ",
-    "mapButtonTooltip": "Xem vị trí của báo cáo này",
+    "mapButtonTooltip": "Xem vị trí của đệ trình này",
     "commentsListHeading": "Bình luận",
     "unableToUpdateVoteField": "Không thể tính bình chọn của bạn vào lúc này.",
-    "gotoIssueListTooltip": "Đến danh sách báo cáo",
-    "deleteMessage": "Đ_Are you sure you want to delete___________ớ?"
+    "gotoIssueListTooltip": "Xem danh sách đệ trình",
+    "deleteMessage": "Bạn có chắc chắn muốn xóa không?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Các bình chọn cho báo cáo này",
+    "likesForThisItemTooltip": "Số lượng phiếu bầu",
     "loadMoreButtonText": "Tải Thêm..."
   },
   "comment": {
-    "commentsFormHeading": "Đ_Comment___ớ",
+    "commentsFormHeading": "Bình luận",
     "commentsFormSubmitButton": "Gửi bình luận",
-    "commentsFormEditButton": "Đ_Update Comment_____ớ",
+    "commentsFormEditButton": "Cập nhật Bình luận",
     "commentsFormCancelButton": "Hủy",
     "errorInSubmittingComment": "Không thể gửi bình luận.",
     "emptyCommentMessage": "Vui lòng nhập bình luận.",
@@ -142,14 +147,14 @@ define({
     "noCommentsAvailableText": "Không có bình luận",
     "remainingTextCount": "Còn ${0} ký tự",
     "showNoText": "Không",
-    "selectAttachments": "Đ_Attachments____ớ",
-    "selectFileText": "Đ_Browse___ớ",
-    "attachmentSelectedMsg": "Đ_attachment(s) selected________ớ",
-    "attachmentHeaderText": "Đ_Attachments____ớ",
-    "unknownCommentAttachment": "Đ_FILE__ớ",
-    "editRecordText": "Đ_Edit__ớ",
-    "deleteRecordText": "Đ_Delete___ớ",
-    "deleteCommentFailedMessage": "Đ_Unable to delete comment________ớ"
+    "selectAttachments": "Tệp đính kèm",
+    "selectFileText": "Duyệt",
+    "attachmentSelectedMsg": "(các) tệp đính kèm được chọn",
+    "attachmentHeaderText": "Tệp đính kèm",
+    "unknownCommentAttachment": "TỆP",
+    "editRecordText": "Chỉnh sửa",
+    "deleteRecordText": "Xóa",
+    "deleteCommentFailedMessage": "Không thể xóa bình luận"
   },
   "gallery": {
     "galleryHeaderText": "Bộ sưu tập",

@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Bericht senden",
     "gotoListViewTooltip": "Listenansicht",
     "noFeatureGeomtery": "Feature kann nicht angezeigt werden",
-    "featureOutsideAOIMessage": "ä_Feature cannot be added outside study area______________Ü"
+    "featureOutsideAOIMessage": "Feature kann nicht außerhalb des Untersuchungsgebiets hinzugefügt werden.",
+    "noEditingPermissionsMessage": "Sie sind nicht berechtigt, diese Aktion auszuführen."
   },
   "signin": {
     "guestSigninText": "Vorgang als Gast fortsetzen",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Kartenansicht"
   },
   "appHeader": {
-    "myReport": "Eigene Berichte",
+    "myReport": "Meine Übermittlungen",
     "signIn": "Anmelden",
     "signOut": "Abmelden",
     "signInTooltip": "Anmelden",
     "signOutTooltip": "Abmelden",
-    "myReportTooltip": "Eigene Berichte anzeigen"
+    "myReportTooltip": "Meine Übermittlungen anzeigen"
   },
   "geoform": {
     "enterInformation": "Details",
@@ -74,7 +75,7 @@ define({
     "selectFileText": "Durchsuchen",
     "enterLocation": "Speicherort",
     "reportItButton": "Melden",
-    "editReportButton": "ä_Update___Ü",
+    "editReportButton": "Aktualisieren",
     "cancelButton": "Abbrechen",
     "requiredField": "(erforderlich)",
     "selectDefaultText": "Auswählen&hellip;",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Wählen Sie den Speicherort für Ihren Bericht aus",
     "numericRangeHintMessage": "${openStrong}Hinweis:${closeStrong} Minimalwert ${minValue} und Maximalwert ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Hinweis:${closeStrong} Mindestdatum ${minValue} und maximal auswählbares Datum ${maxValue}",
-    "errorsInApplyEdits": "Bericht konnte nicht gesendet werden",
+    "errorsInApplyEdits": "Werte konnten nicht gesendet werden.",
     "attachmentSelectedMsg": "Anlage(n) ausgewählt",
     "attachmentUploadStatus": "${failed} von ${total} Anlage(n) konnte(n) nicht hochgeladen werden",
     "geoLocationError": "Aktuelle Position ist nicht verfügbar",
     "geoLocationOutOfExtent": "Aktuelle Position befindet sich außerhalb der Grundkartenausdehnung",
     "submitButtonTooltip": "Senden",
     "cancelButtonTooltip": "Abbrechen",
-    "geoformBackButtonTooltip": "Zur Berichtsliste zurückkehren"
+    "geoformBackButtonTooltip": "Zur Liste zurückkehren",
+    "locationSelectionHintForPointLayer": "Tippen Sie auf die Karte, um die Position zu zeichnen.",
+    "locationSelectionHintForPolygonLayer": "Tippen Sie auf die Karte, um die Position zu zeichnen. Doppeltippen Sie, um die Zeichnung abzuschließen.",
+    "locationSelectionHintForPointLayerDesktop": "Klicken Sie auf die Karte, um die Position zu zeichnen.",
+    "locationSelectionHintForPolygonLayerDesktop": "Klicken Sie auf die Karte, um die Position zu zeichnen. Doppelklicken Sie, um die Zeichnung abzuschließen."
   },
   "locator": {
     "addressText": "Adresse:",
@@ -104,37 +109,37 @@ define({
     "latLongText": "Breitengrad/Längengrad",
     "invalidSearch": "Keine Ergebnisse gefunden",
     "locatorPlaceholder": "Zu suchende Adresse eingeben",
-    "locationOutOfExtent": "Verortete Adresse befindet sich außerhalb der Grundkartenausdehnung",
+    "locationOutOfExtent": "Position muss sich außerhalb des Übermittlungsbereichs befinden",
     "searchButtonTooltip": "Suche",
     "clearButtonTooltip": "Suchwert löschen"
   },
   "myIssues": {
-    "title": "Eigene Berichte",
-    "myIssuesTooltip": "Eigene Berichte",
-    "noResultsFound": "Keine Berichte gefunden"
+    "title": "Meine Übermittlungen",
+    "myIssuesTooltip": "Meine Übermittlungen",
+    "noResultsFound": "Keine Übermittlungen gefunden"
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "ä_I agree___Ü",
+    "likeButtonTooltip": "Ich stimme zu",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "ä_Leave a reply_____Ü",
+    "commentButtonTooltip": "Antwort hinterlassen",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Angehängte Dokumente anzeigen",
     "mapButtonLabel": "Auf Karte anzeigen",
-    "mapButtonTooltip": "Speicherort dieses Berichts anzeigen",
+    "mapButtonTooltip": "Die Position dieser Übermittlung anzeigen",
     "commentsListHeading": "Bemerkungen",
     "unableToUpdateVoteField": "Ihre Stimme kann zurzeit nicht gezählt werden.",
-    "gotoIssueListTooltip": "Zur Berichtsliste wechseln",
-    "deleteMessage": "ä_Are you sure you want to delete___________Ü?"
+    "gotoIssueListTooltip": "Die Liste der Übermittlungen anzeigen",
+    "deleteMessage": "Möchten Sie den Löschvorgang wirklich durchführen?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Stimmen für diesen Bericht",
+    "likesForThisItemTooltip": "Anzahl der Abstimmungen",
     "loadMoreButtonText": "Weitere laden..."
   },
   "comment": {
-    "commentsFormHeading": "ä_Comment___Ü",
+    "commentsFormHeading": "Kommentieren",
     "commentsFormSubmitButton": "Kommentar senden",
-    "commentsFormEditButton": "ä_Update Comment_____Ü",
+    "commentsFormEditButton": "Kommentar aktualisieren",
     "commentsFormCancelButton": "Abbrechen",
     "errorInSubmittingComment": "Kommentar konnte nicht gesendet werden.",
     "emptyCommentMessage": "Geben Sie einen Kommentar ein.",
@@ -142,14 +147,14 @@ define({
     "noCommentsAvailableText": "Keine Kommentare verfügbar",
     "remainingTextCount": "${0} Zeichen verbleiben",
     "showNoText": "Nein",
-    "selectAttachments": "ä_Attachments____Ü",
-    "selectFileText": "ä_Browse___Ü",
-    "attachmentSelectedMsg": "ä_attachment(s) selected________Ü",
-    "attachmentHeaderText": "ä_Attachments____Ü",
-    "unknownCommentAttachment": "ä_FILE__Ü",
-    "editRecordText": "ä_Edit__Ü",
-    "deleteRecordText": "ä_Delete___Ü",
-    "deleteCommentFailedMessage": "ä_Unable to delete comment________Ü"
+    "selectAttachments": "Anlagen",
+    "selectFileText": "Durchsuchen",
+    "attachmentSelectedMsg": "Anlage(n) ausgewählt",
+    "attachmentHeaderText": "Anlagen",
+    "unknownCommentAttachment": "DATEI",
+    "editRecordText": "Bearbeiten",
+    "deleteRecordText": "Löschen",
+    "deleteCommentFailedMessage": "Der Kommentar kann nicht gelöscht werden."
   },
   "gallery": {
     "galleryHeaderText": "Galerie",

@@ -34,7 +34,11 @@ define([
     "esri/dijit/HomeButton",
     "esri/tasks/locator",
     "esri/geometry/webMercatorUtils",
-    "dojo/Deferred"
+    "dojo/Deferred",
+    "dojo/_base/Color",
+    "dojo/colors",
+    "dojox/color"
+
 ], function (
     declare,
     dom,
@@ -54,7 +58,11 @@ define([
     HomeButton,
     Locator,
     webMercatorUtils,
-    Deferred
+    Deferred,
+    Color,
+    Colors,
+    dojoxColor
+
 ) {
     return declare([_WidgetBase], {
         showLoadingIndicator: function () {
@@ -288,6 +296,42 @@ define([
                     currentLayer.layerObject.refresh();
                 }
             }));
+        },
+
+        /**
+        * This function is used to get the calculated color from the configured color in org json
+        * @returns {bool}
+        * @memberOf utils/utils
+        */
+        getCalculatedColor: function (configuredColor, luminosityDifference, luminosity) {
+            var calculatedColor, calculatedHexColor, configuredColorObject, configuredColorHSLObject;
+            configuredColorObject = new Colors(configuredColor);
+            configuredColorHSLObject = configuredColorObject.toHsl();
+            if (configuredColorHSLObject.l < luminosityDifference) {
+                calculatedColor = dojoxColor.fromHsl(configuredColorHSLObject.h,
+                    configuredColorHSLObject.s, configuredColorHSLObject.l + luminosity);
+            } else {
+                calculatedColor = dojoxColor.fromHsl(configuredColorHSLObject.h,
+                    configuredColorHSLObject.s, configuredColorHSLObject.l - luminosity);
+            }
+            calculatedHexColor = calculatedColor.toHex();
+            return calculatedHexColor;
+        },
+
+        /**
+        * This function deifne the color for overlay container based on theme color
+        * @memberOf utils/utils
+        */
+        getOverlayBackgroundColor: function (configuredColor) {
+            var configuredColorObject, configuredColorHSLObject, overlayBackground;
+            configuredColorObject = new Colors(configuredColor);
+            configuredColorHSLObject = configuredColorObject.toHsl();
+            if (configuredColorHSLObject.l <= 40) {
+                overlayBackground = "rgba(0, 0 , 0 , 0.30)";
+            } else {
+                overlayBackground = "rgba(255, 255, 255, 0.30)";
+            }
+            return overlayBackground;
         }
     });
 });

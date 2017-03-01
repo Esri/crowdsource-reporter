@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Envoyer un rapport",
     "gotoListViewTooltip": "Vue Liste",
     "noFeatureGeomtery": "Impossible d'afficher l'entité",
-    "featureOutsideAOIMessage": "æ_Feature cannot be added outside study area______________Â"
+    "featureOutsideAOIMessage": "Impossible d’ajouter l'entité hors de la zone d'étude",
+    "noEditingPermissionsMessage": "Vous n’êtes pas autorisé à effectuer cette action."
   },
   "signin": {
     "guestSigninText": "Continuer comme invité",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Vue cartographique"
   },
   "appHeader": {
-    "myReport": "Mes rapports",
+    "myReport": "Mes envois",
     "signIn": "Connexion",
     "signOut": "Déconnexion",
     "signInTooltip": "Connexion",
     "signOutTooltip": "Déconnexion",
-    "myReportTooltip": "Afficher mes rapports"
+    "myReportTooltip": "Consulter mes envois"
   },
   "geoform": {
     "enterInformation": "Détails",
@@ -74,7 +75,7 @@ define({
     "selectFileText": "Parcourir",
     "enterLocation": "Emplacement",
     "reportItButton": "Signaler",
-    "editReportButton": "æ_Update___Â",
+    "editReportButton": "Mettre à jour",
     "cancelButton": "Annuler",
     "requiredField": "(requis)",
     "selectDefaultText": "Sélectionner&hellip;",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Sélectionnez l'emplacement de votre rapport",
     "numericRangeHintMessage": "${openStrong}Astuce :${closeStrong} valeur minimale ${minValue} et valeur maximale ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Astuce :${closeStrong} date minimum ${minValue} et date maximum ${maxValue}",
-    "errorsInApplyEdits": "Impossible d'envoyer le rapport",
+    "errorsInApplyEdits": "Impossible d’envoyer les valeurs.",
     "attachmentSelectedMsg": "pièce(s) jointe(s) sélectionnée(s)",
     "attachmentUploadStatus": "Echec du chargement de ${failed} sur ${total} pièce(s) jointe(s)",
     "geoLocationError": "Localisant actuel non disponible",
     "geoLocationOutOfExtent": "L'étendue courante est en dehors de l'étendue du fond de carte",
     "submitButtonTooltip": "Envoyer",
     "cancelButtonTooltip": "Annuler",
-    "geoformBackButtonTooltip": "Revenir à la liste des rapports"
+    "geoformBackButtonTooltip": "Retourner à la liste",
+    "locationSelectionHintForPointLayer": "Touchez la carte pour tracer l’emplacement.",
+    "locationSelectionHintForPolygonLayer": "Touchez la carte pour tracer l’emplacement. Touchez deux fois pour terminer le dessin.",
+    "locationSelectionHintForPointLayerDesktop": "Cliquez sur la carte pour tracer l’emplacement.",
+    "locationSelectionHintForPolygonLayerDesktop": "Cliquez sur la carte pour tracer l’emplacement. Doublez-cliquez pour terminer le dessin."
   },
   "locator": {
     "addressText": "Adresse :",
@@ -104,37 +109,37 @@ define({
     "latLongText": "Latitude/Longitude",
     "invalidSearch": "Aucun résultat trouvé",
     "locatorPlaceholder": "Entrer une adresse à rechercher",
-    "locationOutOfExtent": "L'adresse localisée est en dehors de l'étendue du fond de carte",
+    "locationOutOfExtent": "L’emplacement est situé en dehors de la zone d’envoi",
     "searchButtonTooltip": "Rechercher",
     "clearButtonTooltip": "Effacer la valeur de recherche"
   },
   "myIssues": {
-    "title": "Mes rapports",
-    "myIssuesTooltip": "Mes rapports",
-    "noResultsFound": "Aucun rapport trouvé"
+    "title": "Mes envois",
+    "myIssuesTooltip": "Mes envois",
+    "noResultsFound": "Aucun envoi trouvé"
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "æ_I agree___Â",
+    "likeButtonTooltip": "J'accepte",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "æ_Leave a reply_____Â",
+    "commentButtonTooltip": "Laisser une réponse",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Voir les documents joints",
     "mapButtonLabel": "Afficher sur la carte",
-    "mapButtonTooltip": "Afficher l'emplacement de ce rapport",
+    "mapButtonTooltip": "Visualiser l’emplacement de cet envoi",
     "commentsListHeading": "Commentaires",
     "unableToUpdateVoteField": "Il est actuellement impossible de comptabiliser votre vote.",
-    "gotoIssueListTooltip": "Accéder à la liste des rapports",
-    "deleteMessage": "æ_Are you sure you want to delete___________Â?"
+    "gotoIssueListTooltip": "Visualiser la liste des envois",
+    "deleteMessage": "Etes-vous sûr de vouloir le supprimer ?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Votes pour ce rapport",
+    "likesForThisItemTooltip": "Nombre de votes",
     "loadMoreButtonText": "Charger plus..."
   },
   "comment": {
-    "commentsFormHeading": "æ_Comment___Â",
+    "commentsFormHeading": "Commentaire",
     "commentsFormSubmitButton": "Envoyer un commentaire",
-    "commentsFormEditButton": "æ_Update Comment_____Â",
+    "commentsFormEditButton": "Mettre à jour un commentaire",
     "commentsFormCancelButton": "Annuler",
     "errorInSubmittingComment": "Impossible d'envoyer le commentaire.",
     "emptyCommentMessage": "Saisissez un commentaire.",
@@ -142,14 +147,14 @@ define({
     "noCommentsAvailableText": "Aucun commentaire disponible",
     "remainingTextCount": "${0} caractère(s) restant(s)",
     "showNoText": "Non",
-    "selectAttachments": "æ_Attachments____Â",
-    "selectFileText": "æ_Browse___Â",
-    "attachmentSelectedMsg": "æ_attachment(s) selected________Â",
-    "attachmentHeaderText": "æ_Attachments____Â",
-    "unknownCommentAttachment": "æ_FILE__Â",
-    "editRecordText": "æ_Edit__Â",
-    "deleteRecordText": "æ_Delete___Â",
-    "deleteCommentFailedMessage": "æ_Unable to delete comment________Â"
+    "selectAttachments": "Pièces jointes",
+    "selectFileText": "Parcourir",
+    "attachmentSelectedMsg": "pièce(s) jointe(s) sélectionnée(s)",
+    "attachmentHeaderText": "Pièces jointes",
+    "unknownCommentAttachment": "FICHIER",
+    "editRecordText": "Modifie",
+    "deleteRecordText": "Effacer",
+    "deleteCommentFailedMessage": "Impossible de supprimer le commentaire"
   },
   "gallery": {
     "galleryHeaderText": "Bibliothèque",

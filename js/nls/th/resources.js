@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "ส่งรายงาน",
     "gotoListViewTooltip": "รายการยอดเข้าชม",
     "noFeatureGeomtery": "ไม่สามารถแสดงฟีเจอร์ได้",
-    "featureOutsideAOIMessage": "ก้_Feature cannot be added outside study area______________ษฺ"
+    "featureOutsideAOIMessage": "ไม่สามารถเพิ่มฟีเจอร์นอกพื้นที่ศึกษาของคุณ",
+    "noEditingPermissionsMessage": "คุณไม่ได้รับอนุญาตให้ดำเนินการนี้"
   },
   "signin": {
     "guestSigninText": "ดำเนินการในฐานะผู้เยี่ยมชม",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "มุมมองแผนที่"
   },
   "appHeader": {
-    "myReport": "รายงาน",
+    "myReport": "การส่งของฉัน",
     "signIn": "ลงชื่อเข้าใช้",
     "signOut": "ลงชื่อออก",
     "signInTooltip": "ลงชื่อเข้าใช้",
     "signOutTooltip": "ออกจากระบบ",
-    "myReportTooltip": "ดูรายงานของฉัน"
+    "myReportTooltip": "ดูการส่งของฉัน"
   },
   "geoform": {
     "enterInformation": "รายละเอียด",
@@ -74,7 +75,7 @@ define({
     "selectFileText": "ค้นหา",
     "enterLocation": "ตำแหน่ง",
     "reportItButton": "รายการสิ่งนี้",
-    "editReportButton": "ก้_Update___ษฺ",
+    "editReportButton": "อัพเดท",
     "cancelButton": "ยกเลิก",
     "requiredField": "(จำเป็นต้องใช้)",
     "selectDefaultText": "เลือก;",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "โปรดเลือกสถานที่สำหรับรายงานของคุณ",
     "numericRangeHintMessage": "${openStrong}เปรย:${closeStrong} ค่่าต่ำที่สุด ${minValue} และค่าสูงที่สุด ${maxValue}",
     "dateRangeHintMessage": "${openStrong}เปรย:${closeStrong} วันขั้นต่ำ ${minValue} และวันสูงสุด ${maxValue}",
-    "errorsInApplyEdits": "รายงานไม่สามารถส่งได้",
+    "errorsInApplyEdits": "ค่าไม่สามารถส่ง",
     "attachmentSelectedMsg": "เลือกไฟล์แนบ",
     "attachmentUploadStatus": "${failed} จาก ${total} ไฟล์แนบที่ไม่สามารถอัพโหลดได้",
     "geoLocationError": "ไม่พร้อมใช้ตำแหน่งปัจจุบัน",
     "geoLocationOutOfExtent": "ตำแหน่งปัจจุบันอยู่นอกขอบเขตของแผนที่ฐาน",
     "submitButtonTooltip": "ส่ง",
     "cancelButtonTooltip": "ยกเลิก",
-    "geoformBackButtonTooltip": "กลับสู่ลิสต์ของรายงาน"
+    "geoformBackButtonTooltip": "ย้อนกลับไปยังรายการ",
+    "locationSelectionHintForPointLayer": "แตะแผนที่เพื่อวาดสถานที่",
+    "locationSelectionHintForPolygonLayer": "แตะแผนที่เพื่อวาดสถานที่ แตะสองครั้งที่จะเสร็จสิ้นการวาดภาพ",
+    "locationSelectionHintForPointLayerDesktop": "คลิกที่แผนที่เพื่อวาดสถานที่",
+    "locationSelectionHintForPolygonLayerDesktop": "คลิกที่แผนที่เพื่อวาดสถานที่ ดับเบิลคลิกเพื่อเสร็จสิ้นการวาดภาพ"
   },
   "locator": {
     "addressText": "ที่อยู่:",
@@ -104,37 +109,37 @@ define({
     "latLongText": "ละติจูด/ลองจิจูด",
     "invalidSearch": "ไม่พบผลลัพธ์",
     "locatorPlaceholder": "กรอกที่อยู่ เพื่อค้นหา",
-    "locationOutOfExtent": "ตำแหน่งที่อยู่อยู่นอกขอบเขตของแผนที่ฐาน",
+    "locationOutOfExtent": "สถานที่ตั้งอยู่นอกพื้นที่ส่ง",
     "searchButtonTooltip": "ค้นหา",
     "clearButtonTooltip": "ล้างค่าที่ใช้ค้นหา"
   },
   "myIssues": {
-    "title": "รายงาน",
-    "myIssuesTooltip": "รายงาน",
-    "noResultsFound": "ไม่พบรายงาน"
+    "title": "การส่งของฉัน",
+    "myIssuesTooltip": "การส่งของฉัน",
+    "noResultsFound": "ไม่มีการส่งพบ"
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "ก้_I agree___ษฺ",
+    "likeButtonTooltip": "เห็นด้วย",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "ก้_Leave a reply_____ษฺ",
+    "commentButtonTooltip": "ออกจากการตอบ",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "แสดงเอกสารแนบ",
     "mapButtonLabel": "แสดงบนแผนที่",
-    "mapButtonTooltip": "แสดงตำแหน่งของรายงานนี้",
+    "mapButtonTooltip": "ดูสถานที่ตั้งของการส่งนี้",
     "commentsListHeading": "ความคิดเห็น",
     "unableToUpdateVoteField": "ผลโหวตของคุณไม่สามารถนับได้ในขณะนี้",
-    "gotoIssueListTooltip": "ไปที่รายการรายงาน",
-    "deleteMessage": "ก้_Are you sure you want to delete___________ษฺ?"
+    "gotoIssueListTooltip": "ดูรายชื่อของการส่ง",
+    "deleteMessage": "คุณแน่ใจว่าต้องการลบ"
   },
   "itemList": {
-    "likesForThisItemTooltip": "โหวตให้รายงานนี้",
+    "likesForThisItemTooltip": "จำนวนโหวต",
     "loadMoreButtonText": "โหลดเพิ่มเติม"
   },
   "comment": {
-    "commentsFormHeading": "ก้_Comment___ษฺ",
+    "commentsFormHeading": "คำอธิบาย",
     "commentsFormSubmitButton": "ส่งความคิดเห็น",
-    "commentsFormEditButton": "ก้_Update Comment_____ษฺ",
+    "commentsFormEditButton": "อัพเดตความคิดเห็น",
     "commentsFormCancelButton": "ยกเลิก",
     "errorInSubmittingComment": "ความคิดเห็นนี้ไม่สามารถส่งได้",
     "emptyCommentMessage": "โปรดกรอกความเห็น",
@@ -142,14 +147,14 @@ define({
     "noCommentsAvailableText": "ไม่มีความคิดเห็น",
     "remainingTextCount": "${0} ตัวอักษร ที่เหลือ",
     "showNoText": "ไม่",
-    "selectAttachments": "ก้_Attachments____ษฺ",
-    "selectFileText": "ก้_Browse___ษฺ",
-    "attachmentSelectedMsg": "ก้_attachment(s) selected________ษฺ",
-    "attachmentHeaderText": "ก้_Attachments____ษฺ",
-    "unknownCommentAttachment": "ก้_FILE__ษฺ",
-    "editRecordText": "ก้_Edit__ษฺ",
-    "deleteRecordText": "ก้_Delete___ษฺ",
-    "deleteCommentFailedMessage": "ก้_Unable to delete comment________ษฺ"
+    "selectAttachments": "แนบ",
+    "selectFileText": "ค้นหา",
+    "attachmentSelectedMsg": "เลือกไฟล์แนบ",
+    "attachmentHeaderText": "แนบ",
+    "unknownCommentAttachment": "ไฟล์",
+    "editRecordText": "แก้ไข",
+    "deleteRecordText": "ลบ",
+    "deleteCommentFailedMessage": "ไม่สมารถลบความคิดเห็น"
   },
   "gallery": {
     "galleryHeaderText": "แกลเลอรี",

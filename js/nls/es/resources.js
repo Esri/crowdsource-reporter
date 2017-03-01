@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Enviar un informe",
     "gotoListViewTooltip": "Vista de lista",
     "noFeatureGeomtery": "No se puede mostrar la entidad",
-    "featureOutsideAOIMessage": "á_Feature cannot be added outside study area______________Ó"
+    "featureOutsideAOIMessage": "La entidad no puede agregarse fuera del área de estudio",
+    "noEditingPermissionsMessage": "No tiene permiso para realizar esta acción."
   },
   "signin": {
     "guestSigninText": "Continuar como invitado",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Vista del mapa"
   },
   "appHeader": {
-    "myReport": "Mis informes",
+    "myReport": "Mis envíos",
     "signIn": "Iniciar sesión",
     "signOut": "Cerrar sesión",
     "signInTooltip": "Iniciar sesión",
     "signOutTooltip": "Cerrar sesión",
-    "myReportTooltip": "Ver mis informes"
+    "myReportTooltip": "Ver mis envíos"
   },
   "geoform": {
     "enterInformation": "Detalles",
@@ -74,7 +75,7 @@ define({
     "selectFileText": "Examinar",
     "enterLocation": "Ubicación",
     "reportItButton": "Informar",
-    "editReportButton": "á_Update___Ó",
+    "editReportButton": "Actualizar",
     "cancelButton": "Cancelar",
     "requiredField": "(necesario)",
     "selectDefaultText": "Seleccionar&hellip;",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Selecciona la ubicación para el informe",
     "numericRangeHintMessage": "${openStrong}Sugerencia:${closeStrong} Valor mínimo ${minValue} y valor máximo ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Sugerencia:${closeStrong} Fecha mínima ${minValue} y fecha máxima ${maxValue}",
-    "errorsInApplyEdits": "No se pudo enviar el informe",
+    "errorsInApplyEdits": "Los valores no se pueden enviar.",
     "attachmentSelectedMsg": "adjuntos seleccionados",
     "attachmentUploadStatus": "Error al cargar ${failed} de ${total} adjuntos",
     "geoLocationError": "Ubicación actual no disponible",
     "geoLocationOutOfExtent": "La ubicación actual está fuera de la extensión del mapa base",
     "submitButtonTooltip": "Enviar",
     "cancelButtonTooltip": "Cancelar",
-    "geoformBackButtonTooltip": "Volver a la lista de informes"
+    "geoformBackButtonTooltip": "Volver a la lista",
+    "locationSelectionHintForPointLayer": "Toque el mapa para dibujar la ubicación.",
+    "locationSelectionHintForPolygonLayer": "Toque el mapa para dibujar la ubicación. Toque dos veces para completar el dibujo.",
+    "locationSelectionHintForPointLayerDesktop": "Haga clic en el mapa para dibujar la ubicación.",
+    "locationSelectionHintForPolygonLayerDesktop": "Haga clic en el mapa para dibujar la ubicación. Haga doble clic para completar el dibujo."
   },
   "locator": {
     "addressText": "Dirección:",
@@ -104,37 +109,37 @@ define({
     "latLongText": "Latitud/longitud",
     "invalidSearch": "Ningún resultado encontrado",
     "locatorPlaceholder": "Introduce una dirección para buscar",
-    "locationOutOfExtent": "La dirección localizada está fuera de la extensión del mapa base",
+    "locationOutOfExtent": "La ubicación está fuera del área de envío",
     "searchButtonTooltip": "Búsqueda",
     "clearButtonTooltip": "Borrar valor de búsqueda"
   },
   "myIssues": {
-    "title": "Mis informes",
-    "myIssuesTooltip": "Mis informes",
-    "noResultsFound": "No se encontraron informes"
+    "title": "Mis envíos",
+    "myIssuesTooltip": "Mis envíos",
+    "noResultsFound": "No se ha encontrado ningún envío"
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "á_I agree___Ó",
+    "likeButtonTooltip": "Acepto",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "á_Leave a reply_____Ó",
+    "commentButtonTooltip": "Dejar una respuesta",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Ver documentos adjuntos",
     "mapButtonLabel": "Ver en mapa",
-    "mapButtonTooltip": "Ver la ubicación de este informe",
+    "mapButtonTooltip": "Ver la ubicación de este envío",
     "commentsListHeading": "Comentarios",
     "unableToUpdateVoteField": "No es posible contar tu voto en este momento.",
-    "gotoIssueListTooltip": "Ir a lista de informes",
-    "deleteMessage": "á_Are you sure you want to delete___________Ó?"
+    "gotoIssueListTooltip": "Ver la lista de envíos",
+    "deleteMessage": "¿Está seguro de que desea eliminar?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Vota este informe",
+    "likesForThisItemTooltip": "Número de votos",
     "loadMoreButtonText": "Cargar más..."
   },
   "comment": {
-    "commentsFormHeading": "á_Comment___Ó",
+    "commentsFormHeading": "Comentario",
     "commentsFormSubmitButton": "Enviar comentario",
-    "commentsFormEditButton": "á_Update Comment_____Ó",
+    "commentsFormEditButton": "Actualizar comentario",
     "commentsFormCancelButton": "Cancelar",
     "errorInSubmittingComment": "No se pudo enviar el comentario.",
     "emptyCommentMessage": "Introduzca un comentario.",
@@ -142,14 +147,14 @@ define({
     "noCommentsAvailableText": "No hay comentarios disponibles",
     "remainingTextCount": "${0} caracteres restantes",
     "showNoText": "No",
-    "selectAttachments": "á_Attachments____Ó",
-    "selectFileText": "á_Browse___Ó",
-    "attachmentSelectedMsg": "á_attachment(s) selected________Ó",
-    "attachmentHeaderText": "á_Attachments____Ó",
-    "unknownCommentAttachment": "á_FILE__Ó",
-    "editRecordText": "á_Edit__Ó",
-    "deleteRecordText": "á_Delete___Ó",
-    "deleteCommentFailedMessage": "á_Unable to delete comment________Ó"
+    "selectAttachments": "Adjuntos",
+    "selectFileText": "Examinar",
+    "attachmentSelectedMsg": "adjuntos seleccionados",
+    "attachmentHeaderText": "Adjuntos",
+    "unknownCommentAttachment": "ARCHIVO",
+    "editRecordText": "Editar",
+    "deleteRecordText": "Eliminar",
+    "deleteCommentFailedMessage": "Incapaz de eliminar comentario"
   },
   "gallery": {
     "galleryHeaderText": "Galería",

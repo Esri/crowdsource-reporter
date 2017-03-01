@@ -21,7 +21,7 @@
 .dj_rtl .esriCTGeoFormBody .esriCTLocateContainer div.input-group-btn
 {
     right:auto;
-    left: 36px !important;
+    left: 35px !important;
 }
 
 .dj_rtl .esriCTGeoFormBody .esriCTSearchButton
@@ -29,6 +29,7 @@
     margin-left:auto;
     margin-right: 4px !important;
     border-right: 1px solid #ccc !important;
+    border-left: none !important;
 }
 
 .dj_rtl .esriCTGeoFormBody .esriCTSearchClose
@@ -75,7 +76,6 @@
 .dj_rtl .esriCTRightArrow 
 {
     float : left;
-    background-image: url(../images/left-arrow.png);
 }
 
 .dj_rtl .esriCTWebMapLayerTitle 
@@ -86,7 +86,6 @@
 .dj_rtl .esriCTBackButton 
 {
     float : right;
-    background-image: url('../images/next.png');
 }
 
 .dj_rtl .esriCTEditingButtons
@@ -219,8 +218,42 @@
 
 .dj_rtl .modal-title
 {
+    float: right;
+    text-align: right;
+}
+
+.dj_rtl .esriCTClose
+{
     float: left;
-    text-align: left;
 }
 
 /* End Of CSS For Modal dialog */
+
+/** Common class for RTL for font icons **/
+
+.dj_rtl .esriCTInvertFontIcons
+{
+    -moz-transform: scale(-1, 1);
+    -webkit-transform: scale(-1, 1);
+    -o-transform: scale(-1, 1);
+    -ms-transform: scale(-1, 1);
+    transform: scale(-1, 1);
+}
+
+/** End of common class for RTL for font icons **/
+
+/** Issue List **/
+.dj_rtl .esriCTItemSummaryHighlighter
+{
+    float: right;
+}
+/** End of issue list**/
+
+/** Overriden Styles **/
+
+.dj_rtl .esriCTGeoFormContainer .alert-dismissable .close, .dj_rtl .esriCTCommentsForm1 .alert-dismissable .close
+{
+    float: left;
+    right: 5px;
+}
+/** End of Overriden Styles **/

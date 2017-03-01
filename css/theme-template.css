@@ -5,9 +5,9 @@
     color: ${SelectedThemeColor};
 }
 
-.esriCTBGColor ,.esriCTMobileBurgerIcon span, .esriCTMobileBurgerIcon span:before, .esriCTMobileBurgerIcon span:after, .esriCTItemSummarySelected
+.esriCTBGColor ,.esriCTMobileBurgerIcon span, .esriCTMobileBurgerIcon span:before, .esriCTMobileBurgerIcon span:after
 {
-    background-color: ${SelectedThemeColor};
+    background-color: ${HeaderTextColor};
 }
 
 .esriCTBorder, .esriCTBorderLeft, .esriCTBorderTop, .esriCTBorderRight, .esriCTBorderBottom
@@ -39,3 +39,215 @@
   background-color: ${SelectedThemeColor} !important;
 }
 /* End of Overriden Styles */
+
+/** Org theming classes starts **/
+
+/** Common classes starts **/
+.esriCTBodyBackgroundColor {
+    background-color: ${BodyBackgroundColor} !important;
+}
+
+.esriCTCalculatedBodyBackgroundColor {
+    background-color: ${CalculatedBodyBackgroundColor} !important;
+}
+
+.esriCTBodyTextColor {
+    color: ${BodyTextColor} !important;
+}
+
+.esriCTCalculatedBodyTextColor {
+    color: ${CalculatedBodyTextColor} !important;
+}
+
+.esriCTHeaderBackgroundColor {
+    background-color: ${HeaderBackgroundColor} !important;
+}
+
+.esriCTCalculatedHeaderBackgroundColor {
+    background-color: ${CalculatedHeaderBackgroundColor} !important;
+}
+
+.esriCTHeaderTextColor {
+    color: ${HeaderTextColor} !important;
+}
+
+.esriCTCalculatedHeaderTextColor {
+    color: ${CalculatedHeaderTextColor} !important;
+}
+
+.esriCTButtonBackgroundColor {
+    background-color: ${ButtonBackgroundColor} !important;
+}
+
+.esriCTButtonTextColor {
+    color: ${ButtonTextColor} !important;
+}
+
+.esriCTHeaderTextColorAsBorder {
+    border-color: ${HeaderTextColor} !important;
+}
+
+.esriCTHeaderTextColorAsBackground {
+    background-color: ${HeaderTextColor} !important;
+}
+
+.esriCTHeaderBackgroundColorAsTextColor {
+    color: ${HeaderBackgroundColor} !important;
+}
+
+.esriCTHeaderBackgroundColorAsBorder {
+    border-color: ${HeaderBackgroundColor} !important;
+}
+
+.esriCTCalculatedBodyTextColorAsBackground {
+    background-color: ${CalculatedBodyTextColor} !important;
+}
+
+.esriCTCalculatedBodyTextColorAsBorder {
+    border-color: ${CalculatedBodyTextColor} !important;
+}
+
+/** Common classes starts **/
+
+/** Webmap list panel starts **/
+
+.esriCTWebMapBorder {
+    border-bottom-width: 1px !important;
+    border-bottom-style: solid !important;
+    border-bottom-color: ${CalculatedBodyTextColor} !important;
+}
+
+.esriCTMultiLineEllipsisdiv {
+    color: ${BodyTextColor} !important;
+}
+
+.esriCTMultiLineEllipsisdiv .esriCTHeaderFont {
+    color: ${BodyTextColor} !important;
+}
+
+.esriCTWebMapLayerTitle {
+    color: ${BodyTextColor} !important;
+}
+
+.esriCTWebMapListWrapperContainer {
+    border-right-width: 1px !important;
+    border-right-style: solid !important;
+    border-right-color: ${HeaderTextColor} !important;
+}
+
+.esriCTWebMapListContainer {
+    background-color: ${BodyBackgroundColor} !important;
+}
+
+.esriCTDisplayList, .esriCTDisplayWebMapTemplate:hover .esriCTWebMapbgColor {
+    background-color: ${CalculatedBodyBackgroundColor} !important;
+}
+
+.esriCTDisplayList, .esriCTDisplayWebMapTemplate:hover .esriCTMediaBody {
+    background-color: ${CalculatedBodyBackgroundColor} !important;
+}
+
+.esriCTDisplayList, .esriCTDisplayWebMapTemplate:hover .esriCTMultiLineFill {
+    background-color: ${CalculatedBodyBackgroundColor} !important;
+}
+
+.esriCTWebMapbgColor {
+    background-color: ${CalculatedBodyBackgroundColor} !important;
+}
+
+.esriCTDisplayList, .esriCTDisplayWebMapTemplate {
+    background-color: ${BodyBackgroundColor} !important;
+}
+
+.esriCTMediaBody {
+    background-color: ${BodyBackgroundColor} !important;
+}
+
+.esriCTWebMapLayer:hover {
+    background-color: ${CalculatedBodyBackgroundColor} !important;
+}
+
+.esriCTDescription {
+    color: ${BodyTextColor} !important;
+    background-color: ${CalculatedBodyBackgroundColor} !important;
+}
+
+.esriCTSelectedItem {
+    background-color: ${CalculatedBodyBackgroundColor} !important;
+}
+
+.esriCTMediaBorder {
+    border-color: ${CalculatedBodyTextColor} !important;
+}
+
+/** Webmap list panel ends **/
+
+/** Issue list panel starts **/
+.esriCTItemList .esriCTItemSummary:hover, .esriCTItemSummaryParentSelected {
+    background-color: ${CalculatedBodyBackgroundColor} !important;
+}
+
+.esriCTItemSummarySelected {
+     background-color: ${HeaderTextColor} !important;
+}
+
+.esriCTBackButton {
+ background-color: ${OverlayBackgroundColor} !important;
+}
+
+.esriCTVotesDetails {
+    color : ${OverlayBackgroundColor} !important;
+}
+
+.esriCTDetailButtonSelected {
+    color: ${ButtonBackgroundColor} !important;
+    background-color: ${ButtonTextColor} !important;
+}
+
+/** Issue list panel ends **/
+
+/** Item details panel starts **/
+
+/** Popup and comment  details starts **/
+
+.esriCTDetailDescription .esriViewPopup .hzLine,
+.esriCTCommentsPopup .esriViewPopup .hzLine {
+    border-top-color: ${BodyTextColor} !important;
+}
+
+.esriCTDetailDescription .esriViewPopup .mainSection .attrTable td.attrName,
+.esriCTCommentsPopup .esriViewPopup .mainSection .attrTable td.attrName {
+    color: ${CalculatedBodyTextColor} !important;
+}
+
+.esriCTDetailDescription .esriViewPopup .mainSection .attrTable td,
+.esriCTCommentsPopup .esriViewPopup .mainSection .attrTable td {
+    color: ${BodyTextColor} !important;
+}
+
+.esriCTDetailDescription .esriViewPopup .header,
+.esriCTCommentsPopup .esriViewPopup .header {
+    color: ${BodyTextColor} !important;
+}
+
+.esriCTPostCommentButton, .esriCTPostCommentButton:hover,
+.esriCTGeoFormSubmitButton , .esriCTGeoFormSubmitButton :hover
+{
+      background-color: ${ButtonTextColor} !important;
+      color: ${ButtonBackgroundColor} !important;
+}
+
+.esriCTCancelCommentButton, .esriCTCancelCommentButton:hover,
+.esriCTGeoFormCancelButton , .esriCTGeoFormCancelButton :hover
+{
+    background-color: ${ButtonBackgroundColor} !important;
+    color: ${ButtonTextColor} !important;
+}
+
+
+/** Popup and comment details ends **/
+
+/** Item details panel ends **/
+
+/** Org theming classes ends **/
+

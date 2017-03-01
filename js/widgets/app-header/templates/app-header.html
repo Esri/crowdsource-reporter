@@ -1,5 +1,5 @@
 ﻿<div data-dojo-attach-point="applicationHeaderParentContainer">
-    <div class="esriCTApplicationHeader esriCTBorderBottom">
+    <div class="esriCTApplicationHeader esriCTBorderBottom esriCTHeaderBackgroundColor esriCTHeaderTextColorAsBorder">
         <div class="esriCTHomeIcon" data-dojo-attach-point="applicationIconContainer">
             <img data-dojo-attach-point="applicationHeaderIcon" class="esriCTApplicationIcon"
                 alt="" />
@@ -9,19 +9,19 @@
                 <div class="esriCTDesktopIcons">
                     <div class="esriCTUserControlContainer esriCTFloatLeft esriCTHidden" data-dojo-attach-point="userControlContainer">
                         <div data-dojo-attach-point="esriCTLoginDetailsDiv">
-                            <div class="esriCTLoginCredentialsDiv esriCTApplicationColor esriCTFloatLeft" data-dojo-attach-point="esriCTLoginCredentialsDiv">
+                            <div class="esriCTLoginCredentialsDiv esriCTApplicationColor esriCTHeaderTextColor esriCTFloatLeft" data-dojo-attach-point="esriCTLoginCredentialsDiv">
                                 <div class="esriCTFloatLeft" style="width: 100%;">
                                     <div class="esriCTLoginUserNameDiv esriCTPointerCursor" data-dojo-attach-point="esriCTLoginUserNameDiv"
                                         title="${i18n.signInTooltip}">
                                         ${i18n.signIn}
                                     </div>
-                                    <div class="esriCTCaretIcon  esriCTPointerCursor esriCTHidden" data-dojo-attach-point="caretIcon">
+                                    <div class="esriCTCaretIcon  esriCTPointerCursor esriCTHidden esriCTHeaderTextColor" data-dojo-attach-point="caretIcon">
                                         &#9660;</div>
                                 </div>
                             </div>
-                            <div class="esriCTOptions esriCTApplicationColor esriCTHidden"
+                            <div class="esriCTOptions esriCTApplicationColor esriCTHeaderTextColor esriCTHidden"
                                 data-dojo-attach-point="esriCTLoginOptionsDiv">
-                                <div class="esriCTLogoutOption esriCTBorder">
+                                <div class="esriCTLogoutOption esriCTBorder esriCTHeaderTextColor esriCTHeaderBackgroundColor esriCTHeaderTextColorAsBorder">
                                     <div data-dojo-attach-point="myIssueButton" class="esriCTHidden esriCTItems esriCTPointerCursor"
                                         title="${i18n.myReportTooltip}">
                                         ${i18n.myReport}
@@ -36,7 +36,7 @@
                     </div>
                 </div>
                 <div data-dojo-attach-point="mobileIcons" class="esriCTMobileIconDiv">
-                    <div class="esriCTHelpIcon esriCTBGColor esriCTPointerCursor esriCTHidden" data-dojo-attach-point="helpButton"
+                    <div class="esriCTHelpIcon esriCTPointerCursor esriCTHidden icon icon-help-1 esriCTHeaderTextColor" data-dojo-attach-point="helpButton"
                         data-toggle="modal">
                     </div>
                     <div data-dojo-attach-point="mobileMenuBurger" class="esriCTMobileBurgerIcon esriCTMobileIcons">
@@ -45,7 +45,7 @@
                 </div>
             </div>
         </div>
-        <div data-dojo-attach-point="applicationHeaderName" class="esriCTMenuTabLeft esriCTApplicationColor">
+        <div data-dojo-attach-point="applicationHeaderName" class="esriCTMenuTabLeft esriCTApplicationColor esriCTHeaderTextColor">
         </div>
     </div>
 </div>

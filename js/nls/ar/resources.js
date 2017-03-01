@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "إرسال تقرير",
     "gotoListViewTooltip": "عرض القائمة",
     "noFeatureGeomtery": "يتعذر عرض المعالم",
-    "featureOutsideAOIMessage": "بيت_Feature cannot be added outside study area______________لاحقة"
+    "featureOutsideAOIMessage": "يتعذر إضافة المعلم خارج منطقة الدراسة",
+    "noEditingPermissionsMessage": "لا يتوفر لديك إذن تنفيذ هذا الحدث."
   },
   "signin": {
     "guestSigninText": "تابع بصفتك ضيف",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "عرض الخريطة"
   },
   "appHeader": {
-    "myReport": "التقارير خاصتي",
+    "myReport": "عمليات الإرسال",
     "signIn": "تسجيل الدخول",
     "signOut": "تسجيل الخروج",
     "signInTooltip": "تسجيل الدخول",
     "signOutTooltip": "تسجيل الخروج",
-    "myReportTooltip": "عرض التقارير"
+    "myReportTooltip": "عرض عمليات الإرسال"
   },
   "geoform": {
     "enterInformation": "التفاصيل",
@@ -74,7 +75,7 @@ define({
     "selectFileText": "مربع حوار",
     "enterLocation": "موقع",
     "reportItButton": "تقريرها",
-    "editReportButton": "بيت_Update___لاحقة",
+    "editReportButton": "تحديث",
     "cancelButton": "إلغاء الأمر",
     "requiredField": "(مطلوب)",
     "selectDefaultText": "حدد&hellip;",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "برجاء تحديد موقع التقرير",
     "numericRangeHintMessage": "${openStrong}تلميح:${closeStrong} القيمة الدنيا ${minValue} والقيمة العليا ${maxValue}",
     "dateRangeHintMessage": "${openStrong}تلميح:${closeStrong} التاريخ الأدنى ${minValue} والتاريخ الأقصى ${maxValue}",
-    "errorsInApplyEdits": "يتعذر إرسال التقرير",
+    "errorsInApplyEdits": "لا يمكن إرسال القيم.",
     "attachmentSelectedMsg": "المرفقات المحددة",
     "attachmentUploadStatus": "فشل تحميل المرفقات ${failed} من ${total}",
     "geoLocationError": "الموقع الحالي غير متاح",
     "geoLocationOutOfExtent": "الموقع الحالي خارج نطاق الخريطة",
     "submitButtonTooltip": "إرسال",
     "cancelButtonTooltip": "إلغاء الأمر",
-    "geoformBackButtonTooltip": "الرجوع إلى قائمة التقرير"
+    "geoformBackButtonTooltip": "رجوع إلى القائمة",
+    "locationSelectionHintForPointLayer": "انقر على الخريطة لرسم الموقع.",
+    "locationSelectionHintForPolygonLayer": "اضغط على الخريطة لرسم الموقع. اضغط مرتين لإكمال الرسم.",
+    "locationSelectionHintForPointLayerDesktop": "انقر على الخريطة لرسم الموقع.",
+    "locationSelectionHintForPolygonLayerDesktop": "انقر على الخريطة لرسم الموقع. انقر مرتين لإكمال الرسم."
   },
   "locator": {
     "addressText": "العنوان:",
@@ -104,37 +109,37 @@ define({
     "latLongText": "دائرة العرض/خط الطول",
     "invalidSearch": "لم يتم العثور على أية نتائج",
     "locatorPlaceholder": "أدخل عنوان للبحث",
-    "locationOutOfExtent": "العنوان الحالي خارج نطاق خريطة الأساس",
+    "locationOutOfExtent": "الموقع خارج منطقة الإرسال",
     "searchButtonTooltip": "بحث",
     "clearButtonTooltip": "مسح قيمة البحث"
   },
   "myIssues": {
-    "title": "التقارير خاصتي",
-    "myIssuesTooltip": "التقارير خاصتي",
-    "noResultsFound": "لم يتم العثور على أي تقارير"
+    "title": "عمليات الإرسال",
+    "myIssuesTooltip": "عمليات الإرسال",
+    "noResultsFound": "لم يتم العثور على عمليات الإرسال"
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "بيت_I agree___لاحقة",
+    "likeButtonTooltip": "أقبل",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "بيت_Leave a reply_____لاحقة",
+    "commentButtonTooltip": "اكتب ردًا",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "مراجعة المستندات المرفقة",
     "mapButtonLabel": "العرض على الخريطة",
-    "mapButtonTooltip": "عرض موقع هذا التقرير",
+    "mapButtonTooltip": "عرض موقع هذا الإرسال",
     "commentsListHeading": "التعليقات",
     "unableToUpdateVoteField": "يتعذر حساب التصويت الآن.",
-    "gotoIssueListTooltip": "الانتقال إلى قائمة التقرير",
-    "deleteMessage": "بيت_Are you sure you want to delete___________لاحقة?"
+    "gotoIssueListTooltip": "عرض قائمة عمليات الإرسالات",
+    "deleteMessage": "هل تريد الحذف بالتأكيد؟"
   },
   "itemList": {
-    "likesForThisItemTooltip": "عمليات التصويت لهذا التقرير",
+    "likesForThisItemTooltip": "عدد الأصوات",
     "loadMoreButtonText": "تحميل المزيد..."
   },
   "comment": {
-    "commentsFormHeading": "بيت_Comment___لاحقة",
+    "commentsFormHeading": "تعليق",
     "commentsFormSubmitButton": "تقديم تعليق",
-    "commentsFormEditButton": "بيت_Update Comment_____لاحقة",
+    "commentsFormEditButton": "تحديث التعليق",
     "commentsFormCancelButton": "إلغاء الأمر",
     "errorInSubmittingComment": "يتعذر إرسال التعليق.",
     "emptyCommentMessage": "الرجاء إدخال تعليق.",
@@ -142,14 +147,14 @@ define({
     "noCommentsAvailableText": "لا توجد تعليقات متاحة",
     "remainingTextCount": "يتبقى ${0} حرف",
     "showNoText": "لا",
-    "selectAttachments": "بيت_Attachments____لاحقة",
-    "selectFileText": "بيت_Browse___لاحقة",
-    "attachmentSelectedMsg": "بيت_attachment(s) selected________لاحقة",
-    "attachmentHeaderText": "بيت_Attachments____لاحقة",
-    "unknownCommentAttachment": "بيت_FILE__لاحقة",
-    "editRecordText": "بيت_Edit__لاحقة",
-    "deleteRecordText": "بيت_Delete___لاحقة",
-    "deleteCommentFailedMessage": "بيت_Unable to delete comment________لاحقة"
+    "selectAttachments": "مرفقات",
+    "selectFileText": "مربع حوار",
+    "attachmentSelectedMsg": "المرفقات المحددة",
+    "attachmentHeaderText": "مرفقات",
+    "unknownCommentAttachment": "ملف",
+    "editRecordText": "تحرير",
+    "deleteRecordText": "حذف",
+    "deleteCommentFailedMessage": "يتعذر حذف التعليق"
   },
   "gallery": {
     "galleryHeaderText": "معرض الصور",

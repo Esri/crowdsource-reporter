@@ -32,7 +32,6 @@ define([
     "dojo/window",
     "dojo/aspect",
     "dojo/Deferred",
-    "dojo/text!css/theme-template.css",
     "esri/layers/GraphicsLayer",
     "esri/layers/FeatureLayer",
     "esri/geometry/Circle",
@@ -80,7 +79,6 @@ define([
     dojowindow,
     aspect,
     Deferred,
-    ThemeCss,
     GraphicsLayer,
     FeatureLayer,
     Circle,
@@ -147,7 +145,8 @@ define([
         firstMapClickPoint: null,
         _existingLayerIndex: null,
         clonedGeolocation: null,
-        drawToolBarHandler : null,
+        drawToolBarHandler: null,
+        _featuresAddedFromMyIssues: [],
         startup: function (boilerPlateTemplateObject, loggedInUser) {
             // config will contain application and user defined info for the template such as i18n strings, the web map id
             // and application id
@@ -163,6 +162,7 @@ define([
                 this.appUtils = new ApplicationUtils({
                     "config": this.config
                 });
+
                 // Initializes the map-search widget
                 this.mapSearch = new MapSearch({ "config": this.config, "appUtils": this.appUtils, "handleFeatureSearch": true });
                 //Listen for feature found event from locator and add it on the map and list, if it is not present in the graphics layer
@@ -205,6 +205,7 @@ define([
                     };
                     this._menusList.signOut = true;
                     this._menusList.signIn = false;
+                    this.config.logInDetails.canEditFeatures = loggedInUser.canEditFeatures;
                 } else {
                     this.config.logInDetails = {
                         "userName": "",
@@ -213,6 +214,8 @@ define([
                     };
                     this._menusList.signIn = true;
                     this._menusList.signOut = false;
+                    //If user is not logged in keep editing flag to true by default
+                    this.config.logInDetails.canEditFeatures = true;
                 }
                 //By default we have disabled queryForGroupItems
                 //since it was getting group items for the group configured in default.js only,
@@ -288,10 +291,6 @@ define([
             if (!this.config.showNullValueAs) {
                 this.config.showNullValueAs = "";
             }
-
-            //Set Application Theme
-            this._loadApplicationTheme();
-
             //Set Application header
             this._createApplicationHeader();
 
@@ -305,6 +304,11 @@ define([
                     }
                 }
                 this._resizeMap();
+                //If geoform instance exist, reset map in geoform and change hint text in location panel
+                if (this.geoformInstance) {
+                    this.geoformInstance.setGeoformMapVisibility();
+                    this.geoformInstance.setLocationPanelHint();
+                }
             }));
 
             topic.subscribe("resizeMap", lang.hitch(this, function () {
@@ -340,6 +344,7 @@ define([
                         if (this._issueWallWidget && this._issueWallWidget.itemsList) {
                             this._issueWallWidget.itemsList.refreshList(item);
                         }
+                        this._clearMyIssuesFromMap();
                     }
                 });
 
@@ -378,6 +383,13 @@ define([
                                         this._itemDetails.handleComponentsVisibility();
                                     } else {
                                         this._updateFeatureInIssueWall(updatedFeature, false, false);
+                                        //Since feature is not found, clear selection in 'My Issues' list
+                                        if (this._myIssuesWidget) {
+                                            this._myIssuesWidget.updateIssueList(this._selectedMapDetails, updatedFeature);
+                                            if (this._myIssuesWidget.itemsList) {
+                                                this._myIssuesWidget.itemsList.clearSelection();
+                                            }
+                                        }
                                     }
                                 }));
                             } catch (ex) {
@@ -406,7 +418,6 @@ define([
                         this._updateFeatureInIssueWall(this._itemDetails.item, false, true);
                     }
                 });
-
                 var submitButtonText, submitButtonColor;
                 if (this.config && lang.trim(this.config.submitReportButtonText) === "") {
                     submitButtonText = this.config.i18n.main.submitReportButtonText;
@@ -418,10 +429,21 @@ define([
                 domStyle.set(dom.byId("submitFromMap"), "background-color", submitButtonColor);
 
                 on(dom.byId("submitFromMap"), "click", lang.hitch(this, function (evt) {
-                    this._createGeoForm();
+                    if (this.config.logInDetails.canEditFeatures) {
+                        this._createGeoForm();
+                    } else {
+                        this.appUtils.showMessage(this.config.i18n.main.noEditingPermissionsMessage);
+                    }
                 }));
                 on(dom.byId("mapBackButton"), "click", lang.hitch(this, function (evt) {
                     this._toggleListView();
+                    //If showMapFirst flag is turned on and app is running in mobile mode, show web list on click of back button
+                    if (this.config.showMapFirst === "map" && dojowindow.getBox().w < 768) {
+                        //If current panel is "issueDetails" then show the same panel instead of web map list
+                        if (this._sidebarCnt._currentPanelName !== "itemDetails") {
+                            this._sidebarCnt.showPanel("webMapList");
+                        }
+                    }
                 }));
                 on(dom.byId("toggleListViewButton"), "click", lang.hitch(this, function (evt) {
                     //Change myissues widget flag to false and refresh the list
@@ -431,11 +453,16 @@ define([
                     }
                     this._isMyIssues = false;
                     this._toggleListView();
-                    //Clear map selection when navigating to web map list
-                    if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
-                        this._selectedMapDetails.map.getLayer("selectionGraphicsLayer").clear();
+                    //If showMapFirst flag is turned on and app is running in mobile mode, show issue wall on click of toggle list button
+                    if (this.config.showMapFirst === "map" && dojowindow.getBox().w < 768) {
+                        this._sidebarCnt.showPanel("issueWall");
+                    } else {
+                        //Clear map selection when navigating to web map list
+                        if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
+                            this._selectedMapDetails.map.getLayer("selectionGraphicsLayer").clear();
+                        }
+                        this._sidebarCnt.showPanel("webMapList");
                     }
-                    this._sidebarCnt.showPanel("webMapList");
                 }));
                 domAttr.set(dom.byId("toggleListViewButton"), "title", this.config.i18n.main.gotoListViewTooltip);
                 this._createWebMapList();
@@ -601,44 +628,6 @@ define([
         },
 
         /**
-        * Load application theme
-        * @memberOf main
-        */
-        _loadApplicationTheme: function () {
-            var cssString, head, style, link;
-            //if theme is configured
-            if (this.config.theme) {
-                //substitute theme color values in theme template
-                cssString = string.substitute(ThemeCss, {
-                    SelectedThemeColor: this.config.theme
-                });
-                //Create Style using theme template and append it to head
-                //On Lower versions of IE10 Style tag is read only so create theme using styleSheet.cssText
-                if (dojo.isIE < 10) {
-                    head = document.getElementsByTagName('head')[0];
-                    style = document.createElement('style');
-                    style.type = 'text/css';
-                    style.styleSheet.cssText = cssString;
-                    head.appendChild(style);
-                } else {
-                    domConstruct.create("style", {
-                        "type": "text/css",
-                        "innerHTML": cssString
-                    }, query("head")[0]);
-                }
-
-                //If application is loaded in RTL mode, change styles of required nodes
-                if (this.config.i18n.direction === "rtl") {
-                    link = document.createElement('link');
-                    link.rel = 'stylesheet';
-                    link.type = 'text/css';
-                    link.href = "./css/rtl.css";
-                    document.getElementsByTagName('head')[0].appendChild(link);
-                }
-            }
-        },
-
-        /**
         * Instantiate app-header widget
         * @memberOf main
         */
@@ -714,6 +703,7 @@ define([
                     } else {
                         this._sidebarCnt.showPanel("issueWall");
                     }
+                    this._clearMyIssuesFromMap();
                 });
                 this._myIssuesWidget.onItemSelected = lang.hitch(this, function (selectedFeature) {
                     this.appUtils.showLoadingIndicator();
@@ -951,6 +941,7 @@ define([
             this.layerGraphicsArray = [];
             this.sortedFeaturesArray = [];
             this.filteredBufferIds = [];
+            this._featuresAddedFromMyIssues = [];
             this.maxBufferLimit = 0;
             this.map = details.map;
             // Create instance of Draw tool to draw the graphics on graphics layer
@@ -1111,6 +1102,10 @@ define([
                     this._sidebarCnt.showPanel("issueWall");
                 }
             } else {
+                //Check for the configurable parameter and accordingly show map first in mobile devices
+                if (this.config.showMapFirst === "map" && dojowindow.getBox().w < 768) {
+                    this._toggleMapView();
+                }
                 data.featureLayerCount = this.featureLayerCount;
                 data.layerGraphicsArray = this.layerGraphicsArray;
                 this._issueWallWidget.initIssueWall(data);
@@ -1198,7 +1193,8 @@ define([
                         changedExtent: this.changedExtent,
                         appConfig: this.config,
                         appUtils: this.appUtils,
-                        isMapRequired: true
+                        isMapRequired: true,
+                        isEdit: false
 
                     }, domConstruct.create("div", {}, dom.byId("geoformContainer")));
                     //on submitting issues in geoform update issue wall and main map to show newly updated issue.
@@ -1300,6 +1296,12 @@ define([
                     return true;
                 }
             }));
+            //If feature is added through my issues, just add it to map and break the Loop
+            if (addedFrom === "myissues" && !featureExsist) {
+                this.displaygraphicsLayer.add(newGraphic.graphic);
+                this._featuresAddedFromMyIssues.push(newGraphic.graphic);
+                return;
+            }
             //If feature is found through search widget, we need to set my issues flag to false if it is true
             if (addedFrom === "search") {
                 this._isMyIssues = false;
@@ -1415,7 +1417,7 @@ define([
             //Highlight Feature on map
             operationalLayer = this.map.getLayer(this._selectedMapDetails.operationalLayerId);
             if (operationalLayer && operationalLayer.objectIdField && this._selectedMapDetails.map) {
-                this.highLightFeatureOnClick(operationalLayer, item.attributes[operationalLayer.objectIdField], this._selectedMapDetails.map.getLayer("selectionGraphicsLayer"), this._selectedMapDetails.map);
+                this.highLightFeatureOnClick(operationalLayer, item.attributes[operationalLayer.objectIdField], this._selectedMapDetails.map, isMapClicked);
             }
             //set selection in item-list to maintain the highlight in list
             //added layer ID to selected item's object id to avoid duplicate value of object id across multiple layer
@@ -1474,8 +1476,9 @@ define([
         * @param{object} selectedGraphicsLayer
         * @param{object} map
         */
-        highLightFeatureOnClick: function (layer, objectId, selectedGraphicsLayer, map) {
-            var queryTask, esriQuery, highlightSymbol, currentDateTime = new Date().getTime();
+        highLightFeatureOnClick: function (layer, objectId, map, isMapClicked) {
+            var queryTask, esriQuery, highlightSymbol, currentDateTime = new Date().getTime(), selectedGraphicsLayer;
+            selectedGraphicsLayer = this._selectedMapDetails.map.getLayer("selectionGraphicsLayer");
             this.mapInstance = map;
             if (selectedGraphicsLayer) {
                 // clear graphics layer
@@ -1486,7 +1489,7 @@ define([
             esriQuery.where = currentDateTime + "=" + currentDateTime;
             esriQuery.returnGeometry = true;
             esriQuery.outSpatialReference = this.map.spatialReference;
-            if (this._existingDefinitionExpression) {
+            if (this._existingDefinitionExpression && !this._isMyIssues && !isMapClicked) {
                 esriQuery.where += " AND " + this._existingDefinitionExpression;
             }
             queryTask = new QueryTask(layer.url);
@@ -1904,6 +1907,31 @@ define([
             this._reorderAllLayers();
         },
 
+        /**
+        * This function is used to clear the issues added from 'My Issues' after coming out of my issues panel
+        * @memberOf @memberOf main
+        */
+        _clearMyIssuesFromMap: function () {
+            var isFeatureRemoved = false;
+            array.forEach(this._featuresAddedFromMyIssues, lang.hitch(this,
+                function (currentGraphic) {
+                    array.some(this.displaygraphicsLayer.graphics, lang.hitch(this, function (layerGraphic) {
+                        if (currentGraphic.attributes[this.selectedLayer.objectIdField] === layerGraphic.attributes[this.selectedLayer.objectIdField]) {
+                            this.displaygraphicsLayer.remove(layerGraphic);
+                            isFeatureRemoved = true;
+                            return true;
+                        }
+                    }));
+                }));
+            if (isFeatureRemoved) {
+                //Clear map selection when navigating to web map list
+                if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
+                    this._selectedMapDetails.map.getLayer("selectionGraphicsLayer").clear();
+                }
+            }
+            //Since all the featurtes added from my issues are removed from map, reset the array
+            this._featuresAddedFromMyIssues = [];
+        },
         /**
         * This function is used get existing index of layer
         * @memberOf widgets/main/main

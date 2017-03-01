@@ -1,11 +1,11 @@
-﻿<div class="esriCTGeoFormContainer">
-    <div class="esriCTListHeader esriCTBGColor" data-dojo-attach-point= "formHeader">
-        <div class="esriCTBackButton esriCTPointerCursor" data-dojo-attach-point="closeButton">
+﻿<div class="esriCTGeoFormContainer esriCTBodyBackgroundColor">
+    <div class="esriCTListHeader esriCTBGColor esriCTHeaderTextColorAsBackground esriCTHeaderBackgroundColorAsTextColor" data-dojo-attach-point="formHeader">
+        <div class="esriCTBackButton esriCTInvertFontIcons esriCTPointerCursor icon icon-left-arrow" data-dojo-attach-point="closeButton">
         </div>
         <div class="esriCTHeaderText esriCTGeoFormHeaderText esriCTEllipsis" data-dojo-attach-point="layerTitleDiv">
         </div>
     </div>
-    <div class="esriCTGeoFormBody" id="geoFormBody">
+    <div class="esriCTGeoFormBody esriCTBodyTextColor" id="geoFormBody">
         <div data-dojo-attach-point="headerMessageDiv" class="esriCTHeaderMessageDiv esriCTHidden">
             <div data-dojo-attach-point="headerMessageType" class="esriCTSuccessMsg alert alert-success">
                 <span class="close" data-dojo-attach-point="headerMessageButton">&times;</span>
@@ -14,31 +14,38 @@
         </div>
         <div class="row">
             <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-8 esriCTFullWidth">
-                    <div class="esriCTGeoFormTitles" data-dojo-attach-point="enter_Information">
-                    </div>
-                    <form role="form" data-dojo-attach-point="userForm">
-                    </form>
-                    <div class="esriCTGeoFormTitles" data-dojo-attach-point="select_location">
-                    </div>
-                    <div data-dojo-attach-point="location_panel_body">
-                        <div data-dojo-attach-point="geoLocationButton" class="esriCTGeoFormGeoLocation esriCTPointerCursor">
+                <div class="col-xs-12 col-sm-12 col-md-8 esriCTFullWidth"  data-dojo-attach-point="componentSection">
+                    <div data-dojo-attach-point="detailSection">
+                        <div class="esriCTGeoFormTitles" data-dojo-attach-point="enter_Information">
                         </div>
-                        <div data-dojo-attach-point="geoformLocator" class="esriCTlocationPanel">
-                        </div>
+                        <form role="form" data-dojo-attach-point="userForm">
+                        </form>
                     </div>
-                    <div class="gf-map panel panel-default esriCTmapParentContainer" data-dojo-attach-point="map_container">
-                        <!-- The ArcGIS API for JavaScript provides bidirectional support.  When viewing the application in an right to left (rtl) language like Hebrew and Arabic the map needs to remain in left-to-right (ltr) mode. Specify this by setting the dir attribute on the div to ltr. -->
-                        <div id="gf-mapDiv" dir="ltr" class="map-div esriCTGeoFormMapContainer">
+                    <div data-dojo-attach-point="attachmentSection">
+                    </div>
+                    <div data-dojo-attach-point="locationSection">
+                        <div class="esriCTGeoFormTitles" data-dojo-attach-point="select_location">
+                        </div>
+                        <div class="esriGeoformCTLocationHint" data-dojo-attach-point="locationHintTextNode"></div>
+                        <div data-dojo-attach-point="location_panel_body">
+                            <div data-dojo-attach-point="geoLocationButton" class="esriCTGeoFormGeoLocation esriCTPointerCursor">
+                            </div>
+                            <div data-dojo-attach-point="geoformLocator" class="esriCTlocationPanel">
+                            </div>
+                        </div>
+                        <div class="gf-map panel panel-default esriCTmapParentContainer" data-dojo-attach-point="map_container">
+                            <!-- The ArcGIS API for JavaScript provides bidirectional support.  When viewing the application in an right to left (rtl) language like Hebrew and Arabic the map needs to remain in left-to-right (ltr) mode. Specify this by setting the dir attribute on the div to ltr. -->
+                            <div id="gf-mapDiv" dir="ltr" class="map-div esriCTGeoFormMapContainer">
+                            </div>
                         </div>
                     </div>
                     <div class="clearfix">
                     </div>
                     <div class="form-group">
                         <div class="submit-area">
-                            <div data-dojo-attach-point="submitButton" class="esriCTGeoFormButton esriCTGeoFormSubmitButton esriCTEllipsis esriCTBGColor btn btn-default esriCTSubmitButton">
+                            <div data-dojo-attach-point="submitButton" class="esriCTGeoFormButton esriCTGeoFormSubmitButton esriCTEllipsis esriCTBGColor btn btn-default esriCTSubmitButton esriCTButtonTextColor esriCTButtonBackgroundColor">
                             </div>
-                            <div data-dojo-attach-point="cancelButton" class="esriCTGeoFormButton esriCTGeoFormCancelButton esriCTEllipsis esriCTApplicationColor btn btn-default">
+                            <div data-dojo-attach-point="cancelButton" class="esriCTGeoFormButton esriCTGeoFormCancelButton esriCTEllipsis esriCTApplicationColor btn btn-default esriCTButtonTextColor esriCTButtonBackgroundColor">
                             </div>
                         </div>
                     </div>

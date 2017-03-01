@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Lähetä rapotti",
     "gotoListViewTooltip": "Luettelonäkymä",
     "noFeatureGeomtery": "Kohdetta ei voi näyttää",
-    "featureOutsideAOIMessage": "Å_Feature cannot be added outside study area______________ö"
+    "featureOutsideAOIMessage": "Tarkastelualueen ulkopuolisia kohteita ei voi lisätä",
+    "noEditingPermissionsMessage": "Sinulla ei ole oikeuksia tämän toiminnon toteuttamiseen."
   },
   "signin": {
     "guestSigninText": "Jatka käyttöä vierailijana",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Karttanäkymä"
   },
   "appHeader": {
-    "myReport": "Omat raportit",
+    "myReport": "Omat lähetykset",
     "signIn": "Kirjaudu sisään",
     "signOut": "Kirjaudu ulos",
     "signInTooltip": "Kirjaudu sisään",
     "signOutTooltip": "Kirjaudu ulos",
-    "myReportTooltip": "Näytä raporttini"
+    "myReportTooltip": "Näytä omat lähetykset"
   },
   "geoform": {
     "enterInformation": "Yksityiskohdat",
@@ -74,7 +75,7 @@ define({
     "selectFileText": "Selaa",
     "enterLocation": "Sijainti",
     "reportItButton": "Raportoi",
-    "editReportButton": "Å_Update___ö",
+    "editReportButton": "Päivitä",
     "cancelButton": "Peruuta",
     "requiredField": "(pakollinen)",
     "selectDefaultText": "Valitse&hellip;",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Valitse raportin sijainti",
     "numericRangeHintMessage": "${openStrong}Vihje:${closeStrong} Vähimmäisarvo ${minValue} ja enimmäisarvo ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Vihje:${closeStrong} aikaisin ${minValue} ja myöhäisin päivämäärä ${maxValue}",
-    "errorsInApplyEdits": "Raportin lähetys ei onnistunut",
+    "errorsInApplyEdits": "Arvojen lähetys ei onnistunut.",
     "attachmentSelectedMsg": "liite(ttä) on valittu",
     "attachmentUploadStatus": "${failed}/${total} liitteen lataus epäonnistui",
     "geoLocationError": "Nykyinen sijainti ei ole käytettävissä",
     "geoLocationOutOfExtent": "Nykyinen sijainti ei ole taustakartan rajoissa",
     "submitButtonTooltip": "Lähetä",
     "cancelButtonTooltip": "Peruuta",
-    "geoformBackButtonTooltip": "Palaa raporttiluetteloon"
+    "geoformBackButtonTooltip": "Palaa luetteloon",
+    "locationSelectionHintForPointLayer": "Piirrä sijainti napauttamalla karttaa.",
+    "locationSelectionHintForPolygonLayer": "Piirrä sijainti napauttamalla karttaa. Viimeistele piirros kaksoisnapauttamalla.",
+    "locationSelectionHintForPointLayerDesktop": "Piirrä sijainti napsauttamalla karttaa.",
+    "locationSelectionHintForPolygonLayerDesktop": "Piirrä sijainti napsauttamalla karttaa. Viimeistele piirros kaksoisnapsauttamalla."
   },
   "locator": {
     "addressText": "Osoite:",
@@ -104,37 +109,37 @@ define({
     "latLongText": "Leveysaste/Pituusaste",
     "invalidSearch": "Tuloksia ei löytynyt",
     "locatorPlaceholder": "Anna haettava osoite",
-    "locationOutOfExtent": "Löydetty osoite ei ole taustakartan rajoissa",
+    "locationOutOfExtent": "Sijainti on lähetysalueen ulkopuolella",
     "searchButtonTooltip": "Etsi",
     "clearButtonTooltip": "Tyhjennä etsintäarvo"
   },
   "myIssues": {
-    "title": "Omat raportit",
-    "myIssuesTooltip": "Omat raportit",
-    "noResultsFound": "Yhtään raporttia ei löytynyt"
+    "title": "Omat lähetykset",
+    "myIssuesTooltip": "Omat lähetykset",
+    "noResultsFound": "Lähetyksiä ei löytynyt"
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "Å_I agree___ö",
+    "likeButtonTooltip": "Hyväksyn",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "Å_Leave a reply_____ö",
+    "commentButtonTooltip": "Jätä vastaus",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Näytä liitetyt dokumentit",
     "mapButtonLabel": "Näytä kartalla",
-    "mapButtonTooltip": "Näytä tämän raportin sijainti",
+    "mapButtonTooltip": "Näytä tämän lähetyksen sijainti",
     "commentsListHeading": "Comments",
     "unableToUpdateVoteField": "Ääntäsi ei voi laskea tällä kertaa.",
-    "gotoIssueListTooltip": "Siirry raporttiluetteloon",
-    "deleteMessage": "Å_Are you sure you want to delete___________ö?"
+    "gotoIssueListTooltip": "Tarkastele lähetysten luetteloa",
+    "deleteMessage": "Haluatko varmasti poistaa kohteen?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Tämän raportin äänet",
+    "likesForThisItemTooltip": "Äänimäärä",
     "loadMoreButtonText": "Lataa lisää..."
   },
   "comment": {
-    "commentsFormHeading": "Å_Comment___ö",
+    "commentsFormHeading": "Kommentti",
     "commentsFormSubmitButton": "Lähetä kommentti",
-    "commentsFormEditButton": "Å_Update Comment_____ö",
+    "commentsFormEditButton": "Päivitä kommentti",
     "commentsFormCancelButton": "Peruuta",
     "errorInSubmittingComment": "Kommentin lähetys ei onnistunut.",
     "emptyCommentMessage": "Kirjoita kommentti.",
@@ -142,14 +147,14 @@ define({
     "noCommentsAvailableText": "Yhtään kommenttia ei ole saatavilla",
     "remainingTextCount": "${0} merkki(ä) jäljellä",
     "showNoText": "Ei",
-    "selectAttachments": "Å_Attachments____ö",
-    "selectFileText": "Å_Browse___ö",
-    "attachmentSelectedMsg": "Å_attachment(s) selected________ö",
-    "attachmentHeaderText": "Å_Attachments____ö",
-    "unknownCommentAttachment": "Å_FILE__ö",
-    "editRecordText": "Å_Edit__ö",
-    "deleteRecordText": "Å_Delete___ö",
-    "deleteCommentFailedMessage": "Å_Unable to delete comment________ö"
+    "selectAttachments": "Liitteet",
+    "selectFileText": "Selaa",
+    "attachmentSelectedMsg": "liite(ttä) on valittu",
+    "attachmentHeaderText": "Liitteet",
+    "unknownCommentAttachment": "TIEDOSTO",
+    "editRecordText": "Muokkaa",
+    "deleteRecordText": "Poista",
+    "deleteCommentFailedMessage": "Kommenttia ei voi poistaa"
   },
   "gallery": {
     "galleryHeaderText": "Gallery",

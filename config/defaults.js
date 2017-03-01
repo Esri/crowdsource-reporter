@@ -32,7 +32,7 @@ define({
     "sharinghost": location.protocol + "//" + "arcgis.com",
     "units": null,
     //If your applcation needs to edit feature layer fields set this value to true. When false the map will
-    //be created with layers that are not set to editable which allows the FeatureLayer to load features optimally. 
+    //be created with layers that are not set to editable which allows the FeatureLayer to load features optimally.
     "editable": false,
     "helperServices": {
      "geometry": {
@@ -97,6 +97,13 @@ define({
     "enableFeatureDelete" : false,
     "reportedByField": "USERID",
     "locationField": "LONG_TEXT",
+    "showMapFirst":"list",
+    "showHelpOnLoad": false,
+
+    //Configure order of form components
+    "details" : "Top",
+    "attachments" : "Middle",
+    "location" : "Bottom",
 
     "zoomLevel": 12,
     "enableUSNGSearch": false,
@@ -114,6 +121,9 @@ define({
     "helpLinkText": "Help",
     "helpDialogTitle":"Help",
     "helpDialogContent": "<p>Crowdsource Reporter is a configurable gallery application template that allows users to submit problems or observations. The application has been optimized for smartphones but is responsively designed to be used on smartphones, tablets, and desktop computers.</p><p>The Crowdsource Reporter application presents one or more maps that can be used to report a problem or observation. Users can anonymously submit new reports, review existing reports, and comment and vote on reports or observations submitted by other users. They also can authenticate with their social media or ArcGIS Online credentials and track the status of problems or observations they have reported.</p>",
+    "enableDifferentHelpContent":false,
+    "loginHelpDialogTitle":"",
+    "loginHelpDialogContent": "",
     "bufferRadius": 3, //Buffer radius will be used to create inital buffer on applicaiton load
     "bufferUnit": "miles",
     "geoformDetailsSectionLabel": "Details", //label for details section in geoform
@@ -121,5 +131,10 @@ define({
     "geoformAttachmentSectionLabel": "Attachments", //label for attachment section in geoform
     "noWebmapInGroupText": "Configured group is invalid or no items have been shared with this group yet.",
     // to show as a label for attachment section in comments form where attachments can be added
-    "commentFormAttachmentSectionLabel": "Attachments"
+    "commentFormAttachmentSectionLabel": "Attachments",
+    "headerBackgroundColor":"#fff",
+    "bodyBackgroundColor":"#fff",
+    "bodyTextColor":"#515151",
+    "buttonBackgroundColor":"#fff",
+    "buttonTextColor":"#137DB9"
 });

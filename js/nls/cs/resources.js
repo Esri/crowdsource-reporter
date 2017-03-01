@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Odeslat zprávu",
     "gotoListViewTooltip": "Zobrazení seznamu",
     "noFeatureGeomtery": "Prvek nelze zobrazit.",
-    "featureOutsideAOIMessage": "Ř_Feature cannot be added outside study area______________ů"
+    "featureOutsideAOIMessage": "Prvek nelze přidat mimo zájmovou oblast.",
+    "noEditingPermissionsMessage": "Nemáte oprávnění k provedení této akce."
   },
   "signin": {
     "guestSigninText": "Pokračovat jako host",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Zobrazení mapy"
   },
   "appHeader": {
-    "myReport": "Moje zprávy",
+    "myReport": "Moje příspěvky",
     "signIn": "Přihlásit",
     "signOut": "Odhlásit",
     "signInTooltip": "Přihlásit se",
     "signOutTooltip": "Odhlásit se",
-    "myReportTooltip": "Zobrazit moje zprávy"
+    "myReportTooltip": "Zobrazit moje příspěvky"
   },
   "geoform": {
     "enterInformation": "Podrobnosti",
@@ -74,7 +75,7 @@ define({
     "selectFileText": "Procházet",
     "enterLocation": "Poloha",
     "reportItButton": "Vytvořit zprávu",
-    "editReportButton": "Ř_Update___ů",
+    "editReportButton": "Aktualizovat (Update)",
     "cancelButton": "Storno",
     "requiredField": "(vyžadováno)",
     "selectDefaultText": "Výběr&hellip;",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Vyberte umístění hlášení.",
     "numericRangeHintMessage": "${openStrong}Tip:${closeStrong} Minimální hodnota ${minValue} a Maximální hodnota ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Tip:${closeStrong} Minimální datum ${minValue} a Maximální datum ${maxValue}",
-    "errorsInApplyEdits": "Zprávu se nepodařilo odeslat",
+    "errorsInApplyEdits": "Hodnoty se nepodařilo odeslat.",
     "attachmentSelectedMsg": "příloh vybráno",
     "attachmentUploadStatus": "nepodařilo se nahrát ${failed} z ${total} příloh",
     "geoLocationError": "Současné umístění není k dispozici",
     "geoLocationOutOfExtent": "Aktuální umístění se nachází mimo rozsah podkladové mapy.",
     "submitButtonTooltip": "Odeslat",
     "cancelButtonTooltip": "Storno",
-    "geoformBackButtonTooltip": "Vrátit se do seznamu zpráv"
+    "geoformBackButtonTooltip": "Vrátit se do seznamu",
+    "locationSelectionHintForPointLayer": "Nakreslete umístění poklepáním na mapu.",
+    "locationSelectionHintForPolygonLayer": "Zadejte první bod poklepáním na mapu. Dvojitým kliknutím kreslení dokončíte.",
+    "locationSelectionHintForPointLayerDesktop": "Zadejte první bod poklepáním na mapu.",
+    "locationSelectionHintForPolygonLayerDesktop": "Zadejte první bod poklepáním na mapu. Dvojitým kliknutím kreslení dokončíte."
   },
   "locator": {
     "addressText": "Adresa:",
@@ -104,37 +109,37 @@ define({
     "latLongText": "zeměpisné šířky/délky",
     "invalidSearch": "Nebyly nalezeny žádné výsledky.",
     "locatorPlaceholder": "Zadejte adresu pro hledání",
-    "locationOutOfExtent": "Nalezená adresa se nachází mimo rozsah podkladové mapy.",
+    "locationOutOfExtent": "Umístění se nachází mimo oblast příspěvku.",
     "searchButtonTooltip": "Hledat",
     "clearButtonTooltip": "Vymazat hodnotu vyhledávání"
   },
   "myIssues": {
-    "title": "Moje zprávy",
-    "myIssuesTooltip": "Moje zprávy",
-    "noResultsFound": "Nebyly nalezeny žádné zprávy."
+    "title": "Moje příspěvky",
+    "myIssuesTooltip": "Moje příspěvky",
+    "noResultsFound": "Nebyly nalezeny žádné příspěvky."
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "Ř_I agree___ů",
+    "likeButtonTooltip": "Souhlasím",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "Ř_Leave a reply_____ů",
+    "commentButtonTooltip": "Napsat odpověď",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Zobrazit připojené dokumenty",
     "mapButtonLabel": "Zobrazit na mapě",
-    "mapButtonTooltip": "Zobrazit umístění této zprávy",
+    "mapButtonTooltip": "Zobrazit umístění tohoto příspěvku.",
     "commentsListHeading": "Komentáře",
     "unableToUpdateVoteField": "Váš hlas v tuto chvíli nelze započítat.",
-    "gotoIssueListTooltip": "Přejít na seznam zpráv",
-    "deleteMessage": "Ř_Are you sure you want to delete___________ů?"
+    "gotoIssueListTooltip": "Zobrazit seznam příspěvků",
+    "deleteMessage": "Určitě odstranit?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Hlasy pro tuto zprávu",
+    "likesForThisItemTooltip": "Počet hlasů",
     "loadMoreButtonText": "Načíst další..."
   },
   "comment": {
-    "commentsFormHeading": "Ř_Comment___ů",
+    "commentsFormHeading": "Komentář",
     "commentsFormSubmitButton": "Odeslat komentář",
-    "commentsFormEditButton": "Ř_Update Comment_____ů",
+    "commentsFormEditButton": "Aktualizovat komentář",
     "commentsFormCancelButton": "Storno",
     "errorInSubmittingComment": "Komentář se nepodařilo odeslat.",
     "emptyCommentMessage": "Zadejte komentář.",
@@ -142,14 +147,14 @@ define({
     "noCommentsAvailableText": "Nejsou k dispozici žádné komentáře.",
     "remainingTextCount": "Počet zbývajících znaků: ${0}",
     "showNoText": "Ne",
-    "selectAttachments": "Ř_Attachments____ů",
-    "selectFileText": "Ř_Browse___ů",
-    "attachmentSelectedMsg": "Ř_attachment(s) selected________ů",
-    "attachmentHeaderText": "Ř_Attachments____ů",
-    "unknownCommentAttachment": "Ř_FILE__ů",
-    "editRecordText": "Ř_Edit__ů",
-    "deleteRecordText": "Ř_Delete___ů",
-    "deleteCommentFailedMessage": "Ř_Unable to delete comment________ů"
+    "selectAttachments": "Přílohy",
+    "selectFileText": "Procházet",
+    "attachmentSelectedMsg": "příloh vybráno",
+    "attachmentHeaderText": "Přílohy",
+    "unknownCommentAttachment": "SOUBOR",
+    "editRecordText": "Upravit",
+    "deleteRecordText": "Smazat (Delete)",
+    "deleteCommentFailedMessage": "Komentář nelze odstranit"
   },
   "gallery": {
     "galleryHeaderText": "Galerie",

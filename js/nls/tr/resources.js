@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Rapor Gönder",
     "gotoListViewTooltip": "Liste görünümü",
     "noFeatureGeomtery": "Detay görüntülenemiyor",
-    "featureOutsideAOIMessage": "ı_Feature cannot be added outside study area______________İ"
+    "featureOutsideAOIMessage": "Detay araştırma alanı dışına eklenemez",
+    "noEditingPermissionsMessage": "Bu işlemi yapma izniniz yok."
   },
   "signin": {
     "guestSigninText": "Konuk olarak devam et",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Harita görünümü"
   },
   "appHeader": {
-    "myReport": "Raporlarım",
+    "myReport": "Gönderilerim",
     "signIn": "Oturum Açma",
     "signOut": "Oturum Kapat",
     "signInTooltip": "Hesabınıza",
     "signOutTooltip": "Oturumu kapat",
-    "myReportTooltip": "Raporlarımı görüntüle"
+    "myReportTooltip": "Gönderilerimi görüntüle"
   },
   "geoform": {
     "enterInformation": "Ayrıntılar",
@@ -74,7 +75,7 @@ define({
     "selectFileText": "...",
     "enterLocation": "Konum",
     "reportItButton": "Bildir",
-    "editReportButton": "ı_Update___İ",
+    "editReportButton": "Güncelle",
     "cancelButton": "İptal",
     "requiredField": "(gerekli)",
     "selectDefaultText": "Seç&hellip;",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Raporunuzun konumunu seçin",
     "numericRangeHintMessage": "${openStrong}İpucu:${closeStrong} Minimum değer ${minValue} ve Maksimum değer ${maxValue}",
     "dateRangeHintMessage": "${openStrong}İpucu:${closeStrong} Minimum Tarih ${minValue} ve Maksimum Tarih ${maxValue}",
-    "errorsInApplyEdits": "Rapor gönderilemedi",
+    "errorsInApplyEdits": "Değerler gönderilemedi.",
     "attachmentSelectedMsg": "ek seçildi",
     "attachmentUploadStatus": "${failed} / ${total} ek yüklenemedi",
     "geoLocationError": "Geçerli konum kullanılamıyor",
     "geoLocationOutOfExtent": "Geçerli konum altlık haritası yayılımı dışında",
     "submitButtonTooltip": "Gönder",
     "cancelButtonTooltip": "İptal",
-    "geoformBackButtonTooltip": "Rapor listesine dön"
+    "geoformBackButtonTooltip": "Listeye dön",
+    "locationSelectionHintForPointLayer": "Konumu çizmek için haritaya dokunun.",
+    "locationSelectionHintForPolygonLayer": "Konumu çizmek için haritaya dokunun. Çizimi tamamlamak için çift dokunun.",
+    "locationSelectionHintForPointLayerDesktop": "Konumu çizmek için haritaya tıklayın.",
+    "locationSelectionHintForPolygonLayerDesktop": "Konumu çizmek için haritaya tıklayın. Çizimi tamamlamak için çift tıklayın."
   },
   "locator": {
     "addressText": "Adres:",
@@ -104,37 +109,37 @@ define({
     "latLongText": "Enlem/Boylam",
     "invalidSearch": "Sonuç bulunamadı",
     "locatorPlaceholder": "Aranacak adres gir",
-    "locationOutOfExtent": "Bulunan adres altlık haritası yayılımı dışında",
+    "locationOutOfExtent": "Konum gönderim bölgesinin dışında",
     "searchButtonTooltip": "Ara",
     "clearButtonTooltip": "Arama değerini temizle"
   },
   "myIssues": {
-    "title": "Raporlarım",
-    "myIssuesTooltip": "Raporlarım",
-    "noResultsFound": "Herhangi bir rapor bulunamadı"
+    "title": "Gönderilerim",
+    "myIssuesTooltip": "Gönderilerim",
+    "noResultsFound": "Gönderim bulunamadı"
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "ı_I agree___İ",
+    "likeButtonTooltip": "Onaylıyorum",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "ı_Leave a reply_____İ",
+    "commentButtonTooltip": "Yanıt bırakın",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Ekli belgeleri incele",
     "mapButtonLabel": "Haritada görüntüle",
-    "mapButtonTooltip": "Bu raporun konumunu görüntüle",
+    "mapButtonTooltip": "Bu gönderimin konumunu görüntüle",
     "commentsListHeading": "Yorumlar",
     "unableToUpdateVoteField": "Oyunuz şu anda sayılamıyor.",
-    "gotoIssueListTooltip": "Rapor listesine git",
-    "deleteMessage": "ı_Are you sure you want to delete___________İ?"
+    "gotoIssueListTooltip": "Gönderim listesini görüntüle",
+    "deleteMessage": "Silmek istediğinizden emin misiniz?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Bu rapora verilen oylar",
+    "likesForThisItemTooltip": "Oy sayısı",
     "loadMoreButtonText": "Daha Fazla Yükle..."
   },
   "comment": {
-    "commentsFormHeading": "ı_Comment___İ",
+    "commentsFormHeading": "Yorum",
     "commentsFormSubmitButton": "Yorum Gönder",
-    "commentsFormEditButton": "ı_Update Comment_____İ",
+    "commentsFormEditButton": "Yorumu Güncelle",
     "commentsFormCancelButton": "İptal",
     "errorInSubmittingComment": "Yorum gönderilemedi.",
     "emptyCommentMessage": "Lütfen bir yorum girin.",
@@ -142,14 +147,14 @@ define({
     "noCommentsAvailableText": "Kullanılabilir yorum yok",
     "remainingTextCount": "${0} karakter kaldı",
     "showNoText": "Hayır",
-    "selectAttachments": "ı_Attachments____İ",
-    "selectFileText": "ı_Browse___İ",
-    "attachmentSelectedMsg": "ı_attachment(s) selected________İ",
-    "attachmentHeaderText": "ı_Attachments____İ",
-    "unknownCommentAttachment": "ı_FILE__İ",
-    "editRecordText": "ı_Edit__İ",
-    "deleteRecordText": "ı_Delete___İ",
-    "deleteCommentFailedMessage": "ı_Unable to delete comment________İ"
+    "selectAttachments": "Ekler",
+    "selectFileText": "...",
+    "attachmentSelectedMsg": "ek seçildi",
+    "attachmentHeaderText": "Ekler",
+    "unknownCommentAttachment": "DOSYA",
+    "editRecordText": "Düzenle",
+    "deleteRecordText": "Sil",
+    "deleteCommentFailedMessage": "Yorum silinemedi"
   },
   "gallery": {
     "galleryHeaderText": "Galeri",

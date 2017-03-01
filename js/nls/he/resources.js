@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "שלח דו\"ח",
     "gotoListViewTooltip": "תצוגת רשימה",
     "noFeatureGeomtery": "לא ניתן להציג את הישות",
-    "featureOutsideAOIMessage": "כן_Feature cannot be added outside study area______________ש"
+    "featureOutsideAOIMessage": "‏אין אפשרות להוסיף ישות מחוץ לאזור המחקר",
+    "noEditingPermissionsMessage": "אין לך הרשאה לבצע את הפעולה הזו."
   },
   "signin": {
     "guestSigninText": "המשך כאורח",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "מבט מפה"
   },
   "appHeader": {
-    "myReport": "הדוחות שלי",
+    "myReport": "התוספות שלי",
     "signIn": "התחבר",
     "signOut": "התנתק",
     "signInTooltip": "התחבר",
     "signOutTooltip": "יציאה",
-    "myReportTooltip": "הצג את הדוחות שלי"
+    "myReportTooltip": "הצג את התוספות שלי"
   },
   "geoform": {
     "enterInformation": "פרטים",
@@ -74,7 +75,7 @@ define({
     "selectFileText": "נתב",
     "enterLocation": "מיקום",
     "reportItButton": "דווח על כך",
-    "editReportButton": "כן_Update___ש",
+    "editReportButton": "עדכון",
     "cancelButton": "בטל",
     "requiredField": "(נדרש)",
     "selectDefaultText": "בחר&hellip;",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "בחר מיקום לדוח",
     "numericRangeHintMessage": "${openStrong}רמז:${closeStrong} ערך מינימום ${minValue} וערך מקסימום ${maxValue}",
     "dateRangeHintMessage": "${openStrong}רמז:${closeStrong} תאריך מינימום ${minValue} ותאריך מקסימום ${maxValue}",
-    "errorsInApplyEdits": "לא ניתן לשלוח דוח",
+    "errorsInApplyEdits": "לא ניתן לשלוח את הערכים.",
     "attachmentSelectedMsg": "קבצים מצורפים נבחרו",
     "attachmentUploadStatus": "נכשלה ההעלאה של ${failed} מתוך ${total} קבצים מצורפים",
     "geoLocationError": "מיקום נוכחי לא זמין",
     "geoLocationOutOfExtent": "המיקום נוכחי נמצא מחוץ לגבולות מפת הבסיס",
     "submitButtonTooltip": "שלח",
     "cancelButtonTooltip": "בטל",
-    "geoformBackButtonTooltip": "חזור לרשימת הדו\"חות"
+    "geoformBackButtonTooltip": "חזור לרשימה",
+    "locationSelectionHintForPointLayer": "הקש על המפה כדי לצייר את המיקום.",
+    "locationSelectionHintForPolygonLayer": "הקש על המפה כדי לצייר את המיקום. הקש פעמיים כדי להשלים את הציור.",
+    "locationSelectionHintForPointLayerDesktop": "לחץ על המפה כדי לצייר את המיקום.",
+    "locationSelectionHintForPolygonLayerDesktop": "לחץ על המפה כדי לצייר את המיקום. לחץ פעמיים כדי להשלים את הציור."
   },
   "locator": {
     "addressText": "כתובת:",
@@ -104,37 +109,37 @@ define({
     "latLongText": "קו רוחב/אורך",
     "invalidSearch": "לא נמצאו תוצאות",
     "locatorPlaceholder": "הזן כתובת לחיפוש",
-    "locationOutOfExtent": "הכתובת שאותרה נמצאת מחוץ לגבולות מפת הבסיס",
+    "locationOutOfExtent": "המיקום נמצא מחוץ לאזור השליחה",
     "searchButtonTooltip": "חפש",
     "clearButtonTooltip": "נקה ערך חיפוש"
   },
   "myIssues": {
-    "title": "הדוחות שלי",
-    "myIssuesTooltip": "הדוחות שלי",
-    "noResultsFound": "לא נמצאו דוחות"
+    "title": "התוספות שלי",
+    "myIssuesTooltip": "התוספות שלי",
+    "noResultsFound": "לא נמצאו תוספות"
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "כן_I agree___ש",
+    "likeButtonTooltip": "אני מסכים",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "כן_Leave a reply_____ש",
+    "commentButtonTooltip": "השאר תגובה",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "ראה מסמכים מצורפים",
     "mapButtonLabel": "הצג במפה",
-    "mapButtonTooltip": "הצג את מיקום הדוח",
+    "mapButtonTooltip": "הצג את מיקום התוספת",
     "commentsListHeading": "הערות",
     "unableToUpdateVoteField": "לא ניתן לקחת בחשבון את ההצבעה שלך כעת.",
-    "gotoIssueListTooltip": "עבור לרשימת הדוחות",
-    "deleteMessage": "כן_Are you sure you want to delete___________ש?"
+    "gotoIssueListTooltip": "הצג את רשימת התוספות",
+    "deleteMessage": "האם אתה בטוח שברצונך למחוק?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "הצבעות לדוח זה",
+    "likesForThisItemTooltip": "מספר ההצבעות",
     "loadMoreButtonText": "טען עוד..."
   },
   "comment": {
-    "commentsFormHeading": "כן_Comment___ש",
+    "commentsFormHeading": "הערה",
     "commentsFormSubmitButton": "שלח תגובה",
-    "commentsFormEditButton": "כן_Update Comment_____ש",
+    "commentsFormEditButton": "הערת עדכון",
     "commentsFormCancelButton": "בטל",
     "errorInSubmittingComment": "לא ניתן לשלוח תגובה.",
     "emptyCommentMessage": "שלח תגובה.",
@@ -142,14 +147,14 @@ define({
     "noCommentsAvailableText": "אין תגובות זמינות",
     "remainingTextCount": "נותרו ${0} תווים",
     "showNoText": "לא",
-    "selectAttachments": "כן_Attachments____ש",
-    "selectFileText": "כן_Browse___ש",
-    "attachmentSelectedMsg": "כן_attachment(s) selected________ש",
-    "attachmentHeaderText": "כן_Attachments____ש",
-    "unknownCommentAttachment": "כן_FILE__ש",
-    "editRecordText": "כן_Edit__ש",
-    "deleteRecordText": "כן_Delete___ש",
-    "deleteCommentFailedMessage": "כן_Unable to delete comment________ש"
+    "selectAttachments": "קבצים מצורפים",
+    "selectFileText": "נתב",
+    "attachmentSelectedMsg": "קבצים מצורפים נבחרו",
+    "attachmentHeaderText": "קבצים מצורפים",
+    "unknownCommentAttachment": "קובץ",
+    "editRecordText": "ערוך",
+    "deleteRecordText": "מחיקה",
+    "deleteCommentFailedMessage": "אין אפשרות למחוק הערה"
   },
   "gallery": {
     "galleryHeaderText": "גלריה",

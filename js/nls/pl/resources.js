@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Prześlij raport",
     "gotoListViewTooltip": "Widok listy",
     "noFeatureGeomtery": "Nie można wyświetlić obiektu",
-    "featureOutsideAOIMessage": "ł_Feature cannot be added outside study area______________ą"
+    "featureOutsideAOIMessage": "Nie można dodać funkcji poza analizowanym obszarem",
+    "noEditingPermissionsMessage": "Nie masz uprawnień do wykonania tego działania."
   },
   "signin": {
     "guestSigninText": "Kontynuuj jako gość",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Widok mapy"
   },
   "appHeader": {
-    "myReport": "Moje raporty",
+    "myReport": "Moje zgłoszenia",
     "signIn": "Zaloguj się",
     "signOut": "Wyloguj się",
     "signInTooltip": "Sign in",
     "signOutTooltip": "Wyloguj się",
-    "myReportTooltip": "Wyświetl Moje raporty"
+    "myReportTooltip": "Wyświetl moje zgłoszenia"
   },
   "geoform": {
     "enterInformation": "Szczegóły",
@@ -74,7 +75,7 @@ define({
     "selectFileText": "Przeglądaj",
     "enterLocation": "Lokalizacja",
     "reportItButton": "Zgłoś",
-    "editReportButton": "ł_Update___ą",
+    "editReportButton": "Aktualizuj",
     "cancelButton": "Anuluj",
     "requiredField": "(wymagane)",
     "selectDefaultText": "Wybierz&hellip;",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Wybierz lokalizację dla raportu",
     "numericRangeHintMessage": "${openStrong}Wskazówka:${closeStrong} Wartość minimalna ${minValue} i Wartość maksymalna ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Wskazówka:${closeStrong} Data minimalna ${minValue} i Data maksymalna ${maxValue}",
-    "errorsInApplyEdits": "Nie można przesłać raportu",
+    "errorsInApplyEdits": "Nie można przesyłać wartości.",
     "attachmentSelectedMsg": "wybrany(-e/-ych) załącznik(-i/-ów)",
     "attachmentUploadStatus": "Nie udało się przesłać ${failed} z ${total} załączników",
     "geoLocationError": "Bieżąca lokalizacja nie jest dostępna",
     "geoLocationOutOfExtent": "Bieżąca lokalizacja jest poza zakresem mapy bazowej",
     "submitButtonTooltip": "Prześlij",
     "cancelButtonTooltip": "Anuluj",
-    "geoformBackButtonTooltip": "Wróć do listy raportów"
+    "geoformBackButtonTooltip": "Wróć na listę",
+    "locationSelectionHintForPointLayer": "Dotknij mapy, aby narysować lokalizację.",
+    "locationSelectionHintForPolygonLayer": "Dotknij mapy, aby narysować lokalizację. Dotknij dwukrotnie, aby zakończyć rysowanie.",
+    "locationSelectionHintForPointLayerDesktop": "Kliknij mapę, aby narysować lokalizację.",
+    "locationSelectionHintForPolygonLayerDesktop": "Kliknij mapę, aby narysować lokalizację. Kliknij dwukrotnie, aby zakończyć rysowanie."
   },
   "locator": {
     "addressText": "Adres:",
@@ -104,37 +109,37 @@ define({
     "latLongText": "Szer. geogr./dł. geogr.",
     "invalidSearch": "Nie znaleziono wyników",
     "locatorPlaceholder": "Wprowadź adres do wyszukania",
-    "locationOutOfExtent": "Zlokalizowany adres jest poza zakresem mapy bazowej",
+    "locationOutOfExtent": "Lokalizacja znajduje się poza obszarem zgłoszenia",
     "searchButtonTooltip": "Szukaj",
     "clearButtonTooltip": "Wyczyść wartość wyszukiwania"
   },
   "myIssues": {
-    "title": "Moje raporty",
-    "myIssuesTooltip": "Moje raporty",
-    "noResultsFound": "Nie znaleziono raportów"
+    "title": "Moje zgłoszenia",
+    "myIssuesTooltip": "Moje zgłoszenia",
+    "noResultsFound": "Nie znaleziono zgłoszeń"
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "ł_I agree___ą",
+    "likeButtonTooltip": "Zgadzam się",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "ł_Leave a reply_____ą",
+    "commentButtonTooltip": "Zostaw odpowiedź",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Zobacz załączone dokumenty",
     "mapButtonLabel": "Wyświetl na mapie",
-    "mapButtonTooltip": "Wyświetl lokalizację tego raportu",
+    "mapButtonTooltip": "Wyświetl lokalizację tego zgłoszenia",
     "commentsListHeading": "Comments",
     "unableToUpdateVoteField": "Oddanego głosu nie można teraz zliczyć.",
-    "gotoIssueListTooltip": "Przejdź do listy raportów",
-    "deleteMessage": "ł_Are you sure you want to delete___________ą?"
+    "gotoIssueListTooltip": "Wyświetl listę zgłoszeń",
+    "deleteMessage": "Czy na pewno chcesz usunąć?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Głosy na ten raport",
+    "likesForThisItemTooltip": "Liczba głosów",
     "loadMoreButtonText": "Wczytaj więcej..."
   },
   "comment": {
-    "commentsFormHeading": "ł_Comment___ą",
+    "commentsFormHeading": "Komentarz",
     "commentsFormSubmitButton": "Prześlij komentarz",
-    "commentsFormEditButton": "ł_Update Comment_____ą",
+    "commentsFormEditButton": "Aktualizuj komentarz",
     "commentsFormCancelButton": "Anuluj",
     "errorInSubmittingComment": "Nie można przesłać komentarza.",
     "emptyCommentMessage": "Wprowadź komentarz.",
@@ -142,14 +147,14 @@ define({
     "noCommentsAvailableText": "Brak dostępnych komentarzy",
     "remainingTextCount": "Pozostało znaków: ${0}",
     "showNoText": "Nie",
-    "selectAttachments": "ł_Attachments____ą",
-    "selectFileText": "ł_Browse___ą",
-    "attachmentSelectedMsg": "ł_attachment(s) selected________ą",
-    "attachmentHeaderText": "ł_Attachments____ą",
-    "unknownCommentAttachment": "ł_FILE__ą",
-    "editRecordText": "ł_Edit__ą",
-    "deleteRecordText": "ł_Delete___ą",
-    "deleteCommentFailedMessage": "ł_Unable to delete comment________ą"
+    "selectAttachments": "Załączniki",
+    "selectFileText": "Przeglądaj",
+    "attachmentSelectedMsg": "wybrany(-e/-ych) załącznik(-i/-ów)",
+    "attachmentHeaderText": "Załączniki",
+    "unknownCommentAttachment": "PLIK",
+    "editRecordText": "Edytuj",
+    "deleteRecordText": "Usuwanie",
+    "deleteCommentFailedMessage": "Nie można usunąć komentarza"
   },
   "gallery": {
     "galleryHeaderText": "Galeria",

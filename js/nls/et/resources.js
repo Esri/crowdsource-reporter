@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Edasta aruanne",
     "gotoListViewTooltip": "Loendivaade",
     "noFeatureGeomtery": "Funktsiooni ei saa kuvada.",
-    "featureOutsideAOIMessage": "Š_Feature cannot be added outside study area______________ä"
+    "featureOutsideAOIMessage": "Objekti ei saa lisada uuringualast väljapoole",
+    "noEditingPermissionsMessage": "Teil puudub õigus selle toimingu tegemiseks."
   },
   "signin": {
     "guestSigninText": "Jätkake külalisena",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Kaardivaade"
   },
   "appHeader": {
-    "myReport": "Minu aruanded",
+    "myReport": "Minu edastused",
     "signIn": "Logi sisse",
     "signOut": "Logi välja",
     "signInTooltip": "Logi sisse",
     "signOutTooltip": "Logi välja",
-    "myReportTooltip": "Kuva minu aruanded"
+    "myReportTooltip": "Kuva minu edastused"
   },
   "geoform": {
     "enterInformation": "Detailid",
@@ -74,7 +75,7 @@ define({
     "selectFileText": "Sirvi",
     "enterLocation": "Asukoht",
     "reportItButton": "Aruanne It",
-    "editReportButton": "Š_Update___ä",
+    "editReportButton": "Uuenda",
     "cancelButton": "Tühista",
     "requiredField": "(nõutud)",
     "selectDefaultText": "Vali&hellip;",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Valige oma aruande asukoht.",
     "numericRangeHintMessage": "${openStrong}Vihje:${closeStrong} Miinimumväärtus ${minValue} ja maksimumväärtus ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Vihje:${closeStrong} Kuupäeva alampiir ${minValue} ja kuupäeva ülempiir ${maxValue}",
-    "errorsInApplyEdits": "Kommentaari ei saanud esitada.",
+    "errorsInApplyEdits": "Väärtusi ei saanud edastada.",
     "attachmentSelectedMsg": "valitud manus(ed)",
     "attachmentUploadStatus": "Manust /kokku manusest ei õnnestunud üles laadida.",
     "geoLocationError": "Hetke asukoht pole kättesaadav.",
     "geoLocationOutOfExtent": "Hetke asukoht on lubatud vahemikust väljas.",
     "submitButtonTooltip": "Esita",
     "cancelButtonTooltip": "Tühista",
-    "geoformBackButtonTooltip": "Tagasi aruandelehele"
+    "geoformBackButtonTooltip": "Naase loendisse",
+    "locationSelectionHintForPointLayer": "Asukoha joonistamiseks puudutage kaarti.",
+    "locationSelectionHintForPolygonLayer": "Asukoha joonistamiseks puudutage kaarti. Joonistuse lõpuleviimiseks topeltpuudutage.",
+    "locationSelectionHintForPointLayerDesktop": "Asukoha joonistamiseks klõpsake kaarti.",
+    "locationSelectionHintForPolygonLayerDesktop": "Asukoha joonistamiseks klõpsake kaarti. Joonistuse lõpuleviimiseks topeltklõpsake."
   },
   "locator": {
     "addressText": "Aadress:",
@@ -104,37 +109,37 @@ define({
     "latLongText": "Laius/Pikkus",
     "invalidSearch": "Tulemusi ei leitud",
     "locatorPlaceholder": "Sisesta otsingusse aadress",
-    "locationOutOfExtent": "Asukoht on väljaspool aluskaardi piirkonda.",
+    "locationOutOfExtent": "Asukoht on väljaspool edastusala",
     "searchButtonTooltip": "Otsi",
     "clearButtonTooltip": "Tühjenda otsingu väärtus"
   },
   "myIssues": {
-    "title": "Minu aruanded",
-    "myIssuesTooltip": "Minu aruanded",
-    "noResultsFound": "Ühtki aruannet ei leitud"
+    "title": "Minu edastused",
+    "myIssuesTooltip": "Minu edastused",
+    "noResultsFound": "Edastusi ei leitud"
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "Š_I agree___ä",
+    "likeButtonTooltip": "Nõustun",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "Š_Leave a reply_____ä",
+    "commentButtonTooltip": "Jätke vastus",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Vaadake manustatud dokumente",
     "mapButtonLabel": "Vaata kaardil",
-    "mapButtonTooltip": "Vaata selle aruande asukohta",
+    "mapButtonTooltip": "Kuva selle edastuse asukoht",
     "commentsListHeading": "Kommentaari",
     "unableToUpdateVoteField": "Teie häält ei saa seekord lisada.",
-    "gotoIssueListTooltip": "Liigu aruande loendisse",
-    "deleteMessage": "Š_Are you sure you want to delete___________ä?"
+    "gotoIssueListTooltip": "Kuva edastuste loendit",
+    "deleteMessage": "Kas soovite selle kindlasti kustutada?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Selle aruande kohta antud hääled.",
+    "likesForThisItemTooltip": "Häälte arv",
     "loadMoreButtonText": "Laadi rohkem..."
   },
   "comment": {
-    "commentsFormHeading": "Š_Comment___ä",
+    "commentsFormHeading": "Kommentaar",
     "commentsFormSubmitButton": "Saada kommentaar",
-    "commentsFormEditButton": "Š_Update Comment_____ä",
+    "commentsFormEditButton": "Uuenda kommentaari",
     "commentsFormCancelButton": "Tühista",
     "errorInSubmittingComment": "Kommentaari ei saanud esitada.",
     "emptyCommentMessage": "Palun sisestage kommentaar.",
@@ -142,14 +147,14 @@ define({
     "noCommentsAvailableText": "Ühtki kommentaari ei ole saadaval.",
     "remainingTextCount": "${0} kasutamata tähemärgid",
     "showNoText": "Ei",
-    "selectAttachments": "Š_Attachments____ä",
-    "selectFileText": "Š_Browse___ä",
-    "attachmentSelectedMsg": "Š_attachment(s) selected________ä",
-    "attachmentHeaderText": "Š_Attachments____ä",
-    "unknownCommentAttachment": "Š_FILE__ä",
-    "editRecordText": "Š_Edit__ä",
-    "deleteRecordText": "Š_Delete___ä",
-    "deleteCommentFailedMessage": "Š_Unable to delete comment________ä"
+    "selectAttachments": "Manused",
+    "selectFileText": "Sirvi",
+    "attachmentSelectedMsg": "valitud manus(ed)",
+    "attachmentHeaderText": "Manused",
+    "unknownCommentAttachment": "FAIL",
+    "editRecordText": "Muuda",
+    "deleteRecordText": "Kustuta",
+    "deleteCommentFailedMessage": "Kommentaari ei saa kustutada"
   },
   "gallery": {
     "galleryHeaderText": "Galerii",

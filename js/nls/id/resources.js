@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Kirim laporan",
     "gotoListViewTooltip": "Tampilan daftar",
     "noFeatureGeomtery": "Fitur tidak dapat ditampilkan",
-    "featureOutsideAOIMessage": "ng_Feature cannot be added outside study area______________ny"
+    "featureOutsideAOIMessage": "Fitur tidak dapat ditambahkan di luar area studi",
+    "noEditingPermissionsMessage": "Anda tidak memiliki izin untuk menjalankan tindakan ini."
   },
   "signin": {
     "guestSigninText": "Lanjutkan sebagai Tamu",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Tampilan peta"
   },
   "appHeader": {
-    "myReport": "Laporan Saya",
+    "myReport": "Kiriman Saya",
     "signIn": "Masuk",
     "signOut": "Keluar",
     "signInTooltip": "Masuk",
     "signOutTooltip": "Keluar",
-    "myReportTooltip": "Tampilkan laporan saya"
+    "myReportTooltip": "Lihat kiriman saya"
   },
   "geoform": {
     "enterInformation": "Detail",
@@ -74,7 +75,7 @@ define({
     "selectFileText": "Telusuri",
     "enterLocation": "Lokasi",
     "reportItButton": "Laporkan",
-    "editReportButton": "ng_Update___ny",
+    "editReportButton": "Pembaruan",
     "cancelButton": "Batal",
     "requiredField": "(diperlukan)",
     "selectDefaultText": "Pilih&hellip;",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Pilih lokasi untuk laporan Anda",
     "numericRangeHintMessage": "${openStrong}Petunjuk:${closeStrong} Nilai minimum ${minValue} dan Nilai maksimum ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Petunjuk:${closeStrong} Tanggal Minimum ${minValue} dan Tanggal Maksimum ${maxValue}",
-    "errorsInApplyEdits": "Laporan tidak dapat dikirimkan.",
+    "errorsInApplyEdits": "Nilai tidak dapat dikirimkan.",
     "attachmentSelectedMsg": "lampiran dipilih",
     "attachmentUploadStatus": "${failed} dari ${total} lampiran gagal diunggah",
     "geoLocationError": "Lokasi saat ini tidak tersedia",
     "geoLocationOutOfExtent": "Lokasi saat ini di luar jangkauan peta dasar",
     "submitButtonTooltip": "Kirim",
     "cancelButtonTooltip": "Batal",
-    "geoformBackButtonTooltip": "Kembali ke daftar laporan"
+    "geoformBackButtonTooltip": "Kembali ke daftar",
+    "locationSelectionHintForPointLayer": "Ketuk peta untuk menggambar lokasi.",
+    "locationSelectionHintForPolygonLayer": "Ketuk peta untuk menggambar lokasi. Ketuk dua kali untuk menyelesaikan gambar.",
+    "locationSelectionHintForPointLayerDesktop": "Klik peta untuk menggambar lokasi.",
+    "locationSelectionHintForPolygonLayerDesktop": "Klik peta untuk menggambar lokasi. Klik dua kali untuk menyelesaikan gambar."
   },
   "locator": {
     "addressText": "Alamat:",
@@ -104,37 +109,37 @@ define({
     "latLongText": "Garis Lintang/Garis Bujur",
     "invalidSearch": "Tidak ada hasil yang ditemukan",
     "locatorPlaceholder": "Masukkan alamat yang akan dicari",
-    "locationOutOfExtent": "Alamat yang ditemukan berada di luar jangkauan peta dasar",
+    "locationOutOfExtent": "Lokasi berada di luar area kiriman",
     "searchButtonTooltip": "Cari",
     "clearButtonTooltip": "Bersihkan nilai pencarian"
   },
   "myIssues": {
-    "title": "Laporan Saya",
-    "myIssuesTooltip": "Laporan Saya",
-    "noResultsFound": "Tidak ditemukan laporan apa pun"
+    "title": "Kiriman Saya",
+    "myIssuesTooltip": "Kiriman Saya",
+    "noResultsFound": "Tidak ada kiriman"
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "ng_I agree___ny",
+    "likeButtonTooltip": "Saya setuju",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "ng_Leave a reply_____ny",
+    "commentButtonTooltip": "Tinggalkan balasan",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Lihat dokumen terlampir",
     "mapButtonLabel": "Tampilkan pada peta",
-    "mapButtonTooltip": "Tampilkan lokasi laporan ini",
+    "mapButtonTooltip": "Lihat lokasi kiriman ini",
     "commentsListHeading": "Komentar",
     "unableToUpdateVoteField": "Pilihan Anda tidak dapat dihitung saat ini.",
-    "gotoIssueListTooltip": "Buka daftar laporan",
-    "deleteMessage": "ng_Are you sure you want to delete___________ny?"
+    "gotoIssueListTooltip": "Lihat daftar kiriman",
+    "deleteMessage": "Anda yakin ingin menghapus?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Pilihan untuk laporan ini",
+    "likesForThisItemTooltip": "Jumlah suara",
     "loadMoreButtonText": "Muat Lebih Banyak..."
   },
   "comment": {
-    "commentsFormHeading": "ng_Comment___ny",
+    "commentsFormHeading": "Komentar",
     "commentsFormSubmitButton": "Kirim Komentar",
-    "commentsFormEditButton": "ng_Update Comment_____ny",
+    "commentsFormEditButton": "Perbarui Komentar",
     "commentsFormCancelButton": "Batal",
     "errorInSubmittingComment": "Komentar tidak dapat dikirimkan.",
     "emptyCommentMessage": "Harap masukkan komentar.",
@@ -145,11 +150,11 @@ define({
     "selectAttachments": "Lampiran",
     "selectFileText": "Telusuri",
     "attachmentSelectedMsg": "lampiran dipilih",
-    "attachmentHeaderText": "ng_Attachments____ny",
-    "unknownCommentAttachment": "ng_FILE__ny",
-    "editRecordText": "ng_Edit__ny",
-    "deleteRecordText": "ng_Delete___ny",
-    "deleteCommentFailedMessage": "ng_Unable to delete comment________ny"
+    "attachmentHeaderText": "Lampiran",
+    "unknownCommentAttachment": "FILE",
+    "editRecordText": "Edit",
+    "deleteRecordText": "Hapus",
+    "deleteCommentFailedMessage": "Tidak dapat menghapus komentar"
   },
   "gallery": {
     "galleryHeaderText": "Galeri",

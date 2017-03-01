@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Submeter um Relatório",
     "gotoListViewTooltip": "Vista de Lista",
     "noFeatureGeomtery": "Elemento não pode ser exibido",
-    "featureOutsideAOIMessage": "ã_Feature cannot be added outside study area______________Ç"
+    "featureOutsideAOIMessage": "O elemento não pode ser adicionado fora da área de estudo",
+    "noEditingPermissionsMessage": "Não tem permissões para executar esta ação."
   },
   "signin": {
     "guestSigninText": "Prosseguir como Convidado",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Vista de mapa"
   },
   "appHeader": {
-    "myReport": "Meus Relatórios",
+    "myReport": "As Minhas Submissões",
     "signIn": "Iniciar sessão",
     "signOut": "Terminar sessão",
     "signInTooltip": "Iniciar sessão",
     "signOutTooltip": "Terminar Sessão",
-    "myReportTooltip": "Visualizar os meus relatórios"
+    "myReportTooltip": "Ver as minhas submissões"
   },
   "geoform": {
     "enterInformation": "Detalhes",
@@ -74,7 +75,7 @@ define({
     "selectFileText": "Procurar",
     "enterLocation": "Local",
     "reportItButton": "Reportar",
-    "editReportButton": "ã_Update___Ç",
+    "editReportButton": "Atualizar",
     "cancelButton": "Cancelar",
     "requiredField": "(exigido)",
     "selectDefaultText": "Select&hellip;",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Por favor seleccione uma localização para o seu relatório",
     "numericRangeHintMessage": "${openStrong}Hint:${closeStrong} valor Mínimo ${minValue} e valor Máximo ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Hint:${closeStrong} Data Mínima ${minValue} e Data Máxima ${maxValue}",
-    "errorsInApplyEdits": "O relatório não pôde ser submetido",
+    "errorsInApplyEdits": "Não foi possível submeter os valores.",
     "attachmentSelectedMsg": "anexo(s) seleccionado(s)",
     "attachmentUploadStatus": "${failed} do ${total} anexo(s) falhou a carregar",
     "geoLocationError": "Localização actual não disponível",
     "geoLocationOutOfExtent": "Localização actual está fora da extensão de mapa",
     "submitButtonTooltip": "Submeter",
     "cancelButtonTooltip": "Cancelar",
-    "geoformBackButtonTooltip": "Regressar à lista de relatórios"
+    "geoformBackButtonTooltip": "Regressar à lista",
+    "locationSelectionHintForPointLayer": "Toque no mapa para desenhar a localização.",
+    "locationSelectionHintForPolygonLayer": "Toque no mapa para desenhar a localização. Toque duas vezes para completar o desenho.",
+    "locationSelectionHintForPointLayerDesktop": "Clique no mapa para desenhar a localização.",
+    "locationSelectionHintForPolygonLayerDesktop": "Clique no mapa para desenhar a localização. Clique duas vezes para completar o desenho."
   },
   "locator": {
     "addressText": "Endereço:",
@@ -104,37 +109,37 @@ define({
     "latLongText": "Latitude/Longitude",
     "invalidSearch": "Nenhum resultado encontrado",
     "locatorPlaceholder": "Introduza um endereço de pesquisa",
-    "locationOutOfExtent": "Endereço localizado está fora da extensão do mapa base",
+    "locationOutOfExtent": "A localização encontra-se fora da área da submissão.",
     "searchButtonTooltip": "Pesquisar",
     "clearButtonTooltip": "Limpar valor de pesquisa"
   },
   "myIssues": {
-    "title": "Meus Relatórios",
-    "myIssuesTooltip": "Meus Relatórios",
-    "noResultsFound": "Não foram descobertos relatórios"
+    "title": "As Minhas Submissões",
+    "myIssuesTooltip": "As Minhas Submissões",
+    "noResultsFound": "Não foram encontradas submissões"
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "ã_I agree___Ç",
+    "likeButtonTooltip": "Concordo",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "ã_Leave a reply_____Ç",
+    "commentButtonTooltip": "Deixar uma resposta",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Ver documentos anexados",
     "mapButtonLabel": "Ver no mapa",
-    "mapButtonTooltip": "Ver a localização deste relatório",
+    "mapButtonTooltip": "Visualizar a localização desta submissão",
     "commentsListHeading": "Comentários",
     "unableToUpdateVoteField": "Não é possível contar o seu voto neste momento.",
-    "gotoIssueListTooltip": "Vá para a lista de relatório",
-    "deleteMessage": "ã_Are you sure you want to delete___________Ç?"
+    "gotoIssueListTooltip": "Visualizar a lista de submissões",
+    "deleteMessage": "Tem certeza de que pretende eliminar?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Votos para este relatório",
+    "likesForThisItemTooltip": "Número de votos",
     "loadMoreButtonText": "Carregar mais..."
   },
   "comment": {
-    "commentsFormHeading": "ã_Comment___Ç",
+    "commentsFormHeading": "Comentário",
     "commentsFormSubmitButton": "Submeter Comentário",
-    "commentsFormEditButton": "ã_Update Comment_____Ç",
+    "commentsFormEditButton": "Atualizar Comentário",
     "commentsFormCancelButton": "Cancelar",
     "errorInSubmittingComment": "Comentário não pode ser submetido",
     "emptyCommentMessage": "Por favor introduza um comentário.",
@@ -142,14 +147,14 @@ define({
     "noCommentsAvailableText": "Não existem comentários disponíveis",
     "remainingTextCount": "${0} caractere(s) mantem-se",
     "showNoText": "Não",
-    "selectAttachments": "ã_Attachments____Ç",
-    "selectFileText": "ã_Browse___Ç",
-    "attachmentSelectedMsg": "ã_attachment(s) selected________Ç",
-    "attachmentHeaderText": "ã_Attachments____Ç",
-    "unknownCommentAttachment": "ã_FILE__Ç",
-    "editRecordText": "ã_Edit__Ç",
-    "deleteRecordText": "ã_Delete___Ç",
-    "deleteCommentFailedMessage": "ã_Unable to delete comment________Ç"
+    "selectAttachments": "Anexos",
+    "selectFileText": "Procurar",
+    "attachmentSelectedMsg": "anexo(s) seleccionado(s)",
+    "attachmentHeaderText": "Anexos",
+    "unknownCommentAttachment": "FICHEIRO",
+    "editRecordText": "Editar",
+    "deleteRecordText": "Excluir",
+    "deleteCommentFailedMessage": "Não é possível eliminar o comentário"
   },
   "gallery": {
     "galleryHeaderText": "Galeria",

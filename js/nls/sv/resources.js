@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Skicka in en rapport",
     "gotoListViewTooltip": "Listvy",
     "noFeatureGeomtery": "Geoobjektet kan inte visas",
-    "featureOutsideAOIMessage": "Å_Feature cannot be added outside study area______________ö"
+    "featureOutsideAOIMessage": "Geoobjektet går inte att lägga till utanför undersökningsområdet",
+    "noEditingPermissionsMessage": "Du har inte behörighet att utföra den här åtgärden."
   },
   "signin": {
     "guestSigninText": "Fortsätt som gäst",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Kartvy"
   },
   "appHeader": {
-    "myReport": "Mina rapporter",
+    "myReport": "Mina bidrag",
     "signIn": "Logga in",
     "signOut": "Logga ut",
     "signInTooltip": "Logga in",
     "signOutTooltip": "Logga ut",
-    "myReportTooltip": "Visa mina rapporter"
+    "myReportTooltip": "Visa mina bidrag"
   },
   "geoform": {
     "enterInformation": "Detaljer",
@@ -74,7 +75,7 @@ define({
     "selectFileText": "Bläddra",
     "enterLocation": "Plats",
     "reportItButton": "Rapportera",
-    "editReportButton": "Å_Update___ö",
+    "editReportButton": "Uppdatera",
     "cancelButton": "Avbryt",
     "requiredField": "(obligatoriskt)",
     "selectDefaultText": "Välj&hellip;",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Välj platsen för din rapport",
     "numericRangeHintMessage": "${openStrong}Tips:${closeStrong} minsta värde ${minValue} och största värde ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Tips:${closeStrong} minsta datum ${minValue} och största datum ${maxValue}",
-    "errorsInApplyEdits": "Det gick inte att skicka rapporten",
+    "errorsInApplyEdits": "Det gick inte att skicka värdena.",
     "attachmentSelectedMsg": "bilagor markerade",
     "attachmentUploadStatus": "${failed} av ${total} bilagor kunde inte överföras",
     "geoLocationError": "Aktuell plats finns inte tillgänglig",
     "geoLocationOutOfExtent": "Aktuell plats är utanför baskartans utbredning",
     "submitButtonTooltip": "Skicka",
     "cancelButtonTooltip": "Avbryt",
-    "geoformBackButtonTooltip": "Återgå till rapportlistan"
+    "geoformBackButtonTooltip": "Återgå till listan",
+    "locationSelectionHintForPointLayer": "Tryck på kartan om du vill rita platsen.",
+    "locationSelectionHintForPolygonLayer": "Tryck på kartan om du vill rita platsen. Dubbeltryck när du vill slutföra ritningen.",
+    "locationSelectionHintForPointLayerDesktop": "Klicka på kartan om du vill rita platsen.",
+    "locationSelectionHintForPolygonLayerDesktop": "Klicka på kartan om du vill rita platsen. Dubbelklicka när du vill slutföra ritningen."
   },
   "locator": {
     "addressText": "Adress:",
@@ -104,37 +109,37 @@ define({
     "latLongText": "Latitud/longitud",
     "invalidSearch": "Inga resultat hittades",
     "locatorPlaceholder": "Ange en adress att söka efter",
-    "locationOutOfExtent": "Den lokaliserade adressen är utanför baskartans utbredning",
+    "locationOutOfExtent": "Platsen ligger utanför inlämningsområdet",
     "searchButtonTooltip": "Sök",
     "clearButtonTooltip": "Rensa sökvärde"
   },
   "myIssues": {
-    "title": "Mina rapporter",
-    "myIssuesTooltip": "Mina rapporter",
-    "noResultsFound": "Inga rapporter hittades"
+    "title": "Mina bidrag",
+    "myIssuesTooltip": "Mina bidrag",
+    "noResultsFound": "Inga bidrag hittades"
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "Å_I agree___ö",
+    "likeButtonTooltip": "Jag godkänner",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "Å_Leave a reply_____ö",
+    "commentButtonTooltip": "Lämna ett svar",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Se bifogade dokument",
     "mapButtonLabel": "Visa på kartan",
-    "mapButtonTooltip": "Visa platsen för rapporten",
+    "mapButtonTooltip": "Visa platsen för detta bidrag",
     "commentsListHeading": "Kommentarer",
     "unableToUpdateVoteField": "Det går inte att räkna din röst just nu.",
-    "gotoIssueListTooltip": "Gå till rapportlistan",
-    "deleteMessage": "Å_Are you sure you want to delete___________ö?"
+    "gotoIssueListTooltip": "Visa listan över bidrag",
+    "deleteMessage": "Vill du ta bort?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Röster för den här rapporten",
+    "likesForThisItemTooltip": "Antal röster",
     "loadMoreButtonText": "Läs in mer ..."
   },
   "comment": {
-    "commentsFormHeading": "Å_Comment___ö",
+    "commentsFormHeading": "Kommentar",
     "commentsFormSubmitButton": "Skicka en kommentar",
-    "commentsFormEditButton": "Å_Update Comment_____ö",
+    "commentsFormEditButton": "Uppdatera kommentar",
     "commentsFormCancelButton": "Avbryt",
     "errorInSubmittingComment": "Det gick inte att skicka kommentaren.",
     "emptyCommentMessage": "Ange en kommentar.",
@@ -142,14 +147,14 @@ define({
     "noCommentsAvailableText": "Inga kommentarer tillgängliga",
     "remainingTextCount": "${0} tecken återstår",
     "showNoText": "Nej",
-    "selectAttachments": "Å_Attachments____ö",
-    "selectFileText": "Å_Browse___ö",
-    "attachmentSelectedMsg": "Å_attachment(s) selected________ö",
-    "attachmentHeaderText": "Å_Attachments____ö",
-    "unknownCommentAttachment": "Å_FILE__ö",
-    "editRecordText": "Å_Edit__ö",
-    "deleteRecordText": "Å_Delete___ö",
-    "deleteCommentFailedMessage": "Å_Unable to delete comment________ö"
+    "selectAttachments": "Bilagor",
+    "selectFileText": "Bläddra",
+    "attachmentSelectedMsg": "bilagor markerade",
+    "attachmentHeaderText": "Bilagor",
+    "unknownCommentAttachment": "ARKIV",
+    "editRecordText": "Redigera",
+    "deleteRecordText": "Ta bort",
+    "deleteCommentFailedMessage": "Det gick inte att ta bort kommentaren"
   },
   "gallery": {
     "galleryHeaderText": "Galleri",

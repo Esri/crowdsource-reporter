@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Trimiteţi un raport",
     "gotoListViewTooltip": "Vizualizare tip listă",
     "noFeatureGeomtery": "Obiectul spaţial nu poate fi afişat",
-    "featureOutsideAOIMessage": "Ă_Feature cannot be added outside study area______________ș"
+    "featureOutsideAOIMessage": "Obiectul spaţial nu poate fi adăugat în afara zonei de studiu",
+    "noEditingPermissionsMessage": "Nu aveţi permisiunea pentru a efectua această acţiune."
   },
   "signin": {
     "guestSigninText": "Continuare ca oaspete",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Vizualizare hartă"
   },
   "appHeader": {
-    "myReport": "Rapoartele mele",
+    "myReport": "Contribuţiile mele",
     "signIn": "Autentificare",
     "signOut": "Deconectare",
     "signInTooltip": "Autentificaţi-vă",
     "signOutTooltip": "Deconectare",
-    "myReportTooltip": "Vizualizare rapoartele mele"
+    "myReportTooltip": "Vizualizarea contribuţiilor mele"
   },
   "geoform": {
     "enterInformation": "Detalii",
@@ -74,7 +75,7 @@ define({
     "selectFileText": "Parcurgere",
     "enterLocation": "Locaţie",
     "reportItButton": "Raportare",
-    "editReportButton": "Ă_Update___ș",
+    "editReportButton": "Actualizare",
     "cancelButton": "Anulare",
     "requiredField": "(obligatoriu)",
     "selectDefaultText": "Selectare&hellip;",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Selectaţi locaţia pentru raport",
     "numericRangeHintMessage": "${openStrong}Sugestie:${closeStrong} Valoarea minimă ${minValue} şi Valoarea maximă ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Sugestie:${closeStrong} Data minimă ${minValue} şi Data maximă ${maxValue}",
-    "errorsInApplyEdits": "Raportul nu a putut fi transmis",
+    "errorsInApplyEdits": "Valorile nu au putut fi trimise.",
     "attachmentSelectedMsg": "ataşări selectate",
     "attachmentUploadStatus": "${failed} din ${total} ataşări nu au fost încărcate",
     "geoLocationError": "Locaţia curentă nu este disponibilă",
     "geoLocationOutOfExtent": "Locaţia curentă se află în afara extinderii hărţii fundal",
     "submitButtonTooltip": "Trimitere",
     "cancelButtonTooltip": "Anulare",
-    "geoformBackButtonTooltip": "Reveniţi la lista de rapoarte"
+    "geoformBackButtonTooltip": "Reveniţi la listă",
+    "locationSelectionHintForPointLayer": "Atingeţi harta pentru a trasa locaţia.",
+    "locationSelectionHintForPolygonLayer": "Atingeţi harta pentru a trasa locaţia. Atingeţi de două ori pentru încheia trasarea.",
+    "locationSelectionHintForPointLayerDesktop": "Faceţi clic pe hartă pentru a trasa locaţia.",
+    "locationSelectionHintForPolygonLayerDesktop": "Faceţi clic pe hartă pentru a trasa locaţia. Faceţi clic de două ori pentru încheia trasarea."
   },
   "locator": {
     "addressText": "Adresă:",
@@ -104,37 +109,37 @@ define({
     "latLongText": "Latitudine/Longitudine",
     "invalidSearch": "Nu a fost găsit niciun rezultat",
     "locatorPlaceholder": "Introduceţi o adresă pentru a o căuta",
-    "locationOutOfExtent": "Adresa localizată se află în afara extinderii hărţii fundal",
+    "locationOutOfExtent": "Locaţia se află în exteriorul zonei contribuţiei",
     "searchButtonTooltip": "Căutare",
     "clearButtonTooltip": "Golire valoare căutare"
   },
   "myIssues": {
-    "title": "Rapoartele mele",
-    "myIssuesTooltip": "Rapoartele mele",
-    "noResultsFound": "Nu a fost găsit niciun raport"
+    "title": "Contribuţiile mele",
+    "myIssuesTooltip": "Contribuţiile mele",
+    "noResultsFound": "Nu s-au găsit contribuţii"
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "Ă_I agree___ș",
+    "likeButtonTooltip": "De acord",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "Ă_Leave a reply_____ș",
+    "commentButtonTooltip": "Lăsaţi un răspuns",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Consultaţi documentele ataşate",
     "mapButtonLabel": "Vizualizare pe hartă",
-    "mapButtonTooltip": "Vizualizaţi locaţia acestui raport",
+    "mapButtonTooltip": "Vizualizaţi locaţia acestei contribuţii",
     "commentsListHeading": "Comentarii",
     "unableToUpdateVoteField": "Votul dumneavoastră nu poate fi luat în considerare în acest moment.",
-    "gotoIssueListTooltip": "Accesare listă rapoarte",
-    "deleteMessage": "Ă_Are you sure you want to delete___________ș?"
+    "gotoIssueListTooltip": "Vizualizaţi lista cu contribuţii",
+    "deleteMessage": "Sigur doriţi să ştergeţi?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Voturi pentru acest raport",
+    "likesForThisItemTooltip": "Număr de voturi",
     "loadMoreButtonText": "Se încarcă mai multe..."
   },
   "comment": {
-    "commentsFormHeading": "Ă_Comment___ș",
+    "commentsFormHeading": "Comentariu",
     "commentsFormSubmitButton": "Trimitere comentariu",
-    "commentsFormEditButton": "Ă_Update Comment_____ș",
+    "commentsFormEditButton": "Actualizare comentariu",
     "commentsFormCancelButton": "Anulare",
     "errorInSubmittingComment": "Comentariul nu a putut fi transmis.",
     "emptyCommentMessage": "Introduceţi un comentariu.",
@@ -142,14 +147,14 @@ define({
     "noCommentsAvailableText": "Niciun comentariu disponibil",
     "remainingTextCount": "${0} caractere rămase",
     "showNoText": "Nu",
-    "selectAttachments": "Ă_Attachments____ș",
-    "selectFileText": "Ă_Browse___ș",
-    "attachmentSelectedMsg": "Ă_attachment(s) selected________ș",
-    "attachmentHeaderText": "Ă_Attachments____ș",
-    "unknownCommentAttachment": "Ă_FILE__ș",
-    "editRecordText": "Ă_Edit__ș",
-    "deleteRecordText": "Ă_Delete___ș",
-    "deleteCommentFailedMessage": "Ă_Unable to delete comment________ș"
+    "selectAttachments": "Ataşări",
+    "selectFileText": "Răsfoire",
+    "attachmentSelectedMsg": "ataşări selectate",
+    "attachmentHeaderText": "Ataşări",
+    "unknownCommentAttachment": "FIŞIER",
+    "editRecordText": "Editare",
+    "deleteRecordText": "Ştergere",
+    "deleteCommentFailedMessage": "Nu se poate şterge comentariul"
   },
   "gallery": {
     "galleryHeaderText": "Galerie",

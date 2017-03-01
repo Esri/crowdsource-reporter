@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Podnesi izvješće",
     "gotoListViewTooltip": "Prikaz u popisu",
     "noFeatureGeomtery": "Geoobjekt se ne može prikazati",
-    "featureOutsideAOIMessage": "Č_Feature cannot be added outside study area______________ž"
+    "featureOutsideAOIMessage": "Geoobjekt se ne može dodati izvan radnog područja",
+    "noEditingPermissionsMessage": "Nemate dopuštenje za izvođenje ove radnje."
   },
   "signin": {
     "guestSigninText": "Nastavi kao gost",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Prikaz karte"
   },
   "appHeader": {
-    "myReport": "Moja izvješća",
+    "myReport": "Moji podnesci",
     "signIn": "Prijava",
     "signOut": "Odjava",
     "signInTooltip": "Prijava",
     "signOutTooltip": "Odjava",
-    "myReportTooltip": "Prikaz mojih izvješća"
+    "myReportTooltip": "Prikaži moje podneske"
   },
   "geoform": {
     "enterInformation": "Pojedinosti",
@@ -74,7 +75,7 @@ define({
     "selectFileText": "Pregledaj",
     "enterLocation": "Lokacija",
     "reportItButton": "Prijavi",
-    "editReportButton": "Č_Update___ž",
+    "editReportButton": "Ažuriraj",
     "cancelButton": "Odustani",
     "requiredField": "(obavezno)",
     "selectDefaultText": "Odabir&hellip;",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Odaberite lokaciju za izvješće",
     "numericRangeHintMessage": "${openStrong}Podsjetnik:${closeStrong} minimalna vrijednost ${minValue} i maksimalna vrijednost ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Podsjetnik:${closeStrong} minimalni datum ${minValue} i maksimalni datum ${maxValue}",
-    "errorsInApplyEdits": "Nije moguće podnijeti izvješće.",
+    "errorsInApplyEdits": "Nije moguće podnijeti vrijednosti.",
     "attachmentSelectedMsg": "odabrani privitak(-ci)",
     "attachmentUploadStatus": "${failed} od ${total} privit(a)ka nije poslano",
     "geoLocationError": "Trenutačna lokacija nije dostupna",
     "geoLocationOutOfExtent": "Trenutačna lokacija izvan je obuhvata kartografske podloge",
     "submitButtonTooltip": "Pošalji",
     "cancelButtonTooltip": "Odustani",
-    "geoformBackButtonTooltip": "Povratak na popis izvješća"
+    "geoformBackButtonTooltip": "Povratak na popis",
+    "locationSelectionHintForPointLayer": "Dodirnite kartu za crtanje lokacije.",
+    "locationSelectionHintForPolygonLayer": "Dodirnite kartu za crtanje lokacije. Dva puta dodirnite kartu za dovršavanje crteža.",
+    "locationSelectionHintForPointLayerDesktop": "Kliknite na kartu za crtanje lokacije.",
+    "locationSelectionHintForPolygonLayerDesktop": "Kliknite kartu za crtanje lokacije. Dva puta kliknite na kartu za dovršavanje crteža."
   },
   "locator": {
     "addressText": "Adresa:",
@@ -104,37 +109,37 @@ define({
     "latLongText": "Geografska dužina/širina",
     "invalidSearch": "Nema rezultata",
     "locatorPlaceholder": "Unesite adresu za pretraživanje",
-    "locationOutOfExtent": "Pronađena adresa izvan je obuhvata kartografske podloge",
+    "locationOutOfExtent": "Lokacija je izvan područja podneska",
     "searchButtonTooltip": "Pretraži",
     "clearButtonTooltip": "Očisti vrijednost pretrage"
   },
   "myIssues": {
-    "title": "Moja izvješća",
-    "myIssuesTooltip": "Moja izvješća",
-    "noResultsFound": "Nema izvješća"
+    "title": "Moji podnesci",
+    "myIssuesTooltip": "Moji podnesci",
+    "noResultsFound": "Nisu pronađeni podnesci"
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "Č_I agree___ž",
+    "likeButtonTooltip": "Slažem se",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "Č_Leave a reply_____ž",
+    "commentButtonTooltip": "Odgovori",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Vidi priložene dokumente",
     "mapButtonLabel": "Prikaži na karti",
-    "mapButtonTooltip": "Prikaz lokacije ovog izvješća",
+    "mapButtonTooltip": "Prikaži lokaciju ovog podneska",
     "commentsListHeading": "Komentari",
     "unableToUpdateVoteField": "Vaš se glas trenutačno ne može pribrojiti.",
-    "gotoIssueListTooltip": "Idi na popis izvješća",
-    "deleteMessage": "Č_Are you sure you want to delete___________ž?"
+    "gotoIssueListTooltip": "Prikaži popis podnesaka",
+    "deleteMessage": "Jeste li sigurni da želite izbrisati?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Glasovi za ovo izvješće",
+    "likesForThisItemTooltip": "Broj glasova",
     "loadMoreButtonText": "Učitaj više..."
   },
   "comment": {
-    "commentsFormHeading": "Č_Comment___ž",
+    "commentsFormHeading": "Komentiraj",
     "commentsFormSubmitButton": "Pošalji komentar",
-    "commentsFormEditButton": "Č_Update Comment_____ž",
+    "commentsFormEditButton": "Ažuriraj komentar",
     "commentsFormCancelButton": "Odustani",
     "errorInSubmittingComment": "Nije moguće poslati komentar.",
     "emptyCommentMessage": "Unesite komentar.",
@@ -142,14 +147,14 @@ define({
     "noCommentsAvailableText": "Nema dostupnih komentara",
     "remainingTextCount": "preostalo ${0} znakova",
     "showNoText": "Ne",
-    "selectAttachments": "Č_Attachments____ž",
-    "selectFileText": "Č_Browse___ž",
-    "attachmentSelectedMsg": "Č_attachment(s) selected________ž",
-    "attachmentHeaderText": "Č_Attachments____ž",
-    "unknownCommentAttachment": "Č_FILE__ž",
-    "editRecordText": "Č_Edit__ž",
-    "deleteRecordText": "Č_Delete___ž",
-    "deleteCommentFailedMessage": "Č_Unable to delete comment________ž"
+    "selectAttachments": "Privici",
+    "selectFileText": "Pregledaj",
+    "attachmentSelectedMsg": "odabrano privitaka",
+    "attachmentHeaderText": "Privici",
+    "unknownCommentAttachment": "DATOTEKA",
+    "editRecordText": "Uredi",
+    "deleteRecordText": "Izbriši",
+    "deleteCommentFailedMessage": "Nije moguće izbrisati komentar"
   },
   "gallery": {
     "galleryHeaderText": "Galerija",

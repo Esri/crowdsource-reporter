@@ -26,7 +26,8 @@ define({
     "submitReportButtonText": "Send en rapport",
     "gotoListViewTooltip": "Listevisning",
     "noFeatureGeomtery": "Kan ikke vise geoobjekt",
-    "featureOutsideAOIMessage": "å_Feature cannot be added outside study area______________ø"
+    "featureOutsideAOIMessage": "Kan ikke legge til geoobjekt utenfor studieområde",
+    "noEditingPermissionsMessage": "Du har ikke tillatelse til å utføre denne handlingen."
   },
   "signin": {
     "guestSigninText": "Fortsett som gjest",
@@ -61,12 +62,12 @@ define({
     "gotoMapViewTooltip": "Kartvisning"
   },
   "appHeader": {
-    "myReport": "Mine rapporter",
+    "myReport": "Mine innleveringer",
     "signIn": "Logg på",
     "signOut": "Logg ut",
     "signInTooltip": "Logg på",
     "signOutTooltip": "Logg av",
-    "myReportTooltip": "Vis mine rapporter"
+    "myReportTooltip": "Se Mine innleveringer"
   },
   "geoform": {
     "enterInformation": "Detaljer",
@@ -74,7 +75,7 @@ define({
     "selectFileText": "Bla gjennom",
     "enterLocation": "Lokasjon",
     "reportItButton": "Rapporter det",
-    "editReportButton": "å_Update___ø",
+    "editReportButton": "Oppdater",
     "cancelButton": "Avbryt",
     "requiredField": "(obligatorisk)",
     "selectDefaultText": "Select&hellip;",
@@ -88,14 +89,18 @@ define({
     "selectLocation": "Velg lokasjonen for rapporten",
     "numericRangeHintMessage": "${openStrong}Hint:${closeStrong} Minimumsverdi ${minValue} og maksimumsverdi ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Hint:${closeStrong} Laveste dato ${minValue} og høyeste dato ${maxValue}",
-    "errorsInApplyEdits": "Kan ikke sende inn rapporten",
+    "errorsInApplyEdits": "Verdiene kunne ikke sendes inn.",
     "attachmentSelectedMsg": "vedlegg valgt",
     "attachmentUploadStatus": "kan ikke laste opp ${failed} av ${total} vedlegg",
     "geoLocationError": "Gjeldende plassering er ikke tilgjengelig",
     "geoLocationOutOfExtent": "Gjeldende plassering er utenfor bakgrunnskartets utstrekning",
     "submitButtonTooltip": "Send inn",
     "cancelButtonTooltip": "Avbryt",
-    "geoformBackButtonTooltip": "Gå tilbake til rapportlisten"
+    "geoformBackButtonTooltip": "Gå tilbake til listen",
+    "locationSelectionHintForPointLayer": "Trykk på kartet for å tegne lokasjonen.",
+    "locationSelectionHintForPolygonLayer": "Trykk på kartet for å tegne lokasjonen. Trykk to ganger for å fullføre tegningen.",
+    "locationSelectionHintForPointLayerDesktop": "Klikk på kartet for å tegne lokasjonen.",
+    "locationSelectionHintForPolygonLayerDesktop": "Klikk på kartet for å tegne lokasjonen. Dobbeltklikk for å fullføre tegningen."
   },
   "locator": {
     "addressText": "Adresse:",
@@ -104,37 +109,37 @@ define({
     "latLongText": "Lengdegrad/breddegrad",
     "invalidSearch": "Fant ingen resultater",
     "locatorPlaceholder": "Skriv inn en adresse som skal søkes etter",
-    "locationOutOfExtent": "Funnet adresse er utenfor bakgrunnskartets utstrekning",
+    "locationOutOfExtent": "Lokasjonen befinner seg utenfor innleveringsområdet",
     "searchButtonTooltip": "Søke",
     "clearButtonTooltip": "Fjern søkeverdi"
   },
   "myIssues": {
-    "title": "Mine rapporter",
-    "myIssuesTooltip": "Mine rapporter",
-    "noResultsFound": "Finner ingen rapporter"
+    "title": "Mine innleveringer",
+    "myIssuesTooltip": "Mine innleveringer",
+    "noResultsFound": "Fant ingen innleveringer"
   },
   "itemDetails": {
     "likeButtonLabel": "",
-    "likeButtonTooltip": "å_I agree___ø",
+    "likeButtonTooltip": "Godta",
     "commentButtonLabel": "",
-    "commentButtonTooltip": "å_Leave a reply_____ø",
+    "commentButtonTooltip": "Svar",
     "galleryButtonLabel": "",
     "galleryButtonTooltip": "Se vedlagte dokumenter",
     "mapButtonLabel": "Vis på kart",
-    "mapButtonTooltip": "Vis lokasjonen for denne rapporten",
+    "mapButtonTooltip": "Vis lokasjonen for denne innleveringen",
     "commentsListHeading": "Kommentarer",
     "unableToUpdateVoteField": "Stemmen din kan ikke telles akkurat nå.",
-    "gotoIssueListTooltip": "Gå til rapportlisten",
-    "deleteMessage": "å_Are you sure you want to delete___________ø?"
+    "gotoIssueListTooltip": "Vis listen over innleveringer",
+    "deleteMessage": "Er du sikker på at du vil slette?"
   },
   "itemList": {
-    "likesForThisItemTooltip": "Stemmer på denne rapporten",
+    "likesForThisItemTooltip": "Antall stemmer",
     "loadMoreButtonText": "Last inn flere..."
   },
   "comment": {
-    "commentsFormHeading": "å_Comment___ø",
+    "commentsFormHeading": "Kommentar",
     "commentsFormSubmitButton": "Send inn kommentar",
-    "commentsFormEditButton": "å_Update Comment_____ø",
+    "commentsFormEditButton": "Oppdater kommentar",
     "commentsFormCancelButton": "Avbryt",
     "errorInSubmittingComment": "Kommentar kan ikke sendes.",
     "emptyCommentMessage": "Skriv en kommentar.",
@@ -142,14 +147,14 @@ define({
     "noCommentsAvailableText": "Ingen tilgjengelige kommentarer",
     "remainingTextCount": "${0} tegn gjenstår",
     "showNoText": "Nei",
-    "selectAttachments": "å_Attachments____ø",
-    "selectFileText": "å_Browse___ø",
-    "attachmentSelectedMsg": "å_attachment(s) selected________ø",
-    "attachmentHeaderText": "å_Attachments____ø",
-    "unknownCommentAttachment": "å_FILE__ø",
-    "editRecordText": "å_Edit__ø",
-    "deleteRecordText": "å_Delete___ø",
-    "deleteCommentFailedMessage": "å_Unable to delete comment________ø"
+    "selectAttachments": "Vedlegg",
+    "selectFileText": "Bla gjennom",
+    "attachmentSelectedMsg": "vedlegg valgt",
+    "attachmentHeaderText": "Vedlegg",
+    "unknownCommentAttachment": "FIL",
+    "editRecordText": "Rediger",
+    "deleteRecordText": "Slett",
+    "deleteCommentFailedMessage": "Kan ikke slette kommentar"
   },
   "gallery": {
     "galleryHeaderText": "Galleri",
