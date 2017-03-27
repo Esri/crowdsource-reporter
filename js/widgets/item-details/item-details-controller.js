@@ -225,10 +225,11 @@ define([
             }));
 
 
-            on(this.mapItButton, "click", function () {
+            on(this.mapItButton, "click", lang.hitch(this, function () {
                 domStyle.set(dom.byId("mapParentContainer"), "display", "block");
                 topic.publish("resizeMap");
-            });
+                this.onMapItButtonClicked(this.item);
+            }));
 
             on(this.galleryButton, "click", function () {
                 if (domClass.contains(self.gallery, "esriCTHidden")) {
@@ -240,6 +241,10 @@ define([
 
         onCancel: function (evt) {
             return evt;
+        },
+
+        onMapItButtonClicked : function (item) {
+            return item;
         },
 
         onFeatureUpdated: function (feature) {

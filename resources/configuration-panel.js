@@ -25,6 +25,7 @@
     "webMapInfoNumViews": false,
     "webMapInfoAvgRating": false,
     "showNonEditableLayers": false,
+    "showPopupForNonEditableLayers": false,
     "submitMessage": "Thank you. Your report has been submitted.",
     "likeField": "NUMVOTES",
     "commentField": "COMMENTS",
@@ -65,7 +66,9 @@
     "buttonTextColor": "#137DB9",
     "details": "Top",
     "attachments": "Middle",
-    "location": "Bottom"
+    "location": "Bottom",
+    "sortingField" : "",
+    "sortingOrder": "DESC"
   },
   "configurationSettings": [
     {
@@ -227,6 +230,12 @@
           "tooltip": "Enable to show non-editable layers",
           "type": "boolean",
           "fieldName": "showNonEditableLayers"
+        },
+        {
+          "label": "Show popup for non-editable layers",
+          "tooltip": "Enable to show popup for non-editable layers",
+          "type": "boolean",
+          "fieldName": "showPopupForNonEditableLayers"
         },
         {
           "type": "subcategory",
@@ -611,6 +620,28 @@
               "tooltip": "Only content from related tables that have this field will be accessible through the application. This value is ignored if you choose to build the form from the comment table popup (previous option).",
               "type": "string",
               "fieldName": "commentField"
+            }
+          ]
+            },
+            {
+              "label": "Reports sorting field",
+              "tooltip": "Sort issues based on configured field",
+              "type": "string",
+              "fieldName": "sortingField"
+            },
+            {
+              "label": "Sorting order",
+              "tooltip": "Order in which issue's can be sorted ",
+              "type": "options",
+              "fieldName": "sortingOrder",
+              "options": [
+                {
+                  "label": "Ascending",
+                  "value": "ASC"
+                },
+                {
+                  "label": "Descending",
+                  "value": "DESC"
             }
           ]
         }
