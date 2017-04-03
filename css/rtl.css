@@ -211,7 +211,14 @@
     {
         right: 0;
     }
-    
+}
+
+@media only screen and (min-width: 767px) and (max-width:1024px)
+{
+    .dj_rtl .esriCTGeoFormParentContainer {
+        right: 50% !important;
+    }
+
 }
 
 /* CSS for modal dialog */
