@@ -97,89 +97,6 @@
           "fieldName": "noWebmapInGroupText"
       }, {
           "type": "subcategory",
-          "label": "Splash screen"
-      }, {
-          "label": "Splash screen image",
-          "tooltip": "Background image for login screen. Recommended 640x960.",
-          "type": "string",
-          "fieldName": "signInBackgroundImage"
-      }, {
-          "label": "Sign in icon foreground color",
-          "tooltip": "Foreground image color of social media and guest icons.",
-          "type": "options",
-          "fieldName": "imageForeGroundColor",
-          "options": [{
-              "label": "Grey",
-              "value": "grey"
-          }, {
-              "label": "White",
-              "value": "white"
-          }]
-      }, {
-          "label": "Sign in icon background color",
-          "tooltip": "Background image color of social media and guest icons.",
-          "type": "color",
-          "fieldName": "imageBackgroundColor"
-      }, {
-          "label": "Splash screen text color",
-          "tooltip": "Color for splash screen content",
-          "type": "color",
-          "fieldName": "splashScreenTextColor"
-      }, {
-          "type": "subcategory",
-          "label": "Sign in options"
-      }, {
-          "type": "paragraph",
-          "value": "Configure how users will be able to access your application. See the <a href='http://links.esri.com/localgovernment/help/CrowdsourcePolling/SocialSignIn/' target='_blank'>help</a> for the steps to register your app with Facebook and Google+."
-      }, {
-          "type": "paragraph",
-          "value": "Disable all sign in options to hide the splash screen."
-      }, {
-          "label": "Allow anonymous access",
-          "tooltip": "Enable to allow users to sign in as a guest user.",
-          "type": "boolean",
-          "fieldName": "enableGuestAccess"
-      }, {
-          "label": "Allow users to sign in using ArcGIS Online",
-          "tooltip": "Enable to allow users to sign in using their ArcGIS Online credentials. Accounts must be members of the organization hosting the application.",
-          "type": "boolean",
-          "fieldName": "enablePortalLogin"
-      }, {
-          "label": "Allow users to sign in using Twitter",
-          "tooltip": "Enable to allow users to sign in using their Twitter credentials.",
-          "type": "boolean",
-          "fieldName": "enableTwitter"
-      }, {
-          "label": "Allow users to sign in using Facebook",
-          "tooltip": "Enable to allow users to sign in using their Facebook credentials",
-          "type": "conditional",
-          "fieldName": "enableFacebook",
-          "condition": false,
-          "items": [{
-              "label": "Please register your app with Facebook and provide your Facebook AppId",
-              "tooltip": "Facebook AppId",
-              "type": "string",
-              "fieldName": "facebookAppId"
-          }]
-      }, {
-          "label": "Allow users to sign in using Google+",
-          "tooltip": "Enable to allow users to sign in using their Google+ credentials.",
-          "type": "conditional",
-          "fieldName": "enableGoogleplus",
-          "condition": false,
-          "items": [{
-              "label": "Please register your app with Google+ and provide your Google+ Client ID",
-              "tooltip": "Google+ ClientId",
-              "type": "string",
-              "fieldName": "googleplusClientId"
-          }]
-      }, {
-          "label": "Field for storing the ID of authenticated users (optional)",
-          "tooltip": "Text field that stores the ID of the person who submitted or commented on a report. Field name must be the same across all layers and maps.",
-          "type": "string",
-          "fieldName": "reportedByField"
-      }, {
-          "type": "subcategory",
           "label": "Help"
       }, {
           "type": "paragraph",
@@ -218,12 +135,12 @@
               "condition": false,
               "fieldName": "enableDifferentHelpContent",
               "items": [{
-                  "label": "Sign in Help window title",
+                  "label": "Sign in help window title",
                   "tooltip": "Text displayed at the top of the help window.",
                   "type": "string",
                   "fieldName": "loginHelpDialogTitle"
               }, {
-                  "label": "Sign in Help Dialog content",
+                  "label": "Sign in help Dialog content",
                   "tooltip": "Text and graphics that will display in the help window.",
                   "type": "string",
                   "fieldName": "loginHelpDialogContent",
@@ -368,6 +285,92 @@
           "tooltip": "Specify how near (larger number) or far (smaller number) the map should zoom relative to the ground.",
           "type": "string",
           "fieldName": "zoomLevel"
+      }]
+  }, {
+      "category": "<b>Access</b>",
+      "fields": [{
+          "type": "subcategory",
+          "label": "Sign in screen"
+      }, {
+          "label": "Sign in background image",
+          "tooltip": "Background image for login screen. Recommended 640x960.",
+          "type": "string",
+          "fieldName": "signInBackgroundImage"
+      }, {
+          "label": "Sign in icon foreground color",
+          "tooltip": "Foreground image color of social media and guest icons.",
+          "type": "options",
+          "fieldName": "imageForeGroundColor",
+          "options": [{
+              "label": "Grey",
+              "value": "grey"
+          }, {
+              "label": "White",
+              "value": "white"
+          }]
+      }, {
+          "label": "Sign in icon background color",
+          "tooltip": "Background image color of social media and guest icons.",
+          "type": "color",
+          "fieldName": "imageBackgroundColor"
+      }, {
+          "label": "Sign in screen text color",
+          "tooltip": "Color for splash screen content",
+          "type": "color",
+          "fieldName": "splashScreenTextColor"
+      }, {
+          "type": "subcategory",
+          "label": "Sign in options"
+      }, {
+          "type": "paragraph",
+          "value": "Configure how users will be able to access your application. See the <a href='http://links.esri.com/localgovernment/help/CrowdsourcePolling/SocialSignIn/' target='_blank'>help</a> for the steps to register your app with Facebook and Google+."
+      }, {
+          "type": "paragraph",
+          "value": "Disable all sign in options to hide the splash screen."
+      }, {
+          "label": "Allow anonymous access",
+          "tooltip": "Enable to allow users to sign in as a guest user.",
+          "type": "boolean",
+          "fieldName": "enableGuestAccess"
+      }, {
+          "label": "Allow users to sign in using ArcGIS Online",
+          "tooltip": "Enable to allow users to sign in using their ArcGIS Online credentials. Accounts must be members of the organization hosting the application.",
+          "type": "boolean",
+          "fieldName": "enablePortalLogin"
+      }, {
+          "label": "Allow users to sign in using Twitter",
+          "tooltip": "Enable to allow users to sign in using their Twitter credentials.",
+          "type": "boolean",
+          "fieldName": "enableTwitter"
+      }, {
+          "label": "Allow users to sign in using Facebook",
+          "tooltip": "Enable to allow users to sign in using their Facebook credentials",
+          "type": "conditional",
+          "fieldName": "enableFacebook",
+          "condition": false,
+          "items": [{
+              "label": "Please register your app with Facebook and provide your Facebook AppId",
+              "tooltip": "Facebook AppId",
+              "type": "string",
+              "fieldName": "facebookAppId"
+          }]
+      }, {
+          "label": "Allow users to sign in using Google+",
+          "tooltip": "Enable to allow users to sign in using their Google+ credentials.",
+          "type": "conditional",
+          "fieldName": "enableGoogleplus",
+          "condition": false,
+          "items": [{
+              "label": "Please register your app with Google+ and provide your Google+ Client ID",
+              "tooltip": "Google+ ClientId",
+              "type": "string",
+              "fieldName": "googleplusClientId"
+          }]
+      }, {
+          "label": "Field for storing the ID of authenticated users (optional)",
+          "tooltip": "Text field that stores the ID of the person who submitted or commented on a report. Field name must be the same across all layers and maps.",
+          "type": "string",
+          "fieldName": "reportedByField"
       }]
   }, {
       "category": "<b>Search</b>",
