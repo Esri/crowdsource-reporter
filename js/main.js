@@ -1345,6 +1345,16 @@ define([
                             this.appUtils.showError(ex.message);
                         }
                     });
+                    //Pan/Zoom to location on main map after selecting a location in geoform map
+                    this.geoformInstance.onLocationSelected = lang.hitch(this, function (geometry) {
+                        if (geometry.type === "point") {
+                            this.map.setLevel(this.config.zoomLevel);
+                            this.map.centerAt(geometry);
+                        } else {
+                            this.map.setLevel(this.config.zoomLevel);
+                            this.map.setExtent(geometry.getExtent());
+                        }
+                    });
                     //deactivate the draw tool on main map after closing geoform
                     this.geoformInstance.onFormClose = lang.hitch(this, function () {
                         this.toolbar.deactivate();
