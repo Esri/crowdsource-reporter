@@ -1,4 +1,4 @@
-﻿/*global define,dojo,alert,console,document */
+/*global define,console */
 /*jslint browser:true,sloppy:true,nomen:true,unparam:true,plusplus:true,indent:4 */
 /*
  | Copyright 2014 Esri
@@ -34,53 +34,54 @@ define([
         TWITTER_ACCESS_TOKEN: "twitter_access_token",
 
         /**
-        * This function is called when widget is constructed.
-        * @param{object} config to be used
-        * @memberOf widgets/sign-in/twitter-helper
-        */
+         * This function is called when widget is constructed.
+         * @param{object} config to be used
+         * @memberOf widgets/sign-in/twitter-helper
+         */
         constructor: function (config) {
             this._config = config;
             this.twitterLoginHandler();
         },
 
         /**
-        * Handle the login/logout event
-        * @memberOf widgets/sign-in/twitter-helper
-        */
+         * Handle the login/logout event
+         * @memberOf widgets/sign-in/twitter-helper
+         */
         twitterLoginHandler: function () {
             // if user is already logged In
             if (this.TWLoggedIn) {
                 this.twitterLoginWindow(this._config.twitterSigninUrl, true);
-            } else {
+            }
+            else {
                 this.twitterLoginWindow(this._config.twitterSigninUrl);
             }
         },
 
         /**
-        * Show Login window
-        * @memberOf widgets/sign-in/twitter-helper
-        */
+         * Show Login window
+         * @memberOf widgets/sign-in/twitter-helper
+         */
         twitterLoginWindow: function (page, forceLogin) {
             var package_path, redirect_uri, w, h, left, top;
-            package_path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
-            redirect_uri = encodeURIComponent(location.protocol + '//' + location.host + package_path + this._config.twitterCallbackUrl);
+            package_path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/"));
+            redirect_uri = encodeURIComponent(location.protocol + "//" + location.host + package_path + this._config.twitterCallbackUrl);
             w = screen.width / 2;
             h = screen.height / 1.5;
             left = (screen.width / 2) - (w / 2);
             top = (screen.height / 2) - (h / 2);
             // if url is exist
             if (page) {
-                page += '?';
+                page += "?";
                 if (forceLogin) {
-                    page += 'force_login=true';
+                    page += "force_login=true";
                 }
                 if (forceLogin && redirect_uri) {
-                    page += '&';
+                    page += "&";
                 }
                 if (redirect_uri) {
-                    page += 'redirect_uri=' + redirect_uri;
+                    page += "redirect_uri=" + redirect_uri;
                 }
-                window.open(page, "twoAuth", 'scrollbars=yes, resizable=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left, true);
+                window.open(page, "twoAuth", "scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left, true);
                 window.twitterCallback = lang.hitch(this, function (query) {
                     var access_token = query.access_token || "";
                     if (this.lsTest()) {
@@ -92,9 +93,9 @@ define([
         },
 
         /**
-        * Gets user information's as soon as user is logged In
-        * @memberOf widgets/sign-in/twitter-helper
-        */
+         * Gets user information's as soon as user is logged In
+         * @memberOf widgets/sign-in/twitter-helper
+         */
         getTwitterLoginResponse: function (url, access_token) {
             var Query;
             Query = {
@@ -141,9 +142,9 @@ define([
         },
 
         /**
-        * Returns users information to sign-in widget
-        * @memberOf widgets/sign-in/twitter-helper
-        */
+         * Returns users information to sign-in widget
+         * @memberOf widgets/sign-in/twitter-helper
+         */
         onTwitterLogIn: function (userDetails) {
             return userDetails;
         },
