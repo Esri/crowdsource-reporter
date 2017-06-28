@@ -61,6 +61,7 @@ define([
     "widgets/sidebar-content-controller/sidebar-content-controller",
     "widgets/item-details/item-details-controller",
     "widgets/map-search/map-search",
+    'dijit/layout/ContentPane',
     "dojo/domReady!"
 ], function (
     declare,
@@ -107,7 +108,8 @@ define([
     query,
     SidebarContentController,
     ItemDetails,
-    MapSearch
+    MapSearch,
+    ContentPane
 ) {
     return declare(null, {
         config: {},
@@ -146,6 +148,7 @@ define([
         _existingLayerIndex: null,
         clonedGeolocation: null,
         drawToolBarHandler: null,
+        hasSortingField: false,
         _featuresAddedFromMyIssues: [],
         startup: function (boilerPlateTemplateObject, loggedInUser) {
             // config will contain application and user defined info for the template such as i18n strings, the web map id
@@ -250,6 +253,98 @@ define([
             }
             //Create esri geocoder instance, this will be needed in the process of reverse geocoding
             this.appUtils.createGeocoderInstance();
+            //create details panel for showing popup of non-editable features
+            if (this.config.showPopupForNonEditableLayers) {
+                this._createDetailsPanelForNonEditableLayer();
+            }
+        },
+
+        /**
+        * create details panel for non-editable layers feature
+        * @memberOf main
+        */
+        _createDetailsPanelForNonEditableLayer: function () {
+            var detailsPanelWrapper, listHeader, closeButton, listTitle, detailsPanelContent;
+            //create wrapper
+            detailsPanelWrapper = domConstruct.create("div", {
+                "class": "esriCTGeoFormContainer esriCTBodyBackgroundColor"
+            }, dom.byId("detailsPanelContainer"));
+            //create panel header
+            listHeader = domConstruct.create("div", {
+                "class": "esriCTListHeader esriCTBGColor esriCTHeaderTextColorAsBackground esriCTHeaderBackgroundColorAsTextColor"
+            }, detailsPanelWrapper);
+            //create back/close button
+            closeButton = domConstruct.create("div", {
+                "class": "esriCTBackButton esriCTInvertFontIcons esriCTPointerCursor icon icon-left-arrow"
+            }, listHeader);
+            //create dom for showing list title
+            listTitle = domConstruct.create("div", {
+                "class": "esriCTHeaderText esriCTGeoFormHeaderText esriCTEllipsis esriCTTitle"
+            }, listHeader);
+            //create dom for showing popup information
+            detailsPanelContent = domConstruct.create("div", {
+                "class": "esriCTGeoFormBody esriCTBodyTextColor"
+            }, detailsPanelWrapper);
+
+            //Create content pane
+            this.itemCP = new ContentPane({ id: 'popupInfo' }, domConstruct.create('div', {}, detailsPanelContent));
+            this.itemCP.startup();
+
+            on(closeButton, "click", lang.hitch(this, function () {
+                //hide details panel on click of close/back button
+                domClass.add(dom.byId("detailsPanelContainer"), "esriCTHidden");
+                //Clear map selection
+                if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
+                    this._selectedMapDetails.map.getLayer("selectionGraphicsLayer").clear();
+                }
+                //if feature is selected in issue wall highlight it
+                if (this._itemDetails.item) {
+                    //highlight selected feature on map
+                    this.highLightFeatureOnClick(this.selectedLayer, this._itemDetails.item.attributes[this.selectedLayer.objectIdField], this._selectedMapDetails.map, true);
+                    this._gotoSelectedFeature(this._itemDetails.item);
+                }
+            }));
+        },
+
+        /**
+        * Show details panel for non-editable layer
+        * @memberOf main
+        */
+        _showPopupForNonEditableLayer: function (evt) {
+            //If no graphics found then skip function
+            if (!evt.graphic) {
+                return;
+            }
+            var isGeoformClose, isNonEditableLayer = false, selectedGraphicsLayer, highlightSymbol;
+            isGeoformClose = domClass.contains(dom.byId('geoformContainer'), "esriCTHidden");
+            if (evt.graphic && evt.graphic._layer && evt.graphic._layer.id !== this.displaygraphicsLayer.id) {
+                isNonEditableLayer = evt.graphic._layer.capabilities.indexOf("Create") === -1 && (evt.graphic._layer.capabilities.indexOf("Editing") === -1 ||
+                    evt.graphic._layer.capabilities.indexOf("Update") === -1);
+            }
+            selectedGraphicsLayer = this._selectedMapDetails.map.getLayer("selectionGraphicsLayer");
+            //Check if selected feature belongs to editable layer
+            //Geoform is closed
+            if (evt.graphic && isGeoformClose && isNonEditableLayer && evt.graphic._layer.url
+                    !== this.selectedLayer.url) {
+                this.itemCP.set('content', evt.graphic.getContent());
+                if (evt.graphic._layer.url) {
+                    //highlight selected feature on map
+                    this.highLightFeatureOnClick(evt.graphic._layer, evt.graphic.attributes[evt.graphic._layer.objectIdField], this._selectedMapDetails.map, true);
+                } else {
+                    //clear previous selection graphics
+                    selectedGraphicsLayer.clear();
+                    //Highlight feature of feature collection layer
+                    highlightSymbol = this.getHighLightSymbol(evt.graphic, evt.graphic._layer);
+                    //add symbol to graphics layer if highlight symbol is created
+                    if (highlightSymbol) {
+                        selectedGraphicsLayer.add(highlightSymbol);
+                    }
+                }
+                //zoom to selected feature
+                this._gotoSelectedFeature(evt.graphic);
+                domAttr.set(query(".esriCTTitle", this.domNode)[0], "innerHTML", evt.graphic._layer.name);
+                domClass.remove(dom.byId("detailsPanelContainer"), "esriCTHidden");
+            }
         },
 
         /**
@@ -346,6 +441,10 @@ define([
                         }
                         this._clearMyIssuesFromMap();
                     }
+                });
+
+                this._itemDetails.onMapItButtonClicked = lang.hitch(this, function (item) {
+                    this._gotoSelectedFeature(item);
                 });
 
                 this._itemDetails._createGeoformForEdits = lang.hitch(this, function (parentDiv) {
@@ -851,7 +950,7 @@ define([
                             this.config.geolocation.coords.latitude);
                         var evt = {};
                         evt.geometry = geolocationPoint;
-                        this._canDrawFeature(evt).then(lang.hitch(this, function (canDraw) {
+                        this._canDrawFeature(evt, details).then(lang.hitch(this, function (canDraw) {
                             if (!canDraw) {
                                 this.config.geolocation = false;
                             }
@@ -881,7 +980,7 @@ define([
                         if (addGraphic) {
                             selectedGeometry.geometry = evt.graphic.geometry;
                             if (this.selectedLayer.geometryType === "esriGeometryPoint") {
-                                this._canDrawFeature(evt.graphic).then(lang.hitch(this, function (canDraw) {
+                                this._canDrawFeature(evt.graphic, this._selectedMapDetails).then(lang.hitch(this, function (canDraw) {
                                     this._addToGraphicsLayer(selectedGeometry);
                                     this.geoformInstance._addToGraphicsLayer(selectedGeometry, true);
                                     this.geoformInstance._zoomToSelectedFeature(selectedGeometry.geometry);
@@ -942,6 +1041,7 @@ define([
             this.sortedFeaturesArray = [];
             this.filteredBufferIds = [];
             this._featuresAddedFromMyIssues = [];
+            this.hasSortingField = false;
             this.maxBufferLimit = 0;
             this.map = details.map;
             // Create instance of Draw tool to draw the graphics on graphics layer
@@ -969,6 +1069,10 @@ define([
                     this.firstMapClickPoint = evt.mapPoint;
                 }
                 this._clearSubmissionGraphic();
+                if (this.config.showPopupForNonEditableLayers) {
+                    //If selected feature belongs to non editable layer, show feature details
+                    this._showPopupForNonEditableLayer(evt);
+                }
             }));
             //Set the selects features id value to null
             if (this._issueWallWidget) {
@@ -1019,7 +1123,7 @@ define([
                     // Handle draw_activateDrawTool-end event which will be fired on selecting location
                     this.drawToolBarHandler = on(this.toolbar, "draw-complete", lang.hitch(this, function (evt) {
                         this._addToGraphicsLayer(evt);
-                        this._canDrawFeature(evt).then(lang.hitch(this, function (canDraw) {
+                        this._canDrawFeature(evt, this._selectedMapDetails).then(lang.hitch(this, function (canDraw) {
                             if (!canDraw) {
                                 alert(this.config.i18n.main.featureOutsideAOIMessage);
                                 if (this.geoformInstance) {
@@ -1088,6 +1192,8 @@ define([
                     //user can select feature from map once he enters to map from issueDetails of my-issue
                     //so set the myissue flag to false it indicates that user is going to start new workflow
                     this._isMyIssues = false;
+                    //hide non-editable layers feature details panel
+                    domClass.add(dom.byId("detailsPanelContainer"), "esriCTHidden");
                     if (!selectedFeature.webMapId) {
                         selectedFeature.webMapId = this._selectedMapDetails.webMapId;
                     }
@@ -1135,8 +1241,8 @@ define([
         * @param{string} evt : graphics object from draw toolbar
         * @memberOf main
         */
-        _canDrawFeature: function (evt) {
-            var def = new Deferred(), query, queryTask;
+        _canDrawFeature: function (evt, selectedMapDetails) {
+            var def = new Deferred(), query, queryTask, layerDefinitionExpression;
             if (!evt || !evt.geometry || !this._webMapListWidget ||
                     !this._webMapListWidget.geographicalExtentLayer) {
                 //If valid extent layer is not configured allow user to add feature without any restrictions
@@ -1146,6 +1252,8 @@ define([
                 query = new Query();
                 queryTask = new QueryTask(this._webMapListWidget.geographicalExtentLayer);
                 query.geometry = evt.geometry;
+                layerDefinitionExpression = this._fetchExtentLayerDetails(selectedMapDetails);
+                query.where = layerDefinitionExpression || "";
                 queryTask.executeForCount(query, lang.hitch(this, function (count) {
                     //If count is less than or equals to 0. it means drawn feature is not overlapping the extent layer and hence show the error message
                     if (!count || count <= 0) {
@@ -1160,6 +1268,24 @@ define([
                 }));
             }
             return def.promise;
+        },
+
+        /**
+        * Fetch extent layer details
+        * @param{object} selectedMapDetails : selected map
+        * @memberOf main
+        */
+        _fetchExtentLayerDetails: function (selectedMapDetails) {
+            var layerDefinitionExpr;
+            array.some(selectedMapDetails.itemInfo.itemData.operationalLayers, lang.hitch(this, function (currentLayer) {
+                if (currentLayer.url === this._webMapListWidget.geographicalExtentLayer) {
+                    if (currentLayer.layerDefinition && currentLayer.layerDefinition.definitionExpression) {
+                        layerDefinitionExpr = currentLayer.layerDefinition.definitionExpression;
+                        return true;
+                    }
+                }
+            }));
+            return layerDefinitionExpr;
         },
 
         /**
@@ -1219,6 +1345,16 @@ define([
                             this.appUtils.showError(ex.message);
                         }
                     });
+                    //Pan/Zoom to location on main map after selecting a location in geoform map
+                    this.geoformInstance.onLocationSelected = lang.hitch(this, function (geometry) {
+                        if (geometry.type === "point") {
+                            this.map.setLevel(this.config.zoomLevel);
+                            this.map.centerAt(geometry);
+                        } else {
+                            this.map.setLevel(this.config.zoomLevel);
+                            this.map.setExtent(geometry.getExtent());
+                        }
+                    });
                     //deactivate the draw tool on main map after closing geoform
                     this.geoformInstance.onFormClose = lang.hitch(this, function () {
                         this.toolbar.deactivate();
@@ -1229,7 +1365,7 @@ define([
 
                     //clear any graphics present on main map after graphic has been drawn on geoform map
                     this.geoformInstance.onDrawComplete = lang.hitch(this, function (evt) {
-                        this._canDrawFeature(evt).then(lang.hitch(this, function (canDraw) {
+                        this._canDrawFeature(evt, this._selectedMapDetails).then(lang.hitch(this, function (canDraw) {
                             if (!canDraw) {
                                 alert(this.config.i18n.main.featureOutsideAOIMessage);
                                 this.geoformInstance._clearSubmissionGraphic();
@@ -1311,7 +1447,10 @@ define([
                 this.newlyAddedFeatures.push(newFeature.attributes[layer.objectIdField]);
                 this.layerGraphicsArray.push(this._createFeatureAttributes(newFeature, layer));
                 this.layerGraphicsArray.sort(this._sortFeatureArray);
-                if (this.config.geolocation) {
+                // If geolocation is turned ON or sorting field is configured with "Ascending" order
+                // then reverse features array
+                if (this.config.geolocation ||
+                        (this.hasSortingField && this.config.sortingOrder === "ASC")) {
                     this.layerGraphicsArray.reverse();
                 }
                 this.displaygraphicsLayer.add(newGraphic.graphic);
@@ -1346,7 +1485,7 @@ define([
         _createFeatureAttributes: function (newFeature, layer) {
             var newGraphic1, fieldValue;
             newGraphic1 = new Graphic();
-            //Kepping instance of original feature for further use
+            //Keeping instance of original feature for further use
             newGraphic1.originalFeature = newFeature;
             newGraphic1.attributes = newFeature.attributes;
             newGraphic1.geometry = newFeature.geometry;
@@ -1355,7 +1494,13 @@ define([
             if (this.config.geolocation) {
                 fieldValue = this._getDistanceFromCurrentLocation(newGraphic1);
             } else {
-                fieldValue = newGraphic1.attributes[layer.objectIdField];
+                //Check if valid sorting field is configured
+                if (this.hasSortingField) {
+                    fieldValue = newGraphic1.attributes[this.config.sortingField];
+                } else {
+                    //If no field is configured, fall back to sorting by object id
+                    fieldValue = newGraphic1.attributes[layer.objectIdField];
+                }
             }
             return {
                 "graphic": newGraphic1,
@@ -1878,6 +2023,10 @@ define([
             if (this._myIssuesWidget) {
                 this._myIssuesWidget.updateLayer(this.selectedLayer);
             }
+            //Check for valid sorting field if geolocation is turned off
+            if (!this.config.geolocation) {
+                this._checkSortingField();
+            }
             this.changedExtent = details.map.extent;
             layerOpacity = selectedOperationalLayer.opacity;
             layerUrl = selectedOperationalLayer.url;
@@ -1905,6 +2054,24 @@ define([
             this.map.addLayer(this.displaygraphicsLayer, this._existingLayerIndex);
             this._getFeatureLayerCount(details, selectedOperationalLayer);
             this._reorderAllLayers();
+        },
+        /**
+        * This function is used to check if valid sorting field is configured
+        * @memberOf @memberOf main
+        */
+        _checkSortingField: function () {
+            var validSortingFields = ["esriFieldTypeSmallInteger", "esriFieldTypeInteger",
+                    "esriFieldTypeSingle", "esriFieldTypeDouble", "esriFieldTypeString",
+                    "esriFieldTypeDate"];
+            if (this.config.sortingField !== "") {
+                array.some(this.selectedLayer.fields, lang.hitch(this, function (currentField) {
+                    if (validSortingFields.indexOf(currentField.type) !== -1 &&
+                            currentField.name === this.config.sortingField) {
+                        this.hasSortingField = true;
+                        return true;
+                    }
+                }));
+            }
         },
 
         /**
@@ -2218,7 +2385,10 @@ define([
                         this.layerGraphicsArray.push(this._createFeatureAttributes(result.features[i], featureLayer));
                     }
                     this.layerGraphicsArray.sort(this._sortFeatureArray);
-                    if (this.config.geolocation) {
+                    // If geolocation is turned ON or sorting field is configured with "Ascending" order
+                    // then reverse features array
+                    if (this.config.geolocation ||
+                            (this.hasSortingField && this.config.sortingOrder === "ASC")) {
                         this.layerGraphicsArray.reverse();
                     }
 

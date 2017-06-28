@@ -199,11 +199,6 @@
     }
 }
 
-/* CSS for Tablet and iPad */
-@media only screen and (min-width: 767px) and (max-width:1024px)
-{
-
-}
 
 /* CSS for Devices other than desktop browser */
 @media screen and (max-width:1024px)
@@ -320,4 +315,25 @@
         background-image: url('../images/seperator-2x.png') !important;
     }
 
+}
+
+/* CSS for Tablet and iPad */
+@media only screen and (min-width: 767px) and (max-width:1024px)
+{
+    #mapParentContainer
+    {
+        width: 50% !important;
+        display: block !important;
+    }
+
+    #sideContainer
+    {
+        width: 50% !important;
+        display: block !important;
+    }
+
+    .esriCTGeoFormParentContainer {
+        width: 50% !important;
+        left: 50% !important;
+    }
 }

@@ -409,9 +409,11 @@ define([
         _validateAddress: function (geometry) {
             if (this.basemapExtent.contains(geometry)) {
                 this._locateSelectedAddress(geometry);
-                if (this.layer.geometryType === "esriGeometryPoint") {
+                if (this.layer.geometryType === "esriGeometryPoint" &&
+                        this.config.locationField !== "") {
                     this._populateLocationField(this.locator.txtSearch.value);
                 }
+                this.onLocationSelected(geometry);
             } else {
                 this.appUtils.showError(this.appConfig.i18n.locator.locationOutOfExtent);
             }
@@ -2620,6 +2622,10 @@ define([
             } else {
                 domAttr.set(this.locationHintTextNode, "innerHTML", polygonLayerHintText);
             }
+        },
+
+        onLocationSelected: function (geometry) {
+            return geometry;
         }
     });
 });

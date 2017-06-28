@@ -88,6 +88,7 @@ define({
     "webMapInfoNumViews": false,
     "webMapInfoAvgRating": false,
     "showNonEditableLayers": false,
+    "showPopupForNonEditableLayers" : false,
 
     "submitMessage": "Thank you! Your report has been submitted.",
     "likeField": "NUMVOTES",
@@ -100,6 +101,9 @@ define({
     "showMapFirst":"list",
     "showHelpOnLoad": false,
 
+    //Sort report configuration
+    "sortingField" : "", //Field can be of type integer, string or date
+    "sortingOrder" : "DESC", //ASC or DESC
     //Configure order of form components
     "details" : "Top",
     "attachments" : "Middle",

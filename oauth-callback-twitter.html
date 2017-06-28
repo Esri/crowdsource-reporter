@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML>
+<!DOCTYPE HTML>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -10,30 +10,25 @@
             width: 100%;
             margin: 0px;
             padding: 0px;
-            font-family: Verdana;
+            font-family: Lucida Sans, Lucida Grande, Arial !important;
             font-size: 14px;
         }
-        .esriCTCallBackMessage
-        {
-            float:left;
-            width:98%;
-            margin-left:5px;
-        }
     </style>
-    <script type="text/javascript" src="//js.arcgis.com/3.20"></script>
+    <script type="text/javascript" src="https://js.arcgis.com/3.21"></script>
     <script type="text/javascript">
         require([
+            "esri/urlUtils",
             "dojo/domReady!"
-        ], function () {
-            window.opener.oAuthCallback();
+        ], function (urlUtils) {
+            var url = document.location.href;
+            var urlObject = urlUtils.urlToObject(url);
+            urlObject.query = urlObject.query || {};
+            window.opener.twitterCallback(urlObject.query);
             window.close();
-            self.close();
         });
     </script>
 </head>
 <body>
-    <div class="esriCTCallBackMessage">
-    Please close this window if it does not close automatically.
-    </div>
+    <!--OAuth Popup Callback-->
 </body>
 </html>
