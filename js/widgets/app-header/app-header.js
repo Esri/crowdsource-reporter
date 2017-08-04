@@ -78,8 +78,13 @@ define([
                 this.helpScreen = new Help({
                     "config": this.appConfig,
                     "title": this.appConfig.helpDialogTitle,
-                    "content": this.appConfig.helpDialogContent
+                    "content": this.appConfig.helpDialogContent,
+                    "dialog": "help"
                 });
+            }
+            //Create modal dialog
+            if (this.appConfig.reportingPeriod === "Closed") {
+                this.appUtils.createReportingPeriodDialog();
             }
             //set application title
             this._setApplicationTitle();
@@ -283,7 +288,7 @@ define([
         */
         _helpClicked: function (evt) {
             //show splash screen dialog
-            this.helpScreen.showDialog();
+            this.helpScreen.showDialog("help");
             return evt;
         },
 

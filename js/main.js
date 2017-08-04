@@ -315,17 +315,28 @@ define([
             if (!evt.graphic) {
                 return;
             }
-            var isGeoformClose, isNonEditableLayer = false, selectedGraphicsLayer, highlightSymbol;
+            var isGeoformClose, isNonEditableLayer = false, selectedGraphicsLayer, highlightSymbol,
+                isPopupConfigured = true;
             isGeoformClose = domClass.contains(dom.byId('geoformContainer'), "esriCTHidden");
             if (evt.graphic && evt.graphic._layer && evt.graphic._layer.id !== this.displaygraphicsLayer.id) {
                 isNonEditableLayer = evt.graphic._layer.capabilities.indexOf("Create") === -1 && (evt.graphic._layer.capabilities.indexOf("Editing") === -1 ||
                     evt.graphic._layer.capabilities.indexOf("Update") === -1);
             }
+            //Check if non-editable layers popup is turned on through webmap
+            if (isNonEditableLayer) {
+                array.some(this._selectedMapDetails.itemInfo.itemData.operationalLayers,
+                    lang.hitch(this, function (layer) {
+                        if (layer.id === evt.graphic._layer.id && layer.disablePopup) {
+                            isPopupConfigured = false;
+                            return;
+                        }
+                    }));
+            }
             selectedGraphicsLayer = this._selectedMapDetails.map.getLayer("selectionGraphicsLayer");
             //Check if selected feature belongs to editable layer
             //Geoform is closed
             if (evt.graphic && isGeoformClose && isNonEditableLayer && evt.graphic._layer.url
-                    !== this.selectedLayer.url) {
+                    !== this.selectedLayer.url && isPopupConfigured) {
                 this.itemCP.set('content', evt.graphic.getContent());
                 if (evt.graphic._layer.url) {
                     //highlight selected feature on map
@@ -734,7 +745,8 @@ define([
             this._menusList.portalObject = this.config.portalObject;
             this.appHeader = new ApplicationHeader({
                 "config": this._menusList,
-                "appConfig": this.config
+                "appConfig": this.config,
+                "appUtils": this.appUtils
             }, domConstruct.create("div", {}, dom.byId('headerContainer')));
 
             //on my issue button clicked display my issues list
@@ -1242,8 +1254,9 @@ define([
         * @memberOf main
         */
         _canDrawFeature: function (evt, selectedMapDetails) {
-            var def = new Deferred(), query, queryTask, layerDefinitionExpression;
-            if (!evt || !evt.geometry || !this._webMapListWidget ||
+            var def = new Deferred(), query, queryTask, layerDefinitionExpression, featureGeometry;
+            featureGeometry = evt.geometry || evt;
+            if (!featureGeometry || !this._webMapListWidget ||
                     !this._webMapListWidget.geographicalExtentLayer) {
                 //If valid extent layer is not configured allow user to add feature without any restrictions
                 def.resolve(true);
@@ -1251,7 +1264,7 @@ define([
                 this.appUtils.showLoadingIndicator();
                 query = new Query();
                 queryTask = new QueryTask(this._webMapListWidget.geographicalExtentLayer);
-                query.geometry = evt.geometry;
+                query.geometry = featureGeometry;
                 layerDefinitionExpression = this._fetchExtentLayerDetails(selectedMapDetails);
                 query.where = layerDefinitionExpression || "";
                 queryTask.executeForCount(query, lang.hitch(this, function (count) {

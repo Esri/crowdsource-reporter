@@ -76,7 +76,8 @@ define([
                 this._helpScreen = new Help({
                     "config": this._config,
                     "title": dialogTitle,
-                    "content": dialogContent
+                    "content": dialogContent,
+                    "dialog": "signin"
                 });
             } else {
                 //If help is turned off, then hide the help link
@@ -239,7 +240,7 @@ define([
             this.own(on(this.signinTwitterButton, "click", lang.hitch(this, this._twitterButtonClicked)));
             this.own(on(this.signinGPlusButton, "click", lang.hitch(this, this._gpButtonClicked)));
             this.own(on(this.signinHelpLink, "click", lang.hitch(this, function () {
-                this._helpScreen.showDialog();
+                this._helpScreen.showDialog("signin");
             })));
             //handle identity manager cancel clicked event
             on(IdentityManager, "dialog-cancel", lang.hitch(this, function () {

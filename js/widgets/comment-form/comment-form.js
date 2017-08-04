@@ -415,7 +415,8 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _submitCommentForm: function () {
-            var featureData, editedFields = [], key, picker, datePicker, value, erroneousFields = [], commentFormDiv;
+            var featureData, editedFields = [], key, picker, datePicker, value, erroneousFields = [], commentFormDiv,
+                typeField;
             erroneousFields = this._checkForFields();
             commentFormDiv = query(".esriCTItemDetailsContainer")[0];
             if (erroneousFields.length !== 0) {
@@ -461,6 +462,21 @@ define([
                     editedFields.push(key);
                 }
 
+                //Check if layer has typeID field, then add the default values for the field from selected typeID field template
+                if (this.commentTable.typeIdField && this.commentTable.typeIdField !== "") {
+                    for (typeField in this.commentTable.types) {
+                        if (this.commentTable.types.hasOwnProperty(typeField)) {
+                            if (this.commentTable.types[typeField].id === featureData.attributes[this.commentTable.typeIdField]) {
+                                this._addValuesFromTemplate(this.commentTable.types[typeField].templates[0], editedFields, featureData);
+                            }
+                        }
+                    }
+                }
+                //Check if layer has template, then add the Default values from template of the layer, for the fields which are not editable(not available in commentform to edit)
+                if (this.commentTable.templates && this.commentTable.templates.length > 0) {
+                    this._addValuesFromTemplate(this.commentTable.templates[0], editedFields, featureData);
+                }
+
                 if (this.addComments) {
                     this._primaryKeyField = this.selectedLayer.relationships[0].keyField;
                     this._foreignKeyField = this.commentTable.relationships[0].keyField;
@@ -470,6 +486,31 @@ define([
                     this._addNewComments(featureData);
                 } else {
                     this._updateComments(featureData);
+                }
+            }
+        },
+
+        /**
+        * Add fields and values to feature data to be submitted, from template
+        * @param{object} template object returned from layer info
+        * @param{array} editedFields, fields which are edited and needs to be skipped for considering their default values
+        * @param{object} featureData,Feature object to be submitted
+        * @memberOf widgets/comment-form/comment-form
+        */
+        _addValuesFromTemplate: function (template, editedFields, featureData) {
+            var fieldAttribute;
+            //loop through all the fields in Templates and if the field has some value add that field to feature
+            for (fieldAttribute in template.prototype.attributes) {
+                if (template.prototype.attributes.hasOwnProperty(fieldAttribute)) {
+                    //skip the fields which are edited using commentform
+                    if ($.inArray(fieldAttribute, editedFields) === -1) {
+                        //check if their is valid value for the field in template and add that value in feature-data to be submitted
+                        //also add that field in edited array since same field can have default values in template for layer and template for typeIdField
+                        if (template.prototype.attributes[fieldAttribute]) {
+                            featureData.attributes[fieldAttribute] = template.prototype.attributes[fieldAttribute];
+                            editedFields.push(fieldAttribute);
+                        }
+                    }
                 }
             }
         },
@@ -701,7 +742,7 @@ define([
                 var commentDiv = query(".esriCTItemDetailsContainer")[0];
                 domClass.replace(this.headerMessageType, "alert-warning", "alert-danger");
                 domAttr.set(this.headerMessageContent, "innerHTML", isAttachmentFailed);
-                // Scroll geoform to top
+                // Scroll commentform to top
                 $(commentDiv).animate({
                     scrollTop: this.headerMessageType.offsetTop - 80
                 }, 1000);
@@ -1270,7 +1311,7 @@ define([
             array.forEach(query(".form-control", this.domNode), lang.hitch(this, function (currentInput) {
                 node = currentInput.parentElement;
                 //Remove error message div
-                //This logic is required for resetting geoform when user enters something wrong and clicks on Cancel button
+                //This logic is required for resetting commentform when user enters something wrong and clicks on Cancel button
                 array.some(node.children, lang.hitch(this, function (currentNode) {
                     if (domClass.contains(currentNode, "errorMessage")) {
                         this._removeErrorNode(currentNode);

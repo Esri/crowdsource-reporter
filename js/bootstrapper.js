@@ -206,7 +206,7 @@ define([
             this.config.appTheme = {
                 "header": {
                     "background": this.config.headerBackgroundColor,
-                    "text": this.config.theme,
+                    "text": this.config.theme
                 },
                 "body": {
                     "background": this.config.bodyBackgroundColor,
