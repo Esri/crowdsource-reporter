@@ -68,7 +68,10 @@
         "attachments": "Middle",
         "location": "Bottom",
         "sortingField" : "",
-        "sortingOrder": "DESC"
+        "sortingOrder": "DESC",
+        "reportingPeriod": "Open",
+        "reportingPeriodDialogTitle": "Information",
+        "reportingPeriodDialogContent": "Reporting Period is closed."
     },
   "configurationSettings": [{
       "category": "<b>General</b>",
@@ -146,7 +149,30 @@
                   "fieldName": "loginHelpDialogContent",
                   "stringFieldOption": "richtext"
               }]
+          }, {
+              "label": "Reporting Period window title",
+              "tooltip": "Text displayed at the top of the reporting period window.",
+              "type": "string",
+              "fieldName": "reportingPeriodDialogTitle"
+          }, {
+              "label": "Reporting period dialog content",
+              "tooltip": "Text and graphics that will display in the reporting period window.",
+              "type": "string",
+              "fieldName": "reportingPeriodDialogContent",
+              "stringFieldOption": "richtext"
+          }, {
+          "type": "radio",
+          "fieldName": "reportingPeriod",
+          "tooltip": "Reporting period status.",
+          "items": [{
+              "label": "Open",
+              "value": "Open",
+              "checked": true
+          }, {
+              "label": "Close",
+              "value": "Closed"
           }]
+      }]
       }]
   }, {
       "category": "<b>Theme</b>",

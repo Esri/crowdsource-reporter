@@ -104,6 +104,10 @@ define([
                 event.stop(evt);
             })));
             this.own(on(this.submitReport, "click", lang.hitch(this, function (evt) {
+                if (this.appConfig.reportingPeriod === "Closed") {
+                    this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                    return;
+                }
                 if (this.appConfig.logInDetails.canEditFeatures) {
                     this.onSubmit(evt);
                 } else {

@@ -26,6 +26,7 @@ define([
     "dojo/dom-class",
     "dojo/dom-attr",
     "dojo/dom-style",
+    "widgets/help/help",
     "dojo/on",
     "dojo/has",
     "dojo/query",
@@ -50,6 +51,7 @@ define([
     domClass,
     domAttr,
     domStyle,
+    Help,
     on,
     has,
     query,
@@ -65,6 +67,7 @@ define([
 
 ) {
     return declare([_WidgetBase], {
+        reportingPeriodDialog : null,
         showLoadingIndicator: function () {
             domClass.add(document.body, "app-loading");
         },
@@ -332,6 +335,19 @@ define([
                 overlayBackground = "rgba(255, 255, 255, 0.30)";
             }
             return overlayBackground;
+        },
+
+        /**
+        * create the configured reporting period closed message.
+        */
+        createReportingPeriodDialog: function () {
+            //Initialize splash screen
+            this.reportingPeriodDialog = new Help({
+                "config": this.config,
+                "title": this.config.reportingPeriodDialogTitle,
+                "dialog":"reporting",
+                "content": this.config.reportingPeriodDialogContent
+            });
         }
     });
 });
