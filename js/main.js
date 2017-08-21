@@ -311,14 +311,15 @@ define([
         * @memberOf main
         */
         _showPopupForNonEditableLayer: function (evt) {
-            //If no graphics found then skip function
-            if (!evt.graphic) {
-                return;
-            }
             var isGeoformClose, isNonEditableLayer = false, selectedGraphicsLayer, highlightSymbol,
                 isPopupConfigured = true;
             isGeoformClose = domClass.contains(dom.byId('geoformContainer'), "esriCTHidden");
-            if (evt.graphic && evt.graphic._layer && evt.graphic._layer.id !== this.displaygraphicsLayer.id) {
+            //If no graphics found or geoform is open then skip the function
+            if (!evt.graphic || !isGeoformClose) {
+                return;
+            }
+            if (evt.graphic && evt.graphic._layer && evt.graphic._layer.capabilities &&
+                evt.graphic._layer.id !== this.displaygraphicsLayer.id) {
                 isNonEditableLayer = evt.graphic._layer.capabilities.indexOf("Create") === -1 && (evt.graphic._layer.capabilities.indexOf("Editing") === -1 ||
                     evt.graphic._layer.capabilities.indexOf("Update") === -1);
             }
@@ -539,6 +540,11 @@ define([
                 domStyle.set(dom.byId("submitFromMap"), "background-color", submitButtonColor);
 
                 on(dom.byId("submitFromMap"), "click", lang.hitch(this, function (evt) {
+                    //If reporting period is closed, show configured message
+                    if (this.config.reportingPeriod === "Closed") {
+                        this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                        return;
+                    }
                     if (this.config.logInDetails.canEditFeatures) {
                         this._createGeoForm();
                     } else {
@@ -1201,6 +1207,11 @@ define([
                 });
 
                 this._issueWallWidget.featureSelectedOnMapClick = lang.hitch(this, function (selectedFeature) {
+                    //If geoform is open and existing feature is clicked while drawing new feature,
+                    //stop the selection functionality and continue drawing
+                    if(!domClass.contains(dom.byId('geoformContainer'), "esriCTHidden")){
+                        return;
+                    }
                     //user can select feature from map once he enters to map from issueDetails of my-issue
                     //so set the myissue flag to false it indicates that user is going to start new workflow
                     this._isMyIssues = false;
