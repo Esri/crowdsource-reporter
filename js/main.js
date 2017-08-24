@@ -553,6 +553,10 @@ define([
                 }));
                 on(dom.byId("mapBackButton"), "click", lang.hitch(this, function (evt) {
                     this._toggleListView();
+                    //If webmap list is not required, skip the further processing of function
+                    if(!this._isWebmapListRequired){
+                        return;
+                    }
                     //If showMapFirst flag is turned on and app is running in mobile mode, show web list on click of back button
                     if (this.config.showMapFirst === "map" && dojowindow.getBox().w < 768) {
                         //If current panel is "issueDetails" then show the same panel instead of web map list
@@ -925,10 +929,15 @@ define([
 
                 //Hide webmap list if single webmap with single layer is obtained through query
                 this._webMapListWidget.singleWebmapFound = lang.hitch(this, function () {
+                    //If single webmap and single layer is found, hide toggle button
                     domStyle.set(dom.byId("toggleListViewButton"), "display", "none");
-                    //keep flag to indentify the status of webmap list
+                    //keep flag to identify the status of webmap list
                     this._isWebmapListRequired = false;
                     this._sidebarCnt.hidePanel("webMapList");
+                    //Check for the configurable parameter and accordingly show map first in mobile devices
+                    if (this.config.showMapFirst === "map" && dojowindow.getBox().w < 768) {
+                        this._toggleMapView();
+                    }
                 });
 
                 //handel on map updated event
