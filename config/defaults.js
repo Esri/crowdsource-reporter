@@ -142,7 +142,7 @@ define({
     "buttonBackgroundColor":"#fff",
     "buttonTextColor": "#137DB9",
     // reporting period value
-    "reportingPeriodDialogTitle": "Information",
-    "reportingPeriodDialogContent": "Reporting Period is closed.",
+    "reportingPeriodDialogTitle": "Reporting Period Closed",
+    "reportingPeriodDialogContent": "We are no longer accepting new reports for this project.",
     "reportingPeriod": "Open"
 });

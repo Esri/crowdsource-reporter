@@ -149,30 +149,7 @@
                   "fieldName": "loginHelpDialogContent",
                   "stringFieldOption": "richtext"
               }]
-          }, {
-              "label": "Reporting Period window title",
-              "tooltip": "Text displayed at the top of the reporting period window.",
-              "type": "string",
-              "fieldName": "reportingPeriodDialogTitle"
-          }, {
-              "label": "Reporting period dialog content",
-              "tooltip": "Text and graphics that will display in the reporting period window.",
-              "type": "string",
-              "fieldName": "reportingPeriodDialogContent",
-              "stringFieldOption": "richtext"
-          }, {
-          "type": "radio",
-          "fieldName": "reportingPeriod",
-          "tooltip": "Reporting period status.",
-          "items": [{
-              "label": "Open",
-              "value": "Open",
-              "checked": true
-          }, {
-              "label": "Close",
-              "value": "Closed"
           }]
-      }]
       }]
   }, {
       "category": "<b>Theme</b>",
@@ -653,6 +630,34 @@
               "label": "Descending",
               "value": "DESC"
           }]
+      }, {
+          "type": "subcategory",
+          "label": "Reporting Period"
+      }, {
+          "type": "radio",
+          "fieldName": "reportingPeriod",
+          "tooltip": "Reporting period status.",
+          "items": [{
+              "label": "Reporting Period Open",
+              "value": "Open",
+              "checked": true
+          }, {
+              "label": "Reporting Period Closed",
+              "value": "Closed"
+          }]
+      }, {
+          "label": "Reporting period closed window title",
+          "tooltip": "Title of window that displays when reporting period is closed.",
+          "type": "string",
+          "fieldName": "reportingPeriodDialogTitle",
+          "value": "Reporting Period Closed"
+      }, {
+          "label": "Reporting period closed window content",
+          "tooltip": "Content of window that displays when reporting period is closed.",
+          "type": "string",
+          "fieldName": "reportingPeriodDialogContent",
+          "stringFieldOption": "richtext",
+          "value": "We are no longer accepting new reports for this project."
       }]
   }]
 }
