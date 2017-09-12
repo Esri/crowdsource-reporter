@@ -331,7 +331,7 @@ define([
         _featureLayerLoaded: function (operationalLayer, extentChangeFlag) {
             //If the layer is not visible at map scale the features might be loaded at previous scale,
             //so check if layer is visible at map scale then only update issue wall or else show no issues found message.
-            if (operationalLayer.visibleAtMapScale) {
+            if (operationalLayer.visibleAtMapScale || this.layerGraphicsArray.length > 0) {
                 this._fetchIssueDetails(operationalLayer, extentChangeFlag);
             } else {
                 this.itemsList.setItems([]);
