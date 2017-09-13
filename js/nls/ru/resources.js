@@ -17,8 +17,8 @@
 define({
   "map": {
     "error": "Не удалось создать карту",
-    "zoomInTooltip": "Увеличить",
-    "zoomOutTooltip": "Уменьшить",
+    "zoomInTooltip": "Приблизить",
+    "zoomOutTooltip": "Отдалить",
     "geolocationTooltip": "Текущее местоположение"
   },
   "main": {
@@ -76,7 +76,7 @@ define({
     "enterLocation": "Расположение",
     "reportItButton": "Отчет",
     "editReportButton": "Обновить",
-    "cancelButton": "Отменить",
+    "cancelButton": "Отмена",
     "requiredField": "(необходимо)",
     "selectDefaultText": "Выбрать&hellip;",
     "invalidInputValue": "Введите корректное значение.",
@@ -95,7 +95,7 @@ define({
     "geoLocationError": "Текущее местоположение недоступно",
     "geoLocationOutOfExtent": "Текущее местоположение вне экстента базовой карты",
     "submitButtonTooltip": "Подтвердить",
-    "cancelButtonTooltip": "Отменить",
+    "cancelButtonTooltip": "Отмена",
     "geoformBackButtonTooltip": "Вернуться к списку",
     "locationSelectionHintForPointLayer": "Коснитесь карты, чтобы нарисовать местоположение.",
     "locationSelectionHintForPolygonLayer": "Коснитесь карты, чтобы нарисовать местоположение. Коснитесь дважды, чтобы завершить рисунок.",
@@ -140,7 +140,7 @@ define({
     "commentsFormHeading": "Комментарий",
     "commentsFormSubmitButton": "Отправить комментарий",
     "commentsFormEditButton": "Обновить комментарий",
-    "commentsFormCancelButton": "Отменить",
+    "commentsFormCancelButton": "Отмена",
     "errorInSubmittingComment": "Комментарий не может быть добавлен.",
     "emptyCommentMessage": "Введите комментарий.",
     "placeHolderText": "Введите комментарий",
