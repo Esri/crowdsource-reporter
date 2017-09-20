@@ -31,6 +31,8 @@ define([
             uniqueID: null,
             socialMediaType: null
         },
+        TWITTER_ACCESS_TOKEN: "twitter_access_token",
+
         /**
         * This function is called when widget is constructed.
         * @param{object} config to be used
@@ -82,6 +84,13 @@ define([
                 window.oAuthCallback = lang.hitch(this, function () {
                     this.getTwitterLoginResponse(this._config.twitterUserUrl);
                 });
+                window.twitterCallback = lang.hitch(this, function (query) {
+                    var access_token = query.access_token || "";
+                    if (this.lsTest()) {
+                        localStorage.setItem(this.TWITTER_ACCESS_TOKEN, access_token);
+                    }
+                    this.getTwitterLoginResponse(this._config.twitterUserUrl, access_token);
+                });
             }
         },
 
@@ -89,19 +98,23 @@ define([
         * Gets user information's as soon as user is logged In
         * @memberOf widgets/sign-in/twitter-helper
         */
-        getTwitterLoginResponse: function (url) {
+        getTwitterLoginResponse: function (url, access_token) {
             var Query;
             Query = {
                 include_entities: true,
                 skip_status: true
             };
-            esriRequest({
+            var requestParams = {
                 url: url,
                 handleAs: "json",
                 timeout: 10000,
                 content: Query,
                 callbackParamName: "callback"
-            }).then(lang.hitch(this, function (response) {
+            };
+            if (access_token) {
+                Query.access_token = access_token;
+            }
+            esriRequest(requestParams).then(lang.hitch(this, function (response) {
                 if (!response.hasOwnProperty("signedIn") && !response.signedIn) {
                     this.TWLoggedIn = true;
                 }
@@ -136,6 +149,22 @@ define([
         */
         onTwitterLogIn: function (userDetails) {
             return userDetails;
+        },
+
+        /**
+         * Tests availability of local storage
+         * @memberOf widgets/sign-in/twitter-helper
+         */
+        lsTest: function () {
+            var test = "test";
+            try {
+                localStorage.setItem(test, test);
+                localStorage.removeItem(test);
+                return true;
+            }
+            catch (e) {
+                return false;
+            }
         }
     });
 });
