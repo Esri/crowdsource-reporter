@@ -200,6 +200,10 @@ define([
             }));
 
             on(this.likeButton, "click", lang.hitch(this, function () {
+                if (this.appConfig.reportingPeriod === "Closed") {
+                    this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                    return;
+                }
                 if (!domClass.contains(this.likeButton, "esriCTDetailButtonSelected")) {
                     if (this.appConfig.logInDetails.canEditFeatures) {
                         self._fetchVotesCount(self.item).then(lang.hitch(this, function (item) {
@@ -212,6 +216,10 @@ define([
             }));
 
             on(this.commentButton, "click", lang.hitch(this, function () {
+                if (this.appConfig.reportingPeriod === "Closed") {
+                    this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                    return;
+                }
                 if (this.appConfig.logInDetails.canEditFeatures) {
                     this.appUtils.showLoadingIndicator();
                     this._showCommentHeaderAndListContainer();
@@ -243,7 +251,7 @@ define([
             return evt;
         },
 
-        onMapItButtonClicked : function (item) {
+        onMapItButtonClicked: function (item) {
             return item;
         },
 

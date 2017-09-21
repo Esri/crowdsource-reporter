@@ -68,7 +68,10 @@
         "attachments": "Middle",
         "location": "Bottom",
         "sortingField" : "",
-        "sortingOrder": "DESC"
+        "sortingOrder": "DESC",
+        "reportingPeriod": "Open",
+        "reportingPeriodDialogTitle": "Information",
+        "reportingPeriodDialogContent": "Reporting Period is closed."
     },
   "configurationSettings": [{
       "category": "<b>General</b>",
@@ -627,6 +630,34 @@
               "label": "Descending",
               "value": "DESC"
           }]
+      }, {
+          "type": "subcategory",
+          "label": "Reporting Period"
+      }, {
+          "type": "radio",
+          "fieldName": "reportingPeriod",
+          "tooltip": "Reporting period status.",
+          "items": [{
+              "label": "Reporting Period Open",
+              "value": "Open",
+              "checked": true
+          }, {
+              "label": "Reporting Period Closed",
+              "value": "Closed"
+          }]
+      }, {
+          "label": "Reporting period closed window title",
+          "tooltip": "Title of window that displays when reporting period is closed.",
+          "type": "string",
+          "fieldName": "reportingPeriodDialogTitle",
+          "value": "Reporting Period Closed"
+      }, {
+          "label": "Reporting period closed window content",
+          "tooltip": "Content of window that displays when reporting period is closed.",
+          "type": "string",
+          "fieldName": "reportingPeriodDialogContent",
+          "stringFieldOption": "richtext",
+          "value": "We are no longer accepting new reports for this project."
       }]
   }]
 }

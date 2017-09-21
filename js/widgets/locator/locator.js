@@ -59,7 +59,7 @@ define([
         postCreate: function () {
             var graphicsLayer, placeHolderText;
             domConstruct.place(this.divLocateContainer, this.locatorContainer);
-            if (this.itemInfo.applicationProperties.viewing.search && this.itemInfo.applicationProperties.viewing.search.hintText) {
+            if (this.itemInfo.applicationProperties && this.itemInfo.applicationProperties.viewing.search && this.itemInfo.applicationProperties.viewing.search.hintText) {
                 placeHolderText = this.itemInfo.applicationProperties.viewing.search.hintText;
             }
             placeHolderText = placeHolderText || this.config.i18n.locator.locatorPlaceholder;
@@ -234,7 +234,7 @@ define([
                 }
             }
             // check if layer search is enabled in the webmap and layer is configured for search
-            if (this.itemInfo.applicationProperties.viewing.search && this.itemInfo.applicationProperties.viewing.search.enabled) {
+            if (this.itemInfo.applicationProperties && this.itemInfo.applicationProperties.viewing.search && this.itemInfo.applicationProperties.viewing.search.enabled) {
                 for (i = 0; i < this.itemInfo.applicationProperties.viewing.search.layers.length; i++) {
                     if (this.layerId === this.itemInfo.applicationProperties.viewing.search.layers[i].id) {
                         this.searchField = this.itemInfo.applicationProperties.viewing.search.layers[i].field.name;

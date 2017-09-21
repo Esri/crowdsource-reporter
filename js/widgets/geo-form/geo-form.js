@@ -89,6 +89,7 @@ define([
         */
         startup: function () {
             try {
+                this.defaultValueArray = [];
                 // Show loading indicator
                 this.appUtils.showLoadingIndicator();
                 //Reorder form components  as per configuration

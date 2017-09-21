@@ -64,8 +64,8 @@ define([
             if (this._config.enableHelp) {
                 //Check if show different content flag is true pass modified content
                 if (this._config.enableDifferentHelpContent &&
-                        lang.trim(this._config.loginHelpDialogTitle) !== "" &&
-                        lang.trim(this._config.loginHelpDialogContent) !== "") {
+                    lang.trim(this._config.loginHelpDialogTitle) !== "" &&
+                    lang.trim(this._config.loginHelpDialogContent) !== "") {
                     dialogTitle = this._config.loginHelpDialogTitle;
                     dialogContent = this._config.loginHelpDialogContent;
                 } else {
@@ -76,7 +76,8 @@ define([
                 this._helpScreen = new Help({
                     "config": this._config,
                     "title": dialogTitle,
-                    "content": dialogContent
+                    "content": dialogContent,
+                    "dialog": "signin"
                 });
             } else {
                 //If help is turned off, then hide the help link
@@ -102,15 +103,26 @@ define([
         */
         _handleSplashScreenVisibility: function () {
             var isSplashScreenRequired = false;
-            //Check for all social media sign in options and decide wehter to show splash screen or not 
+            //Check for all social media sign in options and decide wehter to show splash screen or not
             if (this._config.enableGuestAccess || this._config.enableFacebook ||
-                     this._config.enableTwitter || this._config.enableGoogleplus
-                    || this._config.enablePortalLogin) {
+                this._config.enableTwitter || this._config.enableGoogleplus
+                || this._config.enablePortalLogin) {
                 isSplashScreenRequired = true;
             }
-            //If all the sign in options are disabled, dont show sign in screen. Directly log in as guest.
+            //If all the sign in options are disabled, check if user is already logged in to a portal
+            // and accordingly do portal or guest login
             if (!isSplashScreenRequired) {
-                this._guestButtonClicked();
+                //Since all the sign in options are disabled, hide the sign in page
+                domStyle.set(this.signinOuterContainer, "display", "none");
+                //Check if user is logged in
+                IdentityManager.checkSignInStatus(this._config.sharinghost).then(lang.hitch(this,
+                    function (userDetails) {
+                        //If valid user details are found, do a portal sign in
+                        this._esriButtonClicked();
+                    }), lang.hitch(this, function () {
+                        //If user is not logged in then proceed as a "Guest"
+                        this._guestButtonClicked();
+                    }));
             }
         },
 
@@ -239,7 +251,7 @@ define([
             this.own(on(this.signinTwitterButton, "click", lang.hitch(this, this._twitterButtonClicked)));
             this.own(on(this.signinGPlusButton, "click", lang.hitch(this, this._gpButtonClicked)));
             this.own(on(this.signinHelpLink, "click", lang.hitch(this, function () {
-                this._helpScreen.showDialog();
+                this._helpScreen.showDialog("signin");
             })));
             //handle identity manager cancel clicked event
             on(IdentityManager, "dialog-cancel", lang.hitch(this, function () {

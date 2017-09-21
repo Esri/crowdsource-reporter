@@ -311,21 +311,33 @@ define([
         * @memberOf main
         */
         _showPopupForNonEditableLayer: function (evt) {
-            //If no graphics found then skip function
-            if (!evt.graphic) {
+            var isGeoformClose, isNonEditableLayer = false, selectedGraphicsLayer, highlightSymbol,
+                isPopupConfigured = true;
+            isGeoformClose = domClass.contains(dom.byId('geoformContainer'), "esriCTHidden");
+            //If no graphics found or geoform is open then skip the function
+            if (!evt.graphic || !isGeoformClose) {
                 return;
             }
-            var isGeoformClose, isNonEditableLayer = false, selectedGraphicsLayer, highlightSymbol;
-            isGeoformClose = domClass.contains(dom.byId('geoformContainer'), "esriCTHidden");
-            if (evt.graphic && evt.graphic._layer && evt.graphic._layer.id !== this.displaygraphicsLayer.id) {
+            if (evt.graphic && evt.graphic._layer && evt.graphic._layer.capabilities &&
+                evt.graphic._layer.id !== this.displaygraphicsLayer.id) {
                 isNonEditableLayer = evt.graphic._layer.capabilities.indexOf("Create") === -1 && (evt.graphic._layer.capabilities.indexOf("Editing") === -1 ||
                     evt.graphic._layer.capabilities.indexOf("Update") === -1);
+            }
+            //Check if non-editable layers popup is turned on through webmap
+            if (isNonEditableLayer) {
+                array.some(this._selectedMapDetails.itemInfo.itemData.operationalLayers,
+                    lang.hitch(this, function (layer) {
+                        if (layer.id === evt.graphic._layer.id && layer.disablePopup) {
+                            isPopupConfigured = false;
+                            return;
+                        }
+                    }));
             }
             selectedGraphicsLayer = this._selectedMapDetails.map.getLayer("selectionGraphicsLayer");
             //Check if selected feature belongs to editable layer
             //Geoform is closed
             if (evt.graphic && isGeoformClose && isNonEditableLayer && evt.graphic._layer.url
-                    !== this.selectedLayer.url) {
+                    !== this.selectedLayer.url && isPopupConfigured) {
                 this.itemCP.set('content', evt.graphic.getContent());
                 if (evt.graphic._layer.url) {
                     //highlight selected feature on map
@@ -528,6 +540,11 @@ define([
                 domStyle.set(dom.byId("submitFromMap"), "background-color", submitButtonColor);
 
                 on(dom.byId("submitFromMap"), "click", lang.hitch(this, function (evt) {
+                    //If reporting period is closed, show configured message
+                    if (this.config.reportingPeriod === "Closed") {
+                        this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                        return;
+                    }
                     if (this.config.logInDetails.canEditFeatures) {
                         this._createGeoForm();
                     } else {
@@ -536,6 +553,10 @@ define([
                 }));
                 on(dom.byId("mapBackButton"), "click", lang.hitch(this, function (evt) {
                     this._toggleListView();
+                    //If webmap list is not required, skip the further processing of function
+                    if(!this._isWebmapListRequired){
+                        return;
+                    }
                     //If showMapFirst flag is turned on and app is running in mobile mode, show web list on click of back button
                     if (this.config.showMapFirst === "map" && dojowindow.getBox().w < 768) {
                         //If current panel is "issueDetails" then show the same panel instead of web map list
@@ -734,7 +755,8 @@ define([
             this._menusList.portalObject = this.config.portalObject;
             this.appHeader = new ApplicationHeader({
                 "config": this._menusList,
-                "appConfig": this.config
+                "appConfig": this.config,
+                "appUtils": this.appUtils
             }, domConstruct.create("div", {}, dom.byId('headerContainer')));
 
             //on my issue button clicked display my issues list
@@ -907,10 +929,15 @@ define([
 
                 //Hide webmap list if single webmap with single layer is obtained through query
                 this._webMapListWidget.singleWebmapFound = lang.hitch(this, function () {
+                    //If single webmap and single layer is found, hide toggle button
                     domStyle.set(dom.byId("toggleListViewButton"), "display", "none");
-                    //keep flag to indentify the status of webmap list
+                    //keep flag to identify the status of webmap list
                     this._isWebmapListRequired = false;
                     this._sidebarCnt.hidePanel("webMapList");
+                    //Check for the configurable parameter and accordingly show map first in mobile devices
+                    if (this.config.showMapFirst === "map" && dojowindow.getBox().w < 768) {
+                        this._toggleMapView();
+                    }
                 });
 
                 //handel on map updated event
@@ -1189,6 +1216,11 @@ define([
                 });
 
                 this._issueWallWidget.featureSelectedOnMapClick = lang.hitch(this, function (selectedFeature) {
+                    //If geoform is open and existing feature is clicked while drawing new feature,
+                    //stop the selection functionality and continue drawing
+                    if(!domClass.contains(dom.byId('geoformContainer'), "esriCTHidden")){
+                        return;
+                    }
                     //user can select feature from map once he enters to map from issueDetails of my-issue
                     //so set the myissue flag to false it indicates that user is going to start new workflow
                     this._isMyIssues = false;
@@ -1242,8 +1274,9 @@ define([
         * @memberOf main
         */
         _canDrawFeature: function (evt, selectedMapDetails) {
-            var def = new Deferred(), query, queryTask, layerDefinitionExpression;
-            if (!evt || !evt.geometry || !this._webMapListWidget ||
+            var def = new Deferred(), query, queryTask, layerDefinitionExpression, featureGeometry;
+            featureGeometry = evt.geometry || evt;
+            if (!featureGeometry || !this._webMapListWidget ||
                     !this._webMapListWidget.geographicalExtentLayer) {
                 //If valid extent layer is not configured allow user to add feature without any restrictions
                 def.resolve(true);
@@ -1251,7 +1284,7 @@ define([
                 this.appUtils.showLoadingIndicator();
                 query = new Query();
                 queryTask = new QueryTask(this._webMapListWidget.geographicalExtentLayer);
-                query.geometry = evt.geometry;
+                query.geometry = featureGeometry;
                 layerDefinitionExpression = this._fetchExtentLayerDetails(selectedMapDetails);
                 query.where = layerDefinitionExpression || "";
                 queryTask.executeForCount(query, lang.hitch(this, function (count) {

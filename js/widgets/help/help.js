@@ -36,9 +36,11 @@ define([
         templateString: template,
 
         postCreate: function () {
-            domConstruct.place(template, document.body, 'last');
-            $('#myModal').find('.modal-title').html(this.title);
-            $('#myModal').find('.modal-body').html(this.content);
+            $("#myModal", this.domNode).addClass("esriCT" + this.dialog);
+            $('#myModal', this.domNode).find('.modal-title').html(this.title);
+            $('#myModal', this.domNode).find('.modal-body').html(this.content);
+            $("#myModal", this.domNode).attr('panel', this.dialog);
+            domConstruct.place(this.domNode, document.body, 'last');
         },
 
         startup: function () {
@@ -49,11 +51,11 @@ define([
         * Shows modal dialog
         * @memberOf widgets/help/help
         */
-        showDialog: function () {
-            $("#myModal").modal("show");
+        showDialog: function (panel) {
+            $("[panel=" + panel + "]").modal("show");
             //Set modal templates scroll position to 0
             setTimeout(function () {
-                $('#myModal').find('.modal-body')[0].scrollTop = 0;
+                $("[panel=" + panel + "]").find('.modal-body')[0].scrollTop = 0;
             }, 200);
         }
     });
