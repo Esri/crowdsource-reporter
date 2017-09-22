@@ -70,8 +70,8 @@
         "sortingField" : "",
         "sortingOrder": "DESC",
         "reportingPeriod": "Open",
-        "reportingPeriodDialogTitle": "Information",
-        "reportingPeriodDialogContent": "Reporting Period is closed."
+        "reportingPeriodDialogTitle": "Reporting Period Closed",
+        "reportingPeriodDialogContent": "We are no longer accepting new reports for this project."
     },
   "configurationSettings": [{
       "category": "<b>General</b>",
@@ -649,15 +649,13 @@
           "label": "Reporting period closed window title",
           "tooltip": "Title of window that displays when reporting period is closed.",
           "type": "string",
-          "fieldName": "reportingPeriodDialogTitle",
-          "value": "Reporting Period Closed"
+          "fieldName": "reportingPeriodDialogTitle"
       }, {
           "label": "Reporting period closed window content",
           "tooltip": "Content of window that displays when reporting period is closed.",
           "type": "string",
           "fieldName": "reportingPeriodDialogContent",
-          "stringFieldOption": "richtext",
-          "value": "We are no longer accepting new reports for this project."
+          "stringFieldOption": "richtext"
       }]
   }]
 }
