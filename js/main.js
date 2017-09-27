@@ -51,6 +51,7 @@ define([
     "esri/geometry/webMercatorUtils",
     "esri/dijit/PopupTemplate",
     "esri/toolbars/draw",
+    "esri/urlUtils",
     "widgets/app-header/app-header",
     "widgets/webmap-list/webmap-list",
     "widgets/issue-wall/issue-wall",
@@ -99,6 +100,7 @@ define([
     webMercatorUtils,
     PopupTemplate,
     Draw,
+    urlUtils,
     ApplicationHeader,
     WebMapList,
     IssueWall,
@@ -239,6 +241,18 @@ define([
                 if (loggedInUser) {
                     queryParams.token = loggedInUser.credential.token;
                 }
+
+                //Force the proxy for specified prefixes
+                if (this.config.proxyThesePrefixes && this.config.proxyThesePrefixes.length > 0 &&
+                    this.config.proxyurl) {
+                    array.forEach(this.config.proxyThesePrefixes, function (prefix) {
+                        urlUtils.addProxyRule({
+                            urlPrefix: prefix,
+                            proxyUrl: this.config.proxyurl
+                        });
+                    }, this);
+                }
+
                 //Pass the newly constructed queryparams from group info.
                 //If query params not available in group info or group is private, items will be sorted according to modified date.
                 this._loadGroupItems(queryParams);
