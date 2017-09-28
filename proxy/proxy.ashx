@@ -18,6 +18,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Net;
+using Newtonsoft.Json.Linq;                 // for JObject, JToken, JTokenWriter
 
 public class proxy : IHttpHandler {
 
@@ -233,10 +234,10 @@ public class proxy : IHttpHandler {
             requestUri = serverUrl.HostRedirect + new Uri(requestUri).PathAndQuery;
         }
         if (serverUrl.UseAppPoolIdentity)
-	    {
-		    credentials=CredentialCache.DefaultNetworkCredentials;
-	    }
-    	else if (serverUrl.Domain != null)
+        {
+            credentials=CredentialCache.DefaultNetworkCredentials;
+        }
+        else if (serverUrl.Domain != null)
         {
             credentials = new System.Net.NetworkCredential(serverUrl.Username, serverUrl.Password, serverUrl.Domain);
         }
@@ -505,6 +506,55 @@ public class proxy : IHttpHandler {
                             && Regex.Match(strResponse, "\"code\"\\s*:\\s*49[89]").Success
                         )
                             return true;
+
+                        // JSON responses from the server are labeled as "text/plain", so test the start of the
+                        // response to see if it might be
+                        if (strResponse.Length > 0 && strResponse[0] == '{') {
+                            JObject jsonPage = JObject.Parse(strResponse);
+                            if (null == jsonPage["error"])
+                            {
+                                // If we successfully parsed the JSON on this page and it contains a "features" item,
+                                // look for the attributes to be shielded
+                                JToken features = jsonPage["features"];
+                                if (null != features)
+                                {
+
+                                    JToken childToken = features.First;
+                                    while (childToken != null) {
+                                        JToken childAttrs = childToken["attributes"];
+                                        if (null != childAttrs) {
+                                            // Run through the list of replacement fields
+                                            foreach (ShieldedField field in getConfig().ShieldedFields)
+                                            {
+                                                JToken childAttr = childAttrs[field.Name];
+                                                if (null != childAttr) {
+                                                    // Create a replacement value for the shielded attributes
+                                                    JTokenWriter theWriter = new JTokenWriter();
+                                                    theWriter.WriteValue(field.Replacement);
+                                                    childAttr.Replace(theWriter.Token);
+                                                    theWriter.Close();
+                                                }
+                                            }
+                                        }
+                                        childToken = childToken.Next;
+                                    }
+                                    log(TraceLevel.Verbose, "Filtered JSON");
+                                    strResponse = jsonPage.ToString();
+                                }
+                                else
+                                {
+                                    log(TraceLevel.Verbose, "Unfiltered JSON");
+                                }
+                            }
+                            else
+                            {
+                                log(TraceLevel.Verbose, "Unfilterable JSON");
+                            }
+                        }
+                        else
+                        {
+                            log(TraceLevel.Verbose, "Unfiltered text or xml");
+                        }
 
                         //Copy the header info and the content to the reponse to client
                         copyResponseHeaders(serverResponse, clientResponse);
@@ -1058,6 +1108,7 @@ public class ProxyConfig
     }
 
     ServerUrl[] serverUrls;
+    ShieldedField[] shieldedFields;
     public String logFile;
     public String logLevel;
     bool mustMatch;
@@ -1110,6 +1161,16 @@ public class ProxyConfig
         }
     }
 
+    [XmlArray("shieldedFields")]
+    [XmlArrayItem("shieldedField")]
+    public ShieldedField[] ShieldedFields {
+        get { return this.shieldedFields; }
+        set
+        {
+            this.shieldedFields = value;
+        }
+    }
+
     public ServerUrl GetConfigServerUrl(string uri) {
         //split both request and proxy.config urls and compare them
         string[] uriParts = uri.Split(new char[] {'/','?'}, StringSplitOptions.RemoveEmptyEntries);
@@ -1145,6 +1206,23 @@ public class ProxyConfig
         {
             throw new ArgumentException("Proxy has not been set up for this URL. Make sure there is a serverUrl in the configuration file that matches: " + uri);
         }
+    }
+}
+
+public class ShieldedField {
+    string name;
+    string replacement;
+
+    [XmlAttribute("name")]
+    public string Name {
+        get { return name; }
+        set { name = value; }
+    }
+
+    [XmlAttribute("replacement")]
+    public string Replacement {
+        get { return replacement; }
+        set { replacement = value; }
     }
 }
 
