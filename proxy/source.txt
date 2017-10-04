@@ -1,0 +1,10 @@
+git repository resource-proxy, branch 
+master
+commit e40dbb8362d8a18062a331b008f0c52cbd0826e5
+Merge: 3112776 fedcc89
+Author: Bjorn Svensson <bsvensson@esri.com>
+Date:   Mon Aug 21 16:15:27 2017 -0700
+
+    Merge pull request #441 from Esri/bump
+    
+    use gh-release (and tag 1.1.2)
