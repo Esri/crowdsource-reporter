@@ -26,7 +26,7 @@ define({
     //Enter the url to the proxy if needed by the application. See the 'Using the proxy page' help topic for details
     //http://developers.arcgis.com/en/javascript/jshelp/ags_proxy.html
     "proxyurl": "proxy/proxy.ashx",
-    "proxyThesePrefixes": ["services6.arcgis.com/Pu6Fai10JE2L2xUd"],
+    "proxyThesePrefixes": [],
 
     "bingKey": "", //Enter the url to your organizations bing maps key if you want to use bing basemaps
     //Defaults to arcgis.com. Set this value to your portal or organization host name.
