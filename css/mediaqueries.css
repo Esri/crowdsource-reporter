@@ -143,6 +143,23 @@
     }
     /* help dialog css END*/
 
+    /* Basemap and Legend widget CSS*/
+
+    .esriCTOnScreenWidgetContainer {
+        left: 0px;
+        top: 0px;
+        height: calc(100% - 50px);
+        width: 100%;
+    }
+
+    .esriCTOnScreenWidgetWrapper {
+        height: 100%;
+        width: 100%;
+        overflow: auto;
+    }
+
+    /*Basemap and Legend widget CSS END*/
+
     .esriCTInfoImg
     {
         background-size: 20px;
