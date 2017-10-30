@@ -13,6 +13,7 @@
         "enableTwitter": false,
         "enablePortalLogin": true,
         "enableGoogleplus": false,
+        "tool_search" : true,
         "facebookAppId": "",
         "googleplusClientId": "",
         "webMapInfoDescription": true,
