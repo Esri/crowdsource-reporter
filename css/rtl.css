@@ -264,3 +264,15 @@
     right: 5px;
 }
 /** End of Overriden Styles **/
+
+.dj_rtl .esriCTOnScreenWidgetContainer {
+    left: 450px;
+}
+.dj_rtl .esriCTHeaderTitle {
+    float: right;
+    margin-right: 5px;
+    margin-left: 0px;
+}
+.dj_rtl .esriCTPanelCloseBtn {
+    margin-left: 5px;
+}

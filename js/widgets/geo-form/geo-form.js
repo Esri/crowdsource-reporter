@@ -297,7 +297,7 @@ define([
                 // Handle click of cancel button
                 on(this.cancelButton, "click", lang.hitch(this, this._onCancelClick));
                 // Initialize locator widget
-                this.locator = new Locator({ "map": this.map, "config": this.config, "appUtils": this.appUtils, "itemInfo": response.itemInfo.itemData, "layerId": this.layerId, "locatorContainer": this.geoformLocator, "handleFeatureSearch": false });
+                this.locator = new Locator({ "isGeoformLocator": true, "map": this.map, "config": this.config, "appUtils": this.appUtils, "itemInfo": response.itemInfo.itemData, "layerId": this.layerId, "locatorContainer": this.geoformLocator, "handleFeatureSearch": false });
                 // function call on selection of search result
                 this.locator.onLocationCompleted = lang.hitch(this, this._validateAddress);
                 //Listen for address list open/close event
@@ -354,10 +354,22 @@ define([
 
                 //Populate location field after successfully fetching the address
                 this.appUtils.onLocationToAddressComplete = lang.hitch(this, function (result) {
-                    if (result.address && result.address.address) {
-                        if (this.config.locationField !== "") {
-                            this._populateLocationField(result.address.address.Address);
+                    var addressString = "", key;
+                    if (result.address && result.address.address &&
+                            result.address.address.Match_addr) {
+                        addressString = result.address.address.Match_addr;
+                    } else {
+                        addressString = "";
+                        for (key in result.address.address) {
+                        //Check if key exist and it is not equal to "Loc_name"
+                            if (result.address.address.hasOwnProperty(key) && key !== "Loc_name") {
+                                addressString += result.address.address[key] + " ";
+                            }
                         }
+                        addressString = lang.trim(addressString);
+                    }
+                    if (this.config.locationField !== "") {
+                        this._populateLocationField(addressString);
                     }
                 });
 
@@ -1107,19 +1119,19 @@ define([
             // Create field controls on basis of their type
             switch (currentField.type) {
             case "esriFieldTypeString":
-                if (currentField.stringFieldOption === "textbox") {
-                    this.inputContent = domConstruct.create("input", {
-                        type: "text",
-                        className: "form-control",
-                        "data-input-type": "String",
-                        "maxLength": currentField.length,
-                        "id": fieldname
-                    }, formContent);
-                } else {
+                if (currentField.stringFieldOption === "textarea") {
                     this.inputContent = domConstruct.create("textarea", {
                         className: "form-control",
                         "data-input-type": "String",
                         "rows": 4,
+                        "maxLength": currentField.length,
+                        "id": fieldname
+                    }, formContent);
+                } else {
+                    this.inputContent = domConstruct.create("input", {
+                        type: "text",
+                        className: "form-control",
+                        "data-input-type": "String",
                         "maxLength": currentField.length,
                         "id": fieldname
                     }, formContent);
@@ -1698,7 +1710,7 @@ define([
                 "id": fieldname
             }, parentNode);
             // get date format
-            if (currentField.format.dateFormat) {
+            if (currentField.format && currentField.format.dateFormat) {
                 setDateFormat = this.appUtils.getDateFormat(currentField.format.dateFormat);
             }
             // on focus
@@ -1715,8 +1727,8 @@ define([
             $(parentNode).datetimepicker({
                 useSeconds: false,
                 useStrict: false,
-                format: setDateFormat.dateFormat,
-                pickTime: setDateFormat.showTime,
+                format: setDateFormat && setDateFormat.dateFormat ? setDateFormat.dateFormat : null,
+                pickTime: setDateFormat && setDateFormat.showTime ? setDateFormat.showTime : true,
                 language: kernel.locale
             }).on('dp.show', function (evt) {
                 if (isRangeField) {

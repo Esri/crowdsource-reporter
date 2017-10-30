@@ -42,7 +42,8 @@ define([
         latLongValue: null,
         searchedGroups: [], //will  contain the locator-names/layer-name for which the search is complete.
         isPerformingSearch: false,
-
+        activeLocator: null,
+        isEnterClicked: false,
         /**
         * This function is called when widget is constructed.
         * @param{object} config to be mixed
@@ -74,6 +75,12 @@ define([
             graphicsLayer = new GraphicsLayer();
             graphicsLayer.id = "locatorGraphicsLayer";
             this.map.addLayer(graphicsLayer);
+            //fetch active locator name
+            if (this.config.tool_search && this.config.searchConfig &&
+                    this.config.searchConfig.sources.length > 0 &&
+                    this.config.searchConfig.activeSourceIndex !== "all") {
+                this.activeLocator = this.config.searchConfig.sources[this.config.searchConfig.activeSourceIndex].name;
+            }
         },
 
         /**
@@ -125,6 +132,7 @@ define([
                 if (evt.keyCode === keys.ENTER) {
                     if (this.txtSearch.value !== '') {
                         this._toggleTexBoxControls(true);
+                        this.isEnterClicked = true;
                         this._performUnifiedSearch();
                         return;
                     }
@@ -191,71 +199,82 @@ define([
         * @method widgets/locator/locator
         */
         _performUnifiedSearch: function () {
-            var deferredArray = [],
-                i,
-                address = {},
-                options,
-                locator,
-                locatorDef;
-            this.usngValue = null;
-            this.mgrsValue = null;
-            this.latLongValue = null;
-            this.resultLength = 0;
-            this._toggleTexBoxControls(true);
-            this.searchedGroups = [];
-            // clear previous result
-            domConstruct.empty(this.divResultContainer);
-
-            // show loading indicator in textbox
-            this._toggleTexBoxControls(true);
-            this.isPerformingSearch = true;
-            // fetch the geocode URL from portal organization, and if the URL is unavailable disable address search
-            if (this.config.helperServices.geocode.length > 0) {
-                for (i = 0; i < this.config.helperServices.geocode.length; i++) {
-                    locator = new Locator(this.config.helperServices.geocode[i].url);
-                    locator.outSpatialReference = this.map.spatialReference;
-                    locator.name = (this.config && this.config.helperServices.geocode[i].name) ? this.config.helperServices.geocode[i].name : "";
-                    if (this.config.helperServices.geocode[i].singleLineFieldName) {
-                        address[this.config.helperServices.geocode[i].singleLineFieldName] = this.txtSearch.value;
+            if (this._performSearchTimer) {
+                clearTimeout(this._performSearchTimer);
+            }
+            this._performSearchTimer = setTimeout(lang.hitch(this, function () {
+                var deferredArray = [],
+                    i,
+                    address = {},
+                    options,
+                    locator,
+                    locatorDef,
+                    geocoders = [];
+                this.usngValue = null;
+                this.mgrsValue = null;
+                this.latLongValue = null;
+                this.resultLength = 0;
+                this._toggleTexBoxControls(true);
+                this.searchedGroups = [];
+                // clear previous result
+                domConstruct.empty(this.divResultContainer);
+                // show loading indicator in textbox
+                this._toggleTexBoxControls(true);
+                this.isPerformingSearch = true;
+                // fetch the geocode URL from portal organization, and if the URL is unavailable disable address search
+                if (this.config.helperServices.geocode.length > 0) {
+                    //Check if search tool is enabled in the configuration
+                    if (this.config.tool_search) {
+                        geocoders = this.config.searchConfig.sources;
                     } else {
-                        address = {
-                            SingleLine: this.txtSearch.value
-                        };
+                        geocoders = this.config.helperServices.geocode;
                     }
+                    for (i = 0; i < geocoders.length; i++) {
+                        locator = new Locator(geocoders[i].url);
+                        locator.outSpatialReference = this.map.spatialReference;
+                        locator.name = (this.config && geocoders[i].name) ? geocoders[i].name : "";
+                        if (geocoders[i].singleLineFieldName) {
+                            address[geocoders[i].singleLineFieldName] = this.txtSearch.value;
+                        } else {
+                            address = {
+                                SingleLine: this.txtSearch.value
+                            };
+                        }
 
-                    options = {
-                        address: address,
-                        outFields: ["*"]
-                    };
-                    // optionally return the out fields if you need to calculate the extent of the geocoded point
-                    locatorDef = locator.addressToLocations(options);
-                    this._onAddressToLocateComplete(locator);
-                    deferredArray.push(locatorDef);
-                }
-            }
-            // check if layer search is enabled in the webmap and layer is configured for search
-            if (this.itemInfo.applicationProperties && this.itemInfo.applicationProperties.viewing.search && this.itemInfo.applicationProperties.viewing.search.enabled) {
-                for (i = 0; i < this.itemInfo.applicationProperties.viewing.search.layers.length; i++) {
-                    if (this.layerId === this.itemInfo.applicationProperties.viewing.search.layers[i].id) {
-                        this.searchField = this.itemInfo.applicationProperties.viewing.search.layers[i].field.name;
-                        this._layerSearchResults(this.itemInfo.applicationProperties.viewing.search.layers[i], deferredArray);
+                        options = {
+                            address: address,
+                            outFields: ["*"]
+                        };
+                        // optionally return the out fields if you need to calculate the extent of the geocoded point
+                        locatorDef = locator.addressToLocations(options);
+                        this._onAddressToLocateComplete(locator);
+                        deferredArray.push(locatorDef);
                     }
                 }
-            }
-            // check if 'enableUSNGSearch' flag is set to true in config file
-            if (this.config.enableUSNGSearch) {
-                this._convertUSNG();
-            }
-            // check if 'enableMGRSSearch' flag is set to true in config file
-            if (this.config.enableMGRSSearch) {
-                this._convertMGRS();
-            }
-            // check if 'enableLatLongSearch' flag is set to true in config file
-            if (this.config.enableLatLongSearch) {
-                this._getLatLongValue();
-            }
-            // get results for both address and layer search
-            this._getAddressResults(deferredArray);
+                // check if layer search is enabled in the webmap and layer is configured for search
+                if (this.itemInfo.applicationProperties && this.itemInfo.applicationProperties.viewing.search && this.itemInfo.applicationProperties.viewing.search.enabled) {
+                    for (i = 0; i < this.itemInfo.applicationProperties.viewing.search.layers.length; i++) {
+                        if (this.layerId === this.itemInfo.applicationProperties.viewing.search.layers[i].id) {
+                            this.searchField = this.itemInfo.applicationProperties.viewing.search.layers[i].field.name;
+                            this._layerSearchResults(this.itemInfo.applicationProperties.viewing.search.layers[i], deferredArray);
+                        }
+                    }
+                }
+                // check if 'enableUSNGSearch' flag is set to true in config file
+                if (this.config.enableUSNGSearch) {
+                    this._convertUSNG();
+                }
+                // check if 'enableMGRSSearch' flag is set to true in config file
+                if (this.config.enableMGRSSearch) {
+                    this._convertMGRS();
+                }
+                // check if 'enableLatLongSearch' flag is set to true in config file
+                if (this.config.enableLatLongSearch) {
+                    this._getLatLongValue();
+                }
+                // get results for both address and layer search
+                this._getAddressResults(deferredArray);
+            }), 500);
         },
 
         /**
@@ -437,7 +456,14 @@ define([
         * @memberOf widgets/locator/locator
         */
         _showLocatedAddress: function (candidates) {
-            var candidateArray, divAddressContainer, candidate, addressListContainer, i, divAddressSearchCell;
+            var candidateArray, divAddressContainer, candidate, addressListContainer, i, divAddressSearchCell,
+                locatorName;
+            if (candidates) {
+                locatorName = Object.keys(candidates)[0];
+                if (locatorName && locatorName.split(this.config.i18n.locator.addressText).length > 1) {
+                    locatorName = lang.trim(locatorName.split(this.config.i18n.locator.addressText)[1]);
+                }
+            }
             // if searched value is empty, clear address container and do not perform search
             if (lang.trim(this.txtSearch.value) === "") {
                 this.txtSearch.focus();
@@ -477,7 +503,7 @@ define([
                                     "class": "esriCTAddressListContainer esriCTHideAddressList"
                                 }, this.divResultContainer);
                                 for (i = 0; i < candidates[candidateArray].length; i++) {
-                                    this._displayValidLocations(candidates[candidateArray][i], i, candidates[candidateArray], addressListContainer);
+                                    this._displayValidLocations(candidates[candidateArray][i], i, candidates[candidateArray], addressListContainer, locatorName);
                                 }
                             }
                         }
@@ -499,7 +525,7 @@ define([
         * @param {} addressListContainer
         * @memberOf widgets/locator/locator
         */
-        _displayValidLocations: function (candidate, index, candidateArray, addressListContainer) {
+        _displayValidLocations: function (candidate, index, candidateArray, addressListContainer, locatorName) {
             var candidateAddress, divAddressRow;
             divAddressRow = domConstruct.create("div", {
                 "class": "esriCTCandidateList"
@@ -528,6 +554,15 @@ define([
             }
             // handle click event when user clicks on a candidate address
             this.handleAddressClick(candidate, candidateAddress, candidateArray);
+            //If enter button is clicked and valid result is fetched from default geocoder
+            //show it on the map
+            if (this.isEnterClicked && index === 0 && this.activeLocator === locatorName) {
+                candidateAddress.click();
+                if (!this.isGeoformLocator) {
+                    this._hideText();
+                }
+                this.isEnterClicked = false;
+            }
         },
 
         /**

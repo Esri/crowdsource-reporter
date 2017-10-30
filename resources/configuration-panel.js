@@ -1,6 +1,7 @@
 {
     "values": {
         "group": "",
+        "basemapGroup" :"",
         "theme": "#137DB9",
         "applicationName": "",
         "applicationIcon": "",
@@ -12,6 +13,7 @@
         "enableTwitter": false,
         "enablePortalLogin": true,
         "enableGoogleplus": false,
+        "tool_search" : true,
         "facebookAppId": "",
         "googleplusClientId": "",
         "webMapInfoDescription": true,
@@ -82,6 +84,11 @@
           "label": "Select a group",
           "tooltip": "Group displayed in the application",
           "type": "group"
+      }, {
+          "label": "Select basemap group",
+          "tooltip": "Group displayed in the base map gallery",
+          "type": "basemapgroup",
+          "fieldName": "basemapGroup"
       }, {
           "label": "Application title",
           "tooltip": "Title should be shorter than approximately 34 characters to fit on mobile devices.",
@@ -395,7 +402,23 @@
           "tooltip": "Enable latitude/longitude search.",
           "type": "boolean",
           "fieldName": "enableLatLongSearch"
-      }]
+      }, {
+          "type": "subcategory",
+          "label": "Search settings"
+      }, {
+        "type": "paragraph",
+        "value": "Enable search to allow users to find a location or data in the map."
+      }, {
+          "type": "conditional",
+          "condition": false,
+          "fieldName": "tool_search",
+          "label": "Enable search tool",
+          "items": [{
+             "type": "search",
+             "fieldName": "searchConfig",
+             "label": ""
+        }]
+    }]
   }, {
       "category": "<b>Form</b>",
       "fields": [{

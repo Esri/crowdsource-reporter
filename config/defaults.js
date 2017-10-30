@@ -101,6 +101,7 @@ define({
     "locationField": "LONG_TEXT",
     "showMapFirst":"list",
     "showHelpOnLoad": false,
+    "basemapGroup":"",
 
     //Sort report configuration
     "sortingField" : "", //Field can be of type integer, string or date

@@ -63,7 +63,7 @@ html, body
     /*Example of a rule that will be applied if the app is viewed in a browser with a RTL locale like Hebrew or Arabic.*/
 }
 
-.esriCTMapGeoLocationContainer
+.esriCTMapGeoLocationContainer, .esriCTMapNavigationButton
 {
     margin-top: 10px;
 }
@@ -142,7 +142,7 @@ html, body
     border: 0px !important;
 }
 
-.esriSimpleSliderDecrementButton, .esriSimpleSliderIncrementButton, .esriSimpleSlider .esriCTMapGeoLocationContainer, .esriSimpleSlider .esriCTHomeButton, .esriSimpleSlider .esriCTMapSearchContainer
+.esriSimpleSliderDecrementButton, .esriSimpleSliderIncrementButton, .esriSimpleSlider .esriCTMapGeoLocationContainer, .esriSimpleSlider .esriCTHomeButton, .esriSimpleSlider .esriCTMapSearchContainer, .esriSimpleSlider .esriCTMapNavigationButton
 {
     background-color: #fff !important;
     -webkit-box-shadow: 1px 1px 5px #888;
@@ -1384,6 +1384,33 @@ label
     border-left: 1px solid #ccc !important;
 }
 
+.esriSimpleSlider .esriCTMapNavigationButton
+{
+    height: 32px;
+    width: 32px;
+    background-size: 19px;
+    margin-top: 9px;
+    border-left: 1px solid #ccc !important;
+    background-color: #fff;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    -o-border-radius: 0px;
+    border-radius: 0px;
+    padding: 0px;
+    background-color: #fff !important;
+    -webkit-box-shadow: 1px 1px 5px #888;
+    -moz-box-shadow: 1px 1px 5px #888;
+    box-shadow: 1px 1px 5px #888;
+}
+
+.esriCTBasemapGalleryButton {
+    background: url('../images/basemap.png') no-repeat center;
+}
+
+.esriCTLegendButton {
+    background: url('../images/legend.png') no-repeat center;
+}
+
 /* End of Address container Styles */
 
 /* Comment Styles */
@@ -2349,3 +2376,64 @@ label
 
 
 /** Attachment section styles for popup and comments ends **/
+
+/** Basemap gallery section starts **/
+.esriCTOnScreenWidgetContainer {
+    position: absolute;
+    left: 50px;
+    top: 250px;
+    height: 360px;
+    width: 300px;
+    -webkit-box-shadow: 1px 1px 5px #888;
+    -moz-box-shadow: 1px 1px 5px #888;
+    box-shadow: 1px 1px 5px #888;
+    z-index: 31;
+}
+
+.esriCTOnScreenWidgetTitleContainer {
+    height: 50px;
+    line-height: 50px;
+    border-bottom:  1px solid;
+    font-size: 15px;
+    width: 100%;
+    float: left;
+}
+
+.esriCTHeaderTitle {
+    width: calc(100% - 30px);
+    float: left;
+    margin-left: 5px;
+}
+
+.esriCTOnScreenWidgetWrapper {
+    height:calc(100% - 50px);
+    width: 100%;
+    padding: 10px;
+    float: left;
+    overflow: auto;
+}
+
+.esriBasemapGallery img {
+    vertical-align: baseline;
+}
+
+.esriCTBasemapLoading {
+    height: 50px;
+    width: 50px;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    background-image: url('../images/loading-indicator.gif');
+    background-size: 33px 39px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Override the style of selected basemap node to avoid the issue of basemap thumbnail displacement */
+.esriBasemapGallerySelectedNode .esriBasemapGalleryThumbnail {
+    margin: 1px;
+}
+/** Basemap gallery section ends **/
