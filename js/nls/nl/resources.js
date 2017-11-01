@@ -27,7 +27,9 @@ define({
     "gotoListViewTooltip": "Lijstweergave",
     "noFeatureGeomtery": "Object kan niet worden weergegeven",
     "featureOutsideAOIMessage": "Object kan niet buiten studiegebied worden toegevoegd",
-    "noEditingPermissionsMessage": "U hebt geen toestemming om deze actie uit te voeren."
+    "noEditingPermissionsMessage": "U hebt geen toestemming om deze actie uit te voeren.",
+    "basemapGalleryText": "Ĳ_Basemap Gallery______ä",
+    "legendText": "Ĳ_Legend___ä"
   },
   "signin": {
     "guestSigninText": "Doorgaan als gast",

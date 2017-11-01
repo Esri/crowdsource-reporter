@@ -27,7 +27,9 @@ define({
     "gotoListViewTooltip": "Listvy",
     "noFeatureGeomtery": "Geoobjektet kan inte visas",
     "featureOutsideAOIMessage": "Geoobjektet går inte att lägga till utanför undersökningsområdet",
-    "noEditingPermissionsMessage": "Du har inte behörighet att utföra den här åtgärden."
+    "noEditingPermissionsMessage": "Du har inte behörighet att utföra den här åtgärden.",
+    "basemapGalleryText": "Å_Basemap Gallery______ö",
+    "legendText": "Å_Legend___ö"
   },
   "signin": {
     "guestSigninText": "Fortsätt som gäst",

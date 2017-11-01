@@ -27,7 +27,9 @@ define({
     "gotoListViewTooltip": "Liste görünümü",
     "noFeatureGeomtery": "Detay görüntülenemiyor",
     "featureOutsideAOIMessage": "Detay araştırma alanı dışına eklenemez",
-    "noEditingPermissionsMessage": "Bu işlemi yapma izniniz yok."
+    "noEditingPermissionsMessage": "Bu işlemi yapma izniniz yok.",
+    "basemapGalleryText": "ı_Basemap Gallery______İ",
+    "legendText": "ı_Legend___İ"
   },
   "signin": {
     "guestSigninText": "Konuk olarak devam et",

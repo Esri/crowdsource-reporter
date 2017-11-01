@@ -27,7 +27,9 @@ define({
     "gotoListViewTooltip": "Zobrazení seznamu",
     "noFeatureGeomtery": "Prvek nelze zobrazit.",
     "featureOutsideAOIMessage": "Prvek nelze přidat mimo zájmovou oblast.",
-    "noEditingPermissionsMessage": "Nemáte oprávnění k provedení této akce."
+    "noEditingPermissionsMessage": "Nemáte oprávnění k provedení této akce.",
+    "basemapGalleryText": "Ř_Basemap Gallery______ů",
+    "legendText": "Ř_Legend___ů"
   },
   "signin": {
     "guestSigninText": "Pokračovat jako host",

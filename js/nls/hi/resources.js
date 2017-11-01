@@ -27,7 +27,9 @@ define({
     "gotoListViewTooltip": "सूची दृश्य",
     "noFeatureGeomtery": "फीचर प्रदर्शित नहीं किया जा सकता है",
     "featureOutsideAOIMessage": "फीचर अध्ययन क्षेत्र के बाहर नहीं जोड़ा जा सकता है",
-    "noEditingPermissionsMessage": "आप को इस कार्य को करने की अनुमति नहीं है।"
+    "noEditingPermissionsMessage": "आप को इस कार्य को करने की अनुमति नहीं है।",
+    "basemapGalleryText": "आ_Basemap Gallery______ज",
+    "legendText": "आ_Legend___ज"
   },
   "signin": {
     "guestSigninText": "अतिथि के रूप में आगे बढ़ें",

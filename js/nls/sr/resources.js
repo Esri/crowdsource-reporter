@@ -27,7 +27,9 @@ define({
     "gotoListViewTooltip": "Prikaz liste",
     "noFeatureGeomtery": "Funkcija ne može da bude prikazana",
     "featureOutsideAOIMessage": "Geoobjekat ne može da se doda izvan oblasti ispitivanja",
-    "noEditingPermissionsMessage": "Nemate dozvolu za ovu radnju."
+    "noEditingPermissionsMessage": "Nemate dozvolu za ovu radnju.",
+    "basemapGalleryText": "Č_Basemap Gallery______ž",
+    "legendText": "Č_Legend___ž"
   },
   "signin": {
     "guestSigninText": "Nastavite kao gost",

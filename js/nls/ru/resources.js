@@ -27,7 +27,9 @@ define({
     "gotoListViewTooltip": "Вид - список",
     "noFeatureGeomtery": "Объекты невозможно отобразить",
     "featureOutsideAOIMessage": "Невозможно добавить объекты за пределами изучаемой области.",
-    "noEditingPermissionsMessage": "У вас нет прав доступа для выполнения этого действия."
+    "noEditingPermissionsMessage": "У вас нет прав доступа для выполнения этого действия.",
+    "basemapGalleryText": "Ж_Basemap Gallery______Я",
+    "legendText": "Ж_Legend___Я"
   },
   "signin": {
     "guestSigninText": "Продолжить как гость",

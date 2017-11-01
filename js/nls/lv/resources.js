@@ -27,7 +27,9 @@ define({
     "gotoListViewTooltip": "Saraksta skats",
     "noFeatureGeomtery": "Funkciju nevar parādīt",
     "featureOutsideAOIMessage": "Līdzekli nevar pievienot ārpus izpētes apgabala",
-    "noEditingPermissionsMessage": "Jums nav atļaujas izpildīt šo darbību."
+    "noEditingPermissionsMessage": "Jums nav atļaujas izpildīt šo darbību.",
+    "basemapGalleryText": "ķ_Basemap Gallery______ū",
+    "legendText": "ķ_Legend___ū"
   },
   "signin": {
     "guestSigninText": "Turpināt kā viesim",

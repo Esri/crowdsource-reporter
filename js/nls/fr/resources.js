@@ -27,7 +27,9 @@ define({
     "gotoListViewTooltip": "Vue Liste",
     "noFeatureGeomtery": "Impossible d'afficher l'entité",
     "featureOutsideAOIMessage": "Impossible d’ajouter l'entité hors de la zone d'étude",
-    "noEditingPermissionsMessage": "Vous n’êtes pas autorisé à effectuer cette action."
+    "noEditingPermissionsMessage": "Vous n’êtes pas autorisé à effectuer cette action.",
+    "basemapGalleryText": "æ_Basemap Gallery______Â",
+    "legendText": "æ_Legend___Â"
   },
   "signin": {
     "guestSigninText": "Continuer comme invité",

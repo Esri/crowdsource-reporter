@@ -27,7 +27,9 @@ define({
     "gotoListViewTooltip": "Sąrašo vaizdas",
     "noFeatureGeomtery": "Elemento parodyti negalima",
     "featureOutsideAOIMessage": "Elemento negalima pridėti už regiono ribų",
-    "noEditingPermissionsMessage": "Neturite leidimo atlikti šį veiksmą."
+    "noEditingPermissionsMessage": "Neturite leidimo atlikti šį veiksmą.",
+    "basemapGalleryText": "Į_Basemap Gallery______š",
+    "legendText": "Į_Legend___š"
   },
   "signin": {
     "guestSigninText": "Tęsti svečio teisėmis",

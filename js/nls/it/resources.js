@@ -27,7 +27,9 @@ define({
     "gotoListViewTooltip": "Vista elenco",
     "noFeatureGeomtery": "Impossibile visualizzare la feature",
     "featureOutsideAOIMessage": "La feature non può essere aggiunta esternamente all'area di studio",
-    "noEditingPermissionsMessage": "Non si è autorizzati a completare questa azione."
+    "noEditingPermissionsMessage": "Non si è autorizzati a completare questa azione.",
+    "basemapGalleryText": "é_Basemap Gallery______È",
+    "legendText": "é_Legend___È"
   },
   "signin": {
     "guestSigninText": "Continua come ospite",

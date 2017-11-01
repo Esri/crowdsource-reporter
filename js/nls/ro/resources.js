@@ -27,7 +27,9 @@ define({
     "gotoListViewTooltip": "Vizualizare tip listă",
     "noFeatureGeomtery": "Obiectul spaţial nu poate fi afişat",
     "featureOutsideAOIMessage": "Obiectul spaţial nu poate fi adăugat în afara zonei de studiu",
-    "noEditingPermissionsMessage": "Nu aveţi permisiunea pentru a efectua această acţiune."
+    "noEditingPermissionsMessage": "Nu aveţi permisiunea pentru a efectua această acţiune.",
+    "basemapGalleryText": "Ă_Basemap Gallery______ș",
+    "legendText": "Ă_Legend___ș"
   },
   "signin": {
     "guestSigninText": "Continuare ca oaspete",

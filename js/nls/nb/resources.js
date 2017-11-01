@@ -27,7 +27,9 @@ define({
     "gotoListViewTooltip": "Listevisning",
     "noFeatureGeomtery": "Kan ikke vise geoobjekt",
     "featureOutsideAOIMessage": "Kan ikke legge til geoobjekt utenfor studieområde",
-    "noEditingPermissionsMessage": "Du har ikke tillatelse til å utføre denne handlingen."
+    "noEditingPermissionsMessage": "Du har ikke tillatelse til å utføre denne handlingen.",
+    "basemapGalleryText": "å_Basemap Gallery______ø",
+    "legendText": "å_Legend___ø"
   },
   "signin": {
     "guestSigninText": "Fortsett som gjest",
