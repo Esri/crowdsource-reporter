@@ -28,6 +28,8 @@
         "webMapInfoAvgRating": false,
         "showNonEditableLayers": false,
         "showPopupForNonEditableLayers": false,
+        "showBaseMapGallery": false,
+        "showLegend": false,
         "submitMessage": "Thank you. Your report has been submitted.",
         "likeField": "NUMVOTES",
         "commentField": "COMMENTS",
@@ -85,11 +87,6 @@
           "tooltip": "Group displayed in the application",
           "type": "group"
       }, {
-          "label": "Select basemap group",
-          "tooltip": "Group displayed in the base map gallery",
-          "type": "basemapgroup",
-          "fieldName": "basemapGroup"
-      }, {
           "label": "Application title",
           "tooltip": "Title should be shorter than approximately 34 characters to fit on mobile devices.",
           "type": "string",
@@ -106,11 +103,34 @@
           "type": "string",
           "fieldName": "noWebmapInGroupText"
       }, {
+        "type": "subcategory",
+        "label": "Basemap and Legend settings"
+      }, {
+        "type": "paragraph",
+        "value": "User can enable/disable basemap gallery and legend."
+      }, {
+        "label": "Show basemap gallery",
+        "tooltip": "When disabled, basemap gallery button will not be displayed in map navigation buttons",
+        "type": "conditional",
+        "condition": false,
+        "fieldName": "showBaseMapGallery",
+        "items" : [{
+          "label": "Select basemap group",
+          "tooltip": "Group displayed in the base map gallery",
+          "type": "basemapgroup",
+          "fieldName": "basemapGroup"
+        }]
+     }, {
+        "label": "Show Legend",
+        "tooltip": "When disabled, legend button will not be displayed in map navigation buttons",
+        "type": "boolean",
+        "fieldName": "showLegend"
+      },{
           "type": "subcategory",
           "label": "Help"
       }, {
           "type": "paragraph",
-          "value": "A help window can be accessed from a link on the spash page and from an icon within the app. Configure this dialog to display instructions for using the app, or any other information that may be useful to your users."
+          "value": "A help window can be accessed from a link on the splash page and from an icon within the app. Configure this dialog to display instructions for using the app, or any other information that may be useful to your users."
       }, {
           "label": "Enable the help window",
           "tooltip": "When disabled, the help window will not be accessible.",
