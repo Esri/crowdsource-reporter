@@ -252,7 +252,7 @@ define([
 
                 //Force the proxy for specified prefixes
                 if (this.config.proxyThesePrefixes && this.config.proxyThesePrefixes.length > 0 &&
-                    this.config.proxyurl) {
+                        this.config.proxyurl) {
                     array.forEach(this.config.proxyThesePrefixes, function (prefix) {
                         urlUtils.addProxyRule({
                             urlPrefix: prefix,
@@ -694,7 +694,7 @@ define([
             var updatedFeatureTitle;
             updatedFeatureTitle = this._issueWallWidget.itemsList.getItemTitle(updatedFeature);
             domAttr.set(this._itemDetails.itemTitleDiv, "innerHTML", updatedFeatureTitle);
-            //If the updated issue is present in my issues list then update it accrodingly
+            //If the updated issue is present in my issues list then update it accordingly
             if (this._myIssuesWidget && this._myIssuesWidget.itemsList && this.config.logInDetails && updatedFeature.attributes[this.config.reportedByField] && updatedFeature.attributes[this.config.reportedByField] === this.config.logInDetails.processedUserName) {
                 this._myIssuesWidget.updateIssueList(this._selectedMapDetails, updatedFeature);
             }
@@ -1702,6 +1702,7 @@ define([
             }
             esriQuery = new Query();
             esriQuery.objectIds = [parseInt(objectId, 10)];
+            esriQuery.outFields = ["*"];
             esriQuery.where = currentDateTime + "=" + currentDateTime;
             esriQuery.returnGeometry = true;
             esriQuery.outSpatialReference = this.map.spatialReference;
@@ -1748,7 +1749,8 @@ define([
         * @param{object} details of selected layer
         */
         _getPointSymbol: function (graphic, layer) {
-            var symbol, isSymbolFound, graphics, point, graphicInfoValue, layerInfoValue, i, itemFromLayer, symbolShape;
+            var symbol, isSymbolFound, graphics, point, graphicInfoValue, layerInfoValue, i, itemFromLayer, symbolShape,
+                symbolDetails, sizeInfo, arcSymbolSize;
             isSymbolFound = false;
             symbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_SQUARE, null, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 255, 1]), 3));
             symbol.setColor(null);
@@ -1783,14 +1785,14 @@ define([
                 }
             }
             layer = this.mapInstance.getLayer(layer.id);
-            if (!isSymbolFound && layer && layer.graphics && layer.graphics.length > 0) {
+            if (layer && layer.graphics && layer.graphics.length > 0) {
                 array.some(layer.graphics, function (item) {
-                    if (item.attributes[graphic._layer.objectIdField] === graphic.attributes[graphic._layer.objectIdField]) {
+                    if (item.attributes[layer.objectIdField] === graphic.attributes[layer.objectIdField]) {
                         itemFromLayer = item;
                         return item;
                     }
                 });
-                if (itemFromLayer.getShape) {
+                if (this.selectedLayer._getSymbol(itemFromLayer)) {
                     symbolShape = itemFromLayer.getShape();
                     if (symbolShape && symbolShape.shape) {
                         if (symbolShape.shape.hasOwnProperty("r")) {
@@ -1798,11 +1800,25 @@ define([
                             symbol.size = (symbolShape.shape.r * 2) + 10;
                         } else if (symbolShape.shape.hasOwnProperty("width")) {
                             isSymbolFound = true;
-                            //get offsets in case of smartmapping symbols from the renderer info if available
+                            //get offsets in case of smart mapping symbols from the renderer info if available
                             if (layer.renderer && layer.renderer.infos && layer.renderer.infos.length > 0) {
                                 symbol = this._updatePointSymbolProperties(symbol, layer.renderer.infos[0].symbol);
                             }
                             symbol.size = symbolShape.shape.width + 10;
+                        }
+                        //handle arcade expressions, take max size of symbol
+                    } else if (layer.renderer.visualVariables) {
+                        symbolDetails = layer._getRenderer(itemFromLayer);
+                        sizeInfo = this._getSizeInfo();
+                        if (sizeInfo) {
+                            arcSymbolSize = symbolDetails.getSize(itemFromLayer, {
+                                sizeInfo: sizeInfo,
+                                shape: this.selectedLayer._getSymbol(itemFromLayer),
+                                resolution: layer && layer.getResolutionInMeters && layer.getResolutionInMeters()
+                            });
+                            if (arcSymbolSize !== null) {
+                                symbol.size = arcSymbolSize + 10;
+                            }
                         }
                     }
                 }
@@ -1813,6 +1829,24 @@ define([
             graphics = new Graphic(point, symbol, graphic.attributes);
             return graphics;
         },
+
+        /**
+        * This function is used to get symbol size
+        */
+        _getSizeInfo: function () {
+            var draw;
+            if (this.selectedLayer.renderer.visualVariables) {
+                array.forEach(this.selectedLayer.renderer.visualVariables, lang.hitch(this, function (drawInfo) {
+                    if (drawInfo.type === "sizeInfo") {
+                        draw = drawInfo;
+                    }
+                }));
+            } else {
+                draw = null;
+            }
+            return draw;
+        },
+
 
         /**
         * This function is used to get different data of symbol from infos properties of renderer object.
@@ -2122,6 +2156,8 @@ define([
             //Set minimum and maximum scale to layer if exist
             this.displaygraphicsLayer.setMaxScale(maxScale);
             this.displaygraphicsLayer.setMinScale(minScale);
+            this.displaygraphicsLayer._layer = this.selectedLayer;
+            this.displaygraphicsLayer.fields = this.selectedLayer.fields;
             this.map.addLayer(this.displaygraphicsLayer, this._existingLayerIndex);
             this._getFeatureLayerCount(details, selectedOperationalLayer);
             this._reorderAllLayers();
@@ -2530,34 +2566,37 @@ define([
             //Create basemap widget on every layer/webmap change
             this.legend = null;
             this.basemapGallery = null;
-            if (!this.basemapGallery) {
-                basemapG = this._createOnScreenWidgetPanel("Basemap");
-                basemapGalleryButtonDiv = domConstruct.create("div", {
-                    "class": "esriCTMapNavigationButton esriCTBasemapGalleryButton"
-                });
-                on(basemapGalleryButtonDiv, "click", lang.hitch(this, function (event) {
-                    event.stopPropagation();
-                    if (!this.basemapGallery) {
-                        this._fetchBasemapGalleryGroup().then(lang.hitch(this, function (id) {
-                            this._createBasemapGallery(basemapG, id);
-                        }));
-                    }
-                    this._showPanel("Basemap");
-                }));
+            if (this.config.showBaseMapGallery) {
+                if (!this.basemapGallery) {
+                    basemapG = this._createOnScreenWidgetPanel("Basemap");
+                    basemapGalleryButtonDiv = domConstruct.create("div", {
+                        "class": "esriCTMapNavigationButton esriCTBasemapGalleryButton"
+                    });
+                    on(basemapGalleryButtonDiv, "click", lang.hitch(this, function (event) {
+                        event.stopPropagation();
+                        if (!this.basemapGallery) {
+                            this._fetchBasemapGalleryGroup().then(lang.hitch(this, function (id) {
+                                this._createBasemapGallery(basemapG, id);
+                            }));
+                        }
+                        this._showPanel("Basemap");
+                    }));
+                }
             }
 
-            legendButtonDiv = domConstruct.create("div", {
-                "class": "esriCTMapNavigationButton esriCTLegendButton"
-            });
-            legend = this._createOnScreenWidgetPanel("Legend");
-            on(legendButtonDiv, "click", lang.hitch(this, function (event) {
-                event.stopPropagation();
-                if (!this.legend) {
-                    this._createLegend(legend);
-                }
-                this._showPanel("Legend");
-            }));
-
+            if (this.config.showLegend) {
+                legendButtonDiv = domConstruct.create("div", {
+                    "class": "esriCTMapNavigationButton esriCTLegendButton"
+                });
+                legend = this._createOnScreenWidgetPanel("Legend");
+                on(legendButtonDiv, "click", lang.hitch(this, function (event) {
+                    event.stopPropagation();
+                    if (!this.legend) {
+                        this._createLegend(legend);
+                    }
+                    this._showPanel("Legend");
+                }));
+            }
             incrementButton = query(".esriSimpleSliderIncrementButton", dom.byId("mapDiv"));
             domConstruct.empty(incrementButton[0]);
             domClass.add(incrementButton[0], "esriCTIncrementButton esriCTPointerCursor");
@@ -2566,11 +2605,15 @@ define([
             domClass.add(decrementButton[0], "esriCTDecrementButton esriCTPointerCursor");
             domConstruct.place(homeButtonDiv, query(".esriSimpleSliderIncrementButton", dom.byId("mapDiv"))[0], "after");
             domConstruct.place(geoLocationButtonDiv, query(".esriSimpleSliderDecrementButton", dom.byId("mapDiv"))[0], "after");
-            domConstruct.place(basemapGalleryButtonDiv, geoLocationButtonDiv, "after");
-            this.appUtils.createBasemapGalleryButton(basemapGalleryButtonDiv);
-            domConstruct.place(legendButtonDiv, geoLocationButtonDiv, "after");
+            if (basemapGalleryButtonDiv) {
+                domConstruct.place(basemapGalleryButtonDiv, geoLocationButtonDiv, "after");
+                this.appUtils.createBasemapGalleryButton(basemapGalleryButtonDiv);
+            }
+            if (legendButtonDiv) {
+                domConstruct.place(legendButtonDiv, geoLocationButtonDiv, "after");
+                this.appUtils.createLegendButton(legendButtonDiv);
+            }
             this.appUtils.createGeoLocationButton(details.itemInfo.itemData.baseMap.baseMapLayers, this._selectedMapDetails.map, geoLocationButtonDiv, false);
-            this.appUtils.createLegendButton(legendButtonDiv);
             this.appUtils.createHomeButton(this._selectedMapDetails.map, homeButtonDiv);
             this.mapSearch.createSearchButton(this.response, this.response.map, dom.byId("mapDiv"), false, details);
             this.basemapExtent = this.appUtils.getBasemapExtent(details.itemInfo.itemData.baseMap.baseMapLayers);

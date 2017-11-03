@@ -101,6 +101,8 @@ define({
     "locationField": "LONG_TEXT",
     "showMapFirst":"list",
     "showHelpOnLoad": false,
+    "showBaseMapGallery": false,
+    "showLegend": false,
     "basemapGroup":"",
 
     //Sort report configuration
