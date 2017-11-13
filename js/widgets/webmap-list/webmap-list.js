@@ -513,7 +513,6 @@ define([
                     "operationalLayerDetails": layerDetails,
                     "itemInfo": itemInfo
                 });
-                this.appUtils.hideLoadingIndicator();
             }), 500);
         },
 

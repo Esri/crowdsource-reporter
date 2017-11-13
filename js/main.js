@@ -2451,6 +2451,7 @@ define([
         * @memberOf main
         */
         _selectFeaturesInBuffer: function (featureLayer, details, bufferedGeometries) {
+            this.appUtils.showLoadingIndicator();
             var queryTask, queryParams, newGraphic, currentDateTime = new Date().getTime();
             queryParams = new Query();
             queryParams.objectIds = this.sortedBufferArray[this.bufferPageNumber];
@@ -2501,8 +2502,10 @@ define([
 
                     //Now, initialize issue list
                     this._createIssueWall(details);
+                    this.appUtils.hideLoadingIndicator();
                 }
             }), function (err) {
+                this.appUtils.hideLoadingIndicator();
                 console.log(err);
             });
         },
