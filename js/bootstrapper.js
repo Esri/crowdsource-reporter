@@ -56,6 +56,8 @@ define([
                 "config": this.boilerPlateTemplateObject
             });
             this.boilerPlateTemplateObject.startup().then(lang.hitch(this, function (config) {
+                // Set shortcut icon
+                this._setApplicationShortcutIcon(config);
                 config.portalObject = this.boilerPlateTemplateObject.portal;
                 //By default geolocation will be set to false
                 config.geolocation = false;
@@ -83,8 +85,6 @@ define([
                     link.href = "./css/rtl.css";
                     document.getElementsByTagName('head')[0].appendChild(link);
                 }
-                // Set shortcut icon
-                this._setApplicationShortcutIcon(config);
                 this.config = config;
                 // Load app theme
                 this._loadApplicationTheme();
@@ -130,6 +130,8 @@ define([
                 favIcon = "/images/favicon.ico";
             }
             this._loadIcons("shortcut icon", favIcon);
+            this._loadIcons("apple-touch-icon-precomposed", favIcon);
+            this._loadIcons("apple-touch-icon", favIcon);
         },
 
         /**

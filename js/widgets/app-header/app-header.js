@@ -191,9 +191,6 @@ define([
             // On application icon/name click navigate to home screen on mobile devices
             on(this.applicationHeaderIcon, "click", lang.hitch(this, this._navigateToHome));
             on(this.applicationHeaderName, "click", lang.hitch(this, this._navigateToHome));
-
-            this._loadIcons("apple-touch-icon-precomposed", applicationIcon);
-            this._loadIcons("apple-touch-icon", applicationIcon);
         },
 
 
