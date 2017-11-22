@@ -286,7 +286,7 @@
           "label": "Zoom Level"
       }, {
           "type": "paragraph",
-          "value": "When a report is selected from the list, the map will pan and zoom to show the location of that report. Specify how near (larger number) or far (smaller number) the map should zoom relative to the ground."
+          "value": "Zoom level used when zooming to user location or to the submission form search location."
       }, {
           "label": "Zoom level for selected report",
           "tooltip": "Specify how near (larger number) or far (smaller number) the map should zoom relative to the ground.",
