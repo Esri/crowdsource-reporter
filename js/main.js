@@ -2402,6 +2402,7 @@ define([
                     if (this.featureLayerCount === 0) {
                         //We still need to show issue wall with no features found message
                         this._createIssueWall(details);
+                        this.appUtils.hideLoadingIndicator();
                     }
                 }
                 //Since the layer is loaded for the first time, change the flag value to false
@@ -2650,6 +2651,7 @@ define([
             } else {
                 //We still need to show issue wall with no features found message
                 this._createIssueWall(details);
+                this.appUtils.hideLoadingIndicator();
             }
 
         },
