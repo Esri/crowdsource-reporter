@@ -28,8 +28,8 @@ define({
     "noFeatureGeomtery": "No se puede mostrar la entidad",
     "featureOutsideAOIMessage": "La entidad no puede agregarse fuera del área de estudio",
     "noEditingPermissionsMessage": "No tiene permiso para realizar esta acción.",
-    "basemapGalleryText": "á_Basemap Gallery______Ó",
-    "legendText": "á_Legend___Ó"
+    "basemapGalleryText": "Galería de mapas base",
+    "legendText": "Leyenda"
   },
   "signin": {
     "guestSigninText": "Continuar como invitado",

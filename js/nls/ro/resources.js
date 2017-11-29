@@ -28,8 +28,8 @@ define({
     "noFeatureGeomtery": "Obiectul spaţial nu poate fi afişat",
     "featureOutsideAOIMessage": "Obiectul spaţial nu poate fi adăugat în afara zonei de studiu",
     "noEditingPermissionsMessage": "Nu aveţi permisiunea pentru a efectua această acţiune.",
-    "basemapGalleryText": "Ă_Basemap Gallery______ș",
-    "legendText": "Ă_Legend___ș"
+    "basemapGalleryText": "Galerie de hărţi fundal",
+    "legendText": "Legendă"
   },
   "signin": {
     "guestSigninText": "Continuare ca oaspete",

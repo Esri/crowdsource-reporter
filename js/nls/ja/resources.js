@@ -28,8 +28,8 @@ define({
     "noFeatureGeomtery": "フィーチャを表示できません",
     "featureOutsideAOIMessage": "フィーチャを分析範囲外に追加することはできません",
     "noEditingPermissionsMessage": "この操作を実行する権限がありません。",
-    "basemapGalleryText": "須_Basemap Gallery______鷗",
-    "legendText": "須_Legend___鷗"
+    "basemapGalleryText": "ベースマップ ギャラリー",
+    "legendText": "凡例"
   },
   "signin": {
     "guestSigninText": "ゲストとして続行",

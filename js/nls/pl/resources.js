@@ -28,8 +28,8 @@ define({
     "noFeatureGeomtery": "Nie można wyświetlić obiektu",
     "featureOutsideAOIMessage": "Nie można dodać funkcji poza analizowanym obszarem",
     "noEditingPermissionsMessage": "Nie masz uprawnień do wykonania tego działania.",
-    "basemapGalleryText": "ł_Basemap Gallery______ą",
-    "legendText": "ł_Legend___ą"
+    "basemapGalleryText": "Galeria map bazowych",
+    "legendText": "Legenda"
   },
   "signin": {
     "guestSigninText": "Kontynuuj jako gość",

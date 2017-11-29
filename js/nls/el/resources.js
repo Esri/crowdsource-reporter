@@ -28,8 +28,8 @@ define({
     "noFeatureGeomtery": "Δεν είναι δυνατή η εμφάνιση του στοιχείου",
     "featureOutsideAOIMessage": "Το στοιχείο δεν μπορεί να προστεθεί εκτός της περιοχής μελέτης",
     "noEditingPermissionsMessage": "Δεν έχετε δικαίωμα να εκτελέσετε αυτή την ενέργεια.",
-    "basemapGalleryText": "π_Basemap Gallery______Ω",
-    "legendText": "π_Legend___Ω"
+    "basemapGalleryText": "Συλλογή υποβάθρων",
+    "legendText": "Υπόμνημα"
   },
   "signin": {
     "guestSigninText": "Συνέχεια ως επισκέπτης",

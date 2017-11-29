@@ -28,8 +28,8 @@ define({
     "noFeatureGeomtery": "Elemento não pode ser exibido",
     "featureOutsideAOIMessage": "O elemento não pode ser adicionado fora da área de estudo",
     "noEditingPermissionsMessage": "Não tem permissões para executar esta ação.",
-    "basemapGalleryText": "ã_Basemap Gallery______Ç",
-    "legendText": "ã_Legend___Ç"
+    "basemapGalleryText": "Galeria de Mapas Base",
+    "legendText": "Legenda"
   },
   "signin": {
     "guestSigninText": "Prosseguir como Convidado",

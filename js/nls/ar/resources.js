@@ -28,8 +28,8 @@ define({
     "noFeatureGeomtery": "يتعذر عرض المعالم",
     "featureOutsideAOIMessage": "يتعذر إضافة المعلم خارج منطقة الدراسة",
     "noEditingPermissionsMessage": "لا يتوفر لديك إذن تنفيذ هذا الحدث.",
-    "basemapGalleryText": "بيت_Basemap Gallery______لاحقة",
-    "legendText": "بيت_Legend___لاحقة"
+    "basemapGalleryText": "معرض خرائط الأساس",
+    "legendText": "وسيلة الإيضاح"
   },
   "signin": {
     "guestSigninText": "تابع بصفتك ضيف",

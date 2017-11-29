@@ -28,8 +28,8 @@ define({
     "noFeatureGeomtery": "A feição não pode ser exibida",
     "featureOutsideAOIMessage": "A feição não pode ser adicionada fora da área de estudo",
     "noEditingPermissionsMessage": "Você não tem permissão para executar esta ação.",
-    "basemapGalleryText": "ã_Basemap Gallery______Ç",
-    "legendText": "ã_Legend___Ç"
+    "basemapGalleryText": "Galeria de Mapa Base",
+    "legendText": "Legenda"
   },
   "signin": {
     "guestSigninText": "Prosseguir como Convidado",

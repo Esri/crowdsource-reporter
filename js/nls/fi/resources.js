@@ -28,8 +28,8 @@ define({
     "noFeatureGeomtery": "Kohdetta ei voi näyttää",
     "featureOutsideAOIMessage": "Tarkastelualueen ulkopuolisia kohteita ei voi lisätä",
     "noEditingPermissionsMessage": "Sinulla ei ole oikeuksia tämän toiminnon toteuttamiseen.",
-    "basemapGalleryText": "Å_Basemap Gallery______ö",
-    "legendText": "Å_Legend___ö"
+    "basemapGalleryText": "Taustakartat",
+    "legendText": "Selite"
   },
   "signin": {
     "guestSigninText": "Jatka käyttöä vierailijana",

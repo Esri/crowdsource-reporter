@@ -28,8 +28,8 @@ define({
     "noFeatureGeomtery": "Objekt kan ikke vises",
     "featureOutsideAOIMessage": "Objekt kan ikke tilføjes uden for undersøgelsesområdet",
     "noEditingPermissionsMessage": "Du har ikke tilladelse til at udføre denne handling.",
-    "basemapGalleryText": "ø_Basemap Gallery______å",
-    "legendText": "ø_Legend___å"
+    "basemapGalleryText": "Galleri over baggrundskort",
+    "legendText": "Signaturforklaring"
   },
   "signin": {
     "guestSigninText": "Fortsæt som gæst",

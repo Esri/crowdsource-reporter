@@ -28,8 +28,8 @@ define({
     "noFeatureGeomtery": "Impossibile visualizzare la feature",
     "featureOutsideAOIMessage": "La feature non può essere aggiunta esternamente all'area di studio",
     "noEditingPermissionsMessage": "Non si è autorizzati a completare questa azione.",
-    "basemapGalleryText": "é_Basemap Gallery______È",
-    "legendText": "é_Legend___È"
+    "basemapGalleryText": "Galleria di mappe di base",
+    "legendText": "Legenda"
   },
   "signin": {
     "guestSigninText": "Continua come ospite",

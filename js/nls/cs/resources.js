@@ -28,8 +28,8 @@ define({
     "noFeatureGeomtery": "Prvek nelze zobrazit.",
     "featureOutsideAOIMessage": "Prvek nelze přidat mimo zájmovou oblast.",
     "noEditingPermissionsMessage": "Nemáte oprávnění k provedení této akce.",
-    "basemapGalleryText": "Ř_Basemap Gallery______ů",
-    "legendText": "Ř_Legend___ů"
+    "basemapGalleryText": "Galerie podkladových map",
+    "legendText": "Legenda"
   },
   "signin": {
     "guestSigninText": "Pokračovat jako host",

@@ -28,8 +28,8 @@ define({
     "noFeatureGeomtery": "फीचर प्रदर्शित नहीं किया जा सकता है",
     "featureOutsideAOIMessage": "फीचर अध्ययन क्षेत्र के बाहर नहीं जोड़ा जा सकता है",
     "noEditingPermissionsMessage": "आप को इस कार्य को करने की अनुमति नहीं है।",
-    "basemapGalleryText": "आ_Basemap Gallery______ज",
-    "legendText": "आ_Legend___ज"
+    "basemapGalleryText": "Basemap गैलरी",
+    "legendText": "लिजेंड"
   },
   "signin": {
     "guestSigninText": "अतिथि के रूप में आगे बढ़ें",
@@ -89,8 +89,8 @@ define({
     "invalidDouble": "कृपया एक संख्या दर्ज करें",
     "requiredFields": "सभी आवश्यक फ़ील्ड के लिए संख्या प्रदान करें",
     "selectLocation": "कृपया अपनी रिपोर्ट के लिए स्थान चुनें",
-    "numericRangeHintMessage": "${openStrong} संकेत: ${closeStrong} न्यूनतम संख्या ${minValue} और अधिकतम संख्या ${maxValue}",
-    "dateRangeHintMessage": "${openStrong} संकेत: ${closeStrong} न्यूनतम संख्या ${minValue} और अधिकतम संख्या ${maxValue}",
+    "numericRangeHintMessage": "${openStrong}संकेत:${closeStrong} न्यूनतम संख्या ${minValue} और अधिकतम संख्या ${maxValue}",
+    "dateRangeHintMessage": "${openStrong}संकेत:${closeStrong} न्यूनतम संख्या ${minValue} और अधिकतम संख्या ${maxValue}",
     "errorsInApplyEdits": "मान प्रस्तुत नहीं किया जा सका।",
     "attachmentSelectedMsg": "चयनित अनुलग्नक",
     "attachmentUploadStatus": "${total} अनुलग्नकों में से ${failed} अपलोड होने में विफल रहे",

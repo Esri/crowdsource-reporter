@@ -28,8 +28,8 @@ define({
     "noFeatureGeomtery": "Fitur tidak dapat ditampilkan",
     "featureOutsideAOIMessage": "Fitur tidak dapat ditambahkan di luar area studi",
     "noEditingPermissionsMessage": "Anda tidak memiliki izin untuk menjalankan tindakan ini.",
-    "basemapGalleryText": "ng_Basemap Gallery______ny",
-    "legendText": "ng_Legend___ny"
+    "basemapGalleryText": "Galeri Peta Dasar",
+    "legendText": "Legenda"
   },
   "signin": {
     "guestSigninText": "Lanjutkan sebagai Tamu",

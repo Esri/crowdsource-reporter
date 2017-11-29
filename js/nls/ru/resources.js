@@ -28,8 +28,8 @@ define({
     "noFeatureGeomtery": "Объекты невозможно отобразить",
     "featureOutsideAOIMessage": "Невозможно добавить объекты за пределами изучаемой области.",
     "noEditingPermissionsMessage": "У вас нет прав доступа для выполнения этого действия.",
-    "basemapGalleryText": "Ж_Basemap Gallery______Я",
-    "legendText": "Ж_Legend___Я"
+    "basemapGalleryText": "Галерея базовых карт",
+    "legendText": "Легенда"
   },
   "signin": {
     "guestSigninText": "Продолжить как гость",

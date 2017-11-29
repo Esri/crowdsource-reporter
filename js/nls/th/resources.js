@@ -28,8 +28,8 @@ define({
     "noFeatureGeomtery": "ไม่สามารถแสดงฟีเจอร์ได้",
     "featureOutsideAOIMessage": "ไม่สามารถเพิ่มฟีเจอร์นอกพื้นที่ศึกษาของคุณ",
     "noEditingPermissionsMessage": "คุณไม่ได้รับอนุญาตให้ดำเนินการนี้",
-    "basemapGalleryText": "ก้_Basemap Gallery______ษฺ",
-    "legendText": "ก้_Legend___ษฺ"
+    "basemapGalleryText": "แกลเลอรี่แผนที่ฐาน",
+    "legendText": "คำอธิบายสัญลักษณ์"
   },
   "signin": {
     "guestSigninText": "ดำเนินการในฐานะผู้เยี่ยมชม",

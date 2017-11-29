@@ -28,8 +28,8 @@ define({
     "noFeatureGeomtery": "Detay görüntülenemiyor",
     "featureOutsideAOIMessage": "Detay araştırma alanı dışına eklenemez",
     "noEditingPermissionsMessage": "Bu işlemi yapma izniniz yok.",
-    "basemapGalleryText": "ı_Basemap Gallery______İ",
-    "legendText": "ı_Legend___İ"
+    "basemapGalleryText": "Altlık Harita Galerisi",
+    "legendText": "Gösterim"
   },
   "signin": {
     "guestSigninText": "Konuk olarak devam et",

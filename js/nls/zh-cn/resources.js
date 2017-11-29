@@ -28,8 +28,8 @@ define({
     "noFeatureGeomtery": "无法显示要素",
     "featureOutsideAOIMessage": "无法向研究区域外添加要素",
     "noEditingPermissionsMessage": "您无权执行此操作。",
-    "basemapGalleryText": "试_Basemap Gallery______验",
-    "legendText": "试_Legend___验"
+    "basemapGalleryText": "底图库",
+    "legendText": "图例"
   },
   "signin": {
     "guestSigninText": "以访客身份继续进行",

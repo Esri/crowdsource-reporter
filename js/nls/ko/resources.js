@@ -28,8 +28,8 @@ define({
     "noFeatureGeomtery": "피처를 표시할 수 없음",
     "featureOutsideAOIMessage": "피처를 처리 범위 외부로 추가할 수 없음",
     "noEditingPermissionsMessage": "이 작업을 수행할 권한이 없습니다.",
-    "basemapGalleryText": "한_Basemap Gallery______빠",
-    "legendText": "한_Legend___빠"
+    "basemapGalleryText": "베이스맵 갤러리",
+    "legendText": "범례"
   },
   "signin": {
     "guestSigninText": "게스트로 진행",

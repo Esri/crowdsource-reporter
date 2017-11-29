@@ -28,8 +28,8 @@ define({
     "noFeatureGeomtery": "Không thể hiển thị đối tượng",
     "featureOutsideAOIMessage": "Không thể thêm đối tượng bên ngoài vùng nghiên cứu",
     "noEditingPermissionsMessage": "Bạn không có quyền thực hiện thao tác này.",
-    "basemapGalleryText": "Đ_Basemap Gallery______ớ",
-    "legendText": "Đ_Legend___ớ"
+    "basemapGalleryText": "Bộ sưu tập bản đồ nền",
+    "legendText": "Chú giải"
   },
   "signin": {
     "guestSigninText": "Tiến hành dưới dạng Khách",

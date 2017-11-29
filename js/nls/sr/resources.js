@@ -28,8 +28,8 @@ define({
     "noFeatureGeomtery": "Funkcija ne može da bude prikazana",
     "featureOutsideAOIMessage": "Geoobjekat ne može da se doda izvan oblasti ispitivanja",
     "noEditingPermissionsMessage": "Nemate dozvolu za ovu radnju.",
-    "basemapGalleryText": "Č_Basemap Gallery______ž",
-    "legendText": "Č_Legend___ž"
+    "basemapGalleryText": "Galerija pozadinskih mapa",
+    "legendText": "Legenda"
   },
   "signin": {
     "guestSigninText": "Nastavite kao gost",

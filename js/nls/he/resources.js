@@ -28,8 +28,8 @@ define({
     "noFeatureGeomtery": "לא ניתן להציג את הישות",
     "featureOutsideAOIMessage": "‏אין אפשרות להוסיף ישות מחוץ לאזור המחקר",
     "noEditingPermissionsMessage": "אין לך הרשאה לבצע את הפעולה הזו.",
-    "basemapGalleryText": "כן_Basemap Gallery______ש",
-    "legendText": "כן_Legend___ש"
+    "basemapGalleryText": "גלרית מפות בסיס",
+    "legendText": "מקרא"
   },
   "signin": {
     "guestSigninText": "המשך כאורח",

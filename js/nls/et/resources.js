@@ -28,8 +28,8 @@ define({
     "noFeatureGeomtery": "Funktsiooni ei saa kuvada.",
     "featureOutsideAOIMessage": "Objekti ei saa lisada uuringualast väljapoole",
     "noEditingPermissionsMessage": "Teil puudub õigus selle toimingu tegemiseks.",
-    "basemapGalleryText": "Š_Basemap Gallery______ä",
-    "legendText": "Š_Legend___ä"
+    "basemapGalleryText": "Aluskaardi galerii",
+    "legendText": "Legend"
   },
   "signin": {
     "guestSigninText": "Jätkake külalisena",

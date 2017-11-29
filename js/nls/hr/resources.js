@@ -28,8 +28,8 @@ define({
     "noFeatureGeomtery": "Geoobjekt se ne može prikazati",
     "featureOutsideAOIMessage": "Geoobjekt se ne može dodati izvan radnog područja",
     "noEditingPermissionsMessage": "Nemate dopuštenje za izvođenje ove radnje.",
-    "basemapGalleryText": "Č_Basemap Gallery______ž",
-    "legendText": "Č_Legend___ž"
+    "basemapGalleryText": "Galerija kartografskih podloga",
+    "legendText": "Legenda"
   },
   "signin": {
     "guestSigninText": "Nastavi kao gost",

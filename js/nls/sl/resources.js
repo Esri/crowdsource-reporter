@@ -28,8 +28,8 @@ define({
     "noFeatureGeomtery": "Geoobjekta ni mogoče prikazati",
     "featureOutsideAOIMessage": "Geoobjekta ni mogoče dodati izven študijskega območja",
     "noEditingPermissionsMessage": "Za izvajanje tega dejanja nimate dovoljenja.",
-    "basemapGalleryText": "Š_Basemap Gallery______č",
-    "legendText": "Š_Legend___č"
+    "basemapGalleryText": "Galerija temeljnih kart",
+    "legendText": "Legenda"
   },
   "signin": {
     "guestSigninText": "Nadaljuj kot gost",

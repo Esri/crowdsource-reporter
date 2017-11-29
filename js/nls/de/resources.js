@@ -28,8 +28,8 @@ define({
     "noFeatureGeomtery": "Feature kann nicht angezeigt werden",
     "featureOutsideAOIMessage": "Feature kann nicht außerhalb des Untersuchungsgebiets hinzugefügt werden.",
     "noEditingPermissionsMessage": "Sie sind nicht berechtigt, diese Aktion auszuführen.",
-    "basemapGalleryText": "ä_Basemap Gallery______Ü",
-    "legendText": "ä_Legend___Ü"
+    "basemapGalleryText": "Grundkartengalerie",
+    "legendText": "Legende"
   },
   "signin": {
     "guestSigninText": "Vorgang als Gast fortsetzen",

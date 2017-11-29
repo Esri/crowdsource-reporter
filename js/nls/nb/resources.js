@@ -28,8 +28,8 @@ define({
     "noFeatureGeomtery": "Kan ikke vise geoobjekt",
     "featureOutsideAOIMessage": "Kan ikke legge til geoobjekt utenfor studieområde",
     "noEditingPermissionsMessage": "Du har ikke tillatelse til å utføre denne handlingen.",
-    "basemapGalleryText": "å_Basemap Gallery______ø",
-    "legendText": "å_Legend___ø"
+    "basemapGalleryText": "Bakgrunnskartgalleri",
+    "legendText": "Tegnforklaring"
   },
   "signin": {
     "guestSigninText": "Fortsett som gjest",
