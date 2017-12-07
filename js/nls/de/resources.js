@@ -27,7 +27,9 @@ define({
     "gotoListViewTooltip": "Listenansicht",
     "noFeatureGeomtery": "Feature kann nicht angezeigt werden",
     "featureOutsideAOIMessage": "Feature kann nicht außerhalb des Untersuchungsgebiets hinzugefügt werden.",
-    "noEditingPermissionsMessage": "Sie sind nicht berechtigt, diese Aktion auszuführen."
+    "noEditingPermissionsMessage": "Sie sind nicht berechtigt, diese Aktion auszuführen.",
+    "basemapGalleryText": "Grundkartengalerie",
+    "legendText": "Legende"
   },
   "signin": {
     "guestSigninText": "Vorgang als Gast fortsetzen",

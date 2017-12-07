@@ -27,7 +27,9 @@ define({
     "gotoListViewTooltip": "Luettelonäkymä",
     "noFeatureGeomtery": "Kohdetta ei voi näyttää",
     "featureOutsideAOIMessage": "Tarkastelualueen ulkopuolisia kohteita ei voi lisätä",
-    "noEditingPermissionsMessage": "Sinulla ei ole oikeuksia tämän toiminnon toteuttamiseen."
+    "noEditingPermissionsMessage": "Sinulla ei ole oikeuksia tämän toiminnon toteuttamiseen.",
+    "basemapGalleryText": "Taustakartat",
+    "legendText": "Selite"
   },
   "signin": {
     "guestSigninText": "Jatka käyttöä vierailijana",

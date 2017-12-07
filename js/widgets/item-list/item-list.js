@@ -155,7 +155,7 @@ define([
                     titleNode = dojoQuery(".esriCTItemTitle", currentNode[0])[0];
                 }
                 if (titleNode) {
-                    titleNode.innerHTML = this.getItemTitle(item);
+                    titleNode.innerHTML = this.getItemTitle(item) || "&nbsp;";
                 }
             }
         },

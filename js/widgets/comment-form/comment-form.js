@@ -1603,7 +1603,7 @@ define([
                 "id": fieldname
             }, parentNode);
             // get date format
-            if (currentField.format.dateFormat) {
+            if (currentField.format && currentField.format.dateFormat) {
                 setDateFormat = this.appUtils.getDateFormat(currentField.format.dateFormat);
             }
             // on focus
@@ -1620,8 +1620,8 @@ define([
             $(parentNode).datetimepicker({
                 useSeconds: false,
                 useStrict: false,
-                format: setDateFormat.dateFormat,
-                pickTime: setDateFormat.showTime,
+                format: setDateFormat && setDateFormat.dateFormat ? setDateFormat.dateFormat : null,
+                pickTime: setDateFormat && setDateFormat.showTime ? setDateFormat.showTime : true,
                 language: kernel.locale
             }).on('dp.show', function (evt) {
                 if (isRangeField) {

@@ -19,6 +19,7 @@ define([
     "dojo/_base/declare",
     "dojo/_base/lang",
     "dojo/_base/array",
+    "dojo/_base/html",
     "esri/arcgis/utils",
     "dojo/dom",
     "dojo/dom-construct",
@@ -51,6 +52,7 @@ define([
     "esri/geometry/webMercatorUtils",
     "esri/dijit/PopupTemplate",
     "esri/toolbars/draw",
+    "esri/urlUtils",
     "widgets/app-header/app-header",
     "widgets/webmap-list/webmap-list",
     "widgets/issue-wall/issue-wall",
@@ -62,11 +64,14 @@ define([
     "widgets/item-details/item-details-controller",
     "widgets/map-search/map-search",
     'dijit/layout/ContentPane',
+    "esri/dijit/BasemapGallery",
+    "esri/dijit/Legend",
     "dojo/domReady!"
 ], function (
     declare,
     lang,
     array,
+    html,
     arcgisUtils,
     dom,
     domConstruct,
@@ -99,6 +104,7 @@ define([
     webMercatorUtils,
     PopupTemplate,
     Draw,
+    urlUtils,
     ApplicationHeader,
     WebMapList,
     IssueWall,
@@ -109,7 +115,9 @@ define([
     SidebarContentController,
     ItemDetails,
     MapSearch,
-    ContentPane
+    ContentPane,
+    BasemapGallery,
+    Legend
 ) {
     return declare(null, {
         config: {},
@@ -150,6 +158,8 @@ define([
         drawToolBarHandler: null,
         hasSortingField: false,
         _featuresAddedFromMyIssues: [],
+        basemapGallery: null,
+        legend: null,
         startup: function (boilerPlateTemplateObject, loggedInUser) {
             // config will contain application and user defined info for the template such as i18n strings, the web map id
             // and application id
@@ -172,7 +182,7 @@ define([
                 this.mapSearch.onFeatureFound = lang.hitch(this, function (feature) {
                     this._addNewFeature(feature.attributes[this.selectedLayer.objectIdField], this.selectedLayer, "search");
                 });
-                //Check if pusphin is already present on map, if it exist clear the same
+                //Check if pushpin is already present on map, if it exist clear the same
                 aspect.before(this.mapSearch, "_validateAddress", lang.hitch(this, function () {
                     if (this.geolocationgGraphicsLayer) {
                         this.geolocationgGraphicsLayer.clear();
@@ -239,6 +249,18 @@ define([
                 if (loggedInUser) {
                     queryParams.token = loggedInUser.credential.token;
                 }
+
+                //Force the proxy for specified prefixes
+                if (this.config.proxyThesePrefixes && this.config.proxyThesePrefixes.length > 0 &&
+                        this.config.proxyurl) {
+                    array.forEach(this.config.proxyThesePrefixes, function (prefix) {
+                        urlUtils.addProxyRule({
+                            urlPrefix: prefix,
+                            proxyUrl: this.config.proxyurl
+                        });
+                    }, this);
+                }
+
                 //Pass the newly constructed queryparams from group info.
                 //If query params not available in group info or group is private, items will be sorted according to modified date.
                 this._loadGroupItems(queryParams);
@@ -257,6 +279,22 @@ define([
             if (this.config.showPopupForNonEditableLayers) {
                 this._createDetailsPanelForNonEditableLayer();
             }
+
+            on(document, "click", lang.hitch(this, function (event) {
+                var target, basemapPanel, legendPanel, isInternal;
+                target = event.target || event.srcElement;
+                basemapPanel = query(".esriCTOnScreenBasemap")[0];
+                legendPanel = query(".esriCTOnScreenLegend")[0];
+                //Check for click event and accordingly show/hide on screen widgets
+                if (basemapPanel && legendPanel) {
+                    isInternal = target === basemapPanel || target === legendPanel ||
+                        html.isDescendant(target, basemapPanel) || html.isDescendant(target, legendPanel);
+                    if (!isInternal) {
+                        this._hidePanel("Basemap");
+                        this._hidePanel("Legend");
+                    }
+                }
+            }));
         },
 
         /**
@@ -319,7 +357,7 @@ define([
                 return;
             }
             if (evt.graphic && evt.graphic._layer && evt.graphic._layer.capabilities &&
-                evt.graphic._layer.id !== this.displaygraphicsLayer.id) {
+                    evt.graphic._layer.id !== this.displaygraphicsLayer.id) {
                 isNonEditableLayer = evt.graphic._layer.capabilities.indexOf("Create") === -1 && (evt.graphic._layer.capabilities.indexOf("Editing") === -1 ||
                     evt.graphic._layer.capabilities.indexOf("Update") === -1);
             }
@@ -554,7 +592,7 @@ define([
                 on(dom.byId("mapBackButton"), "click", lang.hitch(this, function (evt) {
                     this._toggleListView();
                     //If webmap list is not required, skip the further processing of function
-                    if(!this._isWebmapListRequired){
+                    if (!this._isWebmapListRequired) {
                         return;
                     }
                     //If showMapFirst flag is turned on and app is running in mobile mode, show web list on click of back button
@@ -656,7 +694,7 @@ define([
             var updatedFeatureTitle;
             updatedFeatureTitle = this._issueWallWidget.itemsList.getItemTitle(updatedFeature);
             domAttr.set(this._itemDetails.itemTitleDiv, "innerHTML", updatedFeatureTitle);
-            //If the updated issue is present in my issues list then update it accrodingly
+            //If the updated issue is present in my issues list then update it accordingly
             if (this._myIssuesWidget && this._myIssuesWidget.itemsList && this.config.logInDetails && updatedFeature.attributes[this.config.reportedByField] && updatedFeature.attributes[this.config.reportedByField] === this.config.logInDetails.processedUserName) {
                 this._myIssuesWidget.updateIssueList(this._selectedMapDetails, updatedFeature);
             }
@@ -1218,7 +1256,7 @@ define([
                 this._issueWallWidget.featureSelectedOnMapClick = lang.hitch(this, function (selectedFeature) {
                     //If geoform is open and existing feature is clicked while drawing new feature,
                     //stop the selection functionality and continue drawing
-                    if(!domClass.contains(dom.byId('geoformContainer'), "esriCTHidden")){
+                    if (!domClass.contains(dom.byId('geoformContainer'), "esriCTHidden")) {
                         return;
                     }
                     //user can select feature from map once he enters to map from issueDetails of my-issue
@@ -1664,6 +1702,7 @@ define([
             }
             esriQuery = new Query();
             esriQuery.objectIds = [parseInt(objectId, 10)];
+            esriQuery.outFields = ["*"];
             esriQuery.where = currentDateTime + "=" + currentDateTime;
             esriQuery.returnGeometry = true;
             esriQuery.outSpatialReference = this.map.spatialReference;
@@ -1710,7 +1749,8 @@ define([
         * @param{object} details of selected layer
         */
         _getPointSymbol: function (graphic, layer) {
-            var symbol, isSymbolFound, graphics, point, graphicInfoValue, layerInfoValue, i, itemFromLayer, symbolShape;
+            var symbol, isSymbolFound, graphics, point, graphicInfoValue, layerInfoValue, i, itemFromLayer, symbolShape,
+                symbolDetails, sizeInfo, arcSymbolSize;
             isSymbolFound = false;
             symbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_SQUARE, null, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 255, 255, 1]), 3));
             symbol.setColor(null);
@@ -1745,14 +1785,14 @@ define([
                 }
             }
             layer = this.mapInstance.getLayer(layer.id);
-            if (!isSymbolFound && layer && layer.graphics && layer.graphics.length > 0) {
+            if (layer && layer.graphics && layer.graphics.length > 0) {
                 array.some(layer.graphics, function (item) {
-                    if (item.attributes[graphic._layer.objectIdField] === graphic.attributes[graphic._layer.objectIdField]) {
+                    if (item.attributes[layer.objectIdField] === graphic.attributes[layer.objectIdField]) {
                         itemFromLayer = item;
                         return item;
                     }
                 });
-                if (itemFromLayer.getShape) {
+                if (this.selectedLayer._getSymbol(itemFromLayer)) {
                     symbolShape = itemFromLayer.getShape();
                     if (symbolShape && symbolShape.shape) {
                         if (symbolShape.shape.hasOwnProperty("r")) {
@@ -1760,11 +1800,25 @@ define([
                             symbol.size = (symbolShape.shape.r * 2) + 10;
                         } else if (symbolShape.shape.hasOwnProperty("width")) {
                             isSymbolFound = true;
-                            //get offsets in case of smartmapping symbols from the renderer info if available
+                            //get offsets in case of smart mapping symbols from the renderer info if available
                             if (layer.renderer && layer.renderer.infos && layer.renderer.infos.length > 0) {
                                 symbol = this._updatePointSymbolProperties(symbol, layer.renderer.infos[0].symbol);
                             }
                             symbol.size = symbolShape.shape.width + 10;
+                        }
+                        //handle arcade expressions, take max size of symbol
+                    } else if (layer.renderer.visualVariables) {
+                        symbolDetails = layer._getRenderer(itemFromLayer);
+                        sizeInfo = this._getSizeInfo();
+                        if (sizeInfo) {
+                            arcSymbolSize = symbolDetails.getSize(itemFromLayer, {
+                                sizeInfo: sizeInfo,
+                                shape: this.selectedLayer._getSymbol(itemFromLayer),
+                                resolution: layer && layer.getResolutionInMeters && layer.getResolutionInMeters()
+                            });
+                            if (arcSymbolSize !== null) {
+                                symbol.size = arcSymbolSize + 10;
+                            }
                         }
                     }
                 }
@@ -1775,6 +1829,24 @@ define([
             graphics = new Graphic(point, symbol, graphic.attributes);
             return graphics;
         },
+
+        /**
+        * This function is used to get symbol size
+        */
+        _getSizeInfo: function () {
+            var draw;
+            if (this.selectedLayer.renderer.visualVariables) {
+                array.forEach(this.selectedLayer.renderer.visualVariables, lang.hitch(this, function (drawInfo) {
+                    if (drawInfo.type === "sizeInfo") {
+                        draw = drawInfo;
+                    }
+                }));
+            } else {
+                draw = null;
+            }
+            return draw;
+        },
+
 
         /**
         * This function is used to get different data of symbol from infos properties of renderer object.
@@ -2073,7 +2145,7 @@ define([
             selectedOperationalLayer.hide();
             // get index of layer
             this._getExistingIndex(layerID);
-            //Check if graphics layer already exsists
+            //Check if graphics layer already exists
             if (this.displaygraphicsLayer) {
                 this.map.removeLayer(this.displaygraphicsLayer);
             }
@@ -2084,6 +2156,8 @@ define([
             //Set minimum and maximum scale to layer if exist
             this.displaygraphicsLayer.setMaxScale(maxScale);
             this.displaygraphicsLayer.setMinScale(minScale);
+            this.displaygraphicsLayer._layer = this.selectedLayer;
+            this.displaygraphicsLayer.fields = this.selectedLayer.fields;
             this.map.addLayer(this.displaygraphicsLayer, this._existingLayerIndex);
             this._getFeatureLayerCount(details, selectedOperationalLayer);
             this._reorderAllLayers();
@@ -2328,6 +2402,7 @@ define([
                     if (this.featureLayerCount === 0) {
                         //We still need to show issue wall with no features found message
                         this._createIssueWall(details);
+                        this.appUtils.hideLoadingIndicator();
                     }
                 }
                 //Since the layer is loaded for the first time, change the flag value to false
@@ -2377,6 +2452,7 @@ define([
         * @memberOf main
         */
         _selectFeaturesInBuffer: function (featureLayer, details, bufferedGeometries) {
+            this.appUtils.showLoadingIndicator();
             var queryTask, queryParams, newGraphic, currentDateTime = new Date().getTime();
             queryParams = new Query();
             queryParams.objectIds = this.sortedBufferArray[this.bufferPageNumber];
@@ -2427,8 +2503,10 @@ define([
 
                     //Now, initialize issue list
                     this._createIssueWall(details);
+                    this.appUtils.hideLoadingIndicator();
                 }
             }), function (err) {
+                this.appUtils.hideLoadingIndicator();
                 console.log(err);
             });
         },
@@ -2439,7 +2517,8 @@ define([
         * @memberOf main
         */
         _initializeApp: function (details) {
-            var geoLocationButtonDiv, homeButtonDiv, incrementButton, decrementButton, selectedGraphics;
+            var geoLocationButtonDiv, homeButtonDiv, incrementButton, decrementButton, selectedGraphics,
+                basemapGalleryButtonDiv, legendButtonDiv, basemapG, legend;
             //set layer title on map
             domAttr.set(dom.byId("mapContainerTitle"), "innerHTML", details.operationalLayerDetails.title);
             //Show popup on click/hover of layer title div
@@ -2474,12 +2553,54 @@ define([
             if (query(".esriCTMapHomeButtonContainer")[0]) {
                 domConstruct.destroy(query(".esriCTMapHomeButtonContainer")[0]);
             }
+            if (query(".esriCTLegendButton")[0]) {
+                domConstruct.destroy(query(".esriCTLegendButton")[0]);
+            }
+            if (query(".esriCTBasemapGalleryButton")[0]) {
+                domConstruct.destroy(query(".esriCTBasemapGalleryButton")[0]);
+            }
             geoLocationButtonDiv = domConstruct.create("div", {
                 "class": "esriCTMapGeoLocationContainer"
             });
             homeButtonDiv = domConstruct.create("div", {
                 "class": "esriCTMapHomeButtonContainer"
             });
+
+
+            //Create basemap widget on every layer/webmap change
+            this.legend = null;
+            this.basemapGallery = null;
+            if (this.config.showBaseMapGallery) {
+                if (!this.basemapGallery) {
+                    basemapG = this._createOnScreenWidgetPanel("Basemap");
+                    basemapGalleryButtonDiv = domConstruct.create("div", {
+                        "class": "esriCTMapNavigationButton esriCTBasemapGalleryButton"
+                    });
+                    on(basemapGalleryButtonDiv, "click", lang.hitch(this, function (event) {
+                        event.stopPropagation();
+                        if (!this.basemapGallery) {
+                            this._fetchBasemapGalleryGroup().then(lang.hitch(this, function (id) {
+                                this._createBasemapGallery(basemapG, id);
+                            }));
+                        }
+                        this._showPanel("Basemap");
+                    }));
+                }
+            }
+
+            if (this.config.showLegend) {
+                legendButtonDiv = domConstruct.create("div", {
+                    "class": "esriCTMapNavigationButton esriCTLegendButton"
+                });
+                legend = this._createOnScreenWidgetPanel("Legend");
+                on(legendButtonDiv, "click", lang.hitch(this, function (event) {
+                    event.stopPropagation();
+                    if (!this.legend) {
+                        this._createLegend(legend);
+                    }
+                    this._showPanel("Legend");
+                }));
+            }
             incrementButton = query(".esriSimpleSliderIncrementButton", dom.byId("mapDiv"));
             domConstruct.empty(incrementButton[0]);
             domClass.add(incrementButton[0], "esriCTIncrementButton esriCTPointerCursor");
@@ -2488,6 +2609,14 @@ define([
             domClass.add(decrementButton[0], "esriCTDecrementButton esriCTPointerCursor");
             domConstruct.place(homeButtonDiv, query(".esriSimpleSliderIncrementButton", dom.byId("mapDiv"))[0], "after");
             domConstruct.place(geoLocationButtonDiv, query(".esriSimpleSliderDecrementButton", dom.byId("mapDiv"))[0], "after");
+            if (basemapGalleryButtonDiv) {
+                domConstruct.place(basemapGalleryButtonDiv, geoLocationButtonDiv, "after");
+                this.appUtils.createBasemapGalleryButton(basemapGalleryButtonDiv);
+            }
+            if (legendButtonDiv) {
+                domConstruct.place(legendButtonDiv, geoLocationButtonDiv, "after");
+                this.appUtils.createLegendButton(legendButtonDiv);
+            }
             this.appUtils.createGeoLocationButton(details.itemInfo.itemData.baseMap.baseMapLayers, this._selectedMapDetails.map, geoLocationButtonDiv, false);
             this.appUtils.createHomeButton(this._selectedMapDetails.map, homeButtonDiv);
             this.mapSearch.createSearchButton(this.response, this.response.map, dom.byId("mapDiv"), false, details);
@@ -2522,6 +2651,7 @@ define([
             } else {
                 //We still need to show issue wall with no features found message
                 this._createIssueWall(details);
+                this.appUtils.hideLoadingIndicator();
             }
 
         },
@@ -2550,7 +2680,189 @@ define([
                 return 1;
             }
             return 0;
-        }
+        },
+
         /*-------  End of section for Geographical Filtering  -------*/
+
+        /*------- Start of section for Legend/Basmeap panels  -------*/
+
+        /**
+        * Extract basemap gallery group based on configuration
+        * @param{string} name of panel to be created
+        * @memberOf main
+        */
+        _fetchBasemapGalleryGroup: function () {
+            var basemapGroup, basemapDef, groupId, params;
+            basemapDef = new Deferred();
+            if (this.config.basemapGroup) {
+                basemapGroup = this.config.basemapGroup;
+            } else if (this.config.orgInfo.useVectorBasemaps) {
+                basemapGroup = this.config.orgInfo.vectorBasemapGalleryGroupQuery;
+            } else {
+                basemapGroup = this.config.orgInfo.basemapGalleryGroupQuery;
+            }
+            params = {
+                q: basemapGroup
+            };
+            this.config.portalObject.queryGroups(params).then(lang.hitch(this, function (groups) {
+                //Check if configured group is valid
+                if (groups.results && groups.results[0] && groups.results[0].id) {
+                    groupId = groups.results[0].id;
+                } else {
+                    groupId = null;
+                }
+                basemapDef.resolve(groupId);
+            }), function () {
+                //reject deferred
+                basemapDef.reject(null);
+            });
+            return basemapDef.promise;
+        },
+
+        /**
+        * create panel for on screen widget
+        * @param{string} name of panel to be created
+        * @memberOf main
+        */
+        _createOnScreenWidgetPanel: function (panel) {
+            var headerTitle, container, titleContainer, contentWrapper, closeBtn;
+            //Clear widgets dom
+            if (query(".esriCTOnScreen" + panel)[0]) {
+                domConstruct.destroy(query(".esriCTOnScreen" + panel)[0]);
+            }
+            //Set the title based on panel
+            if (panel === "Basemap") {
+                headerTitle = this.config.i18n.main.basemapGalleryText;
+            } else {
+                headerTitle = this.config.i18n.main.legendText;
+            }
+            container = domConstruct.create("div", {
+                "class": "esriCTOnScreenWidgetContainer esriCTHidden esriCTOnScreen" + panel
+            }, dojo.body());
+            titleContainer = domConstruct.create("div", {
+                "class": "esriCTOnScreenWidgetTitleContainer esriCTHeaderBackgroundColor esriCTHeaderTextColor esriCTHeaderTextColorAsBorder",
+                title: panel
+            }, container);
+            domConstruct.create("div", {
+                "class": "esriCTHeaderTitle",
+                innerHTML: headerTitle
+            }, titleContainer);
+
+            closeBtn = domConstruct.create("div", {
+                "class": "esriCTCloseHelpWindow icon icon-close esriCTHeaderTextColor esriCTHeaderBackgroundColor"
+            }, domConstruct.create("div", { "class": "esriCTPanelCloseBtn esriCTFloatLeft" }, titleContainer));
+
+            //Listen for close button click
+            on(closeBtn, "click", lang.hitch(this, function () {
+                domClass.add(container, "esriCTHidden");
+            }));
+            //Create dom for on screen panel
+            contentWrapper = domConstruct.create("div", {
+                "class": "esriCTOnScreenWidgetWrapper esriCTBodyTextColor esriCTBodyBackgroundColor"
+            }, container);
+            return contentWrapper;
+        },
+
+        /**
+        * create basemap gallery widget
+        * @param{object} parent node
+        * @memberOf main
+        */
+        _createBasemapGallery: function (parentNode, id) {
+            var configuredGroup = {}, loadingIndicatorDiv, basemapErrorHandler;
+            configuredGroup.id = id;
+            loadingIndicatorDiv = domConstruct.create("div", {
+                "class": "esriCTBasemapLoading"
+            }, parentNode);
+            this.basemapGallery = new BasemapGallery({
+                showArcGISBasemaps: true,
+                map: this.map,
+                basemapsGroup: configuredGroup,
+                portalUrl: this.config.sharinghost,
+                "class": "esriCTHidden"
+            }, domConstruct.create('div', {}, parentNode));
+            this.basemapGallery.startup();
+            //Hide loading indicator on load
+            this.basemapGallery.on("load", lang.hitch(this, function () {
+                domClass.add(loadingIndicatorDiv, "esriCTHidden");
+                domClass.remove(this.basemapGallery.domNode, "esriCTHidden");
+                basemapErrorHandler.remove();
+            }));
+            //Hide basemap gallery after seecting a basemap
+            this.basemapGallery.on("selection-change", lang.hitch(this, function () {
+                this._hidePanel("Basemap");
+            }));
+            //Handle basemap gallery error
+            basemapErrorHandler = this.basemapGallery.on("error", lang.hitch(this, function (err) {
+                domClass.add(loadingIndicatorDiv, "esriCTHidden");
+                domClass.remove(this.basemapGallery.domNode, "esriCTHidden");
+                domAttr.set(this.basemapGallery.domNode, "innerHTML", err.message);
+            }));
+        },
+
+        /**
+        * create legend widget
+        * @param{object} parent node
+        * @memberOf main
+        */
+        _createLegend: function (parentNode) {
+            var layerInfo = [], isNonEditableLayer, capabilities, showLegend;
+            //Loop through all the layers and filter them based on capabilities
+            array.forEach(this._selectedMapDetails.itemInfo.itemData.operationalLayers,
+                lang.hitch(this, function (layer) {
+                    isNonEditableLayer = false;
+                    showLegend = true;
+                    capabilities = layer.resourceInfo.capabilities;
+                    if (capabilities) {
+                        isNonEditableLayer = capabilities.indexOf("Create") === -1 && (capabilities.indexOf("Editing") === -1 ||
+                            capabilities.indexOf("Update") === -1);
+                    }
+                    //Honor show/hide legend prperty from webmap
+                    if (layer.hasOwnProperty("showLegend")) {
+                        showLegend = layer.showLegend;
+                    }
+                    //Filter layer based on different criteria
+                    if (showLegend && (layer.id === this.selectedLayer.id || (this.config.showNonEditableLayers && isNonEditableLayer))) {
+                        layerInfo.push({ layer: this.map._layers[layer.id], title: layer.title });
+                    }
+                }));
+            this.legend = new Legend({
+                map: this.map,
+                layerInfos: layerInfo,
+                respectVisibility: false
+            }, domConstruct.create('div', {}, parentNode));
+            this.legend.startup();
+        },
+
+        /**
+        * show on screen panel
+        * @param{string} name of panel to be shown
+        * @memberOf main
+        */
+        _showPanel: function (panel) {
+            var nodeClass;
+            //Before showing the selected panel, close all the other panels
+            query(".esriCTOnScreenWidgetContainer").forEach(lang.hitch(this,
+                function (node) {
+                    if (node) {
+                        domClass.add(node, "esriCTHidden");
+                    }
+                }));
+            nodeClass = ".esriCTOnScreen" + panel;
+            domClass.remove(query(nodeClass)[0], "esriCTHidden");
+        },
+
+        /**
+        * show on screen panel
+        * @param{string} name of panel to be shown
+        * @memberOf main
+        */
+        _hidePanel: function (panel) {
+            var nodeClass;
+            nodeClass = ".esriCTOnScreen" + panel;
+            domClass.add(query(nodeClass)[0], "esriCTHidden");
+        }
+
+        /*------- End of section for Legend/Basemap panels    -------*/
     });
 });

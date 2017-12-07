@@ -27,7 +27,9 @@ define({
     "gotoListViewTooltip": "รายการยอดเข้าชม",
     "noFeatureGeomtery": "ไม่สามารถแสดงฟีเจอร์ได้",
     "featureOutsideAOIMessage": "ไม่สามารถเพิ่มฟีเจอร์นอกพื้นที่ศึกษาของคุณ",
-    "noEditingPermissionsMessage": "คุณไม่ได้รับอนุญาตให้ดำเนินการนี้"
+    "noEditingPermissionsMessage": "คุณไม่ได้รับอนุญาตให้ดำเนินการนี้",
+    "basemapGalleryText": "แกลเลอรี่แผนที่ฐาน",
+    "legendText": "คำอธิบายสัญลักษณ์"
   },
   "signin": {
     "guestSigninText": "ดำเนินการในฐานะผู้เยี่ยมชม",

@@ -27,7 +27,9 @@ define({
     "gotoListViewTooltip": "Vista de lista",
     "noFeatureGeomtery": "No se puede mostrar la entidad",
     "featureOutsideAOIMessage": "La entidad no puede agregarse fuera del área de estudio",
-    "noEditingPermissionsMessage": "No tiene permiso para realizar esta acción."
+    "noEditingPermissionsMessage": "No tiene permiso para realizar esta acción.",
+    "basemapGalleryText": "Galería de mapas base",
+    "legendText": "Leyenda"
   },
   "signin": {
     "guestSigninText": "Continuar como invitado",

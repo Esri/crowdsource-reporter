@@ -1,6 +1,7 @@
 {
     "values": {
         "group": "",
+        "basemapGroup" :"",
         "theme": "#137DB9",
         "applicationName": "",
         "applicationIcon": "",
@@ -12,6 +13,7 @@
         "enableTwitter": false,
         "enablePortalLogin": true,
         "enableGoogleplus": false,
+        "tool_search" : true,
         "facebookAppId": "",
         "googleplusClientId": "",
         "webMapInfoDescription": true,
@@ -26,6 +28,8 @@
         "webMapInfoAvgRating": false,
         "showNonEditableLayers": false,
         "showPopupForNonEditableLayers": false,
+        "showBaseMapGallery": false,
+        "showLegend": false,
         "submitMessage": "Thank you. Your report has been submitted.",
         "likeField": "NUMVOTES",
         "commentField": "COMMENTS",
@@ -70,8 +74,8 @@
         "sortingField" : "",
         "sortingOrder": "DESC",
         "reportingPeriod": "Open",
-        "reportingPeriodDialogTitle": "Information",
-        "reportingPeriodDialogContent": "Reporting Period is closed."
+        "reportingPeriodDialogTitle": "Reporting Period Closed",
+        "reportingPeriodDialogContent": "We are no longer accepting new reports for this project."
     },
   "configurationSettings": [{
       "category": "<b>General</b>",
@@ -103,7 +107,7 @@
           "label": "Help"
       }, {
           "type": "paragraph",
-          "value": "A help window can be accessed from a link on the spash page and from an icon within the app. Configure this dialog to display instructions for using the app, or any other information that may be useful to your users."
+          "value": "A help window can be accessed from a link on the splash page and from an icon within the app. Configure this dialog to display instructions for using the app, or any other information that may be useful to your users."
       }, {
           "label": "Enable the help window",
           "tooltip": "When disabled, the help window will not be accessible.",
@@ -207,7 +211,7 @@
       "category": "<b>Options</b>",
       "fields": [{
           "type": "subcategory",
-          "label": "Reference layers"
+          "label": "Reference Layers"
       }, {
           "type": "paragraph",
           "value": "By default, Crowdsource Reporter apps will show only one editable layer at a time. Optionally, choose to also display non-editable map layers for additional context."
@@ -282,18 +286,38 @@
           "label": "Zoom Level"
       }, {
           "type": "paragraph",
-          "value": "When a report is selected from the list, the map will pan and zoom to show the location of that report. Specify how near (larger number) or far (smaller number) the map should zoom relative to the ground."
+          "value": "Zoom level used when zooming to user location or to the submission form search location."
       }, {
           "label": "Zoom level for selected report",
           "tooltip": "Specify how near (larger number) or far (smaller number) the map should zoom relative to the ground.",
           "type": "string",
           "fieldName": "zoomLevel"
-      }]
+      }, {
+          "type": "subcategory",
+          "label": "Additional Widgets"
+      }, {
+        "label": "Show legend",
+        "tooltip": "When disabled, legend button will not be displayed in map navigation buttons",
+        "type": "boolean",
+        "fieldName": "showLegend"
+      }, {
+        "label": "Show basemap gallery",
+        "tooltip": "When disabled, basemap gallery button will not be displayed in map navigation buttons",
+        "type": "conditional",
+        "condition": false,
+        "fieldName": "showBaseMapGallery",
+        "items" : [{
+          "label": "Select basemap group",
+          "tooltip": "Group displayed in the base map gallery",
+          "type": "basemapgroup",
+          "fieldName": "basemapGroup"
+        }]
+     }]
   }, {
       "category": "<b>Access</b>",
       "fields": [{
           "type": "subcategory",
-          "label": "Sign in screen"
+          "label": "Sign In Screen"
       }, {
           "label": "Sign in background image",
           "tooltip": "Background image for login screen. Recommended 640x960.",
@@ -323,7 +347,7 @@
           "fieldName": "splashScreenTextColor"
       }, {
           "type": "subcategory",
-          "label": "Sign in options"
+          "label": "Sign In Options"
       }, {
           "type": "paragraph",
           "value": "Configure how users will be able to access your application. See the <a href='http://links.esri.com/localgovernment/help/CrowdsourcePolling/SocialSignIn/' target='_blank'>help</a> for the steps to register your app with Facebook and Google+."
@@ -395,7 +419,23 @@
           "tooltip": "Enable latitude/longitude search.",
           "type": "boolean",
           "fieldName": "enableLatLongSearch"
-      }]
+      }, {
+          "type": "subcategory",
+          "label": "Search Settings"
+      }, {
+        "type": "paragraph",
+        "value": "Enable search to allow users to find a location or data in the map."
+      }, {
+          "type": "conditional",
+          "condition": false,
+          "fieldName": "tool_search",
+          "label": "Enable search tool",
+          "items": [{
+             "type": "search",
+             "fieldName": "searchConfig",
+             "label": ""
+        }]
+    }]
   }, {
       "category": "<b>Form</b>",
       "fields": [{
@@ -494,7 +534,7 @@
           "fieldName": "geographicalExtentLayer"
       }, {
           "type": "subcategory",
-          "label": "Report button"
+          "label": "Report Button"
       }, {
           "label": "Submit report button text",
           "tooltip": "Text for the button that opens the submission form.",
@@ -518,7 +558,7 @@
       "category": "<b>Reports</b>",
       "fields": [{
           "type": "subcategory",
-          "label": "Mobile display settings"
+          "label": "Mobile Display Settings"
       }, {
           "type": "paragraph",
           "value": "On smartphones choose to initially display the reports on a map or in a list. Users will be able to toggle between both views."
@@ -535,7 +575,7 @@
           }]
       }, {
           "type": "subcategory",
-          "label": "Search radius"
+          "label": "Search Radius"
       }, {
           "type": "paragraph",
           "value": "When the application loads, users will be asked to share their location to view nearby reports. Only reports within this radius will load, but users can expand this search radius incrementally in the application. Define the radius of this initial search for nearby reports. "
@@ -564,7 +604,7 @@
           }]
       }, {
           "type": "subcategory",
-          "label": "Editing reports and comments"
+          "label": "Editing Reports and Comments"
       }, {
           "type": "paragraph",
           "value": "Allow users to edit and/or delete their own submissions. These capabilities will only be accessible on reports submitted by users who accessed the application using ArcGIS or social media accounts. Configure these sign in options on the Access tab."
@@ -649,15 +689,13 @@
           "label": "Reporting period closed window title",
           "tooltip": "Title of window that displays when reporting period is closed.",
           "type": "string",
-          "fieldName": "reportingPeriodDialogTitle",
-          "value": "Reporting Period Closed"
+          "fieldName": "reportingPeriodDialogTitle"
       }, {
           "label": "Reporting period closed window content",
           "tooltip": "Content of window that displays when reporting period is closed.",
           "type": "string",
           "fieldName": "reportingPeriodDialogContent",
-          "stringFieldOption": "richtext",
-          "value": "We are no longer accepting new reports for this project."
+          "stringFieldOption": "richtext"
       }]
   }]
 }

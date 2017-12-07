@@ -27,7 +27,9 @@ define({
     "gotoListViewTooltip": "清單視圖",
     "noFeatureGeomtery": "無法顯示圖徵",
     "featureOutsideAOIMessage": "無法在研究區域外部新增圖徵",
-    "noEditingPermissionsMessage": "您沒有執行此動作的權限。"
+    "noEditingPermissionsMessage": "您沒有執行此動作的權限。",
+    "basemapGalleryText": "底圖庫",
+    "legendText": "圖例"
   },
   "signin": {
     "guestSigninText": "以訪客身份繼續進行",

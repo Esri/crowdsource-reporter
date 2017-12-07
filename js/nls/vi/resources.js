@@ -27,7 +27,9 @@ define({
     "gotoListViewTooltip": "Chế độ xem dạng danh sách",
     "noFeatureGeomtery": "Không thể hiển thị đối tượng",
     "featureOutsideAOIMessage": "Không thể thêm đối tượng bên ngoài vùng nghiên cứu",
-    "noEditingPermissionsMessage": "Bạn không có quyền thực hiện thao tác này."
+    "noEditingPermissionsMessage": "Bạn không có quyền thực hiện thao tác này.",
+    "basemapGalleryText": "Bộ sưu tập bản đồ nền",
+    "legendText": "Chú giải"
   },
   "signin": {
     "guestSigninText": "Tiến hành dưới dạng Khách",

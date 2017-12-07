@@ -27,7 +27,9 @@ define({
     "gotoListViewTooltip": "Widok listy",
     "noFeatureGeomtery": "Nie można wyświetlić obiektu",
     "featureOutsideAOIMessage": "Nie można dodać funkcji poza analizowanym obszarem",
-    "noEditingPermissionsMessage": "Nie masz uprawnień do wykonania tego działania."
+    "noEditingPermissionsMessage": "Nie masz uprawnień do wykonania tego działania.",
+    "basemapGalleryText": "Galeria map bazowych",
+    "legendText": "Legenda"
   },
   "signin": {
     "guestSigninText": "Kontynuuj jako gość",

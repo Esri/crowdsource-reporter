@@ -380,6 +380,12 @@ define([
                 // by default select first webmap in list
                 this._selectWebMapItem(this.filteredWebMapResponseArr[0][1].itemInfo.item.id);
             }
+
+            //If group contains only one web map with multiple layers, open layer list panel
+            if (this.filteredWebMapResponseArr.length === 1 &&
+                    this.filteredWebMapResponseArr[0][1].itemInfo.itemData.operationalLayers.length > 1) {
+                this._handleWebmapToggling(query(".esriCTDisplayWebMapTemplate")[0], null);
+            }
         },
 
         /**
@@ -507,7 +513,6 @@ define([
                     "operationalLayerDetails": layerDetails,
                     "itemInfo": itemInfo
                 });
-                this.appUtils.hideLoadingIndicator();
             }), 500);
         },
 

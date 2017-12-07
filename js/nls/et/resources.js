@@ -27,7 +27,9 @@ define({
     "gotoListViewTooltip": "Loendivaade",
     "noFeatureGeomtery": "Funktsiooni ei saa kuvada.",
     "featureOutsideAOIMessage": "Objekti ei saa lisada uuringualast väljapoole",
-    "noEditingPermissionsMessage": "Teil puudub õigus selle toimingu tegemiseks."
+    "noEditingPermissionsMessage": "Teil puudub õigus selle toimingu tegemiseks.",
+    "basemapGalleryText": "Aluskaardi galerii",
+    "legendText": "Legend"
   },
   "signin": {
     "guestSigninText": "Jätkake külalisena",

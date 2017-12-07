@@ -27,7 +27,9 @@ define({
     "gotoListViewTooltip": "リスト ビュー",
     "noFeatureGeomtery": "フィーチャを表示できません",
     "featureOutsideAOIMessage": "フィーチャを分析範囲外に追加することはできません",
-    "noEditingPermissionsMessage": "この操作を実行する権限がありません。"
+    "noEditingPermissionsMessage": "この操作を実行する権限がありません。",
+    "basemapGalleryText": "ベースマップ ギャラリー",
+    "legendText": "凡例"
   },
   "signin": {
     "guestSigninText": "ゲストとして続行",

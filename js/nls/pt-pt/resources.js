@@ -27,7 +27,9 @@ define({
     "gotoListViewTooltip": "Vista de Lista",
     "noFeatureGeomtery": "Elemento não pode ser exibido",
     "featureOutsideAOIMessage": "O elemento não pode ser adicionado fora da área de estudo",
-    "noEditingPermissionsMessage": "Não tem permissões para executar esta ação."
+    "noEditingPermissionsMessage": "Não tem permissões para executar esta ação.",
+    "basemapGalleryText": "Galeria de Mapas Base",
+    "legendText": "Legenda"
   },
   "signin": {
     "guestSigninText": "Prosseguir como Convidado",

@@ -27,7 +27,9 @@ define({
     "gotoListViewTooltip": "عرض القائمة",
     "noFeatureGeomtery": "يتعذر عرض المعالم",
     "featureOutsideAOIMessage": "يتعذر إضافة المعلم خارج منطقة الدراسة",
-    "noEditingPermissionsMessage": "لا يتوفر لديك إذن تنفيذ هذا الحدث."
+    "noEditingPermissionsMessage": "لا يتوفر لديك إذن تنفيذ هذا الحدث.",
+    "basemapGalleryText": "معرض خرائط الأساس",
+    "legendText": "وسيلة الإيضاح"
   },
   "signin": {
     "guestSigninText": "تابع بصفتك ضيف",

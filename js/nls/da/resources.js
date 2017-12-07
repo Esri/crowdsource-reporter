@@ -27,7 +27,9 @@ define({
     "gotoListViewTooltip": "Listevisning",
     "noFeatureGeomtery": "Objekt kan ikke vises",
     "featureOutsideAOIMessage": "Objekt kan ikke tilføjes uden for undersøgelsesområdet",
-    "noEditingPermissionsMessage": "Du har ikke tilladelse til at udføre denne handling."
+    "noEditingPermissionsMessage": "Du har ikke tilladelse til at udføre denne handling.",
+    "basemapGalleryText": "Galleri over baggrundskort",
+    "legendText": "Signaturforklaring"
   },
   "signin": {
     "guestSigninText": "Fortsæt som gæst",

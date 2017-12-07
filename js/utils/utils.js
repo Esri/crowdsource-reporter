@@ -208,6 +208,26 @@ define([
         },
 
         /**
+        * Create basemap gallery button on the map
+        * @memberOf utils/utils
+        */
+        createBasemapGalleryButton: function (parentNode) {
+            domConstruct.create("div", {
+                title: this.config.i18n.main.basemapGalleryText
+            }, parentNode);
+        },
+
+        /**
+        * Create basemap gallery button on the map
+        * @memberOf utils/utils
+        */
+        createLegendButton: function (parentNode) {
+            domConstruct.create("div", {
+                title: this.config.i18n.main.legendText
+            }, parentNode);
+        },
+
+        /**
         * Fetch the basemap extent
         * @memberOf utils/utils
         */

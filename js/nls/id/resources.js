@@ -27,7 +27,9 @@ define({
     "gotoListViewTooltip": "Tampilan daftar",
     "noFeatureGeomtery": "Fitur tidak dapat ditampilkan",
     "featureOutsideAOIMessage": "Fitur tidak dapat ditambahkan di luar area studi",
-    "noEditingPermissionsMessage": "Anda tidak memiliki izin untuk menjalankan tindakan ini."
+    "noEditingPermissionsMessage": "Anda tidak memiliki izin untuk menjalankan tindakan ini.",
+    "basemapGalleryText": "Galeri Peta Dasar",
+    "legendText": "Legenda"
   },
   "signin": {
     "guestSigninText": "Lanjutkan sebagai Tamu",

@@ -27,7 +27,9 @@ define({
     "gotoListViewTooltip": "列表视图",
     "noFeatureGeomtery": "无法显示要素",
     "featureOutsideAOIMessage": "无法向研究区域外添加要素",
-    "noEditingPermissionsMessage": "您无权执行此操作。"
+    "noEditingPermissionsMessage": "您无权执行此操作。",
+    "basemapGalleryText": "底图库",
+    "legendText": "图例"
   },
   "signin": {
     "guestSigninText": "以访客身份继续进行",

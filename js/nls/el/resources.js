@@ -27,7 +27,9 @@ define({
     "gotoListViewTooltip": "Προβολή λίστας",
     "noFeatureGeomtery": "Δεν είναι δυνατή η εμφάνιση του στοιχείου",
     "featureOutsideAOIMessage": "Το στοιχείο δεν μπορεί να προστεθεί εκτός της περιοχής μελέτης",
-    "noEditingPermissionsMessage": "Δεν έχετε δικαίωμα να εκτελέσετε αυτή την ενέργεια."
+    "noEditingPermissionsMessage": "Δεν έχετε δικαίωμα να εκτελέσετε αυτή την ενέργεια.",
+    "basemapGalleryText": "Συλλογή υποβάθρων",
+    "legendText": "Υπόμνημα"
   },
   "signin": {
     "guestSigninText": "Συνέχεια ως επισκέπτης",
