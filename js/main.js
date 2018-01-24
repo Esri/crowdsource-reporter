@@ -1412,6 +1412,7 @@ define([
                             }));
                             //clear graphics drawn on layer after feature has been submmited
                             if (this.featureGraphicLayer) {
+                                this.featureGraphicLayer.clear();
                             }
                         } catch (ex) {
                             this.appUtils.showError(ex.message);
@@ -2033,6 +2034,7 @@ define([
             graphic = new Graphic(graphicGeometry, symbol);
             // add graphics
             if (this.featureGraphicLayer) {
+                this.featureGraphicLayer.add(graphic);
             }
         },
 
