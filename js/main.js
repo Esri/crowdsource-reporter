@@ -1411,7 +1411,9 @@ define([
                                 }
                             }));
                             //clear graphics drawn on layer after feature has been submmited
-                            this.featureGraphicLayer.clear();
+                            if (this.featureGraphicLayer) {
+                                this.featureGraphicLayer.clear();
+                            }
                         } catch (ex) {
                             this.appUtils.showError(ex.message);
                         }
@@ -2031,7 +2033,9 @@ define([
             // create new graphic
             graphic = new Graphic(graphicGeometry, symbol);
             // add graphics
-            this.featureGraphicLayer.add(graphic);
+            if (this.featureGraphicLayer) {
+                this.featureGraphicLayer.add(graphic);
+            }
         },
 
         /**
