@@ -350,7 +350,7 @@ define([
         */
         _showPopupForNonEditableLayer: function (evt) {
             var isGeoformClose, isNonEditableLayer = false, selectedGraphicsLayer, highlightSymbol,
-                isPopupConfigured = true;
+                isPopupConfigured = true, layerTitle;
             isGeoformClose = domClass.contains(dom.byId('geoformContainer'), "esriCTHidden");
             //If no graphics found or geoform is open then skip the function
             if (!evt.graphic || !isGeoformClose) {
@@ -365,17 +365,22 @@ define([
             if (isNonEditableLayer) {
                 array.some(this._selectedMapDetails.itemInfo.itemData.operationalLayers,
                     lang.hitch(this, function (layer) {
-                        if (layer.id === evt.graphic._layer.id && layer.disablePopup) {
-                            isPopupConfigured = false;
-                            return;
+                        if (layer.id === evt.graphic._layer.id) {
+                            //check if popup is enable and fetch the layer title
+                            if (layer.disablePopup) {
+                                isPopupConfigured = false;
+                                return;
+                            } else {
+                                layerTitle = layer.title;
+                            }
                         }
                     }));
             }
             selectedGraphicsLayer = this._selectedMapDetails.map.getLayer("selectionGraphicsLayer");
             //Check if selected feature belongs to editable layer
             //Geoform is closed
-            if (evt.graphic && isGeoformClose && isNonEditableLayer && evt.graphic._layer.url
-                    !== this.selectedLayer.url && isPopupConfigured) {
+            if (evt.graphic && isGeoformClose && isNonEditableLayer &&
+                evt.graphic._layer.url !== this.selectedLayer.url && isPopupConfigured) {
                 this.itemCP.set('content', evt.graphic.getContent());
                 if (evt.graphic._layer.url) {
                     //highlight selected feature on map
@@ -392,7 +397,7 @@ define([
                 }
                 //zoom to selected feature
                 this._gotoSelectedFeature(evt.graphic);
-                domAttr.set(query(".esriCTTitle", this.domNode)[0], "innerHTML", evt.graphic._layer.name);
+                domAttr.set(query(".esriCTTitle", this.domNode)[0], "innerHTML", layerTitle || "");
                 domClass.remove(dom.byId("detailsPanelContainer"), "esriCTHidden");
             }
         },
@@ -1411,9 +1416,9 @@ define([
                                 }
                             }));
                             //clear graphics drawn on layer after feature has been submmited
-                            if (this.featureGraphicLayer) {
-                                this.featureGraphicLayer.clear();
-                            }
+                                if (this.featureGraphicLayer) {
+                            this.featureGraphicLayer.clear();
+                                }
                         } catch (ex) {
                             this.appUtils.showError(ex.message);
                         }
@@ -2033,9 +2038,9 @@ define([
             // create new graphic
             graphic = new Graphic(graphicGeometry, symbol);
             // add graphics
-            if (this.featureGraphicLayer) {
-                this.featureGraphicLayer.add(graphic);
-            }
+                if (this.featureGraphicLayer) {
+            this.featureGraphicLayer.add(graphic);
+                }
         },
 
         /**

@@ -110,7 +110,7 @@ define([
                 this._submitAddress(evt, true);
             }));
             on(this.close, "click", lang.hitch(this, function () {
-                this._hideText();
+                this._hideText(false);
             }));
         },
 
@@ -559,7 +559,7 @@ define([
             if (this.isEnterClicked && index === 0 && this.activeLocator === locatorName) {
                 candidateAddress.click();
                 if (!this.isGeoformLocator) {
-                    this._hideText();
+                    this._hideText(true);
                 }
                 this.isEnterClicked = false;
             }
@@ -723,6 +723,9 @@ define([
                         this.onLocationCompleted(this.candidateGeometry);
                     }
                 }
+                if (this.isGeoformLocator) {
+                    this._hideText(true);
+                }
             }));
         },
 
@@ -837,9 +840,11 @@ define([
         * Hide text present in textbox, also hide search results container
         * @memberOf widgets/locator/locator
         */
-        _hideText: function () {
-            this.txtSearch.value = "";
-            this.lastSearchString = lang.trim(this.txtSearch.value);
+        _hideText: function (isAddressRequired) {
+            if (!isAddressRequired) {
+                this.txtSearch.value = "";
+                this.lastSearchString = lang.trim(this.txtSearch.value);
+            }
             domConstruct.empty(this.divResultContainer);
             domClass.add(this.divResultContainer, "esriCTHidden");
             domAttr.set(this.txtSearch, "defaultAddress", this.txtSearch.value);
