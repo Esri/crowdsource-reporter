@@ -17,8 +17,8 @@
 define({
   "map": {
     "error": "Karte ni mogoče ustvariti",
-    "zoomInTooltip": "Približaj",
-    "zoomOutTooltip": "Oddalji",
+    "zoomInTooltip": "Povečaj",
+    "zoomOutTooltip": "Pomanjšaj",
     "geolocationTooltip": "Trenutna lokacija"
   },
   "main": {
@@ -89,8 +89,8 @@ define({
     "invalidDouble": "Vnesite številko",
     "requiredFields": "Navedite vrednosti za vsa obvezna polja",
     "selectLocation": "Izberite lokacijo za svoje poročilo",
-    "numericRangeHintMessage": "${openStrong}Hint:${closeStrong} Najmanjša vrednost ${minValue} in največja vrednost ${maxValue}",
-    "dateRangeHintMessage": "${openStrong}Hint:${closeStrong} Najmanjši datum ${minValue} in največji datum ${maxValue}",
+    "numericRangeHintMessage": "${openStrong}Nasvet:${closeStrong} MInimalna vrednost ${minValue} in maksimalna vrednost ${maxValue}",
+    "dateRangeHintMessage": "${openStrong}Nasvet:${closeStrong} Najmanjši datum ${minValue} in največji datum ${maxValue}",
     "errorsInApplyEdits": "Vrednosti ni bilo mogoče poslati.",
     "attachmentSelectedMsg": "izbranih prilog",
     "attachmentUploadStatus": "${failed} od ${total} prilog ni bilo mogoče naložiti",

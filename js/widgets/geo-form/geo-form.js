@@ -2501,6 +2501,7 @@ define([
                     locationFieldTextBox.value = selectedAddress;
                     domClass.add(locationFieldTextBox.parentElement, "has-success");
                 }
+                this.locator.txtSearch.value = selectedAddress;
             } else if (this.hasLocationField && this.config.locationField) {
                 //Check if address fits in given field length
                 if (selectedAddress.length <= this.locationFieldLength) {
@@ -2509,6 +2510,7 @@ define([
                     //If address is longer than the configured field length, trim the address till the field length
                     this.newLocationFieldValue = selectedAddress.substring(0, this.locationFieldLength);
                 }
+                this.locator.txtSearch.value = selectedAddress;
             }
         },
 
@@ -2523,6 +2525,7 @@ define([
                 domClass.remove(locationFieldTextBox.parentElement, "has-success");
             }
             this.newLocationFieldValue = null;
+            this.locator.txtSearch.value = "";
         },
 
         /* Section for fetching and showing existing attachments */

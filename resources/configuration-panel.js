@@ -552,6 +552,7 @@
           "label": "Message displayed after a report is submitted successfully",
           "tooltip": "Message displayed at the top of the form acknowledging report submission.",
           "type": "string",
+		  "stringFieldOption": "richtext",
           "fieldName": "submitMessage"
       }]
   }, {
