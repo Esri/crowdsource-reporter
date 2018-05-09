@@ -31,6 +31,7 @@
         "showBaseMapGallery": false,
         "showLegend": false,
         "submitMessage": "Thank you. Your report has been submitted.",
+        "featureOutsideAOIMsg": "Feature cannot be added outside study area",
         "likeField": "NUMVOTES",
         "commentField": "COMMENTS",
         "usePopupConfigurationForComment": false,
@@ -39,6 +40,7 @@
         "reportedByField": "USERID",
         "locationField": "",
         "zoomLevel": 12,
+        "honorZoomLevel": false,
         "enableUSNGSearch": false,
         "enableMGRSSearch": false,
         "enableLatLongSearch": false,
@@ -292,6 +294,11 @@
           "tooltip": "Specify how near (larger number) or far (smaller number) the map should zoom relative to the ground.",
           "type": "string",
           "fieldName": "zoomLevel"
+      }, {
+        "label": "Use configured zoom level while navigating to existing reports",
+        "tooltip": "The configured zoom level will be used to zoom to selected feature",
+        "type": "boolean",
+        "fieldName": "honorZoomLevel"
       }, {
           "type": "subcategory",
           "label": "Additional Widgets"
@@ -697,6 +704,11 @@
           "type": "string",
           "fieldName": "reportingPeriodDialogContent",
           "stringFieldOption": "richtext"
-      }]
+      }, {
+        "label": "Message displayed if a feature is added outside the study area",
+        "tooltip": "Message displayed if a feature is added outside the study area",
+        "type": "string",
+        "fieldName": "featureOutsideAOIMsg"
+    }]
   }]
 }

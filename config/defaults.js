@@ -114,6 +114,7 @@ define({
     "location" : "Bottom",
 
     "zoomLevel": 12,
+    "honorZoomLevel": false, //Flag to honor zoom level after a feature is selected
     "enableUSNGSearch": false,
     "enableMGRSSearch": false,
     "enableLatLongSearch": false,
@@ -148,5 +149,6 @@ define({
     // reporting period value
     "reportingPeriodDialogTitle": "Reporting Period Closed",
     "reportingPeriodDialogContent": "We are no longer accepting new reports for this project.",
+    "featureOutsideAOIMsg": "Feature cannot be added outside study area.",
     "reportingPeriod": "Open"
 });
