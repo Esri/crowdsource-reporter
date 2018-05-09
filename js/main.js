@@ -1056,7 +1056,11 @@ define([
                                     this.geoformInstance._zoomToSelectedFeature(selectedGeometry.geometry);
                                     setTimeout(lang.hitch(this, function () {
                                         if (!canDraw) {
-                                            alert(this.config.i18n.main.featureOutsideAOIMessage);
+                                            if (this.config.featureOutsideAOIMsg) {
+                                                alert(this.config.featureOutsideAOIMsg);
+                                            } else {
+                                                alert(this.config.i18n.main.featureOutsideAOIMessage);
+                                            }
                                             this.geoformInstance._clearSubmissionGraphic();
                                             this._clearSubmissionGraphic();
                                         }
@@ -1120,7 +1124,7 @@ define([
             this._selectedMapDetails = details;
             this._initializeLayer(details);
             this._initializeApp(details);
-            //If graphics layer object exsist, clear it and remove the instance
+            //If graphics layer object exist, clear it and remove the instance
             if (this.geolocationgGraphicsLayer) {
                 this.geolocationgGraphicsLayer.clear();
                 this.geolocationgGraphicsLayer = null;
@@ -1195,7 +1199,11 @@ define([
                         this._addToGraphicsLayer(evt);
                         this._canDrawFeature(evt, this._selectedMapDetails).then(lang.hitch(this, function (canDraw) {
                             if (!canDraw) {
-                                alert(this.config.i18n.main.featureOutsideAOIMessage);
+                                if (this.config.featureOutsideAOIMsg) {
+                                    alert(this.config.featureOutsideAOIMsg);
+                                } else {
+                                    alert(this.config.i18n.main.featureOutsideAOIMessage);
+                                }
                                 if (this.geoformInstance) {
                                     this.geoformInstance._clearSubmissionGraphic();
                                     if (this.featureGraphicLayer) {
@@ -1445,7 +1453,11 @@ define([
                     this.geoformInstance.onDrawComplete = lang.hitch(this, function (evt) {
                         this._canDrawFeature(evt, this._selectedMapDetails).then(lang.hitch(this, function (canDraw) {
                             if (!canDraw) {
-                                alert(this.config.i18n.main.featureOutsideAOIMessage);
+                                if (this.config.featureOutsideAOIMsg) {
+                                    alert(this.config.featureOutsideAOIMsg);
+                                } else {
+                                    alert(this.config.i18n.main.featureOutsideAOIMessage);
+                                }
                                 this.geoformInstance._clearSubmissionGraphic();
                                 if (this.featureGraphicLayer) {
                                     this.featureGraphicLayer.clear();
@@ -1950,10 +1962,19 @@ define([
         * @memberOf main
         */
         _gotoSelectedFeature: function (item) {
-            if (item.geometry.type === "point") {
-                this._selectedMapDetails.map.centerAt(item.geometry);
+            if (this.config.honorZoomLevel) {
+                if (item.geometry.type === "point") {
+                    this._selectedMapDetails.map.centerAndZoom(item.geometry, this.config.zoomLevel);
+                } else {
+                    this._selectedMapDetails.map.centerAndZoom(item.geometry.getExtent().getCenter(),
+                        this.config.zoomLevel);
+                }
             } else {
-                this._selectedMapDetails.map.setExtent(item.geometry.getExtent(), true);
+                if (item.geometry.type === "point") {
+                    this._selectedMapDetails.map.centerAt(item.geometry);
+                } else {
+                    this._selectedMapDetails.map.setExtent(item.geometry.getExtent(), true);
+                }
             }
         },
 
