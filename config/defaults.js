@@ -149,6 +149,6 @@ define({
     // reporting period value
     "reportingPeriodDialogTitle": "Reporting Period Closed",
     "reportingPeriodDialogContent": "We are no longer accepting new reports for this project.",
-    "featureOutsideAOIMsg": "Feature cannot be added outside study area. Configurable message.",
+    "featureOutsideAOIMsg": "Feature cannot be added outside study area.",
     "reportingPeriod": "Open"
 });
