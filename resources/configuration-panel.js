@@ -536,9 +536,14 @@
           "value": "Restrict where reports can be drawn by specifying the name of an uneditable polygon layer. Reports will only be accepted within the boudaries of features in this layer. The locations of reports will only be restricted in maps that contain an uneditable polygon layer with this name."
       }, {
           "label": "Name of an uneditable polygon layer",
-          "tooltip": "Non editable layers which defines the area of interest where user can Add/Edit records.",
+          "tooltip": "Reports can only be added within the polygon features in layers with this name in the map Contents.",
           "type": "string",
           "fieldName": "geographicalExtentLayer"
+      }, {
+          "label": "Message when a report cannot be added at the specified location.",
+          "tooltip": "Message displayed when a report location is outside the features in the configured polygon layer",
+          "type": "string",
+          "fieldName": "featureOutsideAOIMsg"
       }, {
           "type": "subcategory",
           "label": "Report Button"
@@ -704,11 +709,6 @@
           "type": "string",
           "fieldName": "reportingPeriodDialogContent",
           "stringFieldOption": "richtext"
-      }, {
-        "label": "Message displayed if a feature is added outside the study area",
-        "tooltip": "Message displayed if a feature is added outside the study area",
-        "type": "string",
-        "fieldName": "featureOutsideAOIMsg"
-    }]
+      }]
   }]
 }
