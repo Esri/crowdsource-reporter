@@ -377,18 +377,6 @@
           "type": "boolean",
           "fieldName": "enableTwitter"
       }, {
-          "label": "Allow users to sign in using Facebook",
-          "tooltip": "Enable to allow users to sign in using their Facebook credentials",
-          "type": "conditional",
-          "fieldName": "enableFacebook",
-          "condition": false,
-          "items": [{
-              "label": "Please register your app with Facebook and provide your Facebook AppId",
-              "tooltip": "Facebook AppId",
-              "type": "string",
-              "fieldName": "facebookAppId"
-          }]
-      }, {
           "label": "Allow users to sign in using Google+",
           "tooltip": "Enable to allow users to sign in using their Google+ credentials.",
           "type": "conditional",
