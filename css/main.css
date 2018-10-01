@@ -2192,7 +2192,7 @@ label
     display: none;
 }
 
-.esriCTHelpIcon
+.esriCTHelpIcon, .esriCTShareIcon
 {
     height: 18px;
     width: 18px;
@@ -2208,10 +2208,16 @@ label
     border-color: #555;
 }
 
+.esriCTModalButtonContainer
+{
+    float: right;
+    margin-top: 20px;
+}
+
 .esriCTModelDialog .modal-body
 {
     overflow: auto;
-    height: 250px;
+    max-height: 250px;
     margin-bottom: 15px;
 }
 

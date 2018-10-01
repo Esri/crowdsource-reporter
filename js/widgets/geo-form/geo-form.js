@@ -44,9 +44,11 @@ define([
     "esri/symbols/SimpleFillSymbol",
     "esri/symbols/SimpleMarkerSymbol",
     "esri/geometry/Polygon",
+    "esri/geometry/Point",
     "widgets/locator/locator",
+    "widgets/help/help",
     "widgets/bootstrapmap/bootstrapmap"
-], function (declare, kernel, lang, dateLocale, _WidgetBase, _TemplatedMixin, domConstruct, domClass, on, has, domAttr, array, dom, touch, domStyle, query, dojowindow, dijitTemplate, string, locale, GraphicsLayer, Graphic, Draw, webMercatorUtils, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Polygon, Locator, BootstrapMap) {
+], function (declare, kernel, lang, dateLocale, _WidgetBase, _TemplatedMixin, domConstruct, domClass, on, has, domAttr, array, dom, touch, domStyle, query, dojowindow, dijitTemplate, string, locale, GraphicsLayer, Graphic, Draw, webMercatorUtils, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Polygon, Point, Locator, Help, BootstrapMap) {
     return declare([_WidgetBase, _TemplatedMixin], {
         templateString: dijitTemplate,
         lastWebMapSelected: "",
@@ -119,6 +121,23 @@ define([
                     // Creates Geoform UI According to Filtered data
                     this._createGeoFormUI();
                 }
+                //Create location dialog
+                this._locationDialog = new Help({
+                    "config": this.appConfig,
+                    "title": this.appConfig.i18n.geoform.locationDialogTitle,
+                    "content": this.appConfig.i18n.geoform.locationDialogContent,
+                    "dialog": "location",
+                    "showButtons": true,
+                    "okButtonText": this.appConfig.i18n.dialog.yesButton,
+                    "cancelButtonText": this.appConfig.i18n.dialog.noButton
+                });
+                //Listen for dialogs ok and cancel button clicked event
+                this._locationDialog.okButtonClicked = lang.hitch(this, function () {
+                    this._gotoImageLocation(this.allMetaData);
+                });
+                this._locationDialog.cancelButtonClicked = lang.hitch(this, function () {
+                    this._locationDialog.hideDialog("location");
+                });
             } catch (err) {
                 // Show error message
                 this.appUtils.showError(err.message);
@@ -291,7 +310,32 @@ define([
                     this.firstMapClickPoint = null;
                 }));
                 // Handle click of Submit button
-                on(this.submitButton, "click", lang.hitch(this, this._submitForm));
+                on(this.submitButton, "click", lang.hitch(this, function () {
+                    var commentSubmitStatus = this.appUtils.isCommentDateInRange(),
+                        canSubmit = true;
+                    if (!this.isEdit) {
+                        if (commentSubmitStatus === null) {
+                            if (this.appConfig.hasOwnProperty("reportingPeriod") &&
+                                this.appConfig.reportingPeriod === "Closed") {
+                                this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                                canSubmit = false;
+                                return;
+                            }
+                        } else {
+                            if (!commentSubmitStatus) {
+                                canSubmit = false;
+                                if (!this.appUtils.reportingPeriodDialog) {
+                                    this.appUtils.createReportingPeriodDialog();
+                                }
+                                this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                                return;
+                            }
+                        }
+                    }
+                    if (canSubmit) {
+                        this._submitForm();
+                    }
+                }));
                 // Handle click of close button
                 on(this.closeButton, "click", lang.hitch(this, this.closeForm));
                 // Handle click of cancel button
@@ -830,6 +874,53 @@ define([
                     this._onFileSelected(evt);
                 }));
             }
+            var _this = this;
+            this.allMetaData = null;
+            //Perform the geo tag functionality only when submitting new feature
+            if (!this.isEdit) {
+                //Check if attached image has a valid coordinates information
+                EXIF.getData(evt.currentTarget.files[0], function () {
+                    _this.allMetaData = EXIF.getAllTags(this);
+                    if (_this.allMetaData && _this.allMetaData.GPSLatitude && _this.allMetaData.GPSLongitude) {
+                        _this._locationDialog.showDialog("location");
+                    }
+                });
+            }
+        },
+
+        /**
+        * This function will be used to zoom to the attached image's location
+        * @memberOf widgets/geo-form/geo-form
+        */
+        _gotoImageLocation: function (allMetaData) {
+            var lat = allMetaData.GPSLatitude;
+            var lon = allMetaData.GPSLongitude;
+            //Convert coordinates to WGS84 decimal
+            var latRef = allMetaData.GPSLatitudeRef || "N";
+            var lonRef = allMetaData.GPSLongitudeRef || "W";
+            lat = (lat[0] + lat[1] / 60 + lat[2] / 3600) * (latRef == "N" ? 1 : -1);
+            lon = (lon[0] + lon[1] / 60 + lon[2] / 3600) * (lonRef == "W" ? -1 : 1);
+            //alert("lat : " + lat + " long : " + lon);
+            var point = new Point(lon, lat);
+            if (this._selectLayerType() !== "point") {
+                this.onLocationSelected(point);
+                this._locationDialog.hideDialog("location");
+                return;
+            }
+            // remove select location error message as location is selected now.
+            this._removeErrorNode(this.select_location.nextSibling);
+            // add drawn graphic on the graphics layer
+            this._addToGraphicsLayer(point, false);
+            // resize map
+            this._resizeMap();
+            // Listen to draw complete event
+            this.onDrawComplete(point);
+            this.appUtils.locatorInstance.locationToAddress(webMercatorUtils.webMercatorToGeographic(point), 100);
+            this.firstMapClickPoint = null;
+            // zoom to current location
+            this._zoomToSelectedFeature(point);
+            this.onLocationSelected(point);
+            this._locationDialog.hideDialog("location");
         },
 
         /**

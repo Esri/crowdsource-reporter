@@ -61,13 +61,19 @@ define([
                 config.portalObject = this.boilerPlateTemplateObject.portal;
                 //By default geolocation will be set to false
                 config.geolocation = false;
-                //Check whether browser supports geolocation
-                navigator.geolocation.getCurrentPosition(lang.hitch(this, function (position) {
-                    config.geolocation = {};
-                    config.geolocation = position;
-                }), function () {
-                    config.geolocation = false;
-                });
+                //Check for current location flag
+                //if webmap parameter exists in url, do not display geolocation popup
+                //if webmap parameter do not exists in url, than display geolocation popup
+                if(!config.disableCurrentLocation &&
+                    !this.boilerPlateTemplateObject.urlConfig.hasOwnProperty("webmap")) {
+                    //Check whether browser supports geolocation
+                    navigator.geolocation.getCurrentPosition(lang.hitch(this, function (position) {
+                        config.geolocation = {};
+                        config.geolocation = position;
+                    }), function () {
+                        config.geolocation = false;
+                    });
+                }
                 // Remove access to Facebook due to unsupportable changes in its API
                 config.enableFacebook = false;
                 // The config object contains the following properties: helper services, (optionally)

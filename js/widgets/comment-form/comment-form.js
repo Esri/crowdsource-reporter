@@ -97,8 +97,39 @@ define([
             domAttr.set(this.postCommentButton, "innerHTML", submitCommentText);
             // click event for submit comment form on submit button click
             on(this.postCommentButton, "click", lang.hitch(this, function () {
-                this.appUtils.showLoadingIndicator();
-                this._submitCommentForm();
+                // Even while submitting the comments check if its start date & time
+                // lies within the valid range
+                // Use case:
+                // Step 1. Consider date & time is valid, user clicks on comment button,
+                // than form should get open
+                // Step 2. Submit comment form is open, however, at this duration comments
+                // start date & time doesn't lies between valid range, hence error message
+                // should be displayed.
+                var commentSubmitStatus = this.appUtils.isCommentDateInRange(),
+                canSubmit = true;
+                if (this.addComments) {
+                    if (commentSubmitStatus === null) {
+                        if (this.config.hasOwnProperty("reportingPeriod") &&
+                            this.config.reportingPeriod === "Closed") {
+                            this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                            canSubmit = false;
+                            return;
+                        }
+                    } else {
+                        if (!commentSubmitStatus) {
+                            canSubmit = false;
+                            if (!this.appUtils.reportingPeriodDialog) {
+                                this.appUtils.createReportingPeriodDialog();
+                            }
+                            this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                            return;
+                        }
+                    }
+                }
+                if (canSubmit) {
+                    this.appUtils.showLoadingIndicator();
+                    this._submitCommentForm();
+                }
             }));
             on(this.cancelCommentButton, "click", lang.hitch(this, function (evt) {
                 this.appUtils.showLoadingIndicator();

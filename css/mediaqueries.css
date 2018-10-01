@@ -76,7 +76,7 @@
         max-height: 59px;
     }
 
-    .esriCTHelpIcon
+    .esriCTHelpIcon, .esriCTShareIcon
     {
         height: 24px;
         width: 24px;
@@ -123,14 +123,21 @@
     .esriCTModelDialog .modal-content
     {
         height:100%;
-
     }
 
     .esriCTModelDialog .modal-body
     {
         overflow: auto;
         height: calc(100% - 60px);
+        max-height: none; /* To remove the max-height applied in desktop mode */
      }
+
+    .esriCTModelDialogWithButton .modal-body
+    {
+        overflow: auto;
+        height: calc(100% - 150px);
+        max-height: none; /* To remove the max-height applied in desktop mode */
+    }
 
     .modal-dialog
     {
@@ -280,7 +287,7 @@
         margin-top: 23px;
     }
 
-    .esriCTHelpIcon
+    .esriCTHelpIcon, .esriCTShareIcon
     {
        margin-top: 22px;
     }

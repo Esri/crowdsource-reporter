@@ -48,7 +48,7 @@
 
 /* RTL for Application Header*/
 
-.dj_rtl .esriCTHomeIcon
+.dj_rtl .esriCTHomeIcon, .dj_rtl .esriCTShareIcon
 {
     float: right !important;
 }
@@ -125,13 +125,22 @@
     padding: 5px 10px 5px 10px;
 }
 
-.dj_rtl .esriCTItemDetail .esriCTTtemDescription, .dj_rtl .esriCTDetailsPanel    
+.dj_rtl .esriCTItemDetail .esriCTTtemDescription
 {
     float: none !important;
     
 }
 
-.dj_rtl .esriCTGeoFormParentContainer 
+.dj_rtl .esriCTItemDescFooter, .dj_rtl .esriCTItemComments
+{
+    float: none !important;
+}
+
+.dj_rtl .esriCTCommentsPopup
+{
+position: inherit;
+}
+.dj_rtl .esriCTGeoFormParentContainer
 {
     left:auto;
     right: 70%;
@@ -166,12 +175,18 @@
 
 /* RTL for Geoform */
 
-.dj_rtl .esriCTHeaderMessageDiv .close 
+.dj_rtl .esriCTItemComments .close
 {
     float:left;
 }
 
-.dj_rtl .esriCTFileButtonContainer 
+.dj_rtl .esriCTEnterComment .close
+{
+    float: left;
+    margin-left: 5px;
+}
+
+.dj_rtl .esriCTFileButtonContainer
 {
     float: right;
 }
@@ -179,6 +194,11 @@
 /* End of RTL for Geoform */
 
 /* RTL for Details panel */
+
+.dj_rtl .esriCTDetailsPanel
+{
+    float: none;
+}
 
 .dj_rtl .esriCTGalleryButton
 {
@@ -232,6 +252,10 @@
 .dj_rtl .esriCTClose
 {
     float: left;
+}
+
+.dj_rtl .esriCTOkButton {
+    margin-left: 5px;
 }
 
 /* End Of CSS For Modal dialog */

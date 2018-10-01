@@ -160,6 +160,9 @@ define([
         _featuresAddedFromMyIssues: [],
         basemapGallery: null,
         legend: null,
+        _initialLoad: true, // to keep track that application is loaded for first time
+        _shareURLParameters: {}, // to store details like webmap, layer, selected feature needed for sharing URL
+
         startup: function (boilerPlateTemplateObject, loggedInUser) {
             // config will contain application and user defined info for the template such as i18n strings, the web map id
             // and application id
@@ -168,6 +171,8 @@ define([
             if (boilerPlateTemplateObject) {
                 this.boilerPlateTemplate = boilerPlateTemplateObject;
                 this.config = boilerPlateTemplateObject.config;
+                // store the details of URL parameters
+                this.config.urlObject = lang.clone(boilerPlateTemplateObject.urlObject);
                 //Make a copy of geolocation, this will be used to check for extent layer functionality whenever layer is selected from webmap list
                 if (this.config.geolocation) {
                     this.clonedGeolocation = jQuery.extend(true, {}, this.config.geolocation);
@@ -334,6 +339,9 @@ define([
                 //Clear map selection
                 if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
                     this._selectedMapDetails.map.getLayer("selectionGraphicsLayer").clear();
+                    if (this._shareURLParameters && this._shareURLParameters.hasOwnProperty("selectedFeature")) {
+                        delete this._shareURLParameters.selectedFeature;
+                    }
                 }
                 //if feature is selected in issue wall highlight it
                 if (this._itemDetails.item) {
@@ -583,15 +591,31 @@ define([
                 domStyle.set(dom.byId("submitFromMap"), "background-color", submitButtonColor);
 
                 on(dom.byId("submitFromMap"), "click", lang.hitch(this, function (evt) {
-                    //If reporting period is closed, show configured message
-                    if (this.config.reportingPeriod === "Closed") {
-                        this.appUtils.reportingPeriodDialog.showDialog("reporting");
-                        return;
-                    }
-                    if (this.config.logInDetails.canEditFeatures) {
-                        this._createGeoForm();
+                    var commentSubmitStatus = this.appUtils.isCommentDateInRange(),
+                        canSubmit = true;
+                    if (commentSubmitStatus === null) {
+                        if (this.config.hasOwnProperty("reportingPeriod") &&
+                            this.config.reportingPeriod === "Closed") {
+                            this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                            canSubmit = false;
+                            return;
+                        }
                     } else {
-                        this.appUtils.showMessage(this.config.i18n.main.noEditingPermissionsMessage);
+                        if (!commentSubmitStatus) {
+                            if (!this.appUtils.reportingPeriodDialog) {
+                                this.appUtils.createReportingPeriodDialog();
+                            }
+                            canSubmit = false;
+                            this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                            return;
+                        }
+                    }
+                    if (canSubmit) {
+                        if (this.config.logInDetails.canEditFeatures) {
+                            this._createGeoForm();
+                        } else {
+                            this.appUtils.showMessage(this.config.i18n.main.noEditingPermissionsMessage);
+                        }
                     }
                 }));
                 on(dom.byId("mapBackButton"), "click", lang.hitch(this, function (evt) {
@@ -623,6 +647,9 @@ define([
                         //Clear map selection when navigating to web map list
                         if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
                             this._selectedMapDetails.map.getLayer("selectionGraphicsLayer").clear();
+                            if (this._shareURLParameters && this._shareURLParameters.hasOwnProperty("selectedFeature")) {
+                                delete this._shareURLParameters.selectedFeature;
+                            }
                         }
                         this._sidebarCnt.showPanel("webMapList");
                     }
@@ -722,6 +749,9 @@ define([
             //Clear map selection when navigating to web map list
             if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
                 this._selectedMapDetails.map.getLayer("selectionGraphicsLayer").clear();
+                if (this._shareURLParameters && this._shareURLParameters.hasOwnProperty("selectedFeature")) {
+                    delete this._shareURLParameters.selectedFeature;
+                }
             }
 
             if (canDeleteFromMyIssue) {
@@ -839,6 +869,11 @@ define([
                     this._sidebarCnt.showPanel("webMapList");
                 }
             });
+            // on click of share button this function is executed for fetching
+            // details needed for sharing the URL
+            this.appHeader.getSharedUrlParams = lang.hitch(this, function () {
+                return this._shareURLParameters;
+            });
         },
 
         /**
@@ -862,6 +897,9 @@ define([
                         //Clear map selection when navigating to web map list
                         if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
                             this._selectedMapDetails.map.getLayer("selectionGraphicsLayer").clear();
+                            if (this._shareURLParameters && this._shareURLParameters.hasOwnProperty("selectedFeature")) {
+                                delete this._shareURLParameters.selectedFeature;
+                            }
                         }
                         this._sidebarCnt.showPanel("webMapList");
                     } else {
@@ -1011,6 +1049,9 @@ define([
                 //Create/Clear Selection graphics layer used for highlighting in issue wall
                 //Update Issue wall
                 this._webMapListWidget.onOperationalLayerSelected = lang.hitch(this, function (details) {
+                    this._shareURLParameters = {};
+                    this._shareURLParameters.webmap = details.webMapId;
+                    this._shareURLParameters.layer = details.operationalLayerId;
                     if (this.clonedGeolocation) {
                         this.config.geolocation = this.clonedGeolocation;
                     }
@@ -1054,6 +1095,9 @@ define([
                                     this._addToGraphicsLayer(selectedGeometry);
                                     this.geoformInstance._addToGraphicsLayer(selectedGeometry, true);
                                     this.geoformInstance._zoomToSelectedFeature(selectedGeometry.geometry);
+                                    //change main map extent
+                                    this.map.setLevel(this.config.zoomLevel);
+                                    this.map.centerAt(selectedGeometry.geometry);
                                     setTimeout(lang.hitch(this, function () {
                                         if (!canDraw) {
                                             if (this.config.featureOutsideAOIMsg) {
@@ -1068,6 +1112,9 @@ define([
                                 }));
                             } else {
                                 this.geoformInstance._zoomToSelectedFeature(selectedGeometry.geometry);
+                                //change main map extent
+                                this.map.setLevel(this.config.zoomLevel);
+                                this.map.centerAt(selectedGeometry.geometry);
                             }
                         } else {
                             // zoom the map to configured zoom level
@@ -1177,6 +1224,9 @@ define([
                     //Clear map selection when navigating to web map list
                     if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
                         this._selectedMapDetails.map.getLayer("selectionGraphicsLayer").clear();
+                        if (this._shareURLParameters && this._shareURLParameters.hasOwnProperty("selectedFeature")) {
+                            delete this._shareURLParameters.selectedFeature;
+                        }
                     }
                     this._sidebarCnt.showPanel("webMapList");
                 });
@@ -1284,6 +1334,18 @@ define([
                         selectedFeature.attributes = selectedFeature.originalFeature.attributes;
                     }
                     this._itemSelected(selectedFeature, true);
+                });
+                //once issue wall is loaded, if feature if present in the URL than make it visible
+                this._issueWallWidget.onIssueWallLoaded = lang.hitch(this, function () {
+                    if (this.config.urlObject && this.config.urlObject.query &&
+                        this.config.urlObject.query.webmap && this.config.urlObject.query.layer &&
+                        this._initialLoad) {
+                        this._initialLoad = false;
+                        this._sidebarCnt.showPanel("issueWall");
+                        //once issue wall is displayed, if feature is
+                        //available as a parameter in the application URL, then click it
+                        this._issueWallWidget.selectFeatureFromURL();
+                    }
                 });
                 this._sidebarCnt.addPanel("issueWall", this._issueWallWidget);
                 //If single webmap with single layer is found, directly show issue list
@@ -1713,6 +1775,9 @@ define([
         */
         highLightFeatureOnClick: function (layer, objectId, map, isMapClicked) {
             var queryTask, esriQuery, highlightSymbol, currentDateTime = new Date().getTime(), selectedGraphicsLayer;
+            if (this._shareURLParameters && Object.keys(this._shareURLParameters).length > 0) {
+                this._shareURLParameters.selectedFeature = objectId;
+            }
             selectedGraphicsLayer = this._selectedMapDetails.map.getLayer("selectionGraphicsLayer");
             this.mapInstance = map;
             if (selectedGraphicsLayer) {
@@ -2231,6 +2296,9 @@ define([
                 //Clear map selection when navigating to web map list
                 if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
                     this._selectedMapDetails.map.getLayer("selectionGraphicsLayer").clear();
+                    if (this._shareURLParameters && this._shareURLParameters.hasOwnProperty("selectedFeature")) {
+                        delete this._shareURLParameters.selectedFeature;
+                    }
                 }
             }
             //Since all the featurtes added from my issues are removed from map, reset the array
@@ -2571,6 +2639,9 @@ define([
             // If graphics layer is already added on the map, clear it else add a graphic layer on map
             if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
                 this._selectedMapDetails.map.getLayer("selectionGraphicsLayer").clear();
+                if (this._shareURLParameters && this._shareURLParameters.hasOwnProperty("selectedFeature")) {
+                    delete this._shareURLParameters.selectedFeature;
+                }
             } else {
                 selectedGraphics = new GraphicsLayer();
                 selectedGraphics.id = "selectionGraphicsLayer";
