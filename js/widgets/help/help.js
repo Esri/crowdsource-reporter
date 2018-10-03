@@ -22,6 +22,7 @@ define([
     "dijit/_WidgetBase",
     "dijit/_TemplatedMixin",
     "dijit/_WidgetsInTemplateMixin",
+    "dojo/_base/lang",
     "dojo/domReady!"
 ], function (
     declare,
@@ -29,18 +30,31 @@ define([
     template,
     _WidgetBase,
     _TemplatedMixin,
-    _WidgetsInTemplateMixin
-
+    _WidgetsInTemplateMixin,
+    lang
 ) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
 
         postCreate: function () {
             $("#myModal", this.domNode).addClass("esriCT" + this.dialog);
+            //Check if show buttons flag is set to true and button text exist
+            if (this.showButtons && this.okButtonText && this.cancelButtonText) {
+                $('#myModal', this.domNode).find('.modal-footer').removeClass("esriCTHidden");
+                $('#myModal', this.domNode).find('.esriCTOkButton')[0].innerHTML = this.okButtonText;
+                $('#myModal', this.domNode).find('.esriCTCancelButton')[0].innerHTML = this.cancelButtonText;
+                $('#myModal', this.domNode).find('.modal-dialog').addClass("esriCTModelDialogWithButton");
+            }
             $('#myModal', this.domNode).find('.modal-title').html(this.title);
-            $('#myModal', this.domNode).find('.modal-body').html(this.content);
+            $('#myModal', this.domNode).find('.esriCTModelBody').html(this.content);
             $("#myModal", this.domNode).attr('panel', this.dialog);
             domConstruct.place(this.domNode, document.body, 'last');
+            $('#myModal', this.domNode).find('.esriCTOkButton').click(lang.hitch(this, function () {
+                this.okButtonClicked();
+            }));
+            $('#myModal', this.domNode).find('.esriCTCancelButton').click(lang.hitch(this, function () {
+                this.cancelButtonClicked();
+            }));
         },
 
         startup: function () {
@@ -57,6 +71,26 @@ define([
             setTimeout(function () {
                 $("[panel=" + panel + "]").find('.modal-body')[0].scrollTop = 0;
             }, 200);
+        },
+
+        hideDialog: function (panel) {
+            $("[panel=" + panel + "]").modal("hide");
+        },
+
+        /**
+        * Listener for ok button click
+        * @memberOf widgets/help/help
+        */
+        okButtonClicked: function () {
+            return;
+        },
+
+        /**
+        * Listener for cancel button click
+        * @memberOf widgets/help/help
+        */
+        cancelButtonClicked: function () {
+            return;
         }
     });
 });

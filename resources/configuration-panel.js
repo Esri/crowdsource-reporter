@@ -13,6 +13,7 @@
         "enableTwitter": false,
         "enablePortalLogin": true,
         "enableGoogleplus": false,
+        "disableCurrentLocation": false,
         "tool_search" : true,
         "facebookAppId": "",
         "googleplusClientId": "",
@@ -47,11 +48,13 @@
         "geographicalExtentLayer": "",
         "submitReportButtonText": "",
         "submitReportButtonColor": "#35ac46",
+        "submitReportButtonPosition": "bottom",
         "splashScreenTextColor": "#FFF",
         "imageBackgroundColor": "#999999",
         "imageForeGroundColor": "white",
         "showMapFirst": "list",
         "enableHelp": true,
+        "enableShare": true,
         "showHelpOnLoad": false,
         "enableDifferentHelpContent": false,
         "helpLinkText": "Help",
@@ -77,7 +80,11 @@
         "sortingOrder": "DESC",
         "reportingPeriod": "Open",
         "reportingPeriodDialogTitle": "Reporting Period Closed",
-        "reportingPeriodDialogContent": "We are no longer accepting new reports for this project."
+        "reportingPeriodDialogContent": "We are no longer accepting new reports for this project.",
+        "commentStartDate": "",
+        "commentStartTime": "",
+        "commentEndDate" :"",
+        "commentEndTime": ""
     },
   "configurationSettings": [{
       "category": "<b>General</b>",
@@ -156,6 +163,12 @@
                   "stringFieldOption": "richtext"
               }]
           }]
+      }, {
+        "label": "Enable the share dialog window",
+        "tooltip": "When disabled, the share icon will not be visible in the application header",
+        "type": "boolean",
+        "condition": false,
+        "fieldName": "enableShare"
       }]
   }, {
       "category": "<b>Theme</b>",
@@ -389,6 +402,11 @@
               "fieldName": "googleplusClientId"
           }]
       }, {
+        "label": "Allow users to disable the use of current location",
+        "tooltip": "Enable users decide wether or not use the current location",
+        "type": "boolean",
+        "fieldName": "disableCurrentLocation"
+    },  {
           "label": "Field for storing the ID of authenticated users (optional)",
           "tooltip": "Text field that stores the ID of the person who submitted or commented on a report. Field name must be the same across all layers and maps.",
           "type": "string",
@@ -546,6 +564,17 @@
           "type": "color",
           "fieldName": "submitReportButtonColor"
       }, {
+        "label": "Submit report button position",
+        "tooltip": "position of submit report button", "type": "options",
+        "fieldName": "submitReportButtonPosition",
+        "options": [{
+            "label": "Top",
+            "value": "top"
+        }, {
+            "label": "Bottom",
+            "value": "bottom"
+        }]
+    }, {
           "type": "subcategory",
           "label": "Submission Message"
       }, {
@@ -671,7 +700,25 @@
               "label": "Descending",
               "value": "DESC"
           }]
+			}, {
+				"label": "Comments sorting field",
+				"tooltip": "Sort comments based on configured field",
+				"type": "string",
+				"fieldName": "commentSortingField"
+			}, {
+				"label": "Comments sorting order",
+				"tooltip": "Order in which comments can be sorted ",
+				"type": "radio",
+				"fieldName": "commentSortingOrder",
+				"items": [{
+					"label": "Ascending",
+					"value": "ASC",
+					"checked": true
       }, {
+					"label": "Descending",
+					"value": "DESC"
+				}]
+			}, {
           "type": "subcategory",
           "label": "Reporting Period"
       }, {
@@ -697,6 +744,22 @@
           "type": "string",
           "fieldName": "reportingPeriodDialogContent",
           "stringFieldOption": "richtext"
-      }]
+      }, {
+          "type": "date",
+          "fieldName": "commentStartDate",
+          "label": "Start Date"
+      }, {
+          "type":"time",
+          "fieldName": "commentStartTime",
+          "label": "Start Time"
+    }, {
+        "type": "date",
+        "fieldName": "commentEndDate",
+        "label": "End Date"
+    }, {
+        "type":"time",
+        "fieldName": "commentEndTime",
+        "label": "End Time"
+  }]
   }]
 }

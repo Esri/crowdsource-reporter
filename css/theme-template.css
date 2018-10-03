@@ -231,14 +231,14 @@
 }
 
 .esriCTPostCommentButton, .esriCTPostCommentButton:hover,
-.esriCTGeoFormSubmitButton , .esriCTGeoFormSubmitButton :hover
+.esriCTGeoFormSubmitButton , .esriCTGeoFormSubmitButton :hover, .modal-footer .esriCTOkButton
 {
       background-color: ${ButtonTextColor} !important;
       color: ${ButtonBackgroundColor} !important;
 }
 
 .esriCTCancelCommentButton, .esriCTCancelCommentButton:hover,
-.esriCTGeoFormCancelButton , .esriCTGeoFormCancelButton :hover
+.esriCTGeoFormCancelButton , .esriCTGeoFormCancelButton :hover, .modal-footer .esriCTCancelButton
 {
     background-color: ${ButtonBackgroundColor} !important;
     color: ${ButtonTextColor} !important;

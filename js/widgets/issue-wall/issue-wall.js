@@ -71,6 +71,11 @@ define([
                 "appUtils": this.appUtils,
                 "linkToMapView": true
             }).placeAt(this.listContainer); // placeAt triggers a startup call to _itemsList
+            //Change the position of button as per the configuration
+            if (this.appConfig.submitReportButtonPosition &&
+                this.appConfig.submitReportButtonPosition === "top") {
+                domConstruct.place(this.submitReport, this.listContainer, "before");
+            }
 
             //If webmap list is not required, we need to hide the back button
             if (!this.appUtils.isWebmapListRequired) {
@@ -104,14 +109,31 @@ define([
                 event.stop(evt);
             })));
             this.own(on(this.submitReport, "click", lang.hitch(this, function (evt) {
-                if (this.appConfig.reportingPeriod === "Closed") {
-                    this.appUtils.reportingPeriodDialog.showDialog("reporting");
-                    return;
-                }
-                if (this.appConfig.logInDetails.canEditFeatures) {
-                    this.onSubmit(evt);
+                var commentSubmitStatus = this.appUtils.isCommentDateInRange(),
+                    canSubmit = true;
+                if (commentSubmitStatus === null) {
+                    if (this.appConfig.hasOwnProperty("reportingPeriod") &&
+                        this.appConfig.reportingPeriod === "Closed") {
+                        this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                        canSubmit = false;
+                        return;
+                    }
                 } else {
-                    this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
+                    if (!commentSubmitStatus) {
+                        canSubmit = false;
+                        if (!this.appUtils.reportingPeriodDialog) {
+                            this.appUtils.createReportingPeriodDialog();
+                        }
+                        this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                        return;
+                    }
+                }
+                if (canSubmit) {
+                    if (this.appConfig.logInDetails.canEditFeatures) {
+                        this.onSubmit(evt);
+                    } else {
+                        this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
+                    }
                 }
             })));
 
@@ -398,7 +420,35 @@ define([
                 domClass.remove(this.noIssuesMessage, "esriCTHidden");
             }
             this.itemsList.show();
+            //notify that issue wall is loaded
+            this.onIssueWallLoaded();
             domClass.add(this.listLoadingIndicator, "esriCTHidden");
+        },
+
+        /**
+         * This function is used to notify that issue wall is loaded
+         * @memberOf widgets/issue-wall/issue-wall
+         */
+        onIssueWallLoaded: function() {
+            return;
+        },
+
+        /**
+         * This function is used to get the record of the feature present in the URL
+         * and execute programmatic click on it.
+         * @memberOf widgets/issue-wall/issue-wall
+         */
+        selectFeatureFromURL: function() {
+            if (this.appConfig.urlObject.query.selectedFeature) {
+                var queryFeature = query("." + this.appConfig.urlObject.query.selectedFeature +
+                    "_" + this.appConfig.urlObject.query.webmap +
+                    "_" + this.appConfig.urlObject.query.layer);
+                if (queryFeature && queryFeature.length > 0) {
+                    queryFeature[0].click();
+                } else {
+                    this.appUtils.showMessage(this.appConfig.i18n.main.featureNotFoundMessage);
+                }
+            }
         },
 
         /**

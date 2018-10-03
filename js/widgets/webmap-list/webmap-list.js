@@ -82,6 +82,8 @@ define([
         selectedMapResponse: null, //object of selected map response object, this will reduce the unnecessary calls to API to get all the required properties of layer or map
         selectedLayerId: null,
         geographicalExtentLayer: null, //defines study area for feature edits
+        _initialLoad: true, // to keep track that application is loaded for first time
+
         /**
         * This function is called when widget is constructed.
         * @param{object} options to be mixed
@@ -504,16 +506,26 @@ define([
         */
         _featureLayerLoaded: function (webMapID, layerID, layerDetails, itemInfo) {
             //Highlight the Selected Item in webmap list
-            this._highlightSelectedItem(webMapID, layerID);
-            setTimeout(lang.hitch(this, function () {
-                this.onOperationalLayerSelected({
-                    "map": this.map,
-                    "webMapId": webMapID,
-                    "operationalLayerId": layerID,
-                    "operationalLayerDetails": layerDetails,
-                    "itemInfo": itemInfo
-                });
-            }), 500);
+            //If webmap is present in the URL, than select it in the webmap list
+            if (this.appConfig.urlObject && this.appConfig.urlObject.query &&
+                this.appConfig.urlObject.query.webmap &&
+                this._initialLoad) {
+                this._initialLoad = false;
+                webMapID = this.appConfig.urlObject.query.webmap;
+                layerID = this.appConfig.urlObject.query.layer;
+                this.loadWebMapFromUrlParams();
+            } else { //by default select first webmap of the list
+                this._highlightSelectedItem(webMapID, layerID);
+                setTimeout(lang.hitch(this, function () {
+                    this.onOperationalLayerSelected({
+                        "map": this.map,
+                        "webMapId": webMapID,
+                        "operationalLayerId": layerID,
+                        "operationalLayerDetails": layerDetails,
+                        "itemInfo": itemInfo
+                    });
+                }), 500);
+            }
         },
 
         /**
@@ -853,6 +865,86 @@ define([
         */
         singleWebmapFound: function () {
             return;
+        },
+
+        /**
+         * This function is used to select the webmap & layer depending upon the
+         * availability of the its respective parameter in the URL
+         * @memberOf widgets/webmap-list/webmap-list
+         */
+        loadWebMapFromUrlParams: function () {
+            var webmapDivToSelect, layerToSelect, layerDetails, layerObject;
+            //Check if valid webmap with webmap id is present in webmap list
+            if (this.appConfig.urlObject.query.webmap) {
+                webmapDivToSelect = $(".esriCTWebMapListParentDiv div[webmapid=" + "'" + this.appConfig.urlObject.query.webmap + "'" + "]");
+                if (webmapDivToSelect) {
+                    array.forEach(this.filteredWebMapResponseArr, lang.hitch(this, function (itemDetails) {
+                        if (itemDetails[1].itemInfo.item.id === this.appConfig.urlObject.query.webmap) {
+                            this.webmapData = itemDetails[1].itemInfo;
+                        }
+                    }));
+                } else {
+                    //If webmap is not found, delete the url params stop the functionality
+                    this.appUtils.showMessage(this.appConfig.i18n.main.featureNotFoundMessage);
+                    delete this.appConfig.urlObject;
+                    this.appUtils.hideLoadingIndicator();
+                    return;
+                }
+            }
+            //If webmap is found and layer id is specified in url, try to fetch layer
+            if (this.webmapData && this.appConfig.urlObject.query.layer) {
+                array.forEach(this.webmapData.itemData.operationalLayers, lang.hitch(this, function (layer) {
+                    if (layer.id === this.appConfig.urlObject.query.layer) {
+                        layerDetails = layer;
+                        layerToSelect = $(".esriCTWebMapListParentDiv div[operationallayerid=" + "'" + layer.id + "'" + "]");
+                    }
+                }));
+                //Check if layer specified in url is present in webmap list, is not select webmap's first layer
+                if (!layerDetails && !layerToSelect && this.webmapData.itemData.operationalLayers.length === 1) {
+                    layerObject = {
+                        "webMapId": this.appConfig.urlObject.query.webmap,
+                        "operationalLayerId": this.webmapData.itemData.operationalLayers[0].id,
+                        "operationalLayerDetails": this.webmapData.itemData.operationalLayers[0],
+                        "itemInfo": this.webmapData
+                    };
+                    delete this.appConfig.urlObject;
+                } else if (!layerDetails && !layerToSelect) {
+                    // If layer is not found, stop the functionality
+                    this.appUtils.showMessage(this.appConfig.i18n.main.featureNotFoundMessage);
+                    delete this.appConfig.urlObject;
+                    this.appUtils.hideLoadingIndicator();
+                } else {
+                    layerObject = {
+                        "webMapId": this.appConfig.urlObject.query.webmap,
+                        "operationalLayerId": this.appConfig.urlObject.query.layer,
+                        "operationalLayerDetails": layerDetails,
+                        "itemInfo": this.webmapData
+                    };
+                }
+                //If layer is not present,select webmap's first layer
+            } else if (this.webmapData && this.webmapData.itemData.operationalLayers.length === 1) {
+                layerObject = {
+                    "webMapId": this.appConfig.urlObject.query.webmap,
+                    "operationalLayerId": this.webmapData.itemData.operationalLayers[0].id,
+                    "operationalLayerDetails": this.webmapData.itemData.operationalLayers[0],
+                    "itemInfo": this.webmapData
+                };
+            } else {
+                this.appUtils.showMessage(this.appConfig.i18n.main.featureNotFoundMessage);
+                delete this.appConfig.urlObject;
+                this.appUtils.hideLoadingIndicator();
+            }
+            if (layerObject) {
+                this._handleWebmapToggling(webmapDivToSelect[0],
+                    layerObject ? layerObject.operationalLayerDetails : null);
+                //If valid layer is not found in webmap list, we need to select first layer in the webmap
+                if (!layerToSelect) {
+                    layerToSelect = $(".esriCTWebMapListParentDiv div[operationallayerid=" + "'" + layerObject.operationalLayerId + "'" + "]");
+                }
+            }
+            if (layerToSelect) {
+                layerToSelect.click();
+            }
         }
     });
 });

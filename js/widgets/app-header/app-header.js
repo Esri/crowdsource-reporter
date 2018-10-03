@@ -24,6 +24,7 @@ define([
     "dojo/dom-attr",
     "dojo/dom-class",
     "dojo/dom-style",
+    "esri/request",
     "dojo/on",
     "dojo/text!./templates/app-header.html",
     "widgets/mobile-menu/mobile-menu",
@@ -31,7 +32,7 @@ define([
     "dijit/_WidgetBase",
     "dijit/_TemplatedMixin",
     "dijit/_WidgetsInTemplateMixin"
-], function (declare, domConstruct, lang, dom, domAttr, domClass, domStyle, on, template, MobileMenu, Help, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin) {
+], function (declare, domConstruct, lang, dom, domAttr, domClass, domStyle, esriRequest, on, template, MobileMenu, Help, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         mobileMenu: null,
@@ -66,6 +67,9 @@ define([
             if (this.appConfig.i18n.appHeader) {
                 lang.mixin(this.i18n, this.appConfig.i18n.appHeader);
             }
+            if (this.appConfig.i18n.dialog) {
+                lang.mixin(this.i18n, this.appConfig.i18n.dialog);
+            }
         },
 
         /**
@@ -81,6 +85,9 @@ define([
                     "content": this.appConfig.helpDialogContent,
                     "dialog": "help"
                 });
+            }
+            if (this.appConfig.enableShare) {
+                this._createShareDialogContent();
             }
             //Create modal dialog
             if (this.appConfig.reportingPeriod === "Closed") {
@@ -100,7 +107,7 @@ define([
                 this.mobileMenu.onSignInClicked = lang.hitch(this, function () { this._animateMenuContainer(); this._signInClicked(); });
                 this.mobileMenu.onSignOutClicked = lang.hitch(this, function () { this._animateMenuContainer(); this._signOutClicked(); });
                 this.mobileMenu.onHelpClicked = lang.hitch(this, function () { this._animateMenuContainer(); this._helpClicked(); });
-
+                this.mobileMenu.onShareClicked = lang.hitch(this, function () { this._animateMenuContainer(); this._shareClicked(); });
 
                 //handle mobile menu events
                 on(this.mobileMenuBurger, "click", lang.hitch(this, this._animateMenuContainer));
@@ -115,6 +122,7 @@ define([
 
                 //Adding class to hide help icon in mobile view if login is enabled
                 domClass.add(this.helpButton, "esriCTMobileHelpIcon");
+                domClass.add(this.shareButton, "esriCTMobileHelpIcon");
             } else {
                 if (domClass.contains(this.mobileMenuBurger, "esriCTMobileIcons")) {
                     domClass.replace(this.mobileMenuBurger, "esriCTHidden", "esriCTMobileIcons");
@@ -128,7 +136,12 @@ define([
                 domStyle.set(this.esriCTLoginOptionsDiv, "right", "6px");
             }
 
+            if (this.appConfig.enableShare) {
+                domClass.remove(this.shareButton, "esriCTHidden");
+            }
+
             on(this.helpButton, "click", lang.hitch(this, this._helpClicked));
+            on(this.shareButton, "click", lang.hitch(this, this._shareClicked));
             domAttr.set(this.helpButton, "title", this.appConfig.helpLinkText);
             //Load help screen on load based on configuration settings
             setTimeout(lang.hitch(this, function () {
@@ -136,6 +149,50 @@ define([
                     this._helpClicked();
                 }
             }), 500);
+        },
+
+        /**
+        * This function is used to create share dialog content
+        * @memberOf widgets/app-header/app-header
+        */
+        _createShareDialogContent: function () {
+            var shareContent, label, buttonsContainer;
+            shareContent = domConstruct.create("div", {}, null);
+            label = domConstruct.create("div", {
+                "innerHTML": this.i18n.shareDialogAppURLLabel,
+                "style": "font-weight: bold"
+            }, shareContent);
+
+            //Create text area for showing the application url
+            this.textInput = domConstruct.create("textarea", {
+                "rows": "3",
+                "class": "form-control",
+                "style": "resize: none"
+            }, shareContent);
+            //Select text in the textarea on click event
+            on(this.textInput, "click", lang.hitch(this, function () {
+                this.textInput.select();
+            }));
+            buttonsContainer = domConstruct.create("div", {}, shareContent);
+
+            //Create instance of share dialog
+            this._shareScreen = new Help({
+                "config": this.appConfig,
+                "title": this.i18n.shareDialogTitle,
+                "content": shareContent,
+                "dialog": "share",
+                "showButtons": true,
+                "okButtonText": this.i18n.okButton,
+                "cancelButtonText": this.i18n.cancelButton
+            });
+
+            //Listen for Ok and Cancel button click events
+            this._shareScreen.okButtonClicked = lang.hitch(this, function () {
+                this._shareScreen.hideDialog("share");
+            });
+            this._shareScreen.cancelButtonClicked = lang.hitch(this, function () {
+                this._shareScreen.hideDialog("share");
+            });
         },
 
         /**
@@ -227,6 +284,9 @@ define([
             if (!this.appConfig.enableHelp) {
                 domClass.add(this.helpButton, "esriCTHidden");
             }
+            if (!this.appConfig.enableShare) {
+                domClass.add(this.shareButton, "esriCTHidden");
+            }
         },
 
         /**
@@ -287,6 +347,68 @@ define([
             //show splash screen dialog
             this.helpScreen.showDialog("help");
             return evt;
+        },
+
+        /**
+         * This function is used add parameters to the URL through which user
+         * has navigated like webmap, layer or feature
+         * @memberOf widgets/app-header/app-header
+         */
+        _constructShareURL: function (shareURLParamsObj) {
+            var clonedURLObject, url, clonedUrlParameter, urlParameter;
+            // Clone the existing url object constructed by boilerplate
+            clonedURLObject = lang.clone(this.appConfig.urlObject);
+            // In this cloned url object, if share url keys are not available
+            // then inject that keys, if it's available just change its old
+            // value to new one.
+            for (urlParameter in shareURLParamsObj) {
+                clonedURLObject.query[urlParameter] = shareURLParamsObj[urlParameter];
+            }
+            // Fetch the base path, before constructing its parameter.
+            // After parameter is constructed, append it to the base path
+            url = clonedURLObject.path;
+            for (clonedUrlParameter in clonedURLObject.query) {
+                if (clonedURLObject.query.hasOwnProperty(clonedUrlParameter)) {
+                    // at least 1 parameter is available
+                    if (url.indexOf('?') > -1) {
+                        url += "&" + clonedUrlParameter + "=" + clonedURLObject.query[clonedUrlParameter];
+                    } else { // if no parameters are available
+                        url += "?" + clonedUrlParameter + "=" + clonedURLObject.query[clonedUrlParameter];
+                    }
+                }
+            }
+            return url;
+        },
+
+        /**
+        * This function is used to create short url and displayed it in the textarea
+        * @memberOf widgets/app-header/app-header
+        */
+        _shareClicked: function (evt) {
+            var url, shareURLParamsObj;
+            shareURLParamsObj = this.getSharedUrlParams();
+            url = this._constructShareURL(shareURLParamsObj);
+            //Call esri's shorten service
+            esriRequest({
+                url: "https://arcg.is/prod/shorten",
+                callbackParamName: "callback",
+                content: {
+                    longUrl: url,
+                    f: "json"
+                },
+                load: lang.hitch(this, function (response) {
+                    if (response && response.data && response.data.url) {
+                        this.textInput.value = response.data.url;
+                        this._shareScreen.showDialog("share");
+                    }
+                }),
+                error: function (error) {
+                    this.textInput.value = url;
+                    this._shareScreen.showDialog("share");
+                    //Error in creating shorten URL
+                    console.log(error);
+                }
+            });
         },
 
         /**

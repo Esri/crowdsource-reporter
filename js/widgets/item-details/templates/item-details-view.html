@@ -43,6 +43,10 @@
             <div class="esriCTAttachmentsSection esriCTDetailsData esriCTHidden esriCTFullWidth esriCTBodyTextColor esriCTBodyBackgroundColor esriCTFloatLeft" data-dojo-attach-point="gallery">
             </div>
             <div class="esriCTItemComments esriCTCalculatedBodyBackgroundColor">
+                <div data-dojo-attach-point="headerMessageType" class="esriCTHidden esriCTSuccessMsg alert alert-success">
+                    <span class="close" data-dojo-attach-point="headerMessageButton">&times;</span>
+                    <span data-dojo-attach-point="headerMessageContent">${i18n.comment.commentSubmittedMessage}</span>
+                </div>
                 <div class="esriCTItemComments esriCTHidden" data-dojo-attach-point="commentDetails"></div>
                 <div class="esriCTItemDetailHeader esriCTLargeText esriCTEllipsis esriCTCalculatedBodyTextColorAsBorder esriCTBodyTextColor" data-dojo-attach-point="commentsHeading"></div>
                 <div class="esriCTSmallText esriCTDetailsNoResult esriCTHidden esriCTBodyTextColor" data-dojo-attach-point="noCommentsDiv"></div>

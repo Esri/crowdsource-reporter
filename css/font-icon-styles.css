@@ -38,9 +38,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-info:before {
-  content: "\64";
-}
 .icon-close:before {
   content: "\61";
 }
@@ -51,6 +48,9 @@
   content: "\63";
 }
 .icon-help-2:before {
+  content: "\64";
+}
+.icon-info:before {
   content: "\65";
 }
 .icon-left-arrow:before {
@@ -59,18 +59,21 @@
 .icon-list:before {
   content: "\67";
 }
-.icon-map:before {
-  content: "\68";
-}
 .icon-pencil:before {
-  content: "\69";
-}
-.icon-right-arrow:before {
   content: "\6a";
 }
-.icon-setting:before {
+.icon-right-arrow:before {
   content: "\6b";
 }
-.icon-user:before {
+.icon-setting:before {
   content: "\6c";
+}
+.icon-user:before {
+  content: "\6d";
+}
+.icon-map:before {
+  content: "\69";
+}
+.icon-share:before {
+  content: "\68";
 }

@@ -77,7 +77,8 @@ define([
                     "config": this._config,
                     "title": dialogTitle,
                     "content": dialogContent,
-                    "dialog": "signin"
+                    "dialog": "signin",
+                    "showButtons": false
                 });
             } else {
                 //If help is turned off, then hide the help link

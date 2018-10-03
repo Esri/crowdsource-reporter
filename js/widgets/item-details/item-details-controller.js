@@ -172,7 +172,7 @@ define([
             this.selectedLayer.queryAttachmentInfos(this.item.attributes[this.selectedLayer.objectIdField], lang.hitch(this, function (attachments) {
                 // If attachments found, enable gallery button
                 if (attachments && attachments.length > 0) {
-                    domStyle.set(this.galleryButton, 'display', 'inline-block');
+                    this.galleryButton.click();
                 }
             }), function () {
                 //handle for error
@@ -196,6 +196,10 @@ define([
         _addListeners: function () {
             var self = this;
             on(this.backIcon, "click", lang.hitch(this, function (evt) {
+                //Hide the success message if present
+                if (!domClass.contains(this.headerMessageType, "esriCTHidden")) {
+                    domClass.add(this.headerMessageType, "esriCTHidden");
+                }
                 this.onCancel(self.item);
             }));
 
@@ -216,23 +220,42 @@ define([
             }));
 
             on(this.commentButton, "click", lang.hitch(this, function () {
-                if (this.appConfig.reportingPeriod === "Closed") {
-                    this.appUtils.reportingPeriodDialog.showDialog("reporting");
-                    return;
+                //Hide the success message if present
+                if (!domClass.contains(this.headerMessageType, "esriCTHidden")) {
+                    domClass.add(this.headerMessageType, "esriCTHidden");
                 }
-                if (this.appConfig.logInDetails.canEditFeatures) {
-                    this.appUtils.showLoadingIndicator();
-                    this._showCommentHeaderAndListContainer();
-                    this._hideCommentDetailsContainer();
-                    topic.publish('getComment', self.item);
-                    self._createCommentForm(self.item, true, null);
-                    this.appUtils.hideLoadingIndicator();
+                var commentSubmitStatus = this.appUtils.isCommentDateInRange(),
+                    canSubmit = true;
+                if (commentSubmitStatus === null) {
+                    if (this.appConfig.hasOwnProperty("reportingPeriod") &&
+                        this.appConfig.reportingPeriod === "Closed") {
+                        this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                        canSubmit = false;
+                        return;
+                    }
                 } else {
-                    this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
+                    if (!commentSubmitStatus) {
+                        canSubmit = false;
+                        if (!this.appUtils.reportingPeriodDialog) {
+                            this.appUtils.createReportingPeriodDialog();
+                        }
+                        this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                        return;
+                    }
+                }
+                if (canSubmit) {
+                    if (this.appConfig.logInDetails.canEditFeatures) {
+                        this.appUtils.showLoadingIndicator();
+                        this._showCommentHeaderAndListContainer();
+                        this._hideCommentDetailsContainer();
+                        topic.publish('getComment', self.item);
+                        self._createCommentForm(self.item, true, null);
+                        this.appUtils.hideLoadingIndicator();
+                    } else {
+                        this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
+                    }
                 }
             }));
-
-
             on(this.mapItButton, "click", lang.hitch(this, function () {
                 domStyle.set(dom.byId("mapParentContainer"), "display", "block");
                 topic.publish("resizeMap");
@@ -243,8 +266,14 @@ define([
                 if (domClass.contains(self.gallery, "esriCTHidden")) {
                     self._showAttachments(self.item);
                 }
-                self._showPanel(self.gallery, self.galleryButton, true);
+                self._showPanel(self.gallery, self.galleryButton, false);
             });
+
+            //Listen close button click event of comment header message
+            on(this.headerMessageButton, "click", lang.hitch(this, function () {
+                //Hide the success message
+                domClass.add(this.headerMessageType, "esriCTHidden");
+            }));
         },
 
         onCancel: function (evt) {
@@ -369,7 +398,7 @@ define([
             if (this.actionVisibilities.showComments) {
                 this._queryComments(item);
             }
-            this.itemTitle = this._getItemTitle(item) || "&nbsp;";
+            this.itemTitle = layerInfo.title || "&nbsp;";
             this.itemVotes = this._getItemVotes(item);
             this._checkForLayerCapabilities(layerInfo, item);
             this.item.originalFeature.canEdit = this.item.canEdit;
@@ -738,15 +767,26 @@ define([
             commentsTableDefinitionExpression = this._commentTable.getDefinitionExpression();
             //If table has definition expression set in web map then apply it
             if (commentsTableDefinitionExpression &&
-                    commentsTableDefinitionExpression !== null &&
-                    commentsTableDefinitionExpression !== "") {
+                commentsTableDefinitionExpression !== null &&
+                commentsTableDefinitionExpression !== "") {
                 updateQuery.definitionExpression = commentsTableDefinitionExpression;
             }
             this._entireAttachmentsArr = null;
             this.selectedLayer.queryRelatedFeatures(updateQuery, lang.hitch(this, function (results) {
                 var pThis = this, fset, features, i;
-                // Function for descending-OID-order sort
-                // Function for descending-OID-order sort
+                // If commentSortingField is valid then sort comments based on it,
+                // else perform the default sort i.e; by object ID
+                function sortComments() {
+                    if (pThis.appConfig.commentSortingField &&
+                        pThis.appConfig.commentSortingField !== null &&
+                        pThis.appConfig.commentSortingField !== "" &&
+                        pThis._isValidCommentSortingFieldType()) {
+                        features.sort(sortByConfiguredField);
+                    } else {
+                        features.sort(sortByOID);
+                    }
+                }
+                // This function is used to sort comments based on objectIdField
                 function sortByOID(a, b) {
                     if (a.attributes[pThis._commentTable.objectIdField] > b.attributes[pThis._commentTable.objectIdField]) {
                         return -1;  // order a before b
@@ -756,14 +796,34 @@ define([
                     }
                     return 0;  // a & b have same date, so relative order doesn't matter
                 }
-
+                // This function is used to sort comments based on commentSortingField
+                function sortByConfiguredField(a, b) {
+                    var sortingField;
+                    sortingField = pThis.appConfig.commentSortingField;
+                    // Sort comments in ascending order
+                    if (pThis.appConfig.commentSortingOrder && pThis.appConfig.commentSortingOrder === "ASC") {
+                        if (a.attributes[sortingField] < b.attributes[sortingField]) {
+                            return -1;
+                        }
+                        if (a.attributes[sortingField] > b.attributes[sortingField]) {
+                            return 1;
+                        }
+                        return 0;
+                    } else { // Sort comments in descending order
+                        if (a.attributes[sortingField] > b.attributes[sortingField]) {
+                            return -1;
+                        }
+                        if (a.attributes[sortingField] < b.attributes[sortingField]) {
+                            return 1;
+                        }
+                        return 0;
+                    }
+                }
                 fset = results[item.attributes[this.selectedLayer.objectIdField]];
                 features = fset ? fset.features : [];
-
                 if (features.length > 0) {
-                    // Sort by descending OID order
-                    features.sort(sortByOID);
-
+                    // This function is used to sort comments based on commentSortingField/by object ID
+                    sortComments();
                     // Add the comment table popup
                     for (i = 0; i < features.length; ++i) {
                         features[i].setInfoTemplate(new PopupTemplate(this.commentPopupTable.popupInfo));
@@ -771,8 +831,8 @@ define([
                 }
                 this.clearComments();
                 if (features.length > 0) {
-                    // Sort by descending OID order
-                    features.sort(sortByOID);
+                    // This function is used to sort comments based on commentSortingField/by object ID
+                    sortComments();
                     if (this._commentTable.hasAttachments) {
                         this._getAllAttachments(results[item.attributes[this.selectedLayer.objectIdField]].features);
                     } else {
@@ -789,6 +849,24 @@ define([
                 //Hide loading indicator
                 this.appUtils.hideLoadingIndicator();
             }));
+        },
+
+        /**
+        * This function is used to check field type of commentSortingField and its name.
+        * Valid field types are date, string & number.
+        * @memberOf widgets/item-details/item-details-controller
+        */
+        _isValidCommentSortingFieldType: function () {
+            var validFieldTypesForComment, isValid;
+            validFieldTypesForComment = ["esriFieldTypeString", "esriFieldTypeDate", "esriFieldTypeSmallFloat", "esriFieldTypeSmallInteger", "esriFieldTypeInteger", "esriFieldTypeSingle", "esriFieldTypeDouble"];
+            isValid = false;
+            arrayUtil.forEach(this._commentTable.fields,
+                lang.hitch(this, function (obj) {
+                    if (this.appConfig.commentSortingField === obj.name && validFieldTypesForComment.indexOf(obj.type) !== -1) {
+                        isValid = true;
+                    }
+                }));
+            return isValid;
         },
 
         /**
@@ -1064,6 +1142,8 @@ define([
                     //close the comment form after submitting new comment
                     this._showPanel(this.commentDetails, this.commentButton, false);
                 }
+                //Show the success message after successful submission of comment
+                domClass.remove(this.headerMessageType, "esriCTHidden");
                 this.commentformInstance._clearFormFields();
                 this.isCommentFormOpen = false;
                 //update comment list

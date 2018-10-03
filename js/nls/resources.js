@@ -30,8 +30,8 @@ define({
             featureOutsideAOIMessage: "Feature cannot be added outside study area", // Error message when feature edits are performed outside the study area
             noEditingPermissionsMessage: "You do not have permission to perform this action.", //Message when user do not have editing permissions
             basemapGalleryText: "Basemap Gallery", // Basemap gallery text
-            legendText: "Legend" //Legend text
-
+            legendText: "Legend", //Legend text
+            featureNotFoundMessage: "Requested feature not found" //Message displayed when feature is not found
         },
         signin: {
             guestSigninText: "Proceed as Guest", // Shown in the 'Sign in' page below the icon for accessing application as an anonymous user
@@ -71,7 +71,10 @@ define({
             signOut: "Sign Out", // Command button shown in mobile menu list
             signInTooltip: "Sign in", // Tooltip to 'Sign in' option
             signOutTooltip: "Sign out", // Tooltip  to 'Sign out' option
-            myReportTooltip: "View my submissions" // Tooltip  to 'My Reports' option
+            myReportTooltip: "View my submissions", // Tooltip  to 'My Reports' option
+            share: "Share", //Tooltip share button
+            shareDialogTitle: "Share Dialog", //Share dialog header
+            shareDialogAppURLLabel: "Application URL" // App url label
         },
         geoform: {
             enterInformation: "Details", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -104,7 +107,9 @@ define({
             locationSelectionHintForPointLayer : "Tap the map to draw the location.", //hint text for selecting location incase of point layer
             locationSelectionHintForPolygonLayer : "Tap the map to draw the location. Double tap to complete the drawing.", //hint text for selecting location incase of line and polygon layer
             locationSelectionHintForPointLayerDesktop : "Click the map to draw the location.", //hint text for selecting location incase of point layer
-            locationSelectionHintForPolygonLayerDesktop : "Click the map to draw the location. Double click to complete the drawing." //hint text for selecting location incase of line and polygon layer
+            locationSelectionHintForPolygonLayerDesktop : "Click the map to draw the location. Double click to complete the drawing.", //hint text for selecting location incase of line and polygon layer
+            locationDialogTitle: "Select location for report", //Title for location dialog header
+            locationDialogContent: "Are you sure you want to use image location ?" //Content for location dialog
         },
         locator: {
             addressText: "Address:", // Shown as a title for a group of addresses returned on performing unified search
@@ -146,6 +151,7 @@ define({
             commentsFormEditButton: "Update Comment",
             commentsFormCancelButton: "Cancel",
             errorInSubmittingComment: "Comment could not be submitted.", // Shown when user is unable to add comments
+            commentSubmittedMessage: "Comments Submitted Successfully.", // Shown when user is unable to add comments
             emptyCommentMessage: "Please enter a comment.", // Shown when user submits a comment without any text/character
             placeHolderText: "Type a comment", // Shown as a placeholder in comments textbox
             noCommentsAvailableText: "No comments available", // Shown when no comments are available for the selected issue
@@ -163,6 +169,12 @@ define({
         gallery: {
             galleryHeaderText: "Gallery",
             noAttachmentsAvailableText: "No attachments found" // Shown when no comments are available for the selected issue
+        },
+        dialog: {
+            okButton: "Ok",
+            cancelButton: "Cancel",
+            yesButton: "Yes",
+            noButton: "No"
         }
     }),
     "ar": 1,

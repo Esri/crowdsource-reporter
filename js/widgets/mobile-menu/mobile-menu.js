@@ -141,7 +141,13 @@ define([
                 // check if help is to be shown in list and accordingly set it's display and handle it's click
                 domClass.remove(this.help, "esriCTHidden");
             }
+            if (this.appConfig.enableShare) {
+                // check if help is to be shown in list and accordingly set it's display and handle it's click
+                domClass.remove(this.share, "esriCTHidden");
+            }
+
             this.own(on(this.help, "click", lang.hitch(this, this._helpClicked)));
+            this.own(on(this.share, "click", lang.hitch(this, this._shareClicked)));
         },
 
         /**
@@ -189,6 +195,14 @@ define([
             this.onHelpClicked(evt);
         },
 
+        /**
+        * Executed when user clicks on share button
+        * @memberOf widgets/mobile-menu/mobile-menu
+        */
+        _shareClicked: function (evt) {
+            this.onShareClicked(evt);
+        },
+
         //Events generated form mobile menu
         onSignInClicked: function (evt) {
             return evt;
@@ -199,6 +213,10 @@ define([
         },
 
         onHelpClicked: function (evt) {
+            return evt;
+        },
+
+        onShareClicked: function (evt) {
             return evt;
         },
 
