@@ -35,16 +35,16 @@ define({
     "guestSigninText": "Jätkake külalisena",
     "signInOrText": "või",
     "signinOptionsText": "Logige sisse",
-    "noGroupNameText": "Palun logi sisse",
+    "noGroupNameText": "Palun logige sisse",
     "guestLoginTooltip": "Logige sisse külalisena",
-    "facebookLoginTooltip": "Logige sisse Facebooki konto kaudu",
-    "twitterLoginTooltip": "Logige sisse Twitteri konto kaudu",
+    "facebookLoginTooltip": "Logige sisse Facebooki kontoga",
+    "twitterLoginTooltip": "Logige sisse Twitteri kontoga",
     "googlePlusLoginTooltip": "Logige sisse Google+ kasutajana",
     "agolLoginTooltip": "Logige sisse ArcGIS kasutajana"
   },
   "webMapList": {
     "owner": "Omanik",
-    "created": "Kuupäev loodud",
+    "created": "Loomise kuupäev",
     "modified": "Muutmise kuupäev",
     "description": "Kirjeldus",
     "snippet": "Kokkuvõte",
@@ -69,14 +69,14 @@ define({
     "signOut": "Logi välja",
     "signInTooltip": "Logi sisse",
     "signOutTooltip": "Logi välja",
-    "myReportTooltip": "Kuva minu edastused"
+    "myReportTooltip": "Kuva minu esitused"
   },
   "geoform": {
     "enterInformation": "Detailid",
     "selectAttachments": "Manused",
     "selectFileText": "Sirvi",
     "enterLocation": "Asukoht",
-    "reportItButton": "Aruanne It",
+    "reportItButton": "Postita",
     "editReportButton": "Uuenda",
     "cancelButton": "Tühista",
     "requiredField": "(nõutud)",
@@ -93,14 +93,14 @@ define({
     "dateRangeHintMessage": "${openStrong}Vihje:${closeStrong} Kuupäeva alampiir ${minValue} ja kuupäeva ülempiir ${maxValue}",
     "errorsInApplyEdits": "Väärtusi ei saanud edastada.",
     "attachmentSelectedMsg": "valitud manus(ed)",
-    "attachmentUploadStatus": "Manust /kokku manusest ei õnnestunud üles laadida.",
+    "attachmentUploadStatus": "${failed} manust ${total} manusest ei õnnestunud üles laadida",
     "geoLocationError": "Hetke asukoht pole kättesaadav.",
     "geoLocationOutOfExtent": "Hetke asukoht on lubatud vahemikust väljas.",
     "submitButtonTooltip": "Esita",
     "cancelButtonTooltip": "Tühista",
     "geoformBackButtonTooltip": "Naase loendisse",
     "locationSelectionHintForPointLayer": "Asukoha joonistamiseks puudutage kaarti.",
-    "locationSelectionHintForPolygonLayer": "Asukoha joonistamiseks puudutage kaarti. Joonistuse lõpuleviimiseks topeltpuudutage.",
+    "locationSelectionHintForPolygonLayer": "Asukoha joonistamiseks klõpsake kaardil. Joonistuse lõpetamiseks tehke topeltklõps.",
     "locationSelectionHintForPointLayerDesktop": "Asukoha joonistamiseks klõpsake kaarti.",
     "locationSelectionHintForPolygonLayerDesktop": "Asukoha joonistamiseks klõpsake kaarti. Joonistuse lõpuleviimiseks topeltklõpsake."
   },
@@ -110,15 +110,15 @@ define({
     "mgrsText": "MGRS",
     "latLongText": "Laius/Pikkus",
     "invalidSearch": "Tulemusi ei leitud",
-    "locatorPlaceholder": "Sisesta otsingusse aadress",
+    "locatorPlaceholder": "Sisestage otsingusse aadress",
     "locationOutOfExtent": "Asukoht on väljaspool edastusala",
     "searchButtonTooltip": "Otsi",
     "clearButtonTooltip": "Tühjenda otsingu väärtus"
   },
   "myIssues": {
-    "title": "Minu edastused",
-    "myIssuesTooltip": "Minu edastused",
-    "noResultsFound": "Edastusi ei leitud"
+    "title": "Minu esitused",
+    "myIssuesTooltip": "Minu esitused",
+    "noResultsFound": "Esitusi ei leitud"
   },
   "itemDetails": {
     "likeButtonLabel": "",
@@ -129,7 +129,7 @@ define({
     "galleryButtonTooltip": "Vaadake manustatud dokumente",
     "mapButtonLabel": "Vaata kaardil",
     "mapButtonTooltip": "Kuva selle edastuse asukoht",
-    "commentsListHeading": "Kommentaari",
+    "commentsListHeading": "Kommentaarid",
     "unableToUpdateVoteField": "Teie häält ei saa seekord lisada.",
     "gotoIssueListTooltip": "Kuva edastuste loendit",
     "deleteMessage": "Kas soovite selle kindlasti kustutada?"
@@ -147,7 +147,7 @@ define({
     "emptyCommentMessage": "Palun sisestage kommentaar.",
     "placeHolderText": "Sisestage kommentaar",
     "noCommentsAvailableText": "Ühtki kommentaari ei ole saadaval.",
-    "remainingTextCount": "${0} kasutamata tähemärgid",
+    "remainingTextCount": "${0} kasutamata tähemärki",
     "showNoText": "Ei",
     "selectAttachments": "Manused",
     "selectFileText": "Sirvi",
