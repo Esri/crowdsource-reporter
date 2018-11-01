@@ -18,6 +18,10 @@ define({
     root: ({
         map: {
             error: "Unable to create map",
+            licenseError: {
+                message: "Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license.",
+                title: "Not Licensed"
+            },
             zoomInTooltip: "Zoom in",  // Command button to zoom in to the map
             zoomOutTooltip: "Zoom out",  // Command button to zoom out of the map
             geolocationTooltip: "Current location"  // Command button to navigate to the current geographical position
