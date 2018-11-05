@@ -370,7 +370,7 @@
           "label": "Sign In Options"
       }, {
           "type": "paragraph",
-          "value": "Configure how users will be able to access your application. See the <a href='http://links.esri.com/localgovernment/help/CrowdsourcePolling/SocialSignIn/' target='_blank'>help</a> for the steps to register your app with Facebook and Google+."
+          "value": "Configure how users will be able to access your application. See the <a href='http://links.esri.com/localgovernment/help/crowdsource-reporter/' target='_blank'>help</a> for the steps to register your app with Google+."
       }, {
           "type": "paragraph",
           "value": "Disable all sign in options to hide the splash screen."
