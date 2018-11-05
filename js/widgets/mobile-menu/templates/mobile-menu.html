@@ -1,16 +1,16 @@
 ﻿<div data-dojo-attach-point="mobileMenuMainContainer" class="esriCTMobilemenu esriCTBodyBackgroundColor">
-    <div data-dojo-attach-point="mobileMenuHeader" class="esriCTMobileMenuHeader esriCTBorderBottom esriCTHidden esriCTHeaderTextColor esriCTHeaderBackgroundColor esriCTHeaderTextColorAsBorder">
+    <div tabindex="0" data-dojo-attach-point="mobileMenuHeader" class="esriCTMobileMenuHeader esriCTBorderBottom esriCTHidden esriCTHeaderTextColor esriCTHeaderBackgroundColor esriCTHeaderTextColorAsBorder">
         <div class="esriCTUserImg esriCTBGColor icon icon-user esriCTHeaderBackgroundColor"></div>
         <div class="esriCTLoggedinUserName esriCTEllipsis esriCTApplicationColor esriCTHeaderTextColor" data-dojo-attach-point="loggedinUserNameDiv"></div>
     </div>
     <div class="esriCTBurgermenu esriCTBodyBackgroundColor esriCTBodyTextColor" data-dojo-attach-point="mainMenuContainer">
-        <div data-dojo-attach-point="myReport" class="esriCTHidden esriCTBurgermenuStyle esriCTCalculatedBodyTextColorAsBorder esriCTPointerCursor" title="${i18n.myReportTooltip}">
+        <div role="menuitem" tabindex="0" data-dojo-attach-point="myReport" class="esriCTHidden esriCTBurgermenuStyle esriCTCalculatedBodyTextColorAsBorder esriCTPointerCursor" aria-label="${i18n.myReportTooltip}" title="${i18n.myReportTooltip}">
             ${i18n.myReport}</div>
-        <div data-dojo-attach-point="signIn" class="esriCTHidden esriCTBurgermenuStyle esriCTCalculatedBodyTextColorAsBorder esriCTPointerCursor" title="${i18n.signInTooltip}">
+        <div role="menuitem" tabindex="0" data-dojo-attach-point="signIn" class="esriCTHidden esriCTBurgermenuStyle esriCTCalculatedBodyTextColorAsBorder esriCTPointerCursor" aria-label="${i18n.signInTooltip}" title="${i18n.signInTooltip}">
             ${i18n.signIn}</div>
-        <div data-dojo-attach-point="signOut" class="esriCTHidden esriCTBurgermenuStyle esriCTCalculatedBodyTextColorAsBorder esriCTPointerCursor" title="${i18n.signOutTooltip}">
+        <div role="menuitem" tabindex="0" data-dojo-attach-point="signOut" class="esriCTHidden esriCTBurgermenuStyle esriCTCalculatedBodyTextColorAsBorder esriCTPointerCursor" aria-label="${i18n.signOutTooltip}" title="${i18n.signOutTooltip}">
             ${i18n.signOut}</div>
-        <div data-dojo-attach-point="help" class="esriCTHidden esriCTBurgermenuStyle esriCTCalculatedBodyTextColorAsBorder esriCTPointerCursor"></div>
-        <div data-dojo-attach-point="share" class="esriCTHidden esriCTBurgermenuStyle esriCTCalculatedBodyTextColorAsBorder esriCTPointerCursor" title="${i18n.share}">${i18n.share}</div>
+        <div role="menuitem" tabindex="0" data-dojo-attach-point="help" class="esriCTHidden esriCTBurgermenuStyle esriCTCalculatedBodyTextColorAsBorder esriCTPointerCursor"></div>
+        <div role="menuitem" tabindex="0" data-dojo-attach-point="share" class="esriCTHidden esriCTBurgermenuStyle esriCTCalculatedBodyTextColorAsBorder esriCTPointerCursor" aria-label="${i18n.share}" title="${i18n.share}">${i18n.share}</div>
     </div>
 </div>

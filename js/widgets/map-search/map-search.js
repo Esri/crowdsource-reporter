@@ -83,7 +83,7 @@ define([
             createSearchDiv = domConstruct.create("div", { "class": "search", "id": "search" });
             domConstruct.place(createSearchDiv, query(".esriCTMapGeoLocationContainer", mapId)[0], "after");
             // Initialize map serach widget
-            this.locatorSearch = new Locator({ "map": map, "config": this.config, "itemInfo": response.itemInfo.itemData, "layerId": details.operationalLayerId, "locatorContainer": dom.byId("search"), "handleFeatureSearch": this.handleFeatureSearch });
+            this.locatorSearch = new Locator({ "appUtils": this.appUtils, "map": map, "config": this.config, "itemInfo": response.itemInfo.itemData, "layerId": details.operationalLayerId, "locatorContainer": dom.byId("search"), "handleFeatureSearch": this.handleFeatureSearch });
 
             // function call on selection of search result
             this.basemapExtent = this.appUtils.getBasemapExtent(details.itemInfo.itemData.baseMap.baseMapLayers);
@@ -99,7 +99,10 @@ define([
             this.locatorSearch.onLocationCompleted = lang.hitch(this, this._validateAddress);
             inputGroupButton = query(".esriCTMapSearchContainer .input-group-btn")[0];
             searchIconDiv = query(".esriCTMapSearchContainer .esriCTLocatorSearchButton ")[0];
-            on(searchIconDiv, "click", lang.hitch(this, function () {
+            on(searchIconDiv, "click, keypress", lang.hitch(this, function (evt) {
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 this._expandSerach(inputGroupButton);
             }));
 

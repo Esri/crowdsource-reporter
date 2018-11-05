@@ -34,8 +34,11 @@ define({
             featureOutsideAOIMessage: "Feature cannot be added outside study area", // Error message when feature edits are performed outside the study area
             noEditingPermissionsMessage: "You do not have permission to perform this action.", //Message when user do not have editing permissions
             basemapGalleryText: "Basemap Gallery", // Basemap gallery text
+            basemapThumbnailAltText: "Click to load ${basemapTitle} ${index} of ${totalBasemaps}", //Alt text for basemap thumbnail
             legendText: "Legend", //Legend text
-            featureNotFoundMessage: "Requested feature not found" //Message displayed when feature is not found
+            featureNotFoundMessage: "Requested feature not found", //Message displayed when feature is not found
+            backButton:"back",
+            panelCloseButton: "Close" //Title for on screen widgets close button basemap/legend
         },
         signin: {
             guestSigninText: "Proceed as Guest", // Shown in the 'Sign in' page below the icon for accessing application as an anonymous user
@@ -70,6 +73,7 @@ define({
             gotoMapViewTooltip: "Map view" // Tooltip for map-it icon in list header
         },
         appHeader: {
+            help: "Help", //fallback title for accessibility
             myReport: "My Submissions", // Command button shown in mobile menu list
             signIn: "Sign In", // Command button shown in mobile menu list and in appheader
             signOut: "Sign Out", // Command button shown in mobile menu list
@@ -78,7 +82,8 @@ define({
             myReportTooltip: "View my submissions", // Tooltip  to 'My Reports' option
             share: "Share", //Tooltip share button
             shareDialogTitle: "Share Dialog", //Share dialog header
-            shareDialogAppURLLabel: "Application URL" // App url label
+            shareDialogAppURLLabel: "Application URL", // App url label
+            mobileHamburger: "Hamburger" //Hamburger button
         },
         geoform: {
             enterInformation: "Details", // Shown as the first section of the geoform, where the user can enter details of the issue
@@ -113,7 +118,9 @@ define({
             locationSelectionHintForPointLayerDesktop : "Click the map to draw the location.", //hint text for selecting location incase of point layer
             locationSelectionHintForPolygonLayerDesktop : "Click the map to draw the location. Double click to complete the drawing.", //hint text for selecting location incase of line and polygon layer
             locationDialogTitle: "Select location for report", //Title for location dialog header
-            locationDialogContent: "Are you sure you want to use image location ?" //Content for location dialog
+            locationDialogContent: "Are you sure you want to use image location ?", //Content for location dialog
+            errorMessageText: "${message} for field ${fieldName}",
+            deleteAttachmentBtnText: "Delete attachment"
         },
         locator: {
             addressText: "Address:", // Shown as a title for a group of addresses returned on performing unified search

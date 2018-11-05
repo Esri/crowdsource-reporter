@@ -22,10 +22,13 @@ define([
     "widgets/sign-in/sign-in",
     "application/utils/utils",
     "dojo/dom-construct",
+    "dojo/dom-attr",
     "dojo/_base/lang",
     "dojo/text!css/theme-template.css",
     "dojo/string",
     "dojo/query",
+    "dojo/on",
+    "dojo/mouse",
     "esri/Color"
 ], function (
     declare,
@@ -34,10 +37,13 @@ define([
     ApplicationSignIn,
     ApplicationUtils,
     domConstruct,
+    domAttr,
     lang,
     ThemeCss,
     string,
     query,
+    on,
+    mouseEvents,
     Color
 ) {
     return declare(null, {
@@ -56,6 +62,14 @@ define([
                 "config": this.boilerPlateTemplateObject
             });
             this.boilerPlateTemplateObject.startup().then(lang.hitch(this, function (config) {
+                //set lan attribute to HTML
+                if(dojoConfig.locale) {
+                domAttr.set(document.getElementsByTagName("html")[0], "lang",
+                    dojoConfig.locale);
+                } else {
+                    domAttr.set(document.getElementsByTagName("html")[0], "lang",
+                    "en");
+                }
                 // Set shortcut icon
                 this._setApplicationShortcutIcon(config);
                 config.portalObject = this.boilerPlateTemplateObject.portal;
@@ -96,6 +110,15 @@ define([
                 this.config = config;
                 // Load app theme
                 this._loadApplicationTheme();
+                // Let the document know when the mouse is being used,
+                // so accessibility styling can be removed.
+                on(document, mouseEvents.enter, function () {
+                    document.body.classList.add('using-mouse');
+                });
+
+                document.body.addEventListener('keydown', function (evt) {
+                    document.body.classList.remove('using-mouse');
+                });
             }), lang.hitch(this, function (error) {
                 var message = error.message;
                 // handle error when group is not configured

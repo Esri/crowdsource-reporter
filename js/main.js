@@ -285,6 +285,12 @@ define([
                 this._createDetailsPanelForNonEditableLayer();
             }
 
+            //set title to map back button
+            domAttr.set(dom.byId("mapBackButton"), "title",
+                this.config.i18n.issueWall.gotoWebmapListTooltip);
+            domAttr.set(query(".esriCTFallBackText", dom.byId("mapBackButton"))[0], "title",
+                this.config.i18n.issueWall.gotoWebmapListTooltip);
+
             on(document, "click", lang.hitch(this, function (event) {
                 var target, basemapPanel, legendPanel, isInternal;
                 target = event.target || event.srcElement;
@@ -318,22 +324,44 @@ define([
             }, detailsPanelWrapper);
             //create back/close button
             closeButton = domConstruct.create("div", {
-                "class": "esriCTBackButton esriCTInvertFontIcons esriCTPointerCursor icon icon-left-arrow"
+                "class": "esriCTNonEditableLayer",
+                "tabindex": "0",
+                "role":"button",
+                "title": this.config.i18n.main.backButton
             }, listHeader);
+            domConstruct.create("span", {
+                "class": "esriCTBackButton esriCTInvertFontIcons esriCTPointerCursor icon icon-left-arrow",
+                "aria-hidden": "true",
+            }, closeButton);
+            //create back/close button
+            domConstruct.create("div", {
+                "class": "esriCTFallBackText",
+                "innerHTML": this.config.i18n.main.backButton
+            }, closeButton);
+
             //create dom for showing list title
             listTitle = domConstruct.create("div", {
-                "class": "esriCTHeaderText esriCTGeoFormHeaderText esriCTEllipsis esriCTTitle"
+                "class": "esriCTHeaderText esriCTGeoFormHeaderText esriCTEllipsis esriCTTitle",
+                "tabindex": "-1"
             }, listHeader);
             //create dom for showing popup information
             detailsPanelContent = domConstruct.create("div", {
-                "class": "esriCTGeoFormBody esriCTBodyTextColor"
+                "class": "esriCTGeoFormBody esriCTBodyTextColor",
+                "tabindex": "0"
             }, detailsPanelWrapper);
+
+            on(detailsPanelContent, "focusout", lang.hitch(this, function () {
+                closeButton.focus();
+            }));
 
             //Create content pane
             this.itemCP = new ContentPane({ id: 'popupInfo' }, domConstruct.create('div', {}, detailsPanelContent));
             this.itemCP.startup();
 
-            on(closeButton, "click", lang.hitch(this, function () {
+            on(closeButton, "click, keypress", lang.hitch(this, function (evt) {
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 //hide details panel on click of close/back button
                 domClass.add(dom.byId("detailsPanelContainer"), "esriCTHidden");
                 //Clear map selection
@@ -407,6 +435,13 @@ define([
                 this._gotoSelectedFeature(evt.graphic);
                 domAttr.set(query(".esriCTTitle", this.domNode)[0], "innerHTML", layerTitle || "");
                 domClass.remove(dom.byId("detailsPanelContainer"), "esriCTHidden");
+                setTimeout(lang.hitch(this, function () {
+                    //set focus to back button
+                    if (query(".esriCTNonEditableLayer", this.domNode) &&
+                        query(".esriCTNonEditableLayer", this.domNode)[0]) {
+                        query(".esriCTNonEditableLayer", this.domNode)[0].focus();
+                    }
+                }));
             }
         },
 
@@ -504,10 +539,17 @@ define([
                         }
                         this._clearMyIssuesFromMap();
                     }
+                    //Highlight the selected feature row
+                    setTimeout(lang.hitch(this, function () {
+                        query(".esriCTItemSummaryParentSelected", this.domNode)[0].focus();
+                    }), 200);
                 });
 
                 this._itemDetails.onMapItButtonClicked = lang.hitch(this, function (item) {
                     this._gotoSelectedFeature(item);
+                    setTimeout(function () {
+                        dom.byId("mapBackButton").focus();
+                    }, 200);
                 });
 
                 this._itemDetails._createGeoformForEdits = lang.hitch(this, function (parentDiv) {
@@ -559,9 +601,10 @@ define([
                             }
                         });
                         //deactivate the draw tool on main map after closing geoform
-                        this.geoformEditInstance.onFormClose = lang.hitch(this, function () {
+                        this.geoformEditInstance.onFormClose = lang.hitch(this, function (evt) {
                             this._itemDetails.handleComponentsVisibility();
                             this._itemDetails.scrollToTop();
+                            this._itemDetails.setEditButtonState(evt);
                         });
                     } else {
                         this.geoformEditInstance.item = this._itemDetails.item;
@@ -618,6 +661,15 @@ define([
                         }
                     }
                 }));
+                //Set focus to app title on focus out of submit a report button from map view
+                //This resolves the issue of focus being set to mobile menu
+                if (dojowindow.getBox().w < 768) {
+                    on(dom.byId("submitFromMap"), "focusout", lang.hitch(this, function (evt) {
+                        if (this.appHeader) {
+                            this.appHeader.applicationHeaderName.focus();
+                        }
+                    }));
+                }
                 on(dom.byId("mapBackButton"), "click", lang.hitch(this, function (evt) {
                     this._toggleListView();
                     //If webmap list is not required, skip the further processing of function
@@ -654,7 +706,32 @@ define([
                         this._sidebarCnt.showPanel("webMapList");
                     }
                 }));
+
+                on(document, "keydown", lang.hitch(this, function (evt) {
+                    var code = evt.charCode || evt.keyCode;
+                    //Listen for escape key press event
+                    if (code === 27) {
+                        if (!domClass.contains(dom.byId('geoformContainer'), "esriCTHidden")) {
+                            this.geoformInstance.closeButton.click();
+                            return;
+                        }
+                        if (!domClass.contains(dom.byId('detailsPanelContainer'), "esriCTHidden")) {
+                            query(".esriCTBackButton", dom.byId('detailsPanelContainer'))[0].click();
+                            return;
+                        }
+                        //Check and open the previous panel based on the current displayed panel
+                        if ((this._sidebarCnt._currentPanelName === "issueWall" ||
+                            this._sidebarCnt._currentPanelName === "myIssues") &&
+                            domStyle.get(dom.byId("toggleListViewButton"), "display") === "block") {
+                            this._sidebarCnt._currentPanel.listBackButton.click();
+                        } else if (this._sidebarCnt._currentPanelName === "itemDetails") {
+                            this._sidebarCnt._currentPanel.backIcon.click();
+                        }
+                    }
+                }));
                 domAttr.set(dom.byId("toggleListViewButton"), "title", this.config.i18n.main.gotoListViewTooltip);
+                domAttr.set(query(".esriCTFallBackText", dom.byId("toggleListViewButton"))[0],
+                    "title", this.config.i18n.main.gotoListViewTooltip);
                 this._createWebMapList();
             } else {
                 this._handleNoWebMapToDisplay();
@@ -815,6 +892,11 @@ define([
                     noMapMessage = this.config.noWebmapInGroupText;
                 }
                 domAttr.set(dom.byId("noWebMapChildDiv"), "innerHTML", noMapMessage);
+                domAttr.set(dom.byId("noWebMapChildDiv"), "title", noMapMessage);
+                setTimeout(lang.hitch(this, function () {
+                    dom.byId("noWebMapChildDiv").focus();
+                }), 200);
+
             } catch (err) {
                 this.appUtils.showError(err.message);
             }
@@ -1221,17 +1303,30 @@ define([
                     this._itemSelected(selectedFeature, false);
                 });
                 this._issueWallWidget.onListCancel = lang.hitch(this, function (selectedFeature) {
+                    var selectedMap;
                     //Clear map selection when navigating to web map list
                     if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
                         this._selectedMapDetails.map.getLayer("selectionGraphicsLayer").clear();
-                        if (this._shareURLParameters && this._shareURLParameters.hasOwnProperty("selectedFeature")) {
-                            delete this._shareURLParameters.selectedFeature;
-                        }
+                    }
+                    if (this._shareURLParameters && this._shareURLParameters.hasOwnProperty("selectedFeature")) {
+                        delete this._shareURLParameters.selectedFeature;
                     }
                     this._sidebarCnt.showPanel("webMapList");
+                    //Highlight the selected web map
+                    selectedMap =
+                        query("[webmapid=" + this._selectedMapDetails.webMapId + "]", this.domNode)[0];
+                    setTimeout(lang.hitch(this, function () {
+                        if (selectedMap) {
+                            query(".esriCTMultiLineEllipsisdiv", selectedMap)[0].focus();
+                        }
+                    }), 200);
+
                 });
                 this._issueWallWidget.onMapButtonClick = lang.hitch(this, function (evt) {
                     this._toggleMapView();
+                    setTimeout(function () {
+                        dom.byId("mapBackButton").focus();
+                    }, 200);
                 });
                 this._issueWallWidget.onSubmit = lang.hitch(this, function (evt) {
                     if (!this.map.getLayer("featureLayerGraphics")) {
@@ -1346,6 +1441,11 @@ define([
                         //available as a parameter in the application URL, then click it
                         this._issueWallWidget.selectFeatureFromURL();
                     }
+                    setTimeout(lang.hitch(this, function () {
+                        if (domClass.contains(dom.byId('geoformContainer'), "esriCTHidden")) {
+                            this._issueWallWidget.listBackButton.focus();
+                        }
+                    }), 100);
                 });
                 this._sidebarCnt.addPanel("issueWall", this._issueWallWidget);
                 //If single webmap with single layer is found, directly show issue list
@@ -1451,6 +1551,10 @@ define([
                             this.geoformInstance._resizeMap();
                         }
                         this.geoformInstance._activateDrawTool();
+                        //Whenever geoform is open set focus to geoform close button
+                        setTimeout(lang.hitch(this, function () {
+                            this.geoformInstance.closeButton.focus();
+                        }), 500);
                         return;
                     }
                     //if last geoform instance exist then destroy it.
@@ -1509,6 +1613,9 @@ define([
                         if (this.featureGraphicLayer) {
                             this.featureGraphicLayer.clear();
                         }
+                        setTimeout(lang.hitch(this, function () {
+                            this._issueWallWidget.submitReport.focus();
+                        }), 200);
                     });
 
                     //clear any graphics present on main map after graphic has been drawn on geoform map
@@ -1753,6 +1860,10 @@ define([
                     this._toggleListView();
                 }
             }
+            //
+            setTimeout(lang.hitch(this, function () {
+                this._itemDetails.backIcon.focus();
+            }), 100);
         },
 
         _toggleListView: function () {
@@ -2603,10 +2714,10 @@ define([
                     this._createIssueWall(details);
                     this.appUtils.hideLoadingIndicator();
                 }
-            }), function (err) {
+            }), lang.hitch(this, function (err) {
                 this.appUtils.hideLoadingIndicator();
                 console.log(err);
-            });
+            }));
         },
 
         /**
@@ -2675,9 +2786,14 @@ define([
                 if (!this.basemapGallery) {
                     basemapG = this._createOnScreenWidgetPanel("Basemap");
                     basemapGalleryButtonDiv = domConstruct.create("div", {
-                        "class": "esriCTMapNavigationButton esriCTBasemapGalleryButton"
+                        "class": "esriCTMapNavigationButton esriCTBasemapGalleryButton",
+                        "tabindex": "0",
+                        "role": "button"
                     });
-                    on(basemapGalleryButtonDiv, "click", lang.hitch(this, function (event) {
+                    on(basemapGalleryButtonDiv, "click, keypress", lang.hitch(this, function (event) {
+                        if (!this.appUtils.validateEvent(event)) {
+                            return;
+                        }
                         event.stopPropagation();
                         if (!this.basemapGallery) {
                             this._fetchBasemapGalleryGroup().then(lang.hitch(this, function (id) {
@@ -2685,21 +2801,29 @@ define([
                             }));
                         }
                         this._showPanel("Basemap");
+                        query(".esriCTOnScreenBasemap .esriCTHeaderTitle", this.domNode)[0].focus();
                     }));
                 }
             }
 
             if (this.config.showLegend) {
                 legendButtonDiv = domConstruct.create("div", {
-                    "class": "esriCTMapNavigationButton esriCTLegendButton"
+                    "class": "esriCTMapNavigationButton esriCTLegendButton",
+                    "tabindex": "0",
+                    "role": "button"
                 });
                 legend = this._createOnScreenWidgetPanel("Legend");
-                on(legendButtonDiv, "click", lang.hitch(this, function (event) {
+                on(legendButtonDiv, "click, keypress", lang.hitch(this, function (event) {
+                    if (!this.appUtils.validateEvent(event)) {
+                        return;
+                    }
                     event.stopPropagation();
                     if (!this.legend) {
                         this._createLegend(legend);
                     }
                     this._showPanel("Legend");
+                    query(".esriCTOnScreenLegend .esriCTHeaderTitle", this.domNode)[0].focus();
+
                 }));
             }
             incrementButton = query(".esriSimpleSliderIncrementButton", dom.byId("mapDiv"));
@@ -2727,6 +2851,32 @@ define([
             //set this flag to true after the if condition for checking if mobile and _isWebMapListLoaded,
             //since by default in mobile view only home screen should be open*/
             this._isWebMapListLoaded = true;
+
+            //Add accessibility parameters to attribution widget and esri logo
+            var attribution, esriLogo;
+            attribution = query(".esriAttribution", dom.byId("mapDiv"))[0];
+            esriLogo = query(".logo-med", dom.byId("mapDiv"))[0];
+            if (attribution) {
+                domAttr.set(esriLogo, "tabindex", "0");
+                on(attribution, "keypress, click", lang.hitch(this, function (evt) {
+                    if (!this.appUtils.validateEvent(evt)) {
+                        return;
+                    }
+                    //Add aria-expanded attribute based on the state
+                    if (domClass.contains(attribution, "esriAttributionOpen")) {
+                        domAttr.set(attribution, "aria-expanded", "true");
+                    } else {
+                        domAttr.set(attribution, "aria-expanded", "false");
+                    }
+                }));
+                //Add role as button
+                domAttr.set(attribution, "role", "button");
+                domAttr.set(attribution, "aria-expanded", "false");
+            }
+            if (esriLogo) {
+                domAttr.set(esriLogo, "tabindex", "-1");
+            }
+
         },
 
         /**
@@ -2839,28 +2989,67 @@ define([
             }
             container = domConstruct.create("div", {
                 "class": "esriCTOnScreenWidgetContainer esriCTHidden esriCTOnScreen" + panel
-            }, dojo.body());
+            });
+            domConstruct.place(container, dojo.body(), "first");
+
+
             titleContainer = domConstruct.create("div", {
                 "class": "esriCTOnScreenWidgetTitleContainer esriCTHeaderBackgroundColor esriCTHeaderTextColor esriCTHeaderTextColorAsBorder",
                 title: panel
             }, container);
             domConstruct.create("div", {
                 "class": "esriCTHeaderTitle",
-                innerHTML: headerTitle
+                "innerHTML": headerTitle,
+                "aria-label": headerTitle,
+                "tabindex": "0"
             }, titleContainer);
 
+            //Close button
             closeBtn = domConstruct.create("div", {
+                "role": "button",
+                "class": "esriCTOnScreenClose",
+                "tabindex": "0",
+                "title": this.config.i18n.main.panelCloseButton,
+                "aria-label": this.config.i18n.main.panelCloseButton,
+                "panel": panel
+            }, titleContainer);
+
+            domConstruct.create("span", {
+                "aria-hidden": "true",
                 "class": "esriCTCloseHelpWindow icon icon-close esriCTHeaderTextColor esriCTHeaderBackgroundColor"
-            }, domConstruct.create("div", { "class": "esriCTPanelCloseBtn esriCTFloatLeft" }, titleContainer));
+            }, closeBtn);
 
             //Listen for close button click
-            on(closeBtn, "click", lang.hitch(this, function () {
+            on(closeBtn, "click, keypress", lang.hitch(this, function (evt) {
+                var panel;
+                panel = domAttr.get(closeBtn, "panel");
+                if (panel === "Legend") {
+                    query(".esriCTLegendButton")[0].focus();
+                } else {
+                    query(".esriCTBasemapGalleryButton")[0].focus();
+                }
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 domClass.add(container, "esriCTHidden");
             }));
             //Create dom for on screen panel
             contentWrapper = domConstruct.create("div", {
-                "class": "esriCTOnScreenWidgetWrapper esriCTBodyTextColor esriCTBodyBackgroundColor"
+                "class": "esriCTOnScreenWidgetWrapper esriCTBodyTextColor esriCTBodyBackgroundColor",
+                "panelId": panel
             }, container);
+            if (panel !== "Basemap") {
+                domAttr.set(contentWrapper, "tabindex", "0");
+            }
+            //Set focus based on the panel
+            $(contentWrapper).focusout(lang.hitch(this, function (evt) {
+                var panelName;
+                panelName = domAttr.get(evt.currentTarget, "panelId");
+                if (panelName === "Legend") {
+                    query(".esriCTLegendButton")[0].focus();
+                    this._hidePanel("Legend");
+                }
+            }));
             return contentWrapper;
         },
 
@@ -2870,7 +3059,8 @@ define([
         * @memberOf main
         */
         _createBasemapGallery: function (parentNode, id) {
-            var configuredGroup = {}, loadingIndicatorDiv, basemapErrorHandler;
+            var configuredGroup = {}, loadingIndicatorDiv, basemapErrorHandler,
+                basemaps = 0;
             configuredGroup.id = id;
             loadingIndicatorDiv = domConstruct.create("div", {
                 "class": "esriCTBasemapLoading"
@@ -2888,10 +3078,26 @@ define([
                 domClass.add(loadingIndicatorDiv, "esriCTHidden");
                 domClass.remove(this.basemapGallery.domNode, "esriCTHidden");
                 basemapErrorHandler.remove();
+                basemaps = query(".esriBasemapGalleryThumbnail", this.basemapGallery.domNode);
+                //Loop through all the available basemaps and listen for last basemap
+                //thumbnails focus out event
+                basemaps.forEach(lang.hitch(this, function (basemapNode, index) {
+                    if (basemaps.length - 1 === index) {
+                        $(basemapNode.parentElement).focusout(lang.hitch(this, function () {
+                            this._hidePanel("Basemap");
+                            query(".esriCTBasemapGalleryButton")[0].focus();
+                        }));
+                    }
+                }));
             }));
             //Hide basemap gallery after seecting a basemap
-            this.basemapGallery.on("selection-change", lang.hitch(this, function () {
-                this._hidePanel("Basemap");
+            this.basemapGallery.on("selection-change", lang.hitch(this, function (evt) {
+                var _this = this;
+                setTimeout(function () {
+                    _this._hidePanel("Basemap");
+                    query(".esriCTBasemapGalleryButton")[0].focus();
+                }, 1000);
+
             }));
             //Handle basemap gallery error
             basemapErrorHandler = this.basemapGallery.on("error", lang.hitch(this, function (err) {

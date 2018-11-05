@@ -74,9 +74,14 @@ define([
             this.itemsList.setLikeField(this.appConfig.likeField);
             domAttr.set(this.noIssuesMessage, "innerHTML", this.appConfig.i18n.myIssues.noResultsFound);
             domAttr.set(this.listBackButton, "title", this.appConfig.i18n.issueWall.gotoWebmapListTooltip);
+            domAttr.set(this.listBackButton, "aria-label", this.appConfig.i18n.issueWall.gotoWebmapListTooltip);
+            domAttr.set(this.fallBackTextNode, "title", this.appConfig.i18n.issueWall.gotoWebmapListTooltip);
 
             // Handles Click event on back button on My Reports Header panel
-            this.own(on(this.listBackButton, "click", lang.hitch(this, function (evt) {
+            this.own(on(this.listBackButton, "click, keypress", lang.hitch(this, function (evt) {
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 this.onListCancel(evt);
             })));
 
@@ -85,6 +90,9 @@ define([
 
             //on load hide the issue list
             this.hide();
+            setTimeout(lang.hitch(this, function () {
+                this.listBackButton.focus();
+            }), 200);
         },
 
         /**

@@ -17,21 +17,26 @@
 */
 define([
     "dojo/_base/declare",
+    "dojo/_base/lang",
     "dojo/dom-construct",
+    "dojo/dom-attr",
     "dojo/text!./templates/help.html",
     "dijit/_WidgetBase",
     "dijit/_TemplatedMixin",
     "dijit/_WidgetsInTemplateMixin",
-    "dojo/_base/lang",
+    "dojo/on",
     "dojo/domReady!"
 ], function (
     declare,
+    lang,
     domConstruct,
+    domAttr,
     template,
     _WidgetBase,
     _TemplatedMixin,
     _WidgetsInTemplateMixin,
-    lang
+    on
+
 ) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
@@ -42,10 +47,16 @@ define([
             if (this.showButtons && this.okButtonText && this.cancelButtonText) {
                 $('#myModal', this.domNode).find('.modal-footer').removeClass("esriCTHidden");
                 $('#myModal', this.domNode).find('.esriCTOkButton')[0].innerHTML = this.okButtonText;
+                domAttr.set($('#myModal', this.domNode).find('.esriCTOkButton')[0],
+                "aria-label", this.okButtonText);
                 $('#myModal', this.domNode).find('.esriCTCancelButton')[0].innerHTML = this.cancelButtonText;
+                domAttr.set($('#myModal', this.domNode).find('.esriCTCancelButton')[0],
+                "aria-label", this.cancelButtonText);
                 $('#myModal', this.domNode).find('.modal-dialog').addClass("esriCTModelDialogWithButton");
             }
             $('#myModal', this.domNode).find('.modal-title').html(this.title);
+            domAttr.set($('#myModal', this.domNode).find('.modal-title')[0],
+                "aria-label", this.title);
             $('#myModal', this.domNode).find('.esriCTModelBody').html(this.content);
             $("#myModal", this.domNode).attr('panel', this.dialog);
             domConstruct.place(this.domNode, document.body, 'last');
@@ -55,6 +66,31 @@ define([
             $('#myModal', this.domNode).find('.esriCTCancelButton').click(lang.hitch(this, function () {
                 this.cancelButtonClicked();
             }));
+
+            //Listen for close button clicked event
+            on($("#myModal", this.domNode).find('.esriCTClose'), "keypress",
+                lang.hitch(this, function (evt) {
+                    if (!this.appUtils.validateEvent(evt)) {
+                        return;
+                    }
+                    $("#myModal", this.domNode).modal("toggle");
+                }));
+
+            //Listen for dialog open event
+            $("[panel=" + this.dialog + "]").on('shown.bs.modal', lang.hitch(this, function () {
+                setTimeout(lang.hitch(this, function () {
+                    $("[panel=" + this.dialog + "]").find('.modal-title')[0].focus();
+                }, 200));
+            }));
+            //Listen for dialog close event
+            $("[panel=" + this.dialog + "]").on('hidden.bs.modal', lang.hitch(this, function () {
+                this.onDialogClosed();
+            }));
+
+            //Set tab index based on the dialog contents
+            if (this.dialog !== "share") {
+                domAttr.set($('#myModal', this.domNode).find('.modal-body')[0], "tabindex", "0");
+            }
         },
 
         startup: function () {
@@ -73,12 +109,24 @@ define([
             }, 200);
         },
 
+        /**
+        * Hides modal dialog
+        * @memberOf widgets/help/help
+        */
         hideDialog: function (panel) {
             $("[panel=" + panel + "]").modal("hide");
         },
 
         /**
-        * Listener for ok button click
+        * Listener for dialog close
+        * @memberOf widgets/help/help
+        */
+        onDialogClosed: function () {
+            return;
+        },
+
+        /**
+        * Listener for dialog close
         * @memberOf widgets/help/help
         */
         okButtonClicked: function () {
@@ -86,7 +134,7 @@ define([
         },
 
         /**
-        * Listener for cancel button click
+        * Listener for dialog close
         * @memberOf widgets/help/help
         */
         cancelButtonClicked: function () {

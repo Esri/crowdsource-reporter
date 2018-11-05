@@ -83,9 +83,13 @@ define([
                     "config": this.appConfig,
                     "title": this.appConfig.helpDialogTitle,
                     "content": this.appConfig.helpDialogContent,
-                    "dialog": "help"
+                    "dialog": "help",
+                    "appUtils": this.appUtils
                 });
             }
+            this.helpScreen.onDialogClosed = lang.hitch(this, function () {
+                this.helpButton.focus();
+            });
             if (this.appConfig.enableShare) {
                 this._createShareDialogContent();
             }
@@ -102,23 +106,43 @@ define([
             if (this.appConfig && (this.appConfig.enableFacebook || this.appConfig.enableTwitter || this.appConfig.enableGoogleplus || this.appConfig.enablePortalLogin)) {
                 //set header menus based on configuration
                 // create mobile menu
-                this.mobileMenu = new MobileMenu({ "config": this.config, "appConfig": this.appConfig }, domConstruct.create("div", {}, dom.byId("mobileMenuContainer")));
+                this.mobileMenu = new MobileMenu({ "appUtils": this.appUtils, "config": this.config, "appConfig": this.appConfig }, domConstruct.create("div", {}, dom.byId("mobileMenuContainer")));
                 this.mobileMenu.onMyIssuesClicked = lang.hitch(this, function () { this._animateMenuContainer(); this._showMyIssuesClicked(); });
                 this.mobileMenu.onSignInClicked = lang.hitch(this, function () { this._animateMenuContainer(); this._signInClicked(); });
                 this.mobileMenu.onSignOutClicked = lang.hitch(this, function () { this._animateMenuContainer(); this._signOutClicked(); });
                 this.mobileMenu.onHelpClicked = lang.hitch(this, function () { this._animateMenuContainer(); this._helpClicked(); });
                 this.mobileMenu.onShareClicked = lang.hitch(this, function () { this._animateMenuContainer(); this._shareClicked(); });
 
-                //handle mobile menu events
-                on(this.mobileMenuBurger, "click", lang.hitch(this, this._animateMenuContainer));
-                on(this.myIssueButton, "click", lang.hitch(this, this._showMyIssuesClicked));
-                on(this.signOutButton, "click", lang.hitch(this, this._signOutClicked));
+                //If user is signed-in, set focus to my issues menu
+                //If user it not signed-in, set focus to sign in menu
+                on(this.mobileMenuBurger, "click, keypress", lang.hitch(this, function (evt) {
+                    this._animateMenuContainer(evt);
+                    setTimeout(lang.hitch(this, function () {
+                        if (!domClass.contains(dom.byId('mobileMenuContainer'), "esriCTHideMobileMenu")) {
+                            if (this.appConfig.logInDetails.userName !== "") {
+                                this.mobileMenu.myReport.focus();
+                            } else {
+                                this.mobileMenu.signIn.focus();
+                            }
+                        }
+                    }), 500);
+
+                }));
+                on(this.myIssueButton, "click, keypress", lang.hitch(this, this._showMyIssuesClicked));
+                on(this.signOutButton, "click, keypress", lang.hitch(this, this._signOutClicked));
                 this._setAppHeaderMenu();
                 // Show the sign in button
                 domClass.remove(this.userControlContainer, "esriCTHidden");
 
                 //handle signin/logged_in_userName clicked
-                on(this.esriCTLoginCredentialsDiv, "click", lang.hitch(this, this._toggleLoginOptionsVisibility));
+                on(this.esriCTLoginCredentialsDiv, "click, keypress", lang.hitch(this, this._toggleLoginOptionsVisibility));
+                $(this.esriCTLoginCredentialsDiv).focusin(lang.hitch(this, function (evt) {
+                    this._toggleLoginOptionsVisibility(evt, true);
+                }));
+
+                $(this.signOutButton).focusout(lang.hitch(this, function (evt) {
+                    this._toggleLoginOptionsVisibility(evt, true);
+                }));
 
                 //Adding class to hide help icon in mobile view if login is enabled
                 domClass.add(this.helpButton, "esriCTMobileHelpIcon");
@@ -140,9 +164,10 @@ define([
                 domClass.remove(this.shareButton, "esriCTHidden");
             }
 
-            on(this.helpButton, "click", lang.hitch(this, this._helpClicked));
-            on(this.shareButton, "click", lang.hitch(this, this._shareClicked));
+            on(this.helpButton, "click, keypress", lang.hitch(this, this._helpClicked));
+            on(this.shareButton, "click, keypress", lang.hitch(this, this._shareClicked));
             domAttr.set(this.helpButton, "title", this.appConfig.helpLinkText);
+            domAttr.set(this.helpButton, "aria-label", this.appConfig.helpLinkText);
             //Load help screen on load based on configuration settings
             setTimeout(lang.hitch(this, function () {
                 if (this.appConfig.showHelpOnLoad) {
@@ -156,34 +181,38 @@ define([
         * @memberOf widgets/app-header/app-header
         */
         _createShareDialogContent: function () {
-            var shareContent, label, buttonsContainer;
-            shareContent = domConstruct.create("div", {}, null);
-            label = domConstruct.create("div", {
+            var shareContent, buttonsContainer;
+            formContent = domConstruct.create("form", {});
+            domConstruct.create("div", {
                 "innerHTML": this.i18n.shareDialogAppURLLabel,
+                "for": "urlTextArea",
+                "class": "control-label",
                 "style": "font-weight: bold"
-            }, shareContent);
+            }, formContent);
 
             //Create text area for showing the application url
             this.textInput = domConstruct.create("textarea", {
                 "rows": "3",
+                "id": "urlTextArea",
                 "class": "form-control",
+                "aria-label": this.i18n.shareDialogAppURLLabel,
                 "style": "resize: none"
-            }, shareContent);
+            }, formContent);
             //Select text in the textarea on click event
             on(this.textInput, "click", lang.hitch(this, function () {
                 this.textInput.select();
             }));
-            buttonsContainer = domConstruct.create("div", {}, shareContent);
 
             //Create instance of share dialog
             this._shareScreen = new Help({
                 "config": this.appConfig,
                 "title": this.i18n.shareDialogTitle,
-                "content": shareContent,
+                "content": formContent,
                 "dialog": "share",
                 "showButtons": true,
                 "okButtonText": this.i18n.okButton,
-                "cancelButtonText": this.i18n.cancelButton
+                "cancelButtonText": this.i18n.cancelButton,
+                "appUtils": this.appUtils
             });
 
             //Listen for Ok and Cancel button click events
@@ -192,6 +221,9 @@ define([
             });
             this._shareScreen.cancelButtonClicked = lang.hitch(this, function () {
                 this._shareScreen.hideDialog("share");
+            });
+            this._shareScreen.onDialogClosed = lang.hitch(this, function () {
+                this.shareButton.focus();
             });
         },
 
@@ -213,7 +245,8 @@ define([
             }
             document.title = applicationName;
             domAttr.set(this.applicationHeaderName, "innerHTML", applicationName);
-            //if application name is empty stretch the app icon container to fit in the app titlebar
+            domAttr.set(this.applicationHeaderName, "aria-label", applicationName);
+            //if application name is empty stretch the app icon container to fit in the app title bar
             if (applicationName === "") {
                 domClass.add(this.applicationIconContainer, "esriCTHomeIconStreched");
             }
@@ -247,7 +280,7 @@ define([
 
             // On application icon/name click navigate to home screen on mobile devices
             on(this.applicationHeaderIcon, "click", lang.hitch(this, this._navigateToHome));
-            on(this.applicationHeaderName, "click", lang.hitch(this, this._navigateToHome));
+            on(this.applicationHeaderName, "click, keypress", lang.hitch(this, this._navigateToHome));
         },
 
 
@@ -276,6 +309,7 @@ define([
         _setAppHeaderMenu: function () {
             if (this.appConfig && this.appConfig.logInDetails && this.appConfig.logInDetails.userName) {
                 domAttr.set(this.esriCTLoginUserNameDiv, "innerHTML", this.appConfig.logInDetails.userName);
+                domAttr.set(this.esriCTLoginUserNameDiv, "role", "menu");
                 domAttr.set(this.esriCTLoginUserNameDiv, "title", "");
                 domClass.remove(this.myIssueButton, "esriCTHidden");
                 domClass.remove(this.signOutButton, "esriCTHidden");
@@ -295,10 +329,13 @@ define([
         * and clicking on it reload the app so that user can sign in using different options from the landing page.
         * @memberOf widgets/app-header/app-header
         */
-        _toggleLoginOptionsVisibility: function () {
+        _toggleLoginOptionsVisibility: function (evt) {
+            if (!this.appUtils.validateEvent(evt, true)) {
+                return;
+            }
             //if user is not signed in and clicked on sign in text load the application again.
             if (this.config.signIn) {
-                this._signInClicked();
+                this._signInClicked(evt);
             } else {
                 domClass.toggle(this.esriCTLoginOptionsDiv, "esriCTHidden");
             }
@@ -308,7 +345,10 @@ define([
         * Navigate the view to home screen.
         * @memberOf widgets/app-header/app-header
         */
-        _navigateToHome: function () {
+        _navigateToHome: function (evt) {
+            if (!this.appUtils.validateEvent(evt)) {
+                return;
+            }
             this.navigateToHome();
         },
 
@@ -316,7 +356,10 @@ define([
         * This function is used to Sign out of the application
         * @memberOf widgets/app-header/app-header
         */
-        _signOutClicked: function () {
+        _signOutClicked: function (evt) {
+            if (!this.appUtils.validateEvent(evt)) {
+                return;
+            }
             // user is logged in via AGOL portal login
             if (this.config.portalObject) {
                 if (this.config.portalObject.getPortalUser()) {
@@ -335,7 +378,10 @@ define([
         * This function is used to load application again on sign in click.
         * @memberOf widgets/app-header/app-header
         */
-        _signInClicked: function () {
+        _signInClicked: function (evt) {
+            if (!this.appUtils.validateEvent(evt)) {
+                return;
+            }
             window.location.reload();
         },
 
@@ -344,6 +390,9 @@ define([
         * @memberOf widgets/app-header/app-header
         */
         _helpClicked: function (evt) {
+            if (!this.appUtils.validateEvent(evt)) {
+                return;
+            }
             //show splash screen dialog
             this.helpScreen.showDialog("help");
             return evt;
@@ -388,6 +437,9 @@ define([
             var url, shareURLParamsObj;
             shareURLParamsObj = this.getSharedUrlParams();
             url = this._constructShareURL(shareURLParamsObj);
+            if (!this.appUtils.validateEvent(evt)) {
+                return;
+            }
             //Call esri's shorten service
             esriRequest({
                 url: "https://arcg.is/prod/shorten",
@@ -425,8 +477,10 @@ define([
             }
         },
 
-
         _showMyIssuesClicked: function (evt) {
+            if (!this.appUtils.validateEvent(evt)) {
+                return;
+            }
             this.showMyIssues(evt);
         },
 
@@ -434,9 +488,17 @@ define([
         * Show or hide mobile menu container
         * @memberOf widgets/app-header/app-header
         */
-        _animateMenuContainer: function () {
+        _animateMenuContainer: function (evt, canFocus) {
+            if (!this.appUtils.validateEvent(evt)) {
+                return;
+            }
             domClass.toggle(this.mobileMenuBurger, "active");
             domClass.toggle(dom.byId('mobileMenuContainer'), "esriCTHideMobileMenu");
+            if (domClass.contains(dom.byId('mobileMenuContainer'), "esriCTHideMobileMenu")) {
+                domAttr.set(this.mobileMenuBurger, "aria-expanded", "false");
+            } else {
+                domAttr.set(this.mobileMenuBurger, "aria-expanded", "true");
+            }
         },
 
         //Events Generated from App Header

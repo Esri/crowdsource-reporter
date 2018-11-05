@@ -48,12 +48,17 @@
 
 /* RTL for Application Header*/
 
-.dj_rtl .esriCTHomeIcon, .dj_rtl .esriCTShareIcon
+.dj_rtl .esriCTHomeIcon, .dj_rtl .esriCTShareIconParent
 {
     float: right !important;
 }
 
-.dj_rtl .esriCTMenuTabRight 
+.dj_rtl .esriCTAppName
+{
+    float: right;
+}
+
+.dj_rtl .esriCTMenuTabRight
 {
     float: left !important;
 }
@@ -99,7 +104,7 @@
     float: right;
 }
 
-.dj_rtl #sideContainer, .dj_rtl .esriCTInfoImg, .dj_rtl .esriCTVotesDetails, .dj_rtl .esriCTItemFav
+.dj_rtl #sideContainer, .dj_rtl .esriCTInfoImg, .dj_rtl .esriCTVotesDetails, .dj_rtl .esriCTItemFav, .dj_rtl .esriCTMapInfoContainer
 {
     float:left !important;
 }
@@ -169,24 +174,19 @@ position: inherit;
 .dj_rtl .esriCTMultiLineEllipsisdiv 
 {
     margin-right: 15px;
+    float: right; /* Added float due to changes in DOM for Accessibility */
 }
 
 /* End of RTL for side bar container */
 
 /* RTL for Geoform */
 
-.dj_rtl .esriCTItemComments .close
+.dj_rtl .esriCTHeaderMessageDiv .close, .dj_rtl .esriCTItemComments .close
 {
     float:left;
 }
 
-.dj_rtl .esriCTEnterComment .close
-{
-    float: left;
-    margin-left: 5px;
-}
-
-.dj_rtl .esriCTFileButtonContainer
+.dj_rtl .esriCTFileButtonContainer 
 {
     float: right;
 }
@@ -298,5 +298,9 @@ position: inherit;
     margin-left: 0px;
 }
 .dj_rtl .esriCTPanelCloseBtn {
+    margin-left: 5px;
+}
+
+.dj_rtl .esriCTOnScreenClose {
     margin-left: 5px;
 }

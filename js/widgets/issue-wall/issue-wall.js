@@ -38,8 +38,9 @@ define([
     "esri/tasks/query",
     "esri/dijit/PopupTemplate",
     "widgets/item-list/item-list",
+    "dojo/window",
     "dojo/_base/event"
-], function (declare, dom, domConstruct, domStyle, domAttr, domClass, lang, array, on, touch, string, query, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, Graphic, FeatureLayer, Query, PopupTemplate, ItemList, event) {
+], function (declare, dom, domConstruct, domStyle, domAttr, domClass, lang, array, on, touch, string, query, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, Graphic, FeatureLayer, Query, PopupTemplate, ItemList, dojowindow, event) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         _hasCommentsTable: false,
@@ -96,7 +97,10 @@ define([
                 this.initIssueWall();
             }
 
-            this.own(on(this.listBackButton, "click", lang.hitch(this, function (evt) {
+            this.own(on(this.listBackButton, "click, keypress", lang.hitch(this, function (evt) {
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 this.onListCancel(evt);
             })));
 
@@ -108,7 +112,11 @@ define([
                 //Stop event propagation
                 event.stop(evt);
             })));
-            this.own(on(this.submitReport, "click", lang.hitch(this, function (evt) {
+
+            this.own(on(this.submitReport, "click, keypress", lang.hitch(this, function (evt) {
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 var commentSubmitStatus = this.appUtils.isCommentDateInRange(),
                     canSubmit = true;
                 if (commentSubmitStatus === null) {
@@ -136,18 +144,33 @@ define([
                     }
                 }
             })));
-
+            //Set focus to app title on focus out of submit a report button
+            //This resolves the issue of focus being set to mobile menu
+            if (dojowindow.getBox().w < 768 &&
+                this.appConfig.submitReportButtonPosition !== "top") {
+                $(this.submitReport).focusout(function () {
+                    if (query(".esriCTAppName") && query(".esriCTAppName")[0]) {
+                        query(".esriCTAppName")[0].focus();
+                    }
+                });
+            }
             if (this.appConfig && lang.trim(this.appConfig.submitReportButtonText) === "") {
                 submitButtonText = this.appConfig.i18n.main.submitReportButtonText;
             } else {
                 submitButtonText = this.appConfig.submitReportButtonText;
             }
             domAttr.set(this.submitReportButton, "innerHTML", submitButtonText);
+            domAttr.set(this.submitReport, "aria-label", submitButtonText);
             submitButtonColor = (this.appConfig && this.appConfig.submitReportButtonColor) ? this.appConfig.submitReportButtonColor : "#35ac46";
             domStyle.set(this.submitReport, "background-color", submitButtonColor);
             domAttr.set(this.noIssuesMessage, "innerHTML", this.appConfig.i18n.issueWall.noResultsFound);
+            domAttr.set(this.noIssuesMessage, "aria-label", this.appConfig.i18n.issueWall.noResultsFound);
             domAttr.set(this.listBackButton, "title", this.appConfig.i18n.issueWall.gotoWebmapListTooltip);
+            domAttr.set(this.listBackButton, "aria-label", this.appConfig.i18n.issueWall.gotoWebmapListTooltip);
+            domAttr.set(this.fallBackTextNode, "innerHTML", this.appConfig.i18n.issueWall.gotoWebmapListTooltip);
             domAttr.set(this.listMapItButton, "title", this.appConfig.i18n.issueWall.gotoMapViewTooltip);
+            domAttr.set(this.listMapItButton, "aria-label", this.appConfig.i18n.issueWall.gotoMapViewTooltip);
+            domAttr.set(this.fallBackMapBtnTextNode, "title", this.appConfig.i18n.issueWall.gotoMapViewTooltip);
             //on load hide the issue list
             this.hide();
         },
