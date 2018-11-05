@@ -53,37 +53,45 @@
     </div>
     <div class="esriCTMainContainer" id="mainContainer">
         <div id="noWebMapParentDiv" class="esriCTNoWebMapParentDiv esriCTHidden">
-            <div class="esriCTNoWebMapChildDiv" id="noWebMapChildDiv">
+            <div class="esriCTNoWebMapChildDiv">
+                <div tabindex="0" id="noWebMapChildDiv"></div>
             </div>
         </div>
         <div class="esriCTFullHeightWidth" id="layoutContainer">
             <div id="mapParentContainer" class="esriCTMapContainer">
                 <div class="esriCTListHeader esriCTBGColor esriCTHeaderBackgroundColorAsTextColor">
-                    <div class="esriCTBackButton esriCTInvertFontIcons icon icon-left-arrow esriCTPointerCursor" id="mapBackButton"></div>
-                    <div class="esriCTHeaderText esriCTMapHeaderText esriCTEllipsis" id="mapContainerTitle"></div>
-                    <div class="esriCTListViewButton esriCTPointerCursor icon icon-list" id="toggleListViewButton"></div>
+                    <div tabindex="0" role="button" id="mapBackButton">
+                            <span aria-hidden="true" class="esriCTBackButton esriCTInvertFontIcons icon icon-left-arrow esriCTPointerCursor">
+                            </span>
+                            <span class="esriCTFallBackText"></span>
+                        </div>
+                    <div tabindex="0" class="esriCTHeaderText esriCTMapHeaderText esriCTEllipsis" id="mapContainerTitle"></div>
+                    <div tabindex="0" role="button" id="toggleListViewButton">
+                        <span aria-hidden="true" class="esriCTListViewButton esriCTPointerCursor icon icon-list">
+                        </span>
+                        <span class="esriCTFallBackText"></span>
+                    </div>
                 </div>
                 <div id="mapContainer" class="esriCTMap">
                     <!-- The ArcGIS API for JavaScript provides bidirectional support.  When viewing the application in an right to left (rtl) language like Hebrew and Arabic the map needs to remain in left-to-right (ltr) mode. Specify this by setting the dir attribute on the div to ltr. -->
-                    <div id="mapDiv" dir="ltr" data-dojo-props="region:'center'">
+                    <div tabindex="0" role="application" id="mapDiv" dir="ltr" data-dojo-props="region:'center'" alt="Selected Map">
                     </div>
                 </div>
-                <div id="submitFromMap" class="esriCTReportButton esriCTPointerCursor esriCTHidden">
+                <div role="button" tabindex="0" id="submitFromMap" class="esriCTReportButton esriCTPointerCursor esriCTHidden">
                     <div class="esriCTReportButtonContainer">
                         <div class="esriCTReportButtonIcon"></div>
                         <div  id="submitFromMapText"  class="esriCTReportButtonText"></div>
                     </div>
                 </div>
             </div>
+            <div id="geoformContainer" class="esriCTHidden esriCTBorderLeft esriCTGeoFormParentContainer esriCTHeaderTextColorAsBorder">
+            </div>
+            <div id="detailsPanelContainer" class="esriCTHidden esriCTBorderLeft esriCTGeoFormParentContainer esriCTHeaderTextColorAsBorder"></div>
             <div id="sideContainer" class="esriCTBorderLeft esriCTHeaderTextColorAsBorder">
                 <div id="sidebarContent" class="esriCTFullHeightWidth esriCTBodyBackgroundColor" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
                 </div>
             </div>
         </div>
-
-        <div id="geoformContainer" class="esriCTHidden esriCTBorderLeft esriCTGeoFormParentContainer esriCTHeaderTextColorAsBorder">
-        </div>
-        <div id="detailsPanelContainer" class="esriCTHidden esriCTBorderLeft esriCTGeoFormParentContainer esriCTHeaderTextColorAsBorder"></div>
         <div id="mobileMenuContainer" class="esriCTMobileMenuContainer esriCTHideMobileMenu">
         </div>
     </div>

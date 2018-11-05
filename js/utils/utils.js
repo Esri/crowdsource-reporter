@@ -88,6 +88,7 @@ define([
             domClass.add(dom.byId("layoutContainer"), "esriCTHidden");
             domClass.remove(dom.byId("noWebMapParentDiv"), "esriCTHidden");
             domAttr.set(dom.byId("noWebMapChildDiv"), "innerHTML", message);
+            dom.byId("noWebMapChildDiv").focus();
         },
 
         /**
@@ -342,7 +343,7 @@ define([
         },
 
         /**
-        * This function deifne the color for overlay container based on theme color
+        * This function define the color for overlay container based on theme color
         * @memberOf utils/utils
         */
         getOverlayBackgroundColor: function (configuredColor) {
@@ -365,9 +366,34 @@ define([
             this.reportingPeriodDialog = new Help({
                 "config": this.config,
                 "title": this.config.reportingPeriodDialogTitle,
-                "dialog":"reporting",
-                "content": this.config.reportingPeriodDialogContent
+                "dialog": "reporting",
+                "content": this.config.reportingPeriodDialogContent,
+                "appUtils": this
             });
+        },
+
+        /**
+        * Validate the event
+        */
+        validateEvent: function (event, isMenu) {
+            if (!event || !event.type) {
+                return true;
+            }
+            if ((event.type === "focusin" || event.type === "focusout") && isMenu) {
+                return true;
+            }
+            if (event.type === 'click') {
+                return true;
+            }
+            if (event.type === 'keypress') {
+                var code = event.charCode || event.keyCode;
+                if ((code === 32) || (code === 13)) {
+                    return true;
+                }
+            }
+            else {
+                return false;
+            }
         },
 
         /**

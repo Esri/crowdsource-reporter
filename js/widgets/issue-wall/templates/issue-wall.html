@@ -1,12 +1,19 @@
 ﻿<div class="esriCTFullHeight">
     <div class="esriCTListHeader esriCTBGColor esriCTHeaderTextColorAsBackground esriCTHeaderBackgroundColorAsTextColor">
-        <div class="esriCTBackButton esriCTInvertFontIcons icon icon-left-arrow esriCTPointerCursor" data-dojo-attach-point="listBackButton"></div>
-        <div data-dojo-attach-point="listContainerTitle" class="esriCTHeaderText esriCTListHeaderText esriCTEllipsis" data-toggle="tooltip"
-                trigger="manual" data-placement="bottom">
+        <div tabindex="0" role="button" data-dojo-attach-point="listBackButton">
+            <span aria-hidden="true" class="esriCTBackButton esriCTInvertFontIcons icon icon-left-arrow esriCTPointerCursor">
+            </span>
+            <span class="esriCTFallBackText" data-dojo-attach-point="fallBackTextNode"></span>
+        </div>
+        <div tabindex="-1" data-dojo-attach-point="listContainerTitle" class="esriCTHeaderText esriCTListHeaderText esriCTEllipsis"
+            data-toggle="tooltip" trigger="manual" data-placement="bottom">
         </div>
         <div class="esriCTListButtonContainer">
-            <div class="esriCTMapItButton esriCTPointerCursor esriCTIssueWallMapItButton icon icon-map" data-dojo-attach-point="listMapItButton"></div>
-
+            <div tabindex="0" role="button" class="esriCTIssueWallMapItButton" data-dojo-attach-point="listMapItButton">
+                <span aria-hidden="true" class="esriCTMapItButton esriCTPointerCursor icon icon-map">
+                </span>
+                <span class="esriCTFallBackText" data-dojo-attach-point="fallBackMapBtnTextNode"></span>
+            </div>
             <div class="esriCTInfoLoader esriCTBGColor esriCTHidden esriCTLoaderPosition" data-dojo-attach-point="listLoadingIndicator">
                 <div class="esriCTHeaderLoadingIndicator">
                 </div>
@@ -14,10 +21,10 @@
         </div>
     </div>
     <div data-dojo-attach-point="listContainer" class="esriCTIssueListContainer">
-        <div data-dojo-attach-point="noIssuesMessage" class="esriCTHidden esriCTNoIssueDiv esriCTBodyTextColor esriCTCalculatedBodyTextColorAsBorder">
+        <div tabindex="0" data-dojo-attach-point="noIssuesMessage" class="esriCTHidden esriCTNoIssueDiv esriCTBodyTextColor esriCTCalculatedBodyTextColorAsBorder">
         </div>
     </div>
-    <div class="esriCTReportButton esriCTPointerCursor" data-dojo-attach-point="submitReport">
+    <div tabindex="0" role="button" class="esriCTReportButton esriCTPointerCursor" data-dojo-attach-point="submitReport">
         <div class="esriCTReportButtonContainer">
             <div class="esriCTReportButtonIcon"></div>
             <div data-dojo-attach-point="submitReportButton" class="esriCTReportButtonText"></div>

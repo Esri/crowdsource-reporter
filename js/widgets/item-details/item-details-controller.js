@@ -188,6 +188,7 @@ define([
         */
         _initCommentsDiv: function () {
             this.commentsHeading.innerHTML = this.i18n.commentsListHeading;
+            domAttr.set(this.commentsHeading, "aria-label", this.i18n.commentsListHeading);
         },
 
         /**
@@ -195,7 +196,10 @@ define([
         */
         _addListeners: function () {
             var self = this;
-            on(this.backIcon, "click", lang.hitch(this, function (evt) {
+            on(this.backIcon, "click, keypress", lang.hitch(this, function (evt) {
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 //Hide the success message if present
                 if (!domClass.contains(this.headerMessageType, "esriCTHidden")) {
                     domClass.add(this.headerMessageType, "esriCTHidden");
@@ -203,7 +207,10 @@ define([
                 this.onCancel(self.item);
             }));
 
-            on(this.likeButton, "click", lang.hitch(this, function () {
+            on(this.likeButton, "click", lang.hitch(this, function (evt) {
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 if (this.appConfig.reportingPeriod === "Closed") {
                     this.appUtils.reportingPeriodDialog.showDialog("reporting");
                     return;
@@ -217,9 +224,13 @@ define([
                         this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
                     }
                 }
+                this.likeButton.focus();
             }));
 
-            on(this.commentButton, "click", lang.hitch(this, function () {
+            on(this.commentButton, "click, keypress", lang.hitch(this, function (evt) {
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 //Hide the success message if present
                 if (!domClass.contains(this.headerMessageType, "esriCTHidden")) {
                     domClass.add(this.headerMessageType, "esriCTHidden");
@@ -396,7 +407,14 @@ define([
             //This will make sure when ever the detail's' panel is shown, the edit form will be hidden and other components will be shown
             this.handleComponentsVisibility();
             if (this.actionVisibilities.showComments) {
+                //Remove hidden classes from comments list and comments header
+                domClass.remove(this.commentsHeading, "esriCTHidden");
+                domClass.remove(this.commentsList, "esriCTHidden");
                 this._queryComments(item);
+            } else {
+                //Add hidden classes from comments list and comments header
+                domClass.add(this.commentsHeading, "esriCTHidden");
+                domClass.add(this.commentsList, "esriCTHidden");
             }
             this.itemTitle = layerInfo.title || "&nbsp;";
             this.itemVotes = this._getItemVotes(item);
@@ -445,6 +463,7 @@ define([
                 this.itemVotes = this._getItemVotes(item);
                 this.itemVotesDiv.innerHTML = this.itemVotes.label;
                 domAttr.set(this.votesDetailContainer, "title", this.itemVotes.label + " " + this.i18n.likeButtonTooltip);
+                domAttr.set(this.votesDetailContainer, "aria-label", this.itemVotes.label + " " + this.i18n.likeButtonTooltip);
             }
         },
 
@@ -503,10 +522,8 @@ define([
                 this._createTooltip(this.itemTitleDiv, this.itemTitle);
             }
             this.itemVotesDiv.innerHTML = this.itemVotes.label;
-            //Remove hidden classes from comments list and comments header
-            domClass.remove(this.commentsHeading, "esriCTHidden");
-            domClass.remove(this.commentsList, "esriCTHidden");
             domAttr.set(this.votesDetailContainer, "title", this.itemVotes.label + " " + this.i18n.likeButtonTooltip);
+            domAttr.set(this.votesDetailContainer, "aria-label", this.itemVotes.label + " " + this.i18n.likeButtonTooltip);
             if (this.actionVisibilities.showVotes && this.votesField) {
                 domClass.remove(this.votesDetailContainer, "esriCTHidden");
                 domClass.remove(this.itemTitleDiv, "esriCTNoVotesDetailContainer");
@@ -564,7 +581,8 @@ define([
             var commentDiv;
             comment._layer = this._commentTable;
             commentDiv = domConstruct.create('div', {
-                'class': 'comment esriCTCommentsPopup'
+                'class': 'comment esriCTCommentsPopup',
+                'tabindex': "0"
             }, this.commentsList);
             new ContentPane({
                 'class': 'content small-text',
@@ -585,9 +603,26 @@ define([
             var editBtn, deleteBtn, existingAttachmentsObjectsArr, buttonContainer, confirmDelete;
             buttonContainer = domConstruct.create("div", { "class": "esriCTEditingButtons" }, parentDiv);
             if (graphic.canEdit) {
-                editBtn = domConstruct.create("div", { "class": "esriCTEditButton icon icon-pencil esriCTBodyTextColor", "title": this.appConfig.i18n.comment.editRecordText }, buttonContainer);
-                on(editBtn, "click", lang.hitch(this, function (evt) {
+                editBtn = domConstruct.create("div", {
+                    "tabindex": "0",
+                    "class": "esriCTFloatLeft",
+                    "role": "button",
+                    "title": this.appConfig.i18n.comment.editRecordText,
+                    "aria-label": this.appConfig.i18n.comment.editRecordText
+                }, buttonContainer);
+                domConstruct.create("span", {
+                    "class": "esriCTEditButton icon icon-pencil esriCTBodyTextColor",
+                    "aria-hidden": "true"
+                }, editBtn);
+                domConstruct.create("span", {
+                    "innerHTML": this.appConfig.i18n.comment.editRecordText,
+                    "class": "esriCTFallBackText"
+                }, editBtn);
+                on(editBtn, "click, keypress", lang.hitch(this, function (evt) {
                     if (this.appConfig.logInDetails.canEditFeatures) {
+                        if (!this.appUtils.validateEvent(evt)) {
+                            return;
+                        }
                         if (isGeoform) {
                             domClass.add(parentDiv, "esriCTHidden");
                             domClass.remove(this.popupDetailsDiv, "esriCTHidden");
@@ -606,9 +641,26 @@ define([
                 }));
             }
             if (graphic.canDelete) {
-                deleteBtn = domConstruct.create("div", { "class": "esriCTDeleteButton icon icon-delete esriCTBodyTextColor", "title": this.appConfig.i18n.comment.deleteRecordText }, buttonContainer);
-                on(deleteBtn, "click", lang.hitch(this, function (evt) {
+                deleteBtn = domConstruct.create("div", {
+                    "tabindex": "0",
+                    "role": "button",
+                    "class": "esriCTFloatLeft",
+                    "title": this.appConfig.i18n.comment.deleteRecordText,
+                    "aria-label": this.appConfig.i18n.comment.deleteRecordText
+                }, buttonContainer);
+                domConstruct.create("span", {
+                    "class": "esriCTDeleteButton icon icon-delete esriCTBodyTextColor",
+                    "aria-hidden": "true"
+                }, deleteBtn);
+                domConstruct.create("span", {
+                    "innerHTML": this.appConfig.i18n.comment.deleteRecordText,
+                    "class": "esriCTFallBackText"
+                }, deleteBtn);
+                on(deleteBtn, "click, keypress", lang.hitch(this, function (evt) {
                     if (this.appConfig.logInDetails.canEditFeatures) {
+                        if (!this.appUtils.validateEvent(evt)) {
+                            return;
+                        }
                         confirmDelete = confirm(this.appConfig.i18n.itemDetails.deleteMessage);
                         if (confirmDelete) {
                             this.appUtils.showLoadingIndicator();
@@ -637,6 +689,7 @@ define([
                     if (this.commentsList.childNodes.length === 0) {
                         domClass.remove(this.noCommentsDiv, "esriCTHidden");
                         domAttr.set(this.noCommentsDiv, "innerHTML", this.appConfig.i18n.comment.noCommentsAvailableText);
+                        domAttr.set(this.noCommentsDiv, "aria-label", this.appConfig.i18n.comment.noCommentsAvailableText);
                     }
                     this.appUtils.hideLoadingIndicator();
                 } else {
@@ -842,6 +895,7 @@ define([
                 } else {
                     domClass.remove(this.noCommentsDiv, "esriCTHidden");
                     domAttr.set(this.noCommentsDiv, "innerHTML", this.appConfig.i18n.comment.noCommentsAvailableText);
+                    domAttr.set(this.noCommentsDiv, "aria-label", this.appConfig.i18n.comment.noCommentsAvailableText);
                 }
                 this.appUtils.hideLoadingIndicator();
             }), lang.hitch(this, function (err) {
@@ -918,17 +972,21 @@ define([
                 // display all attached images in thumbnails
                 for (i = 0; i < this._entireAttachmentsArr[index][1].length; i++) {
                     attachmentWrapper = domConstruct.create("div", {}, fieldContent);
-                    imageThumbnailContainer = domConstruct.create("div", { "class": "esriCTNonImageContainer", "alt": this._entireAttachmentsArr[index][1][i].url }, attachmentWrapper);
+                    imageThumbnailContainer = domConstruct.create("div", { "tabindex": "0", "class": "esriCTNonImageContainer", "alt": this._entireAttachmentsArr[index][1][i].url }, attachmentWrapper);
                     imageThumbnailContent = domConstruct.create("div", { "class": "esriCTNonImageContent" }, imageThumbnailContainer);
                     imageContainer = domConstruct.create("div", {}, imageThumbnailContent);
                     fileTypeContainer = domConstruct.create("div", { "class": "esriCTNonFileTypeContent" }, imageThumbnailContent);
                     isAttachmentAvailable = true;
                     // set default image path if attachment has no image URL
                     imagePath = dojoConfig.baseURL + this.appConfig.noAttachmentIcon;
-                    imageDiv = domConstruct.create("img", { "alt": this._entireAttachmentsArr[index][1][i].url, "class": "esriCTAttachmentImg", "src": imagePath }, imageContainer);
+                    imageDiv = domConstruct.create("img", {
+                        "alt": this._entireAttachmentsArr[index][1][i].url,
+                        "aria-label": this._entireAttachmentsArr[index][1][i].name,
+                        "class": "esriCTAttachmentImg", "src": imagePath
+                    }, imageContainer);
                     this._fetchDocumentContentType(this._entireAttachmentsArr[index][1][i], fileTypeContainer);
                     this._fetchDocumentName(this._entireAttachmentsArr[index][1][i], imageThumbnailContainer);
-                    on(imageThumbnailContainer, "click", lang.hitch(this, this._displayImageAttachments));
+                    on(imageThumbnailContainer, "click, keypress", lang.hitch(this, this._displayImageAttachments));
                 }
                 if (!isAttachmentAvailable) {
                     domClass.add(attachmentContainer, "hidden");
@@ -973,6 +1031,9 @@ define([
         * @param{object} evt
         **/
         _displayImageAttachments: function (evt) {
+            if (!this.appUtils.validateEvent(evt)) {
+                return;
+            }
             window.open(domAttr.get(evt.currentTarget, "alt"));
         },
 
@@ -1016,6 +1077,8 @@ define([
                 }, this.gallery);
                 domConstruct.create("div", {
                     "innerHTML": this.appConfig.i18n.gallery.galleryHeaderText,
+                    "aria-label": this.appConfig.i18n.gallery.galleryHeaderText,
+                    "tabindex": "-1",
                     "class": "esriCTItemDetailHeader esriCTListItemHeader esriCTLargeText esriCTCalculatedBodyTextColorAsBorder"
                 }, container);
                 // If attachments found
@@ -1030,18 +1093,26 @@ define([
                             imagePath = infos[i].url;
                         }
                         imageContent = domConstruct.create("span", {
-                            "class": "esriCTIssueImgSpan col esriCTCalculatedBodyTextColorAsBorder"
+                            "class": "esriCTIssueImgSpan col esriCTCalculatedBodyTextColorAsBorder",
+                            "alt": infos[i].name
                         }, fieldContent);
                         domClass.add(imageContent, "esriCTImageLoader");
                         imageDiv[i] = domConstruct.create("img", {
-                            "alt": infos[i].url,
+                            "alt": infos[i].name,
                             "class": "esriCTIssueDetailImg esriCTPointerCursor",
+                            "aria-label": infos[i].name,
+                            tabindex: "0",
                             "src": imagePath
                         }, imageContent);
                         // Hide loader image after image is loaded
                         on(imageDiv[i], "load", lang.hitch(this, this._onImageLoad));
                         // Show attachment in new tab on click of the attachment thumbnail
-                        on(imageDiv[i], "click", lang.hitch(this, this._openAttachment));
+                        on(imageDiv[i], "click, keypress", lang.hitch(this, function (evt) {
+                            if (!this.appUtils.validateEvent(evt)) {
+                                return;
+                            }
+                            this._openAttachment(evt);
+                        }));
                     }
                 } else {
                     domConstruct.create("div", { "innerHTML": this.appConfig.i18n.gallery.noAttachmentsAvailableText, "class": "esriCTGalleryNoAttachment esriCTDetailsNoResult esriCTSmallText" }, this.gallery);
@@ -1101,7 +1172,7 @@ define([
         * @param{object} evt
         */
         _openAttachment: function (evt) {
-            window.open(evt.target.alt);
+            window.open(evt.target.src);
         },
 
         /**
@@ -1135,6 +1206,7 @@ define([
                 if (this.appUtils.isAndroid()) {
                     this.toggleDetailsPanel();
                 }
+                this.commentButton.focus();
             });
             this.commentformInstance.onCommentFormSubmitted = lang.hitch(this, function (item, canClose) {
                 this._showCommentHeaderAndListContainer();
@@ -1144,6 +1216,7 @@ define([
                 }
                 //Show the success message after successful submission of comment
                 domClass.remove(this.headerMessageType, "esriCTHidden");
+                this.headerMessageContent.focus();
                 this.commentformInstance._clearFormFields();
                 this.isCommentFormOpen = false;
                 //update comment list
@@ -1226,6 +1299,21 @@ define([
             domClass.add(this.popupDetailsDiv, "esriCTHidden");
             domClass.remove(this.descriptionDiv, "esriCTHidden");
             domClass.remove(this.actionButtonsContainer, "esriCTHidden");
+        },
+
+        /**
+        * Check if focus needs to be set to edit/delete button
+        * @memberOf widgets/item-details-controller/item-details-controller
+        */
+        setEditButtonState: function (evt) {
+            var editButton;
+            //Set focus to edit button after closing the form
+            setTimeout(lang.hitch(this, function () {
+                editButton = query(".esriCTEditButton", this.domNode)[0];
+                if (editButton) {
+                    editButton.focus();
+                }
+            }), 100);
         },
 
         /**

@@ -1,36 +1,39 @@
 ﻿<div class="esriCTGeoFormContainer esriCTBodyBackgroundColor">
     <div class="esriCTListHeader esriCTBGColor esriCTHeaderTextColorAsBackground esriCTHeaderBackgroundColorAsTextColor" data-dojo-attach-point="formHeader">
-        <div class="esriCTBackButton esriCTInvertFontIcons esriCTPointerCursor icon icon-left-arrow" data-dojo-attach-point="closeButton">
-        </div>
-        <div class="esriCTHeaderText esriCTGeoFormHeaderText esriCTEllipsis" data-dojo-attach-point="layerTitleDiv">
+        <div tabindex="0" role="button" data-dojo-attach-point="closeButton">
+                <span aria-hidden="true" class="esriCTBackButton esriCTInvertFontIcons icon icon-left-arrow esriCTPointerCursor">
+                </span>
+                <span class="esriCTFallBackText" data-dojo-attach-point="fallBackTextNode"></span>
+            </div>
+        <div tabindex="-1" class="esriCTHeaderText esriCTGeoFormHeaderText esriCTEllipsis" data-dojo-attach-point="layerTitleDiv">
         </div>
     </div>
     <div class="esriCTGeoFormBody esriCTBodyTextColor" id="geoFormBody">
         <div data-dojo-attach-point="headerMessageDiv" class="esriCTHeaderMessageDiv esriCTHidden">
             <div data-dojo-attach-point="headerMessageType" class="esriCTSuccessMsg alert alert-success">
                 <span class="close" data-dojo-attach-point="headerMessageButton">&times;</span>
-                <span data-dojo-attach-point="headerMessageContent"></span>
+                <span tabindex="-1" data-dojo-attach-point="headerMessageContent"></span>
             </div>
         </div>
         <div class="row">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-8 esriCTFullWidth"  data-dojo-attach-point="componentSection">
                     <div data-dojo-attach-point="detailSection">
-                        <div class="esriCTGeoFormTitles" data-dojo-attach-point="enter_Information">
+                        <div tabindex="0" class="esriCTGeoFormTitles" data-dojo-attach-point="enter_Information">
                         </div>
-                        <form role="form" data-dojo-attach-point="userForm">
+                        <form data-dojo-attach-point="userForm">
                         </form>
                     </div>
                     <div data-dojo-attach-point="attachmentSection">
                     </div>
                     <div data-dojo-attach-point="locationSection">
-                        <div class="esriCTGeoFormTitles" data-dojo-attach-point="select_location">
+                        <div tabindex="0" class="esriCTGeoFormTitles" data-dojo-attach-point="select_location">
                         </div>
-                        <div class="esriGeoformCTLocationHint" data-dojo-attach-point="locationHintTextNode"></div>
+                        <div tabindex="0" class="esriGeoformCTLocationHint" data-dojo-attach-point="locationHintTextNode"></div>
                         <div data-dojo-attach-point="location_panel_body">
-                            <div data-dojo-attach-point="geoLocationButton" class="esriCTGeoFormGeoLocation esriCTPointerCursor">
-                            </div>
                             <div data-dojo-attach-point="geoformLocator" class="esriCTlocationPanel">
+                            </div>
+                            <div data-dojo-attach-point="geoLocationButton" class="esriCTGeoFormGeoLocation esriCTPointerCursor">
                             </div>
                         </div>
                         <div class="gf-map panel panel-default esriCTmapParentContainer" data-dojo-attach-point="map_container">
@@ -43,9 +46,9 @@
                     </div>
                     <div class="form-group">
                         <div class="submit-area">
-                            <div data-dojo-attach-point="submitButton" class="esriCTGeoFormButton esriCTGeoFormSubmitButton esriCTEllipsis esriCTBGColor btn btn-default esriCTSubmitButton esriCTButtonTextColor esriCTButtonBackgroundColor">
+                            <div tabindex="0" role="button" data-dojo-attach-point="submitButton" class="esriCTGeoFormButton esriCTGeoFormSubmitButton esriCTEllipsis esriCTBGColor btn btn-default esriCTSubmitButton esriCTButtonTextColor esriCTButtonBackgroundColor">
                             </div>
-                            <div data-dojo-attach-point="cancelButton" class="esriCTGeoFormButton esriCTGeoFormCancelButton esriCTEllipsis esriCTApplicationColor btn btn-default esriCTButtonTextColor esriCTButtonBackgroundColor">
+                            <div tabindex="0" role="button" data-dojo-attach-point="cancelButton" class="esriCTGeoFormButton esriCTGeoFormCancelButton esriCTEllipsis esriCTApplicationColor btn btn-default esriCTButtonTextColor esriCTButtonBackgroundColor">
                             </div>
                         </div>
                     </div>

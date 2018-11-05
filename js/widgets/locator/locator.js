@@ -486,7 +486,8 @@ define([
                                     "class": "esriCTSearchGroupRow esriCTContentBottomBorder esriCTPointerCursor esriCTHeaderFont"
                                 }, this.divResultContainer);
                                 divAddressSearchCell = domConstruct.create("div", {
-                                    "class": "esriCTSearchGroupCell"
+                                    "class": "esriCTSearchGroupCell",
+                                    "tabindex": "0"
                                 }, divAddressContainer);
                                 candidate = candidateArray + " (" + candidates[candidateArray].length + ")";
                                 domConstruct.create("span", {
@@ -531,7 +532,8 @@ define([
                 "class": "esriCTCandidateList"
             }, addressListContainer);
             candidateAddress = domConstruct.create("div", {
-                "class": "esriCTCandidateField esriCTContentBottomBorder esriCTPointerCursor"
+                "class": "esriCTCandidateField esriCTContentBottomBorder esriCTPointerCursor",
+                "tabindex": "0"
             }, divAddressRow);
             domAttr.set(candidateAddress, "index", index);
             try {
@@ -572,7 +574,10 @@ define([
         * @memberOf widgets/locator/locator
         */
         _toggleAddressList: function (addressList, idx) {
-            on(addressList, "click", lang.hitch(this, function (evt) {
+            on(addressList, "click, keypress", lang.hitch(this, function (evt) {
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 var addressListContainer, listStatusSymbol;
                 addressListContainer = query(".esriCTAddressListContainer", this.divResultContainer)[idx];
                 if (domClass.contains(addressListContainer, "esriCTShowAddressList")) {
@@ -690,7 +695,10 @@ define([
         * @memberOf widgets/locator/locator
         */
         handleAddressClick: function (candidate, candidateAddress, candidateArray) {
-            on(candidateAddress, "click", lang.hitch(this, function (evt) {
+            on(candidateAddress, "click, keypress", lang.hitch(this, function (evt) {
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 var candidateSplitValue, mapPoint;
                 domAttr.set(this.txtSearch, "defaultAddress", evt.currentTarget.innerHTML);
                 this.txtSearch.value = domAttr.get(this.txtSearch, "defaultAddress");

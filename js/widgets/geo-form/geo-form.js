@@ -129,7 +129,8 @@ define([
                     "dialog": "location",
                     "showButtons": true,
                     "okButtonText": this.appConfig.i18n.dialog.yesButton,
-                    "cancelButtonText": this.appConfig.i18n.dialog.noButton
+                    "cancelButtonText": this.appConfig.i18n.dialog.noButton,
+                    "appUtils": this.appUtils
                 });
                 //Listen for dialogs ok and cancel button clicked event
                 this._locationDialog.okButtonClicked = lang.hitch(this, function () {
@@ -137,6 +138,9 @@ define([
                 });
                 this._locationDialog.cancelButtonClicked = lang.hitch(this, function () {
                     this._locationDialog.hideDialog("location");
+                    setTimeout(lang.hitch(this, function () {
+                        query(".fileInputButton", this.domNode)[0].focus();
+                    }), 400);
                 });
             } catch (err) {
                 // Show error message
@@ -274,8 +278,12 @@ define([
                     domAttr.set(zoomOutBtn, "title", this.appConfig.i18n.map.zoomOutTooltip);
                 }
                 domAttr.set(this.closeButton, "title", this.appConfig.i18n.geoform.geoformBackButtonTooltip);
+                domAttr.set(this.closeButton, "aria-label", this.appConfig.i18n.geoform.geoformBackButtonTooltip);
+                domAttr.set(this.fallBackTextNode, "title", this.appConfig.i18n.geoform.geoformBackButtonTooltip);
                 domAttr.set(this.submitButton, "title", this.appConfig.i18n.geoform.submitButtonTooltip);
+                domAttr.set(this.submitButton, "aria-label", this.appConfig.i18n.geoform.submitButtonTooltip);
                 domAttr.set(this.cancelButton, "title", this.appConfig.i18n.geoform.cancelButtonTooltip);
+                domAttr.set(this.cancelButton, "aria-label", this.appConfig.i18n.geoform.cancelButtonTooltip);
                 // store default map extent
                 this.defaultExtent = this.map.extent;
                 // show only selected layer and remove other layer from Webmap
@@ -310,10 +318,12 @@ define([
                     this.firstMapClickPoint = null;
                 }));
                 // Handle click of Submit button
-                on(this.submitButton, "click", lang.hitch(this, function () {
+                on(this.submitButton, "click, keypress", lang.hitch(this, function (evt) {
+                    if (!this.appUtils.validateEvent(evt)) {
+                        return;
+                    }
                     var commentSubmitStatus = this.appUtils.isCommentDateInRange(),
                         canSubmit = true;
-                    if (!this.isEdit) {
                         if (commentSubmitStatus === null) {
                             if (this.appConfig.hasOwnProperty("reportingPeriod") &&
                                 this.appConfig.reportingPeriod === "Closed") {
@@ -331,17 +341,19 @@ define([
                                 return;
                             }
                         }
-                    }
                     if (canSubmit) {
                         this._submitForm();
                     }
                 }));
                 // Handle click of close button
-                on(this.closeButton, "click", lang.hitch(this, this.closeForm));
+                on(this.closeButton, "click, keypress", lang.hitch(this, this.closeForm));
                 // Handle click of cancel button
-                on(this.cancelButton, "click", lang.hitch(this, this._onCancelClick));
+                on(this.cancelButton, "click, keypress", lang.hitch(this, this._onCancelClick));
+                on(this.cancelButton, "focusout", lang.hitch(this, function () {
+                    this.closeButton.focus();
+                }));
                 // Initialize locator widget
-                this.locator = new Locator({ "isGeoformLocator": true, "map": this.map, "config": this.config, "appUtils": this.appUtils, "itemInfo": response.itemInfo.itemData, "layerId": this.layerId, "locatorContainer": this.geoformLocator, "handleFeatureSearch": false });
+                this.locator = new Locator({ "appUtils": this.appUtils, "isGeoformLocator": true, "map": this.map, "config": this.config, "appUtils": this.appUtils, "itemInfo": response.itemInfo.itemData, "layerId": this.layerId, "locatorContainer": this.geoformLocator, "handleFeatureSearch": false });
                 // function call on selection of search result
                 this.locator.onLocationCompleted = lang.hitch(this, this._validateAddress);
                 //Listen for address list open/close event
@@ -431,14 +443,17 @@ define([
             }));
         },
 
-        _onCancelClick: function () {
+        _onCancelClick: function (evt) {
+            if (!this.appUtils.validateEvent(evt)) {
+                return;
+            }
             if (domClass.contains(this.headerMessageDiv, "esriCTVisible")) {
                 domClass.replace(this.headerMessageDiv, "esriCTHidden", "esriCTVisible");
             }
             this.toolbar.deactivate();
             this._clearSubmissionGraphic();
             setTimeout(lang.hitch(this, function () {
-                this.closeForm();
+                this.closeForm(evt);
                 this._clearFormFields();
             }), 500);
         },
@@ -672,7 +687,9 @@ define([
             }
 
             domAttr.set(this.enter_Information, "innerHTML", geoformDetailsSectionLabel);
+            domAttr.set(this.enter_Information, "aria-label", geoformDetailsSectionLabel);
             domAttr.set(this.select_location, "innerHTML", geoformLocationSectionLabel);
+            domAttr.set(this.select_location, "aria-label", geoformLocationSectionLabel);
             if (this.isEdit) {
                 submitButtonText = this.appConfig.i18n.geoform.editReportButton;
             } else {
@@ -688,6 +705,14 @@ define([
             this._sortedTypeFormElement();
             // Create attachments container, if layer supports attachments
             this._createAttachments();
+            if (!this.isEdit) {
+                //Whenever geoform is open set focus to geoform close button
+                setTimeout(lang.hitch(this, function () {
+                    this.closeButton.focus();
+                }), 500);
+            } else {
+                this.enter_Information.focus();
+            }
         },
 
         /**
@@ -785,21 +810,29 @@ define([
                 // Select attachment label
                 domConstruct.create("label", {
                     "innerHTML": geoformAttachmentSectionLabel,
+                    "aria-label": geoformAttachmentSectionLabel,
                     "id": "geoFormAttachmentTitileLabel",
-                    "class": "esriCTGeoFormTitles"
+                    "class": "esriCTGeoFormTitles",
+                    "tabindex": "0"
                 }, formContent);
                 domConstruct.create("br", {}, formContent);
                 // Create div for Attachment button
-                fileContainer = domConstruct.create("div", { "class": "esriCTFileButtonContainer", "title": this.appConfig.i18n.geoform.selectFileText }, formContent);
+                fileContainer = domConstruct.create("div", {
+                    "class": "esriCTFileButtonContainer",
+                    "title": this.appConfig.i18n.geoform.selectFileText
+                }, formContent);
                 this._fileInputIcon = domConstruct.create("button", {
                     "type": "button",
+                    "tabindex": "0",
+                    "aria-label": this.appConfig.i18n.geoform.selectFileText,
                     "innerHTML": this.appConfig.i18n.geoform.selectFileText,
                     "class": "fileInputButton btn  btn-default esriCTPointerCursor esriCTGeoFormButton esriCTApplicationColor esriCTButtonTextColor esriCTButtonBackgroundColor"
                 }, fileContainer);
                 // Show photo selected count
                 domConstruct.create("div", {
                     "id": "attachmentSelectedCount",
-                    "class": "esriCTAttachmentSelectedCount"
+                    "tabindex": "0",
+                    "class": "esriCTHidden esriCTAttachmentSelectedCount"
                 }, formContent);
                 fileAttachmentContainer = domConstruct.create("div", {
                     "class": "container esriCTAttachmentContainer"
@@ -811,11 +844,20 @@ define([
                 fileInput = domConstruct.create("input", {
                     "type": "file",
                     "accept": "image/*",
+                    "aria-label": this.appConfig.i18n.geoform.selectFileText,
                     "name": "attachment",
+                    "tabindex":"-1",
                     "style": { "height": dojo.coords(this._fileInputIcon).h + "px", "width": dojo.coords(this._fileInputIcon).w + "px" }
-                }, domConstruct.create("form", { "id": "geoFormAttachment" + this._fileAttachmentCounter++, "class": "esriCTHideFileInputUI" }, fileContainer));
+                }, domConstruct.create("form", { "tabindex": "-1", "id": "geoFormAttachment" + this._fileAttachmentCounter++, "class": "esriCTHideFileInputUI" }, fileContainer));
                 domClass.add(fileInput, "esriCTPointerCursor");
 
+                // Handle change event for file control
+                on(this._fileInputIcon, "click, keypress", lang.hitch(this, function (evt) {
+                    if (!this.appUtils.validateEvent(evt)) {
+                        return;
+                    }
+                    fileInput.click();
+                }));
                 // Handle change event for file control
                 fileChange = on(fileInput, "change", lang.hitch(this, function (evt) {
                     fileChange.remove();
@@ -843,8 +885,9 @@ define([
             //Add dismiss-able alert for each file, and show file name and file size in it.
 
             alertHtml = "<div id=" + target.parentNode.id + "_Close" + " class=\"esriCTFileAlert alert alert-dismissable alert-success\">";
-            alertHtml += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">" + "X" + "</button>";
-            alertHtml += "<span>" + fileName + "</span>";
+            alertHtml += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" tabindex=\"'0'\" aria-label=\"" +
+            this.config.i18n.geoform.deleteAttachmentBtnText + "\">" + "X" + "</button>";
+            alertHtml += "<span >" + fileName + "</span>";
             alertHtml += "</div>";
             alertHtml = domConstruct.place(alertHtml, this.fileAttachmentList, "last");
             //if file is removed then
@@ -862,6 +905,7 @@ define([
                 //create new file input control so that multiple files can be attached
                 fileInput = domConstruct.create("input", {
                     "type": "file",
+                    "tabindex":"-1",
                     "accept": "image/*",
                     "name": "attachment",
                     "style": { "height": dojo.coords(this._fileInputIcon).h + "px", "width": dojo.coords(this._fileInputIcon).w + "px" }
@@ -921,6 +965,9 @@ define([
             this._zoomToSelectedFeature(point);
             this.onLocationSelected(point);
             this._locationDialog.hideDialog("location");
+            setTimeout(lang.hitch(this, function () {
+                query(".fileInputButton", this.domNode)[0].focus();
+            }), 1000);
         },
 
         /**
@@ -932,9 +979,11 @@ define([
             if (photoSelectedDiv) {
                 selectedAttachmentsCount = query(".alert-dismissable", this.fileAttachmentList).length;
                 if (selectedAttachmentsCount > 0) {
+                    domClass.remove(photoSelectedDiv, "esriCTHidden");
                     domAttr.set(photoSelectedDiv, "innerHTML", selectedAttachmentsCount + " " + this.appConfig.i18n.geoform.attachmentSelectedMsg);
                 } else {
                     domAttr.set(photoSelectedDiv, "innerHTML", "");
+                    domClass.add(photoSelectedDiv, "esriCTHidden");
                 }
             }
             this._resizeMap();
@@ -1957,12 +2006,15 @@ define([
                 // Scroll to the erroneous field node
                 this.currentGeoformNode.animate({
                     scrollTop: erroneousFields[0].offsetTop
-                }, 1000);
+                }, 1000, function () {
+                    erroneousFields[0].childNodes[1].focus();
+                });
+                /*
                 if (!this.addressGeometry && !this.isEdit) {
                     // error message
                     errorMessage = this.appConfig.i18n.geoform.selectLocation;
                     this._showErrorMessageDiv(errorMessage, this.select_location);
-                }
+                }*/
             } else {
                 // If geometry is selected on the map
                 if (this.addressGeometry) {
@@ -1974,11 +2026,12 @@ define([
                     } else {
                         // error message
                         errorMessage = this.appConfig.i18n.geoform.selectLocation;
-                        this._showErrorMessageDiv(errorMessage, this.select_location);
+                        this._showErrorMessageDiv(errorMessage, this.select_location, "location");
                         // Scroll to the selected location
                         this.currentGeoformNode.animate({
                             scrollTop: this.select_location.offsetTop
                         }, 1000);
+                        query(".errorMessage", this.locationSection)[0].focus();
                     }
                 }
             }
@@ -2290,19 +2343,37 @@ define([
         * @param{object} errorMessageNode, node to bind error massage
         * @memberOf widgets/geo-form/geo-form
         */
-        _showErrorMessageDiv: function (errorMessage, errorMessageNode) {
-            var errorNode, place = "after";
+        _showErrorMessageDiv: function (errorMessage, errorMessageNode, field) {
+            var errorNodeContainer, fallBackTextNode, place = "after";
             if (errorMessageNode) {
                 //this statement will remove the error message div at first and then will be applied if a valid location is not selected
                 this._removeErrorNode(errorMessageNode.nextSibling);
             }
-            // create error handler container
-            errorNode = domConstruct.create("div", {
-                className: "alert alert-danger errorMessage",
+            //Create parent container for showing error message
+            errorNodeContainer = domConstruct.create("div", {
+                role: "alert",
                 id: "errorMessage",
-                innerHTML: errorMessage
+                "tabindex": "-1",
+                className: "alert alert-danger errorMessage"
             }, null);
-            domConstruct.place(errorNode, errorMessageNode, place);
+            domConstruct.create("span", {
+                "aria-hidden": "true",
+                innerHTML: errorMessage
+            }, errorNodeContainer);
+            fallBackTextNode = domConstruct.create("span", {
+                "class": "esriCTFallBackText"
+            }, errorNodeContainer);
+            //Set the text based on validation field
+            if (field && field === "location") {
+                domAttr.set(fallBackTextNode, "innerHTML", errorMessage);
+            } else {
+                domAttr.set(fallBackTextNode, "innerHTML",
+                    string.substitute(this.appConfig.i18n.geoform.errorMessageText, {
+                        message: errorMessage,
+                        fieldName: errorMessageNode.innerHTML
+                    }));
+            }
+            domConstruct.place(errorNodeContainer, errorMessageNode, place);
             // if success message is visible hide it
             if (domClass.contains(this.headerMessageDiv, "esriCTVisible")) {
                 domClass.replace(this.headerMessageDiv, "esriCTHidden", "esriCTVisible");
@@ -2353,7 +2424,9 @@ define([
             // Scroll geoform to top
             this.currentGeoformNode.animate({
                 scrollTop: 0
-            }, 1000);
+            }, 1000, lang.hitch(this, function () {
+                this.headerMessageContent.focus();
+            }));
             // resize map
             this._resizeMap();
         },
@@ -2362,7 +2435,10 @@ define([
         * This function is used to close form
         * @memberOf widgets/geo-form/geo-form
         */
-        closeForm: function () {
+        closeForm: function (evt) {
+            if (!this.appUtils.validateEvent(evt)) {
+                return;
+            }
             dom.byId("geoFormBody").scrollTop = 0;
             this.toolbar.deactivate();
             domClass.replace(dom.byId('geoformContainer'), "esriCTHidden", "esriCTVisible");
@@ -2380,7 +2456,7 @@ define([
                     domClass.remove(currentNode, "has-error");
                 }
             }));
-            this.onFormClose();
+            this.onFormClose(evt);
         },
 
         /**
@@ -2729,6 +2805,7 @@ define([
             } else {
                 domAttr.set(this.locationHintTextNode, "innerHTML", polygonLayerHintText);
             }
+            domAttr.set(this.locationHintTextNode, "aria-label", pointLayerHintText);
         },
 
         onLocationSelected: function (geometry) {

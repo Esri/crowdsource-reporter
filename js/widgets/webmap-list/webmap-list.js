@@ -39,7 +39,8 @@ define([
     "dijit/_WidgetsInTemplateMixin",
     "dojo/query",
     "esri/geometry/Extent",
-    "esri/geometry/Point"
+    "esri/geometry/Point",
+    "dojo/window"
 ], function (
     declare,
     lang,
@@ -64,7 +65,8 @@ define([
     _WidgetsInTemplateMixin,
     query,
     Extent,
-    Point
+    Point,
+    dojowindow
 ) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: dijitTemplate,
@@ -353,7 +355,11 @@ define([
                 domClass.add(parentDiv, "esriCTDisplayWebMapTemplate esriCTWebMapBorder esriCTHeaderTextColorAsBorder");
                 domAttr.set(parentDiv, "webMapID", this.filteredWebMapResponseArr[i][1].itemInfo.item.id);
                 if (query('.esriCTInfoImg', parentDiv).length > 0) {
-                    domAttr.set(query('.esriCTInfoImg', parentDiv)[0], "title", this.appConfig.i18n.webMapList.infoBtnToolTip);
+                    domAttr.set(query('.esriCTInfoImg', parentDiv)[0].parentElement, "title", this.appConfig.i18n.webMapList.infoBtnToolTip);
+                    domAttr.set(query('.esriCTInfoImg', parentDiv)[0].parentElement, "aria-label", this.appConfig.i18n.webMapList.infoBtnToolTip);
+                }
+                if (query('.esriCTInfoImgFallBack', parentDiv).length > 0) {
+                    domAttr.set(query('.esriCTInfoImgFallBack', parentDiv)[0], "innerHTML", this.appConfig.i18n.webMapList.infoBtnToolTip);
                 }
                 if ((this.filteredWebMapResponseArr[i][1].itemInfo.itemData.operationalLayers.length > 1) && (editCapabilityLayerCount > 1)) {
                     domAttr.set(parentDiv, "displayOperationalLayerList", true);
@@ -387,6 +393,26 @@ define([
             if (this.filteredWebMapResponseArr.length === 1 &&
                     this.filteredWebMapResponseArr[0][1].itemInfo.itemData.operationalLayers.length > 1) {
                 this._handleWebmapToggling(query(".esriCTDisplayWebMapTemplate")[0], null);
+            }
+
+            //Accessibility code
+            //In mobile mode the tab index was creatignan issue due to existing DOM structure
+            //TO resolve the issue, we added code and shifted the focus back to app title on
+            //focus out of last webmap element
+            if (dojowindow.getBox().w < 768) {
+                if (query(".esriCTInfoImg") && query(".esriCTInfoImg")[this.filteredWebMapResponseArr.length - 1]) {
+                    on(query(".esriCTInfoImg")[this.filteredWebMapResponseArr.length - 1].parentElement,
+                        "focusout", function () {
+                            query(".esriCTAppName")[0].focus();
+                        });
+                } else {
+                    if (query(".esriCTMultiLineEllipsisdiv") && query(".esriCTMultiLineEllipsisdiv")[this.filteredWebMapResponseArr.length - 1]) {
+                        on(query(".esriCTMultiLineEllipsisdiv")[this.filteredWebMapResponseArr.length - 1],
+                            "focusout", function () {
+                                query(".esriCTAppName")[0].focus();
+                            });
+                    }
+                }
             }
         },
 
@@ -536,10 +562,16 @@ define([
         */
         _handleWebMapClick: function (parentDiv, operationalLayerDetails) {
             this.appUtils.showLoadingIndicator();
-            on($(".esriCTMediaBody", parentDiv)[0], "click", lang.hitch(this, function (evt) {
+            on($(".esriCTMediaBody", parentDiv)[0], "click, keypress", lang.hitch(this, function (evt) {
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 this._handleWebmapToggling(parentDiv, operationalLayerDetails);
             }));
-            on($(".esriCTWebMapImg", parentDiv)[0], "click", lang.hitch(this, function (evt) {
+            on($(".esriCTWebMapImg", parentDiv)[0], "click, keypress", lang.hitch(this, function (evt) {
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 this._handleWebmapToggling(parentDiv, operationalLayerDetails);
             }));
         },
@@ -629,6 +661,7 @@ define([
                 });
                 childListNode = domConstruct.toDom(operationalLayerString);
                 domAttr.set(childListNode, "webMapID", webMap.itemInfo.item.id);
+                domAttr.set(childListNode, "tabindex", "0");
                 domAttr.set(childListNode, "operationalLayerID", webMap.itemInfo.itemData.operationalLayers[i].id);
                 this._handleOperationalLayerClick(childListNode, webMap.itemInfo.itemData.operationalLayers[i]);
                 parentListNode.appendChild(childListNode);
@@ -648,8 +681,11 @@ define([
         */
         _handleOperationalLayerClick: function (childListNode, operationalLayerDetails) {
             var operationalLayerId;
-            on(childListNode, "click", lang.hitch(this, function (evt) {
+            on(childListNode, "click, keypress", lang.hitch(this, function (evt) {
                 var webMapId, obj;
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 event.stop(evt);
                 this.appUtils.showLoadingIndicator();
                 webMapId = domAttr.get(evt.currentTarget, "webMapID");
@@ -700,10 +736,14 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         _attachInformationClick: function (information, parentDiv) {
-            var infoIcon, descriptionDiv, webMapId, layerList;
-            infoIcon = query('.esriCTInfoImg', parentDiv)[0];
+            var infoIcon, descriptionDiv, webMapId, layerList, appUtils;
+            appUtils = this.appUtils;
+            infoIcon = query('.esriCTInfoImg', parentDiv)[0].parentElement;
             if (lang.trim(information).length !== 0 && infoIcon) {
-                on(infoIcon, "click", function (evt) {
+                on(infoIcon, "click, keypress", function (evt) {
+                    if (!appUtils.validateEvent(evt)) {
+                        return;
+                    }
                     event.stop(evt);
                     descriptionDiv = query('.esriCTDescription', this.parentElement.parentElement)[0];
                     webMapId = domAttr.get(this.parentElement.parentElement, "webMapID");
@@ -722,6 +762,7 @@ define([
                         setTimeout(lang.hitch(this, function () {
                             domClass.replace(descriptionDiv, "esriCTDisplayList", "esriCTHidden");
                         }), 500);
+                        domAttr.set(infoIcon, "aria-expanded", "true");
                     } else {
                         $('.esriCTDescription', this.parentElement.parentElement).slideUp({
                             duration: 500,
@@ -730,6 +771,7 @@ define([
                         setTimeout(lang.hitch(this, function () {
                             domClass.replace(descriptionDiv, "esriCTHidden", "esriCTDisplayList");
                         }), 500);
+                        domAttr.set(infoIcon, "aria-expanded", "false");
                     }
                 });
             } else {
