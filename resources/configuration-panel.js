@@ -689,8 +689,8 @@
           "type": "string",
           "fieldName": "sortingField"
       }, {
-          "label": "Sorting order",
-          "tooltip": "Order in which issue's can be sorted ",
+          "label": "Reports sorting order",
+          "tooltip": "Order in which issues are sorted ",
           "type": "options",
           "fieldName": "sortingOrder",
           "options": [{
@@ -708,7 +708,7 @@
 			}, {
 				"label": "Comments sorting order",
 				"tooltip": "Order in which comments can be sorted ",
-				"type": "radio",
+				"type": "options",
 				"fieldName": "commentSortingOrder",
 				"items": [{
 					"label": "Ascending",
@@ -722,44 +722,32 @@
           "type": "subcategory",
           "label": "Reporting Period"
       }, {
-          "type": "radio",
-          "fieldName": "reportingPeriod",
-          "tooltip": "Reporting period status.",
-          "items": [{
-              "label": "Reporting Period Open",
-              "value": "Open",
-              "checked": true
-          }, {
-              "label": "Reporting Period Closed",
-              "value": "Closed"
-          }]
-      }, {
-          "label": "Reporting period closed window title",
-          "tooltip": "Title of window that displays when reporting period is closed.",
-          "type": "string",
-          "fieldName": "reportingPeriodDialogTitle"
-      }, {
-          "label": "Reporting period closed window content",
-          "tooltip": "Content of window that displays when reporting period is closed.",
-          "type": "string",
-          "fieldName": "reportingPeriodDialogContent",
-          "stringFieldOption": "richtext"
-      }, {
           "type": "date",
           "fieldName": "commentStartDate",
-          "label": "Start Date"
+          "label": "Reporting period start date"
       }, {
           "type":"time",
           "fieldName": "commentStartTime",
-          "label": "Start Time"
+          "label": "Reporting period start time"
     }, {
         "type": "date",
         "fieldName": "commentEndDate",
-        "label": "End Date"
+        "label": "Reporting period end date"
     }, {
         "type":"time",
         "fieldName": "commentEndTime",
-        "label": "End Time"
-  }]
+        "label": "Reporting period end time"
+    }, {
+        "label": "Reporting period closed window title",
+        "tooltip": "Title of window that displays when reporting period is closed.",
+        "type": "string",
+        "fieldName": "reportingPeriodDialogTitle"
+    }, {
+        "label": "Reporting period closed window content",
+        "tooltip": "Content of window that displays when reporting period is closed.",
+        "type": "string",
+        "fieldName": "reportingPeriodDialogContent",
+        "stringFieldOption": "richtext"
+    }]
   }]
 }
