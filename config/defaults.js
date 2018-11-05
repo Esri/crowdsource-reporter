@@ -129,7 +129,7 @@ define({
     "imageForeGroundColor": "white", // Foreground color of icons values (gray or white)
     //Configurable text for help dialog and help link
     "enableHelp":true,
-    "enableShare": true,
+    "enableShare": false,
     "helpLinkText": "Help",
     "helpDialogTitle":"Help",
     "helpDialogContent": "<p>Crowdsource Reporter is a configurable gallery application template that allows users to submit problems or observations. The application has been optimized for smartphones but is responsively designed to be used on smartphones, tablets, and desktop computers.</p><p>The Crowdsource Reporter application presents one or more maps that can be used to report a problem or observation. Users can anonymously submit new reports, review existing reports, and comment and vote on reports or observations submitted by other users. They also can authenticate with their social media or ArcGIS Online credentials and track the status of problems or observations they have reported.</p>",

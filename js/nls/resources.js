@@ -155,7 +155,7 @@ define({
             commentsFormEditButton: "Update Comment",
             commentsFormCancelButton: "Cancel",
             errorInSubmittingComment: "Comment could not be submitted.", // Shown when user is unable to add comments
-            commentSubmittedMessage: "Comments Submitted Successfully.", // Shown when user is unable to add comments
+            commentSubmittedMessage: "Thank you for your feedback.", // Shown when user is comment is successfully submitted
             emptyCommentMessage: "Please enter a comment.", // Shown when user submits a comment without any text/character
             placeHolderText: "Type a comment", // Shown as a placeholder in comments textbox
             noCommentsAvailableText: "No comments available", // Shown when no comments are available for the selected issue

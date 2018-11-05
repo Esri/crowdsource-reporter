@@ -54,7 +54,7 @@
         "imageForeGroundColor": "white",
         "showMapFirst": "list",
         "enableHelp": true,
-        "enableShare": true,
+        "enableShare": false,
         "showHelpOnLoad": false,
         "enableDifferentHelpContent": false,
         "helpLinkText": "Help",
