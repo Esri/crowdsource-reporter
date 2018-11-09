@@ -1,7 +1,0 @@
-git repository crowdsource-reporter, branch 
-persona-based-licensing-updates
-commit 00822cd3c573f31cac19d2d17d808bedc999ab2b
-Author: Mike Tschudi <mtschudi@esri.com>
-Date:   Wed Oct 31 09:41:57 2018 -0700
-
-    Added access check for app item
