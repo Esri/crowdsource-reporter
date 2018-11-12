@@ -158,6 +158,7 @@ define({
     "commentStartTime": "", // Comment start time
     "commentEndDate" : "", // Comment end date
     "commentEndTime": "", // Comment end time
+    "commentsSuccessMessage": "Comments Submitted Successfully.",
     "commentSortingOrder": "ASC", // To sort comment in ascending(ASC) or descending(DESC) order.
     "commentSortingField": "comments" // Field on which ascending or descending sorting needs to be applied
 });

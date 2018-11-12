@@ -150,6 +150,11 @@ define([
         startup: function () {
             this.inherited(arguments);
             this._addListeners();
+            //Check for configurable comments success message
+            if (this.appConfig.commentsSuccessMessage) {
+                domAttr.set(this.headerMessageContent, "innerHTML", this.appConfig.commentsSuccessMessage);
+
+            }
         },
 
         /**
@@ -207,13 +212,36 @@ define([
                 this.onCancel(self.item);
             }));
 
-            on(this.likeButton, "click", lang.hitch(this, function (evt) {
+            on(this.likeButton, "click, keypress", lang.hitch(this, function (evt) {
+                var commentSubmitStatus, canSubmit = true;
                 if (!this.appUtils.validateEvent(evt)) {
                     return;
                 }
-                if (this.appConfig.reportingPeriod === "Closed") {
-                    this.appUtils.reportingPeriodDialog.showDialog("reporting");
-                    return;
+                if (this.appConfig.hasOwnProperty("commentStartDate") &&
+                    this.appConfig.hasOwnProperty("commentEndDate")) {
+                    commentSubmitStatus = this.appUtils.isCommentDateInRange();
+                    if (commentSubmitStatus === false) {
+                        canSubmit = false;
+                        if (!this.appUtils.reportingPeriodDialog) {
+                            this.appUtils.createReportingPeriodDialog();
+                        }
+                        this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                        return;
+                    } else if (commentSubmitStatus === null) {
+                        if (this.appConfig.hasOwnProperty("reportingPeriod") &&
+                            this.appConfig.reportingPeriod === "Closed") {
+                            this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                            canSubmit = false;
+                            return;
+                        }
+                    }
+                } else {
+                    if (this.appConfig.hasOwnProperty("reportingPeriod") &&
+                        this.appConfig.reportingPeriod === "Closed") {
+                        this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                        canSubmit = false;
+                        return;
+                    }
                 }
                 if (!domClass.contains(this.likeButton, "esriCTDetailButtonSelected")) {
                     if (this.appConfig.logInDetails.canEditFeatures) {
@@ -235,22 +263,30 @@ define([
                 if (!domClass.contains(this.headerMessageType, "esriCTHidden")) {
                     domClass.add(this.headerMessageType, "esriCTHidden");
                 }
-                var commentSubmitStatus = this.appUtils.isCommentDateInRange(),
-                    canSubmit = true;
-                if (commentSubmitStatus === null) {
-                    if (this.appConfig.hasOwnProperty("reportingPeriod") &&
-                        this.appConfig.reportingPeriod === "Closed") {
-                        this.appUtils.reportingPeriodDialog.showDialog("reporting");
-                        canSubmit = false;
-                        return;
-                    }
-                } else {
-                    if (!commentSubmitStatus) {
+                var commentSubmitStatus, canSubmit = true;
+                if (this.appConfig.hasOwnProperty("commentStartDate") &&
+                    this.appConfig.hasOwnProperty("commentEndDate")) {
+                    commentSubmitStatus = this.appUtils.isCommentDateInRange();
+                    if (commentSubmitStatus === false) {
                         canSubmit = false;
                         if (!this.appUtils.reportingPeriodDialog) {
                             this.appUtils.createReportingPeriodDialog();
                         }
                         this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                        return;
+                    } else if (commentSubmitStatus === null) {
+                        if (this.appConfig.hasOwnProperty("reportingPeriod") &&
+                            this.appConfig.reportingPeriod === "Closed") {
+                            this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                            canSubmit = false;
+                            return;
+                        }
+                    }
+                } else {
+                    if (this.appConfig.hasOwnProperty("reportingPeriod") &&
+                        this.appConfig.reportingPeriod === "Closed") {
+                        this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                        canSubmit = false;
                         return;
                     }
                 }
@@ -619,24 +655,53 @@ define([
                     "class": "esriCTFallBackText"
                 }, editBtn);
                 on(editBtn, "click, keypress", lang.hitch(this, function (evt) {
-                    if (this.appConfig.logInDetails.canEditFeatures) {
-                        if (!this.appUtils.validateEvent(evt)) {
+                    var commentSubmitStatus, canSubmit = true;
+                    if (!this.appUtils.validateEvent(evt)) {
+                        return;
+                    }
+                    if (this.appConfig.hasOwnProperty("commentStartDate") &&
+                        this.appConfig.hasOwnProperty("commentEndDate")) {
+                        commentSubmitStatus = this.appUtils.isCommentDateInRange();
+                        if (commentSubmitStatus === false) {
+                            canSubmit = false;
+                            if (!this.appUtils.reportingPeriodDialog) {
+                                this.appUtils.createReportingPeriodDialog();
+                            }
+                            this.appUtils.reportingPeriodDialog.showDialog("reporting");
                             return;
-                        }
-                        if (isGeoform) {
-                            domClass.add(parentDiv, "esriCTHidden");
-                            domClass.remove(this.popupDetailsDiv, "esriCTHidden");
-                            domClass.add(this.actionButtonsContainer, "esriCTHidden");
-                            this._createGeoformForEdits(this.popupDetailsDiv);
-
-                        } else {
-                            this.appUtils.showLoadingIndicator();
-                            existingAttachmentsObjectsArr = this._getExistingAttachments(evt);
-                            this._showEditCommentForm(graphic, existingAttachmentsObjectsArr);
-                            this.appUtils.hideLoadingIndicator();
+                        } else if (commentSubmitStatus === null) {
+                            if (this.appConfig.hasOwnProperty("reportingPeriod") &&
+                                this.appConfig.reportingPeriod === "Closed") {
+                                this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                                canSubmit = false;
+                                return;
+                            }
                         }
                     } else {
-                        this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
+                        if (this.appConfig.hasOwnProperty("reportingPeriod") &&
+                            this.appConfig.reportingPeriod === "Closed") {
+                            this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                            canSubmit = false;
+                            return;
+                        }
+                    }
+                    if (canSubmit) {
+                        if (this.appConfig.logInDetails.canEditFeatures) {
+                            if (isGeoform) {
+                                domClass.add(parentDiv, "esriCTHidden");
+                                domClass.remove(this.popupDetailsDiv, "esriCTHidden");
+                                domClass.add(this.actionButtonsContainer, "esriCTHidden");
+                                this._createGeoformForEdits(this.popupDetailsDiv);
+
+                            } else {
+                                this.appUtils.showLoadingIndicator();
+                                existingAttachmentsObjectsArr = this._getExistingAttachments(evt);
+                                this._showEditCommentForm(graphic, existingAttachmentsObjectsArr);
+                                this.appUtils.hideLoadingIndicator();
+                            }
+                        } else {
+                            this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
+                        }
                     }
                 }));
             }
@@ -912,7 +977,10 @@ define([
         */
         _isValidCommentSortingFieldType: function () {
             var validFieldTypesForComment, isValid;
-            validFieldTypesForComment = ["esriFieldTypeString", "esriFieldTypeDate", "esriFieldTypeSmallFloat", "esriFieldTypeSmallInteger", "esriFieldTypeInteger", "esriFieldTypeSingle", "esriFieldTypeDouble"];
+            validFieldTypesForComment = ["esriFieldTypeOID", "esriFieldTypeString",
+                "esriFieldTypeDate", "esriFieldTypeSmallFloat",
+                "esriFieldTypeSmallInteger", "esriFieldTypeInteger",
+                "esriFieldTypeSingle", "esriFieldTypeDouble"];
             isValid = false;
             arrayUtil.forEach(this._commentTable.fields,
                 lang.hitch(this, function (obj) {
