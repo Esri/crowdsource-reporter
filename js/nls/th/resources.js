@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "ไม่สามารถสร้างแผนที่ได้",
+    "licenseError": {
+      "message": "ก้_Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license__________________________________________________________________________________________________________ษฺ.",
+      "title": "ก้_Not Licensed_____________ษฺ"
+    },
     "zoomInTooltip": "ขยายภาพ",
     "zoomOutTooltip": "ย่อภาพ",
     "geolocationTooltip": "ตำแหน่งปัจจุบัน"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "ไม่สามารถเพิ่มฟีเจอร์นอกพื้นที่ศึกษาของคุณ",
     "noEditingPermissionsMessage": "คุณไม่ได้รับอนุญาตให้ดำเนินการนี้",
     "basemapGalleryText": "แกลเลอรี่แผนที่ฐาน",
-    "legendText": "คำอธิบายสัญลักษณ์"
+    "basemapThumbnailAltText": "ก้_Click to load ${basemapTitle} ${index} of ${totalBasemaps}______________________________ษฺ",
+    "legendText": "คำอธิบายสัญลักษณ์",
+    "featureNotFoundMessage": "ก้_Requested feature not found____________________________ษฺ",
+    "backButton": "ก้_back_________ษฺ",
+    "panelCloseButton": "ก้_Close___________ษฺ"
   },
   "signin": {
     "guestSigninText": "ดำเนินการในฐานะผู้เยี่ยมชม",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "มุมมองแผนที่"
   },
   "appHeader": {
+    "help": "ก้_Help_________ษฺ",
     "myReport": "การส่งของฉัน",
     "signIn": "ลงชื่อเข้าใช้",
     "signOut": "ลงชื่อออก",
     "signInTooltip": "ลงชื่อเข้าใช้",
     "signOutTooltip": "ออกจากระบบ",
-    "myReportTooltip": "ดูการส่งของฉัน"
+    "myReportTooltip": "ดูการส่งของฉัน",
+    "share": "ก้_Share___________ษฺ",
+    "shareDialogTitle": "ก้_Share Dialog_____________ษฺ",
+    "shareDialogAppURLLabel": "ก้_Application URL________________ษฺ",
+    "mobileHamburger": "ก้_Hamburger___________________ษฺ"
   },
   "geoform": {
     "enterInformation": "รายละเอียด",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "แตะแผนที่เพื่อวาดสถานที่",
     "locationSelectionHintForPolygonLayer": "แตะแผนที่เพื่อวาดสถานที่ แตะสองครั้งที่จะเสร็จสิ้นการวาดภาพ",
     "locationSelectionHintForPointLayerDesktop": "คลิกที่แผนที่เพื่อวาดสถานที่",
-    "locationSelectionHintForPolygonLayerDesktop": "คลิกที่แผนที่เพื่อวาดสถานที่ ดับเบิลคลิกเพื่อเสร็จสิ้นการวาดภาพ"
+    "locationSelectionHintForPolygonLayerDesktop": "คลิกที่แผนที่เพื่อวาดสถานที่ ดับเบิลคลิกเพื่อเสร็จสิ้นการวาดภาพ",
+    "locationDialogTitle": "ก้_Select location for report___________________________ษฺ",
+    "locationDialogContent": "ก้_Are you sure you want to use image location________________________ษฺ ?",
+    "errorMessageText": "ก้_${message} for field ${fieldName}__________________ษฺ",
+    "deleteAttachmentBtnText": "ก้_Delete attachment__________________ษฺ"
   },
   "locator": {
     "addressText": "ที่อยู่:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "อัพเดตความคิดเห็น",
     "commentsFormCancelButton": "ยกเลิก",
     "errorInSubmittingComment": "ความคิดเห็นนี้ไม่สามารถส่งได้",
+    "commentSubmittedMessage": "ก้_Thank you for your feedback_____________________________ษฺ.",
     "emptyCommentMessage": "โปรดกรอกความเห็น",
     "placeHolderText": "ประเภทของความเห็น",
     "noCommentsAvailableText": "ไม่มีความคิดเห็น",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "แกลเลอรี",
     "noAttachmentsAvailableText": "ไม่พบไฟล์แนบ"
+  },
+  "dialog": {
+    "okButton": "ก้_Ok_____ษฺ",
+    "cancelButton": "ก้_Cancel_____________ษฺ",
+    "yesButton": "ก้_Yes_______ษฺ",
+    "noButton": "ก้_No_____ษฺ"
   }
 });

@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "يتعذر إنشاء الخريطة",
+    "licenseError": {
+      "message": "بيت_Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license__________________________________________________________________________________________________________لاحقة.",
+      "title": "بيت_Not Licensed_____________لاحقة"
+    },
     "zoomInTooltip": "التكبير",
     "zoomOutTooltip": "التصغير.",
     "geolocationTooltip": "الموقع الحالي"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "يتعذر إضافة المعلم خارج منطقة الدراسة",
     "noEditingPermissionsMessage": "لا يتوفر لديك إذن تنفيذ هذا الحدث.",
     "basemapGalleryText": "معرض خرائط الأساس",
-    "legendText": "وسيلة الإيضاح"
+    "basemapThumbnailAltText": "بيت_Click to load ${basemapTitle} ${index} of ${totalBasemaps}______________________________لاحقة",
+    "legendText": "وسيلة الإيضاح",
+    "featureNotFoundMessage": "بيت_Requested feature not found____________________________لاحقة",
+    "backButton": "بيت_back_________لاحقة",
+    "panelCloseButton": "بيت_Close___________لاحقة"
   },
   "signin": {
     "guestSigninText": "تابع بصفتك ضيف",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "عرض الخريطة"
   },
   "appHeader": {
+    "help": "بيت_Help_________لاحقة",
     "myReport": "عمليات الإرسال",
     "signIn": "تسجيل الدخول",
     "signOut": "تسجيل الخروج",
     "signInTooltip": "تسجيل الدخول",
     "signOutTooltip": "تسجيل الخروج",
-    "myReportTooltip": "عرض عمليات الإرسال"
+    "myReportTooltip": "عرض عمليات الإرسال",
+    "share": "بيت_Share___________لاحقة",
+    "shareDialogTitle": "بيت_Share Dialog_____________لاحقة",
+    "shareDialogAppURLLabel": "بيت_Application URL________________لاحقة",
+    "mobileHamburger": "بيت_Hamburger___________________لاحقة"
   },
   "geoform": {
     "enterInformation": "التفاصيل",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "انقر على الخريطة لرسم الموقع.",
     "locationSelectionHintForPolygonLayer": "اضغط على الخريطة لرسم الموقع. اضغط مرتين لإكمال الرسم.",
     "locationSelectionHintForPointLayerDesktop": "انقر على الخريطة لرسم الموقع.",
-    "locationSelectionHintForPolygonLayerDesktop": "انقر على الخريطة لرسم الموقع. انقر مرتين لإكمال الرسم."
+    "locationSelectionHintForPolygonLayerDesktop": "انقر على الخريطة لرسم الموقع. انقر مرتين لإكمال الرسم.",
+    "locationDialogTitle": "بيت_Select location for report___________________________لاحقة",
+    "locationDialogContent": "بيت_Are you sure you want to use image location________________________لاحقة ?",
+    "errorMessageText": "بيت_${message} for field ${fieldName}__________________لاحقة",
+    "deleteAttachmentBtnText": "بيت_Delete attachment__________________لاحقة"
   },
   "locator": {
     "addressText": "العنوان:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "تحديث التعليق",
     "commentsFormCancelButton": "إلغاء الأمر",
     "errorInSubmittingComment": "يتعذر إرسال التعليق.",
+    "commentSubmittedMessage": "بيت_Thank you for your feedback_____________________________لاحقة.",
     "emptyCommentMessage": "الرجاء إدخال تعليق.",
     "placeHolderText": "اكتب تعليق",
     "noCommentsAvailableText": "لا توجد تعليقات متاحة",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "معرض الصور",
     "noAttachmentsAvailableText": "لا توجد مرفقات."
+  },
+  "dialog": {
+    "okButton": "بيت_Ok_____لاحقة",
+    "cancelButton": "بيت_Cancel_____________لاحقة",
+    "yesButton": "بيت_Yes_______لاحقة",
+    "noButton": "بيت_No_____لاحقة"
   }
 });

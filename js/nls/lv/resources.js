@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "Nevar izveidot karti",
+    "licenseError": {
+      "message": "ķ_Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license__________________________________________________________________________________________________________ū.",
+      "title": "ķ_Not Licensed_____________ū"
+    },
     "zoomInTooltip": "Pietuvināt",
     "zoomOutTooltip": "Attālināt",
     "geolocationTooltip": "Pašreizējais izvietojums"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "Līdzekli nevar pievienot ārpus izpētes apgabala",
     "noEditingPermissionsMessage": "Jums nav atļaujas izpildīt šo darbību.",
     "basemapGalleryText": "Pamatkaršu galerija",
-    "legendText": "Apzīmējumi"
+    "basemapThumbnailAltText": "ķ_Click to load ${basemapTitle} ${index} of ${totalBasemaps}______________________________ū",
+    "legendText": "Apzīmējumi",
+    "featureNotFoundMessage": "ķ_Requested feature not found____________________________ū",
+    "backButton": "ķ_back_________ū",
+    "panelCloseButton": "ķ_Close___________ū"
   },
   "signin": {
     "guestSigninText": "Turpināt kā viesim",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "Kartes skats"
   },
   "appHeader": {
+    "help": "ķ_Help_________ū",
     "myReport": "Mana iesniegtā informācija",
     "signIn": "Pierakstīties",
     "signOut": "Izrakstīties",
     "signInTooltip": "Pierakstīties",
     "signOutTooltip": "Izrakstīties",
-    "myReportTooltip": "Skatīt manis iesniegto informāciju"
+    "myReportTooltip": "Skatīt manis iesniegto informāciju",
+    "share": "ķ_Share___________ū",
+    "shareDialogTitle": "ķ_Share Dialog_____________ū",
+    "shareDialogAppURLLabel": "ķ_Application URL________________ū",
+    "mobileHamburger": "ķ_Hamburger___________________ū"
   },
   "geoform": {
     "enterInformation": "Detaļas",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "Pieskarieties kartei, lai zīmētu novietojumu.",
     "locationSelectionHintForPolygonLayer": "Pieskarieties kartei, lai zīmētu novietojumu. Pieskarieties divreiz, lai pabeigtu zīmējumu.",
     "locationSelectionHintForPointLayerDesktop": "Noklikšķiniet uz kartes, lai zīmētu novietojumu.",
-    "locationSelectionHintForPolygonLayerDesktop": "Noklikšķiniet uz kartes, lai zīmētu novietojumu. Veiciet dubultklikšķi, lai pabeigtu zīmējumu."
+    "locationSelectionHintForPolygonLayerDesktop": "Noklikšķiniet uz kartes, lai zīmētu novietojumu. Veiciet dubultklikšķi, lai pabeigtu zīmējumu.",
+    "locationDialogTitle": "ķ_Select location for report___________________________ū",
+    "locationDialogContent": "ķ_Are you sure you want to use image location________________________ū ?",
+    "errorMessageText": "ķ_${message} for field ${fieldName}__________________ū",
+    "deleteAttachmentBtnText": "ķ_Delete attachment__________________ū"
   },
   "locator": {
     "addressText": "Adrese:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "Atjaunināt komentāru",
     "commentsFormCancelButton": "Atcelt",
     "errorInSubmittingComment": "Komentāru nevarēja iesniegt.",
+    "commentSubmittedMessage": "ķ_Thank you for your feedback_____________________________ū.",
     "emptyCommentMessage": "Lūdzu ievadiet komentāru.",
     "placeHolderText": "Ierakstiet komentāru",
     "noCommentsAvailableText": "Nav pieejamu komentāru",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "Galerija",
     "noAttachmentsAvailableText": "Nav atrasta piesaiste"
+  },
+  "dialog": {
+    "okButton": "ķ_Ok_____ū",
+    "cancelButton": "ķ_Cancel_____________ū",
+    "yesButton": "ķ_Yes_______ū",
+    "noButton": "ķ_No_____ū"
   }
 });

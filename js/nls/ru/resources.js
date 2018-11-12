@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "Не удалось создать карту",
+    "licenseError": {
+      "message": "Ж_Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license__________________________________________________________________________________________________________Я.",
+      "title": "Ж_Not Licensed_____________Я"
+    },
     "zoomInTooltip": "Приблизить",
     "zoomOutTooltip": "Отдалить",
     "geolocationTooltip": "Текущее местоположение"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "Невозможно добавить объекты за пределами изучаемой области.",
     "noEditingPermissionsMessage": "У вас нет прав доступа для выполнения этого действия.",
     "basemapGalleryText": "Галерея базовых карт",
-    "legendText": "Легенда"
+    "basemapThumbnailAltText": "Ж_Click to load ${basemapTitle} ${index} of ${totalBasemaps}______________________________Я",
+    "legendText": "Легенда",
+    "featureNotFoundMessage": "Ж_Requested feature not found____________________________Я",
+    "backButton": "Ж_back_________Я",
+    "panelCloseButton": "Ж_Close___________Я"
   },
   "signin": {
     "guestSigninText": "Продолжить как гость",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "Вид карты"
   },
   "appHeader": {
+    "help": "Ж_Help_________Я",
     "myReport": "Мои отправки",
     "signIn": "Вход",
     "signOut": "Выход",
     "signInTooltip": "Вход",
     "signOutTooltip": "Выход",
-    "myReportTooltip": "Просмотреть мои отправки"
+    "myReportTooltip": "Просмотреть мои отправки",
+    "share": "Ж_Share___________Я",
+    "shareDialogTitle": "Ж_Share Dialog_____________Я",
+    "shareDialogAppURLLabel": "Ж_Application URL________________Я",
+    "mobileHamburger": "Ж_Hamburger___________________Я"
   },
   "geoform": {
     "enterInformation": "Подробности",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "Коснитесь карты, чтобы нарисовать местоположение.",
     "locationSelectionHintForPolygonLayer": "Коснитесь карты, чтобы нарисовать местоположение. Коснитесь дважды, чтобы завершить рисунок.",
     "locationSelectionHintForPointLayerDesktop": "Щелкните карту, чтобы нарисовать местоположение.",
-    "locationSelectionHintForPolygonLayerDesktop": "Щелкните карту, чтобы нарисовать местоположение. Щелкните дважды, чтобы завершить рисунок."
+    "locationSelectionHintForPolygonLayerDesktop": "Щелкните карту, чтобы нарисовать местоположение. Щелкните дважды, чтобы завершить рисунок.",
+    "locationDialogTitle": "Ж_Select location for report___________________________Я",
+    "locationDialogContent": "Ж_Are you sure you want to use image location________________________Я ?",
+    "errorMessageText": "Ж_${message} for field ${fieldName}__________________Я",
+    "deleteAttachmentBtnText": "Ж_Delete attachment__________________Я"
   },
   "locator": {
     "addressText": "Адрес:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "Обновить комментарий",
     "commentsFormCancelButton": "Отмена",
     "errorInSubmittingComment": "Комментарий не может быть добавлен.",
+    "commentSubmittedMessage": "Ж_Thank you for your feedback_____________________________Я.",
     "emptyCommentMessage": "Введите комментарий.",
     "placeHolderText": "Введите комментарий",
     "noCommentsAvailableText": "Нет доступных комментариев",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "Галерея",
     "noAttachmentsAvailableText": "Вложения не найдены"
+  },
+  "dialog": {
+    "okButton": "Ж_Ok_____Я",
+    "cancelButton": "Ж_Cancel_____________Я",
+    "yesButton": "Ж_Yes_______Я",
+    "noButton": "Ж_No_____Я"
   }
 });

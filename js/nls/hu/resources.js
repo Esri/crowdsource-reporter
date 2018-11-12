@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "Nem sikerült létrehozni a térképet",
+    "licenseError": {
+      "message": "í_Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license__________________________________________________________________________________________________________ő.",
+      "title": "í_Not Licensed_____________ő"
+    },
     "zoomInTooltip": "Nagyítás",
     "zoomOutTooltip": "Kicsinyítés",
     "geolocationTooltip": "Aktuális hely"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "A vektoros elem nem adható hozzá a vizsgált területen kívül",
     "noEditingPermissionsMessage": "Nincs engedélye a művelet végrehajtására.",
     "basemapGalleryText": "Alaptérkép-galéria",
-    "legendText": "Jelmagyarázat"
+    "basemapThumbnailAltText": "í_Click to load ${basemapTitle} ${index} of ${totalBasemaps}______________________________ő",
+    "legendText": "Jelmagyarázat",
+    "featureNotFoundMessage": "í_Requested feature not found____________________________ő",
+    "backButton": "í_back_________ő",
+    "panelCloseButton": "í_Close___________ő"
   },
   "signin": {
     "guestSigninText": "Folytatás vendégként",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "Térképnézet"
   },
   "appHeader": {
+    "help": "í_Help_________ő",
     "myReport": "Saját beküldések",
     "signIn": "Bejelentkezés",
     "signOut": "Kijelentkezés",
     "signInTooltip": "Bejelentkezés",
     "signOutTooltip": "Kijelentkezés",
-    "myReportTooltip": "Saját beküldések megtekintése"
+    "myReportTooltip": "Saját beküldések megtekintése",
+    "share": "í_Share___________ő",
+    "shareDialogTitle": "í_Share Dialog_____________ő",
+    "shareDialogAppURLLabel": "í_Application URL________________ő",
+    "mobileHamburger": "í_Hamburger___________________ő"
   },
   "geoform": {
     "enterInformation": "Részletek",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "Koppintson a térképre a hely megrajzolásához.",
     "locationSelectionHintForPolygonLayer": "Koppintson a térképre a hely megrajzolásához. Koppintson duplán a rajzolás befejezéséhez.",
     "locationSelectionHintForPointLayerDesktop": "Kattintson a térképre a hely megrajzolásához.",
-    "locationSelectionHintForPolygonLayerDesktop": "Kattintson a térképre a hely megrajzolásához. Kattintson duplán a rajzolás befejezéséhez."
+    "locationSelectionHintForPolygonLayerDesktop": "Kattintson a térképre a hely megrajzolásához. Kattintson duplán a rajzolás befejezéséhez.",
+    "locationDialogTitle": "í_Select location for report___________________________ő",
+    "locationDialogContent": "í_Are you sure you want to use image location________________________ő ?",
+    "errorMessageText": "í_${message} for field ${fieldName}__________________ő",
+    "deleteAttachmentBtnText": "í_Delete attachment__________________ő"
   },
   "locator": {
     "addressText": "Cím:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "Hozzászólás frissítése",
     "commentsFormCancelButton": "Mégse",
     "errorInSubmittingComment": "Nem sikerült elküldeni a hozzászólást.",
+    "commentSubmittedMessage": "í_Thank you for your feedback_____________________________ő.",
     "emptyCommentMessage": "Adja meg a hozzászólást.",
     "placeHolderText": "Írja be a hozzászólást",
     "noCommentsAvailableText": "Nincsenek elérhető hozzászólások",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "Galéria",
     "noAttachmentsAvailableText": "Nem található csatolmány"
+  },
+  "dialog": {
+    "okButton": "í_Ok_____ő",
+    "cancelButton": "í_Cancel_____________ő",
+    "yesButton": "í_Yes_______ő",
+    "noButton": "í_No_____ő"
   }
 });

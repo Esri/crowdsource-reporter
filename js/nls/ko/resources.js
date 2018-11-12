@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "맵을 생성할 수 없음",
+    "licenseError": {
+      "message": "한_Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license__________________________________________________________________________________________________________빠.",
+      "title": "한_Not Licensed_____________빠"
+    },
     "zoomInTooltip": "확대",
     "zoomOutTooltip": "축소",
     "geolocationTooltip": "현재 위치"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "피처를 처리 범위 외부로 추가할 수 없음",
     "noEditingPermissionsMessage": "이 작업을 수행할 권한이 없습니다.",
     "basemapGalleryText": "베이스맵 갤러리",
-    "legendText": "범례"
+    "basemapThumbnailAltText": "한_Click to load ${basemapTitle} ${index} of ${totalBasemaps}______________________________빠",
+    "legendText": "범례",
+    "featureNotFoundMessage": "한_Requested feature not found____________________________빠",
+    "backButton": "한_back_________빠",
+    "panelCloseButton": "한_Close___________빠"
   },
   "signin": {
     "guestSigninText": "게스트로 진행",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "맵 보기"
   },
   "appHeader": {
+    "help": "한_Help_________빠",
     "myReport": "내 제출",
     "signIn": "로그인",
     "signOut": "로그아웃",
     "signInTooltip": "로그인",
     "signOutTooltip": "로그아웃",
-    "myReportTooltip": "내 제출 보기"
+    "myReportTooltip": "내 제출 보기",
+    "share": "한_Share___________빠",
+    "shareDialogTitle": "한_Share Dialog_____________빠",
+    "shareDialogAppURLLabel": "한_Application URL________________빠",
+    "mobileHamburger": "한_Hamburger___________________빠"
   },
   "geoform": {
     "enterInformation": "세부정보",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "맵을 눌러 위치를 그립니다.",
     "locationSelectionHintForPolygonLayer": "맵을 눌러 위치를 그립니다. 그리기를 완료하려면 두 번 누르세요.",
     "locationSelectionHintForPointLayerDesktop": "맵을 클릭하여 위치를 그립니다.",
-    "locationSelectionHintForPolygonLayerDesktop": "맵을 클릭하여 위치를 그립니다. 그리기를 완료하려면 더블 클릭하세요."
+    "locationSelectionHintForPolygonLayerDesktop": "맵을 클릭하여 위치를 그립니다. 그리기를 완료하려면 더블 클릭하세요.",
+    "locationDialogTitle": "한_Select location for report___________________________빠",
+    "locationDialogContent": "한_Are you sure you want to use image location________________________빠 ?",
+    "errorMessageText": "한_${message} for field ${fieldName}__________________빠",
+    "deleteAttachmentBtnText": "한_Delete attachment__________________빠"
   },
   "locator": {
     "addressText": "주소:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "의견 업데이트",
     "commentsFormCancelButton": "취소",
     "errorInSubmittingComment": "의견을 제출할 수 없습니다.",
+    "commentSubmittedMessage": "한_Thank you for your feedback_____________________________빠.",
     "emptyCommentMessage": "의견을 입력하세요.",
     "placeHolderText": "의견 입력",
     "noCommentsAvailableText": "의견을 사용할 수 없음",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "갤러리",
     "noAttachmentsAvailableText": "첨부 파일을 찾을 수 없음"
+  },
+  "dialog": {
+    "okButton": "한_Ok_____빠",
+    "cancelButton": "한_Cancel_____________빠",
+    "yesButton": "한_Yes_______빠",
+    "noButton": "한_No_____빠"
   }
 });

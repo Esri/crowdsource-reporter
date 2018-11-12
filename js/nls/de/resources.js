@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "Karte kann nicht erstellt werden",
+    "licenseError": {
+      "message": "ä_Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license__________________________________________________________________________________________________________Ü.",
+      "title": "ä_Not Licensed_____________Ü"
+    },
     "zoomInTooltip": "Vergrößern",
     "zoomOutTooltip": "Verkleinern",
     "geolocationTooltip": "Aktueller Standort"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "Feature kann nicht außerhalb des Untersuchungsgebiets hinzugefügt werden.",
     "noEditingPermissionsMessage": "Sie sind nicht berechtigt, diese Aktion auszuführen.",
     "basemapGalleryText": "Grundkartengalerie",
-    "legendText": "Legende"
+    "basemapThumbnailAltText": "ä_Click to load ${basemapTitle} ${index} of ${totalBasemaps}______________________________Ü",
+    "legendText": "Legende",
+    "featureNotFoundMessage": "ä_Requested feature not found____________________________Ü",
+    "backButton": "ä_back_________Ü",
+    "panelCloseButton": "ä_Close___________Ü"
   },
   "signin": {
     "guestSigninText": "Vorgang als Gast fortsetzen",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "Kartenansicht"
   },
   "appHeader": {
+    "help": "ä_Help_________Ü",
     "myReport": "Meine Übermittlungen",
     "signIn": "Anmelden",
     "signOut": "Abmelden",
     "signInTooltip": "Anmelden",
     "signOutTooltip": "Abmelden",
-    "myReportTooltip": "Meine Übermittlungen anzeigen"
+    "myReportTooltip": "Meine Übermittlungen anzeigen",
+    "share": "ä_Share___________Ü",
+    "shareDialogTitle": "ä_Share Dialog_____________Ü",
+    "shareDialogAppURLLabel": "ä_Application URL________________Ü",
+    "mobileHamburger": "ä_Hamburger___________________Ü"
   },
   "geoform": {
     "enterInformation": "Details",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "Tippen Sie auf die Karte, um die Position zu zeichnen.",
     "locationSelectionHintForPolygonLayer": "Tippen Sie auf die Karte, um die Position zu zeichnen. Doppeltippen Sie, um die Zeichnung abzuschließen.",
     "locationSelectionHintForPointLayerDesktop": "Klicken Sie auf die Karte, um die Position zu zeichnen.",
-    "locationSelectionHintForPolygonLayerDesktop": "Klicken Sie auf die Karte, um die Position zu zeichnen. Doppelklicken Sie, um die Zeichnung abzuschließen."
+    "locationSelectionHintForPolygonLayerDesktop": "Klicken Sie auf die Karte, um die Position zu zeichnen. Doppelklicken Sie, um die Zeichnung abzuschließen.",
+    "locationDialogTitle": "ä_Select location for report___________________________Ü",
+    "locationDialogContent": "ä_Are you sure you want to use image location________________________Ü ?",
+    "errorMessageText": "ä_${message} for field ${fieldName}__________________Ü",
+    "deleteAttachmentBtnText": "ä_Delete attachment__________________Ü"
   },
   "locator": {
     "addressText": "Adresse:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "Kommentar aktualisieren",
     "commentsFormCancelButton": "Abbrechen",
     "errorInSubmittingComment": "Kommentar konnte nicht gesendet werden.",
+    "commentSubmittedMessage": "ä_Thank you for your feedback_____________________________Ü.",
     "emptyCommentMessage": "Geben Sie einen Kommentar ein.",
     "placeHolderText": "Kommentar eingeben",
     "noCommentsAvailableText": "Keine Kommentare verfügbar",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "Galerie",
     "noAttachmentsAvailableText": "Keine Anlagen gefunden"
+  },
+  "dialog": {
+    "okButton": "ä_Ok_____Ü",
+    "cancelButton": "ä_Cancel_____________Ü",
+    "yesButton": "ä_Yes_______Ü",
+    "noButton": "ä_No_____Ü"
   }
 });

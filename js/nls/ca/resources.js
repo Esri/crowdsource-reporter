@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "No es pot crear el mapa",
+    "licenseError": {
+      "message": "ó_Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license__________________________________________________________________________________________________________à.",
+      "title": "ó_Not Licensed_____________à"
+    },
     "zoomInTooltip": "Amplia",
     "zoomOutTooltip": "Redueix",
     "geolocationTooltip": "Ubicació actual"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "L'entitat no es pot afegir fora de l'àrea d'estudi",
     "noEditingPermissionsMessage": "No teniu permís per fer aquesta acció.",
     "basemapGalleryText": "Galeria de mapes base",
-    "legendText": "Llegenda"
+    "basemapThumbnailAltText": "ó_Click to load ${basemapTitle} ${index} of ${totalBasemaps}______________________________à",
+    "legendText": "Llegenda",
+    "featureNotFoundMessage": "ó_Requested feature not found____________________________à",
+    "backButton": "ó_back_________à",
+    "panelCloseButton": "ó_Close___________à"
   },
   "signin": {
     "guestSigninText": "Continua com a convidat",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "Visualització del mapa"
   },
   "appHeader": {
+    "help": "ó_Help_________à",
     "myReport": "Els meus enviaments",
     "signIn": "Inicia la sessió",
     "signOut": "Tanca la sessió",
     "signInTooltip": "Inicia la sessió",
     "signOutTooltip": "Tanca la sessió",
-    "myReportTooltip": "Visualitza els meus enviaments"
+    "myReportTooltip": "Visualitza els meus enviaments",
+    "share": "ó_Share___________à",
+    "shareDialogTitle": "ó_Share Dialog_____________à",
+    "shareDialogAppURLLabel": "ó_Application URL________________à",
+    "mobileHamburger": "ó_Hamburger___________________à"
   },
   "geoform": {
     "enterInformation": "Detalls",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "Toqueu el mapa per dibuixar la ubicació.",
     "locationSelectionHintForPolygonLayer": "Toqueu el mapa per dibuixar la ubicació. Toqueu dues vegades per completar el dibuix.",
     "locationSelectionHintForPointLayerDesktop": "Feu clic al mapa per dibuixar la ubicació.",
-    "locationSelectionHintForPolygonLayerDesktop": "Feu clic al mapa per dibuixar la ubicació. Feu doble clic per completar el dibuix."
+    "locationSelectionHintForPolygonLayerDesktop": "Feu clic al mapa per dibuixar la ubicació. Feu doble clic per completar el dibuix.",
+    "locationDialogTitle": "ó_Select location for report___________________________à",
+    "locationDialogContent": "ó_Are you sure you want to use image location________________________à ?",
+    "errorMessageText": "ó_${message} for field ${fieldName}__________________à",
+    "deleteAttachmentBtnText": "ó_Delete attachment__________________à"
   },
   "locator": {
     "addressText": "Adreça:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "Actualitza el comentari",
     "commentsFormCancelButton": "Cancel·la",
     "errorInSubmittingComment": "El comentari no s'ha pogut enviar.",
+    "commentSubmittedMessage": "ó_Thank you for your feedback_____________________________à.",
     "emptyCommentMessage": "Introduïu un comentari.",
     "placeHolderText": "Escriviu un comentari",
     "noCommentsAvailableText": "No hi ha cap comentari disponible",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "Galeria",
     "noAttachmentsAvailableText": "No s'ha trobat cap fitxer adjunt"
+  },
+  "dialog": {
+    "okButton": "ó_Ok_____à",
+    "cancelButton": "ó_Cancel_____________à",
+    "yesButton": "ó_Yes_______à",
+    "noButton": "ó_No_____à"
   }
 });

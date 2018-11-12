@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "לא ניתן ליצור מפה",
+    "licenseError": {
+      "message": "כן_Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license__________________________________________________________________________________________________________ש.",
+      "title": "כן_Not Licensed_____________ש"
+    },
     "zoomInTooltip": "התמקד פנימה",
     "zoomOutTooltip": "התמקד החוצה",
     "geolocationTooltip": "מיקום נוכחי"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "‏אין אפשרות להוסיף ישות מחוץ לאזור המחקר",
     "noEditingPermissionsMessage": "אין לך הרשאה לבצע את הפעולה הזו.",
     "basemapGalleryText": "גלרית מפות בסיס",
-    "legendText": "מקרא"
+    "basemapThumbnailAltText": "כן_Click to load ${basemapTitle} ${index} of ${totalBasemaps}______________________________ש",
+    "legendText": "מקרא",
+    "featureNotFoundMessage": "כן_Requested feature not found____________________________ש",
+    "backButton": "כן_back_________ש",
+    "panelCloseButton": "כן_Close___________ש"
   },
   "signin": {
     "guestSigninText": "המשך כאורח",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "מבט מפה"
   },
   "appHeader": {
+    "help": "כן_Help_________ש",
     "myReport": "התוספות שלי",
     "signIn": "התחבר",
     "signOut": "התנתק",
     "signInTooltip": "התחבר",
     "signOutTooltip": "יציאה",
-    "myReportTooltip": "הצג את התוספות שלי"
+    "myReportTooltip": "הצג את התוספות שלי",
+    "share": "כן_Share___________ש",
+    "shareDialogTitle": "כן_Share Dialog_____________ש",
+    "shareDialogAppURLLabel": "כן_Application URL________________ש",
+    "mobileHamburger": "כן_Hamburger___________________ש"
   },
   "geoform": {
     "enterInformation": "פרטים",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "הקש על המפה כדי לצייר את המיקום.",
     "locationSelectionHintForPolygonLayer": "הקש על המפה כדי לצייר את המיקום. הקש פעמיים כדי להשלים את הציור.",
     "locationSelectionHintForPointLayerDesktop": "לחץ על המפה כדי לצייר את המיקום.",
-    "locationSelectionHintForPolygonLayerDesktop": "לחץ על המפה כדי לצייר את המיקום. לחץ פעמיים כדי להשלים את הציור."
+    "locationSelectionHintForPolygonLayerDesktop": "לחץ על המפה כדי לצייר את המיקום. לחץ פעמיים כדי להשלים את הציור.",
+    "locationDialogTitle": "כן_Select location for report___________________________ש",
+    "locationDialogContent": "כן_Are you sure you want to use image location________________________ש ?",
+    "errorMessageText": "כן_${message} for field ${fieldName}__________________ש",
+    "deleteAttachmentBtnText": "כן_Delete attachment__________________ש"
   },
   "locator": {
     "addressText": "כתובת:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "הערת עדכון",
     "commentsFormCancelButton": "בטל",
     "errorInSubmittingComment": "לא ניתן לשלוח תגובה.",
+    "commentSubmittedMessage": "כן_Thank you for your feedback_____________________________ש.",
     "emptyCommentMessage": "שלח תגובה.",
     "placeHolderText": "הקלד תגובה",
     "noCommentsAvailableText": "אין תגובות זמינות",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "גלריה",
     "noAttachmentsAvailableText": "לא נמצאו קבצים מקושרים"
+  },
+  "dialog": {
+    "okButton": "כן_Ok_____ש",
+    "cancelButton": "כן_Cancel_____________ש",
+    "yesButton": "כן_Yes_______ש",
+    "noButton": "כן_No_____ש"
   }
 });

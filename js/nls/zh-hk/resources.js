@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "無法建立地圖",
+    "licenseError": {
+      "message": "試_Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license__________________________________________________________________________________________________________驗.",
+      "title": "試_Not Licensed_____________驗"
+    },
     "zoomInTooltip": "放大",
     "zoomOutTooltip": "縮小",
     "geolocationTooltip": "目前位置"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "無法在研究區域外部新增圖徵",
     "noEditingPermissionsMessage": "您沒有執行此動作的權限。",
     "basemapGalleryText": "底圖庫",
-    "legendText": "圖例"
+    "basemapThumbnailAltText": "試_Click to load ${basemapTitle} ${index} of ${totalBasemaps}______________________________驗",
+    "legendText": "圖例",
+    "featureNotFoundMessage": "試_Requested feature not found____________________________驗",
+    "backButton": "試_back_________驗",
+    "panelCloseButton": "試_Close___________驗"
   },
   "signin": {
     "guestSigninText": "以訪客身份繼續進行",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "地圖視圖"
   },
   "appHeader": {
+    "help": "試_Help_________驗",
     "myReport": "我的提交",
     "signIn": "登入",
     "signOut": "登出",
     "signInTooltip": "登入",
     "signOutTooltip": "登出",
-    "myReportTooltip": "檢視我的提交"
+    "myReportTooltip": "檢視我的提交",
+    "share": "試_Share___________驗",
+    "shareDialogTitle": "試_Share Dialog_____________驗",
+    "shareDialogAppURLLabel": "試_Application URL________________驗",
+    "mobileHamburger": "試_Hamburger___________________驗"
   },
   "geoform": {
     "enterInformation": "詳細資訊",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "點選地圖以繪製位置。",
     "locationSelectionHintForPolygonLayer": "點選地圖以繪製位置。點選兩次以完成繪製。",
     "locationSelectionHintForPointLayerDesktop": "按一下地圖以繪製位置。",
-    "locationSelectionHintForPolygonLayerDesktop": "按一下地圖以繪製位置。按兩下以完成繪製。"
+    "locationSelectionHintForPolygonLayerDesktop": "按一下地圖以繪製位置。按兩下以完成繪製。",
+    "locationDialogTitle": "試_Select location for report___________________________驗",
+    "locationDialogContent": "試_Are you sure you want to use image location________________________驗 ?",
+    "errorMessageText": "試_${message} for field ${fieldName}__________________驗",
+    "deleteAttachmentBtnText": "試_Delete attachment__________________驗"
   },
   "locator": {
     "addressText": "地址(E):",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "更新評論",
     "commentsFormCancelButton": "取消",
     "errorInSubmittingComment": "無法提交評論。",
+    "commentSubmittedMessage": "試_Thank you for your feedback_____________________________驗.",
     "emptyCommentMessage": "請輸入一條評論。",
     "placeHolderText": "輸入一條評論",
     "noCommentsAvailableText": "沒有任何評論可用",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "圖庫",
     "noAttachmentsAvailableText": "未找到任何附件"
+  },
+  "dialog": {
+    "okButton": "試_Ok_____驗",
+    "cancelButton": "試_Cancel_____________驗",
+    "yesButton": "試_Yes_______驗",
+    "noButton": "試_No_____驗"
   }
 });

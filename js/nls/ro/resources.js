@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "Imposibil de creat harta",
+    "licenseError": {
+      "message": "Ă_Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license__________________________________________________________________________________________________________ș.",
+      "title": "Ă_Not Licensed_____________ș"
+    },
     "zoomInTooltip": "Mărire",
     "zoomOutTooltip": "Micşorare",
     "geolocationTooltip": "Locaţie curentă"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "Obiectul spaţial nu poate fi adăugat în afara zonei de studiu",
     "noEditingPermissionsMessage": "Nu aveţi permisiunea pentru a efectua această acţiune.",
     "basemapGalleryText": "Galerie de hărţi fundal",
-    "legendText": "Legendă"
+    "basemapThumbnailAltText": "Ă_Click to load ${basemapTitle} ${index} of ${totalBasemaps}______________________________ș",
+    "legendText": "Legendă",
+    "featureNotFoundMessage": "Ă_Requested feature not found____________________________ș",
+    "backButton": "Ă_back_________ș",
+    "panelCloseButton": "Ă_Close___________ș"
   },
   "signin": {
     "guestSigninText": "Continuare ca oaspete",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "Vizualizare hartă"
   },
   "appHeader": {
+    "help": "Ă_Help_________ș",
     "myReport": "Contribuţiile mele",
     "signIn": "Autentificare",
     "signOut": "Deconectare",
     "signInTooltip": "Autentificaţi-vă",
     "signOutTooltip": "Deconectare",
-    "myReportTooltip": "Vizualizarea contribuţiilor mele"
+    "myReportTooltip": "Vizualizarea contribuţiilor mele",
+    "share": "Ă_Share___________ș",
+    "shareDialogTitle": "Ă_Share Dialog_____________ș",
+    "shareDialogAppURLLabel": "Ă_Application URL________________ș",
+    "mobileHamburger": "Ă_Hamburger___________________ș"
   },
   "geoform": {
     "enterInformation": "Detalii",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "Atingeţi harta pentru a trasa locaţia.",
     "locationSelectionHintForPolygonLayer": "Atingeţi harta pentru a trasa locaţia. Atingeţi de două ori pentru încheia trasarea.",
     "locationSelectionHintForPointLayerDesktop": "Faceţi clic pe hartă pentru a trasa locaţia.",
-    "locationSelectionHintForPolygonLayerDesktop": "Faceţi clic pe hartă pentru a trasa locaţia. Faceţi clic de două ori pentru încheia trasarea."
+    "locationSelectionHintForPolygonLayerDesktop": "Faceţi clic pe hartă pentru a trasa locaţia. Faceţi clic de două ori pentru încheia trasarea.",
+    "locationDialogTitle": "Ă_Select location for report___________________________ș",
+    "locationDialogContent": "Ă_Are you sure you want to use image location________________________ș ?",
+    "errorMessageText": "Ă_${message} for field ${fieldName}__________________ș",
+    "deleteAttachmentBtnText": "Ă_Delete attachment__________________ș"
   },
   "locator": {
     "addressText": "Adresă:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "Actualizare comentariu",
     "commentsFormCancelButton": "Anulare",
     "errorInSubmittingComment": "Comentariul nu a putut fi transmis.",
+    "commentSubmittedMessage": "Ă_Thank you for your feedback_____________________________ș.",
     "emptyCommentMessage": "Introduceţi un comentariu.",
     "placeHolderText": "Introduceţi un comentariu",
     "noCommentsAvailableText": "Niciun comentariu disponibil",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "Galerie",
     "noAttachmentsAvailableText": "Nicio ataşare găsită"
+  },
+  "dialog": {
+    "okButton": "Ă_Ok_____ș",
+    "cancelButton": "Ă_Cancel_____________ș",
+    "yesButton": "Ă_Yes_______ș",
+    "noButton": "Ă_No_____ș"
   }
 });

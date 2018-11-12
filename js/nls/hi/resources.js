@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "मानचित्र बनाने में अक्षम",
+    "licenseError": {
+      "message": "आ_Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license__________________________________________________________________________________________________________ज.",
+      "title": "आ_Not Licensed_____________ज"
+    },
     "zoomInTooltip": "ज़ूम इन",
     "zoomOutTooltip": "जूम आउट",
     "geolocationTooltip": "वर्तमान स्थान"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "फीचर अध्ययन क्षेत्र के बाहर नहीं जोड़ा जा सकता है",
     "noEditingPermissionsMessage": "आप को इस कार्य को करने की अनुमति नहीं है।",
     "basemapGalleryText": "Basemap गैलरी",
-    "legendText": "लिजेंड"
+    "basemapThumbnailAltText": "आ_Click to load ${basemapTitle} ${index} of ${totalBasemaps}______________________________ज",
+    "legendText": "लिजेंड",
+    "featureNotFoundMessage": "आ_Requested feature not found____________________________ज",
+    "backButton": "आ_back_________ज",
+    "panelCloseButton": "आ_Close___________ज"
   },
   "signin": {
     "guestSigninText": "अतिथि के रूप में आगे बढ़ें",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "मानचित्र दृश्य"
   },
   "appHeader": {
+    "help": "आ_Help_________ज",
     "myReport": "मेरी प्रस्तुतियाँ",
     "signIn": "साइन इन करें",
     "signOut": "साइन आउट करें",
     "signInTooltip": "साइन इन करें",
     "signOutTooltip": "साइन आउट करें",
-    "myReportTooltip": "मेरी प्रस्तुतियाँ देखें"
+    "myReportTooltip": "मेरी प्रस्तुतियाँ देखें",
+    "share": "आ_Share___________ज",
+    "shareDialogTitle": "आ_Share Dialog_____________ज",
+    "shareDialogAppURLLabel": "आ_Application URL________________ज",
+    "mobileHamburger": "आ_Hamburger___________________ज"
   },
   "geoform": {
     "enterInformation": "विवरण",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "स्थान चित्रित करने के लिए नक्शे पर थपथपाएँ।",
     "locationSelectionHintForPolygonLayer": "स्थान चित्रित करने के लिए नक्शे पर थपथपाएँ। चित्रण को पूरा करने के लिए दो बार थपथपाएँ।",
     "locationSelectionHintForPointLayerDesktop": "स्थान चित्रित करने के लिए नक्शे पर क्लिक करें।",
-    "locationSelectionHintForPolygonLayerDesktop": "स्थान चित्रित करने के लिए नक्शे पर क्लिक करें। चित्रण को पूरा करने के लिए दो बार क्लिक करें।"
+    "locationSelectionHintForPolygonLayerDesktop": "स्थान चित्रित करने के लिए नक्शे पर क्लिक करें। चित्रण को पूरा करने के लिए दो बार क्लिक करें।",
+    "locationDialogTitle": "आ_Select location for report___________________________ज",
+    "locationDialogContent": "आ_Are you sure you want to use image location________________________ज ?",
+    "errorMessageText": "आ_${message} for field ${fieldName}__________________ज",
+    "deleteAttachmentBtnText": "आ_Delete attachment__________________ज"
   },
   "locator": {
     "addressText": "पता:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "टिप्पणी में अपडेट करें",
     "commentsFormCancelButton": "रद्द करें",
     "errorInSubmittingComment": "टिप्पणी प्रस्तुत नहीं की जा सकती।",
+    "commentSubmittedMessage": "आ_Thank you for your feedback_____________________________ज.",
     "emptyCommentMessage": "कृपया एक टिप्पणी दर्ज करें।",
     "placeHolderText": "एक टिप्पणी लिखें",
     "noCommentsAvailableText": "कोई टिप्पणी उपलब्ध नहीं है",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "गैलरी",
     "noAttachmentsAvailableText": "कोई अनुलग्नक नहीं मिला"
+  },
+  "dialog": {
+    "okButton": "आ_Ok_____ज",
+    "cancelButton": "आ_Cancel_____________ज",
+    "yesButton": "आ_Yes_______ज",
+    "noButton": "आ_No_____ज"
   }
 });

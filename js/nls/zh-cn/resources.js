@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "无法创建地图",
+    "licenseError": {
+      "message": "试_Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license__________________________________________________________________________________________________________验.",
+      "title": "试_Not Licensed_____________验"
+    },
     "zoomInTooltip": "放大",
     "zoomOutTooltip": "缩小",
     "geolocationTooltip": "当前位置"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "无法向研究区域外添加要素",
     "noEditingPermissionsMessage": "您无权执行此操作。",
     "basemapGalleryText": "底图库",
-    "legendText": "图例"
+    "basemapThumbnailAltText": "试_Click to load ${basemapTitle} ${index} of ${totalBasemaps}______________________________验",
+    "legendText": "图例",
+    "featureNotFoundMessage": "试_Requested feature not found____________________________验",
+    "backButton": "试_back_________验",
+    "panelCloseButton": "试_Close___________验"
   },
   "signin": {
     "guestSigninText": "以访客身份继续进行",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "地图视图"
   },
   "appHeader": {
+    "help": "试_Help_________验",
     "myReport": "我的提交内容",
     "signIn": "登录",
     "signOut": "登出",
     "signInTooltip": "登录",
     "signOutTooltip": "登出",
-    "myReportTooltip": "查看我的提交内容"
+    "myReportTooltip": "查看我的提交内容",
+    "share": "试_Share___________验",
+    "shareDialogTitle": "试_Share Dialog_____________验",
+    "shareDialogAppURLLabel": "试_Application URL________________验",
+    "mobileHamburger": "试_Hamburger___________________验"
   },
   "geoform": {
     "enterInformation": "详细信息",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "点击地图以绘制位置。",
     "locationSelectionHintForPolygonLayer": "点击地图以绘制位置。双击以完成绘制。",
     "locationSelectionHintForPointLayerDesktop": "单击地图以绘制位置。",
-    "locationSelectionHintForPolygonLayerDesktop": "单击地图以绘制位置。双击以完成绘制。"
+    "locationSelectionHintForPolygonLayerDesktop": "单击地图以绘制位置。双击以完成绘制。",
+    "locationDialogTitle": "试_Select location for report___________________________验",
+    "locationDialogContent": "试_Are you sure you want to use image location________________________验 ?",
+    "errorMessageText": "试_${message} for field ${fieldName}__________________验",
+    "deleteAttachmentBtnText": "试_Delete attachment__________________验"
   },
   "locator": {
     "addressText": "地址:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "更新评论",
     "commentsFormCancelButton": "取消",
     "errorInSubmittingComment": "无法提交评论。",
+    "commentSubmittedMessage": "试_Thank you for your feedback_____________________________验.",
     "emptyCommentMessage": "请输入一条评论。",
     "placeHolderText": "输入一条评论",
     "noCommentsAvailableText": "没有任何评论可用",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "图库",
     "noAttachmentsAvailableText": "未找到任何附件"
+  },
+  "dialog": {
+    "okButton": "试_Ok_____验",
+    "cancelButton": "试_Cancel_____________验",
+    "yesButton": "试_Yes_______验",
+    "noButton": "试_No_____验"
   }
 });

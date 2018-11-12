@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "Võimetu koostama kaarti",
+    "licenseError": {
+      "message": "Š_Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license__________________________________________________________________________________________________________ä.",
+      "title": "Š_Not Licensed_____________ä"
+    },
     "zoomInTooltip": "Suurenda",
     "zoomOutTooltip": "Vähenda",
     "geolocationTooltip": "Praegune asukoht"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "Objekti ei saa lisada uuringualast väljapoole",
     "noEditingPermissionsMessage": "Teil puudub õigus selle toimingu tegemiseks.",
     "basemapGalleryText": "Aluskaardi galerii",
-    "legendText": "Legend"
+    "basemapThumbnailAltText": "Š_Click to load ${basemapTitle} ${index} of ${totalBasemaps}______________________________ä",
+    "legendText": "Legend",
+    "featureNotFoundMessage": "Š_Requested feature not found____________________________ä",
+    "backButton": "Š_back_________ä",
+    "panelCloseButton": "Š_Close___________ä"
   },
   "signin": {
     "guestSigninText": "Jätkake külalisena",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "Kaardivaade"
   },
   "appHeader": {
+    "help": "Š_Help_________ä",
     "myReport": "Minu edastused",
     "signIn": "Logi sisse",
     "signOut": "Logi välja",
     "signInTooltip": "Logi sisse",
     "signOutTooltip": "Logi välja",
-    "myReportTooltip": "Kuva minu esitused"
+    "myReportTooltip": "Kuva minu esitused",
+    "share": "Š_Share___________ä",
+    "shareDialogTitle": "Š_Share Dialog_____________ä",
+    "shareDialogAppURLLabel": "Š_Application URL________________ä",
+    "mobileHamburger": "Š_Hamburger___________________ä"
   },
   "geoform": {
     "enterInformation": "Detailid",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "Asukoha joonistamiseks puudutage kaarti.",
     "locationSelectionHintForPolygonLayer": "Asukoha joonistamiseks klõpsake kaardil. Joonistuse lõpetamiseks tehke topeltklõps.",
     "locationSelectionHintForPointLayerDesktop": "Asukoha joonistamiseks klõpsake kaarti.",
-    "locationSelectionHintForPolygonLayerDesktop": "Asukoha joonistamiseks klõpsake kaarti. Joonistuse lõpuleviimiseks topeltklõpsake."
+    "locationSelectionHintForPolygonLayerDesktop": "Asukoha joonistamiseks klõpsake kaarti. Joonistuse lõpuleviimiseks topeltklõpsake.",
+    "locationDialogTitle": "Š_Select location for report___________________________ä",
+    "locationDialogContent": "Š_Are you sure you want to use image location________________________ä ?",
+    "errorMessageText": "Š_${message} for field ${fieldName}__________________ä",
+    "deleteAttachmentBtnText": "Š_Delete attachment__________________ä"
   },
   "locator": {
     "addressText": "Aadress:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "Uuenda kommentaari",
     "commentsFormCancelButton": "Tühista",
     "errorInSubmittingComment": "Kommentaari ei saanud esitada.",
+    "commentSubmittedMessage": "Š_Thank you for your feedback_____________________________ä.",
     "emptyCommentMessage": "Palun sisestage kommentaar.",
     "placeHolderText": "Sisestage kommentaar",
     "noCommentsAvailableText": "Ühtki kommentaari ei ole saadaval.",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "Galerii",
     "noAttachmentsAvailableText": "Manuseid ei leitud"
+  },
+  "dialog": {
+    "okButton": "Š_Ok_____ä",
+    "cancelButton": "Š_Cancel_____________ä",
+    "yesButton": "Š_Yes_______ä",
+    "noButton": "Š_No_____ä"
   }
 });

@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "Nije moguće stvoriti kartu",
+    "licenseError": {
+      "message": "Č_Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license__________________________________________________________________________________________________________ž.",
+      "title": "Č_Not Licensed_____________ž"
+    },
     "zoomInTooltip": "Povećaj",
     "zoomOutTooltip": "Smanji",
     "geolocationTooltip": "Trenutačna lokacija"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "Geoobjekt se ne može dodati izvan radnog područja",
     "noEditingPermissionsMessage": "Nemate dopuštenje za izvođenje ove radnje.",
     "basemapGalleryText": "Galerija kartografskih podloga",
-    "legendText": "Legenda"
+    "basemapThumbnailAltText": "Č_Click to load ${basemapTitle} ${index} of ${totalBasemaps}______________________________ž",
+    "legendText": "Legenda",
+    "featureNotFoundMessage": "Č_Requested feature not found____________________________ž",
+    "backButton": "Č_back_________ž",
+    "panelCloseButton": "Č_Close___________ž"
   },
   "signin": {
     "guestSigninText": "Nastavi kao gost",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "Prikaz karte"
   },
   "appHeader": {
+    "help": "Č_Help_________ž",
     "myReport": "Moji podnesci",
     "signIn": "Prijava",
     "signOut": "Odjava",
     "signInTooltip": "Prijava",
     "signOutTooltip": "Odjava",
-    "myReportTooltip": "Prikaži moje podneske"
+    "myReportTooltip": "Prikaži moje podneske",
+    "share": "Č_Share___________ž",
+    "shareDialogTitle": "Č_Share Dialog_____________ž",
+    "shareDialogAppURLLabel": "Č_Application URL________________ž",
+    "mobileHamburger": "Č_Hamburger___________________ž"
   },
   "geoform": {
     "enterInformation": "Pojedinosti",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "Dodirnite kartu za crtanje lokacije.",
     "locationSelectionHintForPolygonLayer": "Dodirnite kartu za crtanje lokacije. Dva puta dodirnite kartu za dovršavanje crteža.",
     "locationSelectionHintForPointLayerDesktop": "Kliknite na kartu za crtanje lokacije.",
-    "locationSelectionHintForPolygonLayerDesktop": "Kliknite kartu za crtanje lokacije. Dva puta kliknite na kartu za dovršavanje crteža."
+    "locationSelectionHintForPolygonLayerDesktop": "Kliknite kartu za crtanje lokacije. Dva puta kliknite na kartu za dovršavanje crteža.",
+    "locationDialogTitle": "Č_Select location for report___________________________ž",
+    "locationDialogContent": "Č_Are you sure you want to use image location________________________ž ?",
+    "errorMessageText": "Č_${message} for field ${fieldName}__________________ž",
+    "deleteAttachmentBtnText": "Č_Delete attachment__________________ž"
   },
   "locator": {
     "addressText": "Adresa:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "Ažuriraj komentar",
     "commentsFormCancelButton": "Odustani",
     "errorInSubmittingComment": "Nije moguće poslati komentar.",
+    "commentSubmittedMessage": "Č_Thank you for your feedback_____________________________ž.",
     "emptyCommentMessage": "Unesite komentar.",
     "placeHolderText": "Upišite komentar",
     "noCommentsAvailableText": "Nema dostupnih komentara",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "Galerija",
     "noAttachmentsAvailableText": "Nema privitaka"
+  },
+  "dialog": {
+    "okButton": "Č_Ok_____ž",
+    "cancelButton": "Č_Cancel_____________ž",
+    "yesButton": "Č_Yes_______ž",
+    "noButton": "Č_No_____ž"
   }
 });
