@@ -396,157 +396,157 @@ define([
             }
         },
 
-     /**
-     * This function is used to check certain conditions,
-     * whether to submit comment or validate its date range before submitting it.
-     */
-    isCommentDateInRange: function () {
-        // Property is not available - Submit comment
-        if (this.config.hasOwnProperty("commentStartDate") &&
-            this.config.hasOwnProperty("commentStartTime") &&
-            this.config.hasOwnProperty("commentEndDate") &&
-            this.config.hasOwnProperty("commentEndTime")) {
-            // All the properties are blank - Submit comment
-            if ((this.config.commentStartDate === null || this.config.commentStartDate === "") &&
-                (this.config.commentStartTime === null || this.config.commentStartTime === "") &&
-                (this.config.commentEndDate === null || this.config.commentEndDate === "") &&
-                (this.config.commentEndTime === null || this.config.commentEndTime === "")) {
-                return null; // follow open flag
-            } else {
-                var validStartDate, validEndDate, validStartTime, validEndTime;
-                // valid start date
-                if (this.config.commentStartDate !== null && this.config.commentStartDate !== "") {
-                    validStartDate = true;
-                }
-                // valid start time
-                if (this.config.commentStartTime !== null && this.config.commentStartTime !== "") {
-                    validStartTime = true;
-                }
-                // valid end date
-                if (this.config.commentEndDate !== null && this.config.commentEndDate !== "") {
-                    validEndDate = true;
-                }
-                // valid end time
-                if (this.config.commentEndTime !== null && this.config.commentEndTime !== "") {
-                    validEndTime = true;
-                }
-                if (validStartDate) {
-                    if (validStartTime) {
-                        if (validEndDate) {
-                            if (validEndTime) {
-                                return this._checkCommentDateRange(true, true, true, true); //10,11
-                            } else {
-                                return this._checkCommentDateRange(true, true, true, false); //23,32
-                            }
-                        } else {
-                            return this._checkCommentDateRange(true, true, false, false); //12,13,24,33
-                        }
-                    } else {
-                        if (validEndDate) {
-                            if (validEndTime) {
-                                return this._checkCommentDateRange(true, false, true, true); //19,28
-                            } else {
-                                return this._checkCommentDateRange(true, false, true, false); //16,25
-                            }
-                        } else {
-                            return this._checkCommentDateRange(true, false, false, false); //21,22,30,31
-                        }
-                    }
+        /**
+        * This function is used to check certain conditions,
+        * whether to submit comment or validate its date range before submitting it.
+        */
+        isCommentDateInRange: function () {
+            // Property is not available - Submit comment
+            if (this.config.hasOwnProperty("commentStartDate") &&
+                this.config.hasOwnProperty("commentStartTime") &&
+                this.config.hasOwnProperty("commentEndDate") &&
+                this.config.hasOwnProperty("commentEndTime")) {
+                // All the properties are blank - Submit comment
+                if ((this.config.commentStartDate === null || this.config.commentStartDate === "") &&
+                    (this.config.commentStartTime === null || this.config.commentStartTime === "") &&
+                    (this.config.commentEndDate === null || this.config.commentEndDate === "") &&
+                    (this.config.commentEndTime === null || this.config.commentEndTime === "")) {
+                    return null; // follow open flag
                 } else {
-                    if (validStartTime) {
-                        if (validEndDate) {
-                            if (validEndTime) {
-                                return this._checkCommentDateRange(false, false, true, true); //20,29
+                    var validStartDate, validEndDate, validStartTime, validEndTime;
+                    // valid start date
+                    if (this.config.commentStartDate !== null && this.config.commentStartDate !== "") {
+                        validStartDate = true;
+                    }
+                    // valid start time
+                    if (this.config.commentStartTime !== null && this.config.commentStartTime !== "") {
+                        validStartTime = true;
+                    }
+                    // valid end date
+                    if (this.config.commentEndDate !== null && this.config.commentEndDate !== "") {
+                        validEndDate = true;
+                    }
+                    // valid end time
+                    if (this.config.commentEndTime !== null && this.config.commentEndTime !== "") {
+                        validEndTime = true;
+                    }
+                    if (validStartDate) {
+                        if (validStartTime) {
+                            if (validEndDate) {
+                                if (validEndTime) {
+                                    return this._checkCommentDateRange(true, true, true, true); //10,11
+                                } else {
+                                    return this._checkCommentDateRange(true, true, true, false); //23,32
+                                }
                             } else {
-                                return this._checkCommentDateRange(false, false, true, false); //17, 26
+                                return this._checkCommentDateRange(true, true, false, false); //12,13,24,33
                             }
                         } else {
-                            return null; //2,3,6,7 follow open flag
+                            if (validEndDate) {
+                                if (validEndTime) {
+                                    return this._checkCommentDateRange(true, false, true, true); //19,28
+                                } else {
+                                    return this._checkCommentDateRange(true, false, true, false); //16,25
+                                }
+                            } else {
+                                return this._checkCommentDateRange(true, false, false, false); //21,22,30,31
+                            }
                         }
                     } else {
-                        if (validEndDate) {
-                            if (validEndTime) {
-                                return this._checkCommentDateRange(false, false, true, true); //14, 15
+                        if (validStartTime) {
+                            if (validEndDate) {
+                                if (validEndTime) {
+                                    return this._checkCommentDateRange(false, false, true, true); //20,29
+                                } else {
+                                    return this._checkCommentDateRange(false, false, true, false); //17, 26
+                                }
                             } else {
-                                return this._checkCommentDateRange(false, false, true, false); //18, 27
+                                return null; //2,3,6,7 follow open flag
                             }
                         } else {
-                            return null; //4,5,8,9 follow open flag
+                            if (validEndDate) {
+                                if (validEndTime) {
+                                    return this._checkCommentDateRange(false, false, true, true); //14, 15
+                                } else {
+                                    return this._checkCommentDateRange(false, false, true, false); //18, 27
+                                }
+                            } else {
+                                return null; //4,5,8,9 follow open flag
+                            }
                         }
                     }
                 }
+            } else {
+                return null; // follow open flag
             }
-        } else {
-            return null; // follow open flag
-        }
-    },
+        },
 
-    /**
-     * This function is used to check whether current date while submitting comments,
-     * lie between configured start datetime & end datetime.
-     * Comments would only get submitted if it lies within the range.
-     */
-    _checkCommentDateRange: function (validStartDate, validStartTime, validEndDate, validEndTime) {
-        var configuredStartDateObj, configuredStartTimeObj, configuredEndDateObj, configuredEndTimeObj,
-            configuredStartDateLocal, configuredStartTimeLocal, configuredEndDateLocal, configuredEndTimeLocal,
-            combinedConfiguredStartDateAndTime, combinedConfiguredEndDateAndTime, currentDate;
-        if (validStartDate) {
-            configuredStartDateObj = new Date(this.config.commentStartDate);
-            configuredStartDateLocal = configuredStartDateObj.toLocaleDateString();
-        }
-        if (validEndDate) {
-            configuredEndDateObj = new Date(this.config.commentEndDate);
-            configuredEndDateLocal = configuredEndDateObj.toLocaleDateString();
-        }
-        if (validStartTime) {
-            configuredStartTimeObj = new Date(this.config.commentStartTime);
-            configuredStartTimeLocal = configuredStartTimeObj.toLocaleTimeString();
-        }
-        if (validEndTime) {
-            configuredEndTimeObj = new Date(this.config.commentEndTime);
-            configuredEndTimeLocal = configuredEndTimeObj.toLocaleTimeString();
-        }
-        if (validStartDate) {
+        /**
+         * This function is used to check whether current date while submitting comments,
+         * lie between configured start datetime & end datetime.
+         * Comments would only get submitted if it lies within the range.
+         */
+        _checkCommentDateRange: function (validStartDate, validStartTime, validEndDate, validEndTime) {
+            var configuredStartDateObj, configuredStartTimeObj, configuredEndDateObj, configuredEndTimeObj,
+                configuredStartDateLocal, configuredStartTimeLocal, configuredEndDateLocal, configuredEndTimeLocal,
+                combinedConfiguredStartDateAndTime, combinedConfiguredEndDateAndTime, currentDate;
+            if (validStartDate) {
+                configuredStartDateObj = new Date(this.config.commentStartDate);
+                configuredStartDateLocal = configuredStartDateObj.toLocaleDateString();
+            }
+            if (validEndDate) {
+                configuredEndDateObj = new Date(this.config.commentEndDate);
+                configuredEndDateLocal = configuredEndDateObj.toLocaleDateString();
+            }
             if (validStartTime) {
-                combinedConfiguredStartDateAndTime = new Date(configuredStartDateLocal + " " + configuredStartTimeLocal);
-            } else {
-                combinedConfiguredStartDateAndTime = new Date(configuredStartDateLocal);
+                configuredStartTimeObj = new Date(this.config.commentStartTime);
+                configuredStartTimeLocal = configuredStartTimeObj.toLocaleTimeString();
             }
-        }
-        if (validEndDate) {
             if (validEndTime) {
-                combinedConfiguredEndDateAndTime = new Date(configuredEndDateLocal + " " + configuredEndTimeLocal);
-            } else {
-                combinedConfiguredEndDateAndTime = new Date(configuredEndDateLocal);
+                configuredEndTimeObj = new Date(this.config.commentEndTime);
+                configuredEndTimeLocal = configuredEndTimeObj.toLocaleTimeString();
+            }
+            if (validStartDate) {
+                if (validStartTime) {
+                    combinedConfiguredStartDateAndTime = new Date(configuredStartDateLocal + " " + configuredStartTimeLocal);
+                } else {
+                    combinedConfiguredStartDateAndTime = new Date(configuredStartDateLocal);
+                }
+            }
+            if (validEndDate) {
+                if (validEndTime) {
+                    combinedConfiguredEndDateAndTime = new Date(configuredEndDateLocal + " " + configuredEndTimeLocal);
+                } else {
+                    combinedConfiguredEndDateAndTime = new Date(configuredEndDateLocal);
+                }
+            }
+            currentDate = new Date();
+            //If check time range flag is false. Remove time from current date
+            if ((!validStartTime) || (!validEndTime)) {
+                currentDate.setHours(0);
+                currentDate.setMinutes(0);
+                currentDate.setSeconds(0);
+                currentDate.setMilliseconds(0);
+            }
+            if (validStartDate && validEndDate) {
+                if (currentDate >= combinedConfiguredStartDateAndTime && currentDate <= combinedConfiguredEndDateAndTime) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if (validStartDate && (!validEndDate)) {
+                if (currentDate >= combinedConfiguredStartDateAndTime) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if ((!validStartDate) && validEndDate) {
+                if (currentDate <= combinedConfiguredEndDateAndTime) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         }
-        currentDate = new Date();
-        //If check time range flag is false. Remove time from current date
-        if ((!validStartTime) || (!validEndTime)) {
-            currentDate.setHours(0);
-            currentDate.setMinutes(0);
-            currentDate.setSeconds(0);
-            currentDate.setMilliseconds(0);
-        }
-        if (validStartDate && validEndDate) {
-            if (currentDate >= combinedConfiguredStartDateAndTime && currentDate <= combinedConfiguredEndDateAndTime) {
-                return true;
-            } else {
-                return false;
-            }
-        } else if (validStartDate && (!validEndDate)) {
-            if (currentDate >= combinedConfiguredStartDateAndTime) {
-                return true;
-            } else {
-                return false;
-            }
-        } else if ((!validStartDate) && validEndDate) {
-            if (currentDate <= combinedConfiguredEndDateAndTime) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
     });
 });
