@@ -397,9 +397,9 @@ define([
         },
 
         /**
-         * This function is used to check certain conditions,
-         * whether to submit comment or validate its date range before submitting it.
-         */
+        * This function is used to check certain conditions,
+        * whether to submit comment or validate its date range before submitting it.
+        */
         isCommentDateInRange: function () {
             // Property is not available - Submit comment
             if (this.config.hasOwnProperty("commentStartDate") &&

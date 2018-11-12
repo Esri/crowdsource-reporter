@@ -36,6 +36,7 @@
         "likeField": "NUMVOTES",
         "commentField": "COMMENTS",
         "usePopupConfigurationForComment": false,
+        "commentsSuccessMessage":"Comments Submitted Successfully.",
         "enableFeatureEdit": false,
         "enableFeatureDelete": false,
         "reportedByField": "USERID",
@@ -78,7 +79,6 @@
         "location": "Bottom",
         "sortingField" : "",
         "sortingOrder": "DESC",
-        "reportingPeriod": "Open",
         "reportingPeriodDialogTitle": "Reporting Period Closed",
         "reportingPeriodDialogContent": "We are no longer accepting new reports for this project.",
         "commentStartDate": "",
@@ -683,6 +683,12 @@
               "type": "string",
               "fieldName": "commentField"
           }]
+      }, {
+        "label": "Message displayed after a comment is submitted successfully",
+        "tooltip": "Message displayed at the top of comment section after a comment is submitted successfully",
+        "type": "string",
+        "fieldName": "commentsSuccessMessage",
+        "stringFieldOption": "richtext"
       }, {
           "label": "Reports sorting field",
           "tooltip": "Sort issues based on configured field",

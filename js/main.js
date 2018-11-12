@@ -543,6 +543,10 @@ define([
                     setTimeout(lang.hitch(this, function () {
                         query(".esriCTItemSummaryParentSelected", this.domNode)[0].focus();
                     }), 200);
+                    //Add hidden class to edit geoform if it was open
+                    if (!domClass.contains(this._itemDetails.popupDetailsDiv, "esriCTHidden")) {
+                        domClass.add(this._itemDetails.popupDetailsDiv, "esriCTHidden")
+                    }
                 });
 
                 this._itemDetails.onMapItButtonClicked = lang.hitch(this, function (item) {
@@ -633,23 +637,31 @@ define([
                 submitButtonColor = (this.config && this.config.submitReportButtonColor) ? this.config.submitReportButtonColor : "#35ac46";
                 domStyle.set(dom.byId("submitFromMap"), "background-color", submitButtonColor);
 
-                on(dom.byId("submitFromMap"), "click", lang.hitch(this, function (evt) {
-                    var commentSubmitStatus = this.appUtils.isCommentDateInRange(),
-                        canSubmit = true;
-                    if (commentSubmitStatus === null) {
-                        if (this.config.hasOwnProperty("reportingPeriod") &&
-                            this.config.reportingPeriod === "Closed") {
-                            this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                on(dom.byId("submitFromMap"), "click, keypress", lang.hitch(this, function (evt) {
+                    var commentSubmitStatus, canSubmit = true;
+                    if (this.appConfig.hasOwnProperty("commentStartDate") &&
+                        this.appConfig.hasOwnProperty("commentEndDate")) {
+                        commentSubmitStatus = this.appUtils.isCommentDateInRange();
+                        if (commentSubmitStatus === false) {
                             canSubmit = false;
-                            return;
-                        }
-                    } else {
-                        if (!commentSubmitStatus) {
                             if (!this.appUtils.reportingPeriodDialog) {
                                 this.appUtils.createReportingPeriodDialog();
                             }
-                            canSubmit = false;
                             this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                            return;
+                        } else if (commentSubmitStatus === null) {
+                            if (this.appConfig.hasOwnProperty("reportingPeriod") &&
+                                this.appConfig.reportingPeriod === "Closed") {
+                                this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                                canSubmit = false;
+                                return;
+                            }
+                        }
+                    } else {
+                        if (this.appConfig.hasOwnProperty("reportingPeriod") &&
+                            this.appConfig.reportingPeriod === "Closed") {
+                            this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                            canSubmit = false;
                             return;
                         }
                     }

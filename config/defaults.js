@@ -153,11 +153,11 @@ define({
     "reportingPeriodDialogTitle": "Reporting Period Closed",
     "reportingPeriodDialogContent": "We are no longer accepting new reports for this project.",
     "featureOutsideAOIMsg": "Feature cannot be added outside study area.",
-    "reportingPeriod": "Open",
     "commentStartDate": "", // Comment start date
     "commentStartTime": "", // Comment start time
     "commentEndDate" : "", // Comment end date
     "commentEndTime": "", // Comment end time
+    "commentsSuccessMessage": "Comments Submitted Successfully.",
     "commentSortingOrder": "ASC", // To sort comment in ascending(ASC) or descending(DESC) order.
     "commentSortingField": "comments" // Field on which ascending or descending sorting needs to be applied
 });

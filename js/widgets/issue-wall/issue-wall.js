@@ -114,25 +114,30 @@ define([
             })));
 
             this.own(on(this.submitReport, "click, keypress", lang.hitch(this, function (evt) {
-                if (!this.appUtils.validateEvent(evt)) {
-                    return;
-                }
-                var commentSubmitStatus = this.appUtils.isCommentDateInRange(),
-                    canSubmit = true;
-                if (commentSubmitStatus === null) {
-                    if (this.appConfig.hasOwnProperty("reportingPeriod") &&
-                        this.appConfig.reportingPeriod === "Closed") {
-                        this.appUtils.reportingPeriodDialog.showDialog("reporting");
-                        canSubmit = false;
-                        return;
-                    }
-                } else {
-                    if (!commentSubmitStatus) {
+                var commentSubmitStatus, canSubmit = true;
+                if (this.appConfig.hasOwnProperty("commentStartDate") &&
+                    this.appConfig.hasOwnProperty("commentEndDate")) {
+                    commentSubmitStatus = this.appUtils.isCommentDateInRange();
+                    if (commentSubmitStatus === false) {
                         canSubmit = false;
                         if (!this.appUtils.reportingPeriodDialog) {
                             this.appUtils.createReportingPeriodDialog();
                         }
                         this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                        return;
+                    } else if (commentSubmitStatus === null) {
+                        if (this.appConfig.hasOwnProperty("reportingPeriod") &&
+                            this.appConfig.reportingPeriod === "Closed") {
+                            this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                            canSubmit = false;
+                            return;
+                        }
+                    }
+                } else {
+                    if (this.appConfig.hasOwnProperty("reportingPeriod") &&
+                        this.appConfig.reportingPeriod === "Closed") {
+                        this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                        canSubmit = false;
                         return;
                     }
                 }
