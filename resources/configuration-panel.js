@@ -79,7 +79,6 @@
         "location": "Bottom",
         "sortingField" : "",
         "sortingOrder": "DESC",
-        "reportingPeriod": "Open",
         "reportingPeriodDialogTitle": "Reporting Period Closed",
         "reportingPeriodDialogContent": "We are no longer accepting new reports for this project.",
         "commentStartDate": "",
