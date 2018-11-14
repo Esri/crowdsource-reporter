@@ -86,10 +86,11 @@ define([
                     "dialog": "help",
                     "appUtils": this.appUtils
                 });
+
+                this.helpScreen.onDialogClosed = lang.hitch(this, function () {
+                    this.helpButton.focus();
+                });
             }
-            this.helpScreen.onDialogClosed = lang.hitch(this, function () {
-                this.helpButton.focus();
-            });
             if (this.appConfig.enableShare) {
                 this._createShareDialogContent();
             }
