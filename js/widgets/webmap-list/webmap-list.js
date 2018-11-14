@@ -807,7 +807,7 @@ define([
         _validatePopupFields: function (popupInfo, fields) {
             var i, j;
             // check if popup-info is available if not then return false
-            if (popupInfo) {
+            if (popupInfo && popupInfo.fieldInfos) {
                 for (i = 0; i < popupInfo.fieldInfos.length; i++) {
                     for (j = 0; j < fields.length; j++) {
                         if (popupInfo.fieldInfos[i].fieldName === fields[j].name) {
