@@ -398,7 +398,8 @@ define([
                     evt.graphic._layer.capabilities.indexOf("Update") === -1);
             }
             //Check if non-editable layers popup is turned on through webmap
-            if (isNonEditableLayer) {
+            if (isNonEditableLayer || !evt.graphic._layer.url) {
+                isNonEditableLayer = true;
                 array.some(this._selectedMapDetails.itemInfo.itemData.operationalLayers,
                     lang.hitch(this, function (layer) {
                         if (layer.id === evt.graphic._layer.id) {
@@ -424,6 +425,7 @@ define([
                 } else {
                     //clear previous selection graphics
                     selectedGraphicsLayer.clear();
+                    this.mapInstance = this._selectedMapDetails.map;
                     //Highlight feature of feature collection layer
                     highlightSymbol = this.getHighLightSymbol(evt.graphic, evt.graphic._layer);
                     //add symbol to graphics layer if highlight symbol is created
@@ -433,6 +435,11 @@ define([
                 }
                 //zoom to selected feature
                 this._gotoSelectedFeature(evt.graphic);
+                if (!layerTitle && evt.graphic._layer &&
+                    evt.graphic._layer.arcgisProps && evt.graphic._layer.arcgisProps.title) {
+                    layerTitle = evt.graphic._layer.arcgisProps.title;
+
+                }
                 domAttr.set(query(".esriCTTitle", this.domNode)[0], "innerHTML", layerTitle || "");
                 domClass.remove(dom.byId("detailsPanelContainer"), "esriCTHidden");
                 setTimeout(lang.hitch(this, function () {
