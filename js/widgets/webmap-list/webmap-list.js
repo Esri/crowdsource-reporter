@@ -435,6 +435,10 @@ define([
                             if (this.map._layers[layer].type === "Feature Layer") {
                                 if (this.map._layers[layer].id !== obj.operationalLayerId) {
                                     this.map._layers[layer].hide();
+                                    if (this.appConfig.showNonEditableLayers &&
+                                        !this.map._layers[layer].url) {
+                                        this.map._layers[layer].show();
+                                    }
                                 } else {
                                     this.map._layers[layer].hide();
                                     this.map.getLayer(obj.operationalLayerId).refresh();

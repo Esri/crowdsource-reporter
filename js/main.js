@@ -398,7 +398,8 @@ define([
                     evt.graphic._layer.capabilities.indexOf("Update") === -1);
             }
             //Check if non-editable layers popup is turned on through webmap
-            if (isNonEditableLayer) {
+            if (isNonEditableLayer || !evt.graphic._layer.url) {
+                isNonEditableLayer = true;
                 array.some(this._selectedMapDetails.itemInfo.itemData.operationalLayers,
                     lang.hitch(this, function (layer) {
                         if (layer.id === evt.graphic._layer.id) {
@@ -424,6 +425,7 @@ define([
                 } else {
                     //clear previous selection graphics
                     selectedGraphicsLayer.clear();
+                    this.mapInstance = this._selectedMapDetails.map;
                     //Highlight feature of feature collection layer
                     highlightSymbol = this.getHighLightSymbol(evt.graphic, evt.graphic._layer);
                     //add symbol to graphics layer if highlight symbol is created
@@ -433,6 +435,11 @@ define([
                 }
                 //zoom to selected feature
                 this._gotoSelectedFeature(evt.graphic);
+                if (!layerTitle && evt.graphic._layer &&
+                    evt.graphic._layer.arcgisProps && evt.graphic._layer.arcgisProps.title) {
+                    layerTitle = evt.graphic._layer.arcgisProps.title;
+
+                }
                 domAttr.set(query(".esriCTTitle", this.domNode)[0], "innerHTML", layerTitle || "");
                 domClass.remove(dom.byId("detailsPanelContainer"), "esriCTHidden");
                 setTimeout(lang.hitch(this, function () {
@@ -3125,29 +3132,52 @@ define([
         * @memberOf main
         */
         _createLegend: function (parentNode) {
-            var layerInfo = [], isNonEditableLayer, capabilities, showLegend;
+            var legendLayers, isNonEditableLayer, capabilities, mapLayers,
+                i, j, processedArr = [], distinctLegendLayerIds = [];
+            mapLayers = this._selectedMapDetails.itemInfo.itemData.operationalLayers;
+            legendLayers = arcgisUtils.getLegendLayers(this._selectedMapDetails);
             //Loop through all the layers and filter them based on capabilities
-            array.forEach(this._selectedMapDetails.itemInfo.itemData.operationalLayers,
-                lang.hitch(this, function (layer) {
-                    isNonEditableLayer = false;
-                    showLegend = true;
-                    capabilities = layer.resourceInfo.capabilities;
-                    if (capabilities) {
-                        isNonEditableLayer = capabilities.indexOf("Create") === -1 && (capabilities.indexOf("Editing") === -1 ||
-                            capabilities.indexOf("Update") === -1);
+            for (i = legendLayers.length - 1; i >= 0; i--) {
+                distinctLegendLayerIds.push(legendLayers[i].layer.id);
+                for (j = 0; j < mapLayers.length; j++) {
+                    if (legendLayers[i].layer.id === mapLayers[j].id) {
+                        distinctLegendLayerIds.pop();
+                        if (mapLayers[j].resourceInfo && mapLayers[j].resourceInfo.capabilities) {
+                            capabilities = mapLayers[j].resourceInfo.capabilities;
+                            if (capabilities) {
+                                isNonEditableLayer = capabilities.indexOf("Create") === -1 && (capabilities.indexOf("Editing") === -1 ||
+                                    capabilities.indexOf("Update") === -1);
+                            }
+                        } else {
+                            isNonEditableLayer = true;
+                        }
+                        //If editable layer other than currently selected layer is found or
+                        //if non-ediatble layer and show non editable layer flag is false then
+                        //remove the layer
+                        if ((this.selectedLayer.id !== mapLayers[j].id && !isNonEditableLayer) ||
+                            (isNonEditableLayer && !this.config.showNonEditableLayers)) {
+                            legendLayers.splice(i, 1);
+                        }
+                        break;
                     }
-                    //Honor show/hide legend prperty from webmap
-                    if (layer.hasOwnProperty("showLegend")) {
-                        showLegend = layer.showLegend;
+                }
+            }
+            //The layers such as feature collection, shape file etc are created with different id's
+            //To consider them in the legend just check distinct layer id's length
+            //If it is greater than 0, do neccessary proccessing
+            if (!this.config.showNonEditableLayers && distinctLegendLayerIds.length > 0) {
+                for (i = legendLayers.length - 1; i >= 0; i--) {
+                    for (j = 0; j < distinctLegendLayerIds.length; j++) {
+                        if (legendLayers[i].layer.id === distinctLegendLayerIds[j]) {
+                            legendLayers.splice(i, 1);
+                            break;
+                        }
                     }
-                    //Filter layer based on different criteria
-                    if (showLegend && (layer.id === this.selectedLayer.id || (this.config.showNonEditableLayers && isNonEditableLayer))) {
-                        layerInfo.push({ layer: this.map._layers[layer.id], title: layer.title });
-                    }
-                }));
+                }
+            }
             this.legend = new Legend({
                 map: this.map,
-                layerInfos: layerInfo,
+                layerInfos: legendLayers,
                 respectVisibility: false
             }, domConstruct.create('div', {}, parentNode));
             this.legend.startup();
