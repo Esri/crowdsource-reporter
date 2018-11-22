@@ -104,7 +104,10 @@ define([
                 this.onListCancel(evt);
             })));
 
-            this.own(on(this.listMapItButton, "click", lang.hitch(this, function (evt) {
+            this.own(on(this.listMapItButton, "click, keypress", lang.hitch(this, function (evt) {
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 this.onMapButtonClick(evt);
             })));
 

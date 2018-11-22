@@ -617,8 +617,7 @@ define([
             var commentDiv;
             comment._layer = this._commentTable;
             commentDiv = domConstruct.create('div', {
-                'class': 'comment esriCTCommentsPopup',
-                'tabindex': "0"
+                'class': 'comment esriCTCommentsPopup'
             }, this.commentsList);
             new ContentPane({
                 'class': 'content small-text',

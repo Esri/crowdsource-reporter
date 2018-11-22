@@ -689,7 +689,10 @@ define([
                         }
                     }));
                 }
-                on(dom.byId("mapBackButton"), "click", lang.hitch(this, function (evt) {
+                on(dom.byId("mapBackButton"), "click, keypress", lang.hitch(this, function (evt) {
+                    if (!this.appUtils.validateEvent(evt)) {
+                        return;
+                    }
                     this._toggleListView();
                     //If webmap list is not required, skip the further processing of function
                     if (!this._isWebmapListRequired) {
@@ -703,7 +706,10 @@ define([
                         }
                     }
                 }));
-                on(dom.byId("toggleListViewButton"), "click", lang.hitch(this, function (evt) {
+                on(dom.byId("toggleListViewButton"), "click, keypress", lang.hitch(this, function (evt) {
+                    if (!this.appUtils.validateEvent(evt)) {
+                        return;
+                    }
                     //Change myissues widget flag to false and refresh the list
                     if (this._myIssuesWidget) {
                         this._myIssuesWidget.itemsList.clearSelection();
@@ -2876,7 +2882,7 @@ define([
             attribution = query(".esriAttribution", dom.byId("mapDiv"))[0];
             esriLogo = query(".logo-med", dom.byId("mapDiv"))[0];
             if (attribution) {
-                domAttr.set(esriLogo, "tabindex", "0");
+                domAttr.set(attribution, "tabindex", "-1");
                 on(attribution, "keypress, click", lang.hitch(this, function (evt) {
                     if (!this.appUtils.validateEvent(evt)) {
                         return;
@@ -2894,6 +2900,7 @@ define([
             }
             if (esriLogo) {
                 domAttr.set(esriLogo, "tabindex", "-1");
+                domAttr.set(esriLogo, "role", "link");
             }
 
         },
@@ -3019,8 +3026,7 @@ define([
             domConstruct.create("div", {
                 "class": "esriCTHeaderTitle",
                 "innerHTML": headerTitle,
-                "aria-label": headerTitle,
-                "tabindex": "0"
+                "aria-label": headerTitle
             }, titleContainer);
 
             //Close button
@@ -3057,9 +3063,6 @@ define([
                 "class": "esriCTOnScreenWidgetWrapper esriCTBodyTextColor esriCTBodyBackgroundColor",
                 "panelId": panel
             }, container);
-            if (panel !== "Basemap") {
-                domAttr.set(contentWrapper, "tabindex", "0");
-            }
             //Set focus based on the panel
             $(contentWrapper).focusout(lang.hitch(this, function (evt) {
                 var panelName;
