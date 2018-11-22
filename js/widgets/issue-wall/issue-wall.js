@@ -156,11 +156,9 @@ define([
             //This resolves the issue of focus being set to mobile menu
             if (dojowindow.getBox().w < 768 &&
                 this.appConfig.submitReportButtonPosition !== "top") {
-                $(this.submitReport).focusout(function () {
-                    if (query(".esriCTAppName") && query(".esriCTAppName")[0]) {
-                        query(".esriCTAppName")[0].focus();
-                    }
-                });
+                $(this.submitReport).focusout(lang.hitch(this, function () {
+                    this.onSubmitButtonFocusOut();
+                }));
             }
             if (this.appConfig && lang.trim(this.appConfig.submitReportButtonText) === "") {
                 submitButtonText = this.appConfig.i18n.main.submitReportButtonText;
@@ -215,6 +213,10 @@ define([
         },
 
         onLoadMoreClick: function (evt) {
+            return evt;
+        },
+
+        onSubmitButtonFocusOut: function(evt){
             return evt;
         },
 

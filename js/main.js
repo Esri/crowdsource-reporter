@@ -685,7 +685,7 @@ define([
                 if (dojowindow.getBox().w < 768) {
                     on(dom.byId("submitFromMap"), "focusout", lang.hitch(this, function (evt) {
                         if (this.appHeader) {
-                            this.appHeader.applicationHeaderName.focus();
+                            this.appHeader.mobileMenuBurger.focus();
                         }
                     }));
                 }
@@ -1352,6 +1352,11 @@ define([
                     setTimeout(function () {
                         dom.byId("mapBackButton").focus();
                     }, 200);
+                });
+                this._issueWallWidget.onSubmitButtonFocusOut = lang.hitch(this, function (evt) {
+                    if (this.appHeader) {
+                        this.appHeader.mobileMenuBurger.focus();
+                    }
                 });
                 this._issueWallWidget.onSubmit = lang.hitch(this, function (evt) {
                     if (!this.map.getLayer("featureLayerGraphics")) {
