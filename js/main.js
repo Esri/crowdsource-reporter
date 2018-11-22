@@ -646,8 +646,8 @@ define([
 
                 on(dom.byId("submitFromMap"), "click, keypress", lang.hitch(this, function (evt) {
                     var commentSubmitStatus, canSubmit = true;
-                    if (this.appConfig.hasOwnProperty("commentStartDate") &&
-                        this.appConfig.hasOwnProperty("commentEndDate")) {
+                    if (this.config.hasOwnProperty("commentStartDate") &&
+                        this.config.hasOwnProperty("commentEndDate")) {
                         commentSubmitStatus = this.appUtils.isCommentDateInRange();
                         if (commentSubmitStatus === false) {
                             canSubmit = false;
@@ -657,16 +657,16 @@ define([
                             this.appUtils.reportingPeriodDialog.showDialog("reporting");
                             return;
                         } else if (commentSubmitStatus === null) {
-                            if (this.appConfig.hasOwnProperty("reportingPeriod") &&
-                                this.appConfig.reportingPeriod === "Closed") {
+                            if (this.config.hasOwnProperty("reportingPeriod") &&
+                                this.config.reportingPeriod === "Closed") {
                                 this.appUtils.reportingPeriodDialog.showDialog("reporting");
                                 canSubmit = false;
                                 return;
                             }
                         }
                     } else {
-                        if (this.appConfig.hasOwnProperty("reportingPeriod") &&
-                            this.appConfig.reportingPeriod === "Closed") {
+                        if (this.config.hasOwnProperty("reportingPeriod") &&
+                            this.config.reportingPeriod === "Closed") {
                             this.appUtils.reportingPeriodDialog.showDialog("reporting");
                             canSubmit = false;
                             return;
