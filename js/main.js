@@ -2826,7 +2826,7 @@ define([
                             }));
                         }
                         this._showPanel("Basemap");
-                        query(".esriCTOnScreenBasemap .esriCTHeaderTitle", this.domNode)[0].focus();
+                        query(".esriCTOnScreenBasemap .esriCTOnScreenClose", this.domNode)[0].focus();
                     }));
                 }
             }
@@ -2847,7 +2847,7 @@ define([
                         this._createLegend(legend);
                     }
                     this._showPanel("Legend");
-                    query(".esriCTOnScreenLegend .esriCTHeaderTitle", this.domNode)[0].focus();
+                    query(".esriCTOnScreenLegend .esriCTOnScreenClose", this.domNode)[0].focus();
 
                 }));
             }
@@ -3064,12 +3064,15 @@ define([
                 "panelId": panel
             }, container);
             //Set focus based on the panel
-            $(contentWrapper).focusout(lang.hitch(this, function (evt) {
+            $(closeBtn).focusout(lang.hitch(this, function (evt) {
                 var panelName;
-                panelName = domAttr.get(evt.currentTarget, "panelId");
+                panelName = domAttr.get(evt.currentTarget, "panel");
                 if (panelName === "Legend") {
-                    query(".esriCTLegendButton")[0].focus();
                     this._hidePanel("Legend");
+                    query(".esriCTLegendButton")[0].focus();
+                } else {
+                    this._hidePanel("Basemap");
+                    query(".esriCTBasemapGalleryButton")[0].focus();
                 }
             }));
             return contentWrapper;
