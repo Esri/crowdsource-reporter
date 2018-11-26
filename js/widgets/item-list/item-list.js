@@ -141,8 +141,6 @@ define([
             arrayUtil.forEach(dojoQuery(".esriCTItemSummaryParentSelected", this.domNode), lang.hitch(this, function (currentNode) {
                 domClass.remove(currentNode, "esriCTItemSummaryParentSelected");
                 domClass.remove(dojoQuery(".esriCTItemSummaryHighlighter", currentNode)[0], "esriCTItemSummarySelected");
-                domAttr.set(currentNode, "aria-selected", "false");
-
             }));
             //If selected features object id exsist, highlight the dom element
             if (this.selectedItemOID) {
@@ -150,7 +148,6 @@ define([
                 if (currentNode.length > 0) {
                     domClass.add(currentNode[0], "esriCTItemSummaryParentSelected");
                     domClass.add(dojoQuery(".esriCTItemSummaryHighlighter", currentNode[0])[0], "esriCTItemSummarySelected");
-                    domAttr.set(currentNode[0], "aria-selected", "true");
                 }
                 if (item && this.showLikes) {
                     //If votes count is increased, update the selected items votes in item list
@@ -207,8 +204,8 @@ define([
                 'class': 'esriCTtemSummaryParent ' + item.attributes[objectIdFieldName] + "_" + item.webMapId + "_" + selectedLayerId,
                 "click": lang.partial(this.summaryClick, this, item),
                 "aria-label": itemTitle,
-                "aria-selected": "false",
-                "tabindex": "0"
+                "tabindex": "0",
+                "role":"button"
             }, this.list);
 
             on(itemSummaryParent, "keypress", lang.hitch(this, function (evt) {
@@ -254,7 +251,6 @@ define([
             if (this.selectedItemOID && this.selectedItemOID === item.attributes[this.selectedLayer.objectIdField] + "_" + item.webMapId + "_" + selectedLayerId) {
                 domClass.add(itemSummaryParent, "esriCTItemSummaryParentSelected");
                 domClass.add(itemSummaryHighlighter, "esriCTItemSummarySelected");
-                domAttr.set(itemSummaryParent, "aria-selected", "true");
             }
 
             if (this.showLikes) {

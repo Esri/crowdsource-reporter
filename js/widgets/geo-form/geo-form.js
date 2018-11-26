@@ -812,8 +812,7 @@ define([
                     "innerHTML": geoformAttachmentSectionLabel,
                     "aria-label": geoformAttachmentSectionLabel,
                     "id": "geoFormAttachmentTitileLabel",
-                    "class": "esriCTGeoFormTitles",
-                    "tabindex": "0"
+                    "class": "esriCTGeoFormTitles"
                 }, formContent);
                 domConstruct.create("br", {}, formContent);
                 // Create div for Attachment button

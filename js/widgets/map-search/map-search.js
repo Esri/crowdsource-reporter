@@ -77,7 +77,7 @@ define([
         createSearchButton: function (response, map, mapId, addGraphic, details) {
             var createSearchDiv, inputGroupButton, searchIconDiv, textSearch;
             if (query(".search")[0]) {
-                domConstruct.empty(query(".search")[0]);
+                domConstruct.destroy(query(".search")[0]);
             }
             // create search div
             createSearchDiv = domConstruct.create("div", { "class": "search", "id": "search" });

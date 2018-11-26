@@ -42,38 +42,41 @@ define([
         templateString: template,
 
         postCreate: function () {
-            $("#myModal", this.domNode).addClass("esriCT" + this.dialog);
+            var myModal;
+            //fetch the current modal by class
+            myModal = $(".modal", this.domNode);
+            $(myModal).addClass("esriCT" + this.dialog);
             //Check if show buttons flag is set to true and button text exist
             if (this.showButtons && this.okButtonText && this.cancelButtonText) {
-                $('#myModal', this.domNode).find('.modal-footer').removeClass("esriCTHidden");
-                $('#myModal', this.domNode).find('.esriCTOkButton')[0].innerHTML = this.okButtonText;
-                domAttr.set($('#myModal', this.domNode).find('.esriCTOkButton')[0],
-                "aria-label", this.okButtonText);
-                $('#myModal', this.domNode).find('.esriCTCancelButton')[0].innerHTML = this.cancelButtonText;
-                domAttr.set($('#myModal', this.domNode).find('.esriCTCancelButton')[0],
-                "aria-label", this.cancelButtonText);
-                $('#myModal', this.domNode).find('.modal-dialog').addClass("esriCTModelDialogWithButton");
+                $(myModal, this.domNode).find('.modal-footer').removeClass("esriCTHidden");
+                $(myModal, this.domNode).find('.esriCTOkButton')[0].innerHTML = this.okButtonText;
+                domAttr.set($(myModal, this.domNode).find('.esriCTOkButton')[0],
+                    "aria-label", this.okButtonText);
+                $(myModal, this.domNode).find('.esriCTCancelButton')[0].innerHTML = this.cancelButtonText;
+                domAttr.set($(myModal, this.domNode).find('.esriCTCancelButton')[0],
+                    "aria-label", this.cancelButtonText);
+                $(myModal, this.domNode).find('.modal-dialog').addClass("esriCTModelDialogWithButton");
             }
-            $('#myModal', this.domNode).find('.modal-title').html(this.title);
-            domAttr.set($('#myModal', this.domNode).find('.modal-title')[0],
+            $(myModal, this.domNode).find('.modal-title').html(this.title);
+            domAttr.set($(myModal, this.domNode).find('.modal-title')[0],
                 "aria-label", this.title);
-            $('#myModal', this.domNode).find('.esriCTModelBody').html(this.content);
-            $("#myModal", this.domNode).attr('panel', this.dialog);
+            $(myModal, this.domNode).find('.esriCTModelBody').html(this.content);
+            $(myModal, this.domNode).attr('panel', this.dialog);
             domConstruct.place(this.domNode, document.body, 'last');
-            $('#myModal', this.domNode).find('.esriCTOkButton').click(lang.hitch(this, function () {
+            $(myModal, this.domNode).find('.esriCTOkButton').click(lang.hitch(this, function () {
                 this.okButtonClicked();
             }));
-            $('#myModal', this.domNode).find('.esriCTCancelButton').click(lang.hitch(this, function () {
+            $(myModal, this.domNode).find('.esriCTCancelButton').click(lang.hitch(this, function () {
                 this.cancelButtonClicked();
             }));
 
             //Listen for close button clicked event
-            on($("#myModal", this.domNode).find('.esriCTClose'), "keypress",
+            on($(myModal, this.domNode).find('.esriCTClose'), "keypress",
                 lang.hitch(this, function (evt) {
                     if (!this.appUtils.validateEvent(evt)) {
                         return;
                     }
-                    $("#myModal", this.domNode).modal("toggle");
+                    $(myModal, this.domNode).modal("toggle");
                 }));
 
             //Listen for dialog open event
@@ -86,11 +89,6 @@ define([
             $("[panel=" + this.dialog + "]").on('hidden.bs.modal', lang.hitch(this, function () {
                 this.onDialogClosed();
             }));
-
-            //Set tab index based on the dialog contents
-            if (this.dialog !== "share") {
-                domAttr.set($('#myModal', this.domNode).find('.modal-body')[0], "tabindex", "0");
-            }
         },
 
         startup: function () {

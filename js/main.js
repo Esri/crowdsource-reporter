@@ -646,8 +646,8 @@ define([
 
                 on(dom.byId("submitFromMap"), "click, keypress", lang.hitch(this, function (evt) {
                     var commentSubmitStatus, canSubmit = true;
-                    if (this.appConfig.hasOwnProperty("commentStartDate") &&
-                        this.appConfig.hasOwnProperty("commentEndDate")) {
+                    if (this.config.hasOwnProperty("commentStartDate") &&
+                        this.config.hasOwnProperty("commentEndDate")) {
                         commentSubmitStatus = this.appUtils.isCommentDateInRange();
                         if (commentSubmitStatus === false) {
                             canSubmit = false;
@@ -657,16 +657,16 @@ define([
                             this.appUtils.reportingPeriodDialog.showDialog("reporting");
                             return;
                         } else if (commentSubmitStatus === null) {
-                            if (this.appConfig.hasOwnProperty("reportingPeriod") &&
-                                this.appConfig.reportingPeriod === "Closed") {
+                            if (this.config.hasOwnProperty("reportingPeriod") &&
+                                this.config.reportingPeriod === "Closed") {
                                 this.appUtils.reportingPeriodDialog.showDialog("reporting");
                                 canSubmit = false;
                                 return;
                             }
                         }
                     } else {
-                        if (this.appConfig.hasOwnProperty("reportingPeriod") &&
-                            this.appConfig.reportingPeriod === "Closed") {
+                        if (this.config.hasOwnProperty("reportingPeriod") &&
+                            this.config.reportingPeriod === "Closed") {
                             this.appUtils.reportingPeriodDialog.showDialog("reporting");
                             canSubmit = false;
                             return;
@@ -685,11 +685,14 @@ define([
                 if (dojowindow.getBox().w < 768) {
                     on(dom.byId("submitFromMap"), "focusout", lang.hitch(this, function (evt) {
                         if (this.appHeader) {
-                            this.appHeader.applicationHeaderName.focus();
+                            this.appHeader.mobileMenuBurger.focus();
                         }
                     }));
                 }
-                on(dom.byId("mapBackButton"), "click", lang.hitch(this, function (evt) {
+                on(dom.byId("mapBackButton"), "click, keypress", lang.hitch(this, function (evt) {
+                    if (!this.appUtils.validateEvent(evt)) {
+                        return;
+                    }
                     this._toggleListView();
                     //If webmap list is not required, skip the further processing of function
                     if (!this._isWebmapListRequired) {
@@ -703,7 +706,10 @@ define([
                         }
                     }
                 }));
-                on(dom.byId("toggleListViewButton"), "click", lang.hitch(this, function (evt) {
+                on(dom.byId("toggleListViewButton"), "click, keypress", lang.hitch(this, function (evt) {
+                    if (!this.appUtils.validateEvent(evt)) {
+                        return;
+                    }
                     //Change myissues widget flag to false and refresh the list
                     if (this._myIssuesWidget) {
                         this._myIssuesWidget.itemsList.clearSelection();
@@ -1346,6 +1352,11 @@ define([
                     setTimeout(function () {
                         dom.byId("mapBackButton").focus();
                     }, 200);
+                });
+                this._issueWallWidget.onSubmitButtonFocusOut = lang.hitch(this, function (evt) {
+                    if (this.appHeader) {
+                        this.appHeader.mobileMenuBurger.focus();
+                    }
                 });
                 this._issueWallWidget.onSubmit = lang.hitch(this, function (evt) {
                     if (!this.map.getLayer("featureLayerGraphics")) {
@@ -2820,7 +2831,7 @@ define([
                             }));
                         }
                         this._showPanel("Basemap");
-                        query(".esriCTOnScreenBasemap .esriCTHeaderTitle", this.domNode)[0].focus();
+                        query(".esriCTOnScreenBasemap .esriCTOnScreenClose", this.domNode)[0].focus();
                     }));
                 }
             }
@@ -2841,7 +2852,7 @@ define([
                         this._createLegend(legend);
                     }
                     this._showPanel("Legend");
-                    query(".esriCTOnScreenLegend .esriCTHeaderTitle", this.domNode)[0].focus();
+                    query(".esriCTOnScreenLegend .esriCTOnScreenClose", this.domNode)[0].focus();
 
                 }));
             }
@@ -2876,7 +2887,7 @@ define([
             attribution = query(".esriAttribution", dom.byId("mapDiv"))[0];
             esriLogo = query(".logo-med", dom.byId("mapDiv"))[0];
             if (attribution) {
-                domAttr.set(esriLogo, "tabindex", "0");
+                domAttr.set(attribution, "tabindex", "-1");
                 on(attribution, "keypress, click", lang.hitch(this, function (evt) {
                     if (!this.appUtils.validateEvent(evt)) {
                         return;
@@ -2894,6 +2905,7 @@ define([
             }
             if (esriLogo) {
                 domAttr.set(esriLogo, "tabindex", "-1");
+                domAttr.set(esriLogo, "role", "link");
             }
 
         },
@@ -3019,8 +3031,7 @@ define([
             domConstruct.create("div", {
                 "class": "esriCTHeaderTitle",
                 "innerHTML": headerTitle,
-                "aria-label": headerTitle,
-                "tabindex": "0"
+                "aria-label": headerTitle
             }, titleContainer);
 
             //Close button
@@ -3057,16 +3068,16 @@ define([
                 "class": "esriCTOnScreenWidgetWrapper esriCTBodyTextColor esriCTBodyBackgroundColor",
                 "panelId": panel
             }, container);
-            if (panel !== "Basemap") {
-                domAttr.set(contentWrapper, "tabindex", "0");
-            }
             //Set focus based on the panel
-            $(contentWrapper).focusout(lang.hitch(this, function (evt) {
+            $(closeBtn).focusout(lang.hitch(this, function (evt) {
                 var panelName;
-                panelName = domAttr.get(evt.currentTarget, "panelId");
+                panelName = domAttr.get(evt.currentTarget, "panel");
                 if (panelName === "Legend") {
-                    query(".esriCTLegendButton")[0].focus();
                     this._hidePanel("Legend");
+                    query(".esriCTLegendButton")[0].focus();
+                } else {
+                    this._hidePanel("Basemap");
+                    query(".esriCTBasemapGalleryButton")[0].focus();
                 }
             }));
             return contentWrapper;
