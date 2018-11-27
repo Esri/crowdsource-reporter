@@ -18,8 +18,8 @@ define({
   "map": {
     "error": "Impossible de créer la carte",
     "licenseError": {
-      "message": "æ_Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license__________________________________________________________________________________________________________Â.",
-      "title": "æ_Not Licensed_____________Â"
+      "message": "La licence de votre compte ne permet pas d’utiliser des applications configurables non publiques. Demandez à l’administrateur de votre organisation de vous attribuer un type d’utilisateur qui inclut une licence Essential Apps ou une licence Essential Apps additionnelle.",
+      "title": "Pas de licence"
     },
     "zoomInTooltip": "Zoom avant",
     "zoomOutTooltip": "Zoom arrière",
@@ -33,11 +33,11 @@ define({
     "featureOutsideAOIMessage": "Impossible d’ajouter l'entité hors de la zone d'étude",
     "noEditingPermissionsMessage": "Vous n’êtes pas autorisé à effectuer cette action.",
     "basemapGalleryText": "Bibliothèque de fonds de carte",
-    "basemapThumbnailAltText": "æ_Click to load ${basemapTitle} ${index} of ${totalBasemaps}______________________________Â",
+    "basemapThumbnailAltText": "Cliquez pour charger ${basemapTitle} ${index} sur ${totalBasemaps}",
     "legendText": "Légende",
-    "featureNotFoundMessage": "æ_Requested feature not found____________________________Â",
-    "backButton": "æ_back_________Â",
-    "panelCloseButton": "æ_Close___________Â"
+    "featureNotFoundMessage": "Entité demandée introuvable",
+    "backButton": "retour",
+    "panelCloseButton": "Fermer"
   },
   "signin": {
     "guestSigninText": "Continuer comme invité",
@@ -72,17 +72,17 @@ define({
     "gotoMapViewTooltip": "Vue cartographique"
   },
   "appHeader": {
-    "help": "æ_Help_________Â",
+    "help": "Aide",
     "myReport": "Mes envois",
     "signIn": "Connexion",
     "signOut": "Déconnexion",
     "signInTooltip": "Connexion",
     "signOutTooltip": "Déconnexion",
     "myReportTooltip": "Consulter mes envois",
-    "share": "æ_Share___________Â",
-    "shareDialogTitle": "æ_Share Dialog_____________Â",
-    "shareDialogAppURLLabel": "æ_Application URL________________Â",
-    "mobileHamburger": "æ_Hamburger___________________Â"
+    "share": "Partager",
+    "shareDialogTitle": "Boîte de dialogue Partager",
+    "shareDialogAppURLLabel": "URL de l’application",
+    "mobileHamburger": "Hamburger"
   },
   "geoform": {
     "enterInformation": "Détails",
@@ -116,10 +116,10 @@ define({
     "locationSelectionHintForPolygonLayer": "Touchez la carte pour tracer l’emplacement. Touchez deux fois pour terminer le dessin.",
     "locationSelectionHintForPointLayerDesktop": "Cliquez sur la carte pour tracer l’emplacement.",
     "locationSelectionHintForPolygonLayerDesktop": "Cliquez sur la carte pour tracer l’emplacement. Doublez-cliquez pour terminer le dessin.",
-    "locationDialogTitle": "æ_Select location for report___________________________Â",
-    "locationDialogContent": "æ_Are you sure you want to use image location________________________Â ?",
-    "errorMessageText": "æ_${message} for field ${fieldName}__________________Â",
-    "deleteAttachmentBtnText": "æ_Delete attachment__________________Â"
+    "locationDialogTitle": "Sélectionner l’emplacement du rapport",
+    "locationDialogContent": "Voulez-vous vraiment utiliser l’emplacement de l’image ?",
+    "errorMessageText": "${message} pour le champ ${fieldName}",
+    "deleteAttachmentBtnText": "Supprimer une pièce jointe"
   },
   "locator": {
     "addressText": "Adresse :",
@@ -161,7 +161,7 @@ define({
     "commentsFormEditButton": "Mettre à jour un commentaire",
     "commentsFormCancelButton": "Annuler",
     "errorInSubmittingComment": "Impossible d'envoyer le commentaire.",
-    "commentSubmittedMessage": "æ_Thank you for your feedback_____________________________Â.",
+    "commentSubmittedMessage": "Merci de vos commentaires.",
     "emptyCommentMessage": "Saisissez un commentaire.",
     "placeHolderText": "Saisir un commentaire",
     "noCommentsAvailableText": "Aucun commentaire disponible",
@@ -181,9 +181,9 @@ define({
     "noAttachmentsAvailableText": "Aucune pièce jointe trouvée"
   },
   "dialog": {
-    "okButton": "æ_Ok_____Â",
-    "cancelButton": "æ_Cancel_____________Â",
-    "yesButton": "æ_Yes_______Â",
-    "noButton": "æ_No_____Â"
+    "okButton": "OK",
+    "cancelButton": "Annuler",
+    "yesButton": "Oui",
+    "noButton": "Non"
   }
 });

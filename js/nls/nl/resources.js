@@ -18,8 +18,8 @@ define({
   "map": {
     "error": "Kaart kan niet gemaakt worden",
     "licenseError": {
-      "message": "Ĳ_Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license__________________________________________________________________________________________________________ä.",
-      "title": "Ĳ_Not Licensed_____________ä"
+      "message": "Uw account heeft geen licentie om configureerbare apps te gebruiken die niet openbaar zijn. Vraag uw organisatiebeheerder om u een gebruikerstype toe te wijzen dat Essential Apps of een add-on Essential Apps-licentie bevat.",
+      "title": "Geen licentie"
     },
     "zoomInTooltip": "Inzoomen",
     "zoomOutTooltip": "Uitzoomen",
@@ -33,11 +33,11 @@ define({
     "featureOutsideAOIMessage": "Object kan niet buiten studiegebied worden toegevoegd",
     "noEditingPermissionsMessage": "U hebt geen toestemming om deze actie uit te voeren.",
     "basemapGalleryText": "Basiskaartgalerij",
-    "basemapThumbnailAltText": "Ĳ_Click to load ${basemapTitle} ${index} of ${totalBasemaps}______________________________ä",
+    "basemapThumbnailAltText": "Klik om ${basemapTitle} ${index} van ${totalBasemaps} te laden",
     "legendText": "Legenda",
-    "featureNotFoundMessage": "Ĳ_Requested feature not found____________________________ä",
-    "backButton": "Ĳ_back_________ä",
-    "panelCloseButton": "Ĳ_Close___________ä"
+    "featureNotFoundMessage": "Gevraagd object niet gevonden",
+    "backButton": "achter",
+    "panelCloseButton": "Sluiten"
   },
   "signin": {
     "guestSigninText": "Doorgaan als gast",
@@ -72,17 +72,17 @@ define({
     "gotoMapViewTooltip": "Kaartweergave"
   },
   "appHeader": {
-    "help": "Ĳ_Help_________ä",
+    "help": "Help",
     "myReport": "Mijn meldingen",
     "signIn": "Aanmelden",
     "signOut": "Afmelden",
     "signInTooltip": "Aanmelden",
     "signOutTooltip": "Meld u af",
     "myReportTooltip": "Mijn meldingen bekijken",
-    "share": "Ĳ_Share___________ä",
-    "shareDialogTitle": "Ĳ_Share Dialog_____________ä",
-    "shareDialogAppURLLabel": "Ĳ_Application URL________________ä",
-    "mobileHamburger": "Ĳ_Hamburger___________________ä"
+    "share": "Delen",
+    "shareDialogTitle": "Dialoog delen",
+    "shareDialogAppURLLabel": "Applicatie-URL",
+    "mobileHamburger": "Hamburger"
   },
   "geoform": {
     "enterInformation": "Details",
@@ -116,10 +116,10 @@ define({
     "locationSelectionHintForPolygonLayer": "Tik op de kaart om de locatie te tekenen. Twee keer tikken om de tekening te voltooien.",
     "locationSelectionHintForPointLayerDesktop": "Klik op de kaart om de locatie te tekenen.",
     "locationSelectionHintForPolygonLayerDesktop": "Klik op de kaart om de locatie te tekenen. Twee keer klikken om de tekening te voltooien.",
-    "locationDialogTitle": "Ĳ_Select location for report___________________________ä",
-    "locationDialogContent": "Ĳ_Are you sure you want to use image location________________________ä ?",
-    "errorMessageText": "Ĳ_${message} for field ${fieldName}__________________ä",
-    "deleteAttachmentBtnText": "Ĳ_Delete attachment__________________ä"
+    "locationDialogTitle": "Selecteer locatie voor rapport",
+    "locationDialogContent": "Weet u zeker dat u de afbeeldingslocatie wilt gebruiken?",
+    "errorMessageText": "${message} voor veld ${fieldName}",
+    "deleteAttachmentBtnText": "Bijlage verwijderen"
   },
   "locator": {
     "addressText": "Adres:",
@@ -161,7 +161,7 @@ define({
     "commentsFormEditButton": "Reactie bijwerken",
     "commentsFormCancelButton": "Annuleren",
     "errorInSubmittingComment": "Reactie kon niet worden ingediend.",
-    "commentSubmittedMessage": "Ĳ_Thank you for your feedback_____________________________ä.",
+    "commentSubmittedMessage": "Bedankt voor uw feedback.",
     "emptyCommentMessage": "Voer een reactie in.",
     "placeHolderText": "Type een reactie",
     "noCommentsAvailableText": "Geen reacties beschikbaar",
@@ -181,9 +181,9 @@ define({
     "noAttachmentsAvailableText": "Geen bijlagen gevonden"
   },
   "dialog": {
-    "okButton": "Ĳ_Ok_____ä",
-    "cancelButton": "Ĳ_Cancel_____________ä",
-    "yesButton": "Ĳ_Yes_______ä",
-    "noButton": "Ĳ_No_____ä"
+    "okButton": "OK",
+    "cancelButton": "Afbreken",
+    "yesButton": "Ja",
+    "noButton": "Nee"
   }
 });

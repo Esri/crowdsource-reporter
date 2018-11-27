@@ -18,8 +18,8 @@ define({
   "map": {
     "error": "Karttaa ei voi luoda",
     "licenseError": {
-      "message": "Å_Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license__________________________________________________________________________________________________________ö.",
-      "title": "Å_Not Licensed_____________ö"
+      "message": "Tiliäsi ei ole lisensoitu käyttämään muunneltavissa olevia sovelluksia, jotka eivät ole julkisia. Pyydä organisaatiosi pääkäyttäjää määrittämään sinulle käyttäjätyyppi, joka sisältää keskeiset sovellukset tai keskeisten sovellusten lisäosan lisenssin.",
+      "title": "Ei lisenssiä"
     },
     "zoomInTooltip": "Lähennä",
     "zoomOutTooltip": "Loitonna",
@@ -33,11 +33,11 @@ define({
     "featureOutsideAOIMessage": "Tarkastelualueen ulkopuolisia kohteita ei voi lisätä",
     "noEditingPermissionsMessage": "Sinulla ei ole oikeuksia tämän toiminnon toteuttamiseen.",
     "basemapGalleryText": "Taustakartat",
-    "basemapThumbnailAltText": "Å_Click to load ${basemapTitle} ${index} of ${totalBasemaps}______________________________ö",
+    "basemapThumbnailAltText": "Lataa napsauttamalla ${basemapTitle} ${index}/${totalBasemaps}",
     "legendText": "Selite",
-    "featureNotFoundMessage": "Å_Requested feature not found____________________________ö",
-    "backButton": "Å_back_________ö",
-    "panelCloseButton": "Å_Close___________ö"
+    "featureNotFoundMessage": "Pyydettyä kohdetta ei löydy",
+    "backButton": "takaosa",
+    "panelCloseButton": "Sulje"
   },
   "signin": {
     "guestSigninText": "Jatka käyttöä vierailijana",
@@ -72,17 +72,17 @@ define({
     "gotoMapViewTooltip": "Karttanäkymä"
   },
   "appHeader": {
-    "help": "Å_Help_________ö",
+    "help": "Ohje",
     "myReport": "Omat lähetykset",
     "signIn": "Kirjaudu sisään",
     "signOut": "Kirjaudu ulos",
     "signInTooltip": "Kirjaudu sisään",
     "signOutTooltip": "Kirjaudu ulos",
     "myReportTooltip": "Näytä omat lähetykset",
-    "share": "Å_Share___________ö",
-    "shareDialogTitle": "Å_Share Dialog_____________ö",
-    "shareDialogAppURLLabel": "Å_Application URL________________ö",
-    "mobileHamburger": "Å_Hamburger___________________ö"
+    "share": "Jaa",
+    "shareDialogTitle": "Jaa valintaikkuna",
+    "shareDialogAppURLLabel": "Sovelluksen URL-osoite",
+    "mobileHamburger": "Hampurilaisvalikko"
   },
   "geoform": {
     "enterInformation": "Yksityiskohdat",
@@ -116,10 +116,10 @@ define({
     "locationSelectionHintForPolygonLayer": "Piirrä sijainti napauttamalla karttaa. Viimeistele piirros kaksoisnapauttamalla.",
     "locationSelectionHintForPointLayerDesktop": "Piirrä sijainti napsauttamalla karttaa.",
     "locationSelectionHintForPolygonLayerDesktop": "Piirrä sijainti napsauttamalla karttaa. Viimeistele piirros kaksoisnapsauttamalla.",
-    "locationDialogTitle": "Å_Select location for report___________________________ö",
-    "locationDialogContent": "Å_Are you sure you want to use image location________________________ö ?",
-    "errorMessageText": "Å_${message} for field ${fieldName}__________________ö",
-    "deleteAttachmentBtnText": "Å_Delete attachment__________________ö"
+    "locationDialogTitle": "Valitse sijainti raporttia varten",
+    "locationDialogContent": "Haluatko varmasti käyttää kuvan sijaintia?",
+    "errorMessageText": "${message} kentälle ${fieldName}",
+    "deleteAttachmentBtnText": "Poista liite"
   },
   "locator": {
     "addressText": "Osoite:",
@@ -161,7 +161,7 @@ define({
     "commentsFormEditButton": "Päivitä kommentti",
     "commentsFormCancelButton": "Peruuta",
     "errorInSubmittingComment": "Kommentin lähetys ei onnistunut.",
-    "commentSubmittedMessage": "Å_Thank you for your feedback_____________________________ö.",
+    "commentSubmittedMessage": "Kiitos palautteestasi.",
     "emptyCommentMessage": "Kirjoita kommentti.",
     "placeHolderText": "Kirjoita kommentti",
     "noCommentsAvailableText": "Yhtään kommenttia ei ole saatavilla",
@@ -181,9 +181,9 @@ define({
     "noAttachmentsAvailableText": "Liitteitä ei löydy."
   },
   "dialog": {
-    "okButton": "Å_Ok_____ö",
-    "cancelButton": "Å_Cancel_____________ö",
-    "yesButton": "Å_Yes_______ö",
-    "noButton": "Å_No_____ö"
+    "okButton": "OK",
+    "cancelButton": "Peruuta",
+    "yesButton": "Kyllä",
+    "noButton": "Ei"
   }
 });

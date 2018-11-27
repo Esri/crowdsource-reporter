@@ -18,8 +18,8 @@ define({
   "map": {
     "error": "Nelze vytvořit mapu",
     "licenseError": {
-      "message": "Ř_Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license__________________________________________________________________________________________________________ů.",
-      "title": "Ř_Not Licensed_____________ů"
+      "message": "Váš účet nevlastní licenci k používání konfigurovatelných aplikací, které nejsou veřejné. Požádejte prosím správce své organizace, aby vám přidělil typ uživatele, jehož součástí jsou základní aplikace nebo doplňková licence základních aplikací.",
+      "title": "Chybí licence"
     },
     "zoomInTooltip": "Přiblížit",
     "zoomOutTooltip": "Oddálit",
@@ -33,11 +33,11 @@ define({
     "featureOutsideAOIMessage": "Prvek nelze přidat mimo zájmovou oblast.",
     "noEditingPermissionsMessage": "Nemáte oprávnění k provedení této akce.",
     "basemapGalleryText": "Galerie podkladových map",
-    "basemapThumbnailAltText": "Ř_Click to load ${basemapTitle} ${index} of ${totalBasemaps}______________________________ů",
+    "basemapThumbnailAltText": "Klikněte pro nahrání ${basemapTitle} ${index} z ${totalBasemaps}",
     "legendText": "Legenda",
-    "featureNotFoundMessage": "Ř_Requested feature not found____________________________ů",
-    "backButton": "Ř_back_________ů",
-    "panelCloseButton": "Ř_Close___________ů"
+    "featureNotFoundMessage": "Požadovaný prvek nebyl nalezen.",
+    "backButton": "zpět",
+    "panelCloseButton": "Zavřít"
   },
   "signin": {
     "guestSigninText": "Pokračovat jako host",
@@ -72,17 +72,17 @@ define({
     "gotoMapViewTooltip": "Zobrazení mapy"
   },
   "appHeader": {
-    "help": "Ř_Help_________ů",
+    "help": "Nápověda",
     "myReport": "Moje příspěvky",
     "signIn": "Přihlásit",
     "signOut": "Odhlásit",
     "signInTooltip": "Přihlásit se",
     "signOutTooltip": "Odhlásit se",
     "myReportTooltip": "Zobrazit moje příspěvky",
-    "share": "Ř_Share___________ů",
-    "shareDialogTitle": "Ř_Share Dialog_____________ů",
-    "shareDialogAppURLLabel": "Ř_Application URL________________ů",
-    "mobileHamburger": "Ř_Hamburger___________________ů"
+    "share": "Sdílet",
+    "shareDialogTitle": "Dialogové okno sdílení",
+    "shareDialogAppURLLabel": "URL aplikace",
+    "mobileHamburger": "Hamburger"
   },
   "geoform": {
     "enterInformation": "Podrobnosti",
@@ -116,10 +116,10 @@ define({
     "locationSelectionHintForPolygonLayer": "Zadejte první bod poklepáním na mapu. Dvojitým kliknutím kreslení dokončíte.",
     "locationSelectionHintForPointLayerDesktop": "Zadejte první bod poklepáním na mapu.",
     "locationSelectionHintForPolygonLayerDesktop": "Zadejte první bod poklepáním na mapu. Dvojitým kliknutím kreslení dokončíte.",
-    "locationDialogTitle": "Ř_Select location for report___________________________ů",
-    "locationDialogContent": "Ř_Are you sure you want to use image location________________________ů ?",
-    "errorMessageText": "Ř_${message} for field ${fieldName}__________________ů",
-    "deleteAttachmentBtnText": "Ř_Delete attachment__________________ů"
+    "locationDialogTitle": "Vyberte umístění zprávy",
+    "locationDialogContent": "Opravdu chcete použít umístění snímku?",
+    "errorMessageText": "${message} pro pole ${fieldName}",
+    "deleteAttachmentBtnText": "Smazat přílohu"
   },
   "locator": {
     "addressText": "Adresa:",
@@ -161,7 +161,7 @@ define({
     "commentsFormEditButton": "Aktualizovat komentář",
     "commentsFormCancelButton": "Storno",
     "errorInSubmittingComment": "Komentář se nepodařilo odeslat.",
-    "commentSubmittedMessage": "Ř_Thank you for your feedback_____________________________ů.",
+    "commentSubmittedMessage": "Děkujeme, že jste se podělili o své názory.",
     "emptyCommentMessage": "Zadejte komentář.",
     "placeHolderText": "Napište komentář",
     "noCommentsAvailableText": "Nejsou k dispozici žádné komentáře.",
@@ -181,9 +181,9 @@ define({
     "noAttachmentsAvailableText": "Nebyly nalezeny žádné přílohy"
   },
   "dialog": {
-    "okButton": "Ř_Ok_____ů",
-    "cancelButton": "Ř_Cancel_____________ů",
-    "yesButton": "Ř_Yes_______ů",
-    "noButton": "Ř_No_____ů"
+    "okButton": "OK",
+    "cancelButton": "Storno",
+    "yesButton": "Ano",
+    "noButton": "Ne"
   }
 });

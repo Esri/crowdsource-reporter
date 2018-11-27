@@ -18,8 +18,8 @@ define({
   "map": {
     "error": "Δεν είναι δυνατή η δημιουργία χάρτη",
     "licenseError": {
-      "message": "π_Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license__________________________________________________________________________________________________________Ω.",
-      "title": "π_Not Licensed_____________Ω"
+      "message": "Ο λογαριασμός σας δεν διαθέτει άδεια χρήσης για Παραμετροποιήσιμες Εφαρμογές που δεν είναι δημόσιες. Ζητήστε από τον διαχειριστή του οργανισμού σας να σας εκχωρήσει τύπο χρήστη που να περιλαμβάνει Βασικές Εφαρμογές ή πρόσθετη άδεια χρήσης για Βασικές Εφαρμογές.",
+      "title": "Χωρίς άδεια χρήσης"
     },
     "zoomInTooltip": "Εστίαση σε μεγαλύτερη κλίμακα",
     "zoomOutTooltip": "Απομάκρυνση σε μικρότερη κλίμακα",
@@ -33,11 +33,11 @@ define({
     "featureOutsideAOIMessage": "Το στοιχείο δεν μπορεί να προστεθεί εκτός της περιοχής μελέτης",
     "noEditingPermissionsMessage": "Δεν έχετε δικαίωμα να εκτελέσετε αυτή την ενέργεια.",
     "basemapGalleryText": "Συλλογή υποβάθρων",
-    "basemapThumbnailAltText": "π_Click to load ${basemapTitle} ${index} of ${totalBasemaps}______________________________Ω",
+    "basemapThumbnailAltText": "Κάντε κλικ για φόρτωση ${basemapTitle} ${index} από ${totalBasemaps}.",
     "legendText": "Υπόμνημα",
-    "featureNotFoundMessage": "π_Requested feature not found____________________________Ω",
-    "backButton": "π_back_________Ω",
-    "panelCloseButton": "π_Close___________Ω"
+    "featureNotFoundMessage": "Το ζητούμενο στοιχείο δεν βρέθηκε",
+    "backButton": "πίσω",
+    "panelCloseButton": "Κλείσιμο"
   },
   "signin": {
     "guestSigninText": "Συνέχεια ως επισκέπτης",
@@ -72,17 +72,17 @@ define({
     "gotoMapViewTooltip": "Προβολή χάρτη"
   },
   "appHeader": {
-    "help": "π_Help_________Ω",
+    "help": "Βοήθεια",
     "myReport": "Οι υποβολές μου",
     "signIn": "Είσοδος",
     "signOut": "Έξοδος",
     "signInTooltip": "Εισέλθετε",
     "signOutTooltip": "Έξοδος",
     "myReportTooltip": "Προβολή των υποβολών μου",
-    "share": "π_Share___________Ω",
-    "shareDialogTitle": "π_Share Dialog_____________Ω",
-    "shareDialogAppURLLabel": "π_Application URL________________Ω",
-    "mobileHamburger": "π_Hamburger___________________Ω"
+    "share": "Κοινοποίηση",
+    "shareDialogTitle": "Παράθυρο διαλόγου κοινοποίησης",
+    "shareDialogAppURLLabel": "Διεύθυνση URL εφαρμογής",
+    "mobileHamburger": "Χάμπουργκερ"
   },
   "geoform": {
     "enterInformation": "ΛΕΠΤΟΜΕΡΕΙΕΣ",
@@ -116,10 +116,10 @@ define({
     "locationSelectionHintForPolygonLayer": "Πατήστε στον χάρτη για να σχεδιάσετε την τοποθεσία. Κάντε διπλό πάτημα για να ολοκληρώσετε τη σχεδίαση.",
     "locationSelectionHintForPointLayerDesktop": "Κάντε κλικ στον χάρτη για να σχεδιάσετε την τοποθεσία.",
     "locationSelectionHintForPolygonLayerDesktop": "Κάντε κλικ στον χάρτη για να σχεδιάσετε την τοποθεσία. Κάντε διπλό κλικ για να ολοκληρώσετε τη σχεδίαση.",
-    "locationDialogTitle": "π_Select location for report___________________________Ω",
-    "locationDialogContent": "π_Are you sure you want to use image location________________________Ω ?",
-    "errorMessageText": "π_${message} for field ${fieldName}__________________Ω",
-    "deleteAttachmentBtnText": "π_Delete attachment__________________Ω"
+    "locationDialogTitle": "Επιλογή τοποθεσίας για αναφορά",
+    "locationDialogContent": "Σίγουρα θέλετε να χρησιμοποιήσετε την τοποθεσία της εικόνας;",
+    "errorMessageText": "${message} για το πεδίο ${fieldName}",
+    "deleteAttachmentBtnText": "Διαγραφή συνημμένου"
   },
   "locator": {
     "addressText": "Διεύθυνση:",
@@ -161,7 +161,7 @@ define({
     "commentsFormEditButton": "Σχόλιο ενημέρωσης",
     "commentsFormCancelButton": "Ακύρωση",
     "errorInSubmittingComment": "Δεν ήταν δυνατή η υποβολή του σχολίου.",
-    "commentSubmittedMessage": "π_Thank you for your feedback_____________________________Ω.",
+    "commentSubmittedMessage": "Σας ευχαριστούμε για τα σχόλιά σας.",
     "emptyCommentMessage": "Εισαγάγετε ένα σχόλιο.",
     "placeHolderText": "Πληκτρολογήστε ένα σχόλιο",
     "noCommentsAvailableText": "Δεν υπάρχουν διαθέσιμα σχόλια",
@@ -181,9 +181,9 @@ define({
     "noAttachmentsAvailableText": "Δεν βρέθηκαν συνημμένα"
   },
   "dialog": {
-    "okButton": "π_Ok_____Ω",
-    "cancelButton": "π_Cancel_____________Ω",
-    "yesButton": "π_Yes_______Ω",
-    "noButton": "π_No_____Ω"
+    "okButton": "ΟΚ",
+    "cancelButton": "Ακύρωση",
+    "yesButton": "Ναι",
+    "noButton": "Όχι"
   }
 });

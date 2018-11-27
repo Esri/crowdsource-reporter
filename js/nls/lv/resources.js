@@ -18,8 +18,8 @@ define({
   "map": {
     "error": "Nevar izveidot karti",
     "licenseError": {
-      "message": "ķ_Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license__________________________________________________________________________________________________________ū.",
-      "title": "ķ_Not Licensed_____________ū"
+      "message": "Jūsu kontam nav licences, lai izmantotu konfigurējamās lietotnes, kas nav publiskas. Pieprasiet savas organizācijas administratoram piešķirt jums lietotāja veidu, kurā iekļauts lietotņu komplekts Essential Apps vai papildinājumlietotņu Essential Apps licence.",
+      "title": "Nav licences"
     },
     "zoomInTooltip": "Pietuvināt",
     "zoomOutTooltip": "Attālināt",
@@ -33,11 +33,11 @@ define({
     "featureOutsideAOIMessage": "Līdzekli nevar pievienot ārpus izpētes apgabala",
     "noEditingPermissionsMessage": "Jums nav atļaujas izpildīt šo darbību.",
     "basemapGalleryText": "Pamatkaršu galerija",
-    "basemapThumbnailAltText": "ķ_Click to load ${basemapTitle} ${index} of ${totalBasemaps}______________________________ū",
+    "basemapThumbnailAltText": "Noklikšķiniet, lai ielādētu ${basemapTitle} ${index} no ${totalBasemaps}",
     "legendText": "Apzīmējumi",
-    "featureNotFoundMessage": "ķ_Requested feature not found____________________________ū",
-    "backButton": "ķ_back_________ū",
-    "panelCloseButton": "ķ_Close___________ū"
+    "featureNotFoundMessage": "Pieprasītais elements nav atrasts",
+    "backButton": "atpakaļ",
+    "panelCloseButton": "Aizvērt"
   },
   "signin": {
     "guestSigninText": "Turpināt kā viesim",
@@ -72,17 +72,17 @@ define({
     "gotoMapViewTooltip": "Kartes skats"
   },
   "appHeader": {
-    "help": "ķ_Help_________ū",
+    "help": "Palīdzība",
     "myReport": "Mana iesniegtā informācija",
     "signIn": "Pierakstīties",
     "signOut": "Izrakstīties",
     "signInTooltip": "Pierakstīties",
     "signOutTooltip": "Izrakstīties",
     "myReportTooltip": "Skatīt manis iesniegto informāciju",
-    "share": "ķ_Share___________ū",
-    "shareDialogTitle": "ķ_Share Dialog_____________ū",
-    "shareDialogAppURLLabel": "ķ_Application URL________________ū",
-    "mobileHamburger": "ķ_Hamburger___________________ū"
+    "share": "Kopīgošana",
+    "shareDialogTitle": "Koplietot dialoglodziņu",
+    "shareDialogAppURLLabel": "Lietotnes URL",
+    "mobileHamburger": "Hamburgers"
   },
   "geoform": {
     "enterInformation": "Detaļas",
@@ -116,10 +116,10 @@ define({
     "locationSelectionHintForPolygonLayer": "Pieskarieties kartei, lai zīmētu novietojumu. Pieskarieties divreiz, lai pabeigtu zīmējumu.",
     "locationSelectionHintForPointLayerDesktop": "Noklikšķiniet uz kartes, lai zīmētu novietojumu.",
     "locationSelectionHintForPolygonLayerDesktop": "Noklikšķiniet uz kartes, lai zīmētu novietojumu. Veiciet dubultklikšķi, lai pabeigtu zīmējumu.",
-    "locationDialogTitle": "ķ_Select location for report___________________________ū",
-    "locationDialogContent": "ķ_Are you sure you want to use image location________________________ū ?",
-    "errorMessageText": "ķ_${message} for field ${fieldName}__________________ū",
-    "deleteAttachmentBtnText": "ķ_Delete attachment__________________ū"
+    "locationDialogTitle": "Izvēlieties vietu pārskatam",
+    "locationDialogContent": "Vai tiešām vēlaties izmantot attēla atrašanās vietu?",
+    "errorMessageText": "Ziņojums ${message} laukam ${fieldName}",
+    "deleteAttachmentBtnText": "Dzēst pielikumu"
   },
   "locator": {
     "addressText": "Adrese:",
@@ -161,7 +161,7 @@ define({
     "commentsFormEditButton": "Atjaunināt komentāru",
     "commentsFormCancelButton": "Atcelt",
     "errorInSubmittingComment": "Komentāru nevarēja iesniegt.",
-    "commentSubmittedMessage": "ķ_Thank you for your feedback_____________________________ū.",
+    "commentSubmittedMessage": "Paldies par jūsu atsauksmēm!",
     "emptyCommentMessage": "Lūdzu ievadiet komentāru.",
     "placeHolderText": "Ierakstiet komentāru",
     "noCommentsAvailableText": "Nav pieejamu komentāru",
@@ -181,9 +181,9 @@ define({
     "noAttachmentsAvailableText": "Nav atrasta piesaiste"
   },
   "dialog": {
-    "okButton": "ķ_Ok_____ū",
-    "cancelButton": "ķ_Cancel_____________ū",
-    "yesButton": "ķ_Yes_______ū",
-    "noButton": "ķ_No_____ū"
+    "okButton": "Labi",
+    "cancelButton": "Atcelt",
+    "yesButton": "Jā",
+    "noButton": "Nē"
   }
 });

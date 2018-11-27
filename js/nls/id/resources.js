@@ -18,8 +18,8 @@ define({
   "map": {
     "error": "Tidak dapat membuat peta",
     "licenseError": {
-      "message": "ng_Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license__________________________________________________________________________________________________________ny.",
-      "title": "ng_Not Licensed_____________ny"
+      "message": "Akun Anda tidak dilisensikan untuk menggunakan Aplikasi yang Dapat Dikonfigurasi yang bukan bersifat publik. Harap minta administrator organisasi Anda untuk menetapkan Anda jenis pengguna yang menyertakan lisensi Essential App atau add-on Essential App.",
+      "title": "Tidak Dilisensikan"
     },
     "zoomInTooltip": "Perbesar",
     "zoomOutTooltip": "Perkecil",
@@ -33,11 +33,11 @@ define({
     "featureOutsideAOIMessage": "Fitur tidak dapat ditambahkan di luar area studi",
     "noEditingPermissionsMessage": "Anda tidak memiliki izin untuk menjalankan tindakan ini.",
     "basemapGalleryText": "Galeri Peta Dasar",
-    "basemapThumbnailAltText": "ng_Click to load ${basemapTitle} ${index} of ${totalBasemaps}______________________________ny",
+    "basemapThumbnailAltText": "Klik untuk memuat ${basemapTitle} ${index} dari ${totalBasemaps}",
     "legendText": "Legenda",
-    "featureNotFoundMessage": "ng_Requested feature not found____________________________ny",
-    "backButton": "ng_back_________ny",
-    "panelCloseButton": "ng_Close___________ny"
+    "featureNotFoundMessage": "Fitur yang diminta tidak ditemukan",
+    "backButton": "kembali",
+    "panelCloseButton": "Tutup"
   },
   "signin": {
     "guestSigninText": "Lanjutkan sebagai Tamu",
@@ -72,17 +72,17 @@ define({
     "gotoMapViewTooltip": "Tampilan peta"
   },
   "appHeader": {
-    "help": "ng_Help_________ny",
+    "help": "Bantuan",
     "myReport": "Kiriman Saya",
     "signIn": "Masuk",
     "signOut": "Keluar",
     "signInTooltip": "Masuk",
     "signOutTooltip": "Keluar",
     "myReportTooltip": "Lihat kiriman saya",
-    "share": "ng_Share___________ny",
-    "shareDialogTitle": "ng_Share Dialog_____________ny",
-    "shareDialogAppURLLabel": "ng_Application URL________________ny",
-    "mobileHamburger": "ng_Hamburger___________________ny"
+    "share": "Bagikan",
+    "shareDialogTitle": "Bagikan Dialog",
+    "shareDialogAppURLLabel": "URL Aplikasi",
+    "mobileHamburger": "Hamburger"
   },
   "geoform": {
     "enterInformation": "Detail",
@@ -116,10 +116,10 @@ define({
     "locationSelectionHintForPolygonLayer": "Ketuk peta untuk menggambar lokasi. Ketuk dua kali untuk menyelesaikan gambar.",
     "locationSelectionHintForPointLayerDesktop": "Klik peta untuk menggambar lokasi.",
     "locationSelectionHintForPolygonLayerDesktop": "Klik peta untuk menggambar lokasi. Klik dua kali untuk menyelesaikan gambar.",
-    "locationDialogTitle": "ng_Select location for report___________________________ny",
-    "locationDialogContent": "ng_Are you sure you want to use image location________________________ny ?",
-    "errorMessageText": "ng_${message} for field ${fieldName}__________________ny",
-    "deleteAttachmentBtnText": "ng_Delete attachment__________________ny"
+    "locationDialogTitle": "Pilih lokasi untuk melaporkan",
+    "locationDialogContent": "Anda yakin ingin menggunakan lokasi gambar?",
+    "errorMessageText": "${message} untuk kolom ${fieldName}",
+    "deleteAttachmentBtnText": "Hapus lampiran"
   },
   "locator": {
     "addressText": "Alamat:",
@@ -161,7 +161,7 @@ define({
     "commentsFormEditButton": "Perbarui Komentar",
     "commentsFormCancelButton": "Batal",
     "errorInSubmittingComment": "Komentar tidak dapat dikirimkan.",
-    "commentSubmittedMessage": "ng_Thank you for your feedback_____________________________ny.",
+    "commentSubmittedMessage": "Terima kasih atas umpan balik Anda.",
     "emptyCommentMessage": "Harap masukkan komentar.",
     "placeHolderText": "Ketikkan komentar",
     "noCommentsAvailableText": "Tak ada komentar",
@@ -181,9 +181,9 @@ define({
     "noAttachmentsAvailableText": "Tidak ditemukan lampiran apa pun"
   },
   "dialog": {
-    "okButton": "ng_Ok_____ny",
-    "cancelButton": "ng_Cancel_____________ny",
-    "yesButton": "ng_Yes_______ny",
-    "noButton": "ng_No_____ny"
+    "okButton": "Ya",
+    "cancelButton": "Batalkan",
+    "yesButton": "Iya",
+    "noButton": "Tidak"
   }
 });

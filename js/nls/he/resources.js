@@ -18,8 +18,8 @@ define({
   "map": {
     "error": "לא ניתן ליצור מפה",
     "licenseError": {
-      "message": "כן_Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license__________________________________________________________________________________________________________ש.",
-      "title": "כן_Not Licensed_____________ש"
+      "message": "החשבון שלך אינו מורשה להשתמש באפליקציות הניתנות להגדרה שאינן ציבוריות. בקש ממנהל המערכת בארגון שלך להקצות לך סוג משתמש שכולל את Essential Apps או רישיון הרחבה ל-Essential Apps.",
+      "title": "ללא רישיון"
     },
     "zoomInTooltip": "התמקד פנימה",
     "zoomOutTooltip": "התמקד החוצה",
@@ -33,11 +33,11 @@ define({
     "featureOutsideAOIMessage": "‏אין אפשרות להוסיף ישות מחוץ לאזור המחקר",
     "noEditingPermissionsMessage": "אין לך הרשאה לבצע את הפעולה הזו.",
     "basemapGalleryText": "גלרית מפות בסיס",
-    "basemapThumbnailAltText": "כן_Click to load ${basemapTitle} ${index} of ${totalBasemaps}______________________________ש",
+    "basemapThumbnailAltText": "לחת כדי לטעון את ‎${basemapTitle}‎‏ ‎${index} מתוך ${totalBasemaps}",
     "legendText": "מקרא",
-    "featureNotFoundMessage": "כן_Requested feature not found____________________________ש",
-    "backButton": "כן_back_________ש",
-    "panelCloseButton": "כן_Close___________ש"
+    "featureNotFoundMessage": "הישות המבוקשת לא נמצאה",
+    "backButton": "חזרה",
+    "panelCloseButton": "סגור"
   },
   "signin": {
     "guestSigninText": "המשך כאורח",
@@ -72,17 +72,17 @@ define({
     "gotoMapViewTooltip": "מבט מפה"
   },
   "appHeader": {
-    "help": "כן_Help_________ש",
+    "help": "עזרה",
     "myReport": "התוספות שלי",
     "signIn": "התחבר",
     "signOut": "התנתק",
     "signInTooltip": "התחבר",
     "signOutTooltip": "יציאה",
     "myReportTooltip": "הצג את התוספות שלי",
-    "share": "כן_Share___________ש",
-    "shareDialogTitle": "כן_Share Dialog_____________ש",
-    "shareDialogAppURLLabel": "כן_Application URL________________ש",
-    "mobileHamburger": "כן_Hamburger___________________ש"
+    "share": "שיתוף",
+    "shareDialogTitle": "דו-שיח לשיתוף",
+    "shareDialogAppURLLabel": "URL של אפליקציה",
+    "mobileHamburger": "תושב המבורג"
   },
   "geoform": {
     "enterInformation": "פרטים",
@@ -116,10 +116,10 @@ define({
     "locationSelectionHintForPolygonLayer": "הקש על המפה כדי לצייר את המיקום. הקש פעמיים כדי להשלים את הציור.",
     "locationSelectionHintForPointLayerDesktop": "לחץ על המפה כדי לצייר את המיקום.",
     "locationSelectionHintForPolygonLayerDesktop": "לחץ על המפה כדי לצייר את המיקום. לחץ פעמיים כדי להשלים את הציור.",
-    "locationDialogTitle": "כן_Select location for report___________________________ש",
-    "locationDialogContent": "כן_Are you sure you want to use image location________________________ש ?",
-    "errorMessageText": "כן_${message} for field ${fieldName}__________________ש",
-    "deleteAttachmentBtnText": "כן_Delete attachment__________________ש"
+    "locationDialogTitle": "בחר מיקום עבור הדוח",
+    "locationDialogContent": "האם אתה בטוח שברצונך להשתמש במיקום התמונה?",
+    "errorMessageText": "‎${message}‎ עבור השדה ‎${fieldName}‎",
+    "deleteAttachmentBtnText": "מחק קישור"
   },
   "locator": {
     "addressText": "כתובת:",
@@ -161,7 +161,7 @@ define({
     "commentsFormEditButton": "הערת עדכון",
     "commentsFormCancelButton": "בטל",
     "errorInSubmittingComment": "לא ניתן לשלוח תגובה.",
-    "commentSubmittedMessage": "כן_Thank you for your feedback_____________________________ש.",
+    "commentSubmittedMessage": "תודה על המשוב.",
     "emptyCommentMessage": "שלח תגובה.",
     "placeHolderText": "הקלד תגובה",
     "noCommentsAvailableText": "אין תגובות זמינות",
@@ -181,9 +181,9 @@ define({
     "noAttachmentsAvailableText": "לא נמצאו קבצים מקושרים"
   },
   "dialog": {
-    "okButton": "כן_Ok_____ש",
-    "cancelButton": "כן_Cancel_____________ש",
-    "yesButton": "כן_Yes_______ש",
-    "noButton": "כן_No_____ש"
+    "okButton": "אישור",
+    "cancelButton": "בטל",
+    "yesButton": "כן",
+    "noButton": "לא"
   }
 });

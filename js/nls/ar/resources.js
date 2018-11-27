@@ -18,8 +18,8 @@ define({
   "map": {
     "error": "يتعذر إنشاء الخريطة",
     "licenseError": {
-      "message": "بيت_Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license__________________________________________________________________________________________________________لاحقة.",
-      "title": "بيت_Not Licensed_____________لاحقة"
+      "message": "حسابك غير مرخص لاستخدام التطبيقات القابلة للتكوين غير العامة. رجاءً اطلب من مسئولي المؤسسة تعيينك كنوع مستخدم يتضمن التطبيقات الأساسية أو ترخيص التطبيقات الأساسية المضافة.",
+      "title": "غير مرخص"
     },
     "zoomInTooltip": "التكبير",
     "zoomOutTooltip": "التصغير.",
@@ -33,11 +33,11 @@ define({
     "featureOutsideAOIMessage": "يتعذر إضافة المعلم خارج منطقة الدراسة",
     "noEditingPermissionsMessage": "لا يتوفر لديك إذن تنفيذ هذا الحدث.",
     "basemapGalleryText": "معرض خرائط الأساس",
-    "basemapThumbnailAltText": "بيت_Click to load ${basemapTitle} ${index} of ${totalBasemaps}______________________________لاحقة",
+    "basemapThumbnailAltText": "انقر لتحميل ${basemapTitle} ${index} من ${totalBasemaps}",
     "legendText": "وسيلة الإيضاح",
-    "featureNotFoundMessage": "بيت_Requested feature not found____________________________لاحقة",
-    "backButton": "بيت_back_________لاحقة",
-    "panelCloseButton": "بيت_Close___________لاحقة"
+    "featureNotFoundMessage": "لم يتم العثور على المعلم المطلوب",
+    "backButton": "السابق",
+    "panelCloseButton": "إغلاق"
   },
   "signin": {
     "guestSigninText": "تابع بصفتك ضيف",
@@ -72,17 +72,17 @@ define({
     "gotoMapViewTooltip": "عرض الخريطة"
   },
   "appHeader": {
-    "help": "بيت_Help_________لاحقة",
+    "help": "تعليمات",
     "myReport": "عمليات الإرسال",
     "signIn": "تسجيل الدخول",
     "signOut": "تسجيل الخروج",
     "signInTooltip": "تسجيل الدخول",
     "signOutTooltip": "تسجيل الخروج",
     "myReportTooltip": "عرض عمليات الإرسال",
-    "share": "بيت_Share___________لاحقة",
-    "shareDialogTitle": "بيت_Share Dialog_____________لاحقة",
-    "shareDialogAppURLLabel": "بيت_Application URL________________لاحقة",
-    "mobileHamburger": "بيت_Hamburger___________________لاحقة"
+    "share": "مشاركة",
+    "shareDialogTitle": "مشاركة حوار",
+    "shareDialogAppURLLabel": "عنوان URL للتطبيق",
+    "mobileHamburger": "هامبورغ"
   },
   "geoform": {
     "enterInformation": "التفاصيل",
@@ -116,10 +116,10 @@ define({
     "locationSelectionHintForPolygonLayer": "اضغط على الخريطة لرسم الموقع. اضغط مرتين لإكمال الرسم.",
     "locationSelectionHintForPointLayerDesktop": "انقر على الخريطة لرسم الموقع.",
     "locationSelectionHintForPolygonLayerDesktop": "انقر على الخريطة لرسم الموقع. انقر مرتين لإكمال الرسم.",
-    "locationDialogTitle": "بيت_Select location for report___________________________لاحقة",
-    "locationDialogContent": "بيت_Are you sure you want to use image location________________________لاحقة ?",
-    "errorMessageText": "بيت_${message} for field ${fieldName}__________________لاحقة",
-    "deleteAttachmentBtnText": "بيت_Delete attachment__________________لاحقة"
+    "locationDialogTitle": "تحديد موقع لرفع تقرير عنه",
+    "locationDialogContent": "هل أنت متأكد أنك تريد استخدام موقع الصورة؟",
+    "errorMessageText": "${message} لحقل ${fieldName}",
+    "deleteAttachmentBtnText": "حذف المرفق"
   },
   "locator": {
     "addressText": "العنوان:",
@@ -161,7 +161,7 @@ define({
     "commentsFormEditButton": "تحديث التعليق",
     "commentsFormCancelButton": "إلغاء الأمر",
     "errorInSubmittingComment": "يتعذر إرسال التعليق.",
-    "commentSubmittedMessage": "بيت_Thank you for your feedback_____________________________لاحقة.",
+    "commentSubmittedMessage": "شكرًا لإبداء ملاحظاتك.",
     "emptyCommentMessage": "الرجاء إدخال تعليق.",
     "placeHolderText": "اكتب تعليق",
     "noCommentsAvailableText": "لا توجد تعليقات متاحة",
@@ -181,9 +181,9 @@ define({
     "noAttachmentsAvailableText": "لا توجد مرفقات."
   },
   "dialog": {
-    "okButton": "بيت_Ok_____لاحقة",
-    "cancelButton": "بيت_Cancel_____________لاحقة",
-    "yesButton": "بيت_Yes_______لاحقة",
-    "noButton": "بيت_No_____لاحقة"
+    "okButton": "موافق",
+    "cancelButton": "إلغاء الأمر",
+    "yesButton": "نعم",
+    "noButton": "لا"
   }
 });

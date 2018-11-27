@@ -18,8 +18,8 @@ define({
   "map": {
     "error": "Kan ikke oprette kort",
     "licenseError": {
-      "message": "ø_Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license__________________________________________________________________________________________________________å.",
-      "title": "ø_Not Licensed_____________å"
+      "message": "Din konto har ikke licens til at bruge Konfigurérbare apps, der ikke er offentlige. Bed din organisationsadministrator om at knytte dig til en brugertype, der omfatter Essential Apps eller en add-on Essential Apps-licens.",
+      "title": "Ikke licenseret"
     },
     "zoomInTooltip": "Zoom ind",
     "zoomOutTooltip": "Zoom ud",
@@ -33,11 +33,11 @@ define({
     "featureOutsideAOIMessage": "Objekt kan ikke tilføjes uden for undersøgelsesområdet",
     "noEditingPermissionsMessage": "Du har ikke tilladelse til at udføre denne handling.",
     "basemapGalleryText": "Galleri over baggrundskort",
-    "basemapThumbnailAltText": "ø_Click to load ${basemapTitle} ${index} of ${totalBasemaps}______________________________å",
+    "basemapThumbnailAltText": "Klik for at indlæse ${basemapTitle} ${index} af ${totalBasemaps}",
     "legendText": "Signaturforklaring",
-    "featureNotFoundMessage": "ø_Requested feature not found____________________________å",
-    "backButton": "ø_back_________å",
-    "panelCloseButton": "ø_Close___________å"
+    "featureNotFoundMessage": "Det objekt, der er blevet anmodet om, kunne ikke findes",
+    "backButton": "tilbage",
+    "panelCloseButton": "Luk"
   },
   "signin": {
     "guestSigninText": "Fortsæt som gæst",
@@ -72,17 +72,17 @@ define({
     "gotoMapViewTooltip": "Kortvisning"
   },
   "appHeader": {
-    "help": "ø_Help_________å",
+    "help": "Hjælp",
     "myReport": "Mine afsendelser",
     "signIn": "Log ind",
     "signOut": "Log ud",
     "signInTooltip": "Sign in",
     "signOutTooltip": "Log ud",
     "myReportTooltip": "Vis mine afsendelser",
-    "share": "ø_Share___________å",
-    "shareDialogTitle": "ø_Share Dialog_____________å",
-    "shareDialogAppURLLabel": "ø_Application URL________________å",
-    "mobileHamburger": "ø_Hamburger___________________å"
+    "share": "Opdatér",
+    "shareDialogTitle": "Delingsdialogboks",
+    "shareDialogAppURLLabel": "Applikations-URL",
+    "mobileHamburger": "Hamburger"
   },
   "geoform": {
     "enterInformation": "Oplysninger",
@@ -116,10 +116,10 @@ define({
     "locationSelectionHintForPolygonLayer": "Tryk på kortet for at tegne placeringen. Dobbeltklik for at fuldføre tegningen.",
     "locationSelectionHintForPointLayerDesktop": "Klik på kortet for at tegne placeringen.",
     "locationSelectionHintForPolygonLayerDesktop": "Klik på kortet for at tegne placeringen. Dobbeltklik for at fuldføre tegningen.",
-    "locationDialogTitle": "ø_Select location for report___________________________å",
-    "locationDialogContent": "ø_Are you sure you want to use image location________________________å ?",
-    "errorMessageText": "ø_${message} for field ${fieldName}__________________å",
-    "deleteAttachmentBtnText": "ø_Delete attachment__________________å"
+    "locationDialogTitle": "Vælg placering til rapport",
+    "locationDialogContent": "Er du sikker på, at du vil bruge billedplaceringen?",
+    "errorMessageText": "${message} for feltet ${fieldName}",
+    "deleteAttachmentBtnText": "Slet vedhæftning"
   },
   "locator": {
     "addressText": "Adresse:",
@@ -161,7 +161,7 @@ define({
     "commentsFormEditButton": "Opdatér kommentar",
     "commentsFormCancelButton": "Annuller",
     "errorInSubmittingComment": "Kommentar kunne ikke indsendes.",
-    "commentSubmittedMessage": "ø_Thank you for your feedback_____________________________å.",
+    "commentSubmittedMessage": "Tak for din feedback.",
     "emptyCommentMessage": "Indtast en kommentar.",
     "placeHolderText": "Skriv en kommentar",
     "noCommentsAvailableText": "ingen kommentarer tilgængelige",
@@ -181,9 +181,9 @@ define({
     "noAttachmentsAvailableText": "Ingen vedhæftede filer"
   },
   "dialog": {
-    "okButton": "ø_Ok_____å",
-    "cancelButton": "ø_Cancel_____________å",
-    "yesButton": "ø_Yes_______å",
-    "noButton": "ø_No_____å"
+    "okButton": "OK",
+    "cancelButton": "Annuller",
+    "yesButton": "Ja",
+    "noButton": "Nej"
   }
 });

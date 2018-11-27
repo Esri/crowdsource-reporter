@@ -18,8 +18,8 @@ define({
   "map": {
     "error": "Harita oluşturulamıyor",
     "licenseError": {
-      "message": "ı_Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license__________________________________________________________________________________________________________İ.",
-      "title": "ı_Not Licensed_____________İ"
+      "message": "Hesabınız herkese açık olmayan Yapılandırılabilir Uygulamaları kullanmak için lisanslandırılmamış. Lütfen kuruluş yöneticinizden Temel Uygulamalar veya eklenti Temel Uygulamalar lisansı içeren bir kullanıcı türü atamasını isteyin.",
+      "title": "Lisanslı Değil"
     },
     "zoomInTooltip": "Büyüt",
     "zoomOutTooltip": "Küçült",
@@ -33,11 +33,11 @@ define({
     "featureOutsideAOIMessage": "Detay araştırma alanı dışına eklenemez",
     "noEditingPermissionsMessage": "Bu işlemi yapma izniniz yok.",
     "basemapGalleryText": "Altlık Harita Galerisi",
-    "basemapThumbnailAltText": "ı_Click to load ${basemapTitle} ${index} of ${totalBasemaps}______________________________İ",
+    "basemapThumbnailAltText": "${totalBasemaps} ${basemapTitle} ${index} yüklemek için tıklayın",
     "legendText": "Gösterim",
-    "featureNotFoundMessage": "ı_Requested feature not found____________________________İ",
-    "backButton": "ı_back_________İ",
-    "panelCloseButton": "ı_Close___________İ"
+    "featureNotFoundMessage": "İstenen detay bulunamadı",
+    "backButton": "geri",
+    "panelCloseButton": "Kapat"
   },
   "signin": {
     "guestSigninText": "Konuk olarak devam et",
@@ -72,17 +72,17 @@ define({
     "gotoMapViewTooltip": "Harita görünümü"
   },
   "appHeader": {
-    "help": "ı_Help_________İ",
+    "help": "Yardım",
     "myReport": "Gönderilerim",
     "signIn": "Oturum Açma",
     "signOut": "Oturum Kapat",
     "signInTooltip": "Hesabınıza",
     "signOutTooltip": "Oturumu kapat",
     "myReportTooltip": "Gönderilerimi görüntüle",
-    "share": "ı_Share___________İ",
-    "shareDialogTitle": "ı_Share Dialog_____________İ",
-    "shareDialogAppURLLabel": "ı_Application URL________________İ",
-    "mobileHamburger": "ı_Hamburger___________________İ"
+    "share": "Paylaş",
+    "shareDialogTitle": "İletişimi Paylaş",
+    "shareDialogAppURLLabel": "Uygulama URL’si",
+    "mobileHamburger": "Hamburg"
   },
   "geoform": {
     "enterInformation": "Ayrıntılar",
@@ -116,10 +116,10 @@ define({
     "locationSelectionHintForPolygonLayer": "Konumu çizmek için haritaya dokunun. Çizimi tamamlamak için çift dokunun.",
     "locationSelectionHintForPointLayerDesktop": "Konumu çizmek için haritaya tıklayın.",
     "locationSelectionHintForPolygonLayerDesktop": "Konumu çizmek için haritaya tıklayın. Çizimi tamamlamak için çift tıklayın.",
-    "locationDialogTitle": "ı_Select location for report___________________________İ",
-    "locationDialogContent": "ı_Are you sure you want to use image location________________________İ ?",
-    "errorMessageText": "ı_${message} for field ${fieldName}__________________İ",
-    "deleteAttachmentBtnText": "ı_Delete attachment__________________İ"
+    "locationDialogTitle": "Rapor için bir konum seçin",
+    "locationDialogContent": "Görüntü konumunu kullanmak istediğinize emin misiniz?",
+    "errorMessageText": "${fieldName} alanı için ${message}",
+    "deleteAttachmentBtnText": "Eklentiyi sil"
   },
   "locator": {
     "addressText": "Adres:",
@@ -161,7 +161,7 @@ define({
     "commentsFormEditButton": "Yorumu Güncelle",
     "commentsFormCancelButton": "İptal",
     "errorInSubmittingComment": "Yorum gönderilemedi.",
-    "commentSubmittedMessage": "ı_Thank you for your feedback_____________________________İ.",
+    "commentSubmittedMessage": "Geri bildiriminiz için teşekkür ederiz.",
     "emptyCommentMessage": "Lütfen bir yorum girin.",
     "placeHolderText": "Yorum yaz",
     "noCommentsAvailableText": "Kullanılabilir yorum yok",
@@ -181,9 +181,9 @@ define({
     "noAttachmentsAvailableText": "Herhangi bir eklenti bulunamadı"
   },
   "dialog": {
-    "okButton": "ı_Ok_____İ",
-    "cancelButton": "ı_Cancel_____________İ",
-    "yesButton": "ı_Yes_______İ",
-    "noButton": "ı_No_____İ"
+    "okButton": "Tamam",
+    "cancelButton": "İptal Et",
+    "yesButton": "Evet",
+    "noButton": "Hayır"
   }
 });

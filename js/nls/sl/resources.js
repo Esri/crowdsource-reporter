@@ -18,8 +18,8 @@ define({
   "map": {
     "error": "Karte ni mogoče ustvariti",
     "licenseError": {
-      "message": "Š_Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license__________________________________________________________________________________________________________č.",
-      "title": "Š_Not Licensed_____________č"
+      "message": "Vaš račun ni licenciran za uporabo konfigurabilnih aplikacij, ki niso javne. Prosite administratorja v vaši organizaciji, da vam dodeli tip uporabnika, ki vsebuje aplikacije Essential Apps ali licenco za dodatne aplikacije Essential Apps.",
+      "title": "Brez licence"
     },
     "zoomInTooltip": "Povečaj",
     "zoomOutTooltip": "Pomanjšaj",
@@ -33,11 +33,11 @@ define({
     "featureOutsideAOIMessage": "Geoobjekta ni mogoče dodati izven študijskega območja",
     "noEditingPermissionsMessage": "Za izvajanje tega dejanja nimate dovoljenja.",
     "basemapGalleryText": "Galerija temeljnih kart",
-    "basemapThumbnailAltText": "Š_Click to load ${basemapTitle} ${index} of ${totalBasemaps}______________________________č",
+    "basemapThumbnailAltText": "Kliknite za nalaganje ${basemapTitle} ${index} od ${totalBasemaps}",
     "legendText": "Legenda",
-    "featureNotFoundMessage": "Š_Requested feature not found____________________________č",
-    "backButton": "Š_back_________č",
-    "panelCloseButton": "Š_Close___________č"
+    "featureNotFoundMessage": "Zahtevani geoobjekt ni najden",
+    "backButton": "nazaj",
+    "panelCloseButton": "Zapri"
   },
   "signin": {
     "guestSigninText": "Nadaljuj kot gost",
@@ -72,17 +72,17 @@ define({
     "gotoMapViewTooltip": "Pogled karte"
   },
   "appHeader": {
-    "help": "Š_Help_________č",
+    "help": "Pomoč",
     "myReport": "Moji prispevki",
     "signIn": "Prijava",
     "signOut": "Odjava",
     "signInTooltip": "Prijava",
     "signOutTooltip": "Odjava",
     "myReportTooltip": "Pogled mojih prispevkov",
-    "share": "Š_Share___________č",
-    "shareDialogTitle": "Š_Share Dialog_____________č",
-    "shareDialogAppURLLabel": "Š_Application URL________________č",
-    "mobileHamburger": "Š_Hamburger___________________č"
+    "share": "Deli",
+    "shareDialogTitle": "Delite pogovor",
+    "shareDialogAppURLLabel": "URL aplikacije",
+    "mobileHamburger": "Hamburger"
   },
   "geoform": {
     "enterInformation": "Podrobnosti",
@@ -116,10 +116,10 @@ define({
     "locationSelectionHintForPolygonLayer": "Tapnite karto, da narišete lokacijo. Tapnite dvakrat, da dokončate risbo.",
     "locationSelectionHintForPointLayerDesktop": "Kliknite na karto, da narišete lokacijo.",
     "locationSelectionHintForPolygonLayerDesktop": "Kliknite na karto, da narišete lokacijo. Kliknite dvakrat, da dokončate risbo.",
-    "locationDialogTitle": "Š_Select location for report___________________________č",
-    "locationDialogContent": "Š_Are you sure you want to use image location________________________č ?",
-    "errorMessageText": "Š_${message} for field ${fieldName}__________________č",
-    "deleteAttachmentBtnText": "Š_Delete attachment__________________č"
+    "locationDialogTitle": "Izberite lokacijo za poročilo",
+    "locationDialogContent": "Ali ste prepričani, da želite uporabiti lokacijo slike?",
+    "errorMessageText": "${message} za polje ${fieldName}",
+    "deleteAttachmentBtnText": "Izbriši prilogo"
   },
   "locator": {
     "addressText": "Naslov:",
@@ -161,7 +161,7 @@ define({
     "commentsFormEditButton": "Posodobi komentar",
     "commentsFormCancelButton": "Prekliči",
     "errorInSubmittingComment": "Komentarja ni bilo mogoče poslati.",
-    "commentSubmittedMessage": "Š_Thank you for your feedback_____________________________č.",
+    "commentSubmittedMessage": "Zahvaljujemo se vam za povratno informacijo.",
     "emptyCommentMessage": "Vnesite komentar.",
     "placeHolderText": "Vpišite komentar",
     "noCommentsAvailableText": "Ni razpoložljivih komentarjev",
@@ -181,9 +181,9 @@ define({
     "noAttachmentsAvailableText": "Ni najdenih prilog"
   },
   "dialog": {
-    "okButton": "Š_Ok_____č",
-    "cancelButton": "Š_Cancel_____________č",
-    "yesButton": "Š_Yes_______č",
-    "noButton": "Š_No_____č"
+    "okButton": "V redu",
+    "cancelButton": "Prekliči",
+    "yesButton": "Da",
+    "noButton": "Ne"
   }
 });

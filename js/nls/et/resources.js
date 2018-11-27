@@ -18,8 +18,8 @@ define({
   "map": {
     "error": "Võimetu koostama kaarti",
     "licenseError": {
-      "message": "Š_Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license__________________________________________________________________________________________________________ä.",
-      "title": "Š_Not Licensed_____________ä"
+      "message": "Teie kontol puudub litsents konfigureeritavate rakenduste kasutamiseks, mis ei ole avalikud. Paluge oma organisatsiooni administraatoril määrata teile kasutajatüüp, mis sisaldab olulisi rakendusi või oluliste rakenduse lisalitsentsi.",
+      "title": "Litsents puudub"
     },
     "zoomInTooltip": "Suurenda",
     "zoomOutTooltip": "Vähenda",
@@ -33,11 +33,11 @@ define({
     "featureOutsideAOIMessage": "Objekti ei saa lisada uuringualast väljapoole",
     "noEditingPermissionsMessage": "Teil puudub õigus selle toimingu tegemiseks.",
     "basemapGalleryText": "Aluskaardi galerii",
-    "basemapThumbnailAltText": "Š_Click to load ${basemapTitle} ${index} of ${totalBasemaps}______________________________ä",
+    "basemapThumbnailAltText": "Klõpsake, et laadida ${basemapTitle} ${index} kaartide üldarvust ${totalBasemaps}",
     "legendText": "Legend",
-    "featureNotFoundMessage": "Š_Requested feature not found____________________________ä",
-    "backButton": "Š_back_________ä",
-    "panelCloseButton": "Š_Close___________ä"
+    "featureNotFoundMessage": "Päritud objekti ei leitud",
+    "backButton": "tagasi",
+    "panelCloseButton": "Sule"
   },
   "signin": {
     "guestSigninText": "Jätkake külalisena",
@@ -72,17 +72,17 @@ define({
     "gotoMapViewTooltip": "Kaardivaade"
   },
   "appHeader": {
-    "help": "Š_Help_________ä",
+    "help": "Abi",
     "myReport": "Minu edastused",
     "signIn": "Logi sisse",
     "signOut": "Logi välja",
     "signInTooltip": "Logi sisse",
     "signOutTooltip": "Logi välja",
     "myReportTooltip": "Kuva minu esitused",
-    "share": "Š_Share___________ä",
-    "shareDialogTitle": "Š_Share Dialog_____________ä",
-    "shareDialogAppURLLabel": "Š_Application URL________________ä",
-    "mobileHamburger": "Š_Hamburger___________________ä"
+    "share": "Jaga",
+    "shareDialogTitle": "Jagamise dialoog",
+    "shareDialogAppURLLabel": "Rakenduse URL",
+    "mobileHamburger": "Hamburger"
   },
   "geoform": {
     "enterInformation": "Detailid",
@@ -116,10 +116,10 @@ define({
     "locationSelectionHintForPolygonLayer": "Asukoha joonistamiseks klõpsake kaardil. Joonistuse lõpetamiseks tehke topeltklõps.",
     "locationSelectionHintForPointLayerDesktop": "Asukoha joonistamiseks klõpsake kaarti.",
     "locationSelectionHintForPolygonLayerDesktop": "Asukoha joonistamiseks klõpsake kaarti. Joonistuse lõpuleviimiseks topeltklõpsake.",
-    "locationDialogTitle": "Š_Select location for report___________________________ä",
-    "locationDialogContent": "Š_Are you sure you want to use image location________________________ä ?",
-    "errorMessageText": "Š_${message} for field ${fieldName}__________________ä",
-    "deleteAttachmentBtnText": "Š_Delete attachment__________________ä"
+    "locationDialogTitle": "Valige aruande asukoht",
+    "locationDialogContent": "Kas olete kindel, et soovite kasutada pildi asukohta?",
+    "errorMessageText": "${message} väljal ${fieldName}",
+    "deleteAttachmentBtnText": "Kustuta manus"
   },
   "locator": {
     "addressText": "Aadress:",
@@ -161,7 +161,7 @@ define({
     "commentsFormEditButton": "Uuenda kommentaari",
     "commentsFormCancelButton": "Tühista",
     "errorInSubmittingComment": "Kommentaari ei saanud esitada.",
-    "commentSubmittedMessage": "Š_Thank you for your feedback_____________________________ä.",
+    "commentSubmittedMessage": "Täname tagasiside eest.",
     "emptyCommentMessage": "Palun sisestage kommentaar.",
     "placeHolderText": "Sisestage kommentaar",
     "noCommentsAvailableText": "Ühtki kommentaari ei ole saadaval.",
@@ -181,9 +181,9 @@ define({
     "noAttachmentsAvailableText": "Manuseid ei leitud"
   },
   "dialog": {
-    "okButton": "Š_Ok_____ä",
-    "cancelButton": "Š_Cancel_____________ä",
-    "yesButton": "Š_Yes_______ä",
-    "noButton": "Š_No_____ä"
+    "okButton": "OK",
+    "cancelButton": "Loobu",
+    "yesButton": "Jah",
+    "noButton": "Ei"
   }
 });
