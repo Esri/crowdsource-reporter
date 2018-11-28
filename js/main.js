@@ -684,7 +684,9 @@ define([
                 //This resolves the issue of focus being set to mobile menu
                 if (dojowindow.getBox().w < 768) {
                     on(dom.byId("submitFromMap"), "focusout", lang.hitch(this, function (evt) {
-                        if (this.appHeader) {
+                        //Check if geoform is hidden and then set the focus to burger icon
+                        if (this.appHeader &&
+                            domClass.contains(dom.byId('geoformContainer'), "esriCTHidden")) {
                             this.appHeader.mobileMenuBurger.focus();
                         }
                     }));
@@ -736,6 +738,14 @@ define([
                     var code = evt.charCode || evt.keyCode;
                     //Listen for escape key press event
                     if (code === 27) {
+                        //If app is runing in mobile mode and map div is a current view
+                        //The show the sidebar container and hide the map
+                        if (dojowindow.getBox().w < 768) {
+                            if (domStyle.get(dom.byId("mapParentContainer"), "display") === "block") {
+                                this._toggleListView();
+                                return;
+                            }
+                        }
                         if (!domClass.contains(dom.byId('geoformContainer'), "esriCTHidden")) {
                             this.geoformInstance.closeButton.click();
                             return;
@@ -1125,6 +1135,10 @@ define([
                     //Check for the configurable parameter and accordingly show map first in mobile devices
                     if (this.config.showMapFirst === "map" && dojowindow.getBox().w < 768) {
                         this._toggleMapView();
+                        //If map view is shown then set focus to back button
+                        setTimeout(function () {
+                            dom.byId("mapBackButton").focus();
+                        }, 200);
                     }
                 });
 
@@ -1354,7 +1368,9 @@ define([
                     }, 200);
                 });
                 this._issueWallWidget.onSubmitButtonFocusOut = lang.hitch(this, function (evt) {
-                    if (this.appHeader) {
+                    //Check if geoform is hidden and then set the focus to burger icon
+                    if (this.appHeader &&
+                        domClass.contains(dom.byId('geoformContainer'), "esriCTHidden")) {
                         this.appHeader.mobileMenuBurger.focus();
                     }
                 });
@@ -1472,8 +1488,14 @@ define([
                         this._issueWallWidget.selectFeatureFromURL();
                     }
                     setTimeout(lang.hitch(this, function () {
+                        //If geoform is hidden
+                        //Set focus to issue wall back button if in desktop mode
+                        //Set focus to issue wall back button if list view is shown on app load in mobile mode
                         if (domClass.contains(dom.byId('geoformContainer'), "esriCTHidden")) {
-                            this._issueWallWidget.listBackButton.focus();
+                            if (dojowindow.getBox().w > 768 ||
+                                (dojowindow.getBox().w < 768 && this.config.showMapFirst === "list")) {
+                                this._issueWallWidget.listBackButton.focus();
+                            }
                         }
                     }), 100);
                 });
@@ -1486,6 +1508,9 @@ define([
                 //Check for the configurable parameter and accordingly show map first in mobile devices
                 if (this.config.showMapFirst === "map" && dojowindow.getBox().w < 768) {
                     this._toggleMapView();
+                    setTimeout(function () {
+                        dom.byId("mapBackButton").focus();
+                    }, 200);
                 }
                 data.featureLayerCount = this.featureLayerCount;
                 data.layerGraphicsArray = this.layerGraphicsArray;
@@ -1644,7 +1669,19 @@ define([
                             this.featureGraphicLayer.clear();
                         }
                         setTimeout(lang.hitch(this, function () {
-                            this._issueWallWidget.submitReport.focus();
+                            //After closing geoform
+                            //Check if app is running in mobile mode and map div is shown then set focus
+                            //to map back button
+                            //other wise set focus to issue wall back button
+                            if (dojowindow.getBox().w < 768) {
+                                if (domStyle.get(dom.byId("mapParentContainer"), "display") === "none") {
+                                    this._issueWallWidget.submitReport.focus();
+                                } else {
+                                    dom.byId("submitFromMap").focus();
+                                }
+                            } else {
+                                this._issueWallWidget.submitReport.focus();
+                            }
                         }), 200);
                     });
 
@@ -3068,18 +3105,13 @@ define([
                 "class": "esriCTOnScreenWidgetWrapper esriCTBodyTextColor esriCTBodyBackgroundColor",
                 "panelId": panel
             }, container);
-            //Set focus based on the panel
-            $(closeBtn).focusout(lang.hitch(this, function (evt) {
-                var panelName;
-                panelName = domAttr.get(evt.currentTarget, "panel");
-                if (panelName === "Legend") {
-                    this._hidePanel("Legend");
-                    query(".esriCTLegendButton")[0].focus();
-                } else {
-                    this._hidePanel("Basemap");
+            //If legend panel close button loses focus, set focus to basemap gallyer button
+            if (panel === "Legend") {
+                //Set focus based on the panel
+                $(closeBtn).focusout(lang.hitch(this, function (evt) {
                     query(".esriCTBasemapGalleryButton")[0].focus();
-                }
-            }));
+                }));
+            }
             return contentWrapper;
         },
 
