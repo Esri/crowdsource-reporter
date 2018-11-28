@@ -1497,6 +1497,15 @@ define([
                                 this._issueWallWidget.listBackButton.focus();
                             }
                         }
+                        //Once the issue wall is loaded for first time
+                        //Destroy all the map references from webmap list to avoid unnecessary requests
+                        if (this._webMapListWidget.mapsToBeDestroyed.length > 0) {
+                            for (var i = this._webMapListWidget.mapsToBeDestroyed.length - 1;
+                                i >= 0; i--) {
+                                this._webMapListWidget.mapsToBeDestroyed[i].destroy();
+                            }
+                            this._webMapListWidget.mapsToBeDestroyed.length = 0;
+                        }
                     }), 100);
                 });
                 this._sidebarCnt.addPanel("issueWall", this._issueWallWidget);
