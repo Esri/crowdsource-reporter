@@ -84,7 +84,8 @@
         "commentStartDate": "",
         "commentStartTime": "",
         "commentEndDate" :"",
-        "commentEndTime": ""
+        "commentEndTime": "",
+        "commentSortingOrder": "DESC"
     },
   "configurationSettings": [{
       "category": "<b>General</b>",
@@ -713,16 +714,18 @@
         "fieldName": "commentsSuccessMessage",
         "stringFieldOption": "richtext"
       }, {
-				"label": "Comments sorting field",
-				"tooltip": "Sort comments based on configured field",
-				"type": "string",
-				"fieldName": "commentSortingField"
-			}, {
-				"label": "Comments sorting order",
-				"tooltip": "Order in which comments can be sorted ",
-				"type": "options",
-				"fieldName": "commentSortingOrder",
-				"items": [{
+          "label": "Comments sorting field",
+          "tooltip": "Sort comments based on configured field",
+          "type": "string",
+          "fieldName": "commentSortingField"
+			
+      }, {
+				
+          "label": "Comments sorting order",
+          "tooltip": "Order in which comments can be sorted ",
+          "type": "options",
+          "fieldName": "commentSortingOrder",
+          "options": [{
 					"label": "Ascending",
 					"value": "ASC"
       }, {
