@@ -2421,9 +2421,12 @@ define([
             layerUrl = selectedOperationalLayer.url;
             layerID = details.operationalLayerDetails.id;
             cloneRenderer = lang.clone(selectedOperationalLayer.renderer);
-            //Option 1 :
-            //Instead of lang.clone, create new info template object
-            cloneInfoTemplate = new InfoTemplate(selectedOperationalLayer.infoTemplate.info);
+            //Option 2 :
+            //Delete the "_exprCache" object which is causing lang.clone to fail
+            if(selectedOperationalLayer.infoTemplate.hasOwnProperty("_exprCache")) {
+                delete selectedOperationalLayer.infoTemplate._exprCache;
+            }
+            cloneInfoTemplate = lang.clone(selectedOperationalLayer.infoTemplate);
             minScale = lang.clone(selectedOperationalLayer.minScale);
             maxScale = lang.clone(selectedOperationalLayer.maxScale);
             //Fetch defination expression of selected feature layer
