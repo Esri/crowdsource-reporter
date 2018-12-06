@@ -2421,9 +2421,8 @@ define([
             layerUrl = selectedOperationalLayer.url;
             layerID = details.operationalLayerDetails.id;
             cloneRenderer = lang.clone(selectedOperationalLayer.renderer);
-            //Option 1 :
             //Instead of lang.clone, create new info template object
-            cloneInfoTemplate = new InfoTemplate(selectedOperationalLayer.infoTemplate.info);
+            cloneInfoTemplate = new InfoTemplate(selectedOperationalLayer.infoTemplate.toJson());
             minScale = lang.clone(selectedOperationalLayer.minScale);
             maxScale = lang.clone(selectedOperationalLayer.maxScale);
             //Fetch defination expression of selected feature layer
