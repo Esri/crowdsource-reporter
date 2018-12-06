@@ -51,6 +51,7 @@ define([
     "esri/geometry/geometryEngine",
     "esri/geometry/webMercatorUtils",
     "esri/dijit/PopupTemplate",
+    "esri/InfoTemplate",
     "esri/toolbars/draw",
     "esri/urlUtils",
     "widgets/app-header/app-header",
@@ -103,6 +104,7 @@ define([
     geometryEngine,
     webMercatorUtils,
     PopupTemplate,
+    InfoTemplate,
     Draw,
     urlUtils,
     ApplicationHeader,
@@ -2419,7 +2421,9 @@ define([
             layerUrl = selectedOperationalLayer.url;
             layerID = details.operationalLayerDetails.id;
             cloneRenderer = lang.clone(selectedOperationalLayer.renderer);
-            cloneInfoTemplate = lang.clone(selectedOperationalLayer.infoTemplate);
+            //Option 1 :
+            //Instead of lang.clone, create new info template object
+            cloneInfoTemplate = new InfoTemplate(selectedOperationalLayer.infoTemplate.info);
             minScale = lang.clone(selectedOperationalLayer.minScale);
             maxScale = lang.clone(selectedOperationalLayer.maxScale);
             //Fetch defination expression of selected feature layer
