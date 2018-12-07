@@ -1,3 +1,24 @@
+/* Added classes to show the tab index highlighter only for Accessibility */
+
+:focus {
+    /* You can remove this to use the browser's defaults */
+    outline: #06f auto 2px;
+  }
+
+  body.using-mouse :focus {
+    outline: none;
+  }
+
+  .esriCTFallBackText {
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+    position: absolute;
+    height: 1px;
+    width: 1px;
+}
+
+/* End of classes to show the tab index highlighter only for Accessibility */
+
 html, body
 {
     padding: 0;
@@ -26,6 +47,15 @@ html, body
     width: 100%;
     height: 100%;
 }
+
+/* Classes for Accessibility */
+
+#mapDiv:focus {
+    border: 2px solid cyan;
+
+}
+
+/* End of classes for accessibility */
 
 #mapParentContainer
 {
@@ -546,6 +576,8 @@ html, body
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    float: left;
+    width: calc(100% - 250px);
 }
 
 .esriCTMenuTabRight
@@ -758,6 +790,11 @@ html, body
     border-bottom: 1px solid #ccc;
 }
 
+.esriCTMapInfoContainer
+{
+    float: right;
+}
+
 .esriCTInfoImg
 {
     height: 16px;
@@ -789,10 +826,11 @@ html, body
     overflow: hidden;
     position: relative;
     max-height: 38.3px;
-    max-width: 100%;
+    max-width: 80%; /* Chagnges in max-with and margin-right */
     word-break: break-word;
     margin-left: 10px;
-    margin-right: 29px;
+    margin-right: 10px;
+    float: left; /* Added float due to changes in DOM for Accessibility */
 }
 
 .esriCTMultiLineFill
@@ -1131,6 +1169,7 @@ label
 {
     padding: 0px !important;
     width: calc(100% - 50px);
+    display: inline-block;
 }
 
 .esriCTGeoFormLoader
@@ -1466,6 +1505,12 @@ label
     background-color: #fff;
 }
 
+.esriCTtemSummaryParent:focus
+{
+    outline: #06f solid 2px !important;
+    outline-offset: -2px;
+}
+
 .esriCTItemList .esriCTItemSummary:hover
 {
     background-color: #fff;
@@ -1710,6 +1755,10 @@ label
     padding: 4px 6px;
 }
 
+.btn-default:hover, .btn-default:focus, .btn-default:focus {
+    border-color: #007ac2 !important;
+}
+/*
 .esriCTItemDetail .btn ::selection
 {
     color: #007ac2;
@@ -1719,7 +1768,7 @@ label
 {
     color: #007ac2;
 }
-
+*/
 .esriCTTtemDescFooter
 {
     height: 25px;
@@ -2192,7 +2241,7 @@ label
     display: none;
 }
 
-.esriCTHelpIcon
+.esriCTHelpIcon, .esriCTShareIcon
 {
     height: 18px;
     width: 18px;
@@ -2208,10 +2257,16 @@ label
     border-color: #555;
 }
 
+.esriCTModalButtonContainer
+{
+    float: right;
+    margin-top: 20px;
+}
+
 .esriCTModelDialog .modal-body
 {
     overflow: auto;
-    height: 250px;
+    max-height: 250px;
     margin-bottom: 15px;
 }
 
@@ -2268,12 +2323,18 @@ label
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 85%;
+    width: calc(100% - 50px);
+    display: inline-block;
 }
 
 .modal-header
 {
     min-height: 56px;
+}
+
+.modal-header .close
+{
+    margin-top: 5px;
 }
 
 /** Comments form starts **/
@@ -2435,5 +2496,9 @@ label
 /* Override the style of selected basemap node to avoid the issue of basemap thumbnail displacement */
 .esriBasemapGallerySelectedNode .esriBasemapGalleryThumbnail {
     margin: 1px;
+}
+.esriCTOnScreenClose
+{
+    float: left;
 }
 /** Basemap gallery section ends **/

@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "Kreiranje mape nije moguće",
+    "licenseError": {
+      "message": "Vaš nalog nema licencu za korišćenje aplikacija koje mogu da se konfigurišu i nisu javne. Zatražite od administratora organizacije da vam dodeli onaj tip korisnika koji uključuje osnovne aplikacije ili licencu za dodatne osnovne aplikacije.",
+      "title": "Nema licencu"
+    },
     "zoomInTooltip": "Uvećanje",
     "zoomOutTooltip": "Umanjenje",
     "geolocationTooltip": "Trenutna lokacija"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "Geoobjekat ne može da se doda izvan oblasti ispitivanja",
     "noEditingPermissionsMessage": "Nemate dozvolu za ovu radnju.",
     "basemapGalleryText": "Galerija pozadinskih mapa",
-    "legendText": "Legenda"
+    "basemapThumbnailAltText": "Kliknite za učitavanje ${basemapTitle} ${index} od ${totalBasemaps}",
+    "legendText": "Legenda",
+    "featureNotFoundMessage": "Zahtevani geoobjekat nije pronađen",
+    "backButton": "pozadi",
+    "panelCloseButton": "Zatvori"
   },
   "signin": {
     "guestSigninText": "Nastavite kao gost",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "Prikaz mape"
   },
   "appHeader": {
+    "help": "Pomoć",
     "myReport": "Moje prosleđene stavke",
     "signIn": "Prijavite se",
     "signOut": "Odjavite se",
     "signInTooltip": "Prijavite se",
     "signOutTooltip": "Odjavite se",
-    "myReportTooltip": "Prikaži moje prosleđene stavke"
+    "myReportTooltip": "Prikaži moje prosleđene stavke",
+    "share": "Podeli",
+    "shareDialogTitle": "Podeli dijalog",
+    "shareDialogAppURLLabel": "URL aplikacije",
+    "mobileHamburger": "Hamburger"
   },
   "geoform": {
     "enterInformation": "Detalji",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "Dodirnite mapu da nacrtate lokaciju.",
     "locationSelectionHintForPolygonLayer": "Dodirnite mapu da nacrtate lokaciju. Dodirnite dvaput da završite crtež.",
     "locationSelectionHintForPointLayerDesktop": "Kliknite na mapu da nacrtate lokaciju.",
-    "locationSelectionHintForPolygonLayerDesktop": "Kliknite na mapu da nacrtate lokaciju. Kliknite dvaput da završite crtež."
+    "locationSelectionHintForPolygonLayerDesktop": "Kliknite na mapu da nacrtate lokaciju. Kliknite dvaput da završite crtež.",
+    "locationDialogTitle": "Izaberite lokaciju za izveštaj",
+    "locationDialogContent": "Želite li zaista da koristite lokaciju snimka?",
+    "errorMessageText": "${message} za polje ${fieldName}",
+    "deleteAttachmentBtnText": "Obriši prilog"
   },
   "locator": {
     "addressText": "Adresa:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "Ažuriraj komentar",
     "commentsFormCancelButton": "Otkaži",
     "errorInSubmittingComment": "Prosleđivanje komentara nije moguće.",
+    "commentSubmittedMessage": "Hvala vam na povratnim informacijama.",
     "emptyCommentMessage": "Unesite komentar.",
     "placeHolderText": "Iskucajte komentar",
     "noCommentsAvailableText": "Nema dostupnih komentara",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "Galerija",
     "noAttachmentsAvailableText": "Prilozi nisu pronađeni"
+  },
+  "dialog": {
+    "okButton": "U redu",
+    "cancelButton": "Otkaži",
+    "yesButton": "Da",
+    "noButton": "Ne"
   }
 });

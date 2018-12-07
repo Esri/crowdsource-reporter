@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "Žemėlapio sukurti nepavyko",
+    "licenseError": {
+      "message": "Jūsų paskyra nelicencijuota naudoti ne viešas konfigūruojamas aplikacijas. Kreipkitės į organizacijos administratorių, kad paskirtų jums vartotojo tipą, kuris turi svarbiausias aplikacijas, arba suteiktų jums papildomą svarbiausių aplikacijų licenciją.",
+      "title": "Nelicencijuota"
+    },
     "zoomInTooltip": "Artinti",
     "zoomOutTooltip": "Tolinti",
     "geolocationTooltip": "Esama padėtis"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "Elemento negalima pridėti už regiono ribų",
     "noEditingPermissionsMessage": "Neturite leidimo atlikti šį veiksmą.",
     "basemapGalleryText": "Pagrindo žemėlapiai",
-    "legendText": "Legenda"
+    "basemapThumbnailAltText": "Paspauskite norėdami įkelti ${totalBasemaps} ${basemapTitle} ${index}",
+    "legendText": "Legenda",
+    "featureNotFoundMessage": "Prašomas elementas nerastas",
+    "backButton": "atgal",
+    "panelCloseButton": "Uždaryti"
   },
   "signin": {
     "guestSigninText": "Tęsti svečio teisėmis",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "Žemėlapio vaizdas"
   },
   "appHeader": {
+    "help": "Pagalba",
     "myReport": "Mano pateiktys",
     "signIn": "Prisijungti",
     "signOut": "Atsijungti",
     "signInTooltip": "Prisijunkite",
     "signOutTooltip": "Atsijungti",
-    "myReportTooltip": "Peržiūrėti mano pateiktis"
+    "myReportTooltip": "Peržiūrėti mano pateiktis",
+    "share": "Bendrinti",
+    "shareDialogTitle": "Bendrinimo dialogas",
+    "shareDialogAppURLLabel": "Aplikacijos URL",
+    "mobileHamburger": "Mėsainis"
   },
   "geoform": {
     "enterInformation": "Išsamiau",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "Bakstelėkite žemėlapį, norėdami apibrėžti teritoriją.",
     "locationSelectionHintForPolygonLayer": "Bakstelėkite žemėlapį, norėdami apibrėžti teritoriją. Norėdami baigti braižyti, bakstelėkite du kartus.",
     "locationSelectionHintForPointLayerDesktop": "Spustelėkite žemėlapį, norėdami apibrėžti teritoriją.",
-    "locationSelectionHintForPolygonLayerDesktop": "Spustelėkite žemėlapį, norėdami apibrėžti teritoriją. Norėdami baigti braižyti, spustelėkite du kartus."
+    "locationSelectionHintForPolygonLayerDesktop": "Spustelėkite žemėlapį, norėdami apibrėžti teritoriją. Norėdami baigti braižyti, spustelėkite du kartus.",
+    "locationDialogTitle": "Pasirinkite vietą ataskaitai",
+    "locationDialogContent": "Ar tikrai norite naudoti vaizdo padėtį?",
+    "errorMessageText": "${message} laukui ${fieldName}",
+    "deleteAttachmentBtnText": "Ištrinti priedą"
   },
   "locator": {
     "addressText": "Adresas:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "Atnaujinti komentarą",
     "commentsFormCancelButton": "Atšaukti",
     "errorInSubmittingComment": "Komentaro pateikti nepavyko.",
+    "commentSubmittedMessage": "Dėkojame už grįžtamąjį ryšį.",
     "emptyCommentMessage": "Įveskite komentarą.",
     "placeHolderText": "Įvesti komentarą",
     "noCommentsAvailableText": "Komentarų nėra",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "Galerija",
     "noAttachmentsAvailableText": "Priedų nėra"
+  },
+  "dialog": {
+    "okButton": "Gerai",
+    "cancelButton": "Atšaukti",
+    "yesButton": "Taip",
+    "noButton": "Ne"
   }
 });

@@ -39,7 +39,8 @@ define([
     "dijit/_WidgetsInTemplateMixin",
     "dojo/query",
     "esri/geometry/Extent",
-    "esri/geometry/Point"
+    "esri/geometry/Point",
+    "dojo/window"
 ], function (
     declare,
     lang,
@@ -64,7 +65,8 @@ define([
     _WidgetsInTemplateMixin,
     query,
     Extent,
-    Point
+    Point,
+    dojowindow
 ) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: dijitTemplate,
@@ -82,6 +84,8 @@ define([
         selectedMapResponse: null, //object of selected map response object, this will reduce the unnecessary calls to API to get all the required properties of layer or map
         selectedLayerId: null,
         geographicalExtentLayer: null, //defines study area for feature edits
+        _initialLoad: true, // to keep track that application is loaded for first time
+
         /**
         * This function is called when widget is constructed.
         * @param{object} options to be mixed
@@ -142,7 +146,11 @@ define([
                 itemInfo = results[i];
                 // Set the itemInfo config option. This can be used when calling createMap instead of the webmap id
                 if (itemInfo.type === "Web Map") {
-                    requestArray.push(this._createMap(itemInfo.id, "webMapListMapDiv"));
+                    var mapID = "tesMap_" + Date.now();
+                    var div = domConstruct.create("div", {
+                        "id": mapID
+                    }, "webMapListMapDiv");
+                    requestArray.push(this._createMap(itemInfo.id, mapID));
                 }
             }
             dl = new DeferredList(requestArray);
@@ -173,9 +181,11 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         _createMap: function (webMapID, mapDivID) {
+            //Do not destroy the map instance as it causes the vector base maps to fail while loading
+            /*
             if (this.map) {
                 this.map.destroy();
-            }
+            }*/
             domConstruct.empty(mapDivID);
             var webMapInstance = BootstrapMap.createWebMap(webMapID, mapDivID, {
                 ignorePopups: false,
@@ -258,7 +268,11 @@ define([
                     }
                     //If their are any auto refreshed layer on the map browser will send request for those layers although that layer may not be selected on main map.
                     //destroy the map instance once all the operation is completed.
-                    response[i][1].map.destroy();
+                    if (!this.mapsToBeDestroyed) {
+                        this.mapsToBeDestroyed = [];
+                    }
+                    this.mapsToBeDestroyed.push(response[i][1].map);
+                    //response[i][1].map.destroy();
                 }
             }
         },
@@ -351,7 +365,11 @@ define([
                 domClass.add(parentDiv, "esriCTDisplayWebMapTemplate esriCTWebMapBorder esriCTHeaderTextColorAsBorder");
                 domAttr.set(parentDiv, "webMapID", this.filteredWebMapResponseArr[i][1].itemInfo.item.id);
                 if (query('.esriCTInfoImg', parentDiv).length > 0) {
-                    domAttr.set(query('.esriCTInfoImg', parentDiv)[0], "title", this.appConfig.i18n.webMapList.infoBtnToolTip);
+                    domAttr.set(query('.esriCTInfoImg', parentDiv)[0].parentElement, "title", this.appConfig.i18n.webMapList.infoBtnToolTip);
+                    domAttr.set(query('.esriCTInfoImg', parentDiv)[0].parentElement, "aria-label", this.appConfig.i18n.webMapList.infoBtnToolTip);
+                }
+                if (query('.esriCTInfoImgFallBack', parentDiv).length > 0) {
+                    domAttr.set(query('.esriCTInfoImgFallBack', parentDiv)[0], "innerHTML", this.appConfig.i18n.webMapList.infoBtnToolTip);
                 }
                 if ((this.filteredWebMapResponseArr[i][1].itemInfo.itemData.operationalLayers.length > 1) && (editCapabilityLayerCount > 1)) {
                     domAttr.set(parentDiv, "displayOperationalLayerList", true);
@@ -386,6 +404,26 @@ define([
                     this.filteredWebMapResponseArr[0][1].itemInfo.itemData.operationalLayers.length > 1) {
                 this._handleWebmapToggling(query(".esriCTDisplayWebMapTemplate")[0], null);
             }
+
+            //Accessibility code
+            //In mobile mode the tab index was creatignan issue due to existing DOM structure
+            //TO resolve the issue, we added code and shifted the focus back to app title on
+            //focus out of last webmap element
+            if (dojowindow.getBox().w < 768) {
+                if (query(".esriCTInfoImg") && query(".esriCTInfoImg")[this.filteredWebMapResponseArr.length - 1]) {
+                    on(query(".esriCTInfoImg")[this.filteredWebMapResponseArr.length - 1].parentElement,
+                        "focusout", function () {
+                            query(".esriCTAppName")[0].focus();
+                        });
+                } else {
+                    if (query(".esriCTMultiLineEllipsisdiv") && query(".esriCTMultiLineEllipsisdiv")[this.filteredWebMapResponseArr.length - 1]) {
+                        on(query(".esriCTMultiLineEllipsisdiv")[this.filteredWebMapResponseArr.length - 1],
+                            "focusout", function () {
+                                query(".esriCTAppName")[0].focus();
+                            });
+                    }
+                }
+            }
         },
 
         /**
@@ -407,6 +445,10 @@ define([
                             if (this.map._layers[layer].type === "Feature Layer") {
                                 if (this.map._layers[layer].id !== obj.operationalLayerId) {
                                     this.map._layers[layer].hide();
+                                    if (this.appConfig.showNonEditableLayers &&
+                                        !this.map._layers[layer].url) {
+                                        this.map._layers[layer].show();
+                                    }
                                 } else {
                                     this.map._layers[layer].hide();
                                     this.map.getLayer(obj.operationalLayerId).refresh();
@@ -504,16 +546,26 @@ define([
         */
         _featureLayerLoaded: function (webMapID, layerID, layerDetails, itemInfo) {
             //Highlight the Selected Item in webmap list
-            this._highlightSelectedItem(webMapID, layerID);
-            setTimeout(lang.hitch(this, function () {
-                this.onOperationalLayerSelected({
-                    "map": this.map,
-                    "webMapId": webMapID,
-                    "operationalLayerId": layerID,
-                    "operationalLayerDetails": layerDetails,
-                    "itemInfo": itemInfo
-                });
-            }), 500);
+            //If webmap is present in the URL, than select it in the webmap list
+            if (this.appConfig.urlObject && this.appConfig.urlObject.query &&
+                this.appConfig.urlObject.query.webmap &&
+                this._initialLoad) {
+                this._initialLoad = false;
+                webMapID = this.appConfig.urlObject.query.webmap;
+                layerID = this.appConfig.urlObject.query.layer;
+                this.loadWebMapFromUrlParams();
+            } else { //by default select first webmap of the list
+                this._highlightSelectedItem(webMapID, layerID);
+                setTimeout(lang.hitch(this, function () {
+                    this.onOperationalLayerSelected({
+                        "map": this.map,
+                        "webMapId": webMapID,
+                        "operationalLayerId": layerID,
+                        "operationalLayerDetails": layerDetails,
+                        "itemInfo": itemInfo
+                    });
+                }), 500);
+            }
         },
 
         /**
@@ -524,10 +576,16 @@ define([
         */
         _handleWebMapClick: function (parentDiv, operationalLayerDetails) {
             this.appUtils.showLoadingIndicator();
-            on($(".esriCTMediaBody", parentDiv)[0], "click", lang.hitch(this, function (evt) {
+            on($(".esriCTMediaBody", parentDiv)[0], "click, keypress", lang.hitch(this, function (evt) {
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 this._handleWebmapToggling(parentDiv, operationalLayerDetails);
             }));
-            on($(".esriCTWebMapImg", parentDiv)[0], "click", lang.hitch(this, function (evt) {
+            on($(".esriCTWebMapImg", parentDiv)[0], "click, keypress", lang.hitch(this, function (evt) {
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 this._handleWebmapToggling(parentDiv, operationalLayerDetails);
             }));
         },
@@ -617,6 +675,7 @@ define([
                 });
                 childListNode = domConstruct.toDom(operationalLayerString);
                 domAttr.set(childListNode, "webMapID", webMap.itemInfo.item.id);
+                domAttr.set(childListNode, "tabindex", "0");
                 domAttr.set(childListNode, "operationalLayerID", webMap.itemInfo.itemData.operationalLayers[i].id);
                 this._handleOperationalLayerClick(childListNode, webMap.itemInfo.itemData.operationalLayers[i]);
                 parentListNode.appendChild(childListNode);
@@ -636,8 +695,11 @@ define([
         */
         _handleOperationalLayerClick: function (childListNode, operationalLayerDetails) {
             var operationalLayerId;
-            on(childListNode, "click", lang.hitch(this, function (evt) {
+            on(childListNode, "click, keypress", lang.hitch(this, function (evt) {
                 var webMapId, obj;
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 event.stop(evt);
                 this.appUtils.showLoadingIndicator();
                 webMapId = domAttr.get(evt.currentTarget, "webMapID");
@@ -688,10 +750,14 @@ define([
         * @memberOf widgets/webmap-list/webmap-list
         */
         _attachInformationClick: function (information, parentDiv) {
-            var infoIcon, descriptionDiv, webMapId, layerList;
-            infoIcon = query('.esriCTInfoImg', parentDiv)[0];
+            var infoIcon, descriptionDiv, webMapId, layerList, appUtils;
+            appUtils = this.appUtils;
+            infoIcon = query('.esriCTInfoImg', parentDiv)[0].parentElement;
             if (lang.trim(information).length !== 0 && infoIcon) {
-                on(infoIcon, "click", function (evt) {
+                on(infoIcon, "click, keypress", function (evt) {
+                    if (!appUtils.validateEvent(evt)) {
+                        return;
+                    }
                     event.stop(evt);
                     descriptionDiv = query('.esriCTDescription', this.parentElement.parentElement)[0];
                     webMapId = domAttr.get(this.parentElement.parentElement, "webMapID");
@@ -710,6 +776,7 @@ define([
                         setTimeout(lang.hitch(this, function () {
                             domClass.replace(descriptionDiv, "esriCTDisplayList", "esriCTHidden");
                         }), 500);
+                        domAttr.set(infoIcon, "aria-expanded", "true");
                     } else {
                         $('.esriCTDescription', this.parentElement.parentElement).slideUp({
                             duration: 500,
@@ -718,6 +785,7 @@ define([
                         setTimeout(lang.hitch(this, function () {
                             domClass.replace(descriptionDiv, "esriCTHidden", "esriCTDisplayList");
                         }), 500);
+                        domAttr.set(infoIcon, "aria-expanded", "false");
                     }
                 });
             } else {
@@ -753,7 +821,7 @@ define([
         _validatePopupFields: function (popupInfo, fields) {
             var i, j;
             // check if popup-info is available if not then return false
-            if (popupInfo) {
+            if (popupInfo && popupInfo.fieldInfos) {
                 for (i = 0; i < popupInfo.fieldInfos.length; i++) {
                     for (j = 0; j < fields.length; j++) {
                         if (popupInfo.fieldInfos[i].fieldName === fields[j].name) {
@@ -853,6 +921,86 @@ define([
         */
         singleWebmapFound: function () {
             return;
+        },
+
+        /**
+         * This function is used to select the webmap & layer depending upon the
+         * availability of the its respective parameter in the URL
+         * @memberOf widgets/webmap-list/webmap-list
+         */
+        loadWebMapFromUrlParams: function () {
+            var webmapDivToSelect, layerToSelect, layerDetails, layerObject;
+            //Check if valid webmap with webmap id is present in webmap list
+            if (this.appConfig.urlObject.query.webmap) {
+                webmapDivToSelect = $(".esriCTWebMapListParentDiv div[webmapid=" + "'" + this.appConfig.urlObject.query.webmap + "'" + "]");
+                if (webmapDivToSelect) {
+                    array.forEach(this.filteredWebMapResponseArr, lang.hitch(this, function (itemDetails) {
+                        if (itemDetails[1].itemInfo.item.id === this.appConfig.urlObject.query.webmap) {
+                            this.webmapData = itemDetails[1].itemInfo;
+                        }
+                    }));
+                } else {
+                    //If webmap is not found, delete the url params stop the functionality
+                    this.appUtils.showMessage(this.appConfig.i18n.main.featureNotFoundMessage);
+                    delete this.appConfig.urlObject;
+                    this.appUtils.hideLoadingIndicator();
+                    return;
+                }
+            }
+            //If webmap is found and layer id is specified in url, try to fetch layer
+            if (this.webmapData && this.appConfig.urlObject.query.layer) {
+                array.forEach(this.webmapData.itemData.operationalLayers, lang.hitch(this, function (layer) {
+                    if (layer.id === this.appConfig.urlObject.query.layer) {
+                        layerDetails = layer;
+                        layerToSelect = $(".esriCTWebMapListParentDiv div[operationallayerid=" + "'" + layer.id + "'" + "]");
+                    }
+                }));
+                //Check if layer specified in url is present in webmap list, is not select webmap's first layer
+                if (!layerDetails && !layerToSelect && this.webmapData.itemData.operationalLayers.length === 1) {
+                    layerObject = {
+                        "webMapId": this.appConfig.urlObject.query.webmap,
+                        "operationalLayerId": this.webmapData.itemData.operationalLayers[0].id,
+                        "operationalLayerDetails": this.webmapData.itemData.operationalLayers[0],
+                        "itemInfo": this.webmapData
+                    };
+                    delete this.appConfig.urlObject;
+                } else if (!layerDetails && !layerToSelect) {
+                    // If layer is not found, stop the functionality
+                    this.appUtils.showMessage(this.appConfig.i18n.main.featureNotFoundMessage);
+                    delete this.appConfig.urlObject;
+                    this.appUtils.hideLoadingIndicator();
+                } else {
+                    layerObject = {
+                        "webMapId": this.appConfig.urlObject.query.webmap,
+                        "operationalLayerId": this.appConfig.urlObject.query.layer,
+                        "operationalLayerDetails": layerDetails,
+                        "itemInfo": this.webmapData
+                    };
+                }
+                //If layer is not present,select webmap's first layer
+            } else if (this.webmapData && this.webmapData.itemData.operationalLayers.length === 1) {
+                layerObject = {
+                    "webMapId": this.appConfig.urlObject.query.webmap,
+                    "operationalLayerId": this.webmapData.itemData.operationalLayers[0].id,
+                    "operationalLayerDetails": this.webmapData.itemData.operationalLayers[0],
+                    "itemInfo": this.webmapData
+                };
+            } else {
+                this.appUtils.showMessage(this.appConfig.i18n.main.featureNotFoundMessage);
+                delete this.appConfig.urlObject;
+                this.appUtils.hideLoadingIndicator();
+            }
+            if (layerObject) {
+                this._handleWebmapToggling(webmapDivToSelect[0],
+                    layerObject ? layerObject.operationalLayerDetails : null);
+                //If valid layer is not found in webmap list, we need to select first layer in the webmap
+                if (!layerToSelect) {
+                    layerToSelect = $(".esriCTWebMapListParentDiv div[operationallayerid=" + "'" + layerObject.operationalLayerId + "'" + "]");
+                }
+            }
+            if (layerToSelect) {
+                layerToSelect.click();
+            }
         }
     });
 });

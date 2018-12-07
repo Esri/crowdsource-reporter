@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "يتعذر إنشاء الخريطة",
+    "licenseError": {
+      "message": "حسابك غير مرخص لاستخدام التطبيقات القابلة للتكوين غير العامة. رجاءً اطلب من مسئولي المؤسسة تعيينك كنوع مستخدم يتضمن التطبيقات الأساسية أو ترخيص التطبيقات الأساسية المضافة.",
+      "title": "غير مرخص"
+    },
     "zoomInTooltip": "التكبير",
     "zoomOutTooltip": "التصغير.",
     "geolocationTooltip": "الموقع الحالي"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "يتعذر إضافة المعلم خارج منطقة الدراسة",
     "noEditingPermissionsMessage": "لا يتوفر لديك إذن تنفيذ هذا الحدث.",
     "basemapGalleryText": "معرض خرائط الأساس",
-    "legendText": "وسيلة الإيضاح"
+    "basemapThumbnailAltText": "انقر لتحميل ${basemapTitle} ${index} من ${totalBasemaps}",
+    "legendText": "وسيلة الإيضاح",
+    "featureNotFoundMessage": "لم يتم العثور على المعلم المطلوب",
+    "backButton": "السابق",
+    "panelCloseButton": "إغلاق"
   },
   "signin": {
     "guestSigninText": "تابع بصفتك ضيف",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "عرض الخريطة"
   },
   "appHeader": {
+    "help": "تعليمات",
     "myReport": "عمليات الإرسال",
     "signIn": "تسجيل الدخول",
     "signOut": "تسجيل الخروج",
     "signInTooltip": "تسجيل الدخول",
     "signOutTooltip": "تسجيل الخروج",
-    "myReportTooltip": "عرض عمليات الإرسال"
+    "myReportTooltip": "عرض عمليات الإرسال",
+    "share": "مشاركة",
+    "shareDialogTitle": "مشاركة حوار",
+    "shareDialogAppURLLabel": "عنوان URL للتطبيق",
+    "mobileHamburger": "هامبورغ"
   },
   "geoform": {
     "enterInformation": "التفاصيل",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "انقر على الخريطة لرسم الموقع.",
     "locationSelectionHintForPolygonLayer": "اضغط على الخريطة لرسم الموقع. اضغط مرتين لإكمال الرسم.",
     "locationSelectionHintForPointLayerDesktop": "انقر على الخريطة لرسم الموقع.",
-    "locationSelectionHintForPolygonLayerDesktop": "انقر على الخريطة لرسم الموقع. انقر مرتين لإكمال الرسم."
+    "locationSelectionHintForPolygonLayerDesktop": "انقر على الخريطة لرسم الموقع. انقر مرتين لإكمال الرسم.",
+    "locationDialogTitle": "تحديد موقع لرفع تقرير عنه",
+    "locationDialogContent": "هل أنت متأكد أنك تريد استخدام موقع الصورة؟",
+    "errorMessageText": "${message} لحقل ${fieldName}",
+    "deleteAttachmentBtnText": "حذف المرفق"
   },
   "locator": {
     "addressText": "العنوان:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "تحديث التعليق",
     "commentsFormCancelButton": "إلغاء الأمر",
     "errorInSubmittingComment": "يتعذر إرسال التعليق.",
+    "commentSubmittedMessage": "شكرًا لإبداء ملاحظاتك.",
     "emptyCommentMessage": "الرجاء إدخال تعليق.",
     "placeHolderText": "اكتب تعليق",
     "noCommentsAvailableText": "لا توجد تعليقات متاحة",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "معرض الصور",
     "noAttachmentsAvailableText": "لا توجد مرفقات."
+  },
+  "dialog": {
+    "okButton": "موافق",
+    "cancelButton": "إلغاء الأمر",
+    "yesButton": "نعم",
+    "noButton": "لا"
   }
 });

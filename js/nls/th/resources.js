@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "ไม่สามารถสร้างแผนที่ได้",
+    "licenseError": {
+      "message": "บัญชีผู้ใช้ของคุณไม่มีใบอนุญาตในการใช้งานแอปที่กำหนดค่าได้ซึ่งไม่ใช่แบบสาธารณะ โปรดขอให้ผู้ดูแลองค์กรของคุณกำหนดประเภทผู้ใช้ที่มีใบอนุญาตแอป Essential หรือแอดออนแอป Essential ให้กับคุณ",
+      "title": "ไม่มีใบอนุญาต"
+    },
     "zoomInTooltip": "ขยายภาพ",
     "zoomOutTooltip": "ย่อภาพ",
     "geolocationTooltip": "ตำแหน่งปัจจุบัน"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "ไม่สามารถเพิ่มฟีเจอร์นอกพื้นที่ศึกษาของคุณ",
     "noEditingPermissionsMessage": "คุณไม่ได้รับอนุญาตให้ดำเนินการนี้",
     "basemapGalleryText": "แกลเลอรี่แผนที่ฐาน",
-    "legendText": "คำอธิบายสัญลักษณ์"
+    "basemapThumbnailAltText": "คลิกเพื่อโหลด ${basemapTitle} ${index} ของ ${totalBasemaps}",
+    "legendText": "คำอธิบายสัญลักษณ์",
+    "featureNotFoundMessage": "ไม่พบฟีเจอร์ที่ขอ",
+    "backButton": "กลับ",
+    "panelCloseButton": "ปิด"
   },
   "signin": {
     "guestSigninText": "ดำเนินการในฐานะผู้เยี่ยมชม",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "มุมมองแผนที่"
   },
   "appHeader": {
+    "help": "ช่วยเหลือ",
     "myReport": "การส่งของฉัน",
     "signIn": "ลงชื่อเข้าใช้",
     "signOut": "ลงชื่อออก",
     "signInTooltip": "ลงชื่อเข้าใช้",
     "signOutTooltip": "ออกจากระบบ",
-    "myReportTooltip": "ดูการส่งของฉัน"
+    "myReportTooltip": "ดูการส่งของฉัน",
+    "share": "แบ่งปัน",
+    "shareDialogTitle": "กล่องโต้ตอบการแชร์",
+    "shareDialogAppURLLabel": "URL แอปพลิเคชัน",
+    "mobileHamburger": "แฮมเบอร์เกอร์"
   },
   "geoform": {
     "enterInformation": "รายละเอียด",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "แตะแผนที่เพื่อวาดสถานที่",
     "locationSelectionHintForPolygonLayer": "แตะแผนที่เพื่อวาดสถานที่ แตะสองครั้งที่จะเสร็จสิ้นการวาดภาพ",
     "locationSelectionHintForPointLayerDesktop": "คลิกที่แผนที่เพื่อวาดสถานที่",
-    "locationSelectionHintForPolygonLayerDesktop": "คลิกที่แผนที่เพื่อวาดสถานที่ ดับเบิลคลิกเพื่อเสร็จสิ้นการวาดภาพ"
+    "locationSelectionHintForPolygonLayerDesktop": "คลิกที่แผนที่เพื่อวาดสถานที่ ดับเบิลคลิกเพื่อเสร็จสิ้นการวาดภาพ",
+    "locationDialogTitle": "เลือกตำแหน่งที่ตั้งที่จะรายงาน",
+    "locationDialogContent": "แน่ใจหรือว่าคุณต้องการใช้ตำแหน่งที่ตั้งของภาพ",
+    "errorMessageText": "${message} สำหรับฟิลด์ ${fieldName}",
+    "deleteAttachmentBtnText": "ลบไฟล์แนบ"
   },
   "locator": {
     "addressText": "ที่อยู่:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "อัพเดตความคิดเห็น",
     "commentsFormCancelButton": "ยกเลิก",
     "errorInSubmittingComment": "ความคิดเห็นนี้ไม่สามารถส่งได้",
+    "commentSubmittedMessage": "ขอบคุณสำหรับคำติชม",
     "emptyCommentMessage": "โปรดกรอกความเห็น",
     "placeHolderText": "ประเภทของความเห็น",
     "noCommentsAvailableText": "ไม่มีความคิดเห็น",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "แกลเลอรี",
     "noAttachmentsAvailableText": "ไม่พบไฟล์แนบ"
+  },
+  "dialog": {
+    "okButton": "ตกลง",
+    "cancelButton": "ยกเลิก",
+    "yesButton": "ใช่",
+    "noButton": "ไม่"
   }
 });

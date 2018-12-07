@@ -1,12 +1,17 @@
 ﻿<div class="esriCTPointerCursor">
-    <a class="esriCTWebMapbgColor media-left" href="#">
-        <img class="esriCTWebMapImg" alt="WebMap" src="${WebmapThumbnail}" />
+    <a tabindex="-1" aria-label="${WebmapTitle}"class="esriCTWebMapbgColor media-left" href="#">
+        <img class="esriCTWebMapImg" alt="" src="${WebmapThumbnail}" />
     </a>
     <div class="esriCTMediaBody">
-    <div class="esriCTInfoImg esriCTApplicationColor esriCTInfoImgRight icon icon-info esriCTBodyTextColor">
+        <div role="button" tabindex="0" class="esriCTMultiLineEllipsisdiv" aria-label="${WebmapTitle}">
+            <span class="media-heading esriCTHeaderFont">${WebmapTitle}
+                <span class="esriCTMultiLineFill"></span>
+            </span>
         </div>
-        <div class="esriCTMultiLineEllipsisdiv">
-            <span class="media-heading esriCTHeaderFont">${WebmapTitle} <span class="esriCTMultiLineFill"></span></span>
+        <div tabindex="0" role="button" aria-expanded="false" class="esriCTMapInfoContainer">
+            <span aria-hidden="true" class="esriCTInfoImg esriCTApplicationColor esriCTInfoImgRight icon icon-info esriCTBodyTextColor">
+            </span>
+            <span class="esriCTInfoImgFallBack esriCTFallBackText"></span>
         </div>
     </div>
     <div class="esriCTDefaultCursor esriCTDescription esriCTHidden esriCTMediaBorder">

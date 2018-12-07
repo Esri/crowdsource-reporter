@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "Det går inte att skapa kartan",
+    "licenseError": {
+      "message": "Ditt konto har ingen licens för att använda konfigurerbara appar som inte är tillgängliga för allmänheten. Be din organisations administratör att tilldela dig en användartyp som omfattar Essential Apps eller en tilläggslicens för Essential Apps.",
+      "title": "Inte licensierad"
+    },
     "zoomInTooltip": "Zooma in",
     "zoomOutTooltip": "Zooma ut",
     "geolocationTooltip": "Aktuell plats"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "Geoobjektet går inte att lägga till utanför undersökningsområdet",
     "noEditingPermissionsMessage": "Du har inte behörighet att utföra den här åtgärden.",
     "basemapGalleryText": "Baskartgalleri",
-    "legendText": "Teckenförklaring"
+    "basemapThumbnailAltText": "Klicka för att läsa in ${basemapTitle} ${index} av ${totalBasemaps}",
+    "legendText": "Teckenförklaring",
+    "featureNotFoundMessage": "Det begärda geoobjektet hittades inte",
+    "backButton": "baksida",
+    "panelCloseButton": "Stäng"
   },
   "signin": {
     "guestSigninText": "Fortsätt som gäst",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "Kartvy"
   },
   "appHeader": {
+    "help": "Hjälp",
     "myReport": "Mina bidrag",
     "signIn": "Logga in",
     "signOut": "Logga ut",
     "signInTooltip": "Logga in",
     "signOutTooltip": "Logga ut",
-    "myReportTooltip": "Visa mina bidrag"
+    "myReportTooltip": "Visa mina bidrag",
+    "share": "Dela",
+    "shareDialogTitle": "Dialogrutan Dela",
+    "shareDialogAppURLLabel": "Applikationens URL",
+    "mobileHamburger": "Hamburgare"
   },
   "geoform": {
     "enterInformation": "Detaljer",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "Tryck på kartan om du vill rita platsen.",
     "locationSelectionHintForPolygonLayer": "Tryck på kartan om du vill rita platsen. Dubbeltryck när du vill slutföra ritningen.",
     "locationSelectionHintForPointLayerDesktop": "Klicka på kartan om du vill rita platsen.",
-    "locationSelectionHintForPolygonLayerDesktop": "Klicka på kartan om du vill rita platsen. Dubbelklicka när du vill slutföra ritningen."
+    "locationSelectionHintForPolygonLayerDesktop": "Klicka på kartan om du vill rita platsen. Dubbelklicka när du vill slutföra ritningen.",
+    "locationDialogTitle": "Välj plats för rapport",
+    "locationDialogContent": "Vill du använda bildens plats?",
+    "errorMessageText": "${message} för fältet ${fieldName}",
+    "deleteAttachmentBtnText": "Ta bort bilaga"
   },
   "locator": {
     "addressText": "Adress:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "Uppdatera kommentar",
     "commentsFormCancelButton": "Avbryt",
     "errorInSubmittingComment": "Det gick inte att skicka kommentaren.",
+    "commentSubmittedMessage": "Tack för din feedback.",
     "emptyCommentMessage": "Ange en kommentar.",
     "placeHolderText": "Skriv en kommentar",
     "noCommentsAvailableText": "Inga kommentarer tillgängliga",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "Galleri",
     "noAttachmentsAvailableText": "Inga bilagor hittades"
+  },
+  "dialog": {
+    "okButton": "OK",
+    "cancelButton": "Avbryt",
+    "yesButton": "Ja",
+    "noButton": "Nej"
   }
 });

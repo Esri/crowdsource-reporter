@@ -22,10 +22,13 @@ define([
     "widgets/sign-in/sign-in",
     "application/utils/utils",
     "dojo/dom-construct",
+    "dojo/dom-attr",
     "dojo/_base/lang",
     "dojo/text!css/theme-template.css",
     "dojo/string",
     "dojo/query",
+    "dojo/on",
+    "dojo/mouse",
     "esri/Color"
 ], function (
     declare,
@@ -34,10 +37,13 @@ define([
     ApplicationSignIn,
     ApplicationUtils,
     domConstruct,
+    domAttr,
     lang,
     ThemeCss,
     string,
     query,
+    on,
+    mouseEvents,
     Color
 ) {
     return declare(null, {
@@ -56,18 +62,34 @@ define([
                 "config": this.boilerPlateTemplateObject
             });
             this.boilerPlateTemplateObject.startup().then(lang.hitch(this, function (config) {
+                //set lan attribute to HTML
+                if(dojoConfig.locale) {
+                domAttr.set(document.getElementsByTagName("html")[0], "lang",
+                    dojoConfig.locale);
+                } else {
+                    domAttr.set(document.getElementsByTagName("html")[0], "lang",
+                    "en");
+                }
                 // Set shortcut icon
                 this._setApplicationShortcutIcon(config);
                 config.portalObject = this.boilerPlateTemplateObject.portal;
                 //By default geolocation will be set to false
                 config.geolocation = false;
-                //Check whether browser supports geolocation
-                navigator.geolocation.getCurrentPosition(lang.hitch(this, function (position) {
-                    config.geolocation = {};
-                    config.geolocation = position;
-                }), function () {
-                    config.geolocation = false;
-                });
+                //Check for current location flag
+                //if webmap parameter exists in url, do not display geolocation popup
+                //if webmap parameter do not exists in url, than display geolocation popup
+                if(!config.disableCurrentLocation &&
+                    !this.boilerPlateTemplateObject.urlConfig.hasOwnProperty("webmap")) {
+                    //Check whether browser supports geolocation
+                    navigator.geolocation.getCurrentPosition(lang.hitch(this, function (position) {
+                        config.geolocation = {};
+                        config.geolocation = position;
+                    }), function () {
+                        config.geolocation = false;
+                    });
+                }
+                // Remove access to Facebook due to unsupportable changes in its API
+                config.enableFacebook = false;
                 // The config object contains the following properties: helper services, (optionally)
                 // i18n, appid, webmap and any custom values defined by the application.
                 // Load Application if valid group-id is configured, if not show error message.
@@ -88,6 +110,15 @@ define([
                 this.config = config;
                 // Load app theme
                 this._loadApplicationTheme();
+                // Let the document know when the mouse is being used,
+                // so accessibility styling can be removed.
+                on(document, mouseEvents.enter, function () {
+                    document.body.classList.add('using-mouse');
+                });
+
+                document.body.addEventListener('keydown', function (evt) {
+                    document.body.classList.remove('using-mouse');
+                });
             }), lang.hitch(this, function (error) {
                 var message = error.message;
                 // handle error when group is not configured

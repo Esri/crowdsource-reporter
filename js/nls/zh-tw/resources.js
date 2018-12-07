@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "無法建立地圖",
+    "licenseError": {
+      "message": "您的帳號未經授權，無法使用非公開的可配置應用程式。 請聯繫您的組織管理員，請其將包含基礎應用程式或附加元件基礎應用程式授權的使用者類型指派給您。",
+      "title": "未經許可"
+    },
     "zoomInTooltip": "放大",
     "zoomOutTooltip": "縮小",
     "geolocationTooltip": "目前位置"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "無法在研究區域外部新增圖徵",
     "noEditingPermissionsMessage": "您沒有執行此動作的權限。",
     "basemapGalleryText": "底圖庫",
-    "legendText": "圖例"
+    "basemapThumbnailAltText": "按一下以載入 ${basemapTitle} ${index} 個，總計 ${totalBasemaps} 個",
+    "legendText": "圖例",
+    "featureNotFoundMessage": "找不到請求的功能",
+    "backButton": "後退",
+    "panelCloseButton": "關閉"
   },
   "signin": {
     "guestSigninText": "以訪客身份繼續進行",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "地圖視圖"
   },
   "appHeader": {
+    "help": "說明",
     "myReport": "我的提交",
     "signIn": "登入",
     "signOut": "登出",
     "signInTooltip": "登入",
     "signOutTooltip": "登出",
-    "myReportTooltip": "檢視我的提交"
+    "myReportTooltip": "檢視我的提交",
+    "share": "分享",
+    "shareDialogTitle": "分享對話方塊",
+    "shareDialogAppURLLabel": "應用程式 URL",
+    "mobileHamburger": "漢堡包"
   },
   "geoform": {
     "enterInformation": "詳細資訊",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "點選地圖以繪製位置。",
     "locationSelectionHintForPolygonLayer": "點選地圖以繪製位置。點選兩次以完成繪製。",
     "locationSelectionHintForPointLayerDesktop": "按一下地圖以繪製位置。",
-    "locationSelectionHintForPolygonLayerDesktop": "按一下地圖以繪製位置。按兩下以完成繪製。"
+    "locationSelectionHintForPolygonLayerDesktop": "按一下地圖以繪製位置。按兩下以完成繪製。",
+    "locationDialogTitle": "選擇報告的位置",
+    "locationDialogContent": "您是否確定要使用圖片位置?",
+    "errorMessageText": "欄位 ${fieldName} 的 ${message}",
+    "deleteAttachmentBtnText": "刪除附件"
   },
   "locator": {
     "addressText": "地址(E):",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "更新評論",
     "commentsFormCancelButton": "取消",
     "errorInSubmittingComment": "無法提交評論。",
+    "commentSubmittedMessage": "感謝您的回饋意見!",
     "emptyCommentMessage": "請輸入一條評論。",
     "placeHolderText": "輸入一條評論",
     "noCommentsAvailableText": "沒有任何評論可用",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "圖庫",
     "noAttachmentsAvailableText": "未找到任何附件"
+  },
+  "dialog": {
+    "okButton": "確定",
+    "cancelButton": "取消",
+    "yesButton": "是",
+    "noButton": "否"
   }
 });

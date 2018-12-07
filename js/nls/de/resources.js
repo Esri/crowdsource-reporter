@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "Karte kann nicht erstellt werden",
+    "licenseError": {
+      "message": "Ihr Konto ist nicht für die Verwendung von nicht öffentlichen konfigurierbaren Apps lizenziert. Bitten Sie den Administrator der Organisation, Ihnen einen Benutzertyp mit Essential Apps oder eine Add-On-Lizenz für Essential Apps zuzuweisen.",
+      "title": "Nicht lizenziert"
+    },
     "zoomInTooltip": "Vergrößern",
     "zoomOutTooltip": "Verkleinern",
     "geolocationTooltip": "Aktueller Standort"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "Feature kann nicht außerhalb des Untersuchungsgebiets hinzugefügt werden.",
     "noEditingPermissionsMessage": "Sie sind nicht berechtigt, diese Aktion auszuführen.",
     "basemapGalleryText": "Grundkartengalerie",
-    "legendText": "Legende"
+    "basemapThumbnailAltText": "Klicken Sie hier, um ${basemapTitle}, ${index} von ${totalBasemaps}, zu laden",
+    "legendText": "Legende",
+    "featureNotFoundMessage": "Das angeforderte Feature wurde nicht gefunden.",
+    "backButton": "Zurück",
+    "panelCloseButton": "Schließen"
   },
   "signin": {
     "guestSigninText": "Vorgang als Gast fortsetzen",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "Kartenansicht"
   },
   "appHeader": {
+    "help": "Hilfe",
     "myReport": "Meine Übermittlungen",
     "signIn": "Anmelden",
     "signOut": "Abmelden",
     "signInTooltip": "Anmelden",
     "signOutTooltip": "Abmelden",
-    "myReportTooltip": "Meine Übermittlungen anzeigen"
+    "myReportTooltip": "Meine Übermittlungen anzeigen",
+    "share": "Freigeben",
+    "shareDialogTitle": "Dialogfeld \"Freigeben\"",
+    "shareDialogAppURLLabel": "Anwendungs-URL",
+    "mobileHamburger": "Menü"
   },
   "geoform": {
     "enterInformation": "Details",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "Tippen Sie auf die Karte, um die Position zu zeichnen.",
     "locationSelectionHintForPolygonLayer": "Tippen Sie auf die Karte, um die Position zu zeichnen. Doppeltippen Sie, um die Zeichnung abzuschließen.",
     "locationSelectionHintForPointLayerDesktop": "Klicken Sie auf die Karte, um die Position zu zeichnen.",
-    "locationSelectionHintForPolygonLayerDesktop": "Klicken Sie auf die Karte, um die Position zu zeichnen. Doppelklicken Sie, um die Zeichnung abzuschließen."
+    "locationSelectionHintForPolygonLayerDesktop": "Klicken Sie auf die Karte, um die Position zu zeichnen. Doppelklicken Sie, um die Zeichnung abzuschließen.",
+    "locationDialogTitle": "Verzeichnis für Bericht auswählen",
+    "locationDialogContent": "Möchten Sie das Bildverzeichnis wirklich verwenden?",
+    "errorMessageText": "${message} für Feld ${fieldName}",
+    "deleteAttachmentBtnText": "Anlage löschen"
   },
   "locator": {
     "addressText": "Adresse:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "Kommentar aktualisieren",
     "commentsFormCancelButton": "Abbrechen",
     "errorInSubmittingComment": "Kommentar konnte nicht gesendet werden.",
+    "commentSubmittedMessage": "Vielen Dank für Ihr Feedback.",
     "emptyCommentMessage": "Geben Sie einen Kommentar ein.",
     "placeHolderText": "Kommentar eingeben",
     "noCommentsAvailableText": "Keine Kommentare verfügbar",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "Galerie",
     "noAttachmentsAvailableText": "Keine Anlagen gefunden"
+  },
+  "dialog": {
+    "okButton": "OK",
+    "cancelButton": "Abbrechen",
+    "yesButton": "Ja",
+    "noButton": "Nein"
   }
 });

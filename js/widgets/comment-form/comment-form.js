@@ -95,16 +95,57 @@ define([
                 submitCommentText = this.config.i18n.comment.commentsFormEditButton;
             }
             domAttr.set(this.postCommentButton, "innerHTML", submitCommentText);
+            domAttr.set(this.postCommentButton, "title", submitCommentText);
+            domAttr.set(this.postCommentButton, "aria-label", submitCommentText);
             // click event for submit comment form on submit button click
-            on(this.postCommentButton, "click", lang.hitch(this, function () {
-                this.appUtils.showLoadingIndicator();
-                this._submitCommentForm();
+            on(this.postCommentButton, "click, keypress", lang.hitch(this, function (evt) {
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
+                // Even while submitting the comments check if its start date & time
+                // lies within the valid range
+                // Use case:
+                // Step 1. Consider date & time is valid, user clicks on comment button,
+                // than form should get open
+                // Step 2. Submit comment form is open, however, at this duration comments
+                // start date & time doesn't lies between valid range, hence error message
+                // should be displayed.
+                var commentSubmitStatus = this.appUtils.isCommentDateInRange(),
+                    canSubmit = true;
+                    if (commentSubmitStatus === null) {
+                        if (this.config.hasOwnProperty("reportingPeriod") &&
+                            this.config.reportingPeriod === "Closed") {
+                            this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                            canSubmit = false;
+                            return;
+                        }
+                    } else {
+                        if (!commentSubmitStatus) {
+                            canSubmit = false;
+                            if (!this.appUtils.reportingPeriodDialog) {
+                                this.appUtils.createReportingPeriodDialog();
+                            }
+                            this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                            return;
+                        }
+                    }
+                if (canSubmit) {
+                    this.appUtils.showLoadingIndicator();
+                    this._submitCommentForm();
+                }
             }));
-            on(this.cancelCommentButton, "click", lang.hitch(this, function (evt) {
+            on(this.cancelCommentButton, "click, keypress", lang.hitch(this, function (evt) {
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 this.appUtils.showLoadingIndicator();
                 this.onCancelButtonClick(evt);
                 this.appUtils.hideLoadingIndicator();
             }));
+            //Set focus to comments form header on form load
+            setTimeout(lang.hitch(this, function () {
+                query(".esriCTCommentsFormTitle")[0].focus();
+            }), 500);
         },
 
         startup: function () {
@@ -160,7 +201,10 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _onExistingAttachmentCloseButtonClick: function (existingAttachmentCloseButton) {
-            on(existingAttachmentCloseButton, "click", lang.hitch(this, function (evt) {
+            on(existingAttachmentCloseButton, "click, keypress", lang.hitch(this, function (evt) {
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 setTimeout(lang.hitch(this, function () {
                     var attachmentObjectID;
                     attachmentObjectID = domAttr.get(evt.target, "attachmentObjectID");
@@ -196,7 +240,9 @@ define([
                 // Select attachment label
                 domConstruct.create("label", {
                     "innerHTML": commentFormAttachmentSectionLabel,
+                    "aria-label": commentFormAttachmentSectionLabel,
                     "id": "commentFormAttachmentTitleLabel",
+                    "tabindex":"0",
                     "class": "esriCTCommentFormTitles"
                 }, formContent);
                 domConstruct.create("br", {}, formContent);
@@ -205,12 +251,14 @@ define([
                 this._fileInputIcon = domConstruct.create("button", {
                     "type": "button",
                     "innerHTML": this.config.i18n.comment.selectFileText,
+                    "aria-label": this.config.i18n.comment.selectFileText,
                     "class": "btn btn-default esriCTAddCommentAttachmentsButton esriCTEllipsis esriCTApplicationColor esriCTButtonTextColor esriCTButtonBackgroundColor"
                 }, fileContainer);
                 // Show photo selected count
                 domConstruct.create("div", {
                     "id": "attachmentSelectedCount",
-                    "class": "esriCTAttachmentSelectedCount"
+                    "tabindex": "0",
+                    "class": "esriCTHidden esriCTAttachmentSelectedCount"
                 }, formContent);
                 fileAttachmentContainer = domConstruct.create("div", {
                     "class": "container esriCTAttachmentContainer"
@@ -222,6 +270,8 @@ define([
                 fileInput = domConstruct.create("input", {
                     "type": "file",
                     "accept": "image/*",
+                    "tabindex": "-1",
+                    "aria-label": this.config.i18n.comment.selectFileText,
                     "name": "attachment",
                     "style": {
                         "height": "38px",
@@ -232,6 +282,15 @@ define([
                     "id": "commentFormAttachment" + this._fileAttachmentCounter++,
                     "class": "esriCTHideFileInputUI"
                 }, fileContainer));
+
+                // Handle change event for file control
+                on(this._fileInputIcon, "click, keypress", lang.hitch(this, function (evt) {
+                    if (!this.appUtils.validateEvent(evt)) {
+                        return;
+                    }
+                    fileInput.click();
+                }));
+
                 // domClass.add(fileInput, "esriCTPointerCursor");
                 // Handle change event for file control
                 fileChange = on(fileInput, "change", lang.hitch(this, function (evt) {
@@ -251,8 +310,11 @@ define([
                 selectedAttachmentsCount = query(".alert-dismissable", this.fileAttachmentList).length;
                 if (selectedAttachmentsCount > 0) {
                     domAttr.set(photoSelectedDiv, "innerHTML", selectedAttachmentsCount + " " + this.config.i18n.comment.attachmentSelectedMsg);
+                    domAttr.set(photoSelectedDiv, "aria-label", selectedAttachmentsCount + " " + this.config.i18n.comment.attachmentSelectedMsg);
+                    domClass.remove(photoSelectedDiv, "esriCTHidden");
                 } else {
                     domAttr.set(photoSelectedDiv, "innerHTML", "");
+                    domClass.add(photoSelectedDiv, "esriCTHidden");
                 }
             }
         },
@@ -275,7 +337,8 @@ define([
             domStyle.set(target.parentNode, "display", "none");
             //Add dismiss-able alert for each file, and show file name and file size in it.
             alertHtml = "<div id=" + target.parentNode.id + "_Close" + " class=\"esriCTFileAlert alert alert-dismissable alert-success\">";
-            alertHtml += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">" + "X" + "</button>";
+            alertHtml += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" tabindex=\"'0'\" aria-label=\"" +
+            this.config.i18n.geoform.deleteAttachmentBtnText + "\">" + "X" + "</button>";
             alertHtml += "<span>" + fileName + "</span>";
             alertHtml += "</div>";
             alertHtml = domConstruct.place(alertHtml, this.fileAttachmentList, "last");
@@ -293,6 +356,7 @@ define([
                 //create new file input control so that multiple files can be attached
                 fileInput = domConstruct.create("input", {
                     "type": "file",
+                    "tabindex":"-1",
                     "accept": "image/*",
                     "name": "attachment",
                     "style": { "height": dojo.coords(this._fileInputIcon).h + "px", "width": dojo.coords(this._fileInputIcon).w + "px" }
@@ -424,6 +488,7 @@ define([
                 $(commentFormDiv).animate({
                     scrollTop: erroneousFields[0].offsetTop - 50 // deduct heigt of panel to calculate exact offset
                 }, 1000);
+                erroneousFields[0].childNodes[1].focus();
                 this.appUtils.hideLoadingIndicator();
             } else {
                 // Create instance of graphic
@@ -723,14 +788,27 @@ define([
         * @memberOf widgets/comment-form/comment-form
         */
         _showErrorMessageDiv: function (errorMessage, errorMessageNode) {
-            var errorNode, place = "after";
-            // create error handler container
-            errorNode = domConstruct.create("div", {
-                className: "alert alert-danger errorMessage",
+            var errorNodeContainer, fallBackTextNode, place = "after";
+            //Create parent container for showing error message
+            errorNodeContainer = domConstruct.create("div", {
+                role: "alert",
                 id: "errorMessage",
-                innerHTML: errorMessage
+                "tabindex": "-1",
+                className: "alert alert-danger errorMessage"
             }, null);
-            domConstruct.place(errorNode, errorMessageNode, place);
+            domConstruct.create("span", {
+                "aria-hidden": "true",
+                innerHTML: errorMessage
+            }, errorNodeContainer);
+            fallBackTextNode = domConstruct.create("span", {
+                "class": "esriCTFallBackText"
+            }, errorNodeContainer);
+            domAttr.set(fallBackTextNode, "innerHTML",
+                string.substitute(this.config.i18n.geoform.errorMessageText, {
+                    message: errorMessage,
+                    fieldName: errorMessageNode.innerHTML
+                }));
+            domConstruct.place(errorNodeContainer, errorMessageNode, place);
         },
 
         /**
@@ -739,15 +817,20 @@ define([
         */
         _showHeaderMessageDiv: function (isAttachmentFailed) {
             if (isAttachmentFailed) {
-                var commentDiv = query(".esriCTItemDetailsContainer")[0];
-                domClass.replace(this.headerMessageType, "alert-warning", "alert-danger");
                 domAttr.set(this.headerMessageContent, "innerHTML", isAttachmentFailed);
-                // Scroll commentform to top
-                $(commentDiv).animate({
-                    scrollTop: this.headerMessageType.offsetTop - 80
-                }, 1000);
             }
-            on(this.headerMessageButton, "click", lang.hitch(this, function () {
+            var commentDiv = query(".esriCTItemDetailsContainer")[0];
+            domClass.replace(this.headerMessageType, "alert-warning", "alert-danger");
+            // Scroll comment form to top
+            $(commentDiv).animate({
+                scrollTop: this.headerMessageType.offsetTop - 80
+            }, 1000, lang.hitch(this, function () {
+                this.headerMessageContent.focus();
+            }));
+            on(this.headerMessageButton, "click, keypress", lang.hitch(this, function (evt) {
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 if (domClass.contains(this.headerMessageDiv, "esriCTVisible")) {
                     domClass.replace(this.headerMessageDiv, "esriCTHidden", "esriCTVisible");
                 }

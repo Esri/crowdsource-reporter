@@ -38,8 +38,9 @@ define([
     "esri/tasks/query",
     "esri/dijit/PopupTemplate",
     "widgets/item-list/item-list",
+    "dojo/window",
     "dojo/_base/event"
-], function (declare, dom, domConstruct, domStyle, domAttr, domClass, lang, array, on, touch, string, query, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, Graphic, FeatureLayer, Query, PopupTemplate, ItemList, event) {
+], function (declare, dom, domConstruct, domStyle, domAttr, domClass, lang, array, on, touch, string, query, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, Graphic, FeatureLayer, Query, PopupTemplate, ItemList, dojowindow, event) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         _hasCommentsTable: false,
@@ -71,6 +72,11 @@ define([
                 "appUtils": this.appUtils,
                 "linkToMapView": true
             }).placeAt(this.listContainer); // placeAt triggers a startup call to _itemsList
+            //Change the position of button as per the configuration
+            if (this.appConfig.submitReportButtonPosition &&
+                this.appConfig.submitReportButtonPosition === "top") {
+                domConstruct.place(this.submitReport, this.listContainer, "before");
+            }
 
             //If webmap list is not required, we need to hide the back button
             if (!this.appUtils.isWebmapListRequired) {
@@ -91,11 +97,17 @@ define([
                 this.initIssueWall();
             }
 
-            this.own(on(this.listBackButton, "click", lang.hitch(this, function (evt) {
+            this.own(on(this.listBackButton, "click, keypress", lang.hitch(this, function (evt) {
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 this.onListCancel(evt);
             })));
 
-            this.own(on(this.listMapItButton, "click", lang.hitch(this, function (evt) {
+            this.own(on(this.listMapItButton, "click, keypress", lang.hitch(this, function (evt) {
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 this.onMapButtonClick(evt);
             })));
 
@@ -103,29 +115,68 @@ define([
                 //Stop event propagation
                 event.stop(evt);
             })));
-            this.own(on(this.submitReport, "click", lang.hitch(this, function (evt) {
-                if (this.appConfig.reportingPeriod === "Closed") {
-                    this.appUtils.reportingPeriodDialog.showDialog("reporting");
-                    return;
-                }
-                if (this.appConfig.logInDetails.canEditFeatures) {
-                    this.onSubmit(evt);
+
+            this.own(on(this.submitReport, "click, keypress", lang.hitch(this, function (evt) {
+                var commentSubmitStatus, canSubmit = true;
+                if (this.appConfig.hasOwnProperty("commentStartDate") &&
+                    this.appConfig.hasOwnProperty("commentEndDate")) {
+                    commentSubmitStatus = this.appUtils.isCommentDateInRange();
+                    if (commentSubmitStatus === false) {
+                        canSubmit = false;
+                        if (!this.appUtils.reportingPeriodDialog) {
+                            this.appUtils.createReportingPeriodDialog();
+                        }
+                        this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                        return;
+                    } else if (commentSubmitStatus === null) {
+                        if (this.appConfig.hasOwnProperty("reportingPeriod") &&
+                            this.appConfig.reportingPeriod === "Closed") {
+                            this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                            canSubmit = false;
+                            return;
+                        }
+                    }
                 } else {
-                    this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
+                    if (this.appConfig.hasOwnProperty("reportingPeriod") &&
+                        this.appConfig.reportingPeriod === "Closed") {
+                        this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                        canSubmit = false;
+                        return;
+                    }
+                }
+                if (canSubmit) {
+                    if (this.appConfig.logInDetails.canEditFeatures) {
+                        this.onSubmit(evt);
+                    } else {
+                        this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
+                    }
                 }
             })));
-
+            //Set focus to app title on focus out of submit a report button
+            //This resolves the issue of focus being set to mobile menu
+            if (dojowindow.getBox().w < 768 &&
+                this.appConfig.submitReportButtonPosition !== "top") {
+                $(this.submitReport).focusout(lang.hitch(this, function () {
+                    this.onSubmitButtonFocusOut();
+                }));
+            }
             if (this.appConfig && lang.trim(this.appConfig.submitReportButtonText) === "") {
                 submitButtonText = this.appConfig.i18n.main.submitReportButtonText;
             } else {
                 submitButtonText = this.appConfig.submitReportButtonText;
             }
             domAttr.set(this.submitReportButton, "innerHTML", submitButtonText);
+            domAttr.set(this.submitReport, "aria-label", submitButtonText);
             submitButtonColor = (this.appConfig && this.appConfig.submitReportButtonColor) ? this.appConfig.submitReportButtonColor : "#35ac46";
             domStyle.set(this.submitReport, "background-color", submitButtonColor);
             domAttr.set(this.noIssuesMessage, "innerHTML", this.appConfig.i18n.issueWall.noResultsFound);
+            domAttr.set(this.noIssuesMessage, "aria-label", this.appConfig.i18n.issueWall.noResultsFound);
             domAttr.set(this.listBackButton, "title", this.appConfig.i18n.issueWall.gotoWebmapListTooltip);
+            domAttr.set(this.listBackButton, "aria-label", this.appConfig.i18n.issueWall.gotoWebmapListTooltip);
+            domAttr.set(this.fallBackTextNode, "innerHTML", this.appConfig.i18n.issueWall.gotoWebmapListTooltip);
             domAttr.set(this.listMapItButton, "title", this.appConfig.i18n.issueWall.gotoMapViewTooltip);
+            domAttr.set(this.listMapItButton, "aria-label", this.appConfig.i18n.issueWall.gotoMapViewTooltip);
+            domAttr.set(this.fallBackMapBtnTextNode, "title", this.appConfig.i18n.issueWall.gotoMapViewTooltip);
             //on load hide the issue list
             this.hide();
         },
@@ -162,6 +213,10 @@ define([
         },
 
         onLoadMoreClick: function (evt) {
+            return evt;
+        },
+
+        onSubmitButtonFocusOut: function(evt){
             return evt;
         },
 
@@ -398,7 +453,35 @@ define([
                 domClass.remove(this.noIssuesMessage, "esriCTHidden");
             }
             this.itemsList.show();
+            //notify that issue wall is loaded
+            this.onIssueWallLoaded();
             domClass.add(this.listLoadingIndicator, "esriCTHidden");
+        },
+
+        /**
+         * This function is used to notify that issue wall is loaded
+         * @memberOf widgets/issue-wall/issue-wall
+         */
+        onIssueWallLoaded: function() {
+            return;
+        },
+
+        /**
+         * This function is used to get the record of the feature present in the URL
+         * and execute programmatic click on it.
+         * @memberOf widgets/issue-wall/issue-wall
+         */
+        selectFeatureFromURL: function() {
+            if (this.appConfig.urlObject.query.selectedFeature) {
+                var queryFeature = query("." + this.appConfig.urlObject.query.selectedFeature +
+                    "_" + this.appConfig.urlObject.query.webmap +
+                    "_" + this.appConfig.urlObject.query.layer);
+                if (queryFeature && queryFeature.length > 0) {
+                    queryFeature[0].click();
+                } else {
+                    this.appUtils.showMessage(this.appConfig.i18n.main.featureNotFoundMessage);
+                }
+            }
         },
 
         /**

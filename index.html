@@ -1,8 +1,23 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
     <title></title>
-    <meta charset="utf-8" />
+    <!--
+     | Copyright 2015 Esri
+     |
+     | Licensed under the Apache License, Version 2.0 (the "License");
+     | you may not use this file except in compliance with the License.
+     | You may obtain a copy of the License at
+     |
+     |    http://www.apache.org/licenses/LICENSE-2.0
+     |
+     | Unless required by applicable law or agreed to in writing, software
+     | distributed under the License is distributed on an "AS IS" BASIS,
+     | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     | See the License for the specific language governing permissions and
+     | limitations under the License.
+    -->
     <!-- Responsive -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <meta name="mobile-web-app-capable" content="yes" />
@@ -19,8 +34,8 @@
     <link rel="stylesheet" type="text/css" href="js/vendor/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css" />
     <link rel="stylesheet" type="text/css" href="js/vendor/touch-spinner/jquery.bootstrap-touchspin.min.css" />
     <!--Dojo and Esri CSS-->
-    <link rel="stylesheet" href="https://js.arcgis.com/3.25/dijit/themes/claro/claro.css" />
-    <link rel="stylesheet" href="https://js.arcgis.com/3.25/esri/css/esri.css" />
+    <link rel="stylesheet" href="https://js.arcgis.com/3.27/dijit/themes/claro/claro.css" />
+    <link rel="stylesheet" href="https://js.arcgis.com/3.27/esri/css/esri.css" />
     <!-- Load any application specific styles -->
     <link rel="stylesheet" href="css/main.css" type="text/css" />
     <link rel="stylesheet" href="css/common.css" type="text/css" />
@@ -38,37 +53,46 @@
     </div>
     <div class="esriCTMainContainer" id="mainContainer">
         <div id="noWebMapParentDiv" class="esriCTNoWebMapParentDiv esriCTHidden">
-            <div class="esriCTNoWebMapChildDiv" id="noWebMapChildDiv">
+            <div class="esriCTNoWebMapChildDiv">
+                <div tabindex="0" id="noWebMapChildDiv"></div>
             </div>
         </div>
         <div class="esriCTFullHeightWidth" id="layoutContainer">
             <div id="mapParentContainer" class="esriCTMapContainer">
                 <div class="esriCTListHeader esriCTBGColor esriCTHeaderBackgroundColorAsTextColor">
-                    <div class="esriCTBackButton esriCTInvertFontIcons icon icon-left-arrow esriCTPointerCursor" id="mapBackButton"></div>
+                    <div tabindex="0" role="button" id="mapBackButton">
+                            <span aria-hidden="true" class="esriCTBackButton esriCTInvertFontIcons icon icon-left-arrow esriCTPointerCursor">
+                            </span>
+                            <span class="esriCTFallBackText"></span>
+                        </div>
                     <div class="esriCTHeaderText esriCTMapHeaderText esriCTEllipsis" id="mapContainerTitle"></div>
-                    <div class="esriCTListViewButton esriCTPointerCursor icon icon-list" id="toggleListViewButton"></div>
+                    <div tabindex="0" role="button" id="toggleListViewButton">
+                        <span aria-hidden="true" class="esriCTListViewButton esriCTPointerCursor icon icon-list">
+                        </span>
+                        <span class="esriCTFallBackText"></span>
+                    </div>
                 </div>
                 <div id="mapContainer" class="esriCTMap">
                     <!-- The ArcGIS API for JavaScript provides bidirectional support.  When viewing the application in an right to left (rtl) language like Hebrew and Arabic the map needs to remain in left-to-right (ltr) mode. Specify this by setting the dir attribute on the div to ltr. -->
-                    <div id="mapDiv" dir="ltr" data-dojo-props="region:'center'">
+                    <div tabindex="0" role="application" id="mapDiv" dir="ltr" data-dojo-props="region:'center'" alt="Selected Map">
                     </div>
                 </div>
-                <div id="submitFromMap" class="esriCTReportButton esriCTPointerCursor esriCTHidden">
+                <div id="webMapListMapDiv" dir="ltr" data-dojo-props="region:'center'" style="display: none"></div>
+                <div role="button" tabindex="0" id="submitFromMap" class="esriCTReportButton esriCTPointerCursor esriCTHidden">
                     <div class="esriCTReportButtonContainer">
                         <div class="esriCTReportButtonIcon"></div>
                         <div  id="submitFromMapText"  class="esriCTReportButtonText"></div>
                     </div>
                 </div>
             </div>
+            <div id="geoformContainer" class="esriCTHidden esriCTBorderLeft esriCTGeoFormParentContainer esriCTHeaderTextColorAsBorder">
+            </div>
+            <div id="detailsPanelContainer" class="esriCTHidden esriCTBorderLeft esriCTGeoFormParentContainer esriCTHeaderTextColorAsBorder"></div>
             <div id="sideContainer" class="esriCTBorderLeft esriCTHeaderTextColorAsBorder">
                 <div id="sidebarContent" class="esriCTFullHeightWidth esriCTBodyBackgroundColor" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
                 </div>
             </div>
         </div>
-
-        <div id="geoformContainer" class="esriCTHidden esriCTBorderLeft esriCTGeoFormParentContainer esriCTHeaderTextColorAsBorder">
-        </div>
-        <div id="detailsPanelContainer" class="esriCTHidden esriCTBorderLeft esriCTGeoFormParentContainer esriCTHeaderTextColorAsBorder"></div>
         <div id="mobileMenuContainer" class="esriCTMobileMenuContainer esriCTHideMobileMenu">
         </div>
     </div>
@@ -80,7 +104,8 @@
     <script type="text/javascript" src="js/vendor/bootstrap-3.3.0-dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/vendor/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript" src="js/vendor/touch-spinner/jquery.bootstrap-touchspin.min.js"></script>
-    <script type="text/javascript" src="https://js.arcgis.com/3.25"></script>
+    <script type="text/javascript" src="js/vendor/exif/exif.js"></script>
+    <script type="text/javascript" src="https://js.arcgis.com/3.27"></script>
     <script type="text/javascript">
         require([
                 "application/bootstrapper"

@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "맵을 생성할 수 없음",
+    "licenseError": {
+      "message": "귀하의 계정에는 공개 상태가 아닌 구성 설정 앱을 사용할 수 있는 라이선스가 없습니다. 필수 앱 또는 애드온 필수 앱 라이선스가 포함된 사용자 유형을 업무 지시하려면 기관 관리자에게 문의하세요.",
+      "title": "라이선스가 없음"
+    },
     "zoomInTooltip": "확대",
     "zoomOutTooltip": "축소",
     "geolocationTooltip": "현재 위치"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "피처를 처리 범위 외부로 추가할 수 없음",
     "noEditingPermissionsMessage": "이 작업을 수행할 권한이 없습니다.",
     "basemapGalleryText": "베이스맵 갤러리",
-    "legendText": "범례"
+    "basemapThumbnailAltText": "${totalBasemaps} 중 ${basemapTitle}${index}을(를) 불러오려면 클릭",
+    "legendText": "범례",
+    "featureNotFoundMessage": "요청한 피처가 없음",
+    "backButton": "뒤로",
+    "panelCloseButton": "닫기"
   },
   "signin": {
     "guestSigninText": "게스트로 진행",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "맵 보기"
   },
   "appHeader": {
+    "help": "도움말",
     "myReport": "내 제출",
     "signIn": "로그인",
     "signOut": "로그아웃",
     "signInTooltip": "로그인",
     "signOutTooltip": "로그아웃",
-    "myReportTooltip": "내 제출 보기"
+    "myReportTooltip": "내 제출 보기",
+    "share": "공유하기",
+    "shareDialogTitle": "공유 대화 상자",
+    "shareDialogAppURLLabel": "응용프로그램 URL",
+    "mobileHamburger": "Hamburger"
   },
   "geoform": {
     "enterInformation": "세부정보",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "맵을 눌러 위치를 그립니다.",
     "locationSelectionHintForPolygonLayer": "맵을 눌러 위치를 그립니다. 그리기를 완료하려면 두 번 누르세요.",
     "locationSelectionHintForPointLayerDesktop": "맵을 클릭하여 위치를 그립니다.",
-    "locationSelectionHintForPolygonLayerDesktop": "맵을 클릭하여 위치를 그립니다. 그리기를 완료하려면 더블 클릭하세요."
+    "locationSelectionHintForPolygonLayerDesktop": "맵을 클릭하여 위치를 그립니다. 그리기를 완료하려면 더블 클릭하세요.",
+    "locationDialogTitle": "보고서의 위치 선택",
+    "locationDialogContent": "이미지 위치를 사용하시겠습니까?",
+    "errorMessageText": "${fieldName} 필드에 대한 ${message}",
+    "deleteAttachmentBtnText": "첨부 파일 삭제"
   },
   "locator": {
     "addressText": "주소:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "의견 업데이트",
     "commentsFormCancelButton": "취소",
     "errorInSubmittingComment": "의견을 제출할 수 없습니다.",
+    "commentSubmittedMessage": "의견을 제공해 주셔서 감사합니다.",
     "emptyCommentMessage": "의견을 입력하세요.",
     "placeHolderText": "의견 입력",
     "noCommentsAvailableText": "의견을 사용할 수 없음",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "갤러리",
     "noAttachmentsAvailableText": "첨부 파일을 찾을 수 없음"
+  },
+  "dialog": {
+    "okButton": "확인",
+    "cancelButton": "취소",
+    "yesButton": "예.",
+    "noButton": "아니오"
   }
 });

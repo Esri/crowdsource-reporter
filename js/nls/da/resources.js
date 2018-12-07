@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "Kan ikke oprette kort",
+    "licenseError": {
+      "message": "Din konto har ikke licens til at bruge Konfigurérbare apps, der ikke er offentlige. Bed din organisationsadministrator om at knytte dig til en brugertype, der omfatter Essential Apps eller en add-on Essential Apps-licens.",
+      "title": "Ikke licenseret"
+    },
     "zoomInTooltip": "Zoom ind",
     "zoomOutTooltip": "Zoom ud",
     "geolocationTooltip": "Aktuel placering"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "Objekt kan ikke tilføjes uden for undersøgelsesområdet",
     "noEditingPermissionsMessage": "Du har ikke tilladelse til at udføre denne handling.",
     "basemapGalleryText": "Galleri over baggrundskort",
-    "legendText": "Signaturforklaring"
+    "basemapThumbnailAltText": "Klik for at indlæse ${basemapTitle} ${index} af ${totalBasemaps}",
+    "legendText": "Signaturforklaring",
+    "featureNotFoundMessage": "Det objekt, der er blevet anmodet om, kunne ikke findes",
+    "backButton": "tilbage",
+    "panelCloseButton": "Luk"
   },
   "signin": {
     "guestSigninText": "Fortsæt som gæst",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "Kortvisning"
   },
   "appHeader": {
+    "help": "Hjælp",
     "myReport": "Mine afsendelser",
     "signIn": "Log ind",
     "signOut": "Log ud",
     "signInTooltip": "Sign in",
     "signOutTooltip": "Log ud",
-    "myReportTooltip": "Vis mine afsendelser"
+    "myReportTooltip": "Vis mine afsendelser",
+    "share": "Opdatér",
+    "shareDialogTitle": "Delingsdialogboks",
+    "shareDialogAppURLLabel": "Applikations-URL",
+    "mobileHamburger": "Hamburger"
   },
   "geoform": {
     "enterInformation": "Oplysninger",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "Tryk på kortet for at tegne placeringen.",
     "locationSelectionHintForPolygonLayer": "Tryk på kortet for at tegne placeringen. Dobbeltklik for at fuldføre tegningen.",
     "locationSelectionHintForPointLayerDesktop": "Klik på kortet for at tegne placeringen.",
-    "locationSelectionHintForPolygonLayerDesktop": "Klik på kortet for at tegne placeringen. Dobbeltklik for at fuldføre tegningen."
+    "locationSelectionHintForPolygonLayerDesktop": "Klik på kortet for at tegne placeringen. Dobbeltklik for at fuldføre tegningen.",
+    "locationDialogTitle": "Vælg placering til rapport",
+    "locationDialogContent": "Er du sikker på, at du vil bruge billedplaceringen?",
+    "errorMessageText": "${message} for feltet ${fieldName}",
+    "deleteAttachmentBtnText": "Slet vedhæftning"
   },
   "locator": {
     "addressText": "Adresse:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "Opdatér kommentar",
     "commentsFormCancelButton": "Annuller",
     "errorInSubmittingComment": "Kommentar kunne ikke indsendes.",
+    "commentSubmittedMessage": "Tak for din feedback.",
     "emptyCommentMessage": "Indtast en kommentar.",
     "placeHolderText": "Skriv en kommentar",
     "noCommentsAvailableText": "ingen kommentarer tilgængelige",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "Galleri",
     "noAttachmentsAvailableText": "Ingen vedhæftede filer"
+  },
+  "dialog": {
+    "okButton": "OK",
+    "cancelButton": "Annuller",
+    "yesButton": "Ja",
+    "noButton": "Nej"
   }
 });

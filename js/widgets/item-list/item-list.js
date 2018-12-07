@@ -20,6 +20,7 @@ define([
     'dojo/_base/lang',
     'dojo/_base/array',
     'dojo/dom-construct',
+    'dojo/dom-attr',
     'dojo/dom-style',
     'dojo/dom-class',
     'dojo/on',
@@ -29,7 +30,7 @@ define([
     'dijit/_WidgetBase',
     'dijit/_TemplatedMixin',
     'dojo/text!./templates/item-list-view.html'
-], function (declare, lang, arrayUtil, domConstruct, domStyle, domClass, on, dojoQuery, topic, nld,
+], function (declare, lang, arrayUtil, domConstruct, domAttr, domStyle, domClass, on, dojoQuery, topic, nld,
     _WidgetBase, _TemplatedMixin,
     template) {
 
@@ -54,6 +55,15 @@ define([
             this.inherited(arguments);
             this.i18n = this.appConfig.i18n.itemList;
             this.hide();
+            on(this.list, "keypress", lang.hitch(this, function (evt) {
+                event.stop(evt);
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
+                if (dojoQuery(".esriCTItemSummary", this.domNode)[0]) {
+                    dojoQuery(".esriCTItemSummary", this.domNode)[0].parentElement.focus();
+                }
+            }));
         },
 
         /**
@@ -131,7 +141,6 @@ define([
             arrayUtil.forEach(dojoQuery(".esriCTItemSummaryParentSelected", this.domNode), lang.hitch(this, function (currentNode) {
                 domClass.remove(currentNode, "esriCTItemSummaryParentSelected");
                 domClass.remove(dojoQuery(".esriCTItemSummaryHighlighter", currentNode)[0], "esriCTItemSummarySelected");
-
             }));
             //If selected features object id exsist, highlight the dom element
             if (this.selectedItemOID) {
@@ -180,6 +189,7 @@ define([
         buildItemSummary: function (item) {
             var itemTitle, itemVotes, itemSummaryDiv, itemTitleDiv, favDiv, itemSummaryParent, itemSummaryHighlighter, details = "", itemTitleDivMyIssues, selectedLayerId, objectIdFieldName;
             item = (item && item.graphic) ? item.graphic : item;
+            var _this = this;
             itemTitle = this.getItemTitle(item) || "&nbsp;";
             if (this.isMyIssues) {
                 details = item.webMapTitle + " : " + item.layerTitle;
@@ -191,9 +201,20 @@ define([
                 objectIdFieldName = this.selectedLayer.objectIdField;
             }
             itemSummaryParent = domConstruct.create('div', {
-                'class': 'esriCTtemSummaryParent, ' + item.attributes[objectIdFieldName] + "_" + item.webMapId + "_" + selectedLayerId,
-                "click": lang.partial(this.summaryClick, this, item)
+                'class': 'esriCTtemSummaryParent ' + item.attributes[objectIdFieldName] + "_" + item.webMapId + "_" + selectedLayerId,
+                "click": lang.partial(this.summaryClick, this, item),
+                "aria-label": itemTitle,
+                "tabindex": "0",
+                "role":"button"
             }, this.list);
+
+            on(itemSummaryParent, "keypress", lang.hitch(this, function (evt) {
+                evt.stopPropagation();
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
+                this.summaryClick(_this, item, evt);
+            }));
 
             itemSummaryHighlighter = domConstruct.create('div', {
                 'class': 'esriCTItemSummaryHighlighter'
@@ -204,6 +225,8 @@ define([
             }, itemSummaryParent);
 
             if (this.isMyIssues) {
+                domAttr.set(itemSummaryParent, "aria-label",
+                    item.attributes[objectIdFieldName] + "" + item.webMapId + " " + selectedLayerId);
                 itemTitleDivMyIssues = domConstruct.create('div', {
                     'class': 'esriCTItemTitle'
                 }, itemSummaryDiv);
@@ -307,7 +330,9 @@ define([
         _createLoadMoreButton: function () {
             var loadMoreButton, itemSummaryDiv, itemTitleDivMyIssues;
             loadMoreButton = domConstruct.create('div', {
-                'class': 'esriCTtemSummaryParent'
+                'class': 'esriCTtemSummaryParent',
+                'role':"button",
+                'tabindex':"0"
             }, this.list);
 
             itemSummaryDiv = domConstruct.create('div', {
@@ -320,10 +345,14 @@ define([
 
             domConstruct.create('div', {
                 'class': 'esriCTItemListTitleFullWidth esriCTEllipsis esriCTMyIssuePopupTitle esriCTLoadMoreButton',
-                'innerHTML': this.i18n.loadMoreButtonText
+                'innerHTML': this.i18n.loadMoreButtonText,
+                "aria-label": this.i18n.loadMoreButtonText
             }, itemTitleDivMyIssues);
 
-            on(loadMoreButton, "click", lang.hitch(this, function (evt) {
+            on(loadMoreButton, "click, keypress", lang.hitch(this, function (evt) {
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 this.onLoadMoreClick();
             }));
         },

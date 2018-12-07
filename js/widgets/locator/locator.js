@@ -58,7 +58,7 @@ define([
         * @memberOf widgets/locator/locator
         */
         postCreate: function () {
-            var graphicsLayer, placeHolderText;
+            var placeHolderText;
             domConstruct.place(this.divLocateContainer, this.locatorContainer);
             if (this.itemInfo.applicationProperties && this.itemInfo.applicationProperties.viewing.search && this.itemInfo.applicationProperties.viewing.search.hintText) {
                 placeHolderText = this.itemInfo.applicationProperties.viewing.search.hintText;
@@ -66,15 +66,12 @@ define([
             placeHolderText = placeHolderText || this.config.i18n.locator.locatorPlaceholder;
             // add placeholder in textbox
             domAttr.set(this.txtSearch, "placeholder", placeHolderText);
+            domAttr.set(this.txtSearch, "aria-label", placeHolderText);
             // set Tooltip for search button
             domAttr.set(this.searchSubmit, "title", this.config.i18n.locator.searchButtonTooltip);
             //set Tooltip to geocoder clear text button
             domAttr.set(this.close, "title", this.config.i18n.locator.clearButtonTooltip);
             this._attachLocatorEvents();
-            // add graphics layer to map
-            graphicsLayer = new GraphicsLayer();
-            graphicsLayer.id = "locatorGraphicsLayer";
-            this.map.addLayer(graphicsLayer);
             //fetch active locator name
             if (this.config.tool_search && this.config.searchConfig &&
                     this.config.searchConfig.sources.length > 0 &&
@@ -486,7 +483,8 @@ define([
                                     "class": "esriCTSearchGroupRow esriCTContentBottomBorder esriCTPointerCursor esriCTHeaderFont"
                                 }, this.divResultContainer);
                                 divAddressSearchCell = domConstruct.create("div", {
-                                    "class": "esriCTSearchGroupCell"
+                                    "class": "esriCTSearchGroupCell",
+                                    "tabindex": "0"
                                 }, divAddressContainer);
                                 candidate = candidateArray + " (" + candidates[candidateArray].length + ")";
                                 domConstruct.create("span", {
@@ -531,7 +529,8 @@ define([
                 "class": "esriCTCandidateList"
             }, addressListContainer);
             candidateAddress = domConstruct.create("div", {
-                "class": "esriCTCandidateField esriCTContentBottomBorder esriCTPointerCursor"
+                "class": "esriCTCandidateField esriCTContentBottomBorder esriCTPointerCursor",
+                "tabindex": "0"
             }, divAddressRow);
             domAttr.set(candidateAddress, "index", index);
             try {
@@ -572,7 +571,10 @@ define([
         * @memberOf widgets/locator/locator
         */
         _toggleAddressList: function (addressList, idx) {
-            on(addressList, "click", lang.hitch(this, function (evt) {
+            on(addressList, "click, keypress", lang.hitch(this, function (evt) {
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 var addressListContainer, listStatusSymbol;
                 addressListContainer = query(".esriCTAddressListContainer", this.divResultContainer)[idx];
                 if (domClass.contains(addressListContainer, "esriCTShowAddressList")) {
@@ -690,7 +692,10 @@ define([
         * @memberOf widgets/locator/locator
         */
         handleAddressClick: function (candidate, candidateAddress, candidateArray) {
-            on(candidateAddress, "click", lang.hitch(this, function (evt) {
+            on(candidateAddress, "click, keypress", lang.hitch(this, function (evt) {
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 var candidateSplitValue, mapPoint;
                 domAttr.set(this.txtSearch, "defaultAddress", evt.currentTarget.innerHTML);
                 this.txtSearch.value = domAttr.get(this.txtSearch, "defaultAddress");

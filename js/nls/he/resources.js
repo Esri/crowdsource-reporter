@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "לא ניתן ליצור מפה",
+    "licenseError": {
+      "message": "החשבון שלך אינו מורשה להשתמש באפליקציות הניתנות להגדרה שאינן ציבוריות. בקש ממנהל המערכת בארגון שלך להקצות לך סוג משתמש שכולל את Essential Apps או רישיון הרחבה ל-Essential Apps.",
+      "title": "ללא רישיון"
+    },
     "zoomInTooltip": "התמקד פנימה",
     "zoomOutTooltip": "התמקד החוצה",
     "geolocationTooltip": "מיקום נוכחי"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "‏אין אפשרות להוסיף ישות מחוץ לאזור המחקר",
     "noEditingPermissionsMessage": "אין לך הרשאה לבצע את הפעולה הזו.",
     "basemapGalleryText": "גלרית מפות בסיס",
-    "legendText": "מקרא"
+    "basemapThumbnailAltText": "לחת כדי לטעון את ‎${basemapTitle}‎‏ ‎${index} מתוך ${totalBasemaps}",
+    "legendText": "מקרא",
+    "featureNotFoundMessage": "הישות המבוקשת לא נמצאה",
+    "backButton": "חזרה",
+    "panelCloseButton": "סגור"
   },
   "signin": {
     "guestSigninText": "המשך כאורח",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "מבט מפה"
   },
   "appHeader": {
+    "help": "עזרה",
     "myReport": "התוספות שלי",
     "signIn": "התחבר",
     "signOut": "התנתק",
     "signInTooltip": "התחבר",
     "signOutTooltip": "יציאה",
-    "myReportTooltip": "הצג את התוספות שלי"
+    "myReportTooltip": "הצג את התוספות שלי",
+    "share": "שיתוף",
+    "shareDialogTitle": "דו-שיח לשיתוף",
+    "shareDialogAppURLLabel": "URL של אפליקציה",
+    "mobileHamburger": "תושב המבורג"
   },
   "geoform": {
     "enterInformation": "פרטים",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "הקש על המפה כדי לצייר את המיקום.",
     "locationSelectionHintForPolygonLayer": "הקש על המפה כדי לצייר את המיקום. הקש פעמיים כדי להשלים את הציור.",
     "locationSelectionHintForPointLayerDesktop": "לחץ על המפה כדי לצייר את המיקום.",
-    "locationSelectionHintForPolygonLayerDesktop": "לחץ על המפה כדי לצייר את המיקום. לחץ פעמיים כדי להשלים את הציור."
+    "locationSelectionHintForPolygonLayerDesktop": "לחץ על המפה כדי לצייר את המיקום. לחץ פעמיים כדי להשלים את הציור.",
+    "locationDialogTitle": "בחר מיקום עבור הדוח",
+    "locationDialogContent": "האם אתה בטוח שברצונך להשתמש במיקום התמונה?",
+    "errorMessageText": "‎${message}‎ עבור השדה ‎${fieldName}‎",
+    "deleteAttachmentBtnText": "מחק קישור"
   },
   "locator": {
     "addressText": "כתובת:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "הערת עדכון",
     "commentsFormCancelButton": "בטל",
     "errorInSubmittingComment": "לא ניתן לשלוח תגובה.",
+    "commentSubmittedMessage": "תודה על המשוב.",
     "emptyCommentMessage": "שלח תגובה.",
     "placeHolderText": "הקלד תגובה",
     "noCommentsAvailableText": "אין תגובות זמינות",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "גלריה",
     "noAttachmentsAvailableText": "לא נמצאו קבצים מקושרים"
+  },
+  "dialog": {
+    "okButton": "אישור",
+    "cancelButton": "בטל",
+    "yesButton": "כן",
+    "noButton": "לא"
   }
 });

@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "Harita oluşturulamıyor",
+    "licenseError": {
+      "message": "Hesabınız herkese açık olmayan Yapılandırılabilir Uygulamaları kullanmak için lisanslandırılmamış. Lütfen kuruluş yöneticinizden Temel Uygulamalar veya eklenti Temel Uygulamalar lisansı içeren bir kullanıcı türü atamasını isteyin.",
+      "title": "Lisanslı Değil"
+    },
     "zoomInTooltip": "Büyüt",
     "zoomOutTooltip": "Küçült",
     "geolocationTooltip": "Geçerli konum"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "Detay araştırma alanı dışına eklenemez",
     "noEditingPermissionsMessage": "Bu işlemi yapma izniniz yok.",
     "basemapGalleryText": "Altlık Harita Galerisi",
-    "legendText": "Gösterim"
+    "basemapThumbnailAltText": "${totalBasemaps} ${basemapTitle} ${index} yüklemek için tıklayın",
+    "legendText": "Gösterim",
+    "featureNotFoundMessage": "İstenen detay bulunamadı",
+    "backButton": "geri",
+    "panelCloseButton": "Kapat"
   },
   "signin": {
     "guestSigninText": "Konuk olarak devam et",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "Harita görünümü"
   },
   "appHeader": {
+    "help": "Yardım",
     "myReport": "Gönderilerim",
     "signIn": "Oturum Açma",
     "signOut": "Oturum Kapat",
     "signInTooltip": "Hesabınıza",
     "signOutTooltip": "Oturumu kapat",
-    "myReportTooltip": "Gönderilerimi görüntüle"
+    "myReportTooltip": "Gönderilerimi görüntüle",
+    "share": "Paylaş",
+    "shareDialogTitle": "İletişimi Paylaş",
+    "shareDialogAppURLLabel": "Uygulama URL’si",
+    "mobileHamburger": "Hamburg"
   },
   "geoform": {
     "enterInformation": "Ayrıntılar",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "Konumu çizmek için haritaya dokunun.",
     "locationSelectionHintForPolygonLayer": "Konumu çizmek için haritaya dokunun. Çizimi tamamlamak için çift dokunun.",
     "locationSelectionHintForPointLayerDesktop": "Konumu çizmek için haritaya tıklayın.",
-    "locationSelectionHintForPolygonLayerDesktop": "Konumu çizmek için haritaya tıklayın. Çizimi tamamlamak için çift tıklayın."
+    "locationSelectionHintForPolygonLayerDesktop": "Konumu çizmek için haritaya tıklayın. Çizimi tamamlamak için çift tıklayın.",
+    "locationDialogTitle": "Rapor için bir konum seçin",
+    "locationDialogContent": "Görüntü konumunu kullanmak istediğinize emin misiniz?",
+    "errorMessageText": "${fieldName} alanı için ${message}",
+    "deleteAttachmentBtnText": "Eklentiyi sil"
   },
   "locator": {
     "addressText": "Adres:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "Yorumu Güncelle",
     "commentsFormCancelButton": "İptal",
     "errorInSubmittingComment": "Yorum gönderilemedi.",
+    "commentSubmittedMessage": "Geri bildiriminiz için teşekkür ederiz.",
     "emptyCommentMessage": "Lütfen bir yorum girin.",
     "placeHolderText": "Yorum yaz",
     "noCommentsAvailableText": "Kullanılabilir yorum yok",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "Galeri",
     "noAttachmentsAvailableText": "Herhangi bir eklenti bulunamadı"
+  },
+  "dialog": {
+    "okButton": "Tamam",
+    "cancelButton": "İptal Et",
+    "yesButton": "Evet",
+    "noButton": "Hayır"
   }
 });

@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "Δεν είναι δυνατή η δημιουργία χάρτη",
+    "licenseError": {
+      "message": "Ο λογαριασμός σας δεν διαθέτει άδεια χρήσης για Παραμετροποιήσιμες Εφαρμογές που δεν είναι δημόσιες. Ζητήστε από τον διαχειριστή του οργανισμού σας να σας εκχωρήσει τύπο χρήστη που να περιλαμβάνει Βασικές Εφαρμογές ή πρόσθετη άδεια χρήσης για Βασικές Εφαρμογές.",
+      "title": "Χωρίς άδεια χρήσης"
+    },
     "zoomInTooltip": "Εστίαση σε μεγαλύτερη κλίμακα",
     "zoomOutTooltip": "Απομάκρυνση σε μικρότερη κλίμακα",
     "geolocationTooltip": "Τρέχουσα τοποθεσία"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "Το στοιχείο δεν μπορεί να προστεθεί εκτός της περιοχής μελέτης",
     "noEditingPermissionsMessage": "Δεν έχετε δικαίωμα να εκτελέσετε αυτή την ενέργεια.",
     "basemapGalleryText": "Συλλογή υποβάθρων",
-    "legendText": "Υπόμνημα"
+    "basemapThumbnailAltText": "Κάντε κλικ για φόρτωση ${basemapTitle} ${index} από ${totalBasemaps}.",
+    "legendText": "Υπόμνημα",
+    "featureNotFoundMessage": "Το ζητούμενο στοιχείο δεν βρέθηκε",
+    "backButton": "πίσω",
+    "panelCloseButton": "Κλείσιμο"
   },
   "signin": {
     "guestSigninText": "Συνέχεια ως επισκέπτης",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "Προβολή χάρτη"
   },
   "appHeader": {
+    "help": "Βοήθεια",
     "myReport": "Οι υποβολές μου",
     "signIn": "Είσοδος",
     "signOut": "Έξοδος",
     "signInTooltip": "Εισέλθετε",
     "signOutTooltip": "Έξοδος",
-    "myReportTooltip": "Προβολή των υποβολών μου"
+    "myReportTooltip": "Προβολή των υποβολών μου",
+    "share": "Κοινοποίηση",
+    "shareDialogTitle": "Παράθυρο διαλόγου κοινοποίησης",
+    "shareDialogAppURLLabel": "Διεύθυνση URL εφαρμογής",
+    "mobileHamburger": "Χάμπουργκερ"
   },
   "geoform": {
     "enterInformation": "ΛΕΠΤΟΜΕΡΕΙΕΣ",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "Πατήστε στον χάρτη για να σχεδιάσετε την τοποθεσία.",
     "locationSelectionHintForPolygonLayer": "Πατήστε στον χάρτη για να σχεδιάσετε την τοποθεσία. Κάντε διπλό πάτημα για να ολοκληρώσετε τη σχεδίαση.",
     "locationSelectionHintForPointLayerDesktop": "Κάντε κλικ στον χάρτη για να σχεδιάσετε την τοποθεσία.",
-    "locationSelectionHintForPolygonLayerDesktop": "Κάντε κλικ στον χάρτη για να σχεδιάσετε την τοποθεσία. Κάντε διπλό κλικ για να ολοκληρώσετε τη σχεδίαση."
+    "locationSelectionHintForPolygonLayerDesktop": "Κάντε κλικ στον χάρτη για να σχεδιάσετε την τοποθεσία. Κάντε διπλό κλικ για να ολοκληρώσετε τη σχεδίαση.",
+    "locationDialogTitle": "Επιλογή τοποθεσίας για αναφορά",
+    "locationDialogContent": "Σίγουρα θέλετε να χρησιμοποιήσετε την τοποθεσία της εικόνας;",
+    "errorMessageText": "${message} για το πεδίο ${fieldName}",
+    "deleteAttachmentBtnText": "Διαγραφή συνημμένου"
   },
   "locator": {
     "addressText": "Διεύθυνση:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "Σχόλιο ενημέρωσης",
     "commentsFormCancelButton": "Ακύρωση",
     "errorInSubmittingComment": "Δεν ήταν δυνατή η υποβολή του σχολίου.",
+    "commentSubmittedMessage": "Σας ευχαριστούμε για τα σχόλιά σας.",
     "emptyCommentMessage": "Εισαγάγετε ένα σχόλιο.",
     "placeHolderText": "Πληκτρολογήστε ένα σχόλιο",
     "noCommentsAvailableText": "Δεν υπάρχουν διαθέσιμα σχόλια",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "ΣΥΛΛΟΓΗ",
     "noAttachmentsAvailableText": "Δεν βρέθηκαν συνημμένα"
+  },
+  "dialog": {
+    "okButton": "ΟΚ",
+    "cancelButton": "Ακύρωση",
+    "yesButton": "Ναι",
+    "noButton": "Όχι"
   }
 });

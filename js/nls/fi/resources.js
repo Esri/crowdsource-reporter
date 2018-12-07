@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "Karttaa ei voi luoda",
+    "licenseError": {
+      "message": "Tiliäsi ei ole lisensoitu käyttämään muunneltavissa olevia sovelluksia, jotka eivät ole julkisia. Pyydä organisaatiosi pääkäyttäjää määrittämään sinulle käyttäjätyyppi, joka sisältää keskeiset sovellukset tai keskeisten sovellusten lisäosan lisenssin.",
+      "title": "Ei lisenssiä"
+    },
     "zoomInTooltip": "Lähennä",
     "zoomOutTooltip": "Loitonna",
     "geolocationTooltip": "Nykyinen sijainti"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "Tarkastelualueen ulkopuolisia kohteita ei voi lisätä",
     "noEditingPermissionsMessage": "Sinulla ei ole oikeuksia tämän toiminnon toteuttamiseen.",
     "basemapGalleryText": "Taustakartat",
-    "legendText": "Selite"
+    "basemapThumbnailAltText": "Lataa napsauttamalla ${basemapTitle} ${index}/${totalBasemaps}",
+    "legendText": "Selite",
+    "featureNotFoundMessage": "Pyydettyä kohdetta ei löydy",
+    "backButton": "takaosa",
+    "panelCloseButton": "Sulje"
   },
   "signin": {
     "guestSigninText": "Jatka käyttöä vierailijana",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "Karttanäkymä"
   },
   "appHeader": {
+    "help": "Ohje",
     "myReport": "Omat lähetykset",
     "signIn": "Kirjaudu sisään",
     "signOut": "Kirjaudu ulos",
     "signInTooltip": "Kirjaudu sisään",
     "signOutTooltip": "Kirjaudu ulos",
-    "myReportTooltip": "Näytä omat lähetykset"
+    "myReportTooltip": "Näytä omat lähetykset",
+    "share": "Jaa",
+    "shareDialogTitle": "Jaa valintaikkuna",
+    "shareDialogAppURLLabel": "Sovelluksen URL-osoite",
+    "mobileHamburger": "Hampurilaisvalikko"
   },
   "geoform": {
     "enterInformation": "Yksityiskohdat",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "Piirrä sijainti napauttamalla karttaa.",
     "locationSelectionHintForPolygonLayer": "Piirrä sijainti napauttamalla karttaa. Viimeistele piirros kaksoisnapauttamalla.",
     "locationSelectionHintForPointLayerDesktop": "Piirrä sijainti napsauttamalla karttaa.",
-    "locationSelectionHintForPolygonLayerDesktop": "Piirrä sijainti napsauttamalla karttaa. Viimeistele piirros kaksoisnapsauttamalla."
+    "locationSelectionHintForPolygonLayerDesktop": "Piirrä sijainti napsauttamalla karttaa. Viimeistele piirros kaksoisnapsauttamalla.",
+    "locationDialogTitle": "Valitse sijainti raporttia varten",
+    "locationDialogContent": "Haluatko varmasti käyttää kuvan sijaintia?",
+    "errorMessageText": "${message} kentälle ${fieldName}",
+    "deleteAttachmentBtnText": "Poista liite"
   },
   "locator": {
     "addressText": "Osoite:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "Päivitä kommentti",
     "commentsFormCancelButton": "Peruuta",
     "errorInSubmittingComment": "Kommentin lähetys ei onnistunut.",
+    "commentSubmittedMessage": "Kiitos palautteestasi.",
     "emptyCommentMessage": "Kirjoita kommentti.",
     "placeHolderText": "Kirjoita kommentti",
     "noCommentsAvailableText": "Yhtään kommenttia ei ole saatavilla",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "Gallery",
     "noAttachmentsAvailableText": "Liitteitä ei löydy."
+  },
+  "dialog": {
+    "okButton": "OK",
+    "cancelButton": "Peruuta",
+    "yesButton": "Kyllä",
+    "noButton": "Ei"
   }
 });

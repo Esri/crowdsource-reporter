@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "Không thể tạo bản đồ",
+    "licenseError": {
+      "message": "Tài khoản của bạn không được cấp phép để sử dụng Ứng dụng có thể cấu hình mà không được công khai. Vui lòng yêu cầu quản trị viên của tổ chức bạn gán cho bạn loại người dùng nào có bao gồm các ứng dụng thiết yếu hoặc có giấy phép sử dụng các ứng dụng thiết yếu bổ trợ.",
+      "title": "Không được cấp phép"
+    },
     "zoomInTooltip": "Thu nhỏ",
     "zoomOutTooltip": "Phóng to",
     "geolocationTooltip": "Vị trí hiện tại"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "Không thể thêm đối tượng bên ngoài vùng nghiên cứu",
     "noEditingPermissionsMessage": "Bạn không có quyền thực hiện thao tác này.",
     "basemapGalleryText": "Bộ sưu tập bản đồ nền",
-    "legendText": "Chú giải"
+    "basemapThumbnailAltText": "Bấm để tải ${basemapTitle} ${index} trong số ${totalBasemaps}",
+    "legendText": "Chú giải",
+    "featureNotFoundMessage": "Không tìm thấy đối tượng được yêu cầu",
+    "backButton": "quay lại",
+    "panelCloseButton": "Đóng"
   },
   "signin": {
     "guestSigninText": "Tiến hành dưới dạng Khách",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "Chế độ xem bản đồ"
   },
   "appHeader": {
+    "help": "Trợ giúp",
     "myReport": "Đệ trình của tôi",
     "signIn": "Đăng nhập",
     "signOut": "Đăng xuất",
     "signInTooltip": "Đăng nhập",
     "signOutTooltip": "Đăng xuất",
-    "myReportTooltip": "Xem các đệ trình của tôi"
+    "myReportTooltip": "Xem các đệ trình của tôi",
+    "share": "Chia sẻ",
+    "shareDialogTitle": "Hộp thoại Chia sẻ",
+    "shareDialogAppURLLabel": "URL Ứng dụng",
+    "mobileHamburger": "Hamburger"
   },
   "geoform": {
     "enterInformation": "Chi tiết",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "Chạm vào bản đồ để vẽ vị trí.",
     "locationSelectionHintForPolygonLayer": "Chạm vào bản đồ để vẽ vị trí. Chạm hai lần để hoàn thành bản vẽ.",
     "locationSelectionHintForPointLayerDesktop": "Nhấp vào bản đồ để vẽ vị trí.",
-    "locationSelectionHintForPolygonLayerDesktop": "Nhấp vào bản đồ để vẽ vị trí. Nhấp đúp để hoàn thành bản vẽ."
+    "locationSelectionHintForPolygonLayerDesktop": "Nhấp vào bản đồ để vẽ vị trí. Nhấp đúp để hoàn thành bản vẽ.",
+    "locationDialogTitle": "Chọn vị trí để báo cáo",
+    "locationDialogContent": "Bạn có chắc chắn muốn sử dụng thông tin vị trí của hình ảnh không?",
+    "errorMessageText": "${message} cho trường ${fieldName}",
+    "deleteAttachmentBtnText": "Xóa tệp đính kèm"
   },
   "locator": {
     "addressText": "Địa chỉ:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "Cập nhật Bình luận",
     "commentsFormCancelButton": "Hủy",
     "errorInSubmittingComment": "Không thể gửi bình luận.",
+    "commentSubmittedMessage": "Cảm ơn bạn đã phản hồi.",
     "emptyCommentMessage": "Vui lòng nhập bình luận.",
     "placeHolderText": "Nhập bình luận",
     "noCommentsAvailableText": "Không có bình luận",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "Bộ sưu tập",
     "noAttachmentsAvailableText": "Không tìm thấy tệp đính kèm"
+  },
+  "dialog": {
+    "okButton": "Ok",
+    "cancelButton": "Hủy",
+    "yesButton": "Có",
+    "noButton": "Không"
   }
 });

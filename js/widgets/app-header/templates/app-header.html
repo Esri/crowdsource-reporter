@@ -1,9 +1,10 @@
 ﻿<div data-dojo-attach-point="applicationHeaderParentContainer">
     <div class="esriCTApplicationHeader esriCTBorderBottom esriCTHeaderBackgroundColor esriCTHeaderTextColorAsBorder">
-        <div class="esriCTHomeIcon" data-dojo-attach-point="applicationIconContainer">
+        <div tabindex="-1" class="esriCTHomeIcon" data-dojo-attach-point="applicationIconContainer">
             <img data-dojo-attach-point="applicationHeaderIcon" class="esriCTApplicationIcon"
                 alt="" />
         </div>
+        <div role="heading" aria-level="1" data-dojo-attach-point="applicationHeaderName" class="esriCTAppName esriCTMenuTabLeft esriCTApplicationColor esriCTHeaderTextColor"></div>
         <div class="esriCTMenuTabRight">
             <div data-dojo-attach-point="applicationHeaderWidgetsContainer">
                 <div class="esriCTDesktopIcons">
@@ -11,8 +12,8 @@
                         <div data-dojo-attach-point="esriCTLoginDetailsDiv">
                             <div class="esriCTLoginCredentialsDiv esriCTApplicationColor esriCTHeaderTextColor esriCTFloatLeft" data-dojo-attach-point="esriCTLoginCredentialsDiv">
                                 <div class="esriCTFloatLeft" style="width: 100%;">
-                                    <div class="esriCTLoginUserNameDiv esriCTPointerCursor" data-dojo-attach-point="esriCTLoginUserNameDiv"
-                                        title="${i18n.signInTooltip}">
+                                    <div tabindex="0" role="link" class="esriCTLoginUserNameDiv esriCTPointerCursor" data-dojo-attach-point="esriCTLoginUserNameDiv"
+                                        title="${i18n.signInTooltip}" aria-label="${i18n.signInTooltip}">
                                         ${i18n.signIn}
                                     </div>
                                     <div class="esriCTCaretIcon  esriCTPointerCursor esriCTHidden esriCTHeaderTextColor" data-dojo-attach-point="caretIcon">
@@ -22,12 +23,12 @@
                             <div class="esriCTOptions esriCTApplicationColor esriCTHeaderTextColor esriCTHidden"
                                 data-dojo-attach-point="esriCTLoginOptionsDiv">
                                 <div class="esriCTLogoutOption esriCTBorder esriCTHeaderTextColor esriCTHeaderBackgroundColor esriCTHeaderTextColorAsBorder">
-                                    <div data-dojo-attach-point="myIssueButton" class="esriCTHidden esriCTItems esriCTPointerCursor"
-                                        title="${i18n.myReportTooltip}">
+                                    <div role="menuitem" tabindex="0" data-dojo-attach-point="myIssueButton" class="esriCTHidden esriCTItems esriCTPointerCursor"
+                                        title="${i18n.myReportTooltip}"  aria-label="${i18n.myReportTooltip}">
                                         ${i18n.myReport}
                                     </div>
-                                    <div data-dojo-attach-point="signOutButton" onclick="location.reload();" class="esriCTHidden esriCTItems esriCTPointerCursor"
-                                        title="${i18n.signOutTooltip}">
+                                    <div role="menuitem" tabindex="0" data-dojo-attach-point="signOutButton" onclick="location.reload();" class="esriCTHidden esriCTItems esriCTPointerCursor"
+                                        title="${i18n.signOutTooltip}"  aria-label="${i18n.signOutTooltip}">
                                         ${i18n.signOut}
                                     </div>
                                 </div>
@@ -36,16 +37,21 @@
                     </div>
                 </div>
                 <div data-dojo-attach-point="mobileIcons" class="esriCTMobileIconDiv">
-                    <div class="esriCTHelpIcon esriCTPointerCursor esriCTHidden icon icon-help-1 esriCTHeaderTextColor" data-dojo-attach-point="helpButton"
-                        data-toggle="modal">
+                    <div tabindex="0" title="${i18n.share}"  aria-label="${i18n.share}" class="esriCTHidden esriCTFloatLeft esriCTShareIconParent" role="button" data-dojo-attach-point="shareButton">
+                        <span aria-hidden="true" class="esriCTShareIcon esriCTPointerCursor icon icon-share esriCTHeaderTextColor">
+                        </span>
+                        <span class="esriCTFallBackText">${i18n.share}</span>
                     </div>
-                    <div data-dojo-attach-point="mobileMenuBurger" class="esriCTMobileBurgerIcon esriCTMobileIcons">
+                    <div tabindex="0" class="esriCTHidden esriCTFloatLeft" role="button" data-dojo-attach-point="helpButton">
+                        <span aria-hidden="true" class="esriCTHelpIcon esriCTPointerCursor icon icon-help-1 esriCTHeaderTextColor">
+                        </span>
+                        <span class="esriCTFallBackText">${i18n.help}</span>
+                    </div>
+                    <div role="menu" tabindex="0" aria-label="${i18n.mobileHamburger}" aria-expanded="false" data-dojo-attach-point="mobileMenuBurger" class="esriCTMobileBurgerIcon esriCTMobileIcons">
                         <span></span>
                     </div>
                 </div>
             </div>
-        </div>
-        <div data-dojo-attach-point="applicationHeaderName" class="esriCTMenuTabLeft esriCTApplicationColor esriCTHeaderTextColor">
         </div>
     </div>
 </div>

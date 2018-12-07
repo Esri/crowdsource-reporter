@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "Nelze vytvořit mapu",
+    "licenseError": {
+      "message": "Váš účet nevlastní licenci k používání konfigurovatelných aplikací, které nejsou veřejné. Požádejte prosím správce své organizace, aby vám přidělil typ uživatele, jehož součástí jsou základní aplikace nebo doplňková licence základních aplikací.",
+      "title": "Chybí licence"
+    },
     "zoomInTooltip": "Přiblížit",
     "zoomOutTooltip": "Oddálit",
     "geolocationTooltip": "Aktuální poloha"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "Prvek nelze přidat mimo zájmovou oblast.",
     "noEditingPermissionsMessage": "Nemáte oprávnění k provedení této akce.",
     "basemapGalleryText": "Galerie podkladových map",
-    "legendText": "Legenda"
+    "basemapThumbnailAltText": "Klikněte pro nahrání ${basemapTitle} ${index} z ${totalBasemaps}",
+    "legendText": "Legenda",
+    "featureNotFoundMessage": "Požadovaný prvek nebyl nalezen.",
+    "backButton": "zpět",
+    "panelCloseButton": "Zavřít"
   },
   "signin": {
     "guestSigninText": "Pokračovat jako host",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "Zobrazení mapy"
   },
   "appHeader": {
+    "help": "Nápověda",
     "myReport": "Moje příspěvky",
     "signIn": "Přihlásit",
     "signOut": "Odhlásit",
     "signInTooltip": "Přihlásit se",
     "signOutTooltip": "Odhlásit se",
-    "myReportTooltip": "Zobrazit moje příspěvky"
+    "myReportTooltip": "Zobrazit moje příspěvky",
+    "share": "Sdílet",
+    "shareDialogTitle": "Dialogové okno sdílení",
+    "shareDialogAppURLLabel": "URL aplikace",
+    "mobileHamburger": "Hamburger"
   },
   "geoform": {
     "enterInformation": "Podrobnosti",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "Nakreslete umístění poklepáním na mapu.",
     "locationSelectionHintForPolygonLayer": "Zadejte první bod poklepáním na mapu. Dvojitým kliknutím kreslení dokončíte.",
     "locationSelectionHintForPointLayerDesktop": "Zadejte první bod poklepáním na mapu.",
-    "locationSelectionHintForPolygonLayerDesktop": "Zadejte první bod poklepáním na mapu. Dvojitým kliknutím kreslení dokončíte."
+    "locationSelectionHintForPolygonLayerDesktop": "Zadejte první bod poklepáním na mapu. Dvojitým kliknutím kreslení dokončíte.",
+    "locationDialogTitle": "Vyberte umístění zprávy",
+    "locationDialogContent": "Opravdu chcete použít umístění snímku?",
+    "errorMessageText": "${message} pro pole ${fieldName}",
+    "deleteAttachmentBtnText": "Smazat přílohu"
   },
   "locator": {
     "addressText": "Adresa:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "Aktualizovat komentář",
     "commentsFormCancelButton": "Storno",
     "errorInSubmittingComment": "Komentář se nepodařilo odeslat.",
+    "commentSubmittedMessage": "Děkujeme, že jste se podělili o své názory.",
     "emptyCommentMessage": "Zadejte komentář.",
     "placeHolderText": "Napište komentář",
     "noCommentsAvailableText": "Nejsou k dispozici žádné komentáře.",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "Galerie",
     "noAttachmentsAvailableText": "Nebyly nalezeny žádné přílohy"
+  },
+  "dialog": {
+    "okButton": "OK",
+    "cancelButton": "Storno",
+    "yesButton": "Ano",
+    "noButton": "Ne"
   }
 });

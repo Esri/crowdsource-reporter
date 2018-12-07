@@ -48,12 +48,17 @@
 
 /* RTL for Application Header*/
 
-.dj_rtl .esriCTHomeIcon
+.dj_rtl .esriCTHomeIcon, .dj_rtl .esriCTShareIconParent
 {
     float: right !important;
 }
 
-.dj_rtl .esriCTMenuTabRight 
+.dj_rtl .esriCTAppName
+{
+    float: right;
+}
+
+.dj_rtl .esriCTMenuTabRight
 {
     float: left !important;
 }
@@ -99,7 +104,7 @@
     float: right;
 }
 
-.dj_rtl #sideContainer, .dj_rtl .esriCTInfoImg, .dj_rtl .esriCTVotesDetails, .dj_rtl .esriCTItemFav
+.dj_rtl #sideContainer, .dj_rtl .esriCTInfoImg, .dj_rtl .esriCTVotesDetails, .dj_rtl .esriCTItemFav, .dj_rtl .esriCTMapInfoContainer
 {
     float:left !important;
 }
@@ -125,13 +130,22 @@
     padding: 5px 10px 5px 10px;
 }
 
-.dj_rtl .esriCTItemDetail .esriCTTtemDescription, .dj_rtl .esriCTDetailsPanel    
+.dj_rtl .esriCTItemDetail .esriCTTtemDescription
 {
     float: none !important;
     
 }
 
-.dj_rtl .esriCTGeoFormParentContainer 
+.dj_rtl .esriCTItemDescFooter, .dj_rtl .esriCTItemComments
+{
+    float: none !important;
+}
+
+.dj_rtl .esriCTCommentsPopup
+{
+position: inherit;
+}
+.dj_rtl .esriCTGeoFormParentContainer
 {
     left:auto;
     right: 70%;
@@ -160,13 +174,14 @@
 .dj_rtl .esriCTMultiLineEllipsisdiv 
 {
     margin-right: 15px;
+    float: right; /* Added float due to changes in DOM for Accessibility */
 }
 
 /* End of RTL for side bar container */
 
 /* RTL for Geoform */
 
-.dj_rtl .esriCTHeaderMessageDiv .close 
+.dj_rtl .esriCTHeaderMessageDiv .close, .dj_rtl .esriCTItemComments .close
 {
     float:left;
 }
@@ -179,6 +194,11 @@
 /* End of RTL for Geoform */
 
 /* RTL for Details panel */
+
+.dj_rtl .esriCTDetailsPanel
+{
+    float: none;
+}
 
 .dj_rtl .esriCTGalleryButton
 {
@@ -234,6 +254,10 @@
     float: left;
 }
 
+.dj_rtl .esriCTOkButton {
+    margin-left: 5px;
+}
+
 /* End Of CSS For Modal dialog */
 
 /** Common class for RTL for font icons **/
@@ -274,5 +298,9 @@
     margin-left: 0px;
 }
 .dj_rtl .esriCTPanelCloseBtn {
+    margin-left: 5px;
+}
+
+.dj_rtl .esriCTOnScreenClose {
     margin-left: 5px;
 }

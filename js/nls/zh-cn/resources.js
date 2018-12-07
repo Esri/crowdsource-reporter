@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "无法创建地图",
+    "licenseError": {
+      "message": "您的帐户无权使用非公共的可配置应用程序。 请联系您的组织管理员为您分配包含基本应用程序或附加基本应用程序许可的用户类型。",
+      "title": "未经许可"
+    },
     "zoomInTooltip": "放大",
     "zoomOutTooltip": "缩小",
     "geolocationTooltip": "当前位置"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "无法向研究区域外添加要素",
     "noEditingPermissionsMessage": "您无权执行此操作。",
     "basemapGalleryText": "底图库",
-    "legendText": "图例"
+    "basemapThumbnailAltText": "单击加载 ${basemapTitle} ${index}/${totalBasemaps}",
+    "legendText": "图例",
+    "featureNotFoundMessage": "未找到请求的要素",
+    "backButton": "后退",
+    "panelCloseButton": "关闭"
   },
   "signin": {
     "guestSigninText": "以访客身份继续进行",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "地图视图"
   },
   "appHeader": {
+    "help": "帮助",
     "myReport": "我的提交内容",
     "signIn": "登录",
     "signOut": "登出",
     "signInTooltip": "登录",
     "signOutTooltip": "登出",
-    "myReportTooltip": "查看我的提交内容"
+    "myReportTooltip": "查看我的提交内容",
+    "share": "共享",
+    "shareDialogTitle": "共享对话框",
+    "shareDialogAppURLLabel": "应用程序 URL",
+    "mobileHamburger": "汉堡"
   },
   "geoform": {
     "enterInformation": "详细信息",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "点击地图以绘制位置。",
     "locationSelectionHintForPolygonLayer": "点击地图以绘制位置。双击以完成绘制。",
     "locationSelectionHintForPointLayerDesktop": "单击地图以绘制位置。",
-    "locationSelectionHintForPolygonLayerDesktop": "单击地图以绘制位置。双击以完成绘制。"
+    "locationSelectionHintForPolygonLayerDesktop": "单击地图以绘制位置。双击以完成绘制。",
+    "locationDialogTitle": "选择报表位置",
+    "locationDialogContent": "是否确定使用影像位置?",
+    "errorMessageText": "字段 ${fieldName} 的 ${Message}",
+    "deleteAttachmentBtnText": "删除附件"
   },
   "locator": {
     "addressText": "地址:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "更新评论",
     "commentsFormCancelButton": "取消",
     "errorInSubmittingComment": "无法提交评论。",
+    "commentSubmittedMessage": "感谢您的反馈。",
     "emptyCommentMessage": "请输入一条评论。",
     "placeHolderText": "输入一条评论",
     "noCommentsAvailableText": "没有任何评论可用",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "图库",
     "noAttachmentsAvailableText": "未找到任何附件"
+  },
+  "dialog": {
+    "okButton": "确定",
+    "cancelButton": "取消",
+    "yesButton": "是",
+    "noButton": "否"
   }
 });

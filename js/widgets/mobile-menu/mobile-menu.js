@@ -86,6 +86,7 @@ define([
             }));
             domAttr.set(this.help, "innerHTML", this.appConfig.helpLinkText);
             domAttr.set(this.help, "title", this.appConfig.helpLinkText);
+            domAttr.set(this.help, "aria-label", this.appConfig.helpLinkText);
         },
 
         /**
@@ -109,7 +110,7 @@ define([
             // check if signIn is to be shown in list and accordingly set it's display and handle it's click
             if (this.config.signIn) {
                 domClass.remove(this.signIn, "esriCTHidden");
-                this.own(on(this.signIn, "click", lang.hitch(this, this._signInClicked)));
+                this.own(on(this.signIn, "click, keypress", lang.hitch(this, this._signInClicked)));
             } else {
                 domClass.add(this.signIn, "esriCTHidden");
             }
@@ -120,14 +121,15 @@ define([
             if (this.config.signOut) {
                 //show signout option and handle its click event
                 domClass.remove(this.signOut, "esriCTHidden");
-                this.own(on(this.signOut, "click", lang.hitch(this, this._signOutClicked)));
+                this.own(on(this.signOut, "click, keypress", lang.hitch(this, this._signOutClicked)));
 
                 //show my issues and handle it's click event
                 domClass.remove(this.myReport, "esriCTHidden");
-                this.own(on(this.myReport, "click", lang.hitch(this, this._myIssuesClicked)));
+                this.own(on(this.myReport, "click, keypress", lang.hitch(this, this._myIssuesClicked)));
 
                 //set logged in user name
                 domAttr.set(this.loggedinUserNameDiv, "innerHTML", this.appConfig.logInDetails.userName);
+                domAttr.set(this.loggedinUserNameDiv, "aria-label", this.appConfig.logInDetails.userName);
 
                 //show Mobile Header consisting logged in user name
                 domClass.remove(this.mobileMenuHeader, "esriCTHidden");
@@ -141,7 +143,17 @@ define([
                 // check if help is to be shown in list and accordingly set it's display and handle it's click
                 domClass.remove(this.help, "esriCTHidden");
             }
-            this.own(on(this.help, "click", lang.hitch(this, this._helpClicked)));
+            if (this.appConfig.enableShare) {
+                // check if help is to be shown in list and accordingly set it's display and handle it's click
+                domClass.remove(this.share, "esriCTHidden");
+            }
+
+            this.own(on(this.help, "click, keypress", lang.hitch(this, this._helpClicked)));
+            this.own(on(this.share, "click, keypress", lang.hitch(this, this._shareClicked)));
+
+            $(this.help).focusout(lang.hitch(this, function (evt) {
+                this.onHelpFocusOut();
+            }));
         },
 
         /**
@@ -162,6 +174,9 @@ define([
         * @memberOf widgets/mobile-menu/mobile-menu
         */
         _myIssuesClicked: function (evt) {
+            if (!this.appUtils.validateEvent(evt)) {
+                return;
+            }
             this.onMyIssuesClicked(evt);
         },
 
@@ -169,7 +184,10 @@ define([
         * Executed when user clicks on Sign in option
         * @memberOf widgets/mobile-menu/mobile-menu
         */
-        _signInClicked: function () {
+        _signInClicked: function (evt) {
+            if (!this.appUtils.validateEvent(evt)) {
+                return;
+            }
             this.onSignInClicked();
         },
 
@@ -178,6 +196,9 @@ define([
         * @memberOf widgets/mobile-menu/mobile-menu
         */
         _signOutClicked: function (evt) {
+            if (!this.appUtils.validateEvent(evt)) {
+                return;
+            }
             this.onSignOutClicked(evt);
         },
 
@@ -186,7 +207,18 @@ define([
         * @memberOf widgets/mobile-menu/mobile-menu
         */
         _helpClicked: function (evt) {
+            if (!this.appUtils.validateEvent(evt)) {
+                return;
+            }
             this.onHelpClicked(evt);
+        },
+
+        /**
+        * Executed when user clicks on share button
+        * @memberOf widgets/mobile-menu/mobile-menu
+        */
+        _shareClicked: function (evt) {
+            this.onShareClicked(evt);
         },
 
         //Events generated form mobile menu
@@ -202,8 +234,16 @@ define([
             return evt;
         },
 
+        onShareClicked: function (evt) {
+            return evt;
+        },
+
         onMyIssuesClicked: function (evt) {
             return evt;
+        },
+
+        onHelpFocusOut: function () {
+
         }
     });
 });

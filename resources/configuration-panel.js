@@ -13,6 +13,7 @@
         "enableTwitter": false,
         "enablePortalLogin": true,
         "enableGoogleplus": false,
+        "disableCurrentLocation": false,
         "tool_search" : true,
         "facebookAppId": "",
         "googleplusClientId": "",
@@ -35,6 +36,7 @@
         "likeField": "NUMVOTES",
         "commentField": "COMMENTS",
         "usePopupConfigurationForComment": false,
+        "commentsSuccessMessage":"Comments Submitted Successfully.",
         "enableFeatureEdit": false,
         "enableFeatureDelete": false,
         "reportedByField": "USERID",
@@ -47,11 +49,13 @@
         "geographicalExtentLayer": "",
         "submitReportButtonText": "",
         "submitReportButtonColor": "#35ac46",
+        "submitReportButtonPosition": "bottom",
         "splashScreenTextColor": "#FFF",
         "imageBackgroundColor": "#999999",
         "imageForeGroundColor": "white",
         "showMapFirst": "list",
         "enableHelp": true,
+        "enableShare": false,
         "showHelpOnLoad": false,
         "enableDifferentHelpContent": false,
         "helpLinkText": "Help",
@@ -75,9 +79,13 @@
         "location": "Bottom",
         "sortingField" : "",
         "sortingOrder": "DESC",
-        "reportingPeriod": "Open",
         "reportingPeriodDialogTitle": "Reporting Period Closed",
-        "reportingPeriodDialogContent": "We are no longer accepting new reports for this project."
+        "reportingPeriodDialogContent": "We are no longer accepting new reports for this project.",
+        "commentStartDate": "",
+        "commentStartTime": "",
+        "commentEndDate" :"",
+        "commentEndTime": "",
+        "commentSortingOrder": "DESC"
     },
   "configurationSettings": [{
       "category": "<b>General</b>",
@@ -319,7 +327,16 @@
           "type": "basemapgroup",
           "fieldName": "basemapGroup"
         }]
-     }]
+      }, {
+          "type": "subcategory",
+          "label": "Sharing"
+      }, {
+          "label": "Enable the share dialog window",
+          "tooltip": "When disabled, the share icon will not be visible in the application header",
+          "type": "boolean",
+          "condition": false,
+          "fieldName": "enableShare"
+      }]
   }, {
       "category": "<b>Access</b>",
       "fields": [{
@@ -357,7 +374,7 @@
           "label": "Sign In Options"
       }, {
           "type": "paragraph",
-          "value": "Configure how users will be able to access your application. See the <a href='http://links.esri.com/localgovernment/help/CrowdsourcePolling/SocialSignIn/' target='_blank'>help</a> for the steps to register your app with Facebook and Google+."
+          "value": "Configure how users will be able to access your application. See the <a href='http://links.esri.com/localgovernment/help/crowdsource-reporter/' target='_blank'>help</a> for the steps to register your app with Google+."
       }, {
           "type": "paragraph",
           "value": "Disable all sign in options to hide the splash screen."
@@ -377,18 +394,6 @@
           "type": "boolean",
           "fieldName": "enableTwitter"
       }, {
-          "label": "Allow users to sign in using Facebook",
-          "tooltip": "Enable to allow users to sign in using their Facebook credentials",
-          "type": "conditional",
-          "fieldName": "enableFacebook",
-          "condition": false,
-          "items": [{
-              "label": "Please register your app with Facebook and provide your Facebook AppId",
-              "tooltip": "Facebook AppId",
-              "type": "string",
-              "fieldName": "facebookAppId"
-          }]
-      }, {
           "label": "Allow users to sign in using Google+",
           "tooltip": "Enable to allow users to sign in using their Google+ credentials.",
           "type": "conditional",
@@ -400,7 +405,7 @@
               "type": "string",
               "fieldName": "googleplusClientId"
           }]
-      }, {
+      },  {
           "label": "Field for storing the ID of authenticated users (optional)",
           "tooltip": "Text field that stores the ID of the person who submitted or commented on a report. Field name must be the same across all layers and maps.",
           "type": "string",
@@ -558,6 +563,17 @@
           "type": "color",
           "fieldName": "submitReportButtonColor"
       }, {
+        "label": "Submit report button position",
+        "tooltip": "position of submit report button", "type": "options",
+        "fieldName": "submitReportButtonPosition",
+        "options": [{
+            "label": "Top",
+            "value": "top"
+        }, {
+            "label": "Bottom",
+            "value": "bottom"
+        }]
+    }, {
           "type": "subcategory",
           "label": "Submission Message"
       }, {
@@ -590,8 +606,13 @@
           "type": "subcategory",
           "label": "Search Radius"
       }, {
+          "label": "Allow users to access the application without prompting for their location",
+          "tooltip": "When this option is disabled, users will be prompted to share their location with the application. Their location will be used to sort reports based on proximity to their location. When this option is enabled this prompt will not be displayed and their location will not be used for loading reports.",
+          "type": "boolean",
+          "fieldName": "disableCurrentLocation"
+      }, {
           "type": "paragraph",
-          "value": "When the application loads, users will be asked to share their location to view nearby reports. Only reports within this radius will load, but users can expand this search radius incrementally in the application. Define the radius of this initial search for nearby reports. "
+          "value": "When users share their location with the application, only reports within this radius will load. Users can expand this search radius incrementally in the application. Define the radius of this initial search for nearby reports. "
       }, {
           "label": "Initial search radius",
           "tooltip": "When location is shared, application will initially load all reports within this search radius.",
@@ -647,6 +668,26 @@
           "fieldName": "likeField"
       }, {
           "type": "subcategory",
+          "label": "Reports Order"
+      }, {
+          "label": "Reports sorting field",
+          "tooltip": "Sort issues based on configured field",
+          "type": "string",
+          "fieldName": "sortingField"
+      }, {
+          "label": "Reports sorting order",
+          "tooltip": "Order in which issues are sorted ",
+          "type": "options",
+          "fieldName": "sortingOrder",
+          "options": [{
+              "label": "Ascending",
+              "value": "ASC"
+          }, {
+              "label": "Descending",
+              "value": "DESC"
+          }]
+      }, {
+          "type": "subcategory",
           "label": "Comments"
       }, {
           "type": "paragraph",
@@ -667,48 +708,60 @@
               "fieldName": "commentField"
           }]
       }, {
-          "label": "Reports sorting field",
-          "tooltip": "Sort issues based on configured field",
+        "label": "Message displayed after a comment is submitted successfully",
+        "tooltip": "Message displayed at the top of comment section after a comment is submitted successfully",
+        "type": "string",
+        "fieldName": "commentsSuccessMessage",
+        "stringFieldOption": "richtext"
+      }, {
+          "label": "Comments sorting field",
+          "tooltip": "Sort comments based on configured field",
           "type": "string",
-          "fieldName": "sortingField"
+          "fieldName": "commentSortingField"
+			
       }, {
-          "label": "Sorting order",
-          "tooltip": "Order in which issue's can be sorted ",
+				
+          "label": "Comments sorting order",
+          "tooltip": "Order in which comments can be sorted ",
           "type": "options",
-          "fieldName": "sortingOrder",
+          "fieldName": "commentSortingOrder",
           "options": [{
-              "label": "Ascending",
-              "value": "ASC"
-          }, {
-              "label": "Descending",
-              "value": "DESC"
-          }]
+					"label": "Ascending",
+					"value": "ASC"
       }, {
+					"label": "Descending",
+					"value": "DESC"
+				}]
+			}, {
           "type": "subcategory",
           "label": "Reporting Period"
       }, {
-          "type": "radio",
-          "fieldName": "reportingPeriod",
-          "tooltip": "Reporting period status.",
-          "items": [{
-              "label": "Reporting Period Open",
-              "value": "Open",
-              "checked": true
-          }, {
-              "label": "Reporting Period Closed",
-              "value": "Closed"
-          }]
+          "type": "date",
+          "fieldName": "commentStartDate",
+          "label": "Reporting period start date"
       }, {
-          "label": "Reporting period closed window title",
-          "tooltip": "Title of window that displays when reporting period is closed.",
-          "type": "string",
-          "fieldName": "reportingPeriodDialogTitle"
-      }, {
-          "label": "Reporting period closed window content",
-          "tooltip": "Content of window that displays when reporting period is closed.",
-          "type": "string",
-          "fieldName": "reportingPeriodDialogContent",
-          "stringFieldOption": "richtext"
-      }]
+          "type":"time",
+          "fieldName": "commentStartTime",
+          "label": "Reporting period start time"
+    }, {
+        "type": "date",
+        "fieldName": "commentEndDate",
+        "label": "Reporting period end date"
+    }, {
+        "type":"time",
+        "fieldName": "commentEndTime",
+        "label": "Reporting period end time"
+    }, {
+        "label": "Reporting period closed window title",
+        "tooltip": "Title of window that displays when reporting period is closed.",
+        "type": "string",
+        "fieldName": "reportingPeriodDialogTitle"
+    }, {
+        "label": "Reporting period closed window content",
+        "tooltip": "Content of window that displays when reporting period is closed.",
+        "type": "string",
+        "fieldName": "reportingPeriodDialogContent",
+        "stringFieldOption": "richtext"
+    }]
   }]
 }

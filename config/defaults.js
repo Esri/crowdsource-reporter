@@ -65,6 +65,7 @@ define({
     "enableGoogleplus": false,
     "enablePortalLogin": true,
 
+    "disableCurrentLocation" : false, //Flag to decide wether to use the current location
     "facebookAppId": "",
 
     "twitterSigninUrl": location.protocol + "//utility.arcgis.com/tproxy/signin",
@@ -122,11 +123,13 @@ define({
     //Lower level configuration
     "submitReportButtonText" : "Submit a Report", // Text for submit report button
     "submitReportButtonColor": "#35ac46", //Color for Submit Report button.If EMPTY default color will be  #35ac46.
+    "submitReportButtonPosition": "bottom", // Report buttons position (top/bottom)
     "splashScreenTextColor": "#FFF", // Color of splash screen content
     "imageBackgroundColor": "#999999", // Background color icons
     "imageForeGroundColor": "white", // Foreground color of icons values (gray or white)
     //Configurable text for help dialog and help link
     "enableHelp":true,
+    "enableShare": false,
     "helpLinkText": "Help",
     "helpDialogTitle":"Help",
     "helpDialogContent": "<p>Crowdsource Reporter is a configurable gallery application template that allows users to submit problems or observations. The application has been optimized for smartphones but is responsively designed to be used on smartphones, tablets, and desktop computers.</p><p>The Crowdsource Reporter application presents one or more maps that can be used to report a problem or observation. Users can anonymously submit new reports, review existing reports, and comment and vote on reports or observations submitted by other users. They also can authenticate with their social media or ArcGIS Online credentials and track the status of problems or observations they have reported.</p>",
@@ -150,5 +153,11 @@ define({
     "reportingPeriodDialogTitle": "Reporting Period Closed",
     "reportingPeriodDialogContent": "We are no longer accepting new reports for this project.",
     "featureOutsideAOIMsg": "Feature cannot be added outside study area.",
-    "reportingPeriod": "Open"
+    "commentStartDate": "", // Comment start date
+    "commentStartTime": "", // Comment start time
+    "commentEndDate" : "", // Comment end date
+    "commentEndTime": "", // Comment end time
+    "commentsSuccessMessage": "Comments Submitted Successfully.",
+    "commentSortingOrder": "DESC", // To sort comment in ascending(ASC) or descending(DESC) order.
+    "commentSortingField": "comments" // Field on which ascending or descending sorting needs to be applied
 });

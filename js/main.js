@@ -51,6 +51,7 @@ define([
     "esri/geometry/geometryEngine",
     "esri/geometry/webMercatorUtils",
     "esri/dijit/PopupTemplate",
+    "esri/InfoTemplate",
     "esri/toolbars/draw",
     "esri/urlUtils",
     "widgets/app-header/app-header",
@@ -103,6 +104,7 @@ define([
     geometryEngine,
     webMercatorUtils,
     PopupTemplate,
+    InfoTemplate,
     Draw,
     urlUtils,
     ApplicationHeader,
@@ -160,6 +162,9 @@ define([
         _featuresAddedFromMyIssues: [],
         basemapGallery: null,
         legend: null,
+        _initialLoad: true, // to keep track that application is loaded for first time
+        _shareURLParameters: {}, // to store details like webmap, layer, selected feature needed for sharing URL
+
         startup: function (boilerPlateTemplateObject, loggedInUser) {
             // config will contain application and user defined info for the template such as i18n strings, the web map id
             // and application id
@@ -168,6 +173,8 @@ define([
             if (boilerPlateTemplateObject) {
                 this.boilerPlateTemplate = boilerPlateTemplateObject;
                 this.config = boilerPlateTemplateObject.config;
+                // store the details of URL parameters
+                this.config.urlObject = lang.clone(boilerPlateTemplateObject.urlObject);
                 //Make a copy of geolocation, this will be used to check for extent layer functionality whenever layer is selected from webmap list
                 if (this.config.geolocation) {
                     this.clonedGeolocation = jQuery.extend(true, {}, this.config.geolocation);
@@ -280,6 +287,12 @@ define([
                 this._createDetailsPanelForNonEditableLayer();
             }
 
+            //set title to map back button
+            domAttr.set(dom.byId("mapBackButton"), "title",
+                this.config.i18n.issueWall.gotoWebmapListTooltip);
+            domAttr.set(query(".esriCTFallBackText", dom.byId("mapBackButton"))[0], "title",
+                this.config.i18n.issueWall.gotoWebmapListTooltip);
+
             on(document, "click", lang.hitch(this, function (event) {
                 var target, basemapPanel, legendPanel, isInternal;
                 target = event.target || event.srcElement;
@@ -313,27 +326,52 @@ define([
             }, detailsPanelWrapper);
             //create back/close button
             closeButton = domConstruct.create("div", {
-                "class": "esriCTBackButton esriCTInvertFontIcons esriCTPointerCursor icon icon-left-arrow"
+                "class": "esriCTNonEditableLayer",
+                "tabindex": "0",
+                "role":"button",
+                "title": this.config.i18n.main.backButton
             }, listHeader);
+            domConstruct.create("span", {
+                "class": "esriCTBackButton esriCTInvertFontIcons esriCTPointerCursor icon icon-left-arrow",
+                "aria-hidden": "true",
+            }, closeButton);
+            //create back/close button
+            domConstruct.create("div", {
+                "class": "esriCTFallBackText",
+                "innerHTML": this.config.i18n.main.backButton
+            }, closeButton);
+
             //create dom for showing list title
             listTitle = domConstruct.create("div", {
-                "class": "esriCTHeaderText esriCTGeoFormHeaderText esriCTEllipsis esriCTTitle"
+                "class": "esriCTHeaderText esriCTGeoFormHeaderText esriCTEllipsis esriCTTitle",
+                "tabindex": "-1"
             }, listHeader);
             //create dom for showing popup information
             detailsPanelContent = domConstruct.create("div", {
-                "class": "esriCTGeoFormBody esriCTBodyTextColor"
+                "class": "esriCTGeoFormBody esriCTBodyTextColor",
+                "tabindex": "0"
             }, detailsPanelWrapper);
+
+            on(detailsPanelContent, "focusout", lang.hitch(this, function () {
+                closeButton.focus();
+            }));
 
             //Create content pane
             this.itemCP = new ContentPane({ id: 'popupInfo' }, domConstruct.create('div', {}, detailsPanelContent));
             this.itemCP.startup();
 
-            on(closeButton, "click", lang.hitch(this, function () {
+            on(closeButton, "click, keypress", lang.hitch(this, function (evt) {
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 //hide details panel on click of close/back button
                 domClass.add(dom.byId("detailsPanelContainer"), "esriCTHidden");
                 //Clear map selection
                 if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
                     this._selectedMapDetails.map.getLayer("selectionGraphicsLayer").clear();
+                    if (this._shareURLParameters && this._shareURLParameters.hasOwnProperty("selectedFeature")) {
+                        delete this._shareURLParameters.selectedFeature;
+                    }
                 }
                 //if feature is selected in issue wall highlight it
                 if (this._itemDetails.item) {
@@ -362,7 +400,8 @@ define([
                     evt.graphic._layer.capabilities.indexOf("Update") === -1);
             }
             //Check if non-editable layers popup is turned on through webmap
-            if (isNonEditableLayer) {
+            if (isNonEditableLayer || !evt.graphic._layer.url) {
+                isNonEditableLayer = true;
                 array.some(this._selectedMapDetails.itemInfo.itemData.operationalLayers,
                     lang.hitch(this, function (layer) {
                         if (layer.id === evt.graphic._layer.id) {
@@ -388,6 +427,7 @@ define([
                 } else {
                     //clear previous selection graphics
                     selectedGraphicsLayer.clear();
+                    this.mapInstance = this._selectedMapDetails.map;
                     //Highlight feature of feature collection layer
                     highlightSymbol = this.getHighLightSymbol(evt.graphic, evt.graphic._layer);
                     //add symbol to graphics layer if highlight symbol is created
@@ -397,8 +437,20 @@ define([
                 }
                 //zoom to selected feature
                 this._gotoSelectedFeature(evt.graphic);
+                if (!layerTitle && evt.graphic._layer &&
+                    evt.graphic._layer.arcgisProps && evt.graphic._layer.arcgisProps.title) {
+                    layerTitle = evt.graphic._layer.arcgisProps.title;
+
+                }
                 domAttr.set(query(".esriCTTitle", this.domNode)[0], "innerHTML", layerTitle || "");
                 domClass.remove(dom.byId("detailsPanelContainer"), "esriCTHidden");
+                setTimeout(lang.hitch(this, function () {
+                    //set focus to back button
+                    if (query(".esriCTNonEditableLayer", this.domNode) &&
+                        query(".esriCTNonEditableLayer", this.domNode)[0]) {
+                        query(".esriCTNonEditableLayer", this.domNode)[0].focus();
+                    }
+                }));
             }
         },
 
@@ -496,10 +548,21 @@ define([
                         }
                         this._clearMyIssuesFromMap();
                     }
+                    //Highlight the selected feature row
+                    setTimeout(lang.hitch(this, function () {
+                        query(".esriCTItemSummaryParentSelected", this.domNode)[0].focus();
+                    }), 200);
+                    //Add hidden class to edit geoform if it was open
+                    if (!domClass.contains(this._itemDetails.popupDetailsDiv, "esriCTHidden")) {
+                        domClass.add(this._itemDetails.popupDetailsDiv, "esriCTHidden")
+                    }
                 });
 
                 this._itemDetails.onMapItButtonClicked = lang.hitch(this, function (item) {
                     this._gotoSelectedFeature(item);
+                    setTimeout(function () {
+                        dom.byId("mapBackButton").focus();
+                    }, 200);
                 });
 
                 this._itemDetails._createGeoformForEdits = lang.hitch(this, function (parentDiv) {
@@ -551,9 +614,10 @@ define([
                             }
                         });
                         //deactivate the draw tool on main map after closing geoform
-                        this.geoformEditInstance.onFormClose = lang.hitch(this, function () {
+                        this.geoformEditInstance.onFormClose = lang.hitch(this, function (evt) {
                             this._itemDetails.handleComponentsVisibility();
                             this._itemDetails.scrollToTop();
+                            this._itemDetails.setEditButtonState(evt);
                         });
                     } else {
                         this.geoformEditInstance.item = this._itemDetails.item;
@@ -582,19 +646,57 @@ define([
                 submitButtonColor = (this.config && this.config.submitReportButtonColor) ? this.config.submitReportButtonColor : "#35ac46";
                 domStyle.set(dom.byId("submitFromMap"), "background-color", submitButtonColor);
 
-                on(dom.byId("submitFromMap"), "click", lang.hitch(this, function (evt) {
-                    //If reporting period is closed, show configured message
-                    if (this.config.reportingPeriod === "Closed") {
-                        this.appUtils.reportingPeriodDialog.showDialog("reporting");
-                        return;
-                    }
-                    if (this.config.logInDetails.canEditFeatures) {
-                        this._createGeoForm();
+                on(dom.byId("submitFromMap"), "click, keypress", lang.hitch(this, function (evt) {
+                    var commentSubmitStatus, canSubmit = true;
+                    if (this.config.hasOwnProperty("commentStartDate") &&
+                        this.config.hasOwnProperty("commentEndDate")) {
+                        commentSubmitStatus = this.appUtils.isCommentDateInRange();
+                        if (commentSubmitStatus === false) {
+                            canSubmit = false;
+                            if (!this.appUtils.reportingPeriodDialog) {
+                                this.appUtils.createReportingPeriodDialog();
+                            }
+                            this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                            return;
+                        } else if (commentSubmitStatus === null) {
+                            if (this.config.hasOwnProperty("reportingPeriod") &&
+                                this.config.reportingPeriod === "Closed") {
+                                this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                                canSubmit = false;
+                                return;
+                            }
+                        }
                     } else {
-                        this.appUtils.showMessage(this.config.i18n.main.noEditingPermissionsMessage);
+                        if (this.config.hasOwnProperty("reportingPeriod") &&
+                            this.config.reportingPeriod === "Closed") {
+                            this.appUtils.reportingPeriodDialog.showDialog("reporting");
+                            canSubmit = false;
+                            return;
+                        }
+                    }
+                    if (canSubmit) {
+                        if (this.config.logInDetails.canEditFeatures) {
+                            this._createGeoForm();
+                        } else {
+                            this.appUtils.showMessage(this.config.i18n.main.noEditingPermissionsMessage);
+                        }
                     }
                 }));
-                on(dom.byId("mapBackButton"), "click", lang.hitch(this, function (evt) {
+                //Set focus to app title on focus out of submit a report button from map view
+                //This resolves the issue of focus being set to mobile menu
+                if (dojowindow.getBox().w < 768) {
+                    on(dom.byId("submitFromMap"), "focusout", lang.hitch(this, function (evt) {
+                        //Check if geoform is hidden and then set the focus to burger icon
+                        if (this.appHeader &&
+                            domClass.contains(dom.byId('geoformContainer'), "esriCTHidden")) {
+                            this.appHeader.mobileMenuBurger.focus();
+                        }
+                    }));
+                }
+                on(dom.byId("mapBackButton"), "click, keypress", lang.hitch(this, function (evt) {
+                    if (!this.appUtils.validateEvent(evt)) {
+                        return;
+                    }
                     this._toggleListView();
                     //If webmap list is not required, skip the further processing of function
                     if (!this._isWebmapListRequired) {
@@ -608,7 +710,10 @@ define([
                         }
                     }
                 }));
-                on(dom.byId("toggleListViewButton"), "click", lang.hitch(this, function (evt) {
+                on(dom.byId("toggleListViewButton"), "click, keypress", lang.hitch(this, function (evt) {
+                    if (!this.appUtils.validateEvent(evt)) {
+                        return;
+                    }
                     //Change myissues widget flag to false and refresh the list
                     if (this._myIssuesWidget) {
                         this._myIssuesWidget.itemsList.clearSelection();
@@ -623,11 +728,47 @@ define([
                         //Clear map selection when navigating to web map list
                         if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
                             this._selectedMapDetails.map.getLayer("selectionGraphicsLayer").clear();
+                            if (this._shareURLParameters && this._shareURLParameters.hasOwnProperty("selectedFeature")) {
+                                delete this._shareURLParameters.selectedFeature;
+                            }
                         }
                         this._sidebarCnt.showPanel("webMapList");
                     }
                 }));
+
+                on(document, "keydown", lang.hitch(this, function (evt) {
+                    var code = evt.charCode || evt.keyCode;
+                    //Listen for escape key press event
+                    if (code === 27) {
+                        //If app is runing in mobile mode and map div is a current view
+                        //The show the sidebar container and hide the map
+                        if (dojowindow.getBox().w < 768) {
+                            if (domStyle.get(dom.byId("mapParentContainer"), "display") === "block") {
+                                this._toggleListView();
+                                return;
+                            }
+                        }
+                        if (!domClass.contains(dom.byId('geoformContainer'), "esriCTHidden")) {
+                            this.geoformInstance.closeButton.click();
+                            return;
+                        }
+                        if (!domClass.contains(dom.byId('detailsPanelContainer'), "esriCTHidden")) {
+                            query(".esriCTBackButton", dom.byId('detailsPanelContainer'))[0].click();
+                            return;
+                        }
+                        //Check and open the previous panel based on the current displayed panel
+                        if ((this._sidebarCnt._currentPanelName === "issueWall" ||
+                            this._sidebarCnt._currentPanelName === "myIssues") &&
+                            domStyle.get(dom.byId("toggleListViewButton"), "display") === "block") {
+                            this._sidebarCnt._currentPanel.listBackButton.click();
+                        } else if (this._sidebarCnt._currentPanelName === "itemDetails") {
+                            this._sidebarCnt._currentPanel.backIcon.click();
+                        }
+                    }
+                }));
                 domAttr.set(dom.byId("toggleListViewButton"), "title", this.config.i18n.main.gotoListViewTooltip);
+                domAttr.set(query(".esriCTFallBackText", dom.byId("toggleListViewButton"))[0],
+                    "title", this.config.i18n.main.gotoListViewTooltip);
                 this._createWebMapList();
             } else {
                 this._handleNoWebMapToDisplay();
@@ -722,6 +863,9 @@ define([
             //Clear map selection when navigating to web map list
             if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
                 this._selectedMapDetails.map.getLayer("selectionGraphicsLayer").clear();
+                if (this._shareURLParameters && this._shareURLParameters.hasOwnProperty("selectedFeature")) {
+                    delete this._shareURLParameters.selectedFeature;
+                }
             }
 
             if (canDeleteFromMyIssue) {
@@ -785,6 +929,11 @@ define([
                     noMapMessage = this.config.noWebmapInGroupText;
                 }
                 domAttr.set(dom.byId("noWebMapChildDiv"), "innerHTML", noMapMessage);
+                domAttr.set(dom.byId("noWebMapChildDiv"), "title", noMapMessage);
+                setTimeout(lang.hitch(this, function () {
+                    dom.byId("noWebMapChildDiv").focus();
+                }), 200);
+
             } catch (err) {
                 this.appUtils.showError(err.message);
             }
@@ -839,6 +988,11 @@ define([
                     this._sidebarCnt.showPanel("webMapList");
                 }
             });
+            // on click of share button this function is executed for fetching
+            // details needed for sharing the URL
+            this.appHeader.getSharedUrlParams = lang.hitch(this, function () {
+                return this._shareURLParameters;
+            });
         },
 
         /**
@@ -862,6 +1016,9 @@ define([
                         //Clear map selection when navigating to web map list
                         if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
                             this._selectedMapDetails.map.getLayer("selectionGraphicsLayer").clear();
+                            if (this._shareURLParameters && this._shareURLParameters.hasOwnProperty("selectedFeature")) {
+                                delete this._shareURLParameters.selectedFeature;
+                            }
                         }
                         this._sidebarCnt.showPanel("webMapList");
                     } else {
@@ -980,6 +1137,10 @@ define([
                     //Check for the configurable parameter and accordingly show map first in mobile devices
                     if (this.config.showMapFirst === "map" && dojowindow.getBox().w < 768) {
                         this._toggleMapView();
+                        //If map view is shown then set focus to back button
+                        setTimeout(function () {
+                            dom.byId("mapBackButton").focus();
+                        }, 200);
                     }
                 });
 
@@ -1011,6 +1172,9 @@ define([
                 //Create/Clear Selection graphics layer used for highlighting in issue wall
                 //Update Issue wall
                 this._webMapListWidget.onOperationalLayerSelected = lang.hitch(this, function (details) {
+                    this._shareURLParameters = {};
+                    this._shareURLParameters.webmap = details.webMapId;
+                    this._shareURLParameters.layer = details.operationalLayerId;
                     if (this.clonedGeolocation) {
                         this.config.geolocation = this.clonedGeolocation;
                     }
@@ -1054,6 +1218,9 @@ define([
                                     this._addToGraphicsLayer(selectedGeometry);
                                     this.geoformInstance._addToGraphicsLayer(selectedGeometry, true);
                                     this.geoformInstance._zoomToSelectedFeature(selectedGeometry.geometry);
+                                    //change main map extent
+                                    this.map.setLevel(this.config.zoomLevel);
+                                    this.map.centerAt(selectedGeometry.geometry);
                                     setTimeout(lang.hitch(this, function () {
                                         if (!canDraw) {
                                             if (this.config.featureOutsideAOIMsg) {
@@ -1068,6 +1235,9 @@ define([
                                 }));
                             } else {
                                 this.geoformInstance._zoomToSelectedFeature(selectedGeometry.geometry);
+                                //change main map extent
+                                this.map.setLevel(this.config.zoomLevel);
+                                this.map.centerAt(selectedGeometry.geometry);
                             }
                         } else {
                             // zoom the map to configured zoom level
@@ -1174,14 +1344,37 @@ define([
                     this._itemSelected(selectedFeature, false);
                 });
                 this._issueWallWidget.onListCancel = lang.hitch(this, function (selectedFeature) {
+                    var selectedMap;
                     //Clear map selection when navigating to web map list
                     if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
                         this._selectedMapDetails.map.getLayer("selectionGraphicsLayer").clear();
                     }
+                    if (this._shareURLParameters && this._shareURLParameters.hasOwnProperty("selectedFeature")) {
+                        delete this._shareURLParameters.selectedFeature;
+                    }
                     this._sidebarCnt.showPanel("webMapList");
+                    //Highlight the selected web map
+                    selectedMap =
+                        query("[webmapid=" + this._selectedMapDetails.webMapId + "]", this.domNode)[0];
+                    setTimeout(lang.hitch(this, function () {
+                        if (selectedMap) {
+                            query(".esriCTMultiLineEllipsisdiv", selectedMap)[0].focus();
+                        }
+                    }), 200);
+
                 });
                 this._issueWallWidget.onMapButtonClick = lang.hitch(this, function (evt) {
                     this._toggleMapView();
+                    setTimeout(function () {
+                        dom.byId("mapBackButton").focus();
+                    }, 200);
+                });
+                this._issueWallWidget.onSubmitButtonFocusOut = lang.hitch(this, function (evt) {
+                    //Check if geoform is hidden and then set the focus to burger icon
+                    if (this.appHeader &&
+                        domClass.contains(dom.byId('geoformContainer'), "esriCTHidden")) {
+                        this.appHeader.mobileMenuBurger.focus();
+                    }
                 });
                 this._issueWallWidget.onSubmit = lang.hitch(this, function (evt) {
                     if (!this.map.getLayer("featureLayerGraphics")) {
@@ -1285,6 +1478,38 @@ define([
                     }
                     this._itemSelected(selectedFeature, true);
                 });
+                //once issue wall is loaded, if feature if present in the URL than make it visible
+                this._issueWallWidget.onIssueWallLoaded = lang.hitch(this, function () {
+                    if (this.config.urlObject && this.config.urlObject.query &&
+                        this.config.urlObject.query.webmap && this.config.urlObject.query.layer &&
+                        this._initialLoad) {
+                        this._initialLoad = false;
+                        this._sidebarCnt.showPanel("issueWall");
+                        //once issue wall is displayed, if feature is
+                        //available as a parameter in the application URL, then click it
+                        this._issueWallWidget.selectFeatureFromURL();
+                    }
+                    setTimeout(lang.hitch(this, function () {
+                        //If geoform is hidden
+                        //Set focus to issue wall back button if in desktop mode
+                        //Set focus to issue wall back button if list view is shown on app load in mobile mode
+                        if (domClass.contains(dom.byId('geoformContainer'), "esriCTHidden")) {
+                            if (dojowindow.getBox().w > 768 ||
+                                (dojowindow.getBox().w < 768 && this.config.showMapFirst === "list")) {
+                                this._issueWallWidget.listBackButton.focus();
+                            }
+                        }
+                        //Once the issue wall is loaded for first time
+                        //Destroy all the map references from webmap list to avoid unnecessary requests
+                        if (this._webMapListWidget.mapsToBeDestroyed.length > 0) {
+                            for (var i = this._webMapListWidget.mapsToBeDestroyed.length - 1;
+                                i >= 0; i--) {
+                                this._webMapListWidget.mapsToBeDestroyed[i].destroy();
+                            }
+                            this._webMapListWidget.mapsToBeDestroyed.length = 0;
+                        }
+                    }), 100);
+                });
                 this._sidebarCnt.addPanel("issueWall", this._issueWallWidget);
                 //If single webmap with single layer is found, directly show issue list
                 if (this._isWebMapListLoaded && !this._isWebmapListRequired) {
@@ -1294,6 +1519,9 @@ define([
                 //Check for the configurable parameter and accordingly show map first in mobile devices
                 if (this.config.showMapFirst === "map" && dojowindow.getBox().w < 768) {
                     this._toggleMapView();
+                    setTimeout(function () {
+                        dom.byId("mapBackButton").focus();
+                    }, 200);
                 }
                 data.featureLayerCount = this.featureLayerCount;
                 data.layerGraphicsArray = this.layerGraphicsArray;
@@ -1389,6 +1617,10 @@ define([
                             this.geoformInstance._resizeMap();
                         }
                         this.geoformInstance._activateDrawTool();
+                        //Whenever geoform is open set focus to geoform close button
+                        setTimeout(lang.hitch(this, function () {
+                            this.geoformInstance.closeButton.focus();
+                        }), 500);
                         return;
                     }
                     //if last geoform instance exist then destroy it.
@@ -1447,6 +1679,21 @@ define([
                         if (this.featureGraphicLayer) {
                             this.featureGraphicLayer.clear();
                         }
+                        setTimeout(lang.hitch(this, function () {
+                            //After closing geoform
+                            //Check if app is running in mobile mode and map div is shown then set focus
+                            //to map back button
+                            //other wise set focus to issue wall back button
+                            if (dojowindow.getBox().w < 768) {
+                                if (domStyle.get(dom.byId("mapParentContainer"), "display") === "none") {
+                                    this._issueWallWidget.submitReport.focus();
+                                } else {
+                                    dom.byId("submitFromMap").focus();
+                                }
+                            } else {
+                                this._issueWallWidget.submitReport.focus();
+                            }
+                        }), 200);
                     });
 
                     //clear any graphics present on main map after graphic has been drawn on geoform map
@@ -1691,6 +1938,10 @@ define([
                     this._toggleListView();
                 }
             }
+            //
+            setTimeout(lang.hitch(this, function () {
+                this._itemDetails.backIcon.focus();
+            }), 100);
         },
 
         _toggleListView: function () {
@@ -1713,6 +1964,9 @@ define([
         */
         highLightFeatureOnClick: function (layer, objectId, map, isMapClicked) {
             var queryTask, esriQuery, highlightSymbol, currentDateTime = new Date().getTime(), selectedGraphicsLayer;
+            if (this._shareURLParameters && Object.keys(this._shareURLParameters).length > 0) {
+                this._shareURLParameters.selectedFeature = objectId;
+            }
             selectedGraphicsLayer = this._selectedMapDetails.map.getLayer("selectionGraphicsLayer");
             this.mapInstance = map;
             if (selectedGraphicsLayer) {
@@ -2167,7 +2421,8 @@ define([
             layerUrl = selectedOperationalLayer.url;
             layerID = details.operationalLayerDetails.id;
             cloneRenderer = lang.clone(selectedOperationalLayer.renderer);
-            cloneInfoTemplate = lang.clone(selectedOperationalLayer.infoTemplate);
+            //Instead of lang.clone, create new info template object
+            cloneInfoTemplate = new InfoTemplate(selectedOperationalLayer.infoTemplate.toJson());
             minScale = lang.clone(selectedOperationalLayer.minScale);
             maxScale = lang.clone(selectedOperationalLayer.maxScale);
             //Fetch defination expression of selected feature layer
@@ -2231,6 +2486,9 @@ define([
                 //Clear map selection when navigating to web map list
                 if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
                     this._selectedMapDetails.map.getLayer("selectionGraphicsLayer").clear();
+                    if (this._shareURLParameters && this._shareURLParameters.hasOwnProperty("selectedFeature")) {
+                        delete this._shareURLParameters.selectedFeature;
+                    }
                 }
             }
             //Since all the featurtes added from my issues are removed from map, reset the array
@@ -2535,10 +2793,10 @@ define([
                     this._createIssueWall(details);
                     this.appUtils.hideLoadingIndicator();
                 }
-            }), function (err) {
+            }), lang.hitch(this, function (err) {
                 this.appUtils.hideLoadingIndicator();
                 console.log(err);
-            });
+            }));
         },
 
         /**
@@ -2571,6 +2829,9 @@ define([
             // If graphics layer is already added on the map, clear it else add a graphic layer on map
             if (this._selectedMapDetails.map.getLayer("selectionGraphicsLayer")) {
                 this._selectedMapDetails.map.getLayer("selectionGraphicsLayer").clear();
+                if (this._shareURLParameters && this._shareURLParameters.hasOwnProperty("selectedFeature")) {
+                    delete this._shareURLParameters.selectedFeature;
+                }
             } else {
                 selectedGraphics = new GraphicsLayer();
                 selectedGraphics.id = "selectionGraphicsLayer";
@@ -2604,9 +2865,14 @@ define([
                 if (!this.basemapGallery) {
                     basemapG = this._createOnScreenWidgetPanel("Basemap");
                     basemapGalleryButtonDiv = domConstruct.create("div", {
-                        "class": "esriCTMapNavigationButton esriCTBasemapGalleryButton"
+                        "class": "esriCTMapNavigationButton esriCTBasemapGalleryButton",
+                        "tabindex": "0",
+                        "role": "button"
                     });
-                    on(basemapGalleryButtonDiv, "click", lang.hitch(this, function (event) {
+                    on(basemapGalleryButtonDiv, "click, keypress", lang.hitch(this, function (event) {
+                        if (!this.appUtils.validateEvent(event)) {
+                            return;
+                        }
                         event.stopPropagation();
                         if (!this.basemapGallery) {
                             this._fetchBasemapGalleryGroup().then(lang.hitch(this, function (id) {
@@ -2614,21 +2880,29 @@ define([
                             }));
                         }
                         this._showPanel("Basemap");
+                        query(".esriCTOnScreenBasemap .esriCTOnScreenClose", this.domNode)[0].focus();
                     }));
                 }
             }
 
             if (this.config.showLegend) {
                 legendButtonDiv = domConstruct.create("div", {
-                    "class": "esriCTMapNavigationButton esriCTLegendButton"
+                    "class": "esriCTMapNavigationButton esriCTLegendButton",
+                    "tabindex": "0",
+                    "role": "button"
                 });
                 legend = this._createOnScreenWidgetPanel("Legend");
-                on(legendButtonDiv, "click", lang.hitch(this, function (event) {
+                on(legendButtonDiv, "click, keypress", lang.hitch(this, function (event) {
+                    if (!this.appUtils.validateEvent(event)) {
+                        return;
+                    }
                     event.stopPropagation();
                     if (!this.legend) {
                         this._createLegend(legend);
                     }
                     this._showPanel("Legend");
+                    query(".esriCTOnScreenLegend .esriCTOnScreenClose", this.domNode)[0].focus();
+
                 }));
             }
             incrementButton = query(".esriSimpleSliderIncrementButton", dom.byId("mapDiv"));
@@ -2656,6 +2930,33 @@ define([
             //set this flag to true after the if condition for checking if mobile and _isWebMapListLoaded,
             //since by default in mobile view only home screen should be open*/
             this._isWebMapListLoaded = true;
+
+            //Add accessibility parameters to attribution widget and esri logo
+            var attribution, esriLogo;
+            attribution = query(".esriAttribution", dom.byId("mapDiv"))[0];
+            esriLogo = query(".logo-med", dom.byId("mapDiv"))[0];
+            if (attribution) {
+                domAttr.set(attribution, "tabindex", "-1");
+                on(attribution, "keypress, click", lang.hitch(this, function (evt) {
+                    if (!this.appUtils.validateEvent(evt)) {
+                        return;
+                    }
+                    //Add aria-expanded attribute based on the state
+                    if (domClass.contains(attribution, "esriAttributionOpen")) {
+                        domAttr.set(attribution, "aria-expanded", "true");
+                    } else {
+                        domAttr.set(attribution, "aria-expanded", "false");
+                    }
+                }));
+                //Add role as button
+                domAttr.set(attribution, "role", "button");
+                domAttr.set(attribution, "aria-expanded", "false");
+            }
+            if (esriLogo) {
+                domAttr.set(esriLogo, "tabindex", "-1");
+                domAttr.set(esriLogo, "role", "link");
+            }
+
         },
 
         /**
@@ -2768,28 +3069,61 @@ define([
             }
             container = domConstruct.create("div", {
                 "class": "esriCTOnScreenWidgetContainer esriCTHidden esriCTOnScreen" + panel
-            }, dojo.body());
+            });
+            domConstruct.place(container, dojo.body(), "first");
+
+
             titleContainer = domConstruct.create("div", {
                 "class": "esriCTOnScreenWidgetTitleContainer esriCTHeaderBackgroundColor esriCTHeaderTextColor esriCTHeaderTextColorAsBorder",
                 title: panel
             }, container);
             domConstruct.create("div", {
                 "class": "esriCTHeaderTitle",
-                innerHTML: headerTitle
+                "innerHTML": headerTitle,
+                "aria-label": headerTitle
             }, titleContainer);
 
+            //Close button
             closeBtn = domConstruct.create("div", {
+                "role": "button",
+                "class": "esriCTOnScreenClose",
+                "tabindex": "0",
+                "title": this.config.i18n.main.panelCloseButton,
+                "aria-label": this.config.i18n.main.panelCloseButton,
+                "panel": panel
+            }, titleContainer);
+
+            domConstruct.create("span", {
+                "aria-hidden": "true",
                 "class": "esriCTCloseHelpWindow icon icon-close esriCTHeaderTextColor esriCTHeaderBackgroundColor"
-            }, domConstruct.create("div", { "class": "esriCTPanelCloseBtn esriCTFloatLeft" }, titleContainer));
+            }, closeBtn);
 
             //Listen for close button click
-            on(closeBtn, "click", lang.hitch(this, function () {
+            on(closeBtn, "click, keypress", lang.hitch(this, function (evt) {
+                var panel;
+                panel = domAttr.get(closeBtn, "panel");
+                if (panel === "Legend") {
+                    query(".esriCTLegendButton")[0].focus();
+                } else {
+                    query(".esriCTBasemapGalleryButton")[0].focus();
+                }
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 domClass.add(container, "esriCTHidden");
             }));
             //Create dom for on screen panel
             contentWrapper = domConstruct.create("div", {
-                "class": "esriCTOnScreenWidgetWrapper esriCTBodyTextColor esriCTBodyBackgroundColor"
+                "class": "esriCTOnScreenWidgetWrapper esriCTBodyTextColor esriCTBodyBackgroundColor",
+                "panelId": panel
             }, container);
+            //If legend panel close button loses focus, set focus to basemap gallyer button
+            if (panel === "Legend") {
+                //Set focus based on the panel
+                $(closeBtn).focusout(lang.hitch(this, function (evt) {
+                    query(".esriCTBasemapGalleryButton")[0].focus();
+                }));
+            }
             return contentWrapper;
         },
 
@@ -2799,7 +3133,8 @@ define([
         * @memberOf main
         */
         _createBasemapGallery: function (parentNode, id) {
-            var configuredGroup = {}, loadingIndicatorDiv, basemapErrorHandler;
+            var configuredGroup = {}, loadingIndicatorDiv, basemapErrorHandler,
+                basemaps = 0;
             configuredGroup.id = id;
             loadingIndicatorDiv = domConstruct.create("div", {
                 "class": "esriCTBasemapLoading"
@@ -2817,10 +3152,26 @@ define([
                 domClass.add(loadingIndicatorDiv, "esriCTHidden");
                 domClass.remove(this.basemapGallery.domNode, "esriCTHidden");
                 basemapErrorHandler.remove();
+                basemaps = query(".esriBasemapGalleryThumbnail", this.basemapGallery.domNode);
+                //Loop through all the available basemaps and listen for last basemap
+                //thumbnails focus out event
+                basemaps.forEach(lang.hitch(this, function (basemapNode, index) {
+                    if (basemaps.length - 1 === index) {
+                        $(basemapNode.parentElement).focusout(lang.hitch(this, function () {
+                            this._hidePanel("Basemap");
+                            query(".esriCTBasemapGalleryButton")[0].focus();
+                        }));
+                    }
+                }));
             }));
             //Hide basemap gallery after seecting a basemap
-            this.basemapGallery.on("selection-change", lang.hitch(this, function () {
-                this._hidePanel("Basemap");
+            this.basemapGallery.on("selection-change", lang.hitch(this, function (evt) {
+                var _this = this;
+                setTimeout(function () {
+                    _this._hidePanel("Basemap");
+                    query(".esriCTBasemapGalleryButton")[0].focus();
+                }, 1000);
+
             }));
             //Handle basemap gallery error
             basemapErrorHandler = this.basemapGallery.on("error", lang.hitch(this, function (err) {
@@ -2836,29 +3187,52 @@ define([
         * @memberOf main
         */
         _createLegend: function (parentNode) {
-            var layerInfo = [], isNonEditableLayer, capabilities, showLegend;
+            var legendLayers, isNonEditableLayer, capabilities, mapLayers,
+                i, j, processedArr = [], distinctLegendLayerIds = [];
+            mapLayers = this._selectedMapDetails.itemInfo.itemData.operationalLayers;
+            legendLayers = arcgisUtils.getLegendLayers(this._selectedMapDetails);
             //Loop through all the layers and filter them based on capabilities
-            array.forEach(this._selectedMapDetails.itemInfo.itemData.operationalLayers,
-                lang.hitch(this, function (layer) {
-                    isNonEditableLayer = false;
-                    showLegend = true;
-                    capabilities = layer.resourceInfo.capabilities;
-                    if (capabilities) {
-                        isNonEditableLayer = capabilities.indexOf("Create") === -1 && (capabilities.indexOf("Editing") === -1 ||
-                            capabilities.indexOf("Update") === -1);
+            for (i = legendLayers.length - 1; i >= 0; i--) {
+                distinctLegendLayerIds.push(legendLayers[i].layer.id);
+                for (j = 0; j < mapLayers.length; j++) {
+                    if (legendLayers[i].layer.id === mapLayers[j].id) {
+                        distinctLegendLayerIds.pop();
+                        if (mapLayers[j].resourceInfo && mapLayers[j].resourceInfo.capabilities) {
+                            capabilities = mapLayers[j].resourceInfo.capabilities;
+                            if (capabilities) {
+                                isNonEditableLayer = capabilities.indexOf("Create") === -1 && (capabilities.indexOf("Editing") === -1 ||
+                                    capabilities.indexOf("Update") === -1);
+                            }
+                        } else {
+                            isNonEditableLayer = true;
+                        }
+                        //If editable layer other than currently selected layer is found or
+                        //if non-ediatble layer and show non editable layer flag is false then
+                        //remove the layer
+                        if ((this.selectedLayer.id !== mapLayers[j].id && !isNonEditableLayer) ||
+                            (isNonEditableLayer && !this.config.showNonEditableLayers)) {
+                            legendLayers.splice(i, 1);
+                        }
+                        break;
                     }
-                    //Honor show/hide legend prperty from webmap
-                    if (layer.hasOwnProperty("showLegend")) {
-                        showLegend = layer.showLegend;
+                }
+            }
+            //The layers such as feature collection, shape file etc are created with different id's
+            //To consider them in the legend just check distinct layer id's length
+            //If it is greater than 0, do neccessary proccessing
+            if (!this.config.showNonEditableLayers && distinctLegendLayerIds.length > 0) {
+                for (i = legendLayers.length - 1; i >= 0; i--) {
+                    for (j = 0; j < distinctLegendLayerIds.length; j++) {
+                        if (legendLayers[i].layer.id === distinctLegendLayerIds[j]) {
+                            legendLayers.splice(i, 1);
+                            break;
+                        }
                     }
-                    //Filter layer based on different criteria
-                    if (showLegend && (layer.id === this.selectedLayer.id || (this.config.showNonEditableLayers && isNonEditableLayer))) {
-                        layerInfo.push({ layer: this.map._layers[layer.id], title: layer.title });
-                    }
-                }));
+                }
+            }
             this.legend = new Legend({
                 map: this.map,
-                layerInfos: layerInfo,
+                layerInfos: legendLayers,
                 respectVisibility: false
             }, domConstruct.create('div', {}, parentNode));
             this.legend.startup();

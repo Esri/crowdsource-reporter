@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "マップを作成できません",
+    "licenseError": {
+      "message": "パブリックでないテンプレートを使用するためのライセンスがアカウントに付与されていません。 組織の管理者に Essential Apps またはアドオン Essential Apps ライセンスを含むユーザー タイプを割り当てるよう依頼してください。",
+      "title": "ライセンスがありません。"
+    },
     "zoomInTooltip": "拡大",
     "zoomOutTooltip": "縮小",
     "geolocationTooltip": "現在の位置"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "フィーチャを分析範囲外に追加することはできません",
     "noEditingPermissionsMessage": "この操作を実行する権限がありません。",
     "basemapGalleryText": "ベースマップ ギャラリー",
-    "legendText": "凡例"
+    "basemapThumbnailAltText": "クリックして ${basemapTitle} ${index}/${totalBasemaps} を読み込み",
+    "legendText": "凡例",
+    "featureNotFoundMessage": "要求されたフィーチャが見つかりません",
+    "backButton": "戻る",
+    "panelCloseButton": "閉じる"
   },
   "signin": {
     "guestSigninText": "ゲストとして続行",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "マップ ビュー"
   },
   "appHeader": {
+    "help": "ヘルプ",
     "myReport": "送信内容",
     "signIn": "サイン イン",
     "signOut": "サイン アウト",
     "signInTooltip": "サイン イン",
     "signOutTooltip": "サイン アウト",
-    "myReportTooltip": "送信内容の表示"
+    "myReportTooltip": "送信内容の表示",
+    "share": "共有",
+    "shareDialogTitle": "共有ダイアログ",
+    "shareDialogAppURLLabel": "アプリケーションの URL",
+    "mobileHamburger": "ハンバーガー"
   },
   "geoform": {
     "enterInformation": "詳細",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "マップをタップして、場所を描画します。",
     "locationSelectionHintForPolygonLayer": "マップをタップして、場所を描画します。描画を完了するにはダブル タップします。",
     "locationSelectionHintForPointLayerDesktop": "マップをクリックして、場所を描画します。",
-    "locationSelectionHintForPolygonLayerDesktop": "マップをクリックして、場所を描画します。描画を完了するにはダブル クリックします。"
+    "locationSelectionHintForPolygonLayerDesktop": "マップをクリックして、場所を描画します。描画を完了するにはダブル クリックします。",
+    "locationDialogTitle": "レポートの位置の選択",
+    "locationDialogContent": "画像位置を使用しますか？",
+    "errorMessageText": "フィールド ${fieldName} の ${message}",
+    "deleteAttachmentBtnText": "添付ファイルの削除"
   },
   "locator": {
     "addressText": "住所:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "コメントの更新",
     "commentsFormCancelButton": "キャンセル",
     "errorInSubmittingComment": "コメントを送信できませんでした。",
+    "commentSubmittedMessage": "フィードバックをお送りいただき、ありがとうございました。",
     "emptyCommentMessage": "コメントを入力してください。",
     "placeHolderText": "コメントの入力",
     "noCommentsAvailableText": "コメントがありません",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "ギャラリー",
     "noAttachmentsAvailableText": "添付ファイルがありません"
+  },
+  "dialog": {
+    "okButton": "OK",
+    "cancelButton": "キャンセル",
+    "yesButton": "はい",
+    "noButton": "いいえ"
   }
 });

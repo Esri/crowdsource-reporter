@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "Kaart kan niet gemaakt worden",
+    "licenseError": {
+      "message": "Uw account heeft geen licentie om configureerbare apps te gebruiken die niet openbaar zijn. Vraag uw organisatiebeheerder om u een gebruikerstype toe te wijzen dat Essential Apps of een add-on Essential Apps-licentie bevat.",
+      "title": "Geen licentie"
+    },
     "zoomInTooltip": "Inzoomen",
     "zoomOutTooltip": "Uitzoomen",
     "geolocationTooltip": "Huidige locatie"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "Object kan niet buiten studiegebied worden toegevoegd",
     "noEditingPermissionsMessage": "U hebt geen toestemming om deze actie uit te voeren.",
     "basemapGalleryText": "Basiskaartgalerij",
-    "legendText": "Legenda"
+    "basemapThumbnailAltText": "Klik om ${basemapTitle} ${index} van ${totalBasemaps} te laden",
+    "legendText": "Legenda",
+    "featureNotFoundMessage": "Gevraagd object niet gevonden",
+    "backButton": "achter",
+    "panelCloseButton": "Sluiten"
   },
   "signin": {
     "guestSigninText": "Doorgaan als gast",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "Kaartweergave"
   },
   "appHeader": {
+    "help": "Help",
     "myReport": "Mijn meldingen",
     "signIn": "Aanmelden",
     "signOut": "Afmelden",
     "signInTooltip": "Aanmelden",
     "signOutTooltip": "Meld u af",
-    "myReportTooltip": "Mijn meldingen bekijken"
+    "myReportTooltip": "Mijn meldingen bekijken",
+    "share": "Delen",
+    "shareDialogTitle": "Dialoog delen",
+    "shareDialogAppURLLabel": "Applicatie-URL",
+    "mobileHamburger": "Hamburger"
   },
   "geoform": {
     "enterInformation": "Details",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "Tik op de kaart om de locatie te tekenen.",
     "locationSelectionHintForPolygonLayer": "Tik op de kaart om de locatie te tekenen. Twee keer tikken om de tekening te voltooien.",
     "locationSelectionHintForPointLayerDesktop": "Klik op de kaart om de locatie te tekenen.",
-    "locationSelectionHintForPolygonLayerDesktop": "Klik op de kaart om de locatie te tekenen. Twee keer klikken om de tekening te voltooien."
+    "locationSelectionHintForPolygonLayerDesktop": "Klik op de kaart om de locatie te tekenen. Twee keer klikken om de tekening te voltooien.",
+    "locationDialogTitle": "Selecteer locatie voor rapport",
+    "locationDialogContent": "Weet u zeker dat u de afbeeldingslocatie wilt gebruiken?",
+    "errorMessageText": "${message} voor veld ${fieldName}",
+    "deleteAttachmentBtnText": "Bijlage verwijderen"
   },
   "locator": {
     "addressText": "Adres:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "Reactie bijwerken",
     "commentsFormCancelButton": "Annuleren",
     "errorInSubmittingComment": "Reactie kon niet worden ingediend.",
+    "commentSubmittedMessage": "Bedankt voor uw feedback.",
     "emptyCommentMessage": "Voer een reactie in.",
     "placeHolderText": "Type een reactie",
     "noCommentsAvailableText": "Geen reacties beschikbaar",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "Gallery",
     "noAttachmentsAvailableText": "Geen bijlagen gevonden"
+  },
+  "dialog": {
+    "okButton": "OK",
+    "cancelButton": "Afbreken",
+    "yesButton": "Ja",
+    "noButton": "Nee"
   }
 });

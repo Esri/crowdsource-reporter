@@ -17,6 +17,10 @@
 define({
   "map": {
     "error": "Nie można utworzyć",
+    "licenseError": {
+      "message": "Twoje konto nie jest licencjonowane do korzystania z aplikacji konfigurowalnych, które nie są publiczne. Poproś administratora instytucji o przypisanie typu użytkownika, który obejmuje licencję na kluczowe aplikacje lub licencję na kluczowe aplikacje dodatkowe.",
+      "title": "Nie licencjonowano"
+    },
     "zoomInTooltip": "Powiększ",
     "zoomOutTooltip": "Pomniejsz",
     "geolocationTooltip": "Bieżąca lokalizacja"
@@ -29,7 +33,11 @@ define({
     "featureOutsideAOIMessage": "Nie można dodać funkcji poza analizowanym obszarem",
     "noEditingPermissionsMessage": "Nie masz uprawnień do wykonania tego działania.",
     "basemapGalleryText": "Galeria map bazowych",
-    "legendText": "Legenda"
+    "basemapThumbnailAltText": "Kliknij, aby wczytać ${basemapTitle} ${index} z ${totalBasemaps}",
+    "legendText": "Legenda",
+    "featureNotFoundMessage": "Nie znaleziono żądanego obiektu",
+    "backButton": "wstecz",
+    "panelCloseButton": "Zamknij"
   },
   "signin": {
     "guestSigninText": "Kontynuuj jako gość",
@@ -64,12 +72,17 @@ define({
     "gotoMapViewTooltip": "Widok mapy"
   },
   "appHeader": {
+    "help": "Pomoc",
     "myReport": "Moje zgłoszenia",
     "signIn": "Zaloguj się",
     "signOut": "Wyloguj się",
     "signInTooltip": "Sign in",
     "signOutTooltip": "Wyloguj się",
-    "myReportTooltip": "Wyświetl moje zgłoszenia"
+    "myReportTooltip": "Wyświetl moje zgłoszenia",
+    "share": "Udostępnij",
+    "shareDialogTitle": "Okno dialogowe udostępniania",
+    "shareDialogAppURLLabel": "Adres URL aplikacji",
+    "mobileHamburger": "Hamburger"
   },
   "geoform": {
     "enterInformation": "Szczegóły",
@@ -102,7 +115,11 @@ define({
     "locationSelectionHintForPointLayer": "Dotknij mapy, aby narysować lokalizację.",
     "locationSelectionHintForPolygonLayer": "Dotknij mapy, aby narysować lokalizację. Dotknij dwukrotnie, aby zakończyć rysowanie.",
     "locationSelectionHintForPointLayerDesktop": "Kliknij mapę, aby narysować lokalizację.",
-    "locationSelectionHintForPolygonLayerDesktop": "Kliknij mapę, aby narysować lokalizację. Kliknij dwukrotnie, aby zakończyć rysowanie."
+    "locationSelectionHintForPolygonLayerDesktop": "Kliknij mapę, aby narysować lokalizację. Kliknij dwukrotnie, aby zakończyć rysowanie.",
+    "locationDialogTitle": "Wybierz lokalizację dla raportu",
+    "locationDialogContent": "Czy na pewno chcesz użyć lokalizacji obrazu?",
+    "errorMessageText": "${message} dla pola ${fieldName}",
+    "deleteAttachmentBtnText": "Usuń załącznik"
   },
   "locator": {
     "addressText": "Adres:",
@@ -144,6 +161,7 @@ define({
     "commentsFormEditButton": "Aktualizuj komentarz",
     "commentsFormCancelButton": "Anuluj",
     "errorInSubmittingComment": "Nie można przesłać komentarza.",
+    "commentSubmittedMessage": "Dziękujemy za wyrażenie opinii.",
     "emptyCommentMessage": "Wprowadź komentarz.",
     "placeHolderText": "Wpisz komentarz",
     "noCommentsAvailableText": "Brak dostępnych komentarzy",
@@ -161,5 +179,11 @@ define({
   "gallery": {
     "galleryHeaderText": "Galeria",
     "noAttachmentsAvailableText": "Nie znaleziono załączników"
+  },
+  "dialog": {
+    "okButton": "OK",
+    "cancelButton": "Anuluj",
+    "yesButton": "Tak",
+    "noButton": "Nie"
   }
 });

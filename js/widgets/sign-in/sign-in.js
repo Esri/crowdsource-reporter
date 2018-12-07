@@ -61,6 +61,8 @@ define([
             var loadGPApi, dialogTitle, dialogContent;
             this._boilerPlateTemplate = boilerPlateTemplateObject;
             this._config = boilerPlateTemplateObject.config;
+            this.appUtils = appUtils;
+            this.inherited(arguments);
             if (this._config.enableHelp) {
                 //Check if show different content flag is true pass modified content
                 if (this._config.enableDifferentHelpContent &&
@@ -77,14 +79,18 @@ define([
                     "config": this._config,
                     "title": dialogTitle,
                     "content": dialogContent,
-                    "dialog": "signin"
+                    "dialog": "signin",
+                    "showButtons": false,
+                    "appUtils": this.appUtils
+                });
+                //Set focus to help link after splash screen is closed
+                this._helpScreen.onDialogClosed = lang.hitch(this, function () {
+                    $(this.signinHelpLink).focus();
                 });
             } else {
                 //If help is turned off, then hide the help link
                 domClass.add(this.signinHelpLink, "esriCTHidden");
             }
-            this.appUtils = appUtils;
-            this.inherited(arguments);
             this._createLoginScreenUI();
             if (this._config.enableGoogleplus) {
                 loadGPApi = $.getScript("https://apis.google.com/js/client:platform.js?onload=render");
@@ -95,6 +101,11 @@ define([
                 this._handleEvents();
             }
             this._handleSplashScreenVisibility();
+            //Set focus to sign-in as guest button on app load
+            setTimeout(lang.hitch(this, function () {
+                $(this.signinGuestButton).focus();
+            }), 200);
+
         },
 
         /**
@@ -147,6 +158,7 @@ define([
             domAttr.set(this.signinContainerName, "innerHTML", applicationName);
             domAttr.set(this.signinHelpLink, "innerHTML", this._config.helpLinkText);
             domAttr.set(this.signinHelpLink, "title", this._config.helpLinkText);
+            domAttr.set(this.signinHelpLink, "aria-label", this._config.helpLinkText);
             if (this._config.signInSubtitle) {
                 domAttr.set(this.signinContainerText, "innerHTML", this._config.signInSubtitle);
             } else {
@@ -169,10 +181,15 @@ define([
             domAttr.set(this.signinOrText, "innerHTML", this._config.i18n.signin.signInOrText);
             domAttr.set(this.signinOrText, "title", this._config.i18n.signin.signInOrText);
             domAttr.set(this.signinGuestButton, "title", this._config.i18n.signin.guestLoginTooltip);
+            domAttr.set(this.signinGuestButton, "aria-label", this._config.i18n.signin.guestLoginTooltip);
             domAttr.set(this.signinFBButton, "title", this._config.i18n.signin.facebookLoginTooltip);
+            domAttr.set(this.signinFBButton, "aria-label", this._config.i18n.signin.facebookLoginTooltip);
             domAttr.set(this.signinTwitterButton, "title", this._config.i18n.signin.twitterLoginTooltip);
+            domAttr.set(this.signinTwitterButton, "aria-label", this._config.i18n.signin.twitterLoginTooltip);
             domAttr.set(this.signinGPlusButton, "title", this._config.i18n.signin.googlePlusLoginTooltip);
+            domAttr.set(this.signinGPlusButton, "aria-label", this._config.i18n.signin.googlePlusLoginTooltip);
             domAttr.set(this.signinEsriButton, "title", this._config.i18n.signin.agolLoginTooltip);
+            domAttr.set(this.signinEsriButton, "aria-label", this._config.i18n.signin.agolLoginTooltip);
             this._enableDisableSocialMedia();
         },
 
@@ -245,12 +262,15 @@ define([
         */
         _handleEvents: function () {
             //handle all clicks on login screen
-            this.own(on(this.signinGuestButton, "click", lang.hitch(this, this._guestButtonClicked)));
-            this.own(on(this.signinEsriButton, "click", lang.hitch(this, this._esriButtonClicked)));
-            this.own(on(this.signinFBButton, "click", lang.hitch(this, this._fbButtonClicked)));
-            this.own(on(this.signinTwitterButton, "click", lang.hitch(this, this._twitterButtonClicked)));
-            this.own(on(this.signinGPlusButton, "click", lang.hitch(this, this._gpButtonClicked)));
-            this.own(on(this.signinHelpLink, "click", lang.hitch(this, function () {
+            this.own(on(this.signinGuestButton, "click, keypress", lang.hitch(this, this._guestButtonClicked)));
+            this.own(on(this.signinEsriButton, "click, keypress", lang.hitch(this, this._esriButtonClicked)));
+            this.own(on(this.signinFBButton, "click, keypress", lang.hitch(this, this._fbButtonClicked)));
+            this.own(on(this.signinTwitterButton, "click, keypress", lang.hitch(this, this._twitterButtonClicked)));
+            this.own(on(this.signinGPlusButton, "click, keypress", lang.hitch(this, this._gpButtonClicked)));
+            this.own(on(this.signinHelpLink, "click, keypress", lang.hitch(this, function (evt) {
+                if (!this.appUtils.validateEvent(evt)) {
+                    return;
+                }
                 this._helpScreen.showDialog("signin");
             })));
             //handle identity manager cancel clicked event
@@ -357,7 +377,10 @@ define([
         * This function is executed when user clicks on guest user button
         * @memberOf widgets/sign-in/sign-in
         */
-        _guestButtonClicked: function () {
+        _guestButtonClicked: function (evt) {
+            if (!this.appUtils.validateEvent(evt)) {
+                return;
+            }
             if (!this.isUserLoggedIn) {
                 this.hideSignInDialog();
                 //as user is logging in as guest pass loggedInUserDetails as null
@@ -371,8 +394,11 @@ define([
         * This function is executed when user clicks on ESRI (AGOL login) button
         * @memberOf widgets/sign-in/sign-in
         */
-        _esriButtonClicked: function () {
+        _esriButtonClicked: function (evt) {
             var noMapMessage;
+            if (!this.appUtils.validateEvent(evt)) {
+                return;
+            }
             this.hideSignInDialog();
             this.portal = new esriPortal.Portal(this._config.sharinghost);
             this.portal.on("load", lang.hitch(this, function () {
@@ -401,6 +427,9 @@ define([
                                 noMapMessage = this._boilerPlateTemplate.config.noWebmapInGroupText;
                             }
                             domAttr.set(dom.byId("noWebMapChildDiv"), "innerHTML", noMapMessage);
+                            //Set focus to error message div and make sure to set map div tabindex to -1
+                            dom.byId("noWebMapChildDiv").focus();
+                            domAttr.set(dom.byId("mapDiv"), "tabindex", "-1");
                         }
                     }));
 
@@ -430,8 +459,11 @@ define([
         * This function is executed when user clicks on facebook button
         * @memberOf widgets/sign-in/sign-in
         */
-        _fbButtonClicked: function () {
+        _fbButtonClicked: function (evt) {
             var facebookConfig;
+            if (!this.appUtils.validateEvent(evt)) {
+                return;
+            }
             // if facebook login occurred first time/login instance not created
             if (!this.fbHelperObject) {
                 facebookConfig = { "facebookAppId": this._config.facebookAppId };
@@ -447,8 +479,11 @@ define([
         * This function is executed when user clicks on twitter button
         * @memberOf widgets/sign-in/sign-in
         */
-        _twitterButtonClicked: function () {
+        _twitterButtonClicked: function (evt) {
             var twitterConfig;
+            if (!this.appUtils.validateEvent(evt)) {
+                return;
+            }
             // if twitter login occurred first time/login instance not created
             if (!this.twHelperObject) {
                 twitterConfig = {
@@ -467,8 +502,11 @@ define([
         * This function is executed when user clicks on google plus button
         * @memberOf widgets/sign-in/sign-in
         */
-        _gpButtonClicked: function () {
+        _gpButtonClicked: function (evt) {
             var googleplusConfig;
+            if (!this.appUtils.validateEvent(evt)) {
+                return;
+            }
             // if google api sdk is loaded
             if (gapi && gapi.auth) {
                 googleplusConfig = {
