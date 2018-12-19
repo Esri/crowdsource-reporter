@@ -88,8 +88,9 @@ define([
                         config.geolocation = false;
                     });
                 }
-                // Remove access to Facebook due to unsupportable changes in its API
+                // Remove access to Facebook and Google Plus due to unsupportable changes in its API
                 config.enableFacebook = false;
+                config.enableGoogleplus = false;
                 // The config object contains the following properties: helper services, (optionally)
                 // i18n, appid, webmap and any custom values defined by the application.
                 // Load Application if valid group-id is configured, if not show error message.
