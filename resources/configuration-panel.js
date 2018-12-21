@@ -17,6 +17,8 @@
         "tool_search" : true,
         "facebookAppId": "",
         "googleplusClientId": "",
+        "showSectionTitle": true,
+        "showEmptySectionContent": true,
         "webMapInfoDescription": true,
         "webMapInfoSnippet": false,
         "webMapInfoOwner": true,
@@ -242,6 +244,16 @@
           "type": "paragraph",
           "value": "Select the item details elements that will be visible for each map:"
       }, {
+        "label": "Show section title",
+        "tooltip": "Show section title",
+        "type": "boolean",
+        "fieldName": "showSectionTitle"
+      }, {
+        "label": "Show sections with empty contents",
+        "tooltip": "Show sections with empty contents",
+        "type": "boolean",
+        "fieldName": "showEmptySectionContent"
+      }, {
           "label": "Description",
           "tooltip": "Enable to show webmap description.",
           "type": "boolean",
@@ -394,18 +406,6 @@
           "type": "boolean",
           "fieldName": "enableTwitter"
       }, {
-          "label": "Allow users to sign in using Google+",
-          "tooltip": "Enable to allow users to sign in using their Google+ credentials.",
-          "type": "conditional",
-          "fieldName": "enableGoogleplus",
-          "condition": false,
-          "items": [{
-              "label": "Please register your app with Google+ and provide your Google+ Client ID",
-              "tooltip": "Google+ ClientId",
-              "type": "string",
-              "fieldName": "googleplusClientId"
-          }]
-      },  {
           "label": "Field for storing the ID of authenticated users (optional)",
           "tooltip": "Text field that stores the ID of the person who submitted or commented on a report. Field name must be the same across all layers and maps.",
           "type": "string",

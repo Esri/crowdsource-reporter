@@ -292,13 +292,27 @@ define([
                         // to display date field
                         if (field === "created" || field === "modified") {
                             value = webMapItem.itemInfo.item[field] ? ((moment(webMapItem.itemInfo.item[field]).toDate()).toLocaleDateString()) : this.appConfig.showNullValueAs + "<br/>";
-                            if (lang.trim(value) === "") {
+                            //if value is EMPTY and showEmptySectionContent flag is true add configured null value
+                            if (lang.trim(value) === "" && this.appConfig.showEmptySectionContent) {
                                 value = this.appConfig.showNullValueAs + "<br/>";
                             }
                         } else {
-                            value = webMapItem.itemInfo.item[field] || this.appConfig.showNullValueAs + "<br/>";
+                            value = webMapItem.itemInfo.item[field] || "";
+                            if (value === "" && this.appConfig.showEmptySectionContent) {
+                                value = this.appConfig.showNullValueAs + "<br/>";
+                            }
                         }
-                        descriptionInfo += "<div class='esriCTDetailsContainerRow'><div class='esriCTDetailsContainerCell'><div class='esriCTInfoHeader'>" + this.appConfig.i18n.webMapList[field] + "</div><div class='esriCTInfoDetails esriCTCalculatedBodyTextColorAsBorder'>" + value + "</div></div></div>";
+                        //Check for hideEmptySectionContent flag in combination with section value
+                        //Accordingly show/hide the section title
+                        if (this.appConfig.showEmptySectionContent ||
+                            (!this.appConfig.showEmptySectionContent && value !== "")) {
+                            if (this.appConfig.showSectionTitle) {
+                                descriptionInfo += "<div class='esriCTDetailsContainerRow'><div class='esriCTDetailsContainerCell'><div class='esriCTInfoHeader'>" + this.appConfig.i18n.webMapList[field] + "</div><div class='esriCTInfoDetails esriCTCalculatedBodyTextColorAsBorder'>" + value + "</div></div></div>";
+                            } else {
+                                descriptionInfo += "<div class='esriCTDetailsContainerRow'><div class='esriCTDetailsContainerCell'><div class='esriCTInfoDetails esriCTCalculatedBodyTextColorAsBorder'>" + value + "</div></div></div>";
+
+                            }
+                        }
                     }
                 }
             }

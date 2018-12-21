@@ -79,6 +79,8 @@ define({
     "noThumbnailIcon": "/images/default-webmap-thumbnail.png",
     "noAttachmentIcon": "/images/no-attachment.png",
 
+    "showSectionTitle": true, //show/hide title in map details
+    "showEmptySectionContent": true, //show/hide sections with empty contents
     "webMapInfoDescription": true,
     "webMapInfoSnippet": false,
     "webMapInfoOwner": true,

@@ -534,6 +534,15 @@ define([
                 this._sidebarCnt.addPanel("itemDetails", this._itemDetails);
 
                 this._itemDetails.onCancel = lang.hitch(this, function (item) {
+                    //If app is running in mobile mode and feature is selected from map
+                    //Then navigate user to the map view
+                    if (dojowindow.getBox().w < 768) {
+                        if (this.featureSelectedFromMap) {
+                            this._toggleMapView();
+                            this.featureSelectedFromMap = false;
+                            return true;
+                        }
+                    }
                     if (this._isMyIssues) {
                         this._sidebarCnt.showPanel("myIssues");
                         //refresh the myIssues list on showing the myIssues wall
@@ -563,6 +572,13 @@ define([
                     setTimeout(function () {
                         dom.byId("mapBackButton").focus();
                     }, 200);
+                    //If app is running in mobile mode clicks on map it button
+                    //Change the value of featureSelectedFromMap flag to false
+                    if (dojowindow.getBox().w < 768) {
+                        if (this.featureSelectedFromMap) {
+                            this.featureSelectedFromMap = false;
+                        }
+                    }
                 });
 
                 this._itemDetails._createGeoformForEdits = lang.hitch(this, function (parentDiv) {
@@ -1460,6 +1476,8 @@ define([
                 });
 
                 this._issueWallWidget.featureSelectedOnMapClick = lang.hitch(this, function (selectedFeature) {
+                    //If the feature is selected from map, set the featureSelectedFromMap value to true
+                    this.featureSelectedFromMap = true;
                     //If geoform is open and existing feature is clicked while drawing new feature,
                     //stop the selection functionality and continue drawing
                     if (!domClass.contains(dom.byId('geoformContainer'), "esriCTHidden")) {
@@ -3121,7 +3139,9 @@ define([
             if (panel === "Legend") {
                 //Set focus based on the panel
                 $(closeBtn).focusout(lang.hitch(this, function (evt) {
-                    query(".esriCTBasemapGalleryButton")[0].focus();
+                    if (query(".esriCTBasemapGalleryButton") && query(".esriCTBasemapGalleryButton")[0]) {
+                        query(".esriCTBasemapGalleryButton")[0].focus();
+                    }
                 }));
             }
             return contentWrapper;
