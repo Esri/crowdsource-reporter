@@ -78,7 +78,10 @@ define([
                 //Check for current location flag
                 //if webmap parameter exists in url, do not display geolocation popup
                 //if webmap parameter do not exists in url, than display geolocation popup
-                if(!config.disableCurrentLocation &&
+                //Added check for empty and less than 0.1 buffer radius value to prevent the
+                //previously configured apps from breaking
+                if ((config.bufferRadius !== "" && config.bufferRadius >= 0.1) &&
+                    !config.disableCurrentLocation &&
                     !this.boilerPlateTemplateObject.urlConfig.hasOwnProperty("webmap")) {
                     //Check whether browser supports geolocation
                     navigator.geolocation.getCurrentPosition(lang.hitch(this, function (position) {

@@ -615,9 +615,10 @@
           "value": "When users share their location with the application, only reports within this radius will load. Users can expand this search radius incrementally in the application. Define the radius of this initial search for nearby reports. "
       }, {
           "label": "Initial search radius",
-          "tooltip": "When location is shared, application will initially load all reports within this search radius.",
+          "tooltip": "When location is shared, application will initially load all reports within this search radius. User can check the checkbox to disable the zoom to current location option and application will ignore the bufferRadius and load all the features of a layer with default webmap extent.",
           "type": "number",
-          "fieldName": "bufferRadius"
+          "fieldName": "bufferRadius",
+          "constraints" :{"min":0.1, "places":0}
       }, {
           "tooltip": "Unit of distance for the search radius.",
           "label": "Search radius unit:",

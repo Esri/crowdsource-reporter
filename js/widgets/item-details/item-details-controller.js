@@ -1165,7 +1165,7 @@ define([
                         }, fieldContent);
                         domClass.add(imageContent, "esriCTImageLoader");
                         imageDiv[i] = domConstruct.create("img", {
-                            "alt": infos[i].name,
+                            "alt": infos[i].url,
                             "class": "esriCTIssueDetailImg esriCTPointerCursor",
                             "aria-label": infos[i].name,
                             tabindex: "0",
@@ -1239,7 +1239,7 @@ define([
         * @param{object} evt
         */
         _openAttachment: function (evt) {
-            window.open(evt.target.src);
+            window.open(evt.target.alt);
         },
 
         /**
