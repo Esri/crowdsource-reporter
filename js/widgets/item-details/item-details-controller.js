@@ -367,11 +367,18 @@ define([
         * @param {item} the current item for which count is to be incremented.
         */
         _incrementVote: function (item) {
-            var selectedFeatureOID;
+            var selectedFeatureOID, updateItem;
             item.attributes[this.appConfig.likeField] = item.attributes[this.appConfig.likeField] + 1;
+            updateItem = {
+                attributes: {}
+            };
+            updateItem.attributes[this.selectedLayer.objectIdField] =
+                item.attributes[this.selectedLayer.objectIdField];
+            updateItem.attributes[this.appConfig.likeField] =
+                item.attributes[this.appConfig.likeField];
             // Update the item in the feature layer
             this.appUtils.showLoadingIndicator();
-            this.selectedLayer.applyEdits(null, [item], null, lang.hitch(this, function (updates) {
+            this.selectedLayer.applyEdits(null, [updateItem], null, lang.hitch(this, function (updates) {
                 if (updates && updates.length > 0 && updates[0].error) {
                     this.appUtils.hideLoadingIndicator();
                     this.appUtils.showError(this.i18n.unableToUpdateVoteField);
