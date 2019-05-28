@@ -2100,11 +2100,11 @@ define([
                 featureData.attributes[this.config.locationField] = this.newLocationFieldValue;
             }
             // Add feature to the layer
-            this.layer.applyEdits([featureData], null, null, lang.hitch(this, function (addResults) {
+            this.selectedLayer.applyEdits([featureData], null, null, lang.hitch(this, function (addResults) {
                 // Add attachment on success
                 if (addResults[0].success) {
                     //if layer has attachments then add those attachments
-                    if (this.layer.hasAttachments && query(".esriCTFileToSubmit", this.attachmentSection).length > 0) {
+                    if (this.selectedLayer.hasAttachments && query(".esriCTFileToSubmit", this.attachmentSection).length > 0) {
                         //get all the attachments and append it in form element
                         fileList = query(".esriCTFileToSubmit", this.attachmentSection);
                         //reset fileAttached and failed counter
@@ -2114,7 +2114,7 @@ define([
                         this._totalFileAttachedCounter = fileList.length;
                         for (i = 0; i < fileList.length; i++) {
                             //handle success and error callback for add attachments
-                            this.layer.addAttachment(addResults[0].objectId, fileList[i], lang.hitch(this, this._onAttachmentUploadComplete), lang.hitch(this, this._onAttachmentUploadFailed));
+                            this.selectedLayer.addAttachment(addResults[0].objectId, fileList[i], lang.hitch(this, this._onAttachmentUploadComplete), lang.hitch(this, this._onAttachmentUploadFailed));
                         }
                     } else {
                         //hide loading indicator started in _addFeatureToLayer method

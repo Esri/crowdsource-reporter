@@ -1654,7 +1654,8 @@ define([
                         appConfig: this.config,
                         appUtils: this.appUtils,
                         isMapRequired: true,
-                        isEdit: false
+                        isEdit: false,
+                        selectedLayer: this.selectedLayer
 
                     }, domConstruct.create("div", {}, dom.byId("geoformContainer")));
                     //on submitting issues in geoform update issue wall and main map to show newly updated issue.
