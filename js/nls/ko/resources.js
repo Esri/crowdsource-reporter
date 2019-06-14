@@ -82,7 +82,7 @@ define({
     "share": "공유하기",
     "shareDialogTitle": "공유 대화 상자",
     "shareDialogAppURLLabel": "응용프로그램 URL",
-    "mobileHamburger": "Hamburger"
+    "mobileHamburger": "햄버거 버튼"
   },
   "geoform": {
     "enterInformation": "세부정보",
@@ -183,7 +183,7 @@ define({
   "dialog": {
     "okButton": "확인",
     "cancelButton": "취소",
-    "yesButton": "예.",
+    "yesButton": "예",
     "noButton": "아니오"
   }
 });
