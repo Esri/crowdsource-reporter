@@ -170,7 +170,7 @@ define({
     "selectAttachments": "Pielikumi",
     "selectFileText": "Pārlūkot",
     "attachmentSelectedMsg": "atlasītais(-ie) pielikums(-i)",
-    "attachmentHeaderText": "Uzdevumi",
+    "attachmentHeaderText": "Pielikumi",
     "unknownCommentAttachment": "FAILS",
     "editRecordText": "Rediģēt",
     "deleteRecordText": "Izdzēst",
