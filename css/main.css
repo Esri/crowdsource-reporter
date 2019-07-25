@@ -589,7 +589,7 @@ html, body
 {
     float: left;
     height: 48px;
-    max-width: calc(100% - 150px);
+    max-width: 200px;
 }
 
 .esriCTHomeIconStreched

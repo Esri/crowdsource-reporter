@@ -589,7 +589,7 @@ define([
                             webMapID: this._webMapListWidget.lastWebMapSelected,
                             layerId: this._selectedMapDetails.operationalLayerId,
                             layerTitle: this._selectedMapDetails.operationalLayerDetails.title,
-                            basemapId: this._selectedMapDetails.itemInfo.itemData.baseMap.baseMapLayers[0].id,
+                            baseMapLayers: this._selectedMapDetails.itemInfo.itemData.baseMap.baseMapLayers,
                             changedExtent: this.changedExtent,
                             appConfig: this.config,
                             appUtils: this.appUtils,
@@ -1649,7 +1649,7 @@ define([
                         webMapID: this._webMapListWidget.lastWebMapSelected,
                         layerId: this._selectedMapDetails.operationalLayerId,
                         layerTitle: this._selectedMapDetails.operationalLayerDetails.title,
-                        basemapId: this._selectedMapDetails.itemInfo.itemData.baseMap.baseMapLayers[0].id,
+                        baseMapLayers: this._selectedMapDetails.itemInfo.itemData.baseMap.baseMapLayers,
                         changedExtent: this.changedExtent,
                         appConfig: this.config,
                         appUtils: this.appUtils,
@@ -2416,6 +2416,21 @@ define([
             }
         },
 
+            /**
+            * This function is used to pull label layer on top
+            * @memberOf widgets/main/main
+            */
+            _getLabelLayerOnTop: function () {
+                var labelLayerObj, numberOfLayers;
+                labelLayerObj = this.map.getLayer("labels");
+                numberOfLayers = 1000;
+                if ((typeof (Object.keys) === "function") && (this.map._layers)) {
+                    numberOfLayers = Object.keys(this.map._layers).length + 1;
+                }
+                if (labelLayerObj) {
+                    this.map.reorderLayer(labelLayerObj, numberOfLayers);
+                }
+            },
         /*-------  Begining of section for Geographical Filtering  -------*/
 
         /**
@@ -2465,6 +2480,9 @@ define([
             this.map.addLayer(this.displaygraphicsLayer, this._existingLayerIndex);
             this._getFeatureLayerCount(details, selectedOperationalLayer);
             this._reorderAllLayers();
+            //Code to change the index of label layers
+            //And bring them on top in order to see the labels
+            this._getLabelLayerOnTop();
         },
         /**
         * This function is used to check if valid sorting field is configured

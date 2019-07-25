@@ -222,7 +222,8 @@ define([
                 // fetch the geocode URL from portal organization, and if the URL is unavailable disable address search
                 if (this.config.helperServices.geocode.length > 0) {
                     //Check if search tool is enabled in the configuration
-                    if (this.config.tool_search) {
+                    if (this.config.tool_search && this.config.searchConfig &&
+                        this.config.searchConfig.sources.length > 0) {
                         geocoders = this.config.searchConfig.sources;
                     } else {
                         geocoders = this.config.helperServices.geocode;
@@ -324,7 +325,7 @@ define([
                     queryLayer.where = "UPPER(" + layerObject.field.name + ") LIKE UPPER ('%" + lang.trim(this.txtSearch.value) + "%') AND " + currentTime + "=" + currentTime;
                 }
                 if (layer.getDefinitionExpression()) {
-                    queryLayer.where = queryLayer.where + " AND " + layer.getDefinitionExpression();
+                    queryLayer.where = queryLayer.where + " AND (" + layer.getDefinitionExpression() + ")";
                 }
                 queryLayer.outSpatialReference = this.map.spatialReference;
                 queryLayer.returnGeometry = true;

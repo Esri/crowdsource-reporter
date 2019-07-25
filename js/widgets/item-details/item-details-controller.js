@@ -1166,8 +1166,11 @@ define([
                     // Display all attached images in thumbnails
                     for (i = 0; i < infos.length; i++) {
                         imagePath = location.href.slice(0, location.href.lastIndexOf('/')) + this.appConfig.noAttachmentIcon;
+                        //Check if attachment is image/video and accordingly show the thumbnail
                         if (infos[i].contentType.indexOf("image") > -1) {
                             imagePath = infos[i].url;
+                        } else if(infos[i].contentType.indexOf("video") > -1) {
+                            imagePath = location.href.slice(0, location.href.lastIndexOf('/')) + "/images/video.png";
                         }
                         imageContent = domConstruct.create("span", {
                             "class": "esriCTIssueImgSpan col esriCTCalculatedBodyTextColorAsBorder",

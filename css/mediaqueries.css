@@ -68,7 +68,7 @@
     .esriCTMenuTabLeft
     {
         line-height: 50px;
-        width: calc(100% - 140px);
+        width: calc(100% - 200px);
     }
 
     .esriCTApplicationIcon
@@ -212,7 +212,7 @@
     .esriCTMenuTabLeft
     {
         line-height: 50px;
-        width: calc(100% - 150px);
+        width: calc(100% - 200px);
     }
 
     .esriCTButtonLabel {
