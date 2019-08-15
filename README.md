@@ -26,7 +26,7 @@ The Crowdsource Reporter application presents one, or more, maps that can be use
 
 * Presents editable layers from one or more maps that have been shared with the ArcGIS Online/Portal group configured in the application.
 * Users can submit new reports, review existing reports, and comment and vote on reports or observations submitted by other users.
-* Users can access the content anonymously, or authenticate using their Facebook, Google+, Twitter, or ArcGIS credentials. Authenticated users gain access to additional functionality, such as My Issues - a list of all reports they have submitted.
+* Users can access the content anonymously, or authenticate using their Twitter, or ArcGIS credentials. Authenticated users gain access to additional functionality, such as My Issues - a list of all reports they have submitted.
 * The application has been optimized for smartphones but is responsively designed and can also be used in browsers on smartphones, tablets, and desktops using [all browsers supported by ArcGIS Online][supported browsers].
 
 ## Requirements
