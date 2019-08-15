@@ -26,13 +26,14 @@ define([
     "dojo/dom-style",
     "esri/request",
     "dojo/on",
+    "dojo/query",
     "dojo/text!./templates/app-header.html",
     "widgets/mobile-menu/mobile-menu",
     "widgets/help/help",
     "dijit/_WidgetBase",
     "dijit/_TemplatedMixin",
     "dijit/_WidgetsInTemplateMixin"
-], function (declare, domConstruct, lang, dom, domAttr, domClass, domStyle, esriRequest, on, template, MobileMenu, Help, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin) {
+], function (declare, domConstruct, lang, dom, domAttr, domClass, domStyle, esriRequest, on, query, template, MobileMenu, Help, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         mobileMenu: null,
@@ -175,6 +176,12 @@ define([
                     this._helpClicked();
                 }
             }), 500);
+            //Resize the header controller on window resize
+            on(window, "resize", lang.hitch(this, function () {
+                setTimeout(lang.hitch(this, function () {
+                    this._resizeHeaderController();
+                }), 100);
+            }));
         },
 
         /**
@@ -278,7 +285,10 @@ define([
                 domAttr.set(this.applicationHeaderIcon, "src", dojoConfig.baseURL + "/images/app-icon.png");
             }
             applicationIcon = domAttr.get(this.applicationHeaderIcon, "src");
-
+            //Adjust the header icon once the icon is loaded
+            on(this.applicationHeaderIcon, "load", lang.hitch(this, function () {
+                this._resizeHeaderController();
+            }));
             // On application icon/name click navigate to home screen on mobile devices
             on(this.applicationHeaderIcon, "click", lang.hitch(this, this._navigateToHome));
             on(this.applicationHeaderName, "click, keypress", lang.hitch(this, this._navigateToHome));
@@ -502,6 +512,16 @@ define([
             }
         },
 
+        /**
+        * Resize header panel based on scree size
+        * @memberOf widgets/app-header/app-header
+        */
+        _resizeHeaderController: function () {
+            var appTitleWidth = 5; // Minor padding in mobile mode
+            appTitleWidth += this.applicationIconContainer.clientWidth;
+            appTitleWidth += query(".esriCTMenuTabRight", this.domNode)[0].clientWidth;
+            domStyle.set(this.applicationHeaderName, "width", "calc(100% -  " + appTitleWidth + "px" + ")");
+        },
         //Events Generated from App Header
         showMyIssues: function (evt) {
             return evt;

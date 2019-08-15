@@ -23,14 +23,14 @@ define({
     },
     "zoomInTooltip": "Pietuvināt",
     "zoomOutTooltip": "Attālināt",
-    "geolocationTooltip": "Pašreizējais izvietojums"
+    "geolocationTooltip": "Pašreizējais novietojums"
   },
   "main": {
     "noGroup": "Nav konfigurētas grupas",
     "submitReportButtonText": "Iesniegt pārskatu",
     "gotoListViewTooltip": "Saraksta skats",
-    "noFeatureGeomtery": "Funkciju nevar parādīt",
-    "featureOutsideAOIMessage": "Līdzekli nevar pievienot ārpus izpētes apgabala",
+    "noFeatureGeomtery": "Elementu nevar parādīt",
+    "featureOutsideAOIMessage": "Elements nevar tikt pievienots ārpus pētāmās teritorijas",
     "noEditingPermissionsMessage": "Jums nav atļaujas izpildīt šo darbību.",
     "basemapGalleryText": "Pamatkaršu galerija",
     "basemapThumbnailAltText": "Noklikšķiniet, lai ielādētu ${basemapTitle} ${index} no ${totalBasemaps}",
@@ -58,7 +58,7 @@ define({
     "snippet": "Kopsavilkums",
     "licenseInfo": "Piekļuves un izmantošanas ierobežojumi",
     "accessInformation": "Kredīti",
-    "tags": "Tagi",
+    "tags": "Atslēgas vārdi",
     "numViews": "Skatījumu skaits",
     "avgRating": "Vērtējums",
     "noWebMapInGroup": "Konfigurētā grupa nav derīga vai ar šo grupu vēl nav kopīgots neviens elements.",
@@ -88,7 +88,7 @@ define({
     "enterInformation": "Detaļas",
     "selectAttachments": "Pielikumi",
     "selectFileText": "Pārlūks",
-    "enterLocation": "Izvietojums",
+    "enterLocation": "Novietojums",
     "reportItButton": "Ziņot par to",
     "editReportButton": "Atjaunināt",
     "cancelButton": "Atcelt",
@@ -107,8 +107,8 @@ define({
     "errorsInApplyEdits": "Vērtības nevarēja iesniegt.",
     "attachmentSelectedMsg": "atlasītais(-ie) pielikums(-i)",
     "attachmentUploadStatus": "${failed} no ${total} pielikuma(-iem) neizdevās augšupielādēt",
-    "geoLocationError": "Pašreizējā vieta nav pieejama",
-    "geoLocationOutOfExtent": "Pašreizējā vieta ir ārpus pamatkartes tvēruma",
+    "geoLocationError": "Pašreizējais novietojums nav pieejams",
+    "geoLocationOutOfExtent": "Pašreizējais novietojums ir ārpus pamatkartes pārklājuma",
     "submitButtonTooltip": "Iesniegt",
     "cancelButtonTooltip": "Atcelt",
     "geoformBackButtonTooltip": "Atgriezties sarakstā",
@@ -147,7 +147,7 @@ define({
     "mapButtonLabel": "Skatīt kartē",
     "mapButtonTooltip": "Skatīt šo iesniegto datu novietojumu",
     "commentsListHeading": "Komentāri",
-    "unableToUpdateVoteField": "Jūsu balsi šobrīd nevar pievienot.",
+    "unableToUpdateVoteField": "Jūsu balsojumu šobrīd nevar pievienot.",
     "gotoIssueListTooltip": "Skatīt iesniegtās informācijas sarakstu",
     "deleteMessage": "Vai tiešām vēlaties dzēst?"
   },
@@ -170,7 +170,7 @@ define({
     "selectAttachments": "Pielikumi",
     "selectFileText": "Pārlūkot",
     "attachmentSelectedMsg": "atlasītais(-ie) pielikums(-i)",
-    "attachmentHeaderText": "Uzdevumi",
+    "attachmentHeaderText": "Pielikumi",
     "unknownCommentAttachment": "FAILS",
     "editRecordText": "Rediģēt",
     "deleteRecordText": "Izdzēst",
@@ -178,7 +178,7 @@ define({
   },
   "gallery": {
     "galleryHeaderText": "Galerija",
-    "noAttachmentsAvailableText": "Nav atrasta piesaiste"
+    "noAttachmentsAvailableText": "Pielikumi nav atrasti"
   },
   "dialog": {
     "okButton": "Labi",

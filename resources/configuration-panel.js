@@ -17,6 +17,8 @@
         "tool_search" : true,
         "facebookAppId": "",
         "googleplusClientId": "",
+        "showSectionTitle": true,
+        "showEmptySectionContent": true,
         "webMapInfoDescription": true,
         "webMapInfoSnippet": false,
         "webMapInfoOwner": true,
@@ -242,6 +244,16 @@
           "type": "paragraph",
           "value": "Select the item details elements that will be visible for each map:"
       }, {
+        "label": "Show section title",
+        "tooltip": "Show section title",
+        "type": "boolean",
+        "fieldName": "showSectionTitle"
+      }, {
+        "label": "Show sections with empty contents",
+        "tooltip": "Show sections with empty contents",
+        "type": "boolean",
+        "fieldName": "showEmptySectionContent"
+      }, {
           "label": "Description",
           "tooltip": "Enable to show webmap description.",
           "type": "boolean",
@@ -374,7 +386,7 @@
           "label": "Sign In Options"
       }, {
           "type": "paragraph",
-          "value": "Configure how users will be able to access your application. See the <a href='http://links.esri.com/localgovernment/help/crowdsource-reporter/' target='_blank'>help</a> for the steps to register your app with Google+."
+          "value": "Configure how users will be able to access your application."
       }, {
           "type": "paragraph",
           "value": "Disable all sign in options to hide the splash screen."
@@ -394,18 +406,6 @@
           "type": "boolean",
           "fieldName": "enableTwitter"
       }, {
-          "label": "Allow users to sign in using Google+",
-          "tooltip": "Enable to allow users to sign in using their Google+ credentials.",
-          "type": "conditional",
-          "fieldName": "enableGoogleplus",
-          "condition": false,
-          "items": [{
-              "label": "Please register your app with Google+ and provide your Google+ Client ID",
-              "tooltip": "Google+ ClientId",
-              "type": "string",
-              "fieldName": "googleplusClientId"
-          }]
-      },  {
           "label": "Field for storing the ID of authenticated users (optional)",
           "tooltip": "Text field that stores the ID of the person who submitted or commented on a report. Field name must be the same across all layers and maps.",
           "type": "string",
@@ -615,9 +615,10 @@
           "value": "When users share their location with the application, only reports within this radius will load. Users can expand this search radius incrementally in the application. Define the radius of this initial search for nearby reports. "
       }, {
           "label": "Initial search radius",
-          "tooltip": "When location is shared, application will initially load all reports within this search radius.",
+          "tooltip": "When location is shared, application will initially load all reports within this search radius. Users can check the checkbox to disable the location prompting option and application will ignore the buffer radius and load all the features within default webmap extent.",
           "type": "number",
-          "fieldName": "bufferRadius"
+          "fieldName": "bufferRadius",
+          "constraints" :{"min":0.1, "places":0}
       }, {
           "tooltip": "Unit of distance for the search radius.",
           "label": "Search radius unit:",

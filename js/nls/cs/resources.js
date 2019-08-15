@@ -90,7 +90,7 @@ define({
     "selectFileText": "Procházet",
     "enterLocation": "Poloha",
     "reportItButton": "Vytvořit zprávu",
-    "editReportButton": "Aktualizovat (Update)",
+    "editReportButton": "Aktualizovat",
     "cancelButton": "Storno",
     "requiredField": "(vyžadováno)",
     "selectDefaultText": "Výběr&hellip;",
@@ -102,8 +102,8 @@ define({
     "invalidDouble": "Zadejte číslo.",
     "requiredFields": "Zadejte hodnoty do všech vyžadovaných polí.",
     "selectLocation": "Vyberte umístění hlášení.",
-    "numericRangeHintMessage": "${openStrong}Tip:${closeStrong} Minimální hodnota ${minValue} a Maximální hodnota ${maxValue}",
-    "dateRangeHintMessage": "${openStrong}Tip:${closeStrong} Minimální datum ${minValue} a Maximální datum ${maxValue}",
+    "numericRangeHintMessage": "${openStrong}Nápověda:${closeStrong} Minimální hodnota ${minValue} a Maximální hodnota ${maxValue}",
+    "dateRangeHintMessage": "${openStrong}Nápověda:${closeStrong} Minimální datum ${minValue} a Maximální datum ${maxValue}",
     "errorsInApplyEdits": "Hodnoty se nepodařilo odeslat.",
     "attachmentSelectedMsg": "příloh vybráno",
     "attachmentUploadStatus": "nepodařilo se nahrát ${failed} z ${total} příloh",
@@ -173,7 +173,7 @@ define({
     "attachmentHeaderText": "Přílohy",
     "unknownCommentAttachment": "SOUBOR",
     "editRecordText": "Upravit",
-    "deleteRecordText": "Smazat (Delete)",
+    "deleteRecordText": "Smazat",
     "deleteCommentFailedMessage": "Komentář nelze odstranit"
   },
   "gallery": {

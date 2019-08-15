@@ -534,6 +534,15 @@ define([
                 this._sidebarCnt.addPanel("itemDetails", this._itemDetails);
 
                 this._itemDetails.onCancel = lang.hitch(this, function (item) {
+                    //If app is running in mobile mode and feature is selected from map
+                    //Then navigate user to the map view
+                    if (dojowindow.getBox().w < 768) {
+                        if (this.featureSelectedFromMap) {
+                            this._toggleMapView();
+                            this.featureSelectedFromMap = false;
+                            return true;
+                        }
+                    }
                     if (this._isMyIssues) {
                         this._sidebarCnt.showPanel("myIssues");
                         //refresh the myIssues list on showing the myIssues wall
@@ -563,6 +572,13 @@ define([
                     setTimeout(function () {
                         dom.byId("mapBackButton").focus();
                     }, 200);
+                    //If app is running in mobile mode clicks on map it button
+                    //Change the value of featureSelectedFromMap flag to false
+                    if (dojowindow.getBox().w < 768) {
+                        if (this.featureSelectedFromMap) {
+                            this.featureSelectedFromMap = false;
+                        }
+                    }
                 });
 
                 this._itemDetails._createGeoformForEdits = lang.hitch(this, function (parentDiv) {
@@ -573,7 +589,7 @@ define([
                             webMapID: this._webMapListWidget.lastWebMapSelected,
                             layerId: this._selectedMapDetails.operationalLayerId,
                             layerTitle: this._selectedMapDetails.operationalLayerDetails.title,
-                            basemapId: this._selectedMapDetails.itemInfo.itemData.baseMap.baseMapLayers[0].id,
+                            baseMapLayers: this._selectedMapDetails.itemInfo.itemData.baseMap.baseMapLayers,
                             changedExtent: this.changedExtent,
                             appConfig: this.config,
                             appUtils: this.appUtils,
@@ -1460,6 +1476,8 @@ define([
                 });
 
                 this._issueWallWidget.featureSelectedOnMapClick = lang.hitch(this, function (selectedFeature) {
+                    //If the feature is selected from map, set the featureSelectedFromMap value to true
+                    this.featureSelectedFromMap = true;
                     //If geoform is open and existing feature is clicked while drawing new feature,
                     //stop the selection functionality and continue drawing
                     if (!domClass.contains(dom.byId('geoformContainer'), "esriCTHidden")) {
@@ -1631,12 +1649,13 @@ define([
                         webMapID: this._webMapListWidget.lastWebMapSelected,
                         layerId: this._selectedMapDetails.operationalLayerId,
                         layerTitle: this._selectedMapDetails.operationalLayerDetails.title,
-                        basemapId: this._selectedMapDetails.itemInfo.itemData.baseMap.baseMapLayers[0].id,
+                        baseMapLayers: this._selectedMapDetails.itemInfo.itemData.baseMap.baseMapLayers,
                         changedExtent: this.changedExtent,
                         appConfig: this.config,
                         appUtils: this.appUtils,
                         isMapRequired: true,
-                        isEdit: false
+                        isEdit: false,
+                        selectedLayer: this.selectedLayer
 
                     }, domConstruct.create("div", {}, dom.byId("geoformContainer")));
                     //on submitting issues in geoform update issue wall and main map to show newly updated issue.
@@ -2397,6 +2416,21 @@ define([
             }
         },
 
+            /**
+            * This function is used to pull label layer on top
+            * @memberOf widgets/main/main
+            */
+            _getLabelLayerOnTop: function () {
+                var labelLayerObj, numberOfLayers;
+                labelLayerObj = this.map.getLayer("labels");
+                numberOfLayers = 1000;
+                if ((typeof (Object.keys) === "function") && (this.map._layers)) {
+                    numberOfLayers = Object.keys(this.map._layers).length + 1;
+                }
+                if (labelLayerObj) {
+                    this.map.reorderLayer(labelLayerObj, numberOfLayers);
+                }
+            },
         /*-------  Begining of section for Geographical Filtering  -------*/
 
         /**
@@ -2446,6 +2480,9 @@ define([
             this.map.addLayer(this.displaygraphicsLayer, this._existingLayerIndex);
             this._getFeatureLayerCount(details, selectedOperationalLayer);
             this._reorderAllLayers();
+            //Code to change the index of label layers
+            //And bring them on top in order to see the labels
+            this._getLabelLayerOnTop();
         },
         /**
         * This function is used to check if valid sorting field is configured
@@ -3121,7 +3158,9 @@ define([
             if (panel === "Legend") {
                 //Set focus based on the panel
                 $(closeBtn).focusout(lang.hitch(this, function (evt) {
-                    query(".esriCTBasemapGalleryButton")[0].focus();
+                    if (query(".esriCTBasemapGalleryButton") && query(".esriCTBasemapGalleryButton")[0]) {
+                        query(".esriCTBasemapGalleryButton")[0].focus();
+                    }
                 }));
             }
             return contentWrapper;

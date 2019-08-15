@@ -367,11 +367,21 @@ define([
         * @param {item} the current item for which count is to be incremented.
         */
         _incrementVote: function (item) {
-            var selectedFeatureOID;
-            item.attributes[this.appConfig.likeField] = item.attributes[this.appConfig.likeField] + 1;
+            var selectedFeatureOID, updateItem, newGraphicInstance;
+            newGraphicInstance = new Graphic();
+            item.attributes[this.appConfig.likeField] =
+                parseInt(item.attributes[this.appConfig.likeField], 10) + 1;
+            updateItem = {
+                attributes: {}
+            };
+            updateItem.attributes[this.selectedLayer.objectIdField] =
+                item.attributes[this.selectedLayer.objectIdField];
+            updateItem.attributes[this.appConfig.likeField] =
+                item.attributes[this.appConfig.likeField];
+                newGraphicInstance.attributes = updateItem.attributes;
             // Update the item in the feature layer
             this.appUtils.showLoadingIndicator();
-            this.selectedLayer.applyEdits(null, [item], null, lang.hitch(this, function (updates) {
+            this.selectedLayer.applyEdits(null, [newGraphicInstance], null, lang.hitch(this, function (updates) {
                 if (updates && updates.length > 0 && updates[0].error) {
                     this.appUtils.hideLoadingIndicator();
                     this.appUtils.showError(this.i18n.unableToUpdateVoteField);
@@ -1156,8 +1166,11 @@ define([
                     // Display all attached images in thumbnails
                     for (i = 0; i < infos.length; i++) {
                         imagePath = location.href.slice(0, location.href.lastIndexOf('/')) + this.appConfig.noAttachmentIcon;
+                        //Check if attachment is image/video and accordingly show the thumbnail
                         if (infos[i].contentType.indexOf("image") > -1) {
                             imagePath = infos[i].url;
+                        } else if(infos[i].contentType.indexOf("video") > -1) {
+                            imagePath = location.href.slice(0, location.href.lastIndexOf('/')) + "/images/video.png";
                         }
                         imageContent = domConstruct.create("span", {
                             "class": "esriCTIssueImgSpan col esriCTCalculatedBodyTextColorAsBorder",
@@ -1165,7 +1178,7 @@ define([
                         }, fieldContent);
                         domClass.add(imageContent, "esriCTImageLoader");
                         imageDiv[i] = domConstruct.create("img", {
-                            "alt": infos[i].name,
+                            "alt": infos[i].url,
                             "class": "esriCTIssueDetailImg esriCTPointerCursor",
                             "aria-label": infos[i].name,
                             tabindex: "0",
@@ -1239,7 +1252,7 @@ define([
         * @param{object} evt
         */
         _openAttachment: function (evt) {
-            window.open(evt.target.src);
+            window.open(evt.target.alt);
         },
 
         /**

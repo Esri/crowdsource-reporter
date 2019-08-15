@@ -142,6 +142,10 @@ define([
                         query(".fileInputButton", this.domNode)[0].focus();
                     }), 400);
                 });
+                //Prevent refreshing of application on ENTER key press
+                $(function() {
+                    $("form").submit(function() { return false; });
+                });
             } catch (err) {
                 // Show error message
                 this.appUtils.showError(err.message);
@@ -295,7 +299,7 @@ define([
                 // Create graphics layer to draw graphics
                 this._graphicsLayer = new GraphicsLayer();
                 this.map.addLayer(this._graphicsLayer);
-                this.basemapExtent = this.appUtils.getBasemapExtent(response.itemInfo.itemData.baseMap.baseMapLayers);
+                this.basemapExtent = this.appUtils.getBasemapExtent(this.baseMapLayers);
                 // Create instance of Draw tool to draw the graphics on graphics layer
                 this.toolbar = new Draw(this.map);
                 // activate draw tool
@@ -840,9 +844,11 @@ define([
                     "class": "row esriCTFileAttachMentList"
                 }, fileAttachmentContainer);
                 // Create input container for attachments
+                //Modified the accept param to allow user to upload videos with
+                //ESRI supported format
                 fileInput = domConstruct.create("input", {
                     "type": "file",
-                    "accept": "image/*",
+                    "accept": "image/*,video/mp4,video/webm,video/ogg",
                     "aria-label": this.appConfig.i18n.geoform.selectFileText,
                     "name": "attachment",
                     "tabindex":"-1",
@@ -905,7 +911,7 @@ define([
                 fileInput = domConstruct.create("input", {
                     "type": "file",
                     "tabindex":"-1",
-                    "accept": "image/*",
+                    "accept": "image/*,video/mp4,video/webm,video/ogg",
                     "name": "attachment",
                     "style": { "height": dojo.coords(this._fileInputIcon).h + "px", "width": dojo.coords(this._fileInputIcon).w + "px" }
                 }, newFormControl);
@@ -2100,11 +2106,11 @@ define([
                 featureData.attributes[this.config.locationField] = this.newLocationFieldValue;
             }
             // Add feature to the layer
-            this.layer.applyEdits([featureData], null, null, lang.hitch(this, function (addResults) {
+            this.selectedLayer.applyEdits([featureData], null, null, lang.hitch(this, function (addResults) {
                 // Add attachment on success
                 if (addResults[0].success) {
                     //if layer has attachments then add those attachments
-                    if (this.layer.hasAttachments && query(".esriCTFileToSubmit", this.attachmentSection).length > 0) {
+                    if (this.selectedLayer.hasAttachments && query(".esriCTFileToSubmit", this.attachmentSection).length > 0) {
                         //get all the attachments and append it in form element
                         fileList = query(".esriCTFileToSubmit", this.attachmentSection);
                         //reset fileAttached and failed counter
@@ -2114,7 +2120,7 @@ define([
                         this._totalFileAttachedCounter = fileList.length;
                         for (i = 0; i < fileList.length; i++) {
                             //handle success and error callback for add attachments
-                            this.layer.addAttachment(addResults[0].objectId, fileList[i], lang.hitch(this, this._onAttachmentUploadComplete), lang.hitch(this, this._onAttachmentUploadFailed));
+                            this.selectedLayer.addAttachment(addResults[0].objectId, fileList[i], lang.hitch(this, this._onAttachmentUploadComplete), lang.hitch(this, this._onAttachmentUploadFailed));
                         }
                     } else {
                         //hide loading indicator started in _addFeatureToLayer method

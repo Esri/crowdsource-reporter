@@ -44,6 +44,7 @@ define([
         isPerformingSearch: false,
         activeLocator: null,
         isEnterClicked: false,
+        _configuredGeocoderLength : 0,
         /**
         * This function is called when widget is constructed.
         * @param{object} config to be mixed
@@ -222,10 +223,16 @@ define([
                 if (this.config.helperServices.geocode.length > 0) {
                     //Check if search tool is enabled in the configuration
                     if (this.config.tool_search) {
-                        geocoders = this.config.searchConfig.sources;
+                        if (this.config.searchConfig && this.config.searchConfig.sources) {
+                            geocoders = this.config.searchConfig.sources;
+                        }
+                        //Get the total number of configured gecoders
                     } else {
                         geocoders = this.config.helperServices.geocode;
                     }
+                    //Get the total number of configured gecoders
+                    this._configuredGeocoderLength = geocoders.length;
+
                     for (i = 0; i < geocoders.length; i++) {
                         locator = new Locator(geocoders[i].url);
                         locator.outSpatialReference = this.map.spatialReference;
@@ -320,7 +327,7 @@ define([
                     queryLayer.where = "UPPER(" + layerObject.field.name + ") LIKE UPPER ('%" + lang.trim(this.txtSearch.value) + "%') AND " + currentTime + "=" + currentTime;
                 }
                 if (layer.getDefinitionExpression()) {
-                    queryLayer.where = queryLayer.where + " AND " + layer.getDefinitionExpression();
+                    queryLayer.where = queryLayer.where + " AND (" + layer.getDefinitionExpression() + ")";
                 }
                 queryLayer.outSpatialReference = this.map.spatialReference;
                 queryLayer.returnGeometry = true;
@@ -475,34 +482,42 @@ define([
             if (this.resultLength > 0) {
                 this._toggleTexBoxControls(false);
                 domClass.remove(this.divResultContainer, "esriCTHidden");
+                addressListContainer = domConstruct.create("div", {
+                    "class": "esriCTAddressListContainer esriCTHideAddressList"
+                });
                 for (candidateArray in candidates) {
                     if (candidates.hasOwnProperty(candidateArray)) {
                         if ($.inArray(candidateArray, this.searchedGroups) === -1) {
-                            if (candidates[candidateArray].length > 0) {
-                                divAddressContainer = domConstruct.create("div", {
-                                    "class": "esriCTSearchGroupRow esriCTContentBottomBorder esriCTPointerCursor esriCTHeaderFont"
-                                }, this.divResultContainer);
-                                divAddressSearchCell = domConstruct.create("div", {
-                                    "class": "esriCTSearchGroupCell",
-                                    "tabindex": "0"
-                                }, divAddressContainer);
-                                candidate = candidateArray + " (" + candidates[candidateArray].length + ")";
-                                domConstruct.create("span", {
-                                    "innerHTML": "+",
-                                    "class": "esriCTPlusMinus"
-                                }, divAddressSearchCell);
-                                domConstruct.create("span", {
-                                    "innerHTML": candidate,
-                                    "class": "esriCTGroupList"
-                                }, divAddressSearchCell);
-                                this._toggleAddressList(divAddressSearchCell, this.searchedGroups.length);
-                                this.searchedGroups.push(candidateArray);
-                                addressListContainer = domConstruct.create("div", {
-                                    "class": "esriCTAddressListContainer esriCTHideAddressList"
-                                }, this.divResultContainer);
-                                for (i = 0; i < candidates[candidateArray].length; i++) {
-                                    this._displayValidLocations(candidates[candidateArray][i], i, candidates[candidateArray], addressListContainer, locatorName);
+                            //Create a DOM for geocoder header only if more than one geocoder is configured
+                            if (this._configuredGeocoderLength > 1) {
+                                if (candidates[candidateArray].length > 0) {
+                                    divAddressContainer = domConstruct.create("div", {
+                                        "class": "esriCTSearchGroupRow esriCTContentBottomBorder esriCTPointerCursor esriCTHeaderFont"
+                                    }, this.divResultContainer);
+                                    divAddressSearchCell = domConstruct.create("div", {
+                                        "class": "esriCTSearchGroupCell",
+                                        "tabindex": "0"
+                                    }, divAddressContainer);
+                                    candidate = candidateArray + " (" + candidates[candidateArray].length + ")";
+                                    domConstruct.create("span", {
+                                        "innerHTML": "+",
+                                        "class": "esriCTPlusMinus"
+                                    }, divAddressSearchCell);
+                                    domConstruct.create("span", {
+                                        "innerHTML": candidate,
+                                        "class": "esriCTGroupList"
+                                    }, divAddressSearchCell);
+                                    this._toggleAddressList(divAddressSearchCell, this.searchedGroups.length);
+                                    this.searchedGroups.push(candidateArray);
                                 }
+                            } else {
+                                //Remove the hidden class from address list
+                                domClass.remove(addressListContainer, "esriCTHideAddressList");
+                            }
+                            //Place the address container into the result container
+                            domConstruct.place(addressListContainer, this.divResultContainer, "last");
+                            for (i = 0; i < candidates[candidateArray].length; i++) {
+                                this._displayValidLocations(candidates[candidateArray][i], i, candidates[candidateArray], addressListContainer, locatorName);
                             }
                         }
                     }
