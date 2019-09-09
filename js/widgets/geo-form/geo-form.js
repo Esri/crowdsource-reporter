@@ -33,6 +33,7 @@ define([
     "dojo/dom-style",
     "dojo/query",
     "dojo/window",
+    "dojo/Deferred",
     "dojo/text!./templates/geo-form.html",
     "dojo/string",
     "dojo/date/locale",
@@ -48,7 +49,7 @@ define([
     "widgets/locator/locator",
     "widgets/help/help",
     "widgets/bootstrapmap/bootstrapmap"
-], function (declare, kernel, lang, dateLocale, _WidgetBase, _TemplatedMixin, domConstruct, domClass, on, has, domAttr, array, dom, touch, domStyle, query, dojowindow, dijitTemplate, string, locale, GraphicsLayer, Graphic, Draw, webMercatorUtils, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Polygon, Point, Locator, Help, BootstrapMap) {
+], function (declare, kernel, lang, dateLocale, _WidgetBase, _TemplatedMixin, domConstruct, domClass, on, has, domAttr, array, dom, touch, domStyle, query, dojowindow, Deferred, dijitTemplate, string, locale, GraphicsLayer, Graphic, Draw, webMercatorUtils, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Polygon, Point, Locator, Help, BootstrapMap) {
     return declare([_WidgetBase, _TemplatedMixin], {
         templateString: dijitTemplate,
         lastWebMapSelected: "",
@@ -848,7 +849,7 @@ define([
                 //ESRI supported format
                 fileInput = domConstruct.create("input", {
                     "type": "file",
-                    "accept": "image/*,video/mp4,video/webm,video/ogg",
+                    "accept": "image/*, .MOV, .AVI, .MP4, .MPA, .MPE, .MPEG, .MPG, .MPV2",
                     "aria-label": this.appConfig.i18n.geoform.selectFileText,
                     "name": "attachment",
                     "tabindex":"-1",
@@ -910,8 +911,8 @@ define([
                 //create new file input control so that multiple files can be attached
                 fileInput = domConstruct.create("input", {
                     "type": "file",
-                    "tabindex":"-1",
-                    "accept": "image/*,video/mp4,video/webm,video/ogg",
+                    "tabindex": "-1",
+                    "accept": "image/*, .MOV, .AVI, .MP4, .MPA, .MPE, .MPEG, .MPG, .MPV2",
                     "name": "attachment",
                     "style": { "height": dojo.coords(this._fileInputIcon).h + "px", "width": dojo.coords(this._fileInputIcon).w + "px" }
                 }, newFormControl);
@@ -2047,7 +2048,9 @@ define([
         * @memberOf widgets/geo-form/geo-form
         */
         _addFeatureToLayer: function () {
-            var featureData, key, value, datePicker, picker, fileList, i, type, editedFields = [];
+            var featureData, key, value, datePicker, picker, fileList, i, type, editedFields = [],
+            attachmentsDef;
+            attachmentsDef = new Deferred();
             // show loading indicator
             this.appUtils.showLoadingIndicator();
             // Create instance of graphic
@@ -2120,9 +2123,19 @@ define([
                         this._totalFileAttachedCounter = fileList.length;
                         for (i = 0; i < fileList.length; i++) {
                             //handle success and error callback for add attachments
-                            this.selectedLayer.addAttachment(addResults[0].objectId, fileList[i], lang.hitch(this, this._onAttachmentUploadComplete), lang.hitch(this, this._onAttachmentUploadFailed));
+                            this.selectedLayer.addAttachment(addResults[0].objectId, fileList[i],
+                                lang.hitch(this, function () { this._onAttachmentUploadComplete(attachmentsDef); }),
+                                lang.hitch(this, function () { this._onAttachmentUploadFailed(attachmentsDef); }));
                         }
+                        //Call geoform submitted method to allow other widgets to update the
+                        //feature instance and all necessary objects and components
+                        attachmentsDef.then(lang.hitch(this, function () {
+                            // Successfully feature is added on the layer
+                            this.geoformSubmitted(addResults[0].objectId);
+                        }));
                     } else {
+                        // Successfully feature is added on the layer
+                        this.geoformSubmitted(addResults[0].objectId);
                         //hide loading indicator started in _addFeatureToLayer method
                         this.appUtils.hideLoadingIndicator();
                         // reset form
@@ -2144,8 +2157,6 @@ define([
                         //Refresh label layers to fetch label of updated feature
                         this.appUtils.refreshLabelLayers(this._webmapResponse.itemInfo.itemData.operationalLayers);
                     }
-                    // Successfully feature is added on the layer
-                    this.geoformSubmitted(addResults[0].objectId);
                     //Refresh the layer on geoform map
                     this.updateLayerOnMap();
                 } else {
@@ -2163,6 +2174,7 @@ define([
                 //hide loading indicator started in _addFeatureToLayer method
                 this.appUtils.hideLoadingIndicator();
             }));
+            return attachmentsDef.promise;
         },
 
         /**
@@ -2228,7 +2240,9 @@ define([
                             this._totalFileAttachedCounter = fileList.length;
                             for (i = 0; i < fileList.length; i++) {
                                 //handle success and error callback for add attachments
-                                this.layer.addAttachment(updateResults[0].objectId, fileList[i], lang.hitch(this, this._onAttachmentUploadComplete), lang.hitch(this, this._onAttachmentUploadFailed));
+                                this.layer.addAttachment(updateResults[0].objectId, fileList[i],
+                                    lang.hitch(this, function () { this._onAttachmentUploadComplete(null); }),
+                                    lang.hitch(this, function () { this._onAttachmentUploadFailed(null); }));
                             }
                         } else {
                             this._deleteAttachments();
@@ -2290,25 +2304,25 @@ define([
         * Callback hander for attachment upload Complete event
         * @memberOf widgets/geo-form/geo-form
         */
-        _onAttachmentUploadComplete: function () {
+        _onAttachmentUploadComplete: function (attachmentsDef) {
             this._fileAttachedCounter++;
-            this._updateFileAttachedCounter();
+            this._updateFileAttachedCounter(attachmentsDef);
         },
 
         /**
         * Callback hander for attachment upload failed event
         * @memberOf widgets/geo-form/geo-form
         */
-        _onAttachmentUploadFailed: function () {
+        _onAttachmentUploadFailed: function (attachmentsDef) {
             this._fileFailedCounter++;
-            this._updateFileAttachedCounter();
+            this._updateFileAttachedCounter(attachmentsDef);
         },
 
         /**
         * On attachment upload
         * @memberOf widgets/geo-form/geo-form
         */
-        _updateFileAttachedCounter: function () {
+        _updateFileAttachedCounter: function (attachmentsDef) {
             if (this._totalFileAttachedCounter === (this._fileAttachedCounter + this._fileFailedCounter)) {
                 if (this._deletedAttachmentsPopupArr.length > 0) {
                     this._deleteAttachments();
@@ -2316,6 +2330,9 @@ define([
                     this._onUpdateOperationComplete();
                 }
                 this._clearFormFields();
+                if (attachmentsDef) {
+                    attachmentsDef.resolve();
+                }
             }
         },
 

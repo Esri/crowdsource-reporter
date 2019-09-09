@@ -269,7 +269,7 @@ define([
                 // Create input container for attachments
                 fileInput = domConstruct.create("input", {
                     "type": "file",
-                    "accept": "image/*",
+                    "accept": "image/*, .MOV, .AVI, .MP4, .MPA, .MPE, .MPEG, .MPG, .MPV2",
                     "tabindex": "-1",
                     "aria-label": this.config.i18n.comment.selectFileText,
                     "name": "attachment",
@@ -357,7 +357,7 @@ define([
                 fileInput = domConstruct.create("input", {
                     "type": "file",
                     "tabindex":"-1",
-                    "accept": "image/*",
+                    "accept": "image/*, .MOV, .AVI, .MP4, .MPA, .MPE, .MPEG, .MPG, .MPV2",
                     "name": "attachment",
                     "style": { "height": dojo.coords(this._fileInputIcon).h + "px", "width": dojo.coords(this._fileInputIcon).w + "px" }
                 }, newFormControl);
