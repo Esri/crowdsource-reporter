@@ -849,7 +849,7 @@ define([
                 //ESRI supported format
                 fileInput = domConstruct.create("input", {
                     "type": "file",
-                    "accept": "image/*, .MOV, .AVI, .MP4, .MPA, .MPE, .MPEG, .MPG, .MPV2",
+                    "accept": "image/*, video/*",
                     "aria-label": this.appConfig.i18n.geoform.selectFileText,
                     "name": "attachment",
                     "tabindex":"-1",
@@ -912,7 +912,7 @@ define([
                 fileInput = domConstruct.create("input", {
                     "type": "file",
                     "tabindex": "-1",
-                    "accept": "image/*, .MOV, .AVI, .MP4, .MPA, .MPE, .MPEG, .MPG, .MPV2",
+                    "accept": "image/*, video/*",
                     "name": "attachment",
                     "style": { "height": dojo.coords(this._fileInputIcon).h + "px", "width": dojo.coords(this._fileInputIcon).w + "px" }
                 }, newFormControl);
