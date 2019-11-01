@@ -298,6 +298,8 @@ define([
                         topic.publish('getComment', self.item);
                         self._createCommentForm(self.item, true, null);
                         this.appUtils.hideLoadingIndicator();
+                        //Disable the comment button once the comment form is open
+                        domAttr.set(this.commentButton, "disabled", true);
                     } else {
                         this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
                     }
@@ -456,6 +458,11 @@ define([
                 //Remove hidden classes from comments list and comments header
                 domClass.remove(this.commentsHeading, "esriCTHidden");
                 domClass.remove(this.commentsList, "esriCTHidden");
+                //Check if comment form button is disabled
+                //If yes, then remove the disabled attribute
+                if (domAttr.get(this.commentButton, "disabled")) {
+                    domAttr.set(this.commentButton, "disabled", false);
+                }
                 this._queryComments(item);
             } else {
                 //Add hidden classes from comments list and comments header
@@ -1287,6 +1294,8 @@ define([
                     this.toggleDetailsPanel();
                 }
                 this.commentButton.focus();
+                //Remove the disabled attribute once the cancel button is clicked
+                domAttr.set(this.commentButton, "disabled", false);
             });
             this.commentformInstance.onCommentFormSubmitted = lang.hitch(this, function (item, canClose) {
                 this._showCommentHeaderAndListContainer();
@@ -1301,6 +1310,8 @@ define([
                 this.isCommentFormOpen = false;
                 //update comment list
                 this._queryComments(this.item);
+                //Remove the disabled attribute once the comment is submitted
+                domAttr.set(this.commentButton, "disabled", false);
             });
             this._showPanel(this.commentDetails, this.commentButton, true);
             //If Comment form is close, update the comment form open flag

@@ -339,13 +339,18 @@ define([
         * @memberOf widgets/sign-in/sign-in
         */
         onLogIn: function (loggedInUserDetails) {
-            // In case of social media login set the token and hide the landing page,
-            // as in case of AGOL login landing page is closed as soon as identity manager is shown.
-            if (!loggedInUserDetails.credential) {
+            //In case of AGOL login landing page is closed as soon as identity manager is shown.
+            //Also, fetch org locale and load the appplication
+            if (loggedInUserDetails.credential) {
+                this._fetchOrgLocale(this._boilerPlateTemplate.config).then(lang.hitch(this, function () {
+                    this.loadApplication(loggedInUserDetails);
+                }));
+            } else {
+                // In case of social media login set the token and hide the landing pageF
                 loggedInUserDetails.credential = { "token": "" };
                 this.hideSignInDialog();
+                this.loadApplication(loggedInUserDetails);
             }
-            this.loadApplication(loggedInUserDetails);
         },
 
         /**
@@ -550,6 +555,56 @@ define([
                     console.log(authResult.status.method);
                 }
             }
+        },
+
+        _fetchOrgLocale: function (config) {
+            var deferred, dirNode, classes, rtlClasses, nlsPath;
+            deferred = new Deferred();
+            nlsPath = "dojo/i18n!application/nls/" + config.orgInfo.culture + "/resources";
+            domAttr.set(document.getElementsByTagName("html")[0], "lang",
+                dojoConfig.locale || config.orgInfo.culture);
+            //If the organization lang is set to default OR
+            //locale has been passed through url parameter then
+            //bypass the further processing
+            if (config.orgInfo.culture === "en" ||
+                this._boilerPlateTemplate.urlObject.query.hasOwnProperty("locale")) {
+                deferred.resolve(config);
+            } else {
+                require([nlsPath], lang.hitch(this, function (appBundle) {
+                    var cfg = {};
+                    // Get the localization strings for the template and store in an i18n variable. Also determine if the
+                    // application is in a right-to-left language like Arabic or Hebrew.
+                    cfg.i18n = appBundle || {};
+                    // Bi-directional language support added to support right-to-left languages like Arabic and Hebrew
+                    // Note: The map must stay ltr
+                    cfg.i18n.direction = "ltr";
+                    if (config.orgInfo.culture === "ar" || config.orgInfo.culture === "he") {
+                        // add a dir attribute to the html tag. Then you can add special css classes for rtl languages
+                        dirNode = document.getElementsByTagName("html")[0];
+                        classes = dirNode.className + " ";
+                        // need to add support for dj_rtl.
+                        // if the dir node is set when the app loads dojo will handle.
+                        dirNode.setAttribute("dir", "rtl");
+                        domAttr.set(dirNode, "dir", "rtl");
+                        cfg.i18n.direction = "rtl";
+                        config.i18n.direction = "rtl";
+                        rtlClasses = " esriRTL dj_rtl dijitRtl " + classes.replace(/ /g, "-rtl ");
+                        dirNode.className = lang.trim(classes + rtlClasses);
+                        domClass.remove(dirNode, "esriLTR");
+                    }
+                     //If application is loaded in RTL mode, change styles of required nodes
+                     if (config.i18n.direction === "rtl") {
+                        link = document.createElement('link');
+                        link.rel = 'stylesheet';
+                        link.type = 'text/css';
+                        link.href = "./css/rtl.css";
+                        document.getElementsByTagName('head')[0].appendChild(link);
+                    }
+                    this._boilerPlateTemplate.config.i18n = cfg.i18n;
+                    deferred.resolve(config);
+                }));
+            }
+            return deferred.promise;
         }
     });
 });

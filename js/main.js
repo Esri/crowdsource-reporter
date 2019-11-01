@@ -525,6 +525,10 @@ define([
                     "appConfig": this.config
                 }).placeAt("sidebarContent"); // placeAt triggers a startup call to _sidebarCntent
 
+                //Set the direction attribute based on locale
+                if (this.config.i18n.direction === "rtl") {
+                    domAttr.set(dom.byId("sidebarContent"), "dir", "rtl");
+                }
                 // Item details
                 this._itemDetails = new ItemDetails({
                     "appConfig": this.config,
@@ -1420,16 +1424,20 @@ define([
                                     }
                                 }
                             } else {
+                                var geometry;
                                 if (this.geoformInstance) {
                                     this.geoformInstance._addToGraphicsLayer(evt);
                                 }
                                 if (evt.geometry.type === "point") {
-                                    this.appUtils.locatorInstance.locationToAddress(webMercatorUtils.webMercatorToGeographic(evt.geometry), 100);
+                                    geometry = this.firstMapClickPoint;
                                 } else {
-                                    this.appUtils.locatorInstance.locationToAddress(webMercatorUtils.webMercatorToGeographic(this.firstMapClickPoint), 100);
+                                    geometry = evt.geometry;
                                 }
-
-                                //Check if pusphin is aleady present on map, if it exsist clear the same
+                                this.appUtils.getProjectedGeometry(geometry).then(
+                                        lang.hitch(this, function (returnedGeometry) {
+                                            this.appUtils.locatorInstance.locationToAddress(returnedGeometry, 100);
+                                        }));
+                                //Check if pusphin is already present on map, if it exsist clear the same
                                 if (this.mapSearch && this.mapSearch.countyLayer) {
                                     this.mapSearch.countyLayer.clear();
                                 }
