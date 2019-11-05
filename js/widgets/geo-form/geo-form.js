@@ -315,12 +315,17 @@ define([
                     this._resizeMap();
                     // Listen to draw complete event
                     this.onDrawComplete(evt);
+                    var geometry;
                     if (evt.geometry.type === "point") {
-                        this.appUtils.locatorInstance.locationToAddress(webMercatorUtils.webMercatorToGeographic(evt.geometry), 100);
+                        geometry = this.firstMapClickPoint;
                     } else {
-                        this.appUtils.locatorInstance.locationToAddress(webMercatorUtils.webMercatorToGeographic(lang.clone(this.firstMapClickPoint)), 100);
+                        geometry = evt.geometry;
                     }
-                    this.firstMapClickPoint = null;
+                    this.appUtils.getProjectedGeometry(geometry).then(
+                            lang.hitch(this, function (returnedGeometry) {
+                                this.appUtils.locatorInstance.locationToAddress(returnedGeometry, 100);
+                                this.firstMapClickPoint = null;
+                            }));
                 }));
                 // Handle click of Submit button
                 on(this.submitButton, "click, keypress", lang.hitch(this, function (evt) {

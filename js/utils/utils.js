@@ -30,6 +30,9 @@ define([
     "dojo/on",
     "dojo/has",
     "dojo/query",
+    "esri/request",
+    "esri/SpatialReference",
+    "esri/tasks/GeometryService",
     "dijit/_WidgetBase",
     "esri/dijit/LocateButton",
     "esri/dijit/HomeButton",
@@ -55,6 +58,9 @@ define([
     on,
     has,
     query,
+    esriRequest,
+    SpatialReference,
+    GeometryService,
     _WidgetBase,
     LocateButton,
     HomeButton,
@@ -68,6 +74,8 @@ define([
 ) {
     return declare([_WidgetBase], {
         reportingPeriodDialog : null,
+        geocoderSpatialRef: null,
+        geocodeURL: null,
         showLoadingIndicator: function () {
             domClass.add(document.body, "app-loading");
         },
@@ -294,12 +302,12 @@ define([
         */
         createGeocoderInstance: function () {
             //Default geocoder url
-            var geocodeURL = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";
+            this.geocodeURL = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";
             if (this.config.helperServices && this.config.helperServices.geocode && this.config.helperServices.geocode[0] && this.config.helperServices.geocode[0].url) {
-                geocodeURL = this.config.helperServices.geocode[0].url;
+                this.geocodeURL = this.config.helperServices.geocode[0].url;
             }
             //create the locator instance to reverse geocode the address
-            this.locatorInstance = new Locator(geocodeURL);
+            this.locatorInstance = new Locator(this.geocodeURL);
             //Listen for location to address complete event
             this.locatorInstance.on("location-to-address-complete", lang.hitch(this, function (result) {
                 this.onLocationToAddressComplete(result);
@@ -308,6 +316,38 @@ define([
             this.locatorInstance.onError = lang.hitch(this, function (err) {
                 this.onLocationToAddressFailed(err);
             });
+            //get spatial ref of geocoder
+            esriRequest({
+                url: this.geocodeURL,
+                content: {
+                    f: 'json'
+                },
+                handleAs: 'json',
+                callbackPrams: 'callback'
+            }).then(lang.hitch(this, function (geocoderInfo) {
+                this.geocoderSpatialRef = new SpatialReference(geocoderInfo.spatialReference);
+            }));
+        },
+
+
+        /**
+        * Returns the projected geometry in outSR
+        * @memberOf widgets/utils/utils
+        **/
+        getProjectedGeometry: function (geometry) {
+            var deferred, result, geometryService;
+            geometryService = new GeometryService(this.config.helperServices.geometry.url);
+            deferred = new Deferred();
+            if (webMercatorUtils.canProject(geometry, this.geocoderSpatialRef)) {
+                result = webMercatorUtils.project(geometry, this.geocoderSpatialRef);
+                deferred.resolve(result);
+            } else {
+                geometryService.project([geometry], this.geocoderSpatialRef, function (projectedGeometries) {
+                    result = projectedGeometries[0];
+                    deferred.resolve(result);
+                });
+            }
+            return deferred.promise;
         },
 
         /**
