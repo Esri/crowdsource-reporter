@@ -342,9 +342,10 @@ define([
             //In case of AGOL login landing page is closed as soon as identity manager is shown.
             //Also, fetch org locale and load the appplication
             if (loggedInUserDetails.credential) {
-                this._fetchOrgLocale(this._boilerPlateTemplate.config).then(lang.hitch(this, function () {
-                    this.loadApplication(loggedInUserDetails);
-                }));
+                this._fetchOrgLocale(this._boilerPlateTemplate.config, loggedInUserDetails).then(
+                    lang.hitch(this, function () {
+                        this.loadApplication(loggedInUserDetails);
+                    }));
             } else {
                 // In case of social media login set the token and hide the landing pageF
                 loggedInUserDetails.credential = { "token": "" };
@@ -557,16 +558,23 @@ define([
             }
         },
 
-        _fetchOrgLocale: function (config) {
-            var deferred, dirNode, classes, rtlClasses, nlsPath;
+        _fetchOrgLocale: function (config, loggedInUserDetails) {
+            var deferred, dirNode, classes, rtlClasses, nlsPath, culture;
             deferred = new Deferred();
-            nlsPath = "dojo/i18n!application/nls/" + config.orgInfo.culture + "/resources";
+            //Load the application with signed in users configured locale
+            //If it is not found then go for org's locale
+            if (loggedInUserDetails.culture) {
+                culture = loggedInUserDetails.culture;
+            } else {
+                culture = config.orgInfo.culture;
+            }
+            nlsPath = "dojo/i18n!application/nls/" + culture + "/resources";
             domAttr.set(document.getElementsByTagName("html")[0], "lang",
-                dojoConfig.locale || config.orgInfo.culture);
+                dojoConfig.locale || culture);
             //If the organization lang is set to default OR
             //locale has been passed through url parameter then
             //bypass the further processing
-            if (config.orgInfo.culture === "en" ||
+            if (culture === "en" ||
                 this._boilerPlateTemplate.urlObject.query.hasOwnProperty("locale")) {
                 deferred.resolve(config);
             } else {
@@ -578,7 +586,7 @@ define([
                     // Bi-directional language support added to support right-to-left languages like Arabic and Hebrew
                     // Note: The map must stay ltr
                     cfg.i18n.direction = "ltr";
-                    if (config.orgInfo.culture === "ar" || config.orgInfo.culture === "he") {
+                    if (culture === "ar" || culture === "he") {
                         // add a dir attribute to the html tag. Then you can add special css classes for rtl languages
                         dirNode = document.getElementsByTagName("html")[0];
                         classes = dirNode.className + " ";

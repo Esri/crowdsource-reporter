@@ -695,10 +695,18 @@ define([
                         }
                     }
                     if (canSubmit) {
-                        if (this.config.logInDetails.canEditFeatures) {
-                            this._createGeoForm();
+                        //If item id exist, check for the access property
+                        //If access is public, then allow all the users to perform the edits
+                        //If access is not public, then check user privileges
+                        if (this._selectedMapDetails.operationalLayerDetails.itemId || (this._selectedMapDetails.operationalLayerDetails.itemId &&
+                            this.appUtils.layerAccessInfoObj.hasOwnProperty(this._selectedMapDetails.operationalLayerDetails.itemId) &&
+                            this.appUtils.layerAccessInfoObj[this._selectedMapDetails.operationalLayerDetails.itemId] === "public")) {
                         } else {
-                            this.appUtils.showMessage(this.config.i18n.main.noEditingPermissionsMessage);
+                            if (this.config.logInDetails.canEditFeatures) {
+                                this._createGeoForm();
+                            } else {
+                                this.appUtils.showMessage(this.config.i18n.main.noEditingPermissionsMessage);
+                            }
                         }
                     }
                 }));
@@ -1197,6 +1205,11 @@ define([
                     this._shareURLParameters.layer = details.operationalLayerId;
                     if (this.clonedGeolocation) {
                         this.config.geolocation = this.clonedGeolocation;
+                    }
+                    //If layer is hosted on portal
+                    //Check wether the layer's access is public|private|org
+                    if (details.operationalLayerDetails.itemId) {
+                        this.appUtils.getLayerSharingProperty(details.operationalLayerDetails.itemId);
                     }
                     //If geolocation and limit feature editing is enabled, check if user's location is inside study area
                     if (this.config.geolocation && this._webMapListWidget.geographicalExtentLayer) {
@@ -2450,6 +2463,10 @@ define([
             var selectedOperationalLayer, layerUrl, layerID, cloneRenderer, cloneInfoTemplate, layerOpacity, minScale, maxScale;
             selectedOperationalLayer = this.map.getLayer(details.operationalLayerDetails.id);
             this.selectedLayer = selectedOperationalLayer;
+            //If layer has item id, add it to the newly created layer
+            if (details.operationalLayerDetails.itemId) {
+                this.selectedLayer.itemId = details.operationalLayerDetails.itemId;
+            }
             //If layer is changed through my issues widget, we need to update the layer instance in my issues widget
             if (this._myIssuesWidget) {
                 this._myIssuesWidget.updateLayer(this.selectedLayer);

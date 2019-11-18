@@ -145,10 +145,19 @@ define([
                     }
                 }
                 if (canSubmit) {
-                    if (this.appConfig.logInDetails.canEditFeatures) {
+                    //If item id exist, check for the access property
+                    //If access is public, then allow all the users to perform the edits
+                    //If access is not public, then check user privileges
+                    if (!this.operationalLayerDetails.itemId || (this.operationalLayerDetails.itemId &&
+                        this.appUtils.layerAccessInfoObj.hasOwnProperty(this.operationalLayerDetails.itemId) &&
+                        (this.appUtils.layerAccessInfoObj[this.operationalLayerDetails.itemId] === "public"))) {
                         this.onSubmit(evt);
                     } else {
-                        this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
+                        if (this.appConfig.logInDetails.canEditFeatures) {
+                            this.onSubmit(evt);
+                        } else {
+                            this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
+                        }
                     }
                 }
             })));
