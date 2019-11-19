@@ -76,6 +76,7 @@ define([
         reportingPeriodDialog : null,
         geocoderSpatialRef: null,
         geocodeURL: null,
+        layerAccessInfoObj :{},
         showLoadingIndicator: function () {
             domClass.add(document.body, "app-loading");
         },
@@ -587,6 +588,24 @@ define([
                     return false;
                 }
             }
+        },
+
+         /**
+         * This function is used to get the sharing properties of layer which are added as item in AGOL
+         */
+        getLayerSharingProperty: function (itemId) {
+            //Get layer's sharing property
+            esriRequest({
+                url: this.config.sharinghost + "/sharing/rest/content/items/" + itemId,
+                content: {
+                    f: 'json'
+                },
+                handleAs: 'json',
+                callbackPrams: 'callback'
+            }).then(lang.hitch(this, function (itemInfo) {
+                //Maintain the object to store the sharing properties of layers
+                this.layerAccessInfoObj[itemId] = itemInfo.access;
+            }));
         }
     });
 });
