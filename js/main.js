@@ -698,9 +698,10 @@ define([
                         //If item id exist, check for the access property
                         //If access is public, then allow all the users to perform the edits
                         //If access is not public, then check user privileges
-                        if (this._selectedMapDetails.operationalLayerDetails.itemId || (this._selectedMapDetails.operationalLayerDetails.itemId &&
+                        if (!this._selectedMapDetails.operationalLayerDetails.itemId || (this._selectedMapDetails.operationalLayerDetails.itemId &&
                             this.appUtils.layerAccessInfoObj.hasOwnProperty(this._selectedMapDetails.operationalLayerDetails.itemId) &&
                             this.appUtils.layerAccessInfoObj[this._selectedMapDetails.operationalLayerDetails.itemId] === "public")) {
+                            this._createGeoForm();
                         } else {
                             if (this.config.logInDetails.canEditFeatures) {
                                 this._createGeoForm();
