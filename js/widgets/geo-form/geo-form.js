@@ -317,9 +317,9 @@ define([
                     this.onDrawComplete(evt);
                     var geometry;
                     if (evt.geometry.type === "point") {
-                        geometry = this.firstMapClickPoint;
-                    } else {
                         geometry = evt.geometry;
+                    } else {
+                        geometry = this.firstMapClickPoint;
                     }
                     this.appUtils.getProjectedGeometry(geometry).then(
                             lang.hitch(this, function (returnedGeometry) {
