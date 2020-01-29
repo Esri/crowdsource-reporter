@@ -528,61 +528,89 @@ define([
          * Comments would only get submitted if it lies within the range.
          */
         _checkCommentDateRange: function (validStartDate, validStartTime, validEndDate, validEndTime) {
-            var configuredStartDateObj, configuredStartTimeObj, configuredEndDateObj, configuredEndTimeObj,
-                configuredStartDateLocal, configuredStartTimeLocal, configuredEndDateLocal, configuredEndTimeLocal,
-                combinedConfiguredStartDateAndTime, combinedConfiguredEndDateAndTime, currentDate;
+            var defaultDate, combinedConfiguredStartDateAndTime, combinedConfiguredEndDateAndTime, currentDate,
+            startDate, startTime, startTimeDef, utcStartTimeDate, endDate, endTime, endTimeDef, utcEndTimeDate;
+            //The selected time has the default date "1970-01-01"
+            //To compare the timestamp we are keeping the default date as hard coded string
+            defaultDate = moment("1970-01-01");
             if (validStartDate) {
-                configuredStartDateObj = new Date(this.config.commentStartDate);
-                configuredStartDateLocal = configuredStartDateObj.toLocaleDateString();
-            }
-            if (validEndDate) {
-                configuredEndDateObj = new Date(this.config.commentEndDate);
-                configuredEndDateLocal = configuredEndDateObj.toLocaleDateString();
-            }
-            if (validStartTime) {
-                configuredStartTimeObj = new Date(this.config.commentStartTime);
-                configuredStartTimeLocal = configuredStartTimeObj.toLocaleTimeString();
-            }
-            if (validEndTime) {
-                configuredEndTimeObj = new Date(this.config.commentEndTime);
-                configuredEndTimeLocal = configuredEndTimeObj.toLocaleTimeString();
-            }
-            if (validStartDate) {
+                //Keep time and date in different variables
+                //this will help in compare the time and date
+                startDate = moment.utc(this.config.commentStartDate);
+                startTime = moment.utc(this.config.commentStartTime);
+                //Get date string from time
+                utcStartTimeDate = moment.utc(startTime.toISOString().split("T")[0]);
+                //Get the difference in utc
+                startTimeDef = moment.utc("1970-01-01").diff(utcStartTimeDate, "days");
+                startTimeDef = Math.abs(startTimeDef);
+                //If start time is converted into next/previous date
+                //add/subtract the date from start date
+                if (startTimeDef !== 0) {
+                    if (defaultDate.isAfter(utcStartTimeDate, "days")) {
+                        startDate.add(startTimeDef, "days");
+                    } else {
+                        startDate.subtract(startTimeDef, "days");
+                    }
+                }
                 if (validStartTime) {
-                    combinedConfiguredStartDateAndTime = new Date(configuredStartDateLocal + " " + configuredStartTimeLocal);
+                    //Get time from date and then concat configured date and time 
+                    combinedConfiguredStartDateAndTime = moment(startDate.toDate().toDateString() + " " +
+                        moment.utc(this.config.commentStartTime).toDate().toTimeString());
                 } else {
-                    combinedConfiguredStartDateAndTime = new Date(configuredStartDateLocal);
+                    combinedConfiguredStartDateAndTime = moment(startDate.toDate().toDateString()).startOf("day");
                 }
             }
             if (validEndDate) {
+                //Keep time and date in different variables
+                //this will help in compare the time and date
+                endDate = moment.utc(this.config.commentEndDate);
+                endTime = moment.utc(this.config.commentEndTime);
+                //Get date string from time
+                utcEndTimeDate = moment.utc(endTime.toISOString().split("T")[0]);
+                //Get the difference in utc
+                endTimeDef = moment.utc("1970-01-01").diff(utcEndTimeDate, "days");
+                endTimeDef = Math.abs(endTimeDef);
+                //If end time is converted into next/previous date
+                //add/subtract the date from end date
+                if (endTimeDef !== 0) {
+                    if (defaultDate.isAfter(utcEndTimeDate, "days")) {
+                        endDate.add(endTimeDef, "days");
+                    } else {
+                        endDate.subtract(endTimeDef, "days");
+                    }
+                }
                 if (validEndTime) {
-                    combinedConfiguredEndDateAndTime = new Date(configuredEndDateLocal + " " + configuredEndTimeLocal);
+                    //Get time from date and then concat configured date and time 
+                    combinedConfiguredEndDateAndTime = moment(endDate.toDate().toDateString() + " " +
+                        moment.utc(this.config.commentEndTime).toDate().toTimeString());
                 } else {
-                    combinedConfiguredEndDateAndTime = new Date(configuredEndDateLocal);
+                    combinedConfiguredEndDateAndTime = moment(endDate.toDate().toDateString()).startOf("day");
                 }
             }
-            currentDate = new Date();
+            currentDate = moment();
             //If check time range flag is false. Remove time from current date
             if ((!validStartTime) || (!validEndTime)) {
-                currentDate.setHours(0);
-                currentDate.setMinutes(0);
-                currentDate.setSeconds(0);
-                currentDate.setMilliseconds(0);
+                currentDate.startOf("day");
             }
             if (validStartDate && validEndDate) {
-                if (currentDate >= combinedConfiguredStartDateAndTime && currentDate <= combinedConfiguredEndDateAndTime) {
+                if ((currentDate.isAfter(combinedConfiguredStartDateAndTime) &&
+                    currentDate.isBefore(combinedConfiguredEndDateAndTime)) ||
+                    (currentDate.isSame(combinedConfiguredStartDateAndTime, "second") ||
+                        currentDate.isSame(combinedConfiguredEndDateAndTime, "second"))) {
                     return true;
                 } else {
                     return false;
                 }
             } else if (validStartDate && (!validEndDate)) {
-                if (currentDate >= combinedConfiguredStartDateAndTime) {
+                if (currentDate.isAfter(combinedConfiguredStartDateAndTime) ||
+                    currentDate.isSame(combinedConfiguredStartDateAndTime, "second")) {
                     return true;
                 } else {
                     return false;
                 }
             } else if ((!validStartDate) && validEndDate) {
-                if (currentDate <= combinedConfiguredEndDateAndTime) {
+                if (currentDate.isBefore(combinedConfiguredEndDateAndTime) ||
+                    currentDate.isSame(combinedConfiguredEndDateAndTime, "second")) {
                     return true;
                 } else {
                     return false;
