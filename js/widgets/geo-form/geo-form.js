@@ -315,12 +315,17 @@ define([
                     this._resizeMap();
                     // Listen to draw complete event
                     this.onDrawComplete(evt);
+                    var geometry;
                     if (evt.geometry.type === "point") {
-                        this.appUtils.locatorInstance.locationToAddress(webMercatorUtils.webMercatorToGeographic(evt.geometry), 100);
+                        geometry = evt.geometry;
                     } else {
-                        this.appUtils.locatorInstance.locationToAddress(webMercatorUtils.webMercatorToGeographic(lang.clone(this.firstMapClickPoint)), 100);
+                        geometry = this.firstMapClickPoint;
                     }
-                    this.firstMapClickPoint = null;
+                    this.appUtils.getProjectedGeometry(geometry).then(
+                            lang.hitch(this, function (returnedGeometry) {
+                                this.appUtils.locatorInstance.locationToAddress(returnedGeometry, 100);
+                                this.firstMapClickPoint = null;
+                            }));
                 }));
                 // Handle click of Submit button
                 on(this.submitButton, "click, keypress", lang.hitch(this, function (evt) {
@@ -849,7 +854,7 @@ define([
                 //ESRI supported format
                 fileInput = domConstruct.create("input", {
                     "type": "file",
-                    "accept": "image/*, .MOV, .AVI, .MP4, .MPA, .MPE, .MPEG, .MPG, .MPV2",
+                    "accept": "image/*, video/*",
                     "aria-label": this.appConfig.i18n.geoform.selectFileText,
                     "name": "attachment",
                     "tabindex":"-1",
@@ -912,7 +917,7 @@ define([
                 fileInput = domConstruct.create("input", {
                     "type": "file",
                     "tabindex": "-1",
-                    "accept": "image/*, .MOV, .AVI, .MP4, .MPA, .MPE, .MPEG, .MPG, .MPV2",
+                    "accept": "image/*, video/*",
                     "name": "attachment",
                     "style": { "height": dojo.coords(this._fileInputIcon).h + "px", "width": dojo.coords(this._fileInputIcon).w + "px" }
                 }, newFormControl);

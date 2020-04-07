@@ -244,12 +244,23 @@ define([
                     }
                 }
                 if (!domClass.contains(this.likeButton, "esriCTDetailButtonSelected")) {
-                    if (this.appConfig.logInDetails.canEditFeatures) {
+                    //If item id exist, check for the access property
+                    //If access is public, then allow all the users to perform the edits
+                    //If access is not public, then check user privileges
+                    if (!this.selectedLayer.itemId || (this.selectedLayer.itemId &&
+                        this.appUtils.layerAccessInfoObj.hasOwnProperty(this.selectedLayer.itemId) &&
+                        this.appUtils.layerAccessInfoObj[this.selectedLayer.itemId] === "public")) {
                         self._fetchVotesCount(self.item).then(lang.hitch(this, function (item) {
                             self._incrementVote(item);
                         }));
                     } else {
-                        this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
+                        if (this.appConfig.logInDetails.canEditFeatures) {
+                            self._fetchVotesCount(self.item).then(lang.hitch(this, function (item) {
+                                self._incrementVote(item);
+                            }));
+                        } else {
+                            this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
+                        }
                     }
                 }
                 this.likeButton.focus();
@@ -291,15 +302,33 @@ define([
                     }
                 }
                 if (canSubmit) {
-                    if (this.appConfig.logInDetails.canEditFeatures) {
+                    //If item id exist, check for the access property
+                    //If access is public, then allow all the users to perform the edits
+                    //If access is not public, then check user privileges
+                    if (!this.selectedLayer.itemId || (this.selectedLayer.itemId &&
+                        this.appUtils.layerAccessInfoObj.hasOwnProperty(this.selectedLayer.itemId) &&
+                        this.appUtils.layerAccessInfoObj[this.selectedLayer.itemId] === "public")) {
                         this.appUtils.showLoadingIndicator();
                         this._showCommentHeaderAndListContainer();
                         this._hideCommentDetailsContainer();
                         topic.publish('getComment', self.item);
                         self._createCommentForm(self.item, true, null);
                         this.appUtils.hideLoadingIndicator();
+                        //Disable the comment button once the comment form is open
+                        domAttr.set(this.commentButton, "disabled", true);
                     } else {
-                        this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
+                        if (this.appConfig.logInDetails.canEditFeatures) {
+                            this.appUtils.showLoadingIndicator();
+                            this._showCommentHeaderAndListContainer();
+                            this._hideCommentDetailsContainer();
+                            topic.publish('getComment', self.item);
+                            self._createCommentForm(self.item, true, null);
+                            this.appUtils.hideLoadingIndicator();
+                            //Disable the comment button once the comment form is open
+                            domAttr.set(this.commentButton, "disabled", true);
+                        } else {
+                            this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
+                        }
                     }
                 }
             }));
@@ -456,6 +485,11 @@ define([
                 //Remove hidden classes from comments list and comments header
                 domClass.remove(this.commentsHeading, "esriCTHidden");
                 domClass.remove(this.commentsList, "esriCTHidden");
+                //Check if comment form button is disabled
+                //If yes, then remove the disabled attribute
+                if (domAttr.get(this.commentButton, "disabled")) {
+                    domAttr.set(this.commentButton, "disabled", false);
+                }
                 this._queryComments(item);
             } else {
                 //Add hidden classes from comments list and comments header
@@ -695,7 +729,12 @@ define([
                         }
                     }
                     if (canSubmit) {
-                        if (this.appConfig.logInDetails.canEditFeatures) {
+                        //If item id exist, check for the access property
+                        //If access is public, then allow all the users to perform the edits
+                        //If access is not public, then check user privileges
+                        if (!this.selectedLayer.itemId || (this.selectedLayer.itemId &&
+                            this.appUtils.layerAccessInfoObj.hasOwnProperty(this.selectedLayer.itemId) &&
+                            this.appUtils.layerAccessInfoObj[this.selectedLayer.itemId] === "public")) {
                             if (isGeoform) {
                                 domClass.add(parentDiv, "esriCTHidden");
                                 domClass.remove(this.popupDetailsDiv, "esriCTHidden");
@@ -709,7 +748,22 @@ define([
                                 this.appUtils.hideLoadingIndicator();
                             }
                         } else {
-                            this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
+                            if (this.appConfig.logInDetails.canEditFeatures) {
+                                if (isGeoform) {
+                                    domClass.add(parentDiv, "esriCTHidden");
+                                    domClass.remove(this.popupDetailsDiv, "esriCTHidden");
+                                    domClass.add(this.actionButtonsContainer, "esriCTHidden");
+                                    this._createGeoformForEdits(this.popupDetailsDiv);
+
+                                } else {
+                                    this.appUtils.showLoadingIndicator();
+                                    existingAttachmentsObjectsArr = this._getExistingAttachments(evt);
+                                    this._showEditCommentForm(graphic, existingAttachmentsObjectsArr);
+                                    this.appUtils.hideLoadingIndicator();
+                                }
+                            } else {
+                                this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
+                            }
                         }
                     }
                 }));
@@ -731,7 +785,12 @@ define([
                     "class": "esriCTFallBackText"
                 }, deleteBtn);
                 on(deleteBtn, "click, keypress", lang.hitch(this, function (evt) {
-                    if (this.appConfig.logInDetails.canEditFeatures) {
+                    //If item id exist, check for the access property
+                    //If access is public, then allow all the users to perform the edits
+                    //If access is not public, then check user privileges
+                    if (!this.selectedLayer.itemId || (this.selectedLayer.itemId &&
+                        this.appUtils.layerAccessInfoObj.hasOwnProperty(this.selectedLayer.itemId) &&
+                        this.appUtils.layerAccessInfoObj[this.selectedLayer.itemId] === "public")) {
                         if (!this.appUtils.validateEvent(evt)) {
                             return;
                         }
@@ -745,7 +804,22 @@ define([
                             }
                         }
                     } else {
-                        this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
+                        if (this.appConfig.logInDetails.canEditFeatures) {
+                            if (!this.appUtils.validateEvent(evt)) {
+                                return;
+                            }
+                            confirmDelete = confirm(this.appConfig.i18n.itemDetails.deleteMessage);
+                            if (confirmDelete) {
+                                this.appUtils.showLoadingIndicator();
+                                if (isGeoform) {
+                                    this.deleteSelectedFeature();
+                                } else {
+                                    this._deleteSelectedComment(graphic, evt.currentTarget.parentNode);
+                                }
+                            }
+                        } else {
+                            this.appUtils.showMessage(this.appConfig.i18n.main.noEditingPermissionsMessage);
+                        }
                     }
                 }));
             }
@@ -1287,6 +1361,8 @@ define([
                     this.toggleDetailsPanel();
                 }
                 this.commentButton.focus();
+                //Remove the disabled attribute once the cancel button is clicked
+                domAttr.set(this.commentButton, "disabled", false);
             });
             this.commentformInstance.onCommentFormSubmitted = lang.hitch(this, function (item, canClose) {
                 this._showCommentHeaderAndListContainer();
@@ -1301,6 +1377,8 @@ define([
                 this.isCommentFormOpen = false;
                 //update comment list
                 this._queryComments(this.item);
+                //Remove the disabled attribute once the comment is submitted
+                domAttr.set(this.commentButton, "disabled", false);
             });
             this._showPanel(this.commentDetails, this.commentButton, true);
             //If Comment form is close, update the comment form open flag
