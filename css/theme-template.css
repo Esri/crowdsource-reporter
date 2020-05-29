@@ -216,7 +216,8 @@
 }
 
 .esriCTDetailDescription .esriViewPopup .mainSection .attrTable td.attrName,
-.esriCTCommentsPopup .esriViewPopup .mainSection .attrTable td.attrName {
+.esriCTCommentsPopup .esriViewPopup .mainSection .attrTable td.attrName,
+.esriCTNonEditableLayerParent .attrTable td.attrName {
     color: ${CalculatedBodyTextColor} !important;
 }
 

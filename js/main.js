@@ -33,10 +33,12 @@ define([
     "dojo/window",
     "dojo/aspect",
     "dojo/Deferred",
+    'dojo/DeferredList',
     "esri/layers/GraphicsLayer",
     "esri/layers/FeatureLayer",
     "esri/geometry/Circle",
     "esri/tasks/query",
+    'esri/tasks/RelationshipQuery',
     "esri/Color",
     "esri/graphic",
     "esri/geometry/Point",
@@ -86,10 +88,12 @@ define([
     dojowindow,
     aspect,
     Deferred,
+    DeferredList,
     GraphicsLayer,
     FeatureLayer,
     Circle,
     Query,
+    RelationshipQuery,
     Color,
     Graphic,
     Point,
@@ -129,6 +133,7 @@ define([
         _isSliderOpen: true,
         _isWebMapListLoaded: false,
         _selectedMapDetails: {},
+        _nonEditableLayerTableDetails: {},
         _menusList: {
             "signOut": false,
             "signIn": true,
@@ -318,7 +323,7 @@ define([
             var detailsPanelWrapper, listHeader, closeButton, listTitle, detailsPanelContent;
             //create wrapper
             detailsPanelWrapper = domConstruct.create("div", {
-                "class": "esriCTGeoFormContainer esriCTBodyBackgroundColor"
+                "class": "esriCTItemDetail esriCTGeoFormContainer esriCTBodyBackgroundColor esriCTNonEditableLayerParent",
             }, dom.byId("detailsPanelContainer"));
             //create panel header
             listHeader = domConstruct.create("div", {
@@ -326,7 +331,7 @@ define([
             }, detailsPanelWrapper);
             //create back/close button
             closeButton = domConstruct.create("div", {
-                "class": "esriCTNonEditableLayer",
+                "class": "esriCTNonEditableLayer esriCTNonEditableLayerCloseBtn",
                 "tabindex": "0",
                 "role":"button",
                 "title": this.config.i18n.main.backButton
@@ -346,13 +351,38 @@ define([
                 "class": "esriCTHeaderText esriCTGeoFormHeaderText esriCTEllipsis esriCTTitle",
                 "tabindex": "-1"
             }, listHeader);
+            popupContentWrapper = domConstruct.create("div", {
+                "class": "esriCTItemDetailsContainer esriCTCalculatedBodyBackgroundColor"
+            }, detailsPanelWrapper);
             //create dom for showing popup information
             detailsPanelContent = domConstruct.create("div", {
-                "class": "esriCTGeoFormBody esriCTBodyTextColor",
+                "class": "esriCTGeoFormBody esriCTBodyTextColor esriCTBodyBackgroundColor",
+                "style": "overflow: hidden; height: auto",
                 "tabindex": "0"
-            }, detailsPanelWrapper);
+            }, popupContentWrapper);
 
-            on(detailsPanelContent, "focusout", lang.hitch(this, function () {
+            commentsList = domConstruct.create("div", {
+                "class": "esriCTItemComments esriCTCalculatedBodyBackgroundColor"
+            }, popupContentWrapper);
+
+            this.commentsHeading = domConstruct.create("div", {
+                "class": "esriCTHidden esriCTItemDetailHeader esriCTLargeText esriCTEllipsis esriCTCalculatedBodyTextColorAsBorder esriCTBodyTextColor",
+                "innerHTML": this.config.i18n.itemDetails.commentsListHeading
+            }, commentsList);
+            this.noCommentsDiv = domConstruct.create("div", {
+                "class": "esriCTHidden esriCTSmallText esriCTDetailsNoResult esriCTBodyTextColor",
+                "innerHTML": this.config.i18n.comment.noCommentsAvailableText
+            }, commentsList);
+            this.commentsListPanel = domConstruct.create("div", {
+                "class": "esriCTHidden esriCTSmallText esriCTCommentsList esriCTNonEditableLayerComments"
+            }, commentsList);
+
+            //Remove the previous event object
+            if (this.lastNodeFocusOut) {
+                this.lastNodeFocusOut.remove();
+            }
+            //keep the event object instance, it will be required to pause/resume the event based on some criteria
+            this.lastNodeFocusOut = on.pausable(detailsPanelContent, "focusout", lang.hitch(this, function () {
                 closeButton.focus();
             }));
 
@@ -420,6 +450,13 @@ define([
             //Geoform is closed
             if (evt.graphic && isGeoformClose && isNonEditableLayer &&
                 evt.graphic._layer.url !== this.selectedLayer.url && isPopupConfigured) {
+                //If show comment flag is true then try to fetch the comments for selected feature
+                if (this.config.showCommentsForNonEditableLayers) {
+                    //Bind the last node focus event again
+                    this.lastNodeFocusOut.resume();
+                    //If selected feature has related table the app will try to fetch the related features
+                    this._getRelatedTableInfoAndRecords(evt.graphic);
+                }
                 this.itemCP.set('content', evt.graphic.getContent());
                 if (evt.graphic._layer.url) {
                     //highlight selected feature on map
@@ -3330,8 +3367,320 @@ define([
             var nodeClass;
             nodeClass = ".esriCTOnScreen" + panel;
             domClass.add(query(nodeClass)[0], "esriCTHidden");
-        }
+        },
 
         /*------- End of section for Legend/Basemap panels    -------*/
+
+
+        /*------- Start of section for comments for non editable layer    -------*/
+
+        /**
+        * Method will get related table info and check if any relationship exist for comments.
+        * If Comments relationship exist as per the configured field then it will get the related table info for further use
+        * Considering only the first related table although the layer has many related table
+        * @memberOf main
+        */
+        _getRelatedTableInfoAndRecords: function (graphic) {
+            var relatedTableURL, commentsTable, selectedLayer;
+            selectedLayer = graphic._layer;
+            //Check if selected features related table info is already available if yes,
+            //direclty fetch the related records
+            //If no create the comment table instane and keep it in the dictionary for further use
+            if (this._nonEditableLayerTableDetails[this._selectedMapDetails.webMapId] &&
+                this._nonEditableLayerTableDetails[this._selectedMapDetails.webMapId][selectedLayer.id]) {
+                this.clearComments(true);
+                this._queryComments(
+                    graphic,
+                    selectedLayer,
+                    this._nonEditableLayerTableDetails[this._selectedMapDetails.webMapId][selectedLayer.id]["commentsTable"],
+                    this._nonEditableLayerTableDetails[this._selectedMapDetails.webMapId][selectedLayer.id]["commentsPopupTable"]
+                );
+                return;
+            } else {
+                // if comment field is present in config file and the layer contains related table, fetch the first related table URL
+                if (selectedLayer.relationships && selectedLayer.relationships.length > 0) {
+                    // Construct the related table URL form operational layer URL and the related table id
+                    // We are considering only first related table although the layer has many related table.
+                    // Hence, we are fetching relatedTableId from relationships[0] ie:"operationalLayer.relationships[0].relatedTableId"
+                    relatedTableURL = selectedLayer.url.substr(0, selectedLayer.url.lastIndexOf('/') + 1) + selectedLayer.relationships[0].relatedTableId;
+                    commentsTable = new FeatureLayer(relatedTableURL);
+                    var itemInfos = this._selectedMapDetails.itemInfo;
+                    if (!commentsTable.loaded) {
+                        on(commentsTable, "load", lang.hitch(this, function (evt) {
+                            this._commentsTableLoaded(itemInfos, selectedLayer, commentsTable, graphic);
+                        }));
+                    } else {
+                        this._commentsTableLoaded(itemInfos, selectedLayer, commentsTable, graphic);
+                    }
+                } else {
+                    domClass.add(this.noCommentsDiv, "esriCTHidden");
+                    this.clearComments(false);
+                }
+            }
+        },
+        _commentsTableLoaded: function (itemInfos, selectedLayer, commentsTable, graphic) {
+            var commentPopupTable = null;
+            if (!this._nonEditableLayerTableDetails[this._selectedMapDetails.webMapId]) {
+                this._nonEditableLayerTableDetails[this._selectedMapDetails.webMapId] = {};
+            }
+            if (itemInfos && itemInfos.itemData.tables) {
+                //fetch comment popup table which will be used in creating comment form
+                array.some(itemInfos.itemData.tables, lang.hitch(this, function (currentTable) {
+                    if (commentsTable && commentsTable.url) {
+                        if (currentTable.url === commentsTable.url && currentTable.popupInfo) {
+                            commentPopupTable = currentTable;
+                            if (currentTable.layerDefinition && currentTable.layerDefinition.definitionExpression) {
+                                commentsTable.setDefinitionExpression(currentTable.layerDefinition.definitionExpression);
+                            }
+                        }
+                    }
+                }));
+            }
+            //Create the store with webmapID, layerID and keep the instane of comment table and popup table for further use
+            this._nonEditableLayerTableDetails[this._selectedMapDetails.webMapId][selectedLayer.id] = {};
+            this._nonEditableLayerTableDetails[this._selectedMapDetails.webMapId][selectedLayer.id]["commentsTable"]
+                = commentsTable;
+            this._nonEditableLayerTableDetails[this._selectedMapDetails.webMapId][selectedLayer.id]["commentsPopupTable"]
+                = commentPopupTable;
+            this.clearComments(true);
+            this._queryComments(graphic, selectedLayer, commentsTable, commentPopupTable);
+        },
+
+        _queryComments: function (item, selectedLayer, commentsTable, commentPopupTable) {
+            var updateQuery = new RelationshipQuery(), commentsTableDefinitionExpression;
+            updateQuery.objectIds = [item.attributes[selectedLayer.objectIdField]];
+            updateQuery.returnGeometry = true;
+            updateQuery.outFields = ["*"];
+            updateQuery.relationshipId = selectedLayer.relationships[0].id;
+            commentsTableDefinitionExpression = commentsTable.getDefinitionExpression();
+            //If table has definition expression set in web map then apply it
+            if (commentsTableDefinitionExpression &&
+                commentsTableDefinitionExpression !== null &&
+                commentsTableDefinitionExpression !== "") {
+                updateQuery.definitionExpression = commentsTableDefinitionExpression;
+            }
+            this._entireAttachmentsArr = null;
+            selectedLayer.queryRelatedFeatures(updateQuery, lang.hitch(this, function (results) {
+                var _this = this, fset, features, i;
+                // If commentSortingField is valid then sort comments based on it,
+                // else perform the default sort i.e; by object ID
+                function sortComments() {
+                    if (_this.config.commentSortingField &&
+                        _this.config.commentSortingField !== null &&
+                        _this.config.commentSortingField !== "" &&
+                        _this._isValidCommentSortingFieldType(commentsTable)) {
+                        features.sort(sortByConfiguredField);
+                    } else {
+                        features.sort(sortByOID);
+                    }
+                }
+                // This function is used to sort comments based on objectIdField
+                function sortByOID(a, b) {
+                    if (a.attributes[commentsTable.objectIdField] > b.attributes[commentsTable.objectIdField]) {
+                        return -1;  // order a before b
+                    }
+                    if (a.attributes[commentsTable.objectIdField] < b.attributes[commentsTable.objectIdField]) {
+                        return 1;  // order b before a
+                    }
+                    return 0;  // a & b have same date, so relative order doesn't matter
+                }
+                // This function is used to sort comments based on commentSortingField
+                function sortByConfiguredField(a, b) {
+                    var sortingField;
+                    sortingField = this.config.commentSortingField;
+                    // Sort comments in ascending order
+                    if (this.config.commentSortingOrder && this.config.commentSortingOrder === "ASC") {
+                        if (a.attributes[sortingField] < b.attributes[sortingField]) {
+                            return -1;
+                        }
+                        if (a.attributes[sortingField] > b.attributes[sortingField]) {
+                            return 1;
+                        }
+                        return 0;
+                    } else { // Sort comments in descending order
+                        if (a.attributes[sortingField] > b.attributes[sortingField]) {
+                            return -1;
+                        }
+                        if (a.attributes[sortingField] < b.attributes[sortingField]) {
+                            return 1;
+                        }
+                        return 0;
+                    }
+                }
+                fset = results[item.attributes[selectedLayer.objectIdField]];
+                features = fset ? fset.features : [];
+                if (features.length > 0) {
+                    // This function is used to sort comments based on commentSortingField/by object ID
+                    sortComments();
+                    // Add the comment table popup
+                    for (i = 0; i < features.length; ++i) {
+                        features[i].setInfoTemplate(new PopupTemplate(commentPopupTable.popupInfo));
+                    }
+                }
+                if (features.length > 0) {
+                    // This function is used to sort comments based on commentSortingField/by object ID
+                    sortComments();
+                    if (commentsTable.hasAttachments) {
+                        this._getAllAttachments(results[item.attributes[this.selectedLayer.objectIdField]].features, commentsTable);
+                    } else {
+                        this._setComments(results[item.attributes[selectedLayer.objectIdField]].features, commentsTable);
+                    }
+                    domClass.add(this.noCommentsDiv, "esriCTHidden");
+                    domClass.remove(this.commentsListPanel, "esriCTHidden");
+                } else {
+                    domClass.remove(this.noCommentsDiv, "esriCTHidden");
+                    domClass.add(this.commentsListPanel, "esriCTHidden");
+                }
+                this.appUtils.hideLoadingIndicator();
+            }), lang.hitch(this, function (err) {
+                console.log(err.message || "queryRelatedFeatures");
+                //Hide loading indicator
+                this.appUtils.hideLoadingIndicator();
+            }));
+        },
+
+        _getAllAttachments: function (commentsFeature, commentsTable) {
+            var deferredList, deferredListArr, i;
+            deferredListArr = [];
+            for (i = 0; i < commentsFeature.length; i++) {
+                deferredListArr.push(commentsTable.queryAttachmentInfos(commentsFeature[i].attributes[this.selectedLayer.objectIdField]));
+            }
+            deferredList = new DeferredList(deferredListArr);
+            deferredList.then(lang.hitch(this, function (response) {
+                this._entireAttachmentsArr = response;
+                this._setComments(commentsFeature, commentsTable);
+                if (commentsFeature.length > 0) {
+                    var attachmentNodes;
+                    attachmentNodes = query(".esriCTNonImageContainer", this.commentsListPanel);
+                    //If atleast one attachement is found then set the last focus node as the last attachment
+                    if (attachmentNodes && attachmentNodes.length > 0) {
+                        //pause the event which was binded for feature popup node
+                        //Now this will not be the last focus node
+                        this.lastNodeFocusOut.pause();
+                        attachmentNodes.reverse();
+                        //Find the focus out event to the last attachment and set focus to close button
+                        on(attachmentNodes[0], "focusout", function () {
+                            query(".esriCTNonEditableLayerCloseBtn")[0].focus();
+                        });
+                    }
+                }
+            }), lang.hitch(this, function (err) {
+                console.log(err);
+            }));
+        },
+
+        _setComments: function (commentsArr, commentsTable) {
+            array.forEach(commentsArr, lang.hitch(this, function (comment, index) {
+                comment._layer = commentsTable;
+                commentDiv = domConstruct.create('div', {
+                    'class': 'comment esriCTCommentsPopup'
+                }, this.commentsListPanel);
+                new ContentPane({
+                    'class': 'content small-text',
+                    'content': comment.getContent()
+                }, commentDiv).startup();
+                this._checkAttachments(commentDiv, index, commentsTable);
+            }));
+
+        },
+        _isValidCommentSortingFieldType: function (commentsTable) {
+            var validFieldTypesForComment, isValid;
+            validFieldTypesForComment = ["esriFieldTypeOID", "esriFieldTypeString",
+                "esriFieldTypeDate", "esriFieldTypeSmallFloat",
+                "esriFieldTypeSmallInteger", "esriFieldTypeInteger",
+                "esriFieldTypeSingle", "esriFieldTypeDouble"];
+            isValid = false;
+            array.forEach(commentsTable.fields,
+                lang.hitch(this, function (obj) {
+                    if (this.config.commentSortingField === obj.name && validFieldTypesForComment.indexOf(obj.type) !== -1) {
+                        isValid = true;
+                    }
+                }));
+            return isValid;
+        },
+
+        clearComments: function (showCommentsHeading) {
+            domConstruct.empty(this.commentsListPanel);
+            if (showCommentsHeading) {
+                domClass.remove(this.commentsHeading, "esriCTHidden");
+            } else {
+                domClass.add(this.commentsHeading, "esriCTHidden");
+            }
+        },
+
+        _checkAttachments: function (commentContentPaneContainer, index, commentsTable) {
+            if (commentsTable.hasAttachments) {
+                var attachmentsDiv = $(".attachmentsSection", commentContentPaneContainer)[0];
+                if (attachmentsDiv) {
+                    domConstruct.empty(attachmentsDiv);
+                    domStyle.set(attachmentsDiv, "display", "block");
+                    domClass.remove(attachmentsDiv, "hidden");
+                    this._showAttachmentsInComment(attachmentsDiv, index);
+                }
+            }
+        },
+
+        _showAttachmentsInComment: function (attachmentContainer, index) {
+            var fieldContent, i, attachmentWrapper, imageThumbnailContainer, imageThumbnailContent, imageContainer, fileTypeContainer, isAttachmentAvailable, imagePath, imageDiv;
+            //check if attachments found
+            if (this._entireAttachmentsArr[index][1] && this._entireAttachmentsArr[index][1].length > 0) {
+                //Create attachment header text
+                domConstruct.create("div", { "innerHTML": this.config.i18n.comment.attachmentHeaderText, "class": "esriCTAttachmentHeader esriCTBodyTextColor" }, attachmentContainer);
+                fieldContent = domConstruct.create("div", { "class": "esriCTThumbnailContainer" }, attachmentContainer);
+                // display all attached images in thumbnails
+                for (i = 0; i < this._entireAttachmentsArr[index][1].length; i++) {
+                    attachmentWrapper = domConstruct.create("div", {}, fieldContent);
+                    imageThumbnailContainer = domConstruct.create("div", { "tabindex": "0", "class": "esriCTNonImageContainer", "alt": this._entireAttachmentsArr[index][1][i].url }, attachmentWrapper);
+                    imageThumbnailContent = domConstruct.create("div", { "class": "esriCTNonImageContent" }, imageThumbnailContainer);
+                    imageContainer = domConstruct.create("div", {}, imageThumbnailContent);
+                    fileTypeContainer = domConstruct.create("div", { "class": "esriCTNonFileTypeContent" }, imageThumbnailContent);
+                    isAttachmentAvailable = true;
+                    // set default image path if attachment has no image URL
+                    imagePath = dojoConfig.baseURL + this.config.noAttachmentIcon;
+                    imageDiv = domConstruct.create("img", {
+                        "alt": this._entireAttachmentsArr[index][1][i].url,
+                        "aria-label": this._entireAttachmentsArr[index][1][i].name,
+                        "class": "esriCTAttachmentImg", "src": imagePath
+                    }, imageContainer);
+                    this._fetchDocumentContentType(this._entireAttachmentsArr[index][1][i], fileTypeContainer);
+                    this._fetchDocumentName(this._entireAttachmentsArr[index][1][i], imageThumbnailContainer);
+                    on(imageThumbnailContainer, "click, keypress", lang.hitch(this, this._displayImageAttachments));
+                }
+                if (!isAttachmentAvailable) {
+                    domClass.add(attachmentContainer, "hidden");
+                }
+            }
+        },
+
+        _fetchDocumentContentType: function (attachmentData, fileTypeContainer) {
+            var typeText, fileExtensionRegEx, fileExtension;
+            fileExtensionRegEx = /(?:\.([^.]+))?$/; //ignore jslint
+            fileExtension = fileExtensionRegEx.exec(attachmentData.name);
+            if (fileExtension && fileExtension[1]) {
+                typeText = "." + fileExtension[1].toUpperCase();
+            } else {
+                typeText = this.config.i18n.comment.unknownCommentAttachment;
+            }
+            domAttr.set(fileTypeContainer, "innerHTML", typeText);
+        },
+
+        _fetchDocumentName: function (attachmentData, container) {
+            var attachmentNameWrapper, attachmentName;
+            attachmentNameWrapper = domConstruct.create("div", { "class": "esriCTNonImageName" }, container);
+            attachmentName = domConstruct.create("div", {
+                "class": "esriCTNonImageNameMiddle",
+                "innerHTML": attachmentData.name
+            }, attachmentNameWrapper);
+            domAttr.set(attachmentName, "attachmentObjectID", attachmentData.id);
+        },
+
+        _displayImageAttachments: function (evt) {
+            if (!this.appUtils.validateEvent(evt)) {
+                return;
+            }
+            window.open(domAttr.get(evt.currentTarget, "alt"));
+        }
+
+        /*------- End of section for comments for non editable layer    -------*/
     });
 });
