@@ -93,6 +93,7 @@ define({
     "webMapInfoAvgRating": false,
     "showNonEditableLayers": false,
     "showPopupForNonEditableLayers" : false,
+    "showCommentsForNonEditableLayers": false,
 
     "submitMessage": "Thank you! Your report has been submitted.",
     "likeField": "NUMVOTES",

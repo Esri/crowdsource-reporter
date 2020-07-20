@@ -31,6 +31,7 @@
         "webMapInfoAvgRating": false,
         "showNonEditableLayers": false,
         "showPopupForNonEditableLayers": false,
+        "showCommentsForNonEditableLayers":false,
         "showBaseMapGallery": false,
         "showLegend": false,
         "submitMessage": "Thank you. Your report has been submitted.",
@@ -237,6 +238,11 @@
           "tooltip": "Enable to show popup for non-editable layers",
           "type": "boolean",
           "fieldName": "showPopupForNonEditableLayers"
+      }, {
+        "label": "Show comments for non-editable layers",
+        "tooltip": "Enable to show comments for non-editable layers",
+        "type": "boolean",
+        "fieldName": "showCommentsForNonEditableLayers"
       }, {
           "type": "subcategory",
           "label": "Map Information"
