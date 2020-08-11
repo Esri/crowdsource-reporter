@@ -944,7 +944,7 @@ define([
             // if info pop has tooltip then create info popup hint text
             if (currentField.tooltip) {
                 domConstruct.create("p", {
-                    className: "help-block esriCTHintStyle",
+                    className: "help-block esriCTBodyTextColor esriCTHintStyle",
                     innerHTML: currentField.tooltip
                 }, formContent);
             }

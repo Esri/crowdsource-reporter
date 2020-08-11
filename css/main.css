@@ -1284,6 +1284,9 @@ label
     padding-bottom: 5px;
 }
 
+.esriCTAddressListContainer {
+    color: #555;
+}
 /* End of geo-form styles*/
 
 /* Address container Styles */
