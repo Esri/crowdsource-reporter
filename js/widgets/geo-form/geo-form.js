@@ -1876,11 +1876,8 @@ define([
             });
             // Attach datetime picker to the container
             $(parentNode).datetimepicker({
-                useSeconds: false,
-                useStrict: false,
                 format: setDateFormat && setDateFormat.dateFormat ? setDateFormat.dateFormat : null,
-                pickTime: setDateFormat && setDateFormat.showTime ? setDateFormat.showTime : true,
-                language: kernel.locale
+                locale: kernel.locale
             }).on('dp.show', function (evt) {
                 if (isRangeField) {
                     value = new Date(query("input", this)[0].value);
