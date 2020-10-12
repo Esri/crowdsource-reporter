@@ -59,7 +59,7 @@ define({
     "licenseInfo": "Zugriffs- und Nutzungsbeschränkungen",
     "accessInformation": "Quellennachweise",
     "tags": "Tags",
-    "numViews": "Anzahl der Ansichten",
+    "numViews": "Anzahl der Aufrufe",
     "avgRating": "Bewertung",
     "noWebMapInGroup": "Die konfigurierte Gruppe ist ungültig oder es wurden noch keine Elemente für diese Gruppe freigegeben.",
     "infoBtnToolTip": "Karteninformationen"
@@ -88,7 +88,7 @@ define({
     "enterInformation": "Details",
     "selectAttachments": "Anlagen",
     "selectFileText": "Durchsuchen",
-    "enterLocation": "Speicherort",
+    "enterLocation": "Position",
     "reportItButton": "Melden",
     "editReportButton": "Aktualisieren",
     "cancelButton": "Abbrechen",
@@ -101,7 +101,7 @@ define({
     "invalidFloat": "Geben Sie eine Zahl ein",
     "invalidDouble": "Geben Sie eine Zahl ein",
     "requiredFields": "Geben Sie Werte für alle erforderlichen Felder ein",
-    "selectLocation": "Wählen Sie den Speicherort für Ihren Bericht aus",
+    "selectLocation": "Wählen Sie die Position für Ihren Bericht aus",
     "numericRangeHintMessage": "${openStrong}Hinweis:${closeStrong} Minimalwert ${minValue} und Maximalwert ${maxValue}",
     "dateRangeHintMessage": "${openStrong}Hinweis:${closeStrong} Mindestdatum ${minValue} und maximal auswählbares Datum ${maxValue}",
     "errorsInApplyEdits": "Werte konnten nicht gesendet werden.",
@@ -129,7 +129,7 @@ define({
     "invalidSearch": "Keine Ergebnisse gefunden",
     "locatorPlaceholder": "Zu suchende Adresse eingeben",
     "locationOutOfExtent": "Position muss sich außerhalb des Übermittlungsbereichs befinden",
-    "searchButtonTooltip": "Suche",
+    "searchButtonTooltip": "Suchen",
     "clearButtonTooltip": "Suchwert löschen"
   },
   "myIssues": {
