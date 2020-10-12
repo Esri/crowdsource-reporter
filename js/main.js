@@ -1385,8 +1385,11 @@ define([
                 }
                 this._clearSubmissionGraphic();
                 if (this.config.showPopupForNonEditableLayers) {
+                //If the already selected graphic is clicked on the map, dont do anything
+                    if (evt.graphic && evt.graphic._layer.id !== "selectionGraphicsLayer") {
                     //If selected feature belongs to non editable layer, show feature details
                     this._showPopupForNonEditableLayer(evt);
+                    }
                 }
             }));
             //Set the selects features id value to null
@@ -3436,6 +3439,7 @@ define([
                     }
                 }));
             }
+            if (commentPopupTable) {
             //Create the store with webmapID, layerID and keep the instane of comment table and popup table for further use
             this._nonEditableLayerTableDetails[this._selectedMapDetails.webMapId][selectedLayer.id] = {};
             this._nonEditableLayerTableDetails[this._selectedMapDetails.webMapId][selectedLayer.id]["commentsTable"]
@@ -3444,6 +3448,10 @@ define([
                 = commentPopupTable;
             this.clearComments(true);
             this._queryComments(graphic, selectedLayer, commentsTable, commentPopupTable);
+            } else {
+                domClass.add(this.noCommentsDiv, "esriCTHidden");
+                this.clearComments(false);
+            }
         },
 
         _queryComments: function (item, selectedLayer, commentsTable, commentPopupTable) {
