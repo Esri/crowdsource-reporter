@@ -22,6 +22,9 @@ define({
                 message: "Your account is not licensed to use Configurable Apps that are not public. Please ask your organization administrator to assign you a user type that includes Essential Apps or an add-on Essential Apps license.",
                 title: "Not Licensed"
             },
+            warningMessageTitle: "Limited browser support",
+            warningMessageAGOL: "You are using a browser that is deprecated. Some parts of this application may not work optimally or at all in this browser. Support for this browser will be discontinued in the future.</br></br>Please use the latest versions of <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link>, or <edge-link>Microsoft Edge</edge-link>.</br></br>For more information on browser support, see our documentation. Provide your feedback through <feedback-link>GeoNet, the Esri Community</feedback-link>.",
+            warningMessageEnterprise: "You are using a browser that is no longer supported. Some parts of this application may not work optimally or at all in this browser.</br></br>Please use the latest versions of <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link>, or <edge-link>Microsoft Edge</edge-link>.",
             zoomInTooltip: "Zoom in",  // Command button to zoom in to the map
             zoomOutTooltip: "Zoom out",  // Command button to zoom out of the map
             geolocationTooltip: "Current location"  // Command button to navigate to the current geographical position
