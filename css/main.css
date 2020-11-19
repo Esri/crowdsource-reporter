@@ -2273,6 +2273,35 @@ label
     margin-bottom: 15px;
 }
 
+.esriCTWarningDialog .modal-body
+{
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    height: 300px;
+    margin-bottom: 15px;
+}
+
+.esriCTSupportedBrowsersImage {
+    text-align: center;
+}
+
+#browser-logo-list {
+    display: flex;
+    align-items: center;
+    margin: 20px;
+    padding: 0;
+  }
+
+.browser-logo {
+display: inline-block;
+margin: 0 auto;
+}
+
+.browser-logo img {
+width: 3rem;
+height: auto;
+}
+
 .esriCTModelDialog
 {
     top: 150px;
