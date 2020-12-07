@@ -178,6 +178,7 @@ define([
             if (boilerPlateTemplateObject) {
                 this.boilerPlateTemplate = boilerPlateTemplateObject;
                 this.config = boilerPlateTemplateObject.config;
+                this._loggedInUser = loggedInUser;
                 // store the details of URL parameters
                 this.config.urlObject = lang.clone(boilerPlateTemplateObject.urlObject);
                 //Make a copy of geolocation, this will be used to check for extent layer functionality whenever layer is selected from webmap list
@@ -242,6 +243,7 @@ define([
                     //If user is not logged in keep editing flag to true by default
                     this.config.logInDetails.canEditFeatures = true;
                 }
+                this._checkSelfContent()
                 //By default we have disabled queryForGroupItems
                 //since it was getting group items for the group configured in default.js only,
                 //and not honoring group-id configured in appconfig.
@@ -313,6 +315,19 @@ define([
                     }
                 }
             }));
+        },
+
+        _checkSelfContent: function () {
+            if (this.config.appResponse && 
+              !this._loggedInUser &&
+              this.boilerPlateTemplate.templateConfig.esriEnvironment &&
+              this.config.appResponse.item &&
+              this.config.appResponse.item.access == "public" &&
+              this.config.appResponse.item.contentOrigin &&
+              this.config.appResponse.item.contentOrigin != "self"){
+                var redirectUrl = "https://www.arcgis.com/apps/CrowdsourceReporter/index.html?appId=" + this.config.appResponse.item.id
+                window.location.replace("../shared/origin/index.html?appUrl=" + redirectUrl)
+            }
         },
 
         /**
