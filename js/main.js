@@ -243,7 +243,7 @@ define([
                     //If user is not logged in keep editing flag to true by default
                     this.config.logInDetails.canEditFeatures = true;
                 }
-                this._checkSelfContent()
+                this._checkSelfContent();
                 //By default we have disabled queryForGroupItems
                 //since it was getting group items for the group configured in default.js only,
                 //and not honoring group-id configured in appconfig.
@@ -325,8 +325,8 @@ define([
               this.config.appResponse.item.access == "public" &&
               this.config.appResponse.item.contentOrigin &&
               this.config.appResponse.item.contentOrigin != "self"){
-                var redirectUrl = "https://www.arcgis.com/apps/CrowdsourceReporter/index.html?appId=" + this.config.appResponse.item.id
-                window.location.replace("../shared/origin/index.html?appUrl=" + redirectUrl)
+                var redirectUrl = "https://www.arcgis.com/apps/CrowdsourceReporter/index.html?appId=" + this.config.appResponse.item.id;
+                window.location.replace("../shared/origin/index.html?appUrl=" + redirectUrl);
             }
         },
 
