@@ -317,6 +317,10 @@ define([
             }));
         },
 
+        /**
+        * Check that the requested item is from the same org, otherwise redirect to error page
+        * @memberOf main
+        */
         _checkSelfContent: function () {
             if (this.config.appResponse && 
               !this._loggedInUser &&
