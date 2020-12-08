@@ -329,7 +329,7 @@ define([
               this.config.appResponse.item.access == "public" &&
               this.config.appResponse.item.contentOrigin &&
               this.config.appResponse.item.contentOrigin != "self"){
-                var redirectUrl = "https://www.arcgis.com/apps/CrowdsourceReporter/index.html?appId=" + this.config.appResponse.item.id;
+                var redirectUrl = "https://www.arcgis.com/apps/CrowdsourceReporter/index.html?appid=" + this.config.appResponse.item.id;
                 window.location.replace("../shared/origin/index.html?appUrl=" + redirectUrl);
             }
         },
