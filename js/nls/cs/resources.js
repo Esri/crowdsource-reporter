@@ -21,6 +21,9 @@ define({
       "message": "Váš účet nevlastní licenci k používání konfigurovatelných aplikací, které nejsou veřejné. Požádejte prosím správce své organizace, aby vám přidělil typ uživatele, jehož součástí jsou základní aplikace nebo doplňková licence základních aplikací.",
       "title": "Chybí licence"
     },
+    "warningMessageTitle": "Omezená podpora prohlížeče",
+    "warningMessageAGOL": "Používáte zastaralý prohlížeč. Některé části této aplikace nemusí v tomto prohlížeči fungovat optimálně nebo vůbec. Podpora tohoto prohlížeče bude v budoucnu ukončena.</br></br>Použijte nejnovější verze prohlížečů <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link>, nebo <edge-link>Microsoft Edge</edge-link>.</br></br>Další informace o podporovaných prohlížečích naleznete v naší dokumentaci. Dejte nám zpětnou vazbu prostřednictvím <feedback-link>GeoNet, komunity Esri</feedback-link>.",
+    "warningMessageEnterprise": "Používáte prohlížeč, který již není podporován. Některé části této aplikace nemusí v tomto prohlížeči optimálně nebo vůbec fungovat.</br></br>Použijte nejnovější verze prohlížečů <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link>, nebo <edge-link>Microsoft Edge</edge-link>.",
     "zoomInTooltip": "Přiblížit",
     "zoomOutTooltip": "Oddálit",
     "geolocationTooltip": "Aktuální poloha"

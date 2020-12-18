@@ -21,6 +21,9 @@ define({
       "message": "Vaš račun nije licenciran za upotrebu konfigurabilnih appova koji nisu javni. Obratite se administratoru svoje organizacije da vam dodijeli vrstu korisnika koja sadrži licencu za osnovne appove ili za dodatke za osnovne appove.",
       "title": "Nema licence"
     },
+    "warningMessageTitle": "Ograničena podrška za preglednik",
+    "warningMessageAGOL": "Koristite zastarjeli preglednik. Neki dijelovi ove aplikacije možda neće funkcionirati optimalno ili uopće neće funkcionirati u ovom pregledniku. Podrška za ovaj preglednik ukinut će se u budućnosti.</br></br>Koristite najnovije verzije preglednika <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link>, ili <edge-link>Microsoft Edge</edge-link>.</br></br>Za više informacija o podršci za preglednike pogledajte našu dokumentaciju. Pošaljite svoje povratne informacije kroz <feedback-link>GeoNet, Esrijevu zajednicu</feedback-link>.",
+    "warningMessageEnterprise": "Upotrebljavate preglednik koji više nije podržan. Neki dijelovi ove aplikacije možda neće raditi optimalno ili uopće neće raditi u ovom pregledniku.</br></br>Koristite najnovije verzije preglednika <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link>, ili <edge-link>Microsoft Edge</edge-link>.",
     "zoomInTooltip": "Povećaj",
     "zoomOutTooltip": "Smanji",
     "geolocationTooltip": "Trenutačna lokacija"

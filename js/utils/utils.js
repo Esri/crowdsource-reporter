@@ -634,6 +634,34 @@ define([
                 //Maintain the object to store the sharing properties of layers
                 this.layerAccessInfoObj[itemId] = itemInfo.access;
             }));
-        }
+        },
+        /**
+        * Returns the image logo template for limited browser support modal
+        * @memberOf utils/utils
+        */
+        getBrowserSupportLogoTemplate: function () {
+            return '<ul id="browser-logo-list">' +
+                '<li class="browser-logo"><a href="https://www.google.com/chrome/"><img alt="Chrome" src="./images/chrome.png"></a></li>' +
+                '<li class="browser-logo"><a href="https://www.mozilla.org/firefox/"><img alt="Firefox" src="./images/firefox.png"></a></li>' +
+                '<li class="browser-logo"><a href="https://www.apple.com/safari/"><img alt="Safari" src="./images/safari.png"></a></li>' +
+                '<li class="browser-logo"><a href="https://www.microsoft.com/edge"><img alt="Edge" src="./images/edge.png"></a></li>' +
+                '</ul>';
+        },
+
+        /**
+        * Parse the warning message for limited browser support
+        * @memberOf utils/utils
+        */
+        parseWarningMessage: function (message) {
+            if (!message) {
+                return;
+            }
+            return message
+                .replace(/\<chrome\-link\>(.+)\<\/chrome\-link\>/, '<a class="browser-message-link" href="https://www.google.com/chrome/">$1</a>')
+                .replace(/\<firefox\-link\>(.+)\<\/firefox\-link\>/, '<a class="browser-message-link" href="https://www.mozilla.org/firefox/">$1</a>')
+                .replace(/\<safari\-link\>(.+)\<\/safari\-link\>/, '<a class="browser-message-link" href="https://www.apple.com/safari/">$1</a>')
+                .replace(/\<edge\-link\>(.+)\<\/edge\-link\>/, '<a class="browser-message-link" href="https://www.microsoft.com/edge/">$1</a>')
+                .replace(/\<feedback\-link\>(.+)\<\/feedback\-link\>/, '<a class="browser-message-link" href="https://community.esri.com/community/gis/web-gis/arcgisonline">$1</a>');
+        },
     });
 });

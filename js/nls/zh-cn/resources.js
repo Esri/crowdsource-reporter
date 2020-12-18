@@ -21,6 +21,9 @@ define({
       "message": "您的帐户无权使用非公共的可配置应用程序。 请联系您的组织管理员为您分配包含基本应用程序或附加基本应用程序许可的用户类型。",
       "title": "未经许可"
     },
+    "warningMessageTitle": "有限的浏览器支持",
+    "warningMessageAGOL": "您正在使用已弃用的浏览器。 此应用程序的某些部分可能无法在此浏览器中以最佳状态运行或完全无法运行。 将来将不再支持该浏览器。</br></br>请使用最新版本的 <chrome-link>Google Chrome</chrome-link>、<firefox-link>Mozilla Firefox</firefox-link>、<safari-link>Apple Safari</safari-link> 或 <edge-link>Microsoft Edge</edge-link>。</br></br>有关浏览器支持的详细信息，请参阅我们的文档。 请通过 <feedback-link>Esri 社区 GeoNet</feedback-link> 提供您的反馈。",
+    "warningMessageEnterprise": "您正在使用不受支持的浏览器。 此应用程序的某些部分可能无法在该浏览器中以最佳状态运行或根本无法运行。</br></br>请使用最新版本的 <chrome-link>Google Chrome</chrome-link>、<firefox-link>Mozilla Firefox</firefox-link>、<safari-link>Apple Safari</safari-link> 或 <edge-link>Microsoft Edge</edge-link>。",
     "zoomInTooltip": "放大",
     "zoomOutTooltip": "缩小",
     "geolocationTooltip": "当前位置"
@@ -118,7 +121,7 @@ define({
     "locationSelectionHintForPolygonLayerDesktop": "单击地图以绘制位置。双击以完成绘制。",
     "locationDialogTitle": "选择报表位置",
     "locationDialogContent": "是否确定使用影像位置?",
-    "errorMessageText": "字段 ${fieldName} 的 ${Message}",
+    "errorMessageText": "字段 ${fieldName} 的 ${message}",
     "deleteAttachmentBtnText": "删除附件"
   },
   "locator": {

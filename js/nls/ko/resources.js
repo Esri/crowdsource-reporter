@@ -21,6 +21,9 @@ define({
       "message": "귀하의 계정에는 공개 상태가 아닌 구성 설정 앱을 사용할 수 있는 라이선스가 없습니다. 필수 앱 또는 애드온 필수 앱 라이선스가 포함된 사용자 유형을 업무 지시하려면 기관 관리자에게 문의하세요.",
       "title": "라이선스가 없음"
     },
+    "warningMessageTitle": "제한된 브라우저 지원",
+    "warningMessageAGOL": "사용 중인 브라우저는 더 이상 지원되지 않습니다. 이 브라우저에서는 이 응용프로그램의 일부가 최적으로 작동하지 않거나 전혀 작동하지 않을 수 있습니다. 향후에 이 브라우저에 대한 지원이 중단됩니다.</br></br>최신 버전의 <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link>, <edge-link>Microsoft Edge</edge-link>를 사용하세요.</br></br>브라우저 지원에 대한 자세한 내용은 문서를 참조하세요. <feedback-link>GeoNet(Esri 커뮤니티)</feedback-link>을 통해 피드백을 제공하세요.",
+    "warningMessageEnterprise": "사용 중인 브라우저는 더 이상 지원되지 않습니다. 이 브라우저에서는 이 응용프로그램의 일부가 최적으로 작동하지 않거나 전혀 작동하지 않을 수 있습니다.</br></br>최신 버전의 <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link>, <edge-link>Microsoft Edge</edge-link>를 사용하세요.",
     "zoomInTooltip": "확대",
     "zoomOutTooltip": "축소",
     "geolocationTooltip": "현재 위치"

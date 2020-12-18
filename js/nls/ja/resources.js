@@ -21,6 +21,9 @@ define({
       "message": "パブリックでないテンプレートを使用するためのライセンスがアカウントに付与されていません。 組織の管理者に Essential Apps またはアドオン Essential Apps ライセンスを含むユーザー タイプを割り当てるよう依頼してください。",
       "title": "ライセンスがありません。"
     },
+    "warningMessageTitle": "ブラウザーのサポートは制限されています",
+    "warningMessageAGOL": "非推奨のブラウザーを使用しています。 このアプリケーションの一部は、このブラウザーで最適に動作しないか、全く動作しない可能性があります。 今後、このブラウザーのサポートは終了します。</br></br>最新バージョンの <chrome-link>Google Chrome</chrome-link>、<firefox-link>Mozilla Firefox</firefox-link>、<safari-link>Apple Safari</safari-link>、または <edge-link>Microsoft Edge</edge-link> を使用してください。</br></br>ブラウザー サポートの詳細については、Esri のドキュメントをご参照ください。 <feedback-link>Esri コミュニティの GeoNet</feedback-link> からフィードバックをお寄せください。",
+    "warningMessageEnterprise": "サポートされていないブラウザーを使用しています。 このアプリケーションの一部は、このブラウザーで最適に動作しないか、全く動作しない可能性があります。</br></br>最新バージョンの <chrome-link>Google Chrome</chrome-link>、<firefox-link>Mozilla Firefox</firefox-link>、<safari-link>Apple Safari</safari-link>、または <edge-link>Microsoft Edge</edge-link> を使用してください。",
     "zoomInTooltip": "拡大",
     "zoomOutTooltip": "縮小",
     "geolocationTooltip": "現在の位置"

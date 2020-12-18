@@ -21,6 +21,9 @@ define({
       "message": "Teie kontol puudub litsents konfigureeritavate rakenduste kasutamiseks, mis ei ole avalikud. Paluge oma organisatsiooni administraatoril määrata teile kasutajatüüp, mis sisaldab olulisi rakendusi või oluliste rakenduse lisalitsentsi.",
       "title": "Litsents puudub"
     },
+    "warningMessageTitle": "Brauseri tugi on piiratud",
+    "warningMessageAGOL": "Kasutate iganenud brauserit. Selle rakenduse mõned osad ei pruugi selles brauseris optimaalselt või üldse toimida. Selle brauseri tugi lõpetatakse tulevikus.</br></br>Kasutage brauserite <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link> või <edge-link>Microsoft Edge</edge-link> uusimaid versioone.</br></br>Lisateavet brauserite toe kohta leiate meie dokumentatsioonist. Andke meile tagasisidet <feedback-link>Esri kogukonna GeoNet</feedback-link> kaudu.",
+    "warningMessageEnterprise": "Kasutate brauserit, mida enam ei toetata. Selle rakenduse mõned osad ei pruugi selles brauseris optimaalselt või üldse toimida.</br></br>Kasutage brauserite <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link> või <edge-link>Microsoft Edge</edge-link> uusimaid versioone.",
     "zoomInTooltip": "Suurenda",
     "zoomOutTooltip": "Vähenda",
     "geolocationTooltip": "Praegune asukoht"

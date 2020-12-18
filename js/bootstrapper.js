@@ -21,6 +21,8 @@ define([
     "application/template",
     "widgets/sign-in/sign-in",
     "application/utils/utils",
+    "dojo/html",
+    "widgets/warning/warning",
     "dojo/dom-construct",
     "dojo/dom-attr",
     "dojo/_base/lang",
@@ -36,6 +38,8 @@ define([
     Template,
     ApplicationSignIn,
     ApplicationUtils,
+    html,
+    Warning,
     domConstruct,
     domAttr,
     lang,
@@ -112,6 +116,12 @@ define([
                     document.getElementsByTagName('head')[0].appendChild(link);
                 }
                 this.config = config;
+                //If application is running in IE show warning message
+                if (this._isIE()) {
+                    setTimeout(lang.hitch(this, function () {
+                        this._showWarningMessage(config);
+                    }), 500);
+                }
                 // Load app theme
                 this._loadApplicationTheme();
                 // Let the document know when the mouse is being used,
@@ -184,6 +194,60 @@ define([
                 icon.href = dojoConfig.baseURL + iconPath;
             }
             document.getElementsByTagName('head')[0].appendChild(icon);
+        },
+
+        /**
+         * Show message in modal dialog
+         * @memberOf js/bootstrapper
+         */
+        _showWarningMessage: function (config) {
+            var warningDOM, warningMessageModal, message, logoWrapper;
+            // Initialize help widget
+            warningDOM = domConstruct.create("div", {
+                "class": "esriCTSupportedBrowsersImage"
+            });
+            //show the message as per AGOL/Portal hosted app
+            if (this._isAGOLHosted()) {
+                message = this.appUtils.parseWarningMessage(config.i18n.map.warningMessageAGOL);
+            } else {
+                message = this.appUtils.parseWarningMessage(config.i18n.map.warningMessageEnterprise);
+            }
+            //Create DOM for showing text and browser icons
+            textContent = domConstruct.create("div", {
+                innerHTML: message
+            }, warningDOM);
+            //Add DOM for browser icon
+            logoWrapper = domConstruct.create("div", {}, warningDOM);
+            html.set(logoWrapper, this.appUtils.getBrowserSupportLogoTemplate(), {
+                parseContent: true
+            });
+
+            warningMessageModal = new Warning({
+                "appConfig": {
+                    "helpDialogTitle": config.i18n.map.warningMessageTitle,
+                    "helpDialogContent": warningDOM.innerHTML
+                }
+            });
+            warningMessageModal.startup();
+        },
+
+        /**
+         * This function is used to check if app is hosted on AGOL or portal
+         * @memberOf js/bootstrapper
+         */
+        _isAGOLHosted: function () {
+            return window.location.hostname.indexOf('arcgis.com') > -1;
+        },
+
+        /**
+         * This function is used to check if app is running in IE browser
+         * @memberOf js/bootstrapper
+         */
+        _isIE: function () {
+            ua = navigator.userAgent;
+            /* MSIE used to detect old browsers and Trident used to newer ones*/
+            var is_ie = ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
+            return is_ie;
         },
 
         //--------------- Theme Section Starts ------------------//

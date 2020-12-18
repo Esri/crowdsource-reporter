@@ -21,6 +21,9 @@ define({
       "message": "החשבון שלך אינו מורשה להשתמש באפליקציות הניתנות להגדרה שאינן ציבוריות. בקש ממנהל המערכת בארגון שלך להקצות לך סוג משתמש שכולל את Essential Apps או רישיון הרחבה ל-Essential Apps.",
       "title": "ללא רישיון"
     },
+    "warningMessageTitle": "תמיכה מוגבלת בדפדפן",
+    "warningMessageAGOL": "אתה משתמש בדפדפן שכבר יצא משימוש. ייתכן שכמה מחלקי האפליקציה הזו לא יעבדו בצורה אופטימלית או בכלל בדפדפן הזה. בעתיד לא תהיה יותר תמיכה בדפדפן הזה.</br></br>השתמש בגרסה העדכנית ביותר של <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link> או <edge-link>Microsoft Edge</edge-link>.</br></br>למידע נוסף על תמיכה בדפדפן, ראה את התיעוד שלנו. הוסף משוב דרך <feedback-link>GeoNet, קהילת Esri</feedback-link>.",
+    "warningMessageEnterprise": "אתה משתמש בדפדפן שאינו נתמך. ייתכן שכמה מחלקי האפליקציה הזו לא יעבדו בצורה אופטימלית או בכלל בדפדפן הזה.</br></br>השתמש בגרסה העדכנית ביותר של <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link> או <edge-link>Microsoft Edge</edge-link>.",
     "zoomInTooltip": "התמקד פנימה",
     "zoomOutTooltip": "התמקד החוצה",
     "geolocationTooltip": "מיקום נוכחי"

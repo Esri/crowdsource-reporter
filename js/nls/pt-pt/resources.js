@@ -21,6 +21,9 @@ define({
       "message": "A sua conta não está licenciada para usar aplicações configuráveis não públicas. Peça ao administrador da sua organização para lhe atribuir um tipo de utilizador que inclua a licença para aplicações essenciais ou aplicações essenciais complementares.",
       "title": "Não licenciado"
     },
+    "warningMessageTitle": "Suporte ao navegador limitado",
+    "warningMessageAGOL": "Está a usar um navegador obsoleto. Algumas partes desta aplicação podem não funcionar de maneira ideal ou de todo neste navegador. O suporte para este navegador será descontinuado no futuro.</br></br>Utilize as versões mais recentes do <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link> ou <edge-link>Microsoft Edge</edge-link>.</br></br>Para mais informações sobre suporte ao navegador, consulte a nossa documentação. Forneça o seu feedback através de <feedback-link>GeoNet, a Comunidade da Esri</feedback-link>.",
+    "warningMessageEnterprise": "Está a usar um navegador que já não suportado. Algumas partes desta aplicação podem não funcionar de maneira ideal ou de todo neste navegador.</br></br>Utilize as versões mais recentes do <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link> ou <edge-link>Microsoft Edge</edge-link>.",
     "zoomInTooltip": "Aumentar Zoom",
     "zoomOutTooltip": "Reduzir zoom",
     "geolocationTooltip": "Localização atual"

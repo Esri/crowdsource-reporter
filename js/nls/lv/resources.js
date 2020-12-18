@@ -21,6 +21,9 @@ define({
       "message": "Jūsu kontam nav licences, lai izmantotu konfigurējamās lietotnes, kas nav publiskas. Pieprasiet savas organizācijas administratoram piešķirt jums lietotāja veidu, kurā iekļauts lietotņu komplekts Essential Apps vai papildinājumlietotņu Essential Apps licence.",
       "title": "Nav licences"
     },
+    "warningMessageTitle": "Ierobežots pārlūkprogrammas atbalsts",
+    "warningMessageAGOL": "Jūs izmantojiet novecojušu pārlūkprogrammu. Šajā pārlūkprogrammā dažas no lietotnes iespējām var nedarboties kā paredzēts vai nedarboties vispār. Nākotnē tiks pārtraukts šīs pārlūkprogrammas atbalsts.</br></br>Lūdzu, izmantojiet <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link>, vai <edge-link>Microsoft Edge</edge-link> jaunākās versijas.</br></br>Papildinformāciju par pārlūkprogrammu atbalstu meklējiet dokumentācijā. Sniedziet savas atsauksmes, izmantojot <feedback-link>GeoNet, Esri kopienu</feedback-link>.",
+    "warningMessageEnterprise": "Jūs izmantojat pārlūkprogrammu, kas vairs netiek atbalstīta. Šajā pārlūkprogrammā dažas lietotnes daļas var nedarboties kā paredzēts vai nedarboties vispār.</br></br>Lūdzu, izmantojiet <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link>, vai <edge-link>Microsoft Edge</edge-link> jaunākās versijas.",
     "zoomInTooltip": "Pietuvināt",
     "zoomOutTooltip": "Attālināt",
     "geolocationTooltip": "Pašreizējais novietojums"

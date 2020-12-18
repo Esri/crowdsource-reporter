@@ -1371,6 +1371,15 @@ label
     text-shadow: none;
 }
 
+.esriCTCloseWarningWindow {
+    height: 18px;
+    width: 18px;
+    cursor: pointer;
+    margin-top: 5px;
+    font-size: 18px;
+    text-shadow: none;
+}
+
 .esriCTClearInput
 {
     background: url('../images/clearText.png') no-repeat center;
@@ -2271,6 +2280,39 @@ label
     overflow: auto;
     max-height: 250px;
     margin-bottom: 15px;
+}
+
+.esriCTWarningDialog .modal-body
+{
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    height: 300px;
+    margin-bottom: 15px;
+}
+
+.esriCTSupportedBrowsersImage {
+    text-align: center;
+}
+
+#browser-logo-list {
+    display: flex;
+    align-items: center;
+    margin: 20px;
+    padding: 0;
+  }
+
+.browser-logo {
+display: inline-block;
+margin: 0 auto;
+}
+
+.browser-logo img {
+width: 3rem;
+height: auto;
+}
+
+.warningClose {
+margin-top: -2px !important;
 }
 
 .esriCTModelDialog

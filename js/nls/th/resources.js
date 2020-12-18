@@ -21,6 +21,9 @@ define({
       "message": "บัญชีผู้ใช้ของคุณไม่มีใบอนุญาตในการใช้งานแอปที่กำหนดค่าได้ซึ่งไม่ใช่แบบสาธารณะ โปรดขอให้ผู้ดูแลองค์กรของคุณกำหนดประเภทผู้ใช้ที่มีใบอนุญาตแอป Essential หรือแอดออนแอป Essential ให้กับคุณ",
       "title": "ไม่มีใบอนุญาต"
     },
+    "warningMessageTitle": "การรองรับเบราว์เซอร์แบบจำกัด",
+    "warningMessageAGOL": "คุณกำลังใช้เบราว์เซอร์ที่ถูกปฏิเสธ บางส่วนของแอพพลิเคชั่นนี้อาจทำงานไม่เต็มที่หรือไม่ทำงานเลยในเบราว์เซอร์นี้ ในอนาคตเราจะไม่รองรับเบราว์เซอร์นี้อีกต่อไป </br></br>โปรดใช้ <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link> หรือ <edge-link>Microsoft Edge</edge-link> เวอร์ชันล่าสุด</br></br>สามารถดูข้อมูลเพิ่มเติมเกี่ยวกับเบราว์เซอร์ที่รองรับได้ที่เอกสารของเรา เขียนคำติชมของคุณผ่าน <feedback-link>GeoNet ชุมชน Esri</feedback-link>",
+    "warningMessageEnterprise": "คุณกำลังใช้งานเบราว์เซอร์ที่ไม่รองรับอีกต่อไป บางส่วนของแอปพลิเคชันนี้อาจทำงานได้ไม่เต็มประสิทธิภาพ หรือไม่ทำงานเลยบนเบราว์เซอร์นี้</br></br>โปรดใช้ <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link> หรือ <edge-link>Microsoft Edge</edge-link> เวอร์ชันล่าสุด",
     "zoomInTooltip": "ขยายภาพ",
     "zoomOutTooltip": "ย่อภาพ",
     "geolocationTooltip": "ตำแหน่งปัจจุบัน"
