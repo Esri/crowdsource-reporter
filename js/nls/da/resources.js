@@ -21,6 +21,9 @@ define({
       "message": "Din konto har ikke licens til at bruge Konfigurérbare apps, der ikke er offentlige. Bed din organisationsadministrator om at knytte dig til en brugertype, der omfatter Essential Apps eller en add-on Essential Apps-licens.",
       "title": "Ikke licenseret"
     },
+    "warningMessageTitle": "Begrænset browserstøtte",
+    "warningMessageAGOL": "Du anvender en browser, der er udfaset. Nogle dele af denne applikation fungerer muligvis ikke optimalt - eller fungerer slet ikke - i denne browser. Understøttelse af denne browser vil blive udfaset i nær fremtid.</br></br>Brug de nyeste versioner af <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link> eller <edge-link>Microsoft Edge</edge-link>.</br></br>For yderligere oplysninger om browserunderstøttelse, se vores dokumentation. Send din feedback via <feedback-link>GeoNet, Esri-fællesskabet</feedback-link>.",
+    "warningMessageEnterprise": "Du anvender en browser, der ikke længere understøttes. Nogle dele af denne applikation fungerer muligvis ikke optimalt i denne browser, eller de fungerer slet ikke.</br></br>Brug de nyeste versioner af <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link> eller <edge-link>Microsoft Edge</edge-link>.",
     "zoomInTooltip": "Zoom ind",
     "zoomOutTooltip": "Zoom ud",
     "geolocationTooltip": "Aktuel placering"
@@ -106,7 +109,7 @@ define({
     "dateRangeHintMessage": "${openStrong}Hint:${closeStrong} Minimumdato ${minValue} og maksimumdato ${maxValue}",
     "errorsInApplyEdits": "Værdier kunne ikke afsendes.",
     "attachmentSelectedMsg": "vedhæftning(er) valgt",
-    "attachmentUploadStatus": "${mislykkedes} af ${total} vedhæftning(er) kunne ikke overføres",
+    "attachmentUploadStatus": "${failed} af ${total} vedhæftning(er) kunne ikke overføres",
     "geoLocationError": "Aktuel position er ikke tilgængelig",
     "geoLocationOutOfExtent": "Aktuel position ligger uden for baggrundskortets udstrækning",
     "submitButtonTooltip": "Indsend",

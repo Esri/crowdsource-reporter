@@ -21,6 +21,9 @@ define({
       "message": "La licence de votre compte ne permet pas d’utiliser des applications configurables non publiques. Demandez à l’administrateur de votre organisation de vous attribuer un type d’utilisateur qui inclut une licence Essential Apps ou une licence Essential Apps additionnelle.",
       "title": "Pas de licence"
     },
+    "warningMessageTitle": "Prise en charge limitée du navigateur",
+    "warningMessageAGOL": "Vous utilisez un navigateur obsolète. Certaines parties de cette application risquent de ne pas fonctionner de manière optimale ou de ne pas fonctionner du tout dans ce navigateur. Ce navigateur ne sera plus pris en charge à l’avenir.</br></br>Utilisez les dernières versions de <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link> ou <edge-link>Microsoft Edge</edge-link>.</br></br>Pour plus d’informations sur les navigateurs pris en charge, consultez la documentation. Envoyez vos commentaires via <feedback-link>GeoNet, la communauté Esri</feedback-link>.",
+    "warningMessageEnterprise": "Vous utilisez un navigateur qui n’est plus pris en charge. Certaines parties de cette application risquent de ne pas fonctionner de manière optimale ou de ne pas fonctionner du tout dans ce navigateur.</br></br>Utilisez les dernières versions de <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link> ou <edge-link>Microsoft Edge</edge-link>.",
     "zoomInTooltip": "Zoom avant",
     "zoomOutTooltip": "Zoom arrière",
     "geolocationTooltip": "Position actuelle"

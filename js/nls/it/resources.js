@@ -21,6 +21,9 @@ define({
       "message": "L’account non dispone della licenza per l’uso di app configurabili non pubbliche. È necessario richiedere all’amministratore dell'organizzazione l’assegnazione di un tipo di utente che includa le app essenziali o una licenza aggiuntiva per le app essenziali.",
       "title": "Non Licenziato"
     },
+    "warningMessageTitle": "Supporto browser limitato",
+    "warningMessageAGOL": "Si sta utilizzando un browser deprecato. Alcune parti di questa applicazione potrebbero funzionare in modo non ottimale o non funzionare affatto in questo browser. Il supporto a questo browser sarà sospeso in futuro.</br></br>Per favore, utilizzare le ultime versioni di <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link>, o <edge-link>Microsoft Edge</edge-link>.</br></br>Per maggiori informazioni sul supporto al browser, vedere la nostra documentazione. Fornire un feedback tramite <feedback-link>GeoNet, la community Esri</feedback-link>.",
+    "warningMessageEnterprise": "Si sta utilizzando un browser non più supportato. Alcune parti di questa applicazione potrebbero funzionare in modo non ottimale o non funzionare affatto in questo browser.</br></br>Per favore, utilizzare le ultime versioni di <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link>, o <edge-link>Microsoft Edge</edge-link>.",
     "zoomInTooltip": "Esegui Zoom in",
     "zoomOutTooltip": "Zoom indietro",
     "geolocationTooltip": "Posizione corrente"

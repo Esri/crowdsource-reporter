@@ -21,6 +21,9 @@ define({
       "message": "Sua conta não está licenciada para utilizar Aplicativos Configuráveis que não sejam públicos. Solicite ao administrador da sua organização que lhe atribua um tipo de usuário que inclua os Aplicativos Fundamentais ou uma licença complementar dos Aplicativos Fundaentais.",
       "title": "Não Licenciado"
     },
+    "warningMessageTitle": "Suporte de navegador limitado",
+    "warningMessageAGOL": "Você está utilizando um navegador que está descontinuado. Algumas partes deste aplicativo podem não funcionar de maneira ideal ou totalmente neste navegador. O suporte para este navegador será descontinuado no futuro.</br></br>Utilize as versões mais recentes do <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link>, ou <edge-link>Microsoft Edge</edge-link>.</br></br>Para obter mais informações sobre o suporte do navegador, consulte nossa documentação. Forneça seu comentário pela <feedback-link>GeoNet, a Comunidade da Esri </feedback-link>.",
+    "warningMessageEnterprise": "Você está usando um navegador que não é mais suportado. Algumas partes deste aplicativo podem não funcionar de maneira ideal ou de forma alguma neste navegador.</br></br>Utilize as versões mais recentes do <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link>, ou <edge-link>Microsoft Edge</edge-link>.",
     "zoomInTooltip": "Mais Zoom",
     "zoomOutTooltip": "Menos Zoom",
     "geolocationTooltip": "Local Atual"

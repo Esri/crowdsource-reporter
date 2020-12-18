@@ -21,6 +21,9 @@ define({
       "message": "Contul dvs. nu este licențiat să utilizeze aplicații configurabile care nu sunt publice. Solicitați-i administratorului organizației să vă aloce un tip de utilizator care include aplicații esențiale sau o licență pentru aplicații esențiale de completare.",
       "title": "Nelicențiat"
     },
+    "warningMessageTitle": "Asistență limitată pentru browser",
+    "warningMessageAGOL": "Folosiți un browser depășit. Unele părți ale acestei aplicații pot să nu funcționeze optim sau deloc în acest browser. Asistența pentru acest browser va fi întreruptă în curând.</br></br>Utilizați ultimele versiuni <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link> sau <edge-link>Microsoft Edge</edge-link>.</br></br>Pentru mai multe informații privind asistența pentru browser, consultați documentația noastră. Oferiți feedback prin <feedback-link>GeoNet, Comunitatea Esri</feedback-link>.",
+    "warningMessageEnterprise": "Folosiți un browser care nu mai este acceptat. Unele părți ale acestei aplicații pot să nu funcționeze la nivel optim sau deloc în acest browser.</br></br>Utilizați ultimele versiuni <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link> sau <edge-link>Microsoft Edge</edge-link>.",
     "zoomInTooltip": "Mărire",
     "zoomOutTooltip": "Micşorare",
     "geolocationTooltip": "Locaţie curentă"

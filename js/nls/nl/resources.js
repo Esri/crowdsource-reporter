@@ -21,6 +21,9 @@ define({
       "message": "Uw account heeft geen licentie om configureerbare apps te gebruiken die niet openbaar zijn. Vraag uw organisatiebeheerder om u een gebruikerstype toe te wijzen dat Essential Apps of een add-on Essential Apps-licentie bevat.",
       "title": "Geen licentie"
     },
+    "warningMessageTitle": "Beperkte browserondersteuning",
+    "warningMessageAGOL": "U gebruikt een verouderde browser. Sommige onderdelen van deze applicatie werken mogelijk niet optimaal of helemaal niet in deze browser. Ondersteuning voor deze browser wordt stopgezet in de toekomst.</br></br>Gebruik de nieuwste versies van <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link> of <edge-link>Microsoft Edge</edge-link>.</br></br>Zie onze documentatie voor meer informatie over browserondersteuning. Voer uw feedback in via <feedback-link>GeoNet, de Esri Community</feedback-link>.",
+    "warningMessageEnterprise": "U gebruikt een browser die niet meer wordt ondersteund. Sommige onderdelen van deze applicatie werken mogelijk niet optimaal of helemaal niet in deze browser.</br></br>Gebruik de nieuwste versie van <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link> of <edge-link>Microsoft Edge</edge-link>.",
     "zoomInTooltip": "Inzoomen",
     "zoomOutTooltip": "Uitzoomen",
     "geolocationTooltip": "Huidige locatie"

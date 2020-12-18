@@ -21,6 +21,9 @@ define({
       "message": "Az Ön fiókjának licence nem terjed ki a nem nyilvános konfigurálható alkalmazásokra. Igényelje a szervezete adminisztrátorától, hogy rendeljen Önhöz olyan felhasználótípust, amely tartalmazza az alapvető alkalmazásokat, vagy egy kiegészítő alapvető alkalmazásokra vonatkozó licencet.",
       "title": "Nincs licence"
     },
+    "warningMessageTitle": "Korlátozott böngésző támogatás",
+    "warningMessageAGOL": "Elavult böngészőt használ. Az alkalmazás néhány funkciója, vagy az alkalmazás egésze ebben a böngészőben nem fog műkködni. A jövőben ennek a böngészőnek a terméktámogatása megszűnik.</br></br>Kérjük, használja a <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link>, vagy a <edge-link>Microsoft Edge</edge-link> legújabb verzióját.</br></br>A támogatott böngészőkkel kapcsolatos további ismertetésért lásd a dokumentációt. Küldje el a visszajelzését a <feedback-link>GeoNeten, az Esri közösségén keresztül</feedback-link>.",
+    "warningMessageEnterprise": "Ön olyan böngészőt használ, amely már nem támogatott. Az alkalmazás néhány funkciója, vagy az alkalmazás egésze ebben a böngészőben nem fog működni.</br></br>Kérjük, használja a <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link>, vagy a <edge-link>Microsoft Edge</edge-link> legújabb verzióját.",
     "zoomInTooltip": "Nagyítás",
     "zoomOutTooltip": "Kicsinyítés",
     "geolocationTooltip": "Aktuális hely"

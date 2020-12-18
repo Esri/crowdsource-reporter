@@ -21,6 +21,9 @@ define({
       "message": "您的帳號未經授權，無法使用非公開的可配置應用程式。 請聯繫您的組織管理員，請其將包含基礎應用程式或附加元件基礎應用程式授權的使用者類型指派給您。",
       "title": "未經許可"
     },
+    "warningMessageTitle": "有限的瀏覽器支援",
+    "warningMessageAGOL": "您正在使用已淘汰的瀏覽器。 此應用程式的部分組件可能無法在此瀏覽器中正常運作或完全無法運作。 未來將中斷支援此瀏覽器。</br></br>請使用最新版的 <chrome-link>Google Chrome</chrome-link>、<firefox-link>Mozilla Firefox</firefox-link>、<safari-link>Apple Safari</safari-link> 或 <edge-link>Microsoft Edge</edge-link>。</br></br>有關瀏覽器支援的詳細資訊，請參閱我們的文件。 請透過 <feedback-link>Esri 社群 (即 GeoNet)</feedback-link> 提供您的回饋意見。",
+    "warningMessageEnterprise": "您正在使用不再支援的瀏覽器。 此應用程式的某些部分可能無法在此瀏覽器中以最佳狀態執行，或完全無法執行。</br></br>請使用最新版的 <chrome-link>Google Chrome</chrome-link>、<firefox-link>Mozilla Firefox</firefox-link>、<safari-link>Apple Safari</safari-link> 或 <edge-link>Microsoft Edge</edge-link>。",
     "zoomInTooltip": "放大",
     "zoomOutTooltip": "縮小",
     "geolocationTooltip": "目前位置"

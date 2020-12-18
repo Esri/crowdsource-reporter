@@ -21,6 +21,9 @@ define({
       "message": "Akun Anda tidak dilisensikan untuk menggunakan Aplikasi yang Dapat Dikonfigurasi yang bukan bersifat publik. Harap minta administrator organisasi Anda untuk menetapkan Anda jenis pengguna yang menyertakan lisensi Essential App atau add-on Essential App.",
       "title": "Tidak Dilisensikan"
     },
+    "warningMessageTitle": "Dukungan browser terbatas",
+    "warningMessageAGOL": "Anda sedang menggunakan browser yang ditolak. Beberapa bagian dari aplikasi ini mungkin tidak bekerja dengan optimal atau tidak bekerja sama sekali di browser ini. Dukungan untuk browser ini akan dihentikan di masa mendatang.</br></br>Gunakan versi terbaru <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link>, atau <edge-link>Microsoft Edge</edge-link>.</br></br>Untuk informasi lebih lanjut tentang dukungan browser, lihat dokumentasi kami. Sampaikan umpan balik Anda melalui <feedback-link>GeoNet, Esri Community</feedback-link>.",
+    "warningMessageEnterprise": "Anda menggunakan browser yang tidak lagi didukung. Beberapa bagian dari aplikasi ini mungkin tidak berfungsi maksimal atau tidak berfungsi sama sekali di browser ini.</br></br>Gunakan versi terbaru <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link>, atau <edge-link>Microsoft Edge</edge-link>.",
     "zoomInTooltip": "Perbesar",
     "zoomOutTooltip": "Perkecil",
     "geolocationTooltip": "Lokasi saat ini"

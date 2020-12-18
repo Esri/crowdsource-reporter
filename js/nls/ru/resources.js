@@ -21,6 +21,9 @@ define({
       "message": "Ваша учетная запись не лицензирована на использование не публичных Настраиваемых приложений. Обратитесь к администратору организации, чтобы получить тип пользователя, в который входит Essential Apps или лицензия дополнительного модуля Essential Apps.",
       "title": "Не лицензировано"
     },
+    "warningMessageTitle": "Ограниченная поддержка браузера",
+    "warningMessageAGOL": "Вы используете устаревший браузер. Некоторые части приложения могут работать не оптимально или вообще не работать в этом браузере. Поддержка этого браузера в дальнейшем не планируется.</br></br>Используйте последние версии <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link> или <edge-link>Microsoft Edge</edge-link>.</br></br>Дополнительную информацию см. в документации. Предоставьте обратную связь с помощью <feedback-link>GeoNet, Esri Community</feedback-link>.",
+    "warningMessageEnterprise": "Вы используете не поддерживающийся браузер. Некоторые функции этого приложения могут работать не оптимально в этом браузере.</br></br>Используйте последние версии <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link>, or <edge-link>Microsoft Edge</edge-link>.",
     "zoomInTooltip": "Приблизить",
     "zoomOutTooltip": "Отдалить",
     "geolocationTooltip": "Текущее местоположение"

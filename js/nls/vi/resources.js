@@ -21,6 +21,9 @@ define({
       "message": "Tài khoản của bạn không được cấp phép để sử dụng Ứng dụng có thể cấu hình mà không được công khai. Vui lòng yêu cầu quản trị viên của tổ chức bạn gán cho bạn loại người dùng nào có bao gồm các ứng dụng thiết yếu hoặc có giấy phép sử dụng các ứng dụng thiết yếu bổ trợ.",
       "title": "Không được cấp phép"
     },
+    "warningMessageTitle": "Hỗ trợ trình duyệt có giới hạn",
+    "warningMessageAGOL": "Bạn đang sử dụng trình duyệt không được chấp nhận. Một số phần của ứng dụng này có thể không hoạt động tối ưu hoặc không hoạt động trong trình duyệt này. Hỗ trợ cho trình duyệt này sẽ bị ngừng trong tương lai.</br></br>Vui lòng sử dụng phiên bản <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link> hoặc <edge-link>Microsoft Edge</edge-link> mới nhất.</br></br>Để biết thêm thông tin về hỗ trợ trình duyệt, hãy xem tài liệu của chúng tôi. Cung cấp ý kiến phản hồi của bạn qua <feedback-link>GeoNet, Cộng đồng Esri</feedback-link>.",
+    "warningMessageEnterprise": "Bạn đang sử dụng trình duyệt không còn được hỗ trợ. Một số phần của ứng dụng này có thể không hoạt động tối ưu hoặc không hoạt động trong trình duyệt này.</br></br>Vui lòng sử dụng phiên bản <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link> hoặc <edge-link>Microsoft Edge</edge-link> mới nhất.",
     "zoomInTooltip": "Thu nhỏ",
     "zoomOutTooltip": "Phóng to",
     "geolocationTooltip": "Vị trí hiện tại"

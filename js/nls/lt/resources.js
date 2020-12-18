@@ -21,6 +21,9 @@ define({
       "message": "Jūsų paskyra nelicencijuota naudoti ne viešas konfigūruojamas aplikacijas. Kreipkitės į organizacijos administratorių, kad paskirtų jums naudotojo tipą, kuris turi svarbiausias aplikacijas, arba suteiktų jums papildomą svarbiausių aplikacijų licenciją.",
       "title": "Nelicencijuota"
     },
+    "warningMessageTitle": "Ribotas naršyklės palaikymas",
+    "warningMessageAGOL": "Jūsų naudojama naršyklė yra pasenusi. Šioje naršyklėje kai kurios šios aplikacijos dalys gali neveikti optimaliai arba visai neveikti. Ateityje ši naršyklė nebebus palaikoma.</br></br>Naudokite naujausią <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link> ar <edge-link>Microsoft Edge</edge-link> versiją.</br></br>Daugiau informacijos apie palaikomas naršykles ieškokite mūsų dokumentacijoje. Pateikite atsiliepimą <feedback-link>GeoNet, Esri bendruomenėje</feedback-link>.",
+    "warningMessageEnterprise": "Jūsų naudojama naršyklė nebėra palaikoma. Kai kurios šios aplikacijos dalys šioje naršyklėje gali veikti netinkamai arba neveikti visai.</br></br>Naudokite naujausią <chrome-link>Google Chrome</chrome-link>, <firefox-link>Mozilla Firefox</firefox-link>, <safari-link>Apple Safari</safari-link> ar <edge-link>Microsoft Edge</edge-link> versiją.",
     "zoomInTooltip": "Artinti",
     "zoomOutTooltip": "Tolinti",
     "geolocationTooltip": "Esama padėtis"
