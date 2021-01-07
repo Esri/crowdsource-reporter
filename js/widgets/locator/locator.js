@@ -247,7 +247,8 @@ define([
 
                         options = {
                             address: address,
-                            outFields: ["*"]
+                            outFields: ["*"],
+                            countryCode: geocoders[i].countryCode || ""
                         };
                         // optionally return the out fields if you need to calculate the extent of the geocoded point
                         locatorDef = locator.addressToLocations(options);

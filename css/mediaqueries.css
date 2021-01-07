@@ -142,6 +142,7 @@
 
     .modal-dialog
     {
+        max-width:none;
         margin:0px;
     }
 
@@ -330,6 +331,12 @@
     .esriCTCloseButton
     {
         margin-right: 24px;
+    }
+	
+    .modal-dialog 
+    {
+       width: 600px;
+       margin: 30px auto;
     }
 }
 

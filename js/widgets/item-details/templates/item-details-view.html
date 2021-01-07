@@ -9,7 +9,7 @@
         </div>
         <div class="esriCTHidden esriCTVotesDetails" data-dojo-attach-point="votesDetailContainer">
             <div class="esriCTItemVotes esriCTEllipsis" data-dojo-attach-point="itemVotesDiv"></div>
-            <div class="esriCTIcon glyphicon glyphicon-heart esriCTDetailsFavDiv"></div>
+            <div class="esriCTIcon fas fa-heart esriCTDetailsFavDiv"></div>
         </div>
     </div>
     <div class="esriCTItemDetailsContainer esriCTCalculatedBodyBackgroundColor" data-dojo-attach-point="itemDetailsContainer">
@@ -19,25 +19,25 @@
             <div class="esriCTItemDescFooter esriCTSmallText esriCTBodyBackgroundColor" data-dojo-attach-point="actionButtonsContainer">
                 <div class="esriCTDetailButtonContainer">
                     <button tabindex="0" type="button" class="btn btn-default esriCTDetailsPanelButton esriCTEllipsis esriCTSmallText esriCTApplicationColor esriCTButtonTextColor esriCTButtonBackgroundColor" data-dojo-attach-point="likeButton" aria-label="${i18n.likeButtonTooltip}" title="${i18n.likeButtonTooltip}">
-                        <span class="glyphicon glyphicon-heart esriCTMargin" aria-hidden="true"></span>
+                        <span class="fas fa-heart esriCTMargin" aria-hidden="true"></span>
                         <span class="esriCTButtonLabel" data-dojo-attach-point="likeLabel">${i18n.likeButtonLabel}</span>
                     </button>
                 </div>
                 <div class="esriCTDetailButtonContainer">
                     <button tabindex="0" type="button" class="btn btn-default  esriCTDetailsPanelButton esriCTEllipsis esriCTSmallText esriCTApplicationColor esriCTButtonTextColor esriCTButtonBackgroundColor" data-dojo-attach-point="commentButton" aria-label="${i18n.commentButtonTooltip}" title="${i18n.commentButtonTooltip}">
-                        <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+                        <span class="fas fa-comment-alt" aria-hidden="true"></span>
                         <span class="esriCTButtonLabel" data-dojo-attach-point="commentLabel">${i18n.commentButtonLabel}</span>
                     </button>
                 </div>
                 <div class="esriCTDetailButtonContainer esriCTMapItButtonVisibility">
                     <button tabindex="0" type="button" class="btn btn-default esriCTDetailsPanelButton esriCTEllipsis esriCTSmallText esriCTApplicationColor esriCTButtonTextColor esriCTButtonBackgroundColor" data-dojo-attach-point="mapItButton" aria-label="${i18n.mapButtonTooltip}" title="${i18n.mapButtonTooltip}">
-                        <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+                        <span class="fas fa-map-marker-alt" aria-hidden="true"></span>
                         <span class="esriCTButtonLabel" data-dojo-attach-point="mapLabel">${i18n.mapButtonLabel}</span>
                     </button>
                 </div>
                 <div class="esriCTDetailButtonContainer">
                     <button tabindex="0" type="button" class="btn btn-default esriCTDetailsPanelButton esriCTEllipsis esriCTSmallText esriCTApplicationColor esriCTFloatRight esriCTGalleryButton esriCTButtonTextColor esriCTButtonBackgroundColor" data-dojo-attach-point="galleryButton"  aria-label="${i18n.galleryButtonTooltip}" title="${i18n.galleryButtonTooltip}">
-                        <span class="glyphicon glyphicon-picture esriCTMargin" aria-hidden="true"></span>
+                        <span class="fas fa-image esriCTMargin" aria-hidden="true"></span>
                         <span class="esriCTButtonLabel" data-dojo-attach-point="gallerylabel">${i18n.galleryButtonLabel}</span>
                     </button>
                 </div>
@@ -48,7 +48,9 @@
             </div>
             <div class="esriCTItemComments esriCTCalculatedBodyBackgroundColor">
                 <div data-dojo-attach-point="headerMessageType" aria-label="${i18n.comment.commentSubmittedMessage}" class="esriCTHidden esriCTSuccessMsg alert alert-success">
-                    <span class="close" data-dojo-attach-point="headerMessageButton">&times;</span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true" data-dojo-attach-point="headerMessageButton">&times;</span>
+                    </button>
                     <span tabindex="-1" data-dojo-attach-point="headerMessageContent">${i18n.comment.commentSubmittedMessage}</span>
                 </div>
                 <div tabindex="-1" class="esriCTItemComments esriCTHidden" data-dojo-attach-point="commentDetails"></div>

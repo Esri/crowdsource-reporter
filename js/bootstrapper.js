@@ -66,6 +66,13 @@ define([
                 "config": this.boilerPlateTemplateObject
             });
             this.boilerPlateTemplateObject.startup().then(lang.hitch(this, function (config) {
+                //If application is loaded in RTL mode, change styles of required nodes
+                link = document.getElementById("bootstrapRtl");
+                if (config.i18n.direction === "rtl") {
+                    link.href = "./js/vendor/bootstrap-rtl/bootstrap-rtl.min.css";
+                } else {
+                    link.parentNode.removeChild(link);
+                }
                 //set lan attribute to HTML
                 if(dojoConfig.locale) {
                 domAttr.set(document.getElementsByTagName("html")[0], "lang",
