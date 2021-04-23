@@ -24,6 +24,7 @@ define([
     "dojo/_base/kernel",
     "dojo/dom-construct",
     "dojo/dom-class",
+    "dojo/dom-geometry",
     "dojo/dom-style",
     "dojo/query",
     "dojo/dom",
@@ -43,6 +44,7 @@ define([
     kernel,
     domConstruct,
     domClass,
+    domGeom,
     domStyle,
     query,
     dom,
@@ -185,7 +187,7 @@ define([
         */
         _createExistingAttachment: function (existingAttachment) {
             var alertHtml, existingAttachmentNode;
-            alertHtml = "<div class=\"esriCTFileAlert alert alert-dismissable alert-success\">";
+            alertHtml = "<div class=\"esriCTFileAlert alert alert-success fade in alert-dismissible show\">";
             alertHtml += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">" + "X" + "</button>";
             alertHtml += "<span>" + existingAttachment.attachmentFileName + "</span>";
             alertHtml += "</div>";
@@ -307,7 +309,7 @@ define([
         _updateAttachmentCount: function () {
             var photoSelectedDiv = dom.byId("attachmentSelectedCount"), selectedAttachmentsCount;
             if (photoSelectedDiv) {
-                selectedAttachmentsCount = query(".alert-dismissable", this.fileAttachmentList).length;
+                selectedAttachmentsCount = query(".alert-dismissible", this.fileAttachmentList).length;
                 if (selectedAttachmentsCount > 0) {
                     domAttr.set(photoSelectedDiv, "innerHTML", selectedAttachmentsCount + " " + this.config.i18n.comment.attachmentSelectedMsg);
                     domAttr.set(photoSelectedDiv, "aria-label", selectedAttachmentsCount + " " + this.config.i18n.comment.attachmentSelectedMsg);
@@ -336,7 +338,7 @@ define([
             domClass.replace(target.parentNode, "esriCTFileToSubmit", "esriCTHideFileInputUI");
             domStyle.set(target.parentNode, "display", "none");
             //Add dismiss-able alert for each file, and show file name and file size in it.
-            alertHtml = "<div id=" + target.parentNode.id + "_Close" + " class=\"esriCTFileAlert alert alert-dismissable alert-success\">";
+            alertHtml = "<div id=" + target.parentNode.id + "_Close" + " class=\"esriCTFileAlert alert alert-success fade in alert-dismissible show\">";
             alertHtml += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" tabindex=\"'0'\" aria-label=\"" +
             this.config.i18n.geoform.deleteAttachmentBtnText + "\">" + "X" + "</button>";
             alertHtml += "<span>" + fileName + "</span>";
@@ -379,7 +381,7 @@ define([
             var fileList, i;
             // Check for the file attachment container
             if (this.fileAttachmentList) {
-                fileList = query(".alert-dismissable", this.fileAttachmentList);
+                fileList = query(".alert-dismissible", this.fileAttachmentList);
                 for (i = 0; i < fileList.length; i++) {
                     // Check for attachments file and replace the class
                     if (dom.byId(fileList[i].id.split("_")[0])) {
@@ -502,8 +504,7 @@ define([
                     if (currentField.value !== "") {
                         // check for date time picker and assign value
                         if (domClass.contains(currentField, "hasDatetimepicker")) {
-                            picker = $(currentField.parentNode).data('DateTimePicker');
-                            datePicker = picker.getDate();
+                            datePicker = $(currentField.parentNode).data('DateTimePicker').date();
                             if (datePicker) {
                                 // need to get time of date in ms for service
                                 value = datePicker.valueOf();
@@ -766,7 +767,7 @@ define([
                 // to check for errors in form before submitting.
                 if ((query(".form-control", currentField)[0])) {
                     // condition to check if the entered values are erroneous.
-                    if (domClass.contains(currentField, "has-error") && query("select", currentField).length === 0) {
+                    if (domClass.contains(currentField, "is-invalid") && query("select", currentField).length === 0) {
                         erroneousFields.push(currentField);
                     }
                     // condition to check if mandatory fields are kept empty.
@@ -869,7 +870,7 @@ define([
                 domConstruct.place(formContent, referenceNode, "after");
                 domClass.add(formContent, "fade");
                 setTimeout(function () {
-                    domClass.add(formContent, "in");
+                    domClass.add(formContent, "show");
                 }, 100);
             }
             // If fields are not null able set to mandatory fields
@@ -988,24 +989,24 @@ define([
                     if (currentField.defaultValue) {
                         date = new Date(currentField.defaultValue);
                         // set current date to date field
-                        $(inputRangeDateGroupContainer).data("DateTimePicker").setDate(date);
+                        $(inputRangeDateGroupContainer).data("DateTimePicker").date(date);
                         // set format to the current date
-                        rangeDefaultDate = moment(date).format($(inputRangeDateGroupContainer).data("DateTimePicker").format);
+                        rangeDefaultDate = moment(date).format($(inputRangeDateGroupContainer).data("DateTimePicker").format());
                     } else {
                         //Check if todays date falls between minimum and maximum date
                         if (currentField.domain.maxValue > Date.now() && currentField.domain.minValue < Date.now()) {
                             currentSelectedDate = Date.now();
-                            $(inputRangeDateGroupContainer).data("DateTimePicker").setDate(moment(Date.now()).format($(inputRangeDateGroupContainer).data("DateTimePicker").format));
+                            $(inputRangeDateGroupContainer).data("DateTimePicker").date(moment(Date.now()).format($(inputRangeDateGroupContainer).data("DateTimePicker").format()));
                         } else {
                             currentSelectedDate = currentField.domain.minValue;
                         }
-                        formatedDate = moment(new Date(currentSelectedDate)).format($(inputRangeDateGroupContainer).data("DateTimePicker").format);
-                        $(inputRangeDateGroupContainer).data("DateTimePicker").setDate(formatedDate);
+                        formatedDate = moment(new Date(currentSelectedDate)).format($(inputRangeDateGroupContainer).data("DateTimePicker").format());
+                        $(inputRangeDateGroupContainer).data("DateTimePicker").date(formatedDate);
                     }
                     // Assign value to the range help text
                     this.rangeHelpText = string.substitute(this.i18n.geoform.dateRangeHintMessage, {
-                        minValue: moment(new Date(currentField.domain.minValue)).format($(inputRangeDateGroupContainer).data("DateTimePicker").format),
-                        maxValue: moment(new Date(currentField.domain.maxValue)).format($(inputRangeDateGroupContainer).data("DateTimePicker").format),
+                        minValue: moment(new Date(currentField.domain.minValue)).format($(inputRangeDateGroupContainer).data("DateTimePicker").format()),
+                        maxValue: moment(new Date(currentField.domain.maxValue)).format($(inputRangeDateGroupContainer).data("DateTimePicker").format()),
                         openStrong: "<strong>",
                         closeStrong: "</strong>"
                     });
@@ -1029,7 +1030,7 @@ define([
             // If present check for fieldType value and accordingly populate the control
             // create controls for select
             this.inputContent = domConstruct.create("select", {
-                className: "form-control selectDomain",
+                className: "form-control selectDomain custom-select",
                 "id": fieldname
             }, formContent);
             selectOptions = domConstruct.create("option", {
@@ -1050,7 +1051,7 @@ define([
                         // set selected is true
                         domAttr.set(selectOptions, "selected", true);
                         domAttr.set(selectOptions, "defaultSelected", true);
-                        domClass.add(this.inputContent.parentNode, "has-success");
+                        domClass.add(this.inputContent.parentNode.lastChild, "is-valid");
                     }
                 }));
             } else {
@@ -1062,7 +1063,7 @@ define([
                     // if field contain default value, make that option selected
                     if (this.item && this.item.attributes[fieldname] !== undefined && this.item.attributes[fieldname] !== null && this.item.attributes[fieldname] !== "" && this.item.attributes[fieldname].toString() === currentOption.id.toString()) {
                         domAttr.set(this.inputContent, "value", currentOption.id);
-                        domClass.add(this.inputContent.parentNode, "has-success");
+                        domClass.add(this.inputContent.parentNode.lastChild, "is-valid");
                     }
                 }));
                 if (currentField.typeField) {
@@ -1083,17 +1084,17 @@ define([
                 if (currentField.typeField) {
                     this._validateTypeFields(evt, currentField);
                 }
-                // To apply has-success class on selection of a valid option
-                // else remove has-success class
+                // To apply is-valid class on selection of a valid option
+                // else remove is-valid class
                 if (evt.target.value !== "") {
                     var targetNode = evt.currentTarget || evt.srcElement;
                     if (query(".errorMessage", targetNode.parentNode).length !== 0) {
                         domConstruct.destroy(query(".errorMessage", targetNode.parentNode)[0]);
-                        domClass.remove(evt.target.parentNode, "has-error");
+                        domClass.remove(evt.target.parentNode.lastChild, "is-invalid");
                     }
-                    domClass.add($(evt.target.parentNode)[0], "has-success");
+                    domClass.add($(evt.target.parentNode.lastChild)[0], "is-valid");
                 } else {
-                    domClass.remove($(evt.target.parentNode)[0], "has-success");
+                    domClass.remove($(evt.target.parentNode.lastChild)[0], "is-valid");
                 }
             }));
         },
@@ -1234,7 +1235,7 @@ define([
             this.inputContent = domConstruct.create("input", {
                 id: fieldname,
                 type: "text",
-                className: "form-control",
+                className: "form-control form-control-lg",
                 min: currentField.domain.minValue.toString(),
                 max: currentField.domain.maxValue.toString()
             }, formContent);
@@ -1242,7 +1243,7 @@ define([
             // Check if default Value is present
             if (currentField.defaultValue) {
                 setDefault = currentField.defaultValue;
-                domClass.add(this.inputContent.parentNode, "has-success");
+                domClass.add(this.inputContent.parentNode.lastChild, "is-valid");
             }
             // Set minimum and maximum value in range domain
             if (domAttr.get(this.inputContent, "data-input-type") === "Double" || domAttr.get(this.inputContent, "data-input-type") === "Single") {
@@ -1268,7 +1269,7 @@ define([
                 maxboostedstep: 10
             });
             // Touch Spinner on keyup event
-            this._inputTouchspinOnKeyup(inputcontentSpinner, currentField);
+            this._inputTouchspinOnKeyup(inputcontentSpinner, currentField, this.inputContent);
             // Set minimum and maximum value to the rangeHelpText
             rangeHelpText = string.substitute(this.config.i18n.geoform.numericRangeHintMessage, {
                 minValue: currentField.domain.minValue.toString(),
@@ -1286,21 +1287,21 @@ define([
         * @param{object} currentField, object of current field in the info pop
         * @memberOf widgets/comment-form/comment-form
         */
-        _inputTouchspinOnKeyup: function (inputcontentSpinner, currentField) {
+        _inputTouchspinOnKeyup: function (inputcontentSpinner, currentField, inputContent) {
             // Touch Spinner on keyup event
-            on(this.inputContent, "keyup", lang.hitch(this, function () {
+            on(inputContent, "keyup", lang.hitch(this, function () {
                 // replace classes on key up event
-                if (this.inputContent.value === "") {
-                    domClass.remove(this.inputContent.parentNode.parentNode, "has-success");
+                if (inputContent.value === "") {
+                    domClass.remove(inputContent.parentNode.childNodes[2], "is-valid");
                 } else {
-                    domClass.add(this.inputContent.parentNode.parentNode, "has-success");
+                    domClass.add(inputContent.parentNode.childNodes[2], "is-valid");
                 }
             }));
             // Touch Spinner event
             on(inputcontentSpinner, "touchspin.on.startspin", lang.hitch(this, function (evt) {
                 inputcontentSpinner.trigger("touchspin.updatesettings", {});
                 var targetNode = evt.currentTarget || evt.srcElement;
-                domClass.add(targetNode.parentNode.parentNode, "has-success");
+                domClass.add(targetNode.parentNode.parentNode.childNodes[1].childNodes[2], "is-valid");
             }));
             // if not nullable field
             if (!currentField.nullable) {
@@ -1405,12 +1406,12 @@ define([
                 // Clear form fields
                 if (!domClass.contains(currentInput, "selectDomain")) {
                     domAttr.set(currentInput, "value", "");
-                    domClass.remove(node, "has-error");
-                    domClass.remove(node, "has-success");
+                    domClass.remove(node.lastChild, "is-invalid");
+                    domClass.remove(node.lastChild, "is-valid");
                 } else {
                     currentInput.options[0].selected = true;
-                    domClass.remove(node, "has-success");
-                    domClass.remove(node, "has-error");
+                    domClass.remove(node.lastChild, "is-valid");
+                    domClass.remove(node.lastChild, "is-invalid");
                 }
             }));
             array.forEach(this.sortedFields, lang.hitch(this, function (currentInput) {
@@ -1422,9 +1423,14 @@ define([
             }));
             // clear error and success messages
             array.forEach(query(".commentFormQuestionare .input-group"), function (currentInput) {
-                domClass.remove(currentInput.parentElement, "has-error");
-                domClass.remove(currentInput.parentElement, "has-success");
-            });
+                if (domClass.contains(currentInput, 'input-group date')) {
+                    domClass.remove(currentInput.lastChild, "is-invalid");
+                    domClass.remove(currentInput.lastChild, "is-valid");
+                } else {
+                    domClass.remove(currentInput.childNodes[2], "is-invalid");
+                    domClass.remove(currentInput.childNodes[2], "is-valid");
+                }
+            }); 
 
             // Reset Form
             this.commentForm.reset();
@@ -1466,20 +1472,20 @@ define([
                 if (currentField.type === "esriFieldTypeDate") {
                     date = new Date(currentField.defaultValue);
                     // set current date to date field
-                    $(inputDateGroupContainer).data("DateTimePicker").setDate(date);
+                    $(inputDateGroupContainer).data("DateTimePicker").date(date);
                     // set format to the current date
-                    defaultDate = moment(date).format($(inputDateGroupContainer).data("DateTimePicker").format);
+                    defaultDate = moment(date).format($(inputDateGroupContainer).data("DateTimePicker").format());
                 } else {
                     domAttr.set(this.inputContent, "value", currentField.defaultValue);
-                    domClass.add(formContent, "has-success");
+                    domClass.add(formContent.lastChild, "is-valid");
                 }
             } else {
                 // else assign current date to the date time picker
                 if (currentField.type === "esriFieldTypeDate") {
                     // set current date to date field
-                    $(inputDateGroupContainer).data("DateTimePicker").setDate(new Date());
+                    $(inputDateGroupContainer).data("DateTimePicker").date(new Date());
                     // set format to the current date
-                    defaultDate = moment(new Date()).format($(inputDateGroupContainer).data("DateTimePicker").format);
+                    defaultDate = moment(new Date()).format($(inputDateGroupContainer).data("DateTimePicker").format());
                 }
             }
             // If field type is not date, validate fields on focus out
@@ -1612,18 +1618,18 @@ define([
                 domConstruct.destroy(query(".errorMessage", node)[0]);
             }
             if (!error || (inputValue.length === 0 && !domClass.contains(node, "mandatory"))) {
-                domClass.add(node, "has-success");
-                domClass.remove(node, "has-error");
+                domClass.add(node.lastChild, "is-valid");
+                domClass.remove(node.lastChild, "is-invalid");
             } else {
                 // On Error show error massage
                 // Change the class of node
                 this._showErrorMessageDiv(error, node.children[0]);
-                domClass.add(node, "has-error");
-                domClass.remove(node, "has-success");
+                domClass.add(node.lastChild, "is-invalid");
+                domClass.remove(node.lastChild, "is-valid");
             }
             if (iskeyPress && inputValue.length === 0 && !domClass.contains(node, "mandatory")) {
-                domClass.remove(node, "has-error");
-                domClass.remove(node, "has-success");
+                domClass.remove(node.lastChild, "is-invalid");
+                domClass.remove(node.lastChild, "is-valid");
             }
         },
 
@@ -1701,12 +1707,21 @@ define([
             });
             // Attach datetime picker to the container
             $(parentNode).datetimepicker({
-                useSeconds: false,
                 useStrict: false,
-                format: setDateFormat && setDateFormat.dateFormat ? setDateFormat.dateFormat : null,
-                pickTime: setDateFormat && setDateFormat.showTime ? setDateFormat.showTime : true,
-                language: kernel.locale
+                format: setDateFormat && setDateFormat.dateFormat ? setDateFormat.dateFormat : false,
+                locale: kernel.locale
             }).on('dp.show', function (evt) {
+                /*Update the date picker position and make sure it is always displayed outside its parent container*/
+                var datePickerDialogBox, datePickerDialogBoxPosition;
+                datePickerDialogBox = query(".bootstrap-datetimepicker-widget.dropdown-menu")[0];
+                if (datePickerDialogBox) {
+                    datePickerDialogBoxPosition = domGeom.position(datePickerDialogBox, true);
+                    domConstruct.place(datePickerDialogBox, dojo.body(), "first");
+                    domStyle.set(datePickerDialogBox, "position", "absolute");
+                    domStyle.set(datePickerDialogBox, "top", (datePickerDialogBoxPosition.y + "px"));
+                    domStyle.set(datePickerDialogBox, "left", (datePickerDialogBoxPosition.x + "px"));
+                    domStyle.set(datePickerDialogBox, "height", (datePickerDialogBoxPosition.h + "px"));
+                }
                 if (isRangeField) {
                     value = new Date(query("input", this)[0].value);
                     minVlaue = new Date(currentField.domain.minValue);
@@ -1717,43 +1732,39 @@ define([
                 }
                 // on Datetime picker show event
                 picker = $(this).data('DateTimePicker');
-                selectedDate = picker.getDate();
+                selectedDate = picker.date();
                 if (selectedDate === null) {
                     query("input", this)[0].value = "";
                 }
                 if (query(".errorMessage", query(evt.target).parents(".commentFormQuestionare")[0])[0]) {
                     domConstruct.destroy(query(".errorMessage", query(evt.target).parents(".commentFormQuestionare")[0])[0]);
                 }
-                domClass.remove(query(evt.target).parents(".commentFormQuestionare")[0], "has-error");
-                domClass.add(query(evt.target).parents(".commentFormQuestionare")[0], "has-success");
+                domClass.remove(evt.target.lastChild, "is-invalid");
+                domClass.add(evt.target.lastChild, "is-valid");
                 if (query("input", this)[0].value === "") {
-                    domClass.remove(query(evt.target).parents(".commentFormQuestionare")[0], "has-success");
-                    domClass.remove(query(evt.target).parents(".commentFormQuestionare")[0], "has-error");
+                    domClass.remove(evt.target.lastChild, "is-valid");
+                    domClass.remove(evt.target.lastChild, "is-invalid");
                 }
             }).on('dp.error', function (evt) {
                 // on error
                 evt.target.value = '';
-                domClass.remove(query(evt.target).parents(".commentFormQuestionare")[0], "has-success");
-                domClass.add(query(evt.target).parents(".commentFormQuestionare")[0], "has-error");
+                domClass.remove(evt.target.lastChild, "is-valid");
+                domClass.add(evt.target.lastChild, "is-invalid");
             }).on("dp.hide", function (evt) {
                 // on Datetime picker hide event
                 if (query("input", this)[0].value === "") {
-                    domClass.remove(query(evt.target).parents(".commentFormQuestionare")[0], "has-success");
-                    domClass.remove(query(evt.target).parents(".commentFormQuestionare")[0], "has-error");
+                    domClass.remove(evt.target.lastChild, "is-valid");
+                    domClass.remove(evt.target.lastChild, "is-invalid");
                 }
             }).on('dp.change', function (evt) {
                 // on change
-                domClass.add(query(evt.target).parents(".commentFormQuestionare")[0], "has-success");
-                domClass.remove(query(evt.target).parents(".commentFormQuestionare")[0], "has-error");
+                domClass.add(evt.target.lastChild, "is-valid");
+                domClass.remove(evt.target.lastChild, "is-invalid");
             });
             // if isRangeField is set to true for range Domain value then assign maximum and minimum value to the date time picker
             if (isRangeField) {
-                $(parentNode).data("DateTimePicker").setMaxDate(locale.format(new Date(currentField.domain.maxValue), {
-                    fullYear: true
-                }));
-                $(parentNode).data("DateTimePicker").setMinDate(locale.format(new Date(currentField.domain.minValue), {
-                    fullYear: true
-                }));
+                $(parentNode).data("DateTimePicker").maxDate(new Date(currentField.domain.maxValue));
+                $(parentNode).data("DateTimePicker").minDate(new Date(currentField.domain.minValue));
             }
             // return Value
             return dateInputField;

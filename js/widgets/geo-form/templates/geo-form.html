@@ -11,13 +11,14 @@
     <div class="esriCTGeoFormBody esriCTBodyTextColor" id="geoFormBody">
         <div data-dojo-attach-point="headerMessageDiv" class="esriCTHeaderMessageDiv esriCTHidden">
             <div data-dojo-attach-point="headerMessageType" class="esriCTSuccessMsg alert alert-success">
-                <span class="close" data-dojo-attach-point="headerMessageButton">&times;</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true" data-dojo-attach-point="headerMessageButton">&times;</span>
+                </button>
                 <span tabindex="-1" data-dojo-attach-point="headerMessageContent"></span>
             </div>
         </div>
         <div class="row">
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-8 esriCTFullWidth"  data-dojo-attach-point="componentSection">
+                <div class="col-xs-12 col-sm-12 esriCTFullWidth"  data-dojo-attach-point="componentSection">
                     <div data-dojo-attach-point="detailSection">
                         <div class="esriCTGeoFormTitles" data-dojo-attach-point="enter_Information">
                         </div>
@@ -53,7 +54,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
             <div class="clearfix">
             </div>
         </div>

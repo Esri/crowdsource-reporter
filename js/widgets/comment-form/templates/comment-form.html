@@ -2,7 +2,9 @@
     <div data-dojo-attach-point="enterCommentContainer" class="esriCTEnterComment">
         <div data-dojo-attach-point="headerMessageDiv" class="esriCTHidden">
             <div data-dojo-attach-point="headerMessageType" class="alert alert-danger">
-                <span class="close" data-dojo-attach-point="headerMessageButton">&times;</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true" data-dojo-attach-point="headerMessageButton">&times;</span>
+                </button>
                 <span tabindex="-1" aria-label="${i18n.comment.errorInSubmittingComment}" data-dojo-attach-point="headerMessageContent">${i18n.comment.errorInSubmittingComment}</span>
             </div>
         </div>

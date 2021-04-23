@@ -266,7 +266,7 @@ define([
                 }, favDiv);
 
                 domConstruct.create('div', {
-                    'class': 'glyphicon glyphicon-heart esriCTFavDiv esriCTCalculatedBodyTextColor'
+                    'class': 'fas fa-heart esriCTFavDiv esriCTCalculatedBodyTextColor'
                 }, favDiv);
             } else {
                 //If like field is not configured use the entire space for issue title

@@ -30,6 +30,7 @@ define([
     "dojo/_base/array",
     "dojo/dom",
     "dojo/touch",
+    "dojo/dom-geometry",
     "dojo/dom-style",
     "dojo/query",
     "dojo/window",
@@ -49,7 +50,7 @@ define([
     "widgets/locator/locator",
     "widgets/help/help",
     "widgets/bootstrapmap/bootstrapmap"
-], function (declare, kernel, lang, dateLocale, _WidgetBase, _TemplatedMixin, domConstruct, domClass, on, has, domAttr, array, dom, touch, domStyle, query, dojowindow, Deferred, dijitTemplate, string, locale, GraphicsLayer, Graphic, Draw, webMercatorUtils, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Polygon, Point, Locator, Help, BootstrapMap) {
+], function (declare, kernel, lang, dateLocale, _WidgetBase, _TemplatedMixin, domConstruct, domClass, on, has, domAttr, array, dom, touch, domGeom, domStyle, query, dojowindow, Deferred, dijitTemplate, string, locale, GraphicsLayer, Graphic, Draw, webMercatorUtils, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Polygon, Point, Locator, Help, BootstrapMap) {
     return declare([_WidgetBase, _TemplatedMixin], {
         templateString: dijitTemplate,
         lastWebMapSelected: "",
@@ -476,8 +477,8 @@ define([
             //close the datePicker pop-ups
             $(".hasDatetimepicker").blur();
             $(".bootstrap-datetimepicker-widget").datetimepicker().hide();
-            $(".popover.top.fade.in").each(function () {
-                domClass.remove(this, "in");
+            $(".popover.top.fade.show").each(function () {
+                domClass.remove(this, "show");
             });
             //resize the map
             this._resizeMap();
@@ -777,7 +778,7 @@ define([
             var fileList, i;
             // Check for the file attachment container
             if (this.fileAttachmentList) {
-                fileList = query(".alert-dismissable", this.fileAttachmentList);
+                fileList = query(".alert-dismissible", this.fileAttachmentList);
                 for (i = 0; i < fileList.length; i++) {
                     // Check for attachments file and replace the class
                     if (dom.byId(fileList[i].id.split("_")[0])) {
@@ -895,7 +896,7 @@ define([
             domStyle.set(target.parentNode, "display", "none");
             //Add dismiss-able alert for each file, and show file name and file size in it.
 
-            alertHtml = "<div id=" + target.parentNode.id + "_Close" + " class=\"esriCTFileAlert alert alert-dismissable alert-success\">";
+            alertHtml = "<div id=" + target.parentNode.id + "_Close" + " class=\"esriCTFileAlert alert alert-success fade in alert-dismissible show\">";
             alertHtml += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" tabindex=\"'0'\" aria-label=\"" +
             this.config.i18n.geoform.deleteAttachmentBtnText + "\">" + "X" + "</button>";
             alertHtml += "<span >" + fileName + "</span>";
@@ -988,7 +989,7 @@ define([
         _updateAttachmentCount: function () {
             var photoSelectedDiv = dom.byId("attachmentSelectedCount"), selectedAttachmentsCount;
             if (photoSelectedDiv) {
-                selectedAttachmentsCount = query(".alert-dismissable", this.fileAttachmentList).length;
+                selectedAttachmentsCount = query(".alert-dismissible", this.fileAttachmentList).length;
                 if (selectedAttachmentsCount > 0) {
                     domClass.remove(photoSelectedDiv, "esriCTHidden");
                     domAttr.set(photoSelectedDiv, "innerHTML", selectedAttachmentsCount + " " + this.appConfig.i18n.geoform.attachmentSelectedMsg);
@@ -1017,7 +1018,7 @@ define([
                 domConstruct.place(formContent, referenceNode, "after");
                 domClass.add(formContent, "fade");
                 setTimeout(function () {
-                    domClass.add(formContent, "in");
+                    domClass.add(formContent, "show");
                 }, 100);
             }
             // If fields are not nullable set to mandatory fields
@@ -1136,10 +1137,10 @@ define([
                     this.inputContent = this._createDateField(inputRangeDateGroupContainer, true, fieldname, currentField);
                     if (currentField.defaultValue) {
                         date = new Date(currentField.defaultValue);
-                        // set current date to date field
-                        $(inputRangeDateGroupContainer).data("DateTimePicker").setDate(date);
                         // set format to the current date
-                        rangeDefaultDate = moment(date).format($(inputRangeDateGroupContainer).data("DateTimePicker").format);
+                        rangeDefaultDate = moment(new Date(date)).format($(inputRangeDateGroupContainer).data("DateTimePicker").format());
+                        // set current date to date field
+                        $(inputRangeDateGroupContainer).data("DateTimePicker").date(rangeDefaultDate);
                         if (!this.isEdit) {
                             // set default value and id to the array
                             this.defaultValueArray.push({ defaultValue: currentField.defaultValue, id: this.inputContent.id, type: currentField.type });
@@ -1148,20 +1149,20 @@ define([
                         ////Check if todays date falls between minimum and maximum date
                         if (currentField.domain.maxValue > Date.now() && currentField.domain.minValue < Date.now()) {
                             currentSelectedDate = Date.now();
-                            $(inputRangeDateGroupContainer).data("DateTimePicker").setDate(moment(Date.now()).format($(inputRangeDateGroupContainer).data("DateTimePicker").format));
+                            $(inputRangeDateGroupContainer).data("DateTimePicker").date(moment(Date.now()).format($(inputRangeDateGroupContainer).data("DateTimePicker").format()));
                         } else {
                             currentSelectedDate = currentField.domain.minValue;
                         }
-                        formatedDate = moment(new Date(currentSelectedDate)).format($(inputRangeDateGroupContainer).data("DateTimePicker").format);
-                        $(inputRangeDateGroupContainer).data("DateTimePicker").setDate(formatedDate);
+                        formatedDate = moment(new Date(currentSelectedDate)).format($(inputRangeDateGroupContainer).data("DateTimePicker").format());
+                        $(inputRangeDateGroupContainer).data("DateTimePicker").date(formatedDate);
                         if (!this.isEdit) {
                             this.defaultValueArray.push({ defaultValue: currentSelectedDate, id: this.inputContent.id, type: currentField.type });
                         }
                     }
                     // Assign value to the range help text
                     this.rangeHelpText = string.substitute(this.appConfig.i18n.geoform.dateRangeHintMessage, {
-                        minValue: moment(new Date(currentField.domain.minValue)).format($(inputRangeDateGroupContainer).data("DateTimePicker").format),
-                        maxValue: moment(new Date(currentField.domain.maxValue)).format($(inputRangeDateGroupContainer).data("DateTimePicker").format),
+                        minValue: moment(new Date(currentField.domain.minValue)).format($(inputRangeDateGroupContainer).data("DateTimePicker").format()),
+                        maxValue: moment(new Date(currentField.domain.maxValue)).format($(inputRangeDateGroupContainer).data("DateTimePicker").format()),
                         openStrong: "<strong>",
                         closeStrong: "</strong>"
                     });
@@ -1185,7 +1186,7 @@ define([
             // If present check for fieldType value and accordingly populate the control
             // create controls for select
             this.inputContent = domConstruct.create("select", {
-                className: "form-control selectDomain",
+                className: "form-control selectDomain custom-select",
                 "id": fieldname
             }, formContent);
             selectOptions = domConstruct.create("option", {
@@ -1206,7 +1207,7 @@ define([
                         // set selected is true
                         domAttr.set(selectOptions, "selected", true);
                         domAttr.set(selectOptions, "defaultSelected", true);
-                        domClass.add(this.inputContent.parentNode, "has-success");
+                        domClass.add(this.inputContent.parentNode.lastChild, "is-valid");
                         if (!this.isEdit) {
                             // set default value and id into the array
                             this.defaultValueArray.push({ defaultValue: currentField.defaultValue, id: this.inputContent.id });
@@ -1222,7 +1223,7 @@ define([
                     // if field contain default value, make that option selected
                     if (this.item && this.item.attributes[fieldname] !== undefined && this.item.attributes[fieldname] !== null && this.item.attributes[fieldname] !== "" && this.item.attributes[fieldname].toString() === currentOption.id.toString()) {
                         domAttr.set(this.inputContent, "value", currentOption.id);
-                        domClass.add(this.inputContent.parentNode, "has-success");
+                        domClass.add(this.inputContent.parentNode.lastChild, "is-valid");
                     }
                 }));
                 if (currentField.typeField) {
@@ -1243,17 +1244,17 @@ define([
                 if (currentField.typeField) {
                     this._validateTypeFields(evt, currentField);
                 }
-                // To apply has-success class on selection of a valid option
-                // else remove has-success class
+                // To apply is-valid class on selection of a valid option
+                // else remove is-valid class
                 if (evt.target.value !== "") {
                     var targetNode = evt.currentTarget || evt.srcElement;
                     if (query(".errorMessage", targetNode.parentNode).length !== 0) {
                         domConstruct.destroy(query(".errorMessage", targetNode.parentNode)[0]);
-                        domClass.remove(evt.target.parentNode, "has-error");
+                        domClass.remove(evt.target.parentNode.lastChild, "is-invalid");
                     }
-                    domClass.add($(evt.target.parentNode)[0], "has-success");
+                    domClass.add($(evt.target.parentNode.lastChild)[0], "is-valid");
                 } else {
-                    domClass.remove($(evt.target.parentNode)[0], "has-success");
+                    domClass.remove($(evt.target.parentNode.lastChild)[0], "is-valid");
                 }
             }));
         },
@@ -1353,15 +1354,14 @@ define([
                 if (currentField.type === "esriFieldTypeDate") {
                     date = new Date(currentField.defaultValue);
                     // set current date to date field
-                    $(inputDateGroupContainer).data("DateTimePicker").setDate(date);
-                    // set format to the current date
-                    defaultDate = moment(date).format($(inputDateGroupContainer).data("DateTimePicker").format);
+                    $(inputDateGroupContainer).data("DateTimePicker").date(date);
+                   
                     if (!this.isEdit) {
                         this.defaultValueArray.push({ defaultValue: currentField.defaultValue, id: this.inputContent.id, type: currentField.type });
                     }
                 } else {
                     domAttr.set(this.inputContent, "value", currentField.defaultValue);
-                    domClass.add(formContent, "has-success");
+                    domClass.add(formContent.lastChild, "is-valid");
                     if (!this.isEdit) {
                         this.defaultValueArray.push({ defaultValue: currentField.defaultValue, id: this.inputContent.id });
                     }
@@ -1370,9 +1370,9 @@ define([
                 // else assign current date to the date time picker
                 if (currentField.type === "esriFieldTypeDate") {
                     // set current date to date field
-                    $(inputDateGroupContainer).data("DateTimePicker").setDate(new Date());
+                    $(inputDateGroupContainer).data("DateTimePicker").date(new Date());
                     // set format to the current date
-                    defaultDate = moment(new Date()).format($(inputDateGroupContainer).data("DateTimePicker").format);
+                    defaultDate = moment(new Date()).format($(inputDateGroupContainer).data("DateTimePicker").format());
                     if (!this.isEdit) {
                         this.defaultValueArray.push({ defaultValue: new Date(), id: this.inputContent.id, type: currentField.type });
                     }
@@ -1403,7 +1403,7 @@ define([
             this.inputContent = domConstruct.create("input", {
                 id: fieldname,
                 type: "text",
-                className: "form-control",
+                className: "form-control form-control-lg",
                 min: currentField.domain.minValue.toString(),
                 max: currentField.domain.maxValue.toString()
             }, formContent);
@@ -1411,7 +1411,7 @@ define([
             // Check if default Value is present
             if (currentField.defaultValue) {
                 setDefault = currentField.defaultValue;
-                domClass.add(this.inputContent.parentNode, "has-success");
+                domClass.add(this.inputContent.parentNode.lastChild, "is-valid");
                 if (!this.isEdit) {
                     this.defaultValueArray.push({ defaultValue: setDefault, id: this.inputContent.id, type: "range" });
                 }
@@ -1440,7 +1440,7 @@ define([
                 maxboostedstep: 10
             });
             // Touch Spinner on keyup event
-            this._inputTouchspinOnKeyup(inputcontentSpinner, currentField);
+            this._inputTouchspinOnKeyup(inputcontentSpinner, currentField, this.inputContent);
             // Set minimum and maximum value to the rangeHelpText
             rangeHelpText = string.substitute(this.appConfig.i18n.geoform.numericRangeHintMessage, {
                 minValue: currentField.domain.minValue.toString(),
@@ -1458,21 +1458,21 @@ define([
         * @param{object} currentField, object of current field in the info pop
         * @memberOf widgets/geo-form/geo-form
         */
-        _inputTouchspinOnKeyup: function (inputcontentSpinner, currentField) {
+        _inputTouchspinOnKeyup: function (inputcontentSpinner, currentField, inputContent) {
             // Touch Spinner on keyup event
-            on(this.inputContent, "keyup", lang.hitch(this, function () {
+            on(inputContent, "keyup", lang.hitch(this, function () {
                 // replace classes on key up event
-                if (this.inputContent.value === "") {
-                    domClass.remove(this.inputContent.parentNode.parentNode, "has-success");
+                if (inputContent.value === "") {
+                    domClass.remove(inputContent.parentNode.childNodes[2], "is-valid");
                 } else {
-                    domClass.add(this.inputContent.parentNode.parentNode, "has-success");
+                    domClass.add(inputContent.parentNode.childNodes[2], "is-valid");
                 }
             }));
             // Touch Spinner event
             on(inputcontentSpinner, "touchspin.on.startspin", lang.hitch(this, function (evt) {
                 inputcontentSpinner.trigger("touchspin.updatesettings", {});
                 var targetNode = evt.currentTarget || evt.srcElement;
-                domClass.add(targetNode.parentNode.parentNode, "has-success");
+                domClass.add(targetNode.parentNode.parentNode.childNodes[1].childNodes[2], "is-valid");
             }));
             // if not nullable field
             if (!currentField.nullable) {
@@ -1718,7 +1718,7 @@ define([
         * @memberOf widgets/geo-form/geo-form
         */
         _clearFormFields: function () {
-            var attachNode, node, index, currentFileInputID, fileChange;
+            var attachNode, node, index, currentFileInputID, fileChange, defaultDate;
             // remove error and success messages for each form field
             array.forEach(query(".form-control", this.domNode), lang.hitch(this, function (currentInput) {
                 node = currentInput.parentElement;
@@ -1737,12 +1737,12 @@ define([
                 // Clear form fields
                 if (!domClass.contains(currentInput, "selectDomain")) {
                     domAttr.set(currentInput, "value", "");
-                    domClass.remove(node, "has-error");
-                    domClass.remove(node, "has-success");
+                    domClass.remove(node.lastChild, "is-invalid");
+                    domClass.remove(node.lastChild, "is-valid");
                 } else {
                     currentInput.options[0].selected = true;
-                    domClass.remove(node, "has-success");
-                    domClass.remove(node, "has-error");
+                    domClass.remove(node.lastChild, "is-valid");
+                    domClass.remove(node.lastChild, "is-invalid");
                 }
             }));
             array.forEach(this.sortedFields, lang.hitch(this, function (currentInput) {
@@ -1754,9 +1754,15 @@ define([
             }));
             // clear error and success messages
             array.forEach(query(".geoFormQuestionare .input-group"), function (currentInput) {
-                domClass.remove(currentInput.parentElement, "has-error");
-                domClass.remove(currentInput.parentElement, "has-success");
-            });
+                if (domClass.contains(currentInput, 'input-group date')) {
+                    domClass.remove(currentInput.lastChild, "is-invalid");
+                    domClass.remove(currentInput.lastChild, "is-valid");
+                } else {
+                    domClass.remove(currentInput.childNodes[2], "is-invalid");
+                    domClass.remove(currentInput.childNodes[2], "is-valid");
+                }
+            }); 
+
             // clear attachments
             currentFileInputID = this._fileAttachmentCounter - 1;
             currentFileInputID = "geoFormAttachment" + currentFileInputID;
@@ -1782,17 +1788,18 @@ define([
                 for (index = 0; index < this.defaultValueArray.length; index++) {
                     if (this.defaultValueArray[index].id === currentInput.id) {
                         if (this.defaultValueArray[index].type === "esriFieldTypeDate" || this.defaultValueArray[index].type === "range") {
-                            domClass.add(currentInput.parentElement.parentElement, "has-success");
+                            domClass.add(currentInput.parentElement.parentElement.childNodes[1].lastChild, "is-valid");
                         } else {
-                            domClass.add(currentInput.parentElement, "has-success");
+                            domClass.add(currentInput.parentElement.lastChild, "is-valid");
                         }
                         if (!domClass.contains(currentInput, "selectDomain")) {
                             domAttr.set(currentInput, "value", this.defaultValueArray[index].defaultValue);
                         }
                         if (this.defaultValueArray[index].type === "esriFieldTypeDate") {
                             var date = new Date(this.defaultValueArray[index].defaultValue);
+                            defaultDate = moment(new Date(date)).format($(currentInput.parentElement).data("DateTimePicker").format());
                             // set current date to date field
-                            $(currentInput.parentElement).data('DateTimePicker').setDate(date);
+                            $(currentInput.parentElement).data('DateTimePicker').date(defaultDate);
                         }
                     }
                 }
@@ -1876,12 +1883,21 @@ define([
             });
             // Attach datetime picker to the container
             $(parentNode).datetimepicker({
-                useSeconds: false,
                 useStrict: false,
-                format: setDateFormat && setDateFormat.dateFormat ? setDateFormat.dateFormat : null,
-                pickTime: setDateFormat && setDateFormat.showTime ? setDateFormat.showTime : true,
-                language: kernel.locale
+                format: setDateFormat && setDateFormat.dateFormat ? setDateFormat.dateFormat : false,
+                locale: kernel.locale
             }).on('dp.show', function (evt) {
+                /*Update the date picker position and make sure it is always displayed outside its parent container*/
+                var datePickerDialogBox, datePickerDialogBoxPosition;
+                datePickerDialogBox = query(".bootstrap-datetimepicker-widget.dropdown-menu")[0];
+                if (datePickerDialogBox) {
+                    datePickerDialogBoxPosition = domGeom.position(datePickerDialogBox, true);
+                    domConstruct.place(datePickerDialogBox, dojo.body(), "first");
+                    domStyle.set(datePickerDialogBox, "position", "absolute");
+                    domStyle.set(datePickerDialogBox, "top", (datePickerDialogBoxPosition.y + "px"));
+                    domStyle.set(datePickerDialogBox, "left", (datePickerDialogBoxPosition.x + "px"));
+                    domStyle.set(datePickerDialogBox, "height", (datePickerDialogBoxPosition.h + "px"));
+                }
                 if (isRangeField) {
                     value = new Date(query("input", this)[0].value);
                     minVlaue = new Date(currentField.domain.minValue);
@@ -1892,43 +1908,39 @@ define([
                 }
                 // on Datetime picker show event
                 picker = $(this).data('DateTimePicker');
-                selectedDate = picker.getDate();
+                selectedDate = picker.date();
                 if (selectedDate === null) {
                     query("input", this)[0].value = "";
                 }
                 if (query(".errorMessage", query(evt.target).parents(".geoFormQuestionare")[0])[0]) {
                     domConstruct.destroy(query(".errorMessage", query(evt.target).parents(".geoFormQuestionare")[0])[0]);
                 }
-                domClass.remove(query(evt.target).parents(".geoFormQuestionare")[0], "has-error");
-                domClass.add(query(evt.target).parents(".geoFormQuestionare")[0], "has-success");
+                domClass.remove(evt.target.lastChild, "is-invalid");
+                domClass.add(evt.target.lastChild, "is-valid");
                 if (query("input", this)[0].value === "") {
-                    domClass.remove(query(evt.target).parents(".geoFormQuestionare")[0], "has-success");
-                    domClass.remove(query(evt.target).parents(".geoFormQuestionare")[0], "has-error");
+                    domClass.remove(evt.target.lastChild, "is-valid");
+                    domClass.remove(evt.target.lastChild, "is-invalid");
                 }
             }).on('dp.error', function (evt) {
                 // on error
                 evt.target.value = '';
-                domClass.remove(query(evt.target).parents(".geoFormQuestionare")[0], "has-success");
-                domClass.add(query(evt.target).parents(".geoFormQuestionare")[0], "has-error");
+                domClass.remove(evt.target.lastChild, "is-valid");
+                domClass.add(evt.target.lastChild, "is-invalid");
             }).on("dp.hide", function (evt) {
                 // on Datetime picker hide event
                 if (query("input", this)[0].value === "") {
-                    domClass.remove(query(evt.target).parents(".geoFormQuestionare")[0], "has-success");
-                    domClass.remove(query(evt.target).parents(".geoFormQuestionare")[0], "has-error");
+                    domClass.remove(evt.target.lastChild, "is-valid");
+                    domClass.remove(evt.target.lastChild, "is-invalid");
                 }
             }).on('dp.change', function (evt) {
                 // on change
-                domClass.add(query(evt.target).parents(".geoFormQuestionare")[0], "has-success");
-                domClass.remove(query(evt.target).parents(".geoFormQuestionare")[0], "has-error");
+                domClass.add(evt.target.lastChild, "is-valid");
+                domClass.remove(evt.target.lastChild, "is-invalid");
             });
             // if isRangeField is set to true for range Domain value then assign maximum and minimum value to the date time picker
             if (isRangeField) {
-                $(parentNode).data("DateTimePicker").setMaxDate(locale.format(new Date(currentField.domain.maxValue), {
-                    fullYear: true
-                }));
-                $(parentNode).data("DateTimePicker").setMinDate(locale.format(new Date(currentField.domain.minValue), {
-                    fullYear: true
-                }));
+                $(parentNode).data("DateTimePicker").maxDate(new Date(currentField.domain.maxValue));
+                $(parentNode).data("DateTimePicker").minDate(new Date(currentField.domain.minValue));
             }
             // return Value
             return dateInputField;
@@ -1947,18 +1959,18 @@ define([
                 domConstruct.destroy(query(".errorMessage", node)[0]);
             }
             if (!error || (inputValue.length === 0 && !domClass.contains(node, "mandatory"))) {
-                domClass.add(node, "has-success");
-                domClass.remove(node, "has-error");
+                domClass.add(node.lastChild, "is-valid");
+                domClass.remove(node.lastChild, "is-invalid");
             } else {
                 // On Error show error massage
                 // Change the class of node
                 this._showErrorMessageDiv(error, node.children[0]);
-                domClass.add(node, "has-error");
-                domClass.remove(node, "has-success");
+                domClass.add(node.lastChild, "is-invalid");
+                domClass.remove(node.lastChild, "is-valid");
             }
             if (iskeyPress && inputValue.length === 0 && !domClass.contains(node, "mandatory")) {
-                domClass.remove(node, "has-error");
-                domClass.remove(node, "has-success");
+                domClass.remove(node.lastChild, "is-invalid");
+                domClass.remove(node.lastChild, "is-valid");
             }
         },
 
@@ -1998,7 +2010,7 @@ define([
                 // to check for errors in form before submitting.
                 if ((query(".form-control", currentField)[0])) {
                     // condition to check if the entered values are erroneous.
-                    if (domClass.contains(currentField, "has-error") && query("select", currentField).length === 0) {
+                    if (domClass.contains(currentField, "is-invalid") && query("select", currentField).length === 0) {
                         erroneousFields.push(currentField);
                     }
                     // condition to check if mandatory fields are kept empty.
@@ -2064,26 +2076,34 @@ define([
             featureData.attributes = {};
             // for all the fields
             //Limit scope the current domNode to avoid the conflicts
-            array.forEach(query(".geoFormQuestionare .form-control", this.domNode), function (currentField) {
-                if (currentField.value !== "") {
-                    // get id of the field
-                    key = domAttr.get(currentField, "id");
-                    // check for datetime picker and assign value
-                    if (domClass.contains(currentField, "hasDatetimepicker")) {
-                        picker = $(currentField.parentNode).data('DateTimePicker');
-                        datePicker = picker.getDate();
-                        if (datePicker) {
-                            // need to get time of date in ms for service
-                            value = datePicker.valueOf();
+            array.forEach(query(".geoFormQuestionare .form-control", this.domNode),
+                lang.hitch(this, function (currentField) {
+                    if (currentField.value !== "") {
+                        // get id of the field
+                        key = domAttr.get(currentField, "id");
+                        // check for datetime picker and assign value
+                        if (domClass.contains(currentField, "hasDatetimepicker")) {
+                            datePicker = $(currentField.parentNode).data('DateTimePicker').date();
+                            if (datePicker) {
+                                // need to get time of date in ms for service
+                                value = datePicker.valueOf();
+                            }
+                        } else {
+                            value = lang.trim(currentField.value);
+                            //For the date domain, convert the epoc date in number if it is string
+                            //This makes sure the correct data is being send for feature creation 
+                            var fieldInfo = this.selectedLayer.getField(currentField.id);
+                            if (fieldInfo && fieldInfo.type === "esriFieldTypeDate") {
+                                if (currentField.value) {
+                                    value = Number(currentField.value);
+                                }
+                            }
                         }
-                    } else {
-                        value = lang.trim(currentField.value);
+                        // Assign value to the attributes
+                        featureData.attributes[key] = value;
+                        editedFields.push(key);
                     }
-                    // Assign value to the attributes
-                    featureData.attributes[key] = value;
-                    editedFields.push(key);
-                }
-            });
+                }));
 
             // If layer has ReportedBy Field then Add logged in username in it
             // Add ReportedBy field to editedFields array so that it will not get the default value from template
@@ -2479,8 +2499,8 @@ define([
             }));
 
             array.forEach(query('.geoFormQuestionare'), lang.hitch(this, function (currentNode) {
-                if (domClass.contains(currentNode, "has-error")) {
-                    domClass.remove(currentNode, "has-error");
+                if (domClass.contains(currentNode.lastChild, "is-invalid")) {
+                    domClass.remove(currentNode.lastChild, "is-invalid");
                 }
             }));
             this.onFormClose(evt);
@@ -2693,7 +2713,7 @@ define([
             if (locationFieldTextBox && this.hasLocationField && this.config.locationField) {
                 if (selectedAddress) {
                     locationFieldTextBox.value = selectedAddress;
-                    domClass.add(locationFieldTextBox.parentElement, "has-success");
+                    domClass.add(locationFieldTextBox.parentElement.lastChild, "is-valid");
                 }
                 this.locator.txtSearch.value = selectedAddress;
             } else if (this.hasLocationField && this.config.locationField) {
@@ -2716,7 +2736,7 @@ define([
             var locationFieldTextBox = $("#geoformContainer").find("#" + this.config.locationField)[0];
             if (locationFieldTextBox && this.hasLocationField && this.config.locationField) {
                 locationFieldTextBox.value = "";
-                domClass.remove(locationFieldTextBox.parentElement, "has-success");
+                domClass.remove(locationFieldTextBox.parentElement, "is-valid");
             }
             this.newLocationFieldValue = null;
             this.locator.txtSearch.value = "";
@@ -2750,7 +2770,7 @@ define([
         */
         _createExistingAttachment: function (existingAttachment) {
             var alertHtml, existingAttachmentNode;
-            alertHtml = "<div class=\"esriCTFileAlert alert alert-dismissable alert-success\">";
+            alertHtml = "<div class=\"esriCTFileAlert alert alert-success fade in alert-dismissible show\">";
             alertHtml += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">" + "X" + "</button>";
             alertHtml += "<span>" + existingAttachment.attachmentFileName + "</span>";
             alertHtml += "</div>";
