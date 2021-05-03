@@ -30,10 +30,11 @@ define([
     "dojo/text!./templates/app-header.html",
     "widgets/mobile-menu/mobile-menu",
     "widgets/help/help",
+    "esri/IdentityManager",
     "dijit/_WidgetBase",
     "dijit/_TemplatedMixin",
     "dijit/_WidgetsInTemplateMixin"
-], function (declare, domConstruct, lang, dom, domAttr, domClass, domStyle, esriRequest, on, query, template, MobileMenu, Help, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin) {
+], function (declare, domConstruct, lang, dom, domAttr, domClass, domStyle, esriRequest, on, query, template, MobileMenu, Help, IdentityManager, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         mobileMenu: null,
@@ -374,9 +375,14 @@ define([
             // user is logged in via AGOL portal login
             if (this.config.portalObject) {
                 if (this.config.portalObject.getPortalUser()) {
-                    this.config.portalObject.signOut().then(lang.hitch(this, function () {
-                        location.reload();
-                    }));
+                    esriRequest({
+                        url: this.config.portalObject.url + "sharing/oauth2/signout",
+                        handleAs: "xml",
+                        load: lang.hitch(this, function () {
+                            IdentityManager.destroyCredentials();
+                            location.reload();
+                        })
+                    });
                 } else {
                     location.reload();
                 }
