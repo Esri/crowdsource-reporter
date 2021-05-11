@@ -2,7 +2,7 @@
 [Thumbnail]: crowdsource-reporter.png "Crowdsource Reporter"
 
 [supported browsers]: http://doc.arcgis.com/en/arcgis-online/reference/browsers.htm
-[New to Github? Get started here.]: http://htmlpreview.github.com/?https://github.com/Esri/esri.github.com/blob/master/help/esri-getting-to-know-github.html
+[New to Github? Get started here.]: https://guides.github.com/activities/hello-world/
 [Want more info on this app? Check out the documentation.]: http://solutions.arcgis.com/local-government/help/crowdsource-reporter/
 [ArcGISDesktop]: http://www.esri.com/software/arcgis/arcgis-for-desktop
 [ArcGISServer]: http://www.esri.com/software/arcgis/arcgisserver
@@ -40,7 +40,7 @@ The Crowdsource Reporter application presents one, or more, maps that can be use
 * ArcGIS Online subscription or ArcGIS Portal
 
 ### Browser Compatibility
-* The application is optimized for display on smarthones, desktops, and tablets using [all browsers supported by ArcGIS Online][supported browsers].
+* The application is optimized for display on smartphones, desktops, and tablets using [all browsers supported by ArcGIS Online][supported browsers].
 
 ## Instructions
 
