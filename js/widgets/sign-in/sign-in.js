@@ -172,6 +172,12 @@ define([
             } else {
                 domStyle.set(this.signinBgImage, "backgroundImage", 'url(' + dojoConfig.baseURL + this._config.signInBackgroundImage + ')');
             }
+            //If user has not changed the existing sign in image
+            //then user will now see new image using the entire available space
+            //Otherwise, user will see no change in the sign in page 
+            if (this._isDefaultSignInBackgroundImage()) {
+                domStyle.set(this.signinBgImage, "backgroundSize", "cover");
+            }
 
             //If guest login is disabled from configuration, make sure we are not showing it on login screen
             if (!this._config.enableGuestAccess) {
@@ -191,6 +197,14 @@ define([
             domAttr.set(this.signinEsriButton, "title", this._config.i18n.signin.agolLoginTooltip);
             domAttr.set(this.signinEsriButton, "aria-label", this._config.i18n.signin.agolLoginTooltip);
             this._enableDisableSocialMedia();
+        },
+
+        /**
+        * Function checks if user has changed the sign in page background image
+        * @memberOf widgets/sign-in/sign-in handle
+        */
+        _isDefaultSignInBackgroundImage: function () {
+            return this._config.signInBackgroundImage.indexOf("/images/signinbg.png") > -1;
         },
 
         /**
