@@ -88,7 +88,8 @@
         "commentStartTime": "",
         "commentEndDate" :"",
         "commentEndTime": "",
-        "commentSortingOrder": "DESC"
+        "commentSortingOrder": "DESC",
+        "maxImageSize": "actualSize",
     },
   "configurationSettings": [{
       "category": "<b>General</b>",
@@ -483,6 +484,27 @@
               "value": "Bottom"
           }]
       }, {
+        "label": "Maximum image size",
+        "tooltip": "Select maximum image size a user can add while submitting a report",
+        "type": "options",
+        "fieldName": "maxImageSize",
+        "options": [{
+            "label": "320",
+            "value": 320
+        }, {
+            "label": "640",
+            "value": 640
+        }, {
+            "label": "1280",
+            "value": 1280
+        },{
+            "label": "1920",
+            "value": 1920
+        },{
+            "label": "Unrestricted",
+            "value": "actualSize"
+        }]
+    }, {
           "type": "subcategory",
           "label": "Attachments"
       }, {

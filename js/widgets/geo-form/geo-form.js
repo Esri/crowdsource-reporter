@@ -77,6 +77,7 @@ define([
         _deletedAttachmentsPopupArr: [], // to store deleted attachments
         currentGeoformNode: null, // Refers to node for geoform(add/edit)
         componentOrder: [],
+        _resizedFiles: [],
         /**
         * This function is called when widget is constructed.
         * @param{object} options to be mixed
@@ -94,6 +95,7 @@ define([
         startup: function () {
             try {
                 this.defaultValueArray = [];
+                this._resizedFiles = [];
                 // Show loading indicator
                 this.appUtils.showLoadingIndicator();
                 //Reorder form components  as per configuration
@@ -463,6 +465,7 @@ define([
             }
             this.toolbar.deactivate();
             this._clearSubmissionGraphic();
+            this._resizedFiles = [];
             setTimeout(lang.hitch(this, function () {
                 this.closeForm(evt);
                 this._clearFormFields();
@@ -907,6 +910,13 @@ define([
             $('#' + target.parentNode.id + "_Close").bind('closed.bs.alert', lang.hitch(this, function (evt) {
                 domClass.replace(dom.byId(evt.target.id.split("_")[0]), "esriCTHideFileInputUI", "esriCTFileToSubmit");
                 this._updateAttachmentCount();
+                //Check if the resized image is being deleted by the user
+                //if yes then delete the same image from the array
+                var indexToMatch = domAttr.get(dom.byId(target.parentNode.id), "indexToMatch");
+                if (indexToMatch) {
+                    var indexToDelete = parseInt(indexToMatch, 10);
+                    this._resizedFiles.splice(indexToDelete, 1, null);
+                }
             }));
 
             //once filename is shown, update file attachments count
@@ -942,6 +952,66 @@ define([
                     }
                 });
             }
+            //If max size parameter exist and it is configured
+            //then validate and reduce the image size
+            if (this.config.hasOwnProperty("maxImageSize")
+                && this.config.maxImageSize !== "actualSize") {
+                this._validateAndReduceImageDimension(evt, target, _this, fileName);
+            }
+        },
+
+        /**
+        * validate and reduce the image size
+        * @param{object} evt - Event object which will be generated on file input change event
+        * @param{object} evt - Target node
+        * @param{object} _this - Scope object
+        * @param{string} fileName - File name of attachment
+        * @memberOf widgets/geo-form/geo-form
+        */
+        _validateAndReduceImageDimension: function (evt, target, _this, fileName) {
+            var reader;
+            reader = new FileReader();
+            reader.onload = function (readerEvent) {
+                var image, formNode, formData, canvas;
+                image = new Image();
+                image.onload = function () {
+                    // Resize the image
+                    canvas = domConstruct.create('canvas'),
+                        max_size = _this.config.maxImageSize,
+                        width = image.width,
+                        height = image.height;
+                    if (max_size < height || max_size < width) {
+                        if (width > height) {
+                            if (width > max_size) {
+                                height *= max_size / width;
+                                width = max_size;
+                            }
+                        } else {
+                            if (height > max_size) {
+                                width *= max_size / height;
+                                height = max_size;
+                            }
+                        }
+                        canvas.width = width;
+                        canvas.height = height;
+                        canvas.getContext('2d').drawImage(image, 0, 0, width, height);
+                        imageDataUrl = canvas.toDataURL('image/jpeg');
+                        imageResized = _this.appUtils.dataURLToBlob(imageDataUrl);
+
+                        formNode = domConstruct.create("form", { "enctype": "multipart/form-data" });
+                        formData = new FormData(formNode);
+                        formData.append("attachment", imageResized, fileName);
+                        _this._resizedFiles.push(formData);
+                        //add attribute, this will be useful while accessing the image
+                        domAttr.set(dom.byId(target.parentNode.id), "indexToMatch",
+                            _this._resizedFiles.length - 1);
+                        domClass.remove(target.parentNode, "esriCTFileToSubmit");
+                    }
+                };
+                image.src = readerEvent.target.result;
+                evt.target.files[0] = readerEvent.target.result;
+            };
+            reader.readAsDataURL(evt.currentTarget.files[0]);
         },
 
         /**
@@ -1797,9 +1867,8 @@ define([
                         }
                         if (this.defaultValueArray[index].type === "esriFieldTypeDate") {
                             var date = new Date(this.defaultValueArray[index].defaultValue);
-                            defaultDate = moment(new Date(date)).format($(currentInput.parentElement).data("DateTimePicker").format());
                             // set current date to date field
-                            $(currentInput.parentElement).data('DateTimePicker').date(defaultDate);
+                            $(currentInput.parentElement).data('DateTimePicker').date(date);
                         }
                     }
                 }
@@ -2137,10 +2206,27 @@ define([
             this.selectedLayer.applyEdits([featureData], null, null, lang.hitch(this, function (addResults) {
                 // Add attachment on success
                 if (addResults[0].success) {
+                    //Filter file array
+                    if (this._resizedFiles && this._resizedFiles.length > 0) {
+                        this._resizedFiles = this._resizedFiles.filter(function (fileIndex) {
+                            return fileIndex !== null;
+                        });
+                    }
                     //if layer has attachments then add those attachments
-                    if (this.selectedLayer.hasAttachments && query(".esriCTFileToSubmit", this.attachmentSection).length > 0) {
+                    if (this.selectedLayer.hasAttachments &&
+                        (query(".esriCTFileToSubmit", this.attachmentSection).length > 0 ||
+                            this._resizedFiles.length > 0)) {
                         //get all the attachments and append it in form element
                         fileList = query(".esriCTFileToSubmit", this.attachmentSection);
+                        //If new attachments which are reduced in the quality are added
+                        //add them to the fileList array so that they are processed
+                        if (this._resizedFiles.length > 0) {
+                            array.forEach(this._resizedFiles, lang.hitch(this, function (formNode) {
+                                if (formNode) {
+                                    fileList.push(formNode);
+                                }
+                            }));
+                        }
                         //reset fileAttached and failed counter
                         this._fileAttachedCounter = 0;
                         this._fileFailedCounter = 0;
@@ -2223,7 +2309,7 @@ define([
                     // check for datetime picker and assign value
                     if (domClass.contains(currentField, "hasDatetimepicker")) {
                         picker = $(currentField.parentNode).data('DateTimePicker');
-                        datePicker = picker.getDate();
+                        datePicker = picker.date();
                         if (datePicker) {
                             // need to get time of date in ms for service
                             value = datePicker.valueOf();
@@ -2251,10 +2337,26 @@ define([
             featureData.attributes[this.layer.objectIdField] = this.item.attributes[this.layer.objectIdField];
             // Add feature to the layer
             this.layer.applyEdits(null, [featureData], null, lang.hitch(this, function (addResults, updateResults, deleteResults) {
+                //Filter file array
+                if (this._resizedFiles && this._resizedFiles.length > 0) {
+                    this._resizedFiles = this._resizedFiles.filter(function (fileIndex) {
+                        return fileIndex !== null;
+                    });
+                }
                 // Add attachment on success
                 if (updateResults[0].success) {
                     //get all the attachments and append it in form element
                     fileList = query(".esriCTFileToSubmit", this.attachmentSection);
+                    //check new images are being added and they are resized as per the
+                    //configured dimensions
+                    //Add them to the file list, so they will be considered while adding attachments
+                    if (this._resizedFiles.length > 0) {
+                        array.forEach(this._resizedFiles, lang.hitch(this, function (formNode) {
+                            if (formNode) {
+                                fileList.push(formNode);
+                            }
+                        }));
+                    }
                     //if layer has attachments then add those attachments
                     if (this.layer.hasAttachments && (fileList.length > 0 || this._deletedAttachmentsPopupArr.length > 0)) {
                         if (fileList.length > 0) {
@@ -2375,13 +2477,19 @@ define([
                 });
                 // Show Thank you message on Success
                 this._showHeaderMessageDiv(attachmentFailedMsg);
-                // Successfully feature is added on the layer
-                this.geoformFeatureUpdated(this.item);
+                setTimeout(lang.hitch(this, function () {
+                    // Successfully feature is added on the layer
+                    this.geoformFeatureUpdated(this.item);
+                }), 200);
+
             } else {
-                // Successfully feature is added on the layer
-                this.geoformFeatureUpdated(this.item);
+                setTimeout(lang.hitch(this, function () {
+                    // Successfully feature is added on the layer
+                    this.geoformFeatureUpdated(this.item);
+                }), 200);
             }
             this.appUtils.hideLoadingIndicator();
+            this._resizedFiles = [];
         },
 
         /**
@@ -2791,6 +2899,10 @@ define([
                     var attachmentObjectID;
                     attachmentObjectID = domAttr.get(evt.target, "attachmentObjectID");
                     attachmentObjectID = parseInt(attachmentObjectID, 10);
+                    //Remove the deleted item from the DOM
+                    if (evt.target.parentElement) {
+                        domConstruct.destroy(evt.target.parentElement);
+                    }
                     this._deletedAttachmentsPopupArr.push(attachmentObjectID);
                     this._updateAttachmentCount();
                 }), 1);

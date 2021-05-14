@@ -374,9 +374,16 @@ define([
             }
             // user is logged in via AGOL portal login
             if (this.config.portalObject) {
+                var portalURL = this.config.portalObject.url;
+                //If the portal url do not have forward slash
+                //at the end, add to make it a valid url once 
+                //it is merged with oauth sign out url 
+                if (portalURL[portalURL.length - 1] !== "/") {
+                    portalURL = portalURL + "/";
+                }
                 if (this.config.portalObject.getPortalUser()) {
                     esriRequest({
-                        url: this.config.portalObject.url + "sharing/oauth2/signout",
+                        url: portalURL + "sharing/oauth2/signout",
                         handleAs: "xml",
                         load: lang.hitch(this, function () {
                             IdentityManager.destroyCredentials();
