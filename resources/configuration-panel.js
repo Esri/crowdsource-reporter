@@ -89,7 +89,7 @@
         "commentEndDate" :"",
         "commentEndTime": "",
         "commentSortingOrder": "DESC",
-        "maxImageSize": "actualSize",
+        "maxImageSize": "actualSize"
     },
   "configurationSettings": [{
       "category": "<b>General</b>",
