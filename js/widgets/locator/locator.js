@@ -19,6 +19,7 @@ define([
     "dijit/_WidgetBase",
     "dijit/_TemplatedMixin",
     "dijit/_WidgetsInTemplateMixin",
+    "esri/request",
     "esri/Color",
     "esri/config",
     "esri/graphic",
@@ -32,7 +33,7 @@ define([
     "esri/tasks/query",
     "esri/tasks/QueryTask",
     "vendor/usng"
-], function (declare, domConstruct, lang, domAttr, domClass, domGeom, domStyle, array, dom, Deferred, DeferredList, on, keys, query, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, Color, esriConfig, Graphic, Point, webMercatorUtils, GraphicsLayer, SpatialReference, GeometryService, Locator, ProjectParameters, EsriQuery, QueryTask, usng) {
+], function (declare, domConstruct, lang, domAttr, domClass, domGeom, domStyle, array, dom, Deferred, DeferredList, on, keys, query, template, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, esriRequest, Color, esriConfig, Graphic, Point, webMercatorUtils, GraphicsLayer, SpatialReference, GeometryService, Locator, ProjectParameters, EsriQuery, QueryTask, usng) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         templateString: template,
         lastSearchString: null,
@@ -232,38 +233,57 @@ define([
                     }
                     //Get the total number of configured gecoders
                     this._configuredGeocoderLength = geocoders.length;
-
-                    for (i = 0; i < geocoders.length; i++) {
-                        locator = new Locator(geocoders[i].url);
-                        locator.outSpatialReference = this.map.spatialReference;
-                        locator.name = (this.config && geocoders[i].name) ? geocoders[i].name : "";
-                        if (geocoders[i].singleLineFieldName) {
-                            address[geocoders[i].singleLineFieldName] = this.txtSearch.value;
-                        } else {
-                            address = {
-                                SingleLine: this.txtSearch.value
+                    //get geocoder capabilities
+                    this._fetchGeocoderCapability(geocoders).then(lang.hitch(this, function (geocoders) {
+                        for (i = 0; i < geocoders.length; i++) {
+                            locator = new Locator(geocoders[i].url);
+                            locator.outSpatialReference = this.map.spatialReference;
+                            locator.name = (this.config && geocoders[i].name) ? geocoders[i].name : "";
+                            if (geocoders[i].singleLineFieldName) {
+                                address[geocoders[i].singleLineFieldName] = this.txtSearch.value;
+                            } else {
+                                address = {
+                                    SingleLine: this.txtSearch.value
+                                };
+                            }
+                            options = {
+                                address: address,
+                                outFields: ["*"],
+                                countryCode: geocoders[i].countryCode || ""
                             };
+                            if (geocoders[i].searchWithinMap) {
+                                options.searchExtent = this.map.extent;
+                            }
+                            if (geocoders[i].suggest) {
+                                //For suggest, pass maxSuggestions parameter with the configured value
+                                if (geocoders[i].maxSuggestions) {
+                                    options.maxSuggestions = geocoders[i].maxSuggestions;
+                                }
+                                options.text = this.txtSearch.value;
+                                locatorDef = locator.suggestLocations(options);
+                                this._onAddressToSuggestComplete(locator);
+                            } else {
+                                //For location, pass maxLocations parameter with the configured value
+                                if (geocoders[i].maxSuggestions) {
+                                    options.maxLocations = geocoders[i].maxSuggestions;
+                                }
+                                locatorDef = locator.addressToLocations(options);
+                                this._onAddressToLocateComplete(locator);
+                            }
+                            deferredArray.push(locatorDef);
                         }
-
-                        options = {
-                            address: address,
-                            outFields: ["*"],
-                            countryCode: geocoders[i].countryCode || ""
-                        };
-                        // optionally return the out fields if you need to calculate the extent of the geocoded point
-                        locatorDef = locator.addressToLocations(options);
-                        this._onAddressToLocateComplete(locator);
-                        deferredArray.push(locatorDef);
-                    }
-                }
-                // check if layer search is enabled in the webmap and layer is configured for search
-                if (this.itemInfo.applicationProperties && this.itemInfo.applicationProperties.viewing.search && this.itemInfo.applicationProperties.viewing.search.enabled) {
-                    for (i = 0; i < this.itemInfo.applicationProperties.viewing.search.layers.length; i++) {
-                        if (this.layerId === this.itemInfo.applicationProperties.viewing.search.layers[i].id) {
-                            this.searchField = this.itemInfo.applicationProperties.viewing.search.layers[i].field.name;
-                            this._layerSearchResults(this.itemInfo.applicationProperties.viewing.search.layers[i], deferredArray);
+                        // check if layer search is enabled in the webmap and layer is configured for search
+                        if (this.itemInfo.applicationProperties && this.itemInfo.applicationProperties.viewing.search && this.itemInfo.applicationProperties.viewing.search.enabled) {
+                            for (i = 0; i < this.itemInfo.applicationProperties.viewing.search.layers.length; i++) {
+                                if (this.layerId === this.itemInfo.applicationProperties.viewing.search.layers[i].id) {
+                                    this.searchField = this.itemInfo.applicationProperties.viewing.search.layers[i].field.name;
+                                    this._layerSearchResults(this.itemInfo.applicationProperties.viewing.search.layers[i], deferredArray);
+                                }
+                            }
                         }
-                    }
+                        // get results for both address and layer search
+                        this._getAddressResults(deferredArray);
+                    }));
                 }
                 // check if 'enableUSNGSearch' flag is set to true in config file
                 if (this.config.enableUSNGSearch) {
@@ -277,16 +297,40 @@ define([
                 if (this.config.enableLatLongSearch) {
                     this._getLatLongValue();
                 }
-                // get results for both address and layer search
-                this._getAddressResults(deferredArray);
             }), 500);
         },
 
         /**
-        * This function is used when address is located
-        * @param {Object} to locate address
-        * @memberOf widgets/locator/locator
+        * Get capabilities of all the configured geocoders
+        * @method widgets/locator/locator
         */
+        _fetchGeocoderCapability: function (geocoders) {
+            var defArr = [], allDef = new Deferred(), deferredListResult;
+            for (i = 0; i < geocoders.length; i++) {
+                var locatorDef = esriRequest({
+                    url: geocoders[i].url,
+                    content: {
+                        f: 'json'
+                    },
+                    handleAs: 'json'
+                });
+                defArr.push(locatorDef);
+            }
+            deferredListResult = new DeferredList(defArr);
+            deferredListResult.then(lang.hitch(this, function (results) {
+                array.forEach(results, lang.hitch(this, function (geocoderResult, i) {
+                    //Check if capabilities exist  
+                    if (geocoderResult[1].capabilities) {
+                        geocoders[i].suggest = geocoderResult[1].capabilities.indexOf("Suggest") > -1;
+                    } else {
+                        geocoders[i].suggest = false;
+                    }
+                }));
+                allDef.resolve(geocoders);
+            }));
+            return allDef.promise;
+        },
+
         _onAddressToLocateComplete: function (locator) {
             locator.on("address-to-locations-complete", lang.hitch(this, function (evt) {
                 var locatorName, nameArray = {},
@@ -301,6 +345,31 @@ define([
                     nameArray[locatorName] = this._addressResult(evt.addresses, locatorName);
                     if (nameArray[locatorName].length > 0) {
                         this._showLocatedAddress(nameArray);
+                    }
+                }
+                return deferred.promise;
+            }));
+        },
+
+        /**
+        * This function is used when address is located
+        * @param {Object} locate address
+        * @memberOf widgets/locator/locator
+        */
+        _onAddressToSuggestComplete: function (locator) {
+            locator.on("suggest-locations-complete", lang.hitch(this, function (evt) {
+                var locatorName, nameArray = {},
+                    deferred;
+                deferred = new Deferred();
+                deferred.resolve({
+                    "addresses": evt.suggestions,
+                    "target": evt.target
+                });
+                if (evt.suggestions.length > 0 && !nameArray[this.config.i18n.locator.addressText + " " + evt.target.name]) {
+                    locatorName = this.config.i18n.locator.addressText + " " + evt.target.name;
+                    nameArray[locatorName] = this._addressResult(evt.suggestions, locatorName);
+                    if (nameArray[locatorName].length > 0) {
+                        this._showLocatedAddress(nameArray, locator);
                     }
                 }
                 return deferred.promise;
@@ -417,10 +486,22 @@ define([
             var order, nameArray = [];
             // Loop through the results and store results of type LatLong in an array
             for (order = 0; order < candidates.length; order++) {
-                if (candidates[order].attributes.Addr_type !== "LatLong" && (!(isNaN(candidates[order].location.x) && isNaN(candidates[order].location.y)))) {
+                if (candidates[order].attributes &&
+                    candidates[order].attributes.Addr_type !== "LatLong" &&
+                    (!(isNaN(candidates[order].location.x) && isNaN(candidates[order].location.y)))) {
                     nameArray.push({
                         name: candidates[order].address,
                         attributes: candidates[order]
+                    });
+                    this.resultLength++;
+                    //If candidate has text property, it means this is a suggestion
+                    //in this case push attributes as null and add a magicKey
+                    //magicKey will help us in getting unique address for the given suggestionSS
+                } else if (candidates[order].text) {
+                    nameArray.push({
+                        name: candidates[order].text,
+                        attributes: null,
+                        magicKey: candidates[order].magicKey
                     });
                     this.resultLength++;
                 }
@@ -460,7 +541,7 @@ define([
         * @param {} candidates
         * @memberOf widgets/locator/locator
         */
-        _showLocatedAddress: function (candidates) {
+        _showLocatedAddress: function (candidates, locator) {
             var candidateArray, divAddressContainer, candidate, addressListContainer, i, divAddressSearchCell,
                 locatorName;
             if (candidates) {
@@ -518,7 +599,8 @@ define([
                             //Place the address container into the result container
                             domConstruct.place(addressListContainer, this.divResultContainer, "last");
                             for (i = 0; i < candidates[candidateArray].length; i++) {
-                                this._displayValidLocations(candidates[candidateArray][i], i, candidates[candidateArray], addressListContainer, locatorName);
+                                this._displayValidLocations(candidates[candidateArray][i], i, candidates[candidateArray], addressListContainer,
+                                    locatorName, locator);
                             }
                         }
                     }
@@ -539,7 +621,7 @@ define([
         * @param {} addressListContainer
         * @memberOf widgets/locator/locator
         */
-        _displayValidLocations: function (candidate, index, candidateArray, addressListContainer, locatorName) {
+        _displayValidLocations: function (candidate, index, candidateArray, addressListContainer, locatorName, locator) {
             var candidateAddress, divAddressRow;
             divAddressRow = domConstruct.create("div", {
                 "class": "esriCTCandidateList"
@@ -550,8 +632,11 @@ define([
             }, divAddressRow);
             domAttr.set(candidateAddress, "index", index);
             try {
-                // show address value in the list
-                if (candidate.name) {
+                //If longLabel exist, use the same
+                if (candidate.attributes && candidate.attributes.LongLabel) {
+                    domAttr.set(candidateAddress, "innerHTML", candidate.attributes.attributes.LongLabel);
+                    // show address value in the list
+                } else if (candidate.name) {
                     domAttr.set(candidateAddress, "innerHTML", candidate.name);
                     // show latitude longitude value in the list
                 } else if (candidate.LatLong) {
@@ -559,16 +644,22 @@ define([
                     // show USNG and MGRS value in the list
                 } else if (candidate.value) {
                     domAttr.set(candidateAddress, "innerHTML", candidate.value);
+                    // If text is present, use the same
+                } else if (candidate.text) {
+                    domAttr.set(candidateAddress, "innerHTML", candidate.text);
                 }
                 if (candidate.attributes && candidate.attributes.location) {
                     domAttr.set(candidateAddress, "x", candidate.attributes.location.x);
                     domAttr.set(candidateAddress, "y", candidate.attributes.location.y);
+                } else if (candidate.magicKey) {
+                    //set the magic key attribute this will be used once user clicks the suggestion
+                    domAttr.set(candidateAddress, "magicKey", candidate.magicKey);
                 }
             } catch (err) {
                 this.appUtils.showError(err);
             }
             // handle click event when user clicks on a candidate address
-            this.handleAddressClick(candidate, candidateAddress, candidateArray);
+            this.handleAddressClick(candidate, candidateAddress, candidateArray, locator);
             //If enter button is clicked and valid result is fetched from default geocoder
             //show it on the map
             if (this.isEnterClicked && index === 0 && this.activeLocator === locatorName) {
@@ -707,7 +798,7 @@ define([
         * @param {} candidateArray
         * @memberOf widgets/locator/locator
         */
-        handleAddressClick: function (candidate, candidateAddress, candidateArray) {
+        handleAddressClick: function (candidate, candidateAddress, candidateArray, locator) {
             on(candidateAddress, "click, keypress", lang.hitch(this, function (evt) {
                 if (!this.appUtils.validateEvent(evt)) {
                     return;
@@ -715,37 +806,76 @@ define([
                 var candidateSplitValue, mapPoint;
                 domAttr.set(this.txtSearch, "defaultAddress", evt.currentTarget.innerHTML);
                 this.txtSearch.value = domAttr.get(this.txtSearch, "defaultAddress");
-                // selected candidate is address
-                if (candidate.attributes && candidate.attributes.location) {
-                    mapPoint = new Point(parseFloat(domAttr.get(evt.currentTarget, "x")), parseFloat(domAttr.get(evt.currentTarget, "y")), this.map.spatialReference);
-                    this.candidateGeometry = mapPoint;
-                    // selected candidate is latitude and longitude value
-                } else if (candidate.name) {
-                    if (candidate.geometry) {
-                        this.candidateGeometry = candidate.geometry;
-                    }
-                } else if (candidate.LatLong) {
-                    this._projectOnMap(candidate.LatLong.value[0], candidate.LatLong.value[1]);
-                    // selected candidate is USNG or MGRS
-                } else if (candidate.value) {
-                    candidateSplitValue = candidate.coords.split(",");
-                    this._projectOnMap(candidateSplitValue[0], candidateSplitValue[1]);
-                }
-                if (this.handleFeatureSearch) {
-                    if (candidate.name && candidate.geometry) {
-                        this.onFeatureSearchCompleted(candidate);
-                    } else {
-                        this.onLocationCompleted(this.candidateGeometry);
-                    }
+                //If magic key exist then its a suggestion and we need to get the location
+                if (candidate.magicKey) {
+                    this._getLocationForSuggestion(evt, locator, candidate);
                 } else {
-                    if (candidate.name && candidate.geometry) {
-                        this.onFeatureSearchCompleted(candidate);
+                    // selected candidate is address
+                    if (candidate.attributes && candidate.attributes.location) {
+                        mapPoint = new Point(parseFloat(domAttr.get(evt.currentTarget, "x")), parseFloat(domAttr.get(evt.currentTarget, "y")), this.map.spatialReference);
+                        this.candidateGeometry = mapPoint;
+                        // selected candidate is latitude and longitude value
+                    } else if (candidate.name) {
+                        if (candidate.geometry) {
+                            this.candidateGeometry = candidate.geometry;
+                        }
+                    } else if (candidate.LatLong) {
+                        this._projectOnMap(candidate.LatLong.value[0], candidate.LatLong.value[1]);
+                        // selected candidate is USNG or MGRS
+                    } else if (candidate.value) {
+                        candidateSplitValue = candidate.coords.split(",");
+                        this._projectOnMap(candidateSplitValue[0], candidateSplitValue[1]);
+                    }
+                    if (this.handleFeatureSearch) {
+                        if (candidate.name && candidate.geometry) {
+                            this.onFeatureSearchCompleted(candidate);
+                        } else {
+                            this.onLocationCompleted(this.candidateGeometry);
+                        }
                     } else {
-                        this.onLocationCompleted(this.candidateGeometry);
+                        if (candidate.name && candidate.geometry) {
+                            this.onFeatureSearchCompleted(candidate);
+                        } else {
+                            this.onLocationCompleted(this.candidateGeometry);
+                        }
+                    }
+                    if (this.isGeoformLocator) {
+                        this._hideText(true);
                     }
                 }
-                if (this.isGeoformLocator) {
-                    this._hideText(true);
+            }));
+        },
+
+        /**
+        * Get the location for available suggestion
+        * @param {} evt
+        * @param {} locator
+        * @param {} candidate
+        * @memberOf widgets/locator/locator
+        */
+        _getLocationForSuggestion: function (evt, locator, candidate) {
+            var options = {
+                address: address = {
+                    SingleLine: evt.currentTarget.innerHTML
+                },
+                text: evt.currentTarget.innerHTML,
+                outFields: ["*"],
+                magicKey: candidate.magicKey
+            };
+            locator.addressToLocations(options).then(lang.hitch(this, function (response) {
+                response = response[0];
+                domAttr.set(this.txtSearch, "defaultAddress", response.address);
+                this.txtSearch.value = domAttr.get(this.txtSearch, "defaultAddress");
+                // selected candidate is address
+                if (response.attributes && response.location) {
+                    mapPoint = new Point(parseFloat(response.location.x), parseFloat(response.location.y),
+                        this.map.spatialReference);
+                    this.candidateGeometry = mapPoint;
+                    this.onLocationCompleted(this.candidateGeometry);
+                    //Hide the search panel if the geo form locator is open
+                    if (this.isGeoformLocator) {
+                        this._hideText(true);
+                    }
                 }
             }));
         },
