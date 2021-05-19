@@ -7,7 +7,7 @@
         "applicationIcon": "",
         "applicationFavicon": "/images/favicon.ico",
         "signInSubtitle": "",
-        "signInBackgroundImage": "/images/signinbg.png",
+        "signInBackgroundImage": "/images/signinbg_new.png",
         "enableGuestAccess": true,
         "enableFacebook": false,
         "enableTwitter": false,
@@ -484,21 +484,21 @@
               "value": "Bottom"
           }]
       }, {
-        "label": "Maximum image size",
+        "label": "Maximum image size on the longest edge",
         "tooltip": "Select maximum image size a user can add while submitting a report",
         "type": "options",
         "fieldName": "maxImageSize",
         "options": [{
-            "label": "320",
+            "label": "320 pixels",
             "value": 320
         }, {
-            "label": "640",
+            "label": "640 pixels",
             "value": 640
         }, {
-            "label": "1280",
+            "label": "1280 pixels",
             "value": 1280
         },{
-            "label": "1920",
+            "label": "1920 pixels",
             "value": 1920
         },{
             "label": "Unrestricted",

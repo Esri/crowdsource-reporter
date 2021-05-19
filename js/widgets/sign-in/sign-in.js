@@ -167,6 +167,10 @@ define([
             }
             domAttr.set(this.signinGuestUser, "innerHTML", this._config.i18n.signin.guestSigninText);
             domAttr.set(this.signinOptions, "innerHTML", this._config.i18n.signin.signinOptionsText);
+            //If existing image is configured, then update the path with new image
+            if (this._isExistingDefaultImageConfigured()) {
+                this._config.signInBackgroundImage = "/images/signinbg_new.png";
+            }
             if (this._config.signInBackgroundImage.indexOf("http") === 0) {
                 domStyle.set(this.signinBgImage, "backgroundImage", 'url(' + this._config.signInBackgroundImage + ')');
             } else {
@@ -199,12 +203,16 @@ define([
             this._enableDisableSocialMedia();
         },
 
+        _isExistingDefaultImageConfigured: function () {
+            return this._config.signInBackgroundImage === "/images/signinbg.png";
+        },
+
         /**
         * Function checks if user has changed the sign in page background image
         * @memberOf widgets/sign-in/sign-in handle
         */
         _isDefaultSignInBackgroundImage: function () {
-            return this._config.signInBackgroundImage.indexOf("/images/signinbg.png") > -1;
+            return this._config.signInBackgroundImage === "/images/signinbg_new.png";
         },
 
         /**
