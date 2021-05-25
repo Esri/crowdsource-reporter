@@ -306,28 +306,34 @@ define([
         */
         _fetchGeocoderCapability: function (geocoders) {
             var defArr = [], allDef = new Deferred(), deferredListResult;
-            for (i = 0; i < geocoders.length; i++) {
-                var locatorDef = esriRequest({
-                    url: geocoders[i].url,
-                    content: {
-                        f: 'json'
-                    },
-                    handleAs: 'json'
-                });
-                defArr.push(locatorDef);
-            }
-            deferredListResult = new DeferredList(defArr);
-            deferredListResult.then(lang.hitch(this, function (results) {
-                array.forEach(results, lang.hitch(this, function (geocoderResult, i) {
-                    //Check if capabilities exist  
-                    if (geocoderResult[1].capabilities) {
-                        geocoders[i].suggest = geocoderResult[1].capabilities.indexOf("Suggest") > -1;
-                    } else {
-                        geocoders[i].suggest = false;
-                    }
+            //If the geocoders are not present or the length is 0
+            //then resolve the deferred and return 
+            if (!geocoders || geocoders.length === 0) {
+                allDef.resolve([]);
+            } else {
+                for (i = 0; i < geocoders.length; i++) {
+                    var locatorDef = esriRequest({
+                        url: geocoders[i].url,
+                        content: {
+                            f: 'json'
+                        },
+                        handleAs: 'json'
+                    });
+                    defArr.push(locatorDef);
+                }
+                deferredListResult = new DeferredList(defArr);
+                deferredListResult.then(lang.hitch(this, function (results) {
+                    array.forEach(results, lang.hitch(this, function (geocoderResult, i) {
+                        //Check if capabilities exist  
+                        if (geocoderResult[1].capabilities) {
+                            geocoders[i].suggest = geocoderResult[1].capabilities.indexOf("Suggest") > -1;
+                        } else {
+                            geocoders[i].suggest = false;
+                        }
+                    }));
+                    allDef.resolve(geocoders);
                 }));
-                allDef.resolve(geocoders);
-            }));
+            }
             return allDef.promise;
         },
 
