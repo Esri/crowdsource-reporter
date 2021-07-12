@@ -63,7 +63,7 @@
         "enableDifferentHelpContent": false,
         "helpLinkText": "Help",
         "helpDialogTitle": "Help",
-        "helpDialogContent": "<p>Crowdsource Reporter is a configurable gallery application template that allows users to submit problems or observations. The application has been optimized for smartphones but is responsively designed to be used on smartphones, tablets, and desktop computers.</p><p>The Crowdsource Reporter application presents one or more maps that can be used to report a problem or observation. Users can anonymously submit new reports, review existing reports, and comment and vote on reports or observations submitted by other users. They also can authenticate with their social media or ArcGIS Online credentials and track the status of problems or observations they have reported.</p>",
+        "helpDialogContent": "<p>Crowdsource Reporter is a configurable gallery application template that allows users to submit problems or observations. The application has been optimized for smartphones but is responsively designed to be used on smartphones, tablets, and desktop computers.</p><p>The Crowdsource Reporter application presents one or more maps that can be used to report a problem or observation. Users can anonymously submit new reports, review existing reports, and comment and vote on reports or observations submitted by other users. They also can authenticate with their ArcGIS Online credentials and track the status of problems or observations they have reported.</p>",
         "loginHelpDialogTitle": "",
         "loginHelpDialogContent": "",
         "bufferRadius": 3,
@@ -368,7 +368,7 @@
           "fieldName": "signInBackgroundImage"
       }, {
           "label": "Sign in icon foreground color",
-          "tooltip": "Foreground image color of social media and guest icons.",
+          "tooltip": "Foreground image color of guest icons.",
           "type": "options",
           "fieldName": "imageForeGroundColor",
           "options": [{
@@ -380,7 +380,7 @@
           }]
       }, {
           "label": "Sign in icon background color",
-          "tooltip": "Background image color of social media and guest icons.",
+          "tooltip": "Background image color of guest icons.",
           "type": "color",
           "fieldName": "imageBackgroundColor"
       }, {
@@ -407,11 +407,6 @@
           "tooltip": "Enable to allow users to sign in using their ArcGIS Online credentials. Accounts must be members of the organization hosting the application.",
           "type": "boolean",
           "fieldName": "enablePortalLogin"
-      }, {
-          "label": "Allow users to sign in using Twitter",
-          "tooltip": "Enable to allow users to sign in using their Twitter credentials.",
-          "type": "boolean",
-          "fieldName": "enableTwitter"
       }, {
           "label": "Field for storing the ID of authenticated users (optional)",
           "tooltip": "Text field that stores the ID of the person who submitted or commented on a report. Field name must be the same across all layers and maps.",
@@ -670,7 +665,7 @@
           "label": "Editing Reports and Comments"
       }, {
           "type": "paragraph",
-          "value": "Allow users to edit and/or delete their own submissions. These capabilities will only be accessible on reports submitted by users who accessed the application using ArcGIS or social media accounts. Configure these sign in options on the Access tab."
+          "value": "Allow users to edit and/or delete their own submissions. These capabilities will only be accessible on reports submitted by users who accessed the application using ArcGIS accounts. Configure these sign in options on the Access tab."
       }, {
           "label": "Allow editing of reports and comments",
           "tooltip": "Allow authenticated reporters to edit their own reports and comments.",
