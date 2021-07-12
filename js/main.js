@@ -216,7 +216,8 @@ define([
 
                 //Populate location field after the address is validated
                 aspect.after(this.mapSearch, "_validateAddress", lang.hitch(this, function () {
-                    if (this.geoformInstance && this.selectedLayer.geometryType === "esriGeometryPoint" && !domClass.contains(dom.byId('geoformContainer'), "esriCTHidden")) {
+                    if (this.geoformInstance && this.selectedLayer.geometryType === "esriGeometryPoint" && !domClass.contains(dom.byId('geoformContainer'), "esriCTHidden")
+                        && this.config.locationField) {
                         this.geoformInstance._populateLocationField(this.mapSearch.locatorSearch.txtSearch.value);
                     }
                 }));

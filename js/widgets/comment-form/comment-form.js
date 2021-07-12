@@ -71,6 +71,7 @@ define([
         _fileAttachedCounter: 0, // to store number of files that is been attached
         _fileFailedCounter: 0, // to store number of files that is been failed to attached
         _deletedAttachmentsArr: [], // to store deleted attachments
+        _resizedFiles: [],
 
         /**
         * This function is called when widget is constructed.
@@ -90,6 +91,7 @@ define([
         postCreate: function () {
             var submitCommentText;
             this.inherited(arguments);
+            this._resizedFiles = [];
             this._initializeCommentForm();
             if (this.addComments) {
                 submitCommentText = this.config.i18n.comment.commentsFormSubmitButton;
@@ -140,6 +142,7 @@ define([
                 if (!this.appUtils.validateEvent(evt)) {
                     return;
                 }
+                this._resizedFiles = [];
                 this.appUtils.showLoadingIndicator();
                 this.onCancelButtonClick(evt);
                 this.appUtils.hideLoadingIndicator();
@@ -349,6 +352,13 @@ define([
             $('#' + target.parentNode.id + "_Close").bind('closed.bs.alert', lang.hitch(this, function (evt) {
                 domClass.replace(dom.byId(evt.target.id.split("_")[0]), "esriCTHideFileInputUI", "esriCTFileToSubmit");
                 this._updateAttachmentCount();
+                //Check if the resized image is being deleted by the user
+                //if yes then delete the same image from the array
+                var indexToMatch = domAttr.get(dom.byId(target.parentNode.id), "indexToMatch");
+                if (indexToMatch) {
+                    var indexToDelete = parseInt(indexToMatch, 10);
+                    this._resizedFiles.splice(indexToDelete, 1, null);
+                }
             }));
             //once filename is shown, update file attachments count
             this._updateAttachmentCount();
@@ -363,6 +373,7 @@ define([
                     "name": "attachment",
                     "style": { "height": dojo.coords(this._fileInputIcon).h + "px", "width": dojo.coords(this._fileInputIcon).w + "px" }
                 }, newFormControl);
+                var _this = this;
                 //place the newly created file-input control after file selection icon
                 domConstruct.place(newFormControl, this._fileInputIcon, "after");
                 //handle change event for file control if file size is
@@ -370,7 +381,65 @@ define([
                     fileChange.remove();
                     this._onFileSelected(evt);
                 }));
+                //If max size parameter exist and it is configured
+                //then validate and reduce the image size
+                if (this.config.hasOwnProperty("maxImageSize") &&
+                    this.config.maxImageSize !== "actualSize") {
+                    this._validateAndReduceImageDimension(evt, target, _this, fileName);
+                }
             }
+        },
+
+        /**
+        * validate and reduce the image size
+        * @param{object} evt - Event object which will be generated on file input change event
+        * @param{object} evt - Target node
+        * @param{object} _this - Scope object
+        * @param{string} fileName - File name of attachment
+        * @memberOf widgets/geo-form/geo-form
+        */
+        _validateAndReduceImageDimension: function (evt, target, _this, fileName) {
+            var reader;
+            reader = new FileReader();
+            reader.onload = function (readerEvent) {
+                var image, formNode, formData, canvas;
+                image = new Image();
+                image.onload = function () {
+                    // Resize the image
+                    canvas = domConstruct.create('canvas'),
+                        max_size = _this.config.maxImageSize,
+                        width = image.width,
+                        height = image.height;
+                    if (max_size < height || max_size < width) {
+                        if (width > height) {
+                            if (width > max_size) {
+                                height *= max_size / width;
+                                width = max_size;
+                            }
+                        } else {
+                            if (height > max_size) {
+                                width *= max_size / height;
+                                height = max_size;
+                            }
+                        }
+                        canvas.width = width;
+                        canvas.height = height;
+                        canvas.getContext('2d').drawImage(image, 0, 0, width, height);
+                        imageDataUrl = canvas.toDataURL('image/jpeg');
+                        imageResized = _this.appUtils.dataURLToBlob(imageDataUrl);
+
+                        formNode = domConstruct.create("form", { "enctype": "multipart/form-data" });
+                        formData = new FormData(formNode);
+                        formData.append("attachment", imageResized, fileName);
+                        _this._resizedFiles.push(formData);
+                        domAttr.set(dom.byId(target.parentNode.id), "indexToMatch", _this._resizedFiles.length - 1);
+                        domClass.remove(target.parentNode, "esriCTFileToSubmit");
+                    }
+                };
+                image.src = readerEvent.target.result;
+                evt.target.files[0] = readerEvent.target.result;
+            };
+            reader.readAsDataURL(evt.currentTarget.files[0]);
         },
 
         /**
@@ -591,13 +660,29 @@ define([
                 if (results[0].success) {
                     var fileList, i, userFormNode;
                     userFormNode = dom.byId("addCommentAttachmentsWrapperContainer");
+                    //Filter file array
+                    if (this._resizedFiles && this._resizedFiles.length > 0) {
+                        this._resizedFiles = this._resizedFiles.filter(function (fileIndex) {
+                            return fileIndex !== null;
+                        });
+                    }
                     // if layer has attachments then add those attachments
-                    if (this.commentTable.hasAttachments && query(".esriCTFileToSubmit", userFormNode).length > 0) {
+                    if (this.commentTable.hasAttachments && query(".esriCTFileToSubmit", userFormNode).length > 0 ||
+                        this._resizedFiles.length > 0) {
                         // get all the attachments
                         fileList = query(".esriCTFileToSubmit", userFormNode);
                         // reset fileAttached and failed counter
                         this._fileAttachedCounter = 0;
                         this._fileFailedCounter = 0;
+                        //If new attachments which are reduced in the quality are added
+                        //add them to the fileList array so that they are processed
+                        if (this._resizedFiles.length > 0) {
+                            array.forEach(this._resizedFiles, lang.hitch(this, function (formNode) {
+                                if (formNode) {
+                                    fileList.push(formNode);
+                                }
+                            }));
+                        }
                         // set total file attached counter
                         this._totalFileAttachedCounter = fileList.length;
                         for (i = 0; i < fileList.length; i++) {
@@ -641,6 +726,22 @@ define([
                     // if layer has attachments then add those attachments
                     // get all the attachments
                     fileList = query(".esriCTFileToSubmit", userFormNode);
+                    //Filter file array
+                    if (this._resizedFiles && this._resizedFiles.length > 0) {
+                        this._resizedFiles = this._resizedFiles.filter(function (fileIndex) {
+                            return fileIndex !== null;
+                        });
+                    }
+                    //check new images are being added and they are resized as per the
+                    //configured dimensions
+                    //Add them to the file list, so they will be considered while adding attachments
+                    if (this._resizedFiles.length > 0) {
+                        array.forEach(this._resizedFiles, lang.hitch(this, function (formNode) {
+                            if (formNode) {
+                                fileList.push(formNode);
+                            }
+                        }));
+                    }
                     if (this.commentTable.hasAttachments && (fileList.length > 0 || this._deletedAttachmentsArr.length > 0)) {
                         if (fileList.length > 0) {
                             // reset fileAttached and failed counter
@@ -753,6 +854,7 @@ define([
             } else {
                 this.onCommentFormSubmitted(this.item, true);
             }
+            this._resizedFiles = [];
         },
 
         /**

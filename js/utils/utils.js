@@ -663,5 +663,33 @@ define([
                 .replace(/\<edge\-link\>(.+)\<\/edge\-link\>/, '<a class="browser-message-link" href="https://www.microsoft.com/edge/">$1</a>')
                 .replace(/\<feedback\-link\>(.+)\<\/feedback\-link\>/, '<a class="browser-message-link" href="https://community.esri.com/community/gis/web-gis/arcgisonline">$1</a>');
         },
+
+        /**
+        * Returns the image data to blob
+        * @memberOf utils/utils
+        */
+        dataURLToBlob: function (dataURL) {
+            var BASE64_MARKER = ';base64,';
+            if (dataURL.indexOf(BASE64_MARKER) == -1) {
+                var parts = dataURL.split(',');
+                var contentType = parts[0].split(':')[1];
+                var raw = parts[1];
+
+                return new Blob([raw], { type: contentType });
+            }
+
+            var parts = dataURL.split(BASE64_MARKER);
+            var contentType = parts[0].split(':')[1];
+            var raw = window.atob(parts[1]);
+            var rawLength = raw.length;
+
+            var uInt8Array = new Uint8Array(rawLength);
+
+            for (var i = 0; i < rawLength; ++i) {
+                uInt8Array[i] = raw.charCodeAt(i);
+            }
+
+            return new Blob([uInt8Array], { type: "image/jpg" });
+        }
     });
 });

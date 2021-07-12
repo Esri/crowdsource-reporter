@@ -18,7 +18,7 @@
 
 Crowdsource Reporter is a configurable group application template that allows users to submit problems or observations.
 
-The Crowdsource Reporter application presents one, or more, maps that can be used to report a problem or observation. Users can anonymously submit new reports, review existing reports, and comment and vote on reports or observations submitted by other users. They can also authenticate with their social media or ArcGIS Online credentials and track the status of problems or observations they have reported.
+The Crowdsource Reporter application presents one, or more, maps that can be used to report a problem or observation. Users can anonymously submit new reports, review existing reports, and comment and vote on reports or observations submitted by other users. They can also authenticate with their ArcGIS Online credentials and track the status of problems or observations they have reported.
 
 [![Image of the Constituent Engagement app][Thumbnail]][Preview]
 
@@ -26,7 +26,7 @@ The Crowdsource Reporter application presents one, or more, maps that can be use
 
 * Presents editable layers from one or more maps that have been shared with the ArcGIS Online/Portal group configured in the application.
 * Users can submit new reports, review existing reports, and comment and vote on reports or observations submitted by other users.
-* Users can access the content anonymously, or authenticate using their Twitter, or ArcGIS credentials. Authenticated users gain access to additional functionality, such as My Issues - a list of all reports they have submitted.
+* Users can access the content anonymously, or authenticate using their ArcGIS credentials. Authenticated users gain access to additional functionality, such as My Issues - a list of all reports they have submitted.
 * The application has been optimized for smartphones but is responsively designed and can also be used in browsers on smartphones, tablets, and desktops using [all browsers supported by ArcGIS Online][supported browsers].
 
 ## Requirements

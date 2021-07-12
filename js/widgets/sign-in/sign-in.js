@@ -167,10 +167,20 @@ define([
             }
             domAttr.set(this.signinGuestUser, "innerHTML", this._config.i18n.signin.guestSigninText);
             domAttr.set(this.signinOptions, "innerHTML", this._config.i18n.signin.signinOptionsText);
+            //If existing image is configured, then update the path with new image
+            if (this._isExistingDefaultImageConfigured()) {
+                this._config.signInBackgroundImage = "/images/signinbg_new.png";
+            }
             if (this._config.signInBackgroundImage.indexOf("http") === 0) {
                 domStyle.set(this.signinBgImage, "backgroundImage", 'url(' + this._config.signInBackgroundImage + ')');
             } else {
                 domStyle.set(this.signinBgImage, "backgroundImage", 'url(' + dojoConfig.baseURL + this._config.signInBackgroundImage + ')');
+            }
+            //If user has not changed the existing sign in image
+            //then user will now see new image using the entire available space
+            //Otherwise, user will see no change in the sign in page 
+            if (this._isDefaultSignInBackgroundImage()) {
+                domStyle.set(this.signinBgImage, "backgroundSize", "cover");
             }
 
             //If guest login is disabled from configuration, make sure we are not showing it on login screen
@@ -191,6 +201,18 @@ define([
             domAttr.set(this.signinEsriButton, "title", this._config.i18n.signin.agolLoginTooltip);
             domAttr.set(this.signinEsriButton, "aria-label", this._config.i18n.signin.agolLoginTooltip);
             this._enableDisableSocialMedia();
+        },
+
+        _isExistingDefaultImageConfigured: function () {
+            return this._config.signInBackgroundImage === "/images/signinbg.png";
+        },
+
+        /**
+        * Function checks if user has changed the sign in page background image
+        * @memberOf widgets/sign-in/sign-in handle
+        */
+        _isDefaultSignInBackgroundImage: function () {
+            return this._config.signInBackgroundImage === "/images/signinbg_new.png";
         },
 
         /**
