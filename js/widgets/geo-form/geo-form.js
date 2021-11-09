@@ -1133,6 +1133,32 @@ define([
                     }
                 }
             }
+            if (this.loggedInUser !== null) {
+                if (this.config.firstNameField !== "" && currentField.type === "esriFieldTypeString" &&
+                    fieldname.toLowerCase() === this.config.firstNameField.toLowerCase()) {
+                    if (this.loggedInUser.firstName.length > currentField.length) {
+                        currentField.defaultValue = this.loggedInUser.firstName.slice(0, currentField.length);
+                    } else {
+                        currentField.defaultValue = this.loggedInUser.firstName;
+                    }
+                }
+                if (this.config.lastNameField !== "" && currentField.type === "esriFieldTypeString" &&
+                    fieldname.toLowerCase() === this.config.lastNameField.toLowerCase()) {
+                    if (this.loggedInUser.lastName.length > currentField.length) {
+                        currentField.defaultValue = this.loggedInUser.lastName.slice(0, currentField.length);
+                    } else {
+                        currentField.defaultValue = this.loggedInUser.lastName;
+                    }
+                }
+                if (this.config.emailField !== "" && currentField.type === "esriFieldTypeString" &&
+                    fieldname.toLowerCase() === this.config.emailField.toLowerCase()) {
+                    if (this.loggedInUser.email.length > currentField.length) {
+                        currentField.defaultValue = this.loggedInUser.email.slice(0, currentField.length);
+                    } else {
+                        currentField.defaultValue = this.loggedInUser.email;
+                    }
+                }
+            }
             // Set hint text for range domain Value
             this._createRangeText(currentField, formContent, fieldname);
             // If field has coded domain value and typeField set to true then create form elements for domain fields

@@ -658,7 +658,8 @@ define([
                             appUtils: this.appUtils,
                             isEdit: true,
                             item: this._itemDetails.item,
-                            isMapRequired: true
+                            isMapRequired: true,
+                            loggedInUser: this._loggedInUser
                         }, domConstruct.create("div", {}, parentDiv));
                         this.geoformEditInstance.startup();
 
@@ -1739,7 +1740,8 @@ define([
                         appUtils: this.appUtils,
                         isMapRequired: true,
                         isEdit: false,
-                        selectedLayer: this.selectedLayer
+                        selectedLayer: this.selectedLayer,
+                        loggedInUser: this._loggedInUser
 
                     }, domConstruct.create("div", {}, dom.byId("geoformContainer")));
                     //on submitting issues in geoform update issue wall and main map to show newly updated issue.
