@@ -173,7 +173,7 @@ define([
             domAttr.set(this.helpButton, "aria-label", this.appConfig.helpLinkText);
             //Load help screen on load based on configuration settings
             setTimeout(lang.hitch(this, function () {
-                if (this.appConfig.showHelpOnLoad) {
+                if (this.appConfig.showHelpOnLoad && this.appConfig.enableHelp) {
                     this._helpClicked();
                 }
             }), 500);

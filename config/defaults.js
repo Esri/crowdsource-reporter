@@ -163,5 +163,9 @@ define({
     "commentsSuccessMessage": "Comments Submitted Successfully.",
     "commentSortingOrder": "DESC", // To sort comment in ascending(ASC) or descending(DESC) order.
     "commentSortingField": "comments", // Field on which ascending or descending sorting needs to be applied
-    "maxImageSize": "actualSize"
+    "maxImageSize": "actualSize",
+    "firstNameField" : "",
+    "lastNameField" : "",
+    "emailField" : "",
+    "csvUrlForCascadingSelect" : ""
 });
