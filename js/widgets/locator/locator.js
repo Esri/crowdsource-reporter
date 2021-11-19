@@ -45,7 +45,7 @@ define([
         isPerformingSearch: false,
         activeLocator: null,
         isEnterClicked: false,
-        _configuredGeocoderLength : 0,
+        _configuredGeocoderLength: 0,
         /**
         * This function is called when widget is constructed.
         * @param{object} config to be mixed
@@ -76,8 +76,8 @@ define([
             this._attachLocatorEvents();
             //fetch active locator name
             if (this.config.tool_search && this.config.searchConfig &&
-                    this.config.searchConfig.sources.length > 0 &&
-                    this.config.searchConfig.activeSourceIndex !== "all") {
+                this.config.searchConfig.sources.length > 0 &&
+                this.config.searchConfig.activeSourceIndex !== "all") {
                 this.activeLocator = this.config.searchConfig.sources[this.config.searchConfig.activeSourceIndex].name;
             }
         },
@@ -869,18 +869,22 @@ define([
                 magicKey: candidate.magicKey
             };
             locator.addressToLocations(options).then(lang.hitch(this, function (response) {
-                response = response[0];
-                domAttr.set(this.txtSearch, "defaultAddress", response.address);
-                this.txtSearch.value = domAttr.get(this.txtSearch, "defaultAddress");
-                // selected candidate is address
-                if (response.attributes && response.location) {
-                    mapPoint = new Point(parseFloat(response.location.x), parseFloat(response.location.y),
-                        this.map.spatialReference);
-                    this.candidateGeometry = mapPoint;
-                    this.onLocationCompleted(this.candidateGeometry);
-                    //Hide the search panel if the geo form locator is open
-                    if (this.isGeoformLocator) {
-                        this._hideText(true);
+                if (response && response.length > 0) {
+                    response = response[0];
+                    if (response && response.address) {
+                        domAttr.set(this.txtSearch, "defaultAddress", response.address);
+                        this.txtSearch.value = domAttr.get(this.txtSearch, "defaultAddress");
+                        // selected candidate is address
+                        if (response.attributes && response.location) {
+                            mapPoint = new Point(parseFloat(response.location.x), parseFloat(response.location.y),
+                                this.map.spatialReference);
+                            this.candidateGeometry = mapPoint;
+                            this.onLocationCompleted(this.candidateGeometry);
+                            //Hide the search panel if the geo form locator is open
+                            if (this.isGeoformLocator) {
+                                this._hideText(true);
+                            }
+                        }
                     }
                 }
             }));
