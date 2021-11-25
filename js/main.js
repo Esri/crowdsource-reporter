@@ -668,7 +668,8 @@ define([
                 // Item details
                 this._itemDetails = new ItemDetails({
                     "appConfig": this.config,
-                    "appUtils": this.appUtils
+                    "appUtils": this.appUtils,
+                    "loggedInUser": this._loggedInUser
                 }).placeAt("sidebarContent"); // placeAt triggers a startup call to _itemDetails
                 this._itemDetails.hide();
                 this._sidebarCnt.addPanel("itemDetails", this._itemDetails);
