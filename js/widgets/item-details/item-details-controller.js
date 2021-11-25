@@ -1346,7 +1346,8 @@ define([
                 item: item,
                 selectedLayer: this.selectedLayer,
                 addComments: addComments,
-                existingAttachmentsObjectsArr: existingAttachmentsObjectsArr
+                existingAttachmentsObjectsArr: existingAttachmentsObjectsArr,
+                loggedInUser: this.loggedInUser
             }, domConstruct.create("div", {}, this.commentDetails));
 
             //attach cancel button click event
