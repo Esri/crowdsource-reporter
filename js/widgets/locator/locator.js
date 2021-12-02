@@ -241,10 +241,12 @@ define([
                             locator.name = (this.config && geocoders[i].name) ? geocoders[i].name : "";
                             if (geocoders[i].singleLineFieldName) {
                                 address[geocoders[i].singleLineFieldName] = this.txtSearch.value;
+                                locator.singleLineFieldName = geocoders[i].singleLineFieldName;
                             } else {
                                 address = {
                                     SingleLine: this.txtSearch.value
                                 };
+                                locator.singleLineFieldName = 'SingleLine';
                             }
                             options = {
                                 address: address,
@@ -330,6 +332,10 @@ define([
                         } else {
                             geocoders[i].suggest = false;
                         }
+                        if(geocoderResult[1].singleLineAddressField && geocoderResult[1].singleLineAddressField.name){
+                            geocoders[i].singleLineFieldName = geocoderResult[1].singleLineAddressField.name;
+                        }
+                        
                     }));
                     allDef.resolve(geocoders);
                 }));
@@ -860,10 +866,14 @@ define([
         * @memberOf widgets/locator/locator
         */
         _getLocationForSuggestion: function (evt, locator, candidate) {
+            var addr = {};
+            if(locator.singleLineFieldName){
+                addr[locator.singleLineFieldName] = evt.currentTarget.innerHTML;
+            } else{
+                addr.SingleLine = evt.currentTarget.innerHTML;
+            }
             var options = {
-                address: address = {
-                    SingleLine: evt.currentTarget.innerHTML
-                },
+                address: addr,
                 text: evt.currentTarget.innerHTML,
                 outFields: ["*"],
                 magicKey: candidate.magicKey
