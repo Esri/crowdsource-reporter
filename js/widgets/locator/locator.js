@@ -332,10 +332,10 @@ define([
                         } else {
                             geocoders[i].suggest = false;
                         }
+                        //store the singleLineFieldName, it will used for fetching locations/suggestions
                         if(geocoderResult[1].singleLineAddressField && geocoderResult[1].singleLineAddressField.name){
                             geocoders[i].singleLineFieldName = geocoderResult[1].singleLineAddressField.name;
                         }
-                        
                     }));
                     allDef.resolve(geocoders);
                 }));
@@ -867,6 +867,7 @@ define([
         */
         _getLocationForSuggestion: function (evt, locator, candidate) {
             var addr = {};
+            //if singleLineFieldName is found use that to fetch the locations
             if(locator.singleLineFieldName){
                 addr[locator.singleLineFieldName] = evt.currentTarget.innerHTML;
             } else{
