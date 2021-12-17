@@ -89,7 +89,11 @@
         "commentEndDate" :"",
         "commentEndTime": "",
         "commentSortingOrder": "DESC",
-        "maxImageSize": "actualSize"
+        "maxImageSize": "actualSize",
+        "firstNameField" : "",
+        "lastNameField" : "",
+        "emailField" : "",
+        "csvUrlForCascadingSelect" : ""
     },
   "configurationSettings": [{
       "category": "<b>General</b>",
@@ -605,7 +609,36 @@
           "type": "string",
 		  "stringFieldOption": "richtext",
           "fieldName": "submitMessage"
-      }]
+      }, {
+        "type": "subcategory",
+        "label": "Import choice list for cascading select"
+    }, {
+        "label": "Specify the URL of the CSV for the field values",
+        "tooltip": "CSV data will be used to create value list for the layer fields",
+        "type": "string",
+        "fieldName": "csvUrlForCascadingSelect"
+    }, {
+        "type": "subcategory",
+        "label": "Autofill field information"
+    }, {
+        "type": "paragraph",
+        "value": "Enter field names to autofill first name, last name and email of the logged in user."
+    }, {
+        "label": "First name",
+        "tooltip": "Autofill value in the configured field",
+        "type": "string",
+        "fieldName": "firstNameField"
+    }, {
+        "label": "Last name",
+        "tooltip": "Autofill value in the configured field",
+        "type": "string",
+        "fieldName": "lastNameField"
+    }, {
+        "label": "Email",
+        "tooltip": "Autofill value in the configured field",
+        "type": "string",
+        "fieldName": "emailField"
+    }]
   }, {
       "category": "<b>Reports</b>",
       "fields": [{

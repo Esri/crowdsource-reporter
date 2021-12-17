@@ -45,7 +45,7 @@ define([
         isPerformingSearch: false,
         activeLocator: null,
         isEnterClicked: false,
-        _configuredGeocoderLength : 0,
+        _configuredGeocoderLength: 0,
         /**
         * This function is called when widget is constructed.
         * @param{object} config to be mixed
@@ -76,8 +76,8 @@ define([
             this._attachLocatorEvents();
             //fetch active locator name
             if (this.config.tool_search && this.config.searchConfig &&
-                    this.config.searchConfig.sources.length > 0 &&
-                    this.config.searchConfig.activeSourceIndex !== "all") {
+                this.config.searchConfig.sources.length > 0 &&
+                this.config.searchConfig.activeSourceIndex !== "all") {
                 this.activeLocator = this.config.searchConfig.sources[this.config.searchConfig.activeSourceIndex].name;
             }
         },
@@ -241,10 +241,12 @@ define([
                             locator.name = (this.config && geocoders[i].name) ? geocoders[i].name : "";
                             if (geocoders[i].singleLineFieldName) {
                                 address[geocoders[i].singleLineFieldName] = this.txtSearch.value;
+                                locator.singleLineFieldName = geocoders[i].singleLineFieldName;
                             } else {
                                 address = {
                                     SingleLine: this.txtSearch.value
                                 };
+                                locator.singleLineFieldName = 'SingleLine';
                             }
                             options = {
                                 address: address,
@@ -329,6 +331,10 @@ define([
                             geocoders[i].suggest = geocoderResult[1].capabilities.indexOf("Suggest") > -1;
                         } else {
                             geocoders[i].suggest = false;
+                        }
+                        //store the singleLineFieldName, it will used for fetching locations/suggestions
+                        if(geocoderResult[1].singleLineAddressField && geocoderResult[1].singleLineAddressField.name){
+                            geocoders[i].singleLineFieldName = geocoderResult[1].singleLineAddressField.name;
                         }
                     }));
                     allDef.resolve(geocoders);
@@ -860,27 +866,36 @@ define([
         * @memberOf widgets/locator/locator
         */
         _getLocationForSuggestion: function (evt, locator, candidate) {
+            var addr = {};
+            //if singleLineFieldName is found use that to fetch the locations
+            if(locator.singleLineFieldName){
+                addr[locator.singleLineFieldName] = evt.currentTarget.innerHTML;
+            } else{
+                addr.SingleLine = evt.currentTarget.innerHTML;
+            }
             var options = {
-                address: address = {
-                    SingleLine: evt.currentTarget.innerHTML
-                },
+                address: addr,
                 text: evt.currentTarget.innerHTML,
                 outFields: ["*"],
                 magicKey: candidate.magicKey
             };
             locator.addressToLocations(options).then(lang.hitch(this, function (response) {
-                response = response[0];
-                domAttr.set(this.txtSearch, "defaultAddress", response.address);
-                this.txtSearch.value = domAttr.get(this.txtSearch, "defaultAddress");
-                // selected candidate is address
-                if (response.attributes && response.location) {
-                    mapPoint = new Point(parseFloat(response.location.x), parseFloat(response.location.y),
-                        this.map.spatialReference);
-                    this.candidateGeometry = mapPoint;
-                    this.onLocationCompleted(this.candidateGeometry);
-                    //Hide the search panel if the geo form locator is open
-                    if (this.isGeoformLocator) {
-                        this._hideText(true);
+                if (response && response.length > 0) {
+                    response = response[0];
+                    if (response && response.address) {
+                        domAttr.set(this.txtSearch, "defaultAddress", response.address);
+                        this.txtSearch.value = domAttr.get(this.txtSearch, "defaultAddress");
+                        // selected candidate is address
+                        if (response.attributes && response.location) {
+                            mapPoint = new Point(parseFloat(response.location.x), parseFloat(response.location.y),
+                                this.map.spatialReference);
+                            this.candidateGeometry = mapPoint;
+                            this.onLocationCompleted(this.candidateGeometry);
+                            //Hide the search panel if the geo form locator is open
+                            if (this.isGeoformLocator) {
+                                this._hideText(true);
+                            }
+                        }
                     }
                 }
             }));

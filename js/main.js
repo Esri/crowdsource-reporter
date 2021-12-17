@@ -69,6 +69,7 @@ define([
     'dijit/layout/ContentPane',
     "esri/dijit/BasemapGallery",
     "esri/dijit/Legend",
+    "esri/request",
     "dojo/domReady!"
 ], function (
     declare,
@@ -123,7 +124,8 @@ define([
     MapSearch,
     ContentPane,
     BasemapGallery,
-    Legend
+    Legend,
+    esriRequest
 ) {
     return declare(null, {
         config: {},
@@ -523,6 +525,78 @@ define([
         },
 
         /**
+         * This function is used to read configured csv file for custom cascading selects
+         */
+        _readCsv: function () {
+            var deferred = new Deferred();
+            if (this.config.csvUrlForCascadingSelect) {
+                esriRequest({
+                    url: this.config.csvUrlForCascadingSelect,
+                    handleAs: "text",
+                    callbackParamName: "callback"
+                }).then(lang.hitch(this, function (response) {
+                    var obj = {};
+                    var fieldKeyName;
+                    var csvDataRows = response.split(/\r\n/);
+                    array.forEach(csvDataRows, lang.hitch(this, function (data, index) {
+                        if (index !== 0 && data !== "") {
+                            var rowDataArray = data.includes(',') ? data.split(",") : data.split(/\t/);
+                            //trim values so that any trailing spaces should not create issues
+                            rowDataArray = array.map(rowDataArray, function(item){
+                                return lang.trim(item);
+                              });
+                            if (rowDataArray[3] === "") {
+                                if (!obj.hasOwnProperty(rowDataArray[0]) && obj[rowDataArray[0]] !== "") {
+                                    obj[rowDataArray[0]] = {
+                                        "codedValues": []
+                                    };
+                                    fieldKeyName = rowDataArray[0];
+                                }
+                                if (rowDataArray[1] !== "" && rowDataArray[2] !== "") {
+                                    obj[fieldKeyName].codedValues.push(
+                                        {
+                                            code: rowDataArray[1],
+                                            name: rowDataArray[2]
+                                        });
+                                }
+                            } else {
+                                array.some(obj[fieldKeyName].codedValues, function(domainValue){
+                                    if (domainValue.code === rowDataArray[3]) {
+                                        if (!domainValue.hasOwnProperty("subDomains")) {
+                                            domainValue.subDomains = {};
+                                        }
+                                        if (!domainValue.subDomains.hasOwnProperty([rowDataArray[0]])) {
+                                            domainValue.subDomains[rowDataArray[0]] = {};
+                                        }
+                                        if (!domainValue.subDomains[rowDataArray[0]].hasOwnProperty("codedValues")) {
+                                            domainValue.subDomains[rowDataArray[0]].codedValues = [];
+                                        }
+                                        if (rowDataArray[1] !== "" && rowDataArray[2] !== "") {
+                                            domainValue.subDomains[rowDataArray[0]].codedValues.push({
+                                                code: rowDataArray[1],
+                                                name: rowDataArray[2]
+                                            });
+                                        }
+                                        return true;
+                                    }
+                                }, this);
+                            }
+                        }
+                    }));
+                    deferred.resolve(obj);
+                }), function (error) {
+                    //if any error in fetching csv log the error and return null
+                    console.error(error);
+                    deferred.resolve(null);
+                });
+            } else {
+                //If CSV url not configured return null
+                deferred.resolve(null);
+            }
+            return deferred.promise;
+        },
+
+        /**
         * Callback handler called on group items loaded, which will have group items as response.
         * @param{object} response
         * @memberOf main
@@ -534,7 +608,10 @@ define([
                     this.config.groupItems = {};
                 }
                 this.config.groupItems.results = this._groupItems;
-                this._loadApplication();
+                this._readCsv().then(lang.hitch(this, function (csvData) {
+                    this.customCodedValues = csvData;
+                    this._loadApplication();
+                }));
             } else {
                 this._loadGroupItems(response.groupItems.nextQueryParams);
             }
@@ -591,7 +668,8 @@ define([
                 // Item details
                 this._itemDetails = new ItemDetails({
                     "appConfig": this.config,
-                    "appUtils": this.appUtils
+                    "appUtils": this.appUtils,
+                    "loggedInUser": this._loggedInUser
                 }).placeAt("sidebarContent"); // placeAt triggers a startup call to _itemDetails
                 this._itemDetails.hide();
                 this._sidebarCnt.addPanel("itemDetails", this._itemDetails);
@@ -658,7 +736,9 @@ define([
                             appUtils: this.appUtils,
                             isEdit: true,
                             item: this._itemDetails.item,
-                            isMapRequired: true
+                            isMapRequired: true,
+                            customCodedValues: this.customCodedValues,
+                            loggedInUser: this._loggedInUser
                         }, domConstruct.create("div", {}, parentDiv));
                         this.geoformEditInstance.startup();
 
@@ -1739,8 +1819,9 @@ define([
                         appUtils: this.appUtils,
                         isMapRequired: true,
                         isEdit: false,
-                        selectedLayer: this.selectedLayer
-
+                        selectedLayer: this.selectedLayer,
+                        customCodedValues: this.customCodedValues,
+                        loggedInUser: this._loggedInUser
                     }, domConstruct.create("div", {}, dom.byId("geoformContainer")));
                     //on submitting issues in geoform update issue wall and main map to show newly updated issue.
                     this.geoformInstance.geoformSubmitted = lang.hitch(this, function (objectId) {
@@ -1759,9 +1840,9 @@ define([
                                 }
                             }));
                             //clear graphics drawn on layer after feature has been submmited
-                                if (this.featureGraphicLayer) {
-                            this.featureGraphicLayer.clear();
-                                }
+                            if (this.featureGraphicLayer) {
+                                this.featureGraphicLayer.clear();
+                            }
                         } catch (ex) {
                             this.appUtils.showError(ex.message);
                         }

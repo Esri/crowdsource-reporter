@@ -1078,7 +1078,7 @@ define([
         * @param{object} referenceNode, Parent Node for dependent field
         * @memberOf widgets/geo-form/geo-form
         */
-        _createFormElement: function (currentField, index, referenceNode) {
+        _createFormElement: function (currentField, index, referenceNode, subFieldValues) {
             var fieldname, labelContent, fieldAttribute, fieldLabelText, formContent, requireField, userFormNode;
             userFormNode = this.userForm;
             //code to put asterisk mark for mandatory fields and also to give it a mandatory class.
@@ -1133,11 +1133,44 @@ define([
                     }
                 }
             }
+            //if loggedInUser info is available and fields are configured then populate it with the user info
+            if (this.loggedInUser !== null) {
+                if (this.config.firstNameField && this.config.firstNameField !== "" && currentField.type === "esriFieldTypeString" &&
+                    fieldname.toLowerCase() === this.config.firstNameField.toLowerCase()) {
+                    if (this.loggedInUser.firstName.length > currentField.length) {
+                        currentField.defaultValue = this.loggedInUser.firstName.slice(0, currentField.length);
+                    } else {
+                        currentField.defaultValue = this.loggedInUser.firstName;
+                    }
+                }
+                if (this.config.lastNameField && this.config.lastNameField !== "" && currentField.type === "esriFieldTypeString" &&
+                    fieldname.toLowerCase() === this.config.lastNameField.toLowerCase()) {
+                    if (this.loggedInUser.lastName.length > currentField.length) {
+                        currentField.defaultValue = this.loggedInUser.lastName.slice(0, currentField.length);
+                    } else {
+                        currentField.defaultValue = this.loggedInUser.lastName;
+                    }
+                }
+                if (this.config.emailField && this.config.emailField !== "" && currentField.type === "esriFieldTypeString" &&
+                    fieldname.toLowerCase() === this.config.emailField.toLowerCase()) {
+                    if (this.loggedInUser.email.length > currentField.length) {
+                        currentField.defaultValue = this.loggedInUser.email.slice(0, currentField.length);
+                    } else {
+                        currentField.defaultValue = this.loggedInUser.email;
+                    }
+                }
+            }
             // Set hint text for range domain Value
             this._createRangeText(currentField, formContent, fieldname);
+            // If field is defined for custom cascading select then override the domain/normal field input and show dropdown with values defined in CSV
+            // For cascading select skip fields with date type
             // If field has coded domain value and typeField set to true then create form elements for domain fields
             // else create form elements for non domain fields
-            if (currentField.domain || currentField.typeField) {
+            if (currentField.type !== "esriFieldTypeDate" && this.customCodedValues &&
+                ((this.customCodedValues[fieldname] && this.customCodedValues[fieldname].codedValues && this.customCodedValues[fieldname].codedValues.length > 0) ||
+                    subFieldValues)) {
+                this._createCustomCodedValueFormElements(currentField, formContent, fieldname, subFieldValues);
+            } else if (currentField.domain || currentField.typeField) {
                 this._createDomainValueFormElements(currentField, formContent, fieldname);
             } else {
                 this._createInputFormElements(currentField, formContent, fieldname);
@@ -1302,6 +1335,55 @@ define([
             }
         },
 
+        _createCustomCodedValueFormElements: function (currentField, formContent, fieldname, subFieldValues) {
+            var selectOptions;
+            if (this.isEdit) {
+                //get field value
+                currentField.defaultValue = this.item.attributes[fieldname];
+            }
+            // check for fieldType: if not present create dropdown
+            // If present check for fieldType value and accordingly populate the control
+            // create controls for select
+            this.inputContent = domConstruct.create("select", {
+                className: "form-control selectDomain custom-select",
+                "id": fieldname
+            }, formContent);
+            selectOptions = domConstruct.create("option", {
+                innerHTML: this.appConfig.i18n.geoform.selectDefaultText,
+                value: ""
+            }, this.inputContent);
+
+            if (subFieldValues) {
+                optionsInfo = subFieldValues;
+                // On selection Change
+                this._codedValueOnChange(currentField);
+            } else {
+                optionsInfo = this.customCodedValues[fieldname];
+                // On selection Change
+                this._customCodedValueOnChange(currentField);
+            }
+            // check for domain value and create control for drop down list
+            if (optionsInfo.codedValues) {
+                array.forEach(optionsInfo.codedValues, lang.hitch(this, function (currentOption) {
+                    selectOptions = domConstruct.create("option", {
+                        innerHTML: currentOption.name,
+                        value: currentOption.code
+                    }, this.inputContent);
+                    // if field contain default value, make that option selected
+                    if (currentField.defaultValue !== undefined && currentField.defaultValue !== null && currentField.defaultValue !== "" && currentField.defaultValue.toString() === currentOption.code.toString()) {
+                        // set selected is true
+                        domAttr.set(selectOptions, "selected", true);
+                        domAttr.set(selectOptions, "defaultSelected", true);
+                        domClass.add(this.inputContent.parentNode.lastChild, "is-valid");
+                        if (!this.isEdit) {
+                            // set default value and id into the array
+                            this.defaultValueArray.push({ defaultValue: currentField.defaultValue, id: this.inputContent.id });
+                        }
+                    }
+                }));
+            }
+        },
+
         /**
         * Take appropriate actions on selection of a subtype
         * @param{object} currentField, object of current field in the info pop
@@ -1313,6 +1395,92 @@ define([
                 // function call to take appropriate actions on selection of a subtype
                 if (currentField.typeField) {
                     this._validateTypeFields(evt, currentField);
+                }
+                // To apply is-valid class on selection of a valid option
+                // else remove is-valid class
+                if (evt.target.value !== "") {
+                    var targetNode = evt.currentTarget || evt.srcElement;
+                    if (query(".errorMessage", targetNode.parentNode).length !== 0) {
+                        domConstruct.destroy(query(".errorMessage", targetNode.parentNode)[0]);
+                        domClass.remove(evt.target.parentNode.lastChild, "is-invalid");
+                    }
+                    domClass.add($(evt.target.parentNode.lastChild)[0], "is-valid");
+                } else {
+                    domClass.remove($(evt.target.parentNode.lastChild)[0], "is-valid");
+                }
+            }));
+        },
+
+        _getSubFieldsValues: function (currentField, currentSelectedValue) {
+            var subFields = [];
+            if (currentField.type !== "esriFieldTypeDate") {
+                array.some(this.customCodedValues[currentField.name].codedValues, lang.hitch(this, function (eachCodedValue) {
+                    if (eachCodedValue.code === currentSelectedValue && eachCodedValue.subDomains) {
+                        subFields = lang.clone(eachCodedValue.subDomains);
+                        return true;
+                    }
+                }));
+            }
+            return subFields;
+        },
+
+        _customCodedValueOnChange: function (currentField) {
+            // event on change
+            on(this.inputContent, "change", lang.hitch(this, function (evt) {
+                var currentSelectedValue = evt.currentTarget.value;
+                var reconstructField = [];
+                var allSubDomains = this._getSubFieldsValues(currentField, currentSelectedValue);
+                //Reconstruct the field in case empty is selected or current custom domain dont have any subdomain values configured
+                if (currentSelectedValue === "" || !allSubDomains ||allSubDomains.length === 0) {
+                    if (currentField && currentField.name && this.customCodedValues[currentField.name]) {
+                        array.forEach(this.customCodedValues[currentField.name].codedValues, lang.hitch(this, function (eachCodedValue) {
+                            var allSubDomainFields = [];
+                            if(eachCodedValue && eachCodedValue.subDomains){
+                                allSubDomainFields = Object.keys(eachCodedValue.subDomains);
+                            }
+                            if (eachCodedValue.subDomains && allSubDomainFields.length > 0) {
+                                for (var subFieldIndex in allSubDomainFields) {
+                                    var field = allSubDomainFields[subFieldIndex];
+                                    if (field && dom.byId(field) && reconstructField.indexOf(field) < 0) {
+                                        reconstructField.push(field);
+                                    }
+                                }
+
+                            }
+                        }));
+                        if (reconstructField.length > 0) {
+                            array.forEach(this.sortedFields, lang.hitch(this, function (field, index) {
+                                if (reconstructField.indexOf(field.name) !== -1) {
+                                    var refNode = null;
+                                    if (dom.byId(field.name)) {
+                                        refNode = dom.byId(field.name).parentNode;
+                                        domConstruct.destroy(dom.byId(field.name));
+                                        domConstruct.empty(refNode);
+                                        domClass.remove(refNode);
+                                    }
+                                    // create form elements for dependent values
+                                    this._createFormElement(field, index, refNode);
+                                }
+
+                            }));
+                        }
+                        // resize map
+                        this._resizeMap();
+                    }
+                } else {
+                    array.forEach(this.sortedFields, lang.hitch(this, function (field, index) {
+                        if (allSubDomains && allSubDomains.hasOwnProperty(field.name) && field.type !== "esriFieldTypeDate") {
+                            var refNode = null;
+                            if (dom.byId(field.name)) {
+                                refNode = dom.byId(field.name).parentNode;
+                                domConstruct.destroy(dom.byId(field.name));
+                                domConstruct.empty(refNode);
+                                domClass.remove(refNode);
+                            }
+                            // create form elements for dependent values
+                            this._createFormElement(field, index, refNode, allSubDomains[field.name]);
+                        }
+                    }));
                 }
                 // To apply is-valid class on selection of a valid option
                 // else remove is-valid class
