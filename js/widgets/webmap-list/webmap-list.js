@@ -231,8 +231,13 @@ define([
                     // if not then it will remove that layer from array
                     for (j = 0; j < operationalLayerCount; j++) {
                         removeLayerFromList = true;
-                        if (response[i][1].itemInfo.itemData.operationalLayers[j].visibility && response[i][1].itemInfo.itemData.operationalLayers[j].resourceInfo && response[i][1].itemInfo.itemData.operationalLayers[j].layerObject) {
-                            // check if layer is having valid capabilities and valid popupinfo
+                        //With new MapViewer 'visibility' is an optional property with an implicit default of true
+                        var layerVisibility = true;
+                        if (response[i][1].itemInfo.itemData.operationalLayers[j].hasOwnProperty('visibility') && !response[i][1].itemInfo.itemData.operationalLayers[j].visibility) {
+                            layerVisibility = false;
+                        }
+                        if (layerVisibility && response[i][1].itemInfo.itemData.operationalLayers[j].resourceInfo && response[i][1].itemInfo.itemData.operationalLayers[j].layerObject) {
+                            // check if layer is having valid capabilities and valid popup info
                             if (this._validateLayerCapabilities(response[i][1].itemInfo.itemData.operationalLayers[j].resourceInfo.capabilities)) {
                                 if (this._validatePopupFields(response[i][1].itemInfo.itemData.operationalLayers[j].popupInfo, response[i][1].itemInfo.itemData.operationalLayers[j].layerObject.fields)) {
                                     showWebmapInList = true;
