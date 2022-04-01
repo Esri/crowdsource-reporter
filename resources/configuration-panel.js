@@ -442,12 +442,12 @@
           "label": "Search Settings"
       }, {
         "type": "paragraph",
-        "value": "Enable search to allow users to find a location or data in the map."
+        "value": "Configure the app with locator(s) from your organization to allow users to find location or data in the map, and optionally customize search properties for each locator."
       }, {
           "type": "conditional",
           "condition": false,
           "fieldName": "tool_search",
-          "label": "Enable search tool",
+          "label": "Enable to select locator(s)",
           "items": [{
              "type": "search",
              "fieldName": "searchConfig",
@@ -660,15 +660,10 @@
           }]
       }, {
           "type": "subcategory",
-          "label": "Search Radius"
-      }, {
-          "label": "Allow users to access the application without prompting for their location",
-          "tooltip": "When this option is disabled, users will be prompted to share their location with the application. Their location will be used to sort reports based on proximity to their location. When this option is enabled this prompt will not be displayed and their location will not be used for loading reports.",
-          "type": "boolean",
-          "fieldName": "disableCurrentLocation"
+          "label": "Geolocation settings"
       }, {
           "type": "paragraph",
-          "value": "When users share their location with the application, only reports within this radius will load. Users can expand this search radius incrementally in the application. Define the radius of this initial search for nearby reports. "
+          "value": "By default, the application will prompt the user to access their current location. When users share their location with the application, only reports within this radius will load. Users can expand this search radius incrementally in the application. Define the radius of this initial search for nearby reports. When checked, the application will not use the current location."
       }, {
           "label": "Initial search radius",
           "tooltip": "When location is shared, application will initially load all reports within this search radius. Users can check the checkbox to disable the location prompting option and application will ignore the buffer radius and load all the features within default webmap extent.",
@@ -693,6 +688,11 @@
               "label": "Feet",
               "value": "feet"
           }]
+      }, {
+        "label": "Allow users to access the application without using their current location",
+        "tooltip": "When this option is disabled, users will be prompted to share their location with the application. Their location will be used to sort reports based on proximity to their location. When this option is enabled this prompt will not be displayed and their location will not be used for loading reports.",
+        "type": "boolean",
+        "fieldName": "disableCurrentLocation"
       }, {
           "type": "subcategory",
           "label": "Editing Reports and Comments"
