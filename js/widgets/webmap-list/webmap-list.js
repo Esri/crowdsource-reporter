@@ -156,17 +156,29 @@ define([
             dl = new DeferredList(requestArray);
             dl.then(lang.hitch(this, function (response) {
                 this._filterWebMaps(response);
-                // if atleast 1 web-map is available than display it
+                // if at least 1 web-map is available than display it
                 if (this.filteredWebMapResponseArr.length > 0) {
-                    //Check if query returns single webmap with single layer
-                    if ((this.filteredWebMapResponseArr.length === 1) && (this.filteredWebMapResponseArr[0][1].itemInfo.itemData.operationalLayers.length === 1)) {
-                        this.singleWebmapFound();
-                    }
-                    this._createMap(this.filteredWebMapResponseArr[0][1].itemInfo.item.id, this.mapDivID).then(lang.hitch(this, function (response) {
-                        this.lastSelectedWebMapExtent = response.map.extent;
-                        this.lastSelectedWebMapItemInfo = response.itemInfo;
-                        this._createWebMapListUI();
-                    }));
+                    //added these timeouts to fix vector base map issue #528
+                    setTimeout(lang.hitch(this, function () {
+                        //Destroy all the map references from webmap list to avoid unnecessary requests
+                        if (this.mapsToBeDestroyed.length > 0) {
+                            for (var i = this.mapsToBeDestroyed.length - 1; i >= 0; i--) {
+                                this.mapsToBeDestroyed[i].destroy();
+                            }
+                            this.mapsToBeDestroyed.length = 0;
+                        }
+                        setTimeout(lang.hitch(this, function () {
+                            //Check if query returns single webmap with single layer
+                            if ((this.filteredWebMapResponseArr.length === 1) && (this.filteredWebMapResponseArr[0][1].itemInfo.itemData.operationalLayers.length === 1)) {
+                                this.singleWebmapFound();
+                            }
+                            this._createMap(this.filteredWebMapResponseArr[0][1].itemInfo.item.id, this.mapDivID).then(lang.hitch(this, function (response) {
+                                this.lastSelectedWebMapExtent = response.map.extent;
+                                this.lastSelectedWebMapItemInfo = response.itemInfo;
+                                this._createWebMapListUI();
+                            }));
+                        }), 2000);
+                    }), 3000);
                 } else {
                     // display message if no web-map is available to display
                     this.noMapsFound();
