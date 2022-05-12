@@ -1135,7 +1135,8 @@ define([
             }
             //if loggedInUser info is available and fields are configured then populate it with the user info
             if (this.loggedInUser !== null) {
-                if (this.config.firstNameField && this.config.firstNameField !== "" && currentField.type === "esriFieldTypeString" &&
+                if (this.config.firstNameField && this.config.firstNameField !== "" &&
+                    currentField.type === "esriFieldTypeString" && this.loggedInUser.firstName &&
                     fieldname.toLowerCase() === this.config.firstNameField.toLowerCase()) {
                     if (this.loggedInUser.firstName.length > currentField.length) {
                         currentField.defaultValue = this.loggedInUser.firstName.slice(0, currentField.length);
@@ -1143,7 +1144,8 @@ define([
                         currentField.defaultValue = this.loggedInUser.firstName;
                     }
                 }
-                if (this.config.lastNameField && this.config.lastNameField !== "" && currentField.type === "esriFieldTypeString" &&
+                if (this.config.lastNameField && this.config.lastNameField !== "" &&
+                    currentField.type === "esriFieldTypeString" && this.loggedInUser.lastName &&
                     fieldname.toLowerCase() === this.config.lastNameField.toLowerCase()) {
                     if (this.loggedInUser.lastName.length > currentField.length) {
                         currentField.defaultValue = this.loggedInUser.lastName.slice(0, currentField.length);
@@ -1151,7 +1153,8 @@ define([
                         currentField.defaultValue = this.loggedInUser.lastName;
                     }
                 }
-                if (this.config.emailField && this.config.emailField !== "" && currentField.type === "esriFieldTypeString" &&
+                if (this.config.emailField && this.config.emailField !== "" &&
+                    currentField.type === "esriFieldTypeString" && this.loggedInUser.email &&
                     fieldname.toLowerCase() === this.config.emailField.toLowerCase()) {
                     if (this.loggedInUser.email.length > currentField.length) {
                         currentField.defaultValue = this.loggedInUser.email.slice(0, currentField.length);
