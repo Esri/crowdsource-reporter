@@ -265,11 +265,11 @@ define([
                             }
 
                             if (this.appConfig.showNonEditableLayers) {
-                                if (!(response[i][1].itemInfo.itemData.operationalLayers[j].visibility)) {
+                                if (!(layerVisibility)) {
                                     this._layersToRemove[response[i][1].itemInfo.item.id].push(response[i][1].itemInfo.itemData.operationalLayers[j].id);
                                 }
                             } else {
-                                if (!(response[i][1].itemInfo.itemData.operationalLayers[j].layerType === "ArcGISFeatureLayer" && response[i][1].itemInfo.itemData.operationalLayers[j].visibility)) {
+                                if (!(response[i][1].itemInfo.itemData.operationalLayers[j].layerType === "ArcGISFeatureLayer" && layerVisibility)) {
                                     this._layersToRemove[response[i][1].itemInfo.item.id].push(response[i][1].itemInfo.itemData.operationalLayers[j].id);
                                 }
                             }
@@ -873,15 +873,20 @@ define([
         */
         _displayNonEditableLayers: function () {
             array.forEach(this.selectedMapResponse.itemInfo.itemData.operationalLayers, lang.hitch(this, function (currentLayer, index) {
+                //With new MapViewer 'visibility' is an optional property with an implicit default of true
+                var layerVisibility = true;
+                if (currentLayer.hasOwnProperty('visibility') && !currentLayer.visibility) {
+                    layerVisibility = false;
+                }
                 if (currentLayer.resourceInfo && currentLayer.resourceInfo.capabilities && currentLayer.layerType === "ArcGISFeatureLayer") {
                     // condition to check if feature layer is non-editable & it is visible in the TOC
                     if ((currentLayer.resourceInfo.capabilities.indexOf("Create") === -1) &&
                             ((currentLayer.resourceInfo.capabilities.indexOf("Update") === -1) ||
-                            (currentLayer.resourceInfo.capabilities.indexOf("Editing") === -1)) && currentLayer.visibility) {
+                            (currentLayer.resourceInfo.capabilities.indexOf("Editing") === -1)) && layerVisibility) {
                         currentLayer.layerObject.show();
                         if (currentLayer.layerObject.showLabels && currentLayer.layerObject.labelingInfo) {
                             currentLayer.layerObject.visible = true;
-                            //Workarund to show labels on layer load
+                            //Workaround to show labels on layer load
                             currentLayer.layerObject.refresh();
                         }
                         // condition to check feature layer with create, edit, delete permissions and popup enabled, but all fields marked display only
@@ -899,7 +904,7 @@ define([
                     array.forEach(currentLayer.featureCollection.layers, lang.hitch(this, function (featureCollectionLayer) {
                         if (featureCollectionLayer.layerObject && (featureCollectionLayer.layerObject.capabilities.indexOf("Create") === -1) &&
                                 ((featureCollectionLayer.layerObject.capabilities.indexOf("Editing") === -1) ||
-                                (featureCollectionLayer.layerObject.capabilities.indexOf("Update") === -1)) && currentLayer.visibility) {
+                                (featureCollectionLayer.layerObject.capabilities.indexOf("Update") === -1)) && layerVisibility) {
                             featureCollectionLayer.layerObject.show();
                         }
                     }));
