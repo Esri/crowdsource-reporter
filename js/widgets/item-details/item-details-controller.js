@@ -624,7 +624,7 @@ define([
             domClass.add(this.popupDetailsDiv, "esriCTHidden");
             domClass.remove(this.descriptionDiv, "esriCTHidden");
             this.item.originalFeature.attributes = lang.clone(this.item.attributes);
-            this.itemCP.set('content', this.item.getContent());
+            this.itemCP.set('content', this.item.originalFeature.getContent());
             //Go to top after popup details is shown
             this.scrollToTop();
             //Create edit/delete buttons only if user has required permissions
