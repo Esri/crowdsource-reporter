@@ -45,13 +45,13 @@ define({
   "signin": {
     "guestSigninText": "Продължете като Гост",
     "signInOrText": "Или",
-    "signinOptionsText": "Регистрация с:",
+    "signinOptionsText": "Вписване чрез:",
     "noGroupNameText": "Моля, влезте",
-    "guestLoginTooltip": "Регистрация като гост",
-    "facebookLoginTooltip": "Регистрация с Facebook",
-    "twitterLoginTooltip": "Регистрация с Twitter",
-    "googlePlusLoginTooltip": "Регистрация с Google+",
-    "agolLoginTooltip": "Регистрация с ArcGIS"
+    "guestLoginTooltip": "Вписване като гост",
+    "facebookLoginTooltip": "Вписване чрез Facebook",
+    "twitterLoginTooltip": "Вписване чрез Twitter",
+    "googlePlusLoginTooltip": "Вписване чрез Google+",
+    "agolLoginTooltip": "Вписване чрез ArcGIS"
   },
   "webMapList": {
     "owner": "Собственик",
@@ -77,7 +77,7 @@ define({
   "appHeader": {
     "help": "Помощ",
     "myReport": "Моите подавания",
-    "signIn": "Регистрация",
+    "signIn": "Вписване",
     "signOut": "Отписване",
     "signInTooltip": "Вписване",
     "signOutTooltip": "Отписване",
