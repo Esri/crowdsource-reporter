@@ -2249,7 +2249,7 @@ define([
                         return item;
                     }
                 });
-                if (this.selectedLayer._getSymbol(itemFromLayer)) {
+                if (itemFromLayer && this.selectedLayer._getSymbol(itemFromLayer)) {
                     symbolShape = itemFromLayer.getShape();
                     if (symbolShape && symbolShape.shape) {
                         if (symbolShape.shape.hasOwnProperty("r")) {
@@ -2969,7 +2969,8 @@ define([
                         newGraphic.attributes = result.features[i].attributes;
                         //Loop the attributes and replace empty values with configurable text
                         for (fields in newGraphic.attributes) {
-                            if (newGraphic.attributes.hasOwnProperty(fields)) {
+                            var fieldInfo = featureLayer.getField(fields);
+                            if (newGraphic.attributes.hasOwnProperty(fields) && fieldInfo && fieldInfo.type === 'esriFieldTypeString') {
                                 if (newGraphic.attributes[fields] === null || newGraphic.attributes[fields] === "") {
                                     newGraphic.attributes[fields] = this.config.showNullValueAs;
                                 }
