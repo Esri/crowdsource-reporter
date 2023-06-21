@@ -326,7 +326,7 @@ define([
         */
         _checkSelfContent: function () {
             var withinFrame = window.location !== window.parent.location;
-            if (this.config.appResponse && 
+            if (this.config.appResponse &&
               !this._loggedInUser &&
               window.location.hostname.indexOf('arcgis.com') > -1 &&
               !withinFrame &&
@@ -1926,8 +1926,7 @@ define([
                 this._createFeature(result.features[0], layer, addedFrom);
                 featureDef.resolve();
             }), function (error) {
-                featureDef.reject();
-                console.log("Error :" + error);
+                featureDef.resolve();
             });
             return featureDef.promise;
         },
@@ -2751,7 +2750,8 @@ define([
             } else {
                 countQuery.where = "1=1";
             }
-            queryTask.executeForIds(countQuery, lang.hitch(this, function (results) {
+            queryTask.executeForIds(countQuery,
+              lang.hitch(this, function (results) {
                 //If server returns null values, set feature layer count to 0 and proceed
                 this.featureLayerCount = results && results.length ? results.length : 0;
                 //If geolocation exsists create configurable buffer and fetch the features
@@ -2767,9 +2767,13 @@ define([
                     //If geolocation does not exsists create feature batches
                     this._createFeatureBatches(featureLayer, results, details);
                 }
-            }), function (error) {
-                console.log(error);
-            });
+              }),
+              // Treat an error--which could be caused by the feature service having the setting "Editors can't
+              // see any features, even those they add" the same as if there are no features found
+              lang.hitch(this, function (error) {
+                this._createFeatureBatches(featureLayer, [], details);
+              })
+            );
         },
 
         /**
